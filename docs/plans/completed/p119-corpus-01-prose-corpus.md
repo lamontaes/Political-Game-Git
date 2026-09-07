@@ -84,3 +84,80 @@ LEARN: prove coverage with a mechanism that does not share the inventory's own
 assumptions. An extractor asked whether it extracted everything always says yes.
 The syntax-tree sweep is the durable form of that lesson, and the count it
 cannot classify is the part worth reading.
+
+## P125-REPAIR-02 — review identity repair and evidence reconciliation
+
+The independent audit (P125-AUDIT-01) returned ACCEPT, but its stability probes
+sorted already-built records and used non-colliding example sentences. It never
+ran the real computed extractor over two sentences sharing their first eight
+words. That gap was reproduced and is closed here.
+
+### Reproduced, against the real extractor
+
+With `A = "You meet with your old friend again after work."` and
+`B = "...again after school."` in the same enclosing symbol:
+
+- inserting B ahead of A gave B **A's semantic ID**, and moved A to `--2`. An
+  owner's mark on A silently became a mark on B.
+- editing A past its eighth word left the ID **unchanged**, so a prior approval
+  kept standing over text that had changed underneath it.
+
+Both were driven through `computedProseRecords`, not a reimplementation of the
+key function, using a labelled synthetic fixture that is restored after each run.
+
+### Repaired
+
+Identity is no longer derived. Each computed site gets an anchor minted once
+into `scripts/prose-corpus/computed-anchors.json`; extraction matches sites to
+anchors on **full text** within the site's own (file, symbol) group. An unmapped
+site, an orphaned anchor or a changed repeat count is a hard error, never a
+quiet rematch. Re-minting preserves an anchor across a rewording only when
+exactly one site changed and exactly one anchor went stale; anything less
+certain is refused with nothing written.
+
+Identity, wording and grounding are now three separate things. Records carry
+`textRevision` and `contextRevision`; review marks pin to all three, so a
+reworded line keeps its ID and shows earlier feedback as stale. Pre-versioning
+marks migrate as historical and flagged for revalidation, and the old storage
+key is deliberately left in place. The differential separates a rewording from
+an added or removed site.
+
+### Evidence reconciled
+
+- **Counts.** The PR body's 48,382 literals / 1,904 INVENTORIED were **stale** —
+  carried over from a measurement taken before the template-span fix in
+  `scan.ts` (commit `aa7e547`). The audit's 48,066 / 1,902 were correct.
+  `scan.ts`, `coverage.ts` and all of `src/` are byte-identical between the PR
+  head and this repair, so the PR head produces the audit's numbers too. A test
+  now pins the reported figures to a live measurement.
+- **The review-packet.html diff.** Ten artifacts regenerate byte-identically.
+  The packet differs in exactly one token: the git HEAD SHA it records. The
+  committed copy at the PR head embeds `0a74bd4`, an ancestor, because the SHA
+  is read before the commit carrying the artifact exists. That is embedded
+  generation provenance, not nondeterminism, and it explains an unexplained
+  diff-then-checkout in the audit log without inventing a cause. The field is
+  now marked in the markup and the check compares the packet with it blanked.
+  "All artifacts byte-identical" was an overstatement and is retired.
+- **Classification.** `COMMIT_CONTRACTS` reads like prose but writes event
+  context, and the only surface rendering it is `EventHistory`, mounted by
+  `DeveloperViewer` and shown only for `?view=developer`. 76 records moved from
+  PLAYER_REACHABLE to DEV_FIXTURE_ONLY. Total is unchanged at 1,872; the
+  reclassification changes those records' bank segment and the differential
+  names every affected ID rather than hiding the move.
+- **Transcript claims.** The long-tail lane's stated intent claimed the 92C
+  childhood-pact callback. It does not play it — `best-friend-pact` never
+  appears. What it genuinely shows is persistent cast across years: the same
+  bound person at ages 7, 17 and 18. The claim is narrowed, and the callback is
+  now asserted only from an actual matching stage trace. No seed currently
+  demonstrates it, and the matrix says so.
+
+Preserved: no `src/` change, no production prose rewrite, no runtime import of
+corpus tooling, #119 withholding intact at 104 templates and ten stages, no
+World/save/history change, no art change, no weakened test or timeout, no
+runtime model call. The 2,786-candidate coverage backlog remains visible. The
+old packet's blank-tail cause remains unproven and unclaimed.
+
+LEARN: a stability probe that sorts already-built records tests the sorter, not
+the identity function. Attack the real extractor with inputs chosen to collide
+under its actual key, and keep the fixture in the repository so the next change
+has to answer it.

@@ -175,7 +175,7 @@ h2 .count { color:var(--accent); }
 </head><body><main>
 <header>
 <h1>Our Civic Duty — player-facing prose review packet</h1>
-<p>Current main <code>${escapeHtml(input.baseSha)}</code> &middot; inventory digest <code>${escapeHtml(inventory.digest)}</code> &middot; generated for ${escapeHtml(input.generatedFor)}</p>
+<p>Current main <code data-provenance="head-sha">${escapeHtml(input.baseSha)}</code> &middot; inventory digest <code>${escapeHtml(inventory.digest)}</code> &middot; generated for ${escapeHtml(input.generatedFor)}</p>
 <p>Every item is keyed by its stable semantic ID. Marks belong to the ID, not to a position on the page.</p>
 </header>
 <div class="summary">
@@ -338,6 +338,27 @@ ${sections.join("\n")}
 </script>
 </body></html>
 `;
+}
+
+/**
+ * The packet with its generation provenance blanked out.
+ *
+ * This artifact records the commit it was generated from, which is genuinely
+ * useful — a reviewer has to know which tree a reading copy describes — and it
+ * also means the file cannot be byte-identical across two different commits.
+ * The earlier report called every artifact byte-identical, which was true of
+ * the other ten and not of this one, and an audit that regenerated it saw a
+ * one-line diff with no explanation attached.
+ *
+ * Rather than drop the provenance or hand-wave the diff, the field is marked in
+ * the markup and blanked here, so "identical apart from the commit it names"
+ * is a claim a check can actually make.
+ */
+export function stripGenerationProvenance(html: string): string {
+  return html.replace(
+    /(<code data-provenance="head-sha">)[^<]*(<\/code>)/,
+    "$1PROVENANCE$2",
+  );
 }
 
 export interface ReviewPacketStats {

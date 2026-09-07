@@ -464,6 +464,84 @@ describe("review packet", () => {
   });
 });
 
+describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
+  it("classifies canonical-record contract text as developer-route only", () => {
+    // COMMIT_CONTRACTS writes event context — setting, socialContext,
+    // motivation, pressure, choice. The only surface that renders those is
+    // EventHistory, which DeveloperViewer mounts and App.tsx shows only for
+    // `?view=developer`. Calling it player-reachable because one sample read
+    // like prose was the mistake this corrects.
+    const contracts = records.filter(
+      (record) => record.bank === "commit-contract",
+    );
+    expect(contracts.length).toBeGreaterThan(0);
+    for (const record of contracts) {
+      expect(record.reachability).toBe("DEV_FIXTURE_ONLY");
+      expect(record.reachabilityReason).toContain("view=developer");
+    }
+  });
+
+  it("keeps the genuinely player-rendered conversation surface reachable", () => {
+    const spoken = records.filter(
+      (record) => record.bank === "conversation-subject",
+    );
+    expect(spoken.length).toBeGreaterThan(0);
+    for (const record of spoken) {
+      expect(record.reachability).toBe("PLAYER_REACHABLE");
+    }
+  });
+
+  it("does not claim the 92C pact callback without an actual trace", () => {
+    // Generic multi-year continuation is not evidence of the particular
+    // childhood-pact callback. The matrix may claim it only when the pact
+    // stage and a later stage of the same instance are both played.
+    for (const family of SEED_FAMILIES) {
+      const transcript = runSeedTranscript(family, inventory);
+      const claimsCallback = transcript.demonstrated.includes(
+        "92c-childhood-pact-callback",
+      );
+      const playedPact = transcript.beats.some(
+        (beat) => beat.stageKey === "best-friend-pact",
+      );
+      if (claimsCallback) expect(playedPact).toBe(true);
+    }
+  });
+
+  it("claims persistent cast across years only with a bound role and a span", () => {
+    for (const family of SEED_FAMILIES) {
+      const transcript = runSeedTranscript(family, inventory);
+      if (!transcript.demonstrated.includes("persistent-cast-across-years")) {
+        continue;
+      }
+      const byInstance = new Map<string, number[]>();
+      for (const beat of transcript.beats) {
+        if (!beat.instanceKey) continue;
+        const ages = byInstance.get(beat.instanceKey) ?? [];
+        ages.push(beat.age);
+        byInstance.set(beat.instanceKey, ages);
+      }
+      const qualifying = [...byInstance.entries()].some(
+        ([key, ages]) =>
+          key.includes("=") &&
+          ages.length > 1 &&
+          Math.max(...ages) - Math.min(...ages) >= 5,
+      );
+      expect(qualifying).toBe(true);
+    }
+  });
+
+  it("reports counts that match a live measurement, not a stale run", () => {
+    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
+    // were carried over from a measurement taken before the template-span fix
+    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
+    // This pins the reported numbers to what the scanner actually returns.
+    const coverage = buildCoverageReport(inventory);
+    expect(coverage.totalLiterals).toBe(48066);
+    expect(coverage.counts.INVENTORIED).toBe(1902);
+    expect(coverage.scannedFiles).toBe(313);
+  });
+});
+
 describe("the corpus stays out of production runtime", () => {
   it("is imported by nothing under src/", () => {
     const offenders: string[] = [];

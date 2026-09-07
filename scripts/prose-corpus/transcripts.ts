@@ -115,7 +115,7 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
   {
     key: "long-tail-callback",
     intent:
-      "The 92C persistent-cast long tail: a childhood agreement recalled years later with the same bound person.",
+      "Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.",
     setup: setup({
       seed: "corpus-long-tail",
       startAge: 7,
@@ -462,13 +462,38 @@ function demonstratedBy(
     if (beat.openThreads.length > 0) shown.add("thread-recap");
     if (beat.people.length > 0) shown.add("person-introduction");
   }
-  const instances = new Map<string, number>();
+  // Continuation is claimed from the record, and at three different strengths,
+  // because they are three different claims. An instance appearing twice is not
+  // the same evidence as the same bound person years apart, and neither is
+  // proof of the particular 92C childhood pact returning — an audit asked for
+  // that distinction and it is worth keeping.
+  const instanceBeats = new Map<string, TranscriptBeat[]>();
   for (const beat of beats) {
     if (!beat.instanceKey) continue;
-    instances.set(beat.instanceKey, (instances.get(beat.instanceKey) ?? 0) + 1);
+    const list = instanceBeats.get(beat.instanceKey) ?? [];
+    list.push(beat);
+    instanceBeats.set(beat.instanceKey, list);
   }
-  if ([...instances.values()].some((count) => count > 1)) {
+  for (const [instanceKey, played] of instanceBeats) {
+    if (played.length < 2) continue;
     shown.add("persistent-instance-continuation");
+
+    const ages = played.map((beat) => beat.age);
+    const span = Math.max(...ages) - Math.min(...ages);
+    // The instance key carries its bound role, so a family that binds a person
+    // says so; one that does not cannot claim a person returned.
+    if (span >= 5 && instanceKey.includes("=")) {
+      shown.add("persistent-cast-across-years");
+    }
+
+    // The 92C pact callback, claimed only on an actual matching trace: the
+    // pact stage played, and a later stage of that same instance after it.
+    const pact = played.find((beat) => beat.stageKey === "best-friend-pact");
+    if (!pact) continue;
+    const later = played.find(
+      (beat) => beat.ordinal > pact.ordinal && beat.age > pact.age,
+    );
+    if (later) shown.add("92c-childhood-pact-callback");
   }
   if (campaign?.filed) shown.add("candidacy-filed");
   if ((campaign?.sessions.length ?? 0) > 0) shown.add("campaign-sessions");

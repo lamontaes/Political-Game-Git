@@ -112,8 +112,9 @@ test.describe("prose review packet", () => {
   test("a mark records the revision it was made against", async ({ page }) => {
     await page.goto(URL);
     const first = page.locator("article.item").first();
-    const id = await first.getAttribute("id");
+    const id = (await first.getAttribute("id")) ?? "";
     const revision = await first.getAttribute("data-text-revision");
+    expect(id).toMatch(/^prose:/);
     expect(revision).toMatch(/^[0-9a-f]{12}$/);
 
     await first.locator('input[data-mark="keep"]').check();
@@ -125,8 +126,8 @@ test.describe("prose review packet", () => {
     const stored = await page.evaluate(() =>
       JSON.parse(localStorage.getItem("ocd-prose-marks-v2") || "{}"),
     );
-    expect(stored.records[id!].textRevision).toBe(revision);
-    expect(stored.records[id!].marks).toContain("keep");
+    expect(stored.records[id].textRevision).toBe(revision);
+    expect(stored.records[id].marks).toContain("keep");
   });
 
   test("a mark cannot follow its identity onto another sentence", async ({
@@ -160,7 +161,7 @@ test.describe("prose review packet", () => {
   }) => {
     await page.goto(URL);
     const first = page.locator("article.item").first();
-    const id = await first.getAttribute("id");
+    const id = (await first.getAttribute("id")) ?? "";
     await first.locator('input[data-mark="keep"]').check();
     await expect(first.locator(".state")).toHaveAttribute(
       "data-state",
@@ -189,7 +190,8 @@ test.describe("prose review packet", () => {
     page,
   }) => {
     await page.goto(URL);
-    const id = await page.locator("article.item").first().getAttribute("id");
+    const id =
+      (await page.locator("article.item").first().getAttribute("id")) ?? "";
 
     // A v1 record: the semantic ID alone, with no revision beside it.
     await page.evaluate((markId) => {
@@ -213,7 +215,7 @@ test.describe("prose review packet", () => {
     const legacy = await page.evaluate(() =>
       localStorage.getItem("ocd-prose-marks-v1"),
     );
-    expect(legacy).toContain(id ?? "");
+    expect(legacy).toContain(id);
   });
 
   test("the document ends on content, not on an empty tail", async ({

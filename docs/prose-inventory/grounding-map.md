@@ -13,7 +13,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 23 | 0 | 0 | candidacy |
-| `conversation/conversation-subject` | 141 | 0 | 0 | — |
+| `conversation/commit-contract` | 76 | 0 | 0 | — |
+| `conversation/conversation-subject` | 65 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
 | `life/adult` | 382 | 0 | 0 | colleague-identity, household-kinship, persistent-cast |

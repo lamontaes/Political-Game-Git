@@ -14,28 +14,28 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0009#text",
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0009#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0055#text",
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0055#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0056#text",
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0056#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0068#text",
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0068#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",

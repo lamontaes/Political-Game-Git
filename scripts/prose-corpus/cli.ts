@@ -17,7 +17,11 @@ import {
   compareToBaseline,
   type ProseBaseline,
 } from "./metrics";
-import { renderReviewPacket, reviewPacketStats } from "./review-packet";
+import {
+  renderReviewPacket,
+  reviewPacketStats,
+  stripGenerationProvenance,
+} from "./review-packet";
 import { computedLiterals } from "./sources/computed";
 import { runTranscriptMatrix, type SeedTranscript } from "./transcripts";
 import type { ProseInventory } from "./inventory";
@@ -47,15 +51,6 @@ function headSha(): string {
 
 function stableJson(value: unknown): string {
   return `${JSON.stringify(value, null, 2)}\n`;
-}
-
-function shortHash(text: string): string {
-  let hash = 0x811c9dc5;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193) >>> 0;
-  }
-  return hash.toString(16).padStart(8, "0");
 }
 
 export function buildBaseline(
@@ -321,8 +316,34 @@ edit it by hand; edit the production bank or the generator and regenerate.
 
 Coordinates, never positions. Adding an unrelated line renumbers nothing, seed
 order and page position cannot reach an ID, and two records may never share
-one — collision detection fails closed. Owner marks in the review packet key to
-the ID, so a mark survives an edit elsewhere in the same bank.
+one — collision detection fails closed.
+
+For prose a function composes, the stable key is an **anchor** minted once into
+\`scripts/prose-corpus/computed-anchors.json\`. Identity is matched, not derived:
+extraction binds a site to its anchor on the site's FULL text within its own
+(file, symbol) group. The earlier eight-word slug let an inserted sentence
+sharing another's prefix take over its ID — carrying an owner's mark onto text
+they never read — and let an edit past the eighth word keep a stale approval
+alive. An unmapped site, an orphaned anchor or a changed repeat count is a hard
+error rather than a quiet rematch.
+
+## Review records are versioned
+
+A mark is stored against a semantic ID **and** the \`textRevision\` and
+\`contextRevision\` it was made against. Reword a line and it keeps its ID and
+shows prior feedback as stale; change what grounds it and the same happens.
+Marks written before versioning existed are migrated as historical, flagged for
+revalidation, and the old storage key is deliberately left in place — nothing
+here deletes an owner's feedback.
+
+## What regenerates byte-identically, and what does not
+
+Ten artifacts regenerate byte-identically. \`review-packet.html\` records the
+commit it was generated from, so it cannot be identical across two different
+commits; that field is marked \`data-provenance="head-sha"\` and
+\`npm run corpus:prose -- check\` compares the packet with it blanked. An earlier
+report called all eleven byte-identical, which was true of the ten and not of
+the packet.
 
 ## The review packet, and what is and is not proved about printing
 
@@ -436,6 +457,52 @@ function main(): void {
     if (again.digest !== inventory.digest) {
       throw new Error("The inventory is not deterministic across two builds.");
     }
+
+    // Regeneration, compared against what is committed. Ten artifacts must be
+    // byte-identical; the review packet must be identical apart from the commit
+    // it names, which it records on purpose. Saying "byte-identical" of all
+    // eleven was the overstatement this check replaces.
+    const drift: string[] = [];
+    const committed = (name: string): string | null => {
+      try {
+        return readFileSync(join(OUT_DIR, name), "utf8");
+      } catch {
+        return null;
+      }
+    };
+    const exact: [string, string][] = [
+      [
+        "prose-inventory.json",
+        stableJson({
+          digest: inventory.digest,
+          counts: inventory.counts,
+          records: inventory.records,
+        }),
+      ],
+      ["prose-inventory.csv", inventoryCsv(inventory)],
+      ["coverage-report.md", coverageMarkdown(coverage)],
+      ["lint-summary.md", lintMarkdown(diagnostics, inventory)],
+      ["lint-findings.json", stableJson(diagnostics.findings)],
+      ["grounding-map.md", groundingMarkdown(buildGroundingMap(inventory))],
+      ["metrics-baseline.json", stableJson(baseline)],
+    ];
+    for (const [name, expected] of exact) {
+      const found = committed(name);
+      if (found !== null && found !== expected) drift.push(name);
+    }
+    const packetOnDisk = committed("review-packet.html");
+    if (
+      packetOnDisk !== null &&
+      stripGenerationProvenance(packetOnDisk) !==
+        stripGenerationProvenance(html)
+    ) {
+      drift.push("review-packet.html (beyond its recorded commit)");
+    }
+    if (drift.length > 0) {
+      throw new Error(
+        `Committed artifacts do not match a fresh regeneration: ${drift.join(", ")}. Run \`npm run corpus:prose\`.`,
+      );
+    }
     if (diagnostics.hardErrors.length > 0) {
       throw new Error(
         `${diagnostics.hardErrors.length} hard error(s):\n${diagnostics.hardErrors
@@ -449,7 +516,7 @@ function main(): void {
       );
     }
     process.stdout.write(
-      `corpus:check OK — ${inventory.counts.total} templates, ${diagnostics.warnings.length} warnings, ${coverage.counts.NEEDS_CLASSIFICATION} unclassified candidates.\n`,
+      `corpus:check OK — ${inventory.counts.total} templates, ${diagnostics.warnings.length} warnings, ${coverage.counts.NEEDS_CLASSIFICATION} unclassified candidates. ${exact.length} artifacts byte-identical; review-packet.html identical apart from the commit it records.\n`,
     );
     return;
   }

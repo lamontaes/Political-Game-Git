@@ -212,7 +212,6 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     domain: "conversation",
     bank: "conversation-subject",
     symbols: [
-      "COMMIT_CONTRACTS",
       "availableIntents",
       "options",
       "openingBeat",
@@ -224,12 +223,29 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     surface: "status",
     reachability: "PLAYER_REACHABLE",
     reachabilityReason:
-      "A conversation names its subject to the player before any turn commits.",
+      "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
     grounding: [
       {
         key: "subject",
         description:
           "The conversation subject family and the canonical vocabulary it commits turns in.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/conversation-subjects.ts",
+    domain: "conversation",
+    bank: "commit-contract",
+    symbols: ["COMMIT_CONTRACTS"],
+    surface: "artifact",
+    reachability: "DEV_FIXTURE_ONLY",
+    reachabilityReason:
+      "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+    grounding: [
+      {
+        key: "conversation-turn",
+        description:
+          "The committed turn, its intent and its outcome, as the event record states them.",
       },
     ],
   },

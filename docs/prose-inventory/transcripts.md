@@ -669,12 +669,12 @@ _Grounded by: At the-meeting they chose go, on 2027-02-15.; civic.participation:
 
 ## long-tail-callback
 
-**Intent.** The 92C persistent-cast long tail: a childhood agreement recalled years later with the same bound person.
+**Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
 40 beats, 210 realized lines, 114 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-cast-across-years, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 

@@ -1,5 +1,5 @@
 {
-  "digest": "150b8c90f852b0a0",
+  "digest": "c07a616d08ba2fea",
   "counts": {
     "total": 1872,
     "byDomain": {
@@ -13,7 +13,7 @@
     },
     "bySurface": {
       "answer": 280,
-      "artifact": 24,
+      "artifact": 100,
       "callback": 30,
       "connective": 57,
       "option-description": 301,
@@ -22,12 +22,13 @@
       "option-witnessed": 52,
       "prompt": 74,
       "scene-line": 162,
-      "status": 261,
+      "status": 185,
       "thread-recap": 29
     },
     "byReachability": {
+      "DEV_FIXTURE_ONLY": 76,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1678,
+      "PLAYER_REACHABLE": 1602,
       "WITHHELD_BY_GROUNDING": 104
     },
     "byRealization": {
@@ -900,23 +901,23 @@
       "contextRevision": "15862db75231"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0001#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0001#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0001",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A bounded in-room conversation during briefing work.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -929,26 +930,26 @@
         "computed"
       ],
       "textRevision": "769b0d8cad3b",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0002#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0002#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0002",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A conversation about who does which part of shared work.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -961,26 +962,26 @@
         "computed"
       ],
       "textRevision": "41b94b4860b3",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0003#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0003#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0003",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A conversation at home about who carries the week.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -993,26 +994,26 @@
         "computed"
       ],
       "textRevision": "4d41df70e308",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0004#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0004#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0004",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A conversation between neighbours about a meeting that has been posted.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1025,26 +1026,26 @@
         "computed"
       ],
       "textRevision": "83c32650972a",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0005#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0005#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0005",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A conversation over the wording of a legislative draft.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1057,26 +1058,26 @@
         "computed"
       ],
       "textRevision": "8ceb665ab015",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0006#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0006#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0006",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A doorstep, on the way past",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1089,26 +1090,26 @@
         "computed"
       ],
       "textRevision": "0fead9cc35d1",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0007#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0007#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0007",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A legislative office, during briefing work",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1121,26 +1122,26 @@
         "computed"
       ],
       "textRevision": "e8b02973144e",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0008#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0008#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0008",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "A legislative office, over a working draft",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1153,26 +1154,26 @@
         "computed"
       ],
       "textRevision": "71d1b8afdd33",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0009#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0009#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0009",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "Agree who does which part before the work is due rather than after.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1185,26 +1186,26 @@
         "computed"
       ],
       "textRevision": "25097ee9bdf1",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0010#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0010#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0010",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "Clarify legal working language and staff projection without treating either as enacted policy.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1217,26 +1218,26 @@
         "computed"
       ],
       "textRevision": "47f5f7e43518",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0011#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0011#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0011",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "Clarify the next step on the casework without turning the exchange into a score check.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1249,26 +1250,26 @@
         "computed"
       ],
       "textRevision": "da819dc903d7",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0012#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0012#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0012",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "School, between classes",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1281,26 +1282,26 @@
         "computed"
       ],
       "textRevision": "e6fb99ae668b",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0013#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0013#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0013",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "Settle who carries the week, so it does not end up carried by whoever notices last.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1313,26 +1314,26 @@
         "computed"
       ],
       "textRevision": "ecc7955c7d5d",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0014#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0014#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0014",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The afternoon briefing creates pressure for a clear next step.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1345,26 +1346,26 @@
         "computed"
       ],
       "textRevision": "5fe7ebdc98da",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0015#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0015#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0015",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The meeting happens on its posted evening whether or not anybody goes.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1377,26 +1378,26 @@
         "computed"
       ],
       "textRevision": "6aab4c06d901",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0016#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0016#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0016",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The office needs a clear working version while legal text and projected consequences remain distinct.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1409,26 +1410,26 @@
         "computed"
       ],
       "textRevision": "0c4da04bce58",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0017#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0017#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0017",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked for a concrete checklist or verification commitment.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1441,26 +1442,26 @@
         "computed"
       ],
       "textRevision": "09b0e8deffac",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0018#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0018#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0018",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked for an immediate answer.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1473,26 +1474,26 @@
         "computed"
       ],
       "textRevision": "a66f8784ca30",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0019#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0019#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0019",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked for the project to be split more evenly.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1505,15 +1506,15 @@
         "computed"
       ],
       "textRevision": "eb232f088678",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0020#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0020#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0020",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked to split the week with {addresseeName}.",
@@ -1521,12 +1522,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1539,15 +1540,15 @@
         "computed"
       ],
       "textRevision": "d87a013516c9",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0021#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0021#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0021",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked {addresseeName} to go to the meeting instead.",
@@ -1555,12 +1556,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1573,15 +1574,15 @@
         "computed"
       ],
       "textRevision": "d7d1aed7c100",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0022#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0022#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0022",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked {addresseeName} to take the week this time.",
@@ -1589,12 +1590,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1607,15 +1608,15 @@
         "computed"
       ],
       "textRevision": "2ad815084ea0",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0023#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0023#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0023",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player asked {named(\"briefing-lead\")} to interpret the selected working provision and compare its prepared alternative.",
@@ -1623,12 +1624,12 @@
       "slots": [
         "named(\"briefing-lead\")"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1641,15 +1642,15 @@
         "computed"
       ],
       "textRevision": "f036668fa127",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0024#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0024#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0024",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player brought up the week's errands with {addresseeName}.",
@@ -1657,12 +1658,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1675,26 +1676,26 @@
         "computed"
       ],
       "textRevision": "e878fa3d479b",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0025#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0025#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0025",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player kept the checklist recommendation narrow and evidence-led.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1707,26 +1708,26 @@
         "computed"
       ],
       "textRevision": "808bfb6802a8",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0026#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0026#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0026",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player left the question of who carries the week unanswered.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1739,26 +1740,26 @@
         "computed"
       ],
       "textRevision": "2ae31fdb5849",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0027#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0027#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0027",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player left the question of who does which part unanswered.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1771,26 +1772,26 @@
         "computed"
       ],
       "textRevision": "b7def23031aa",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0028#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0028#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0028",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player listened for the next relevant contribution.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1803,26 +1804,26 @@
         "computed"
       ],
       "textRevision": "be4e067a1644",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0029#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0029#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0029",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player listened while the provision was talked through.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1835,15 +1836,15 @@
         "computed"
       ],
       "textRevision": "0ead4fdbf17b",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0030#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0030#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0030",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player mentioned the posted meeting to {addresseeName}.",
@@ -1851,12 +1852,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1869,26 +1870,26 @@
         "computed"
       ],
       "textRevision": "2578afa0ec12",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0031#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0031#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0031",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player offered to cover the week themselves.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1901,26 +1902,26 @@
         "computed"
       ],
       "textRevision": "b72700c9bac6",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0032#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0032#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0032",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player offered to take on more of the project.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1933,26 +1934,26 @@
         "computed"
       ],
       "textRevision": "8f17687bc909",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0033#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0033#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0033",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player pressed for an answer on the checklist or last case.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1965,15 +1966,15 @@
         "computed"
       ],
       "textRevision": "b5df6360ca8a",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0034#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0034#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0034",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player raised how the project was being divided with {addresseeName}.",
@@ -1981,12 +1982,12 @@
       "slots": [
         "addresseeName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -1999,26 +2000,26 @@
         "computed"
       ],
       "textRevision": "4c6fc242e128",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0035#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0035#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0035",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player said nothing about whether anybody would go.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2031,26 +2032,26 @@
         "computed"
       ],
       "textRevision": "f6d1921b32e0",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0036#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0036#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0036",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The player said they would go to the meeting.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2063,26 +2064,26 @@
         "computed"
       ],
       "textRevision": "27108218d474",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0037#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0037#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0037",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The split has to be agreed while there is still time to do the work.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2095,26 +2096,26 @@
         "computed"
       ],
       "textRevision": "8bfe3beddab2",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0038#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0038#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0038",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "The week starts whether or not anybody has said who is doing it.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2127,26 +2128,26 @@
         "computed"
       ],
       "textRevision": "6da48667fa4c",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0039#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0039#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0039",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "Work out whether either of them is going, while the meeting is still ahead of them.",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2159,26 +2160,26 @@
         "computed"
       ],
       "textRevision": "f20cfaf37cb1",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0040#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0040#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0040",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "household obligation",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2191,26 +2192,26 @@
         "computed"
       ],
       "textRevision": "d08320c0d898",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0041#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0041#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0041",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "neighborhood meeting notice",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2223,26 +2224,26 @@
         "computed"
       ],
       "textRevision": "9419c2b5663d",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0042#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0042#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0042",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "school project share",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2255,26 +2256,26 @@
         "computed"
       ],
       "textRevision": "fc93343bf08f",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0043#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0043#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0043",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "shared intake checklist",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2287,26 +2288,26 @@
         "computed"
       ],
       "textRevision": "6e3b617cded2",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0044#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0044#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0044",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "the neighborhood meeting you said you would go to",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2319,26 +2320,26 @@
         "computed"
       ],
       "textRevision": "91c17bb69d6d",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0045#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0045#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0045",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "the part of the project nobody else started",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2351,26 +2352,26 @@
         "computed"
       ],
       "textRevision": "d04abff343ef",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0046#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0046#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0046",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "the week's errands at home",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2383,26 +2384,26 @@
         "computed"
       ],
       "textRevision": "c4e0dd9a5cbb",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0047#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0047#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0047",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "the week's errands at home",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2415,26 +2416,26 @@
         "computed"
       ],
       "textRevision": "c4e0dd9a5cbb",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0048#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0048#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0048",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "working provision",
       "realization": "static",
       "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2447,15 +2448,15 @@
         "computed"
       ],
       "textRevision": "88f63b4c163d",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0049#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0049#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0049",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} and {otherName} agreed which half each of them was doing.",
@@ -2464,12 +2465,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2482,15 +2483,15 @@
         "computed"
       ],
       "textRevision": "161a64d8d1e7",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0050#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0050#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0050",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} and {otherName} split the week between them instead of leaving it with one of them.",
@@ -2499,12 +2500,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2517,15 +2518,15 @@
         "computed"
       ],
       "textRevision": "f0aac1523369",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0051#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0051#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0051",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} asked for an even split and {otherName} would not agree one.",
@@ -2534,12 +2535,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2552,15 +2553,15 @@
         "computed"
       ],
       "textRevision": "19103f6101ee",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0052#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0052#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0052",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} asked {otherName} to take the week, and was told no.",
@@ -2569,12 +2570,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2587,15 +2588,15 @@
         "computed"
       ],
       "textRevision": "dccf8c02ff6f",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0053#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0053#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0053",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} kept the request narrow, strengthening the working exchange with {otherName}.",
@@ -2604,12 +2605,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2622,15 +2623,15 @@
         "computed"
       ],
       "textRevision": "a51ce82dd65f",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0054#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0054#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0054",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} pressed for an immediate answer, straining the exchange with {otherName}.",
@@ -2639,12 +2640,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2657,15 +2658,15 @@
         "computed"
       ],
       "textRevision": "93a8dc7cfd65",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0055#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0055#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0055",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} put the meeting back to {otherName} rather than answering it.",
@@ -2674,12 +2675,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2692,15 +2693,15 @@
         "computed"
       ],
       "textRevision": "94e8de900087",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0056#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0056#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0056",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} put the unstarted work in front of {otherName} rather than working around it.",
@@ -2709,12 +2710,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2727,15 +2728,15 @@
         "computed"
       ],
       "textRevision": "f716d2da2332",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0057#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0057#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0057",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} put the week onto {otherName}, who took it and said it was not every week.",
@@ -2744,12 +2745,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2762,15 +2763,15 @@
         "computed"
       ],
       "textRevision": "5cc3ecedebda",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0058#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0058#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0058",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} said out loud to {otherName} what neither of them had been saying about the week.",
@@ -2779,12 +2780,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2797,15 +2798,15 @@
         "computed"
       ],
       "textRevision": "f9931221efe2",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0059#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0059#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0059",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} stopped long enough to mention the notice to {otherName}.",
@@ -2814,12 +2815,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2832,15 +2833,15 @@
         "computed"
       ],
       "textRevision": "0aae6183b2a9",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0060#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0060#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0060",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} told {otherName} they would be at the meeting.",
@@ -2849,12 +2850,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2867,15 +2868,15 @@
         "computed"
       ],
       "textRevision": "6eb99f782153",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0061#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0061#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0061",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} took the part nobody had started, and {otherName} let them.",
@@ -2884,12 +2885,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2902,15 +2903,15 @@
         "computed"
       ],
       "textRevision": "65f94df5c031",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0062#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0062#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0062",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} took the week off {otherName} without being asked to.",
@@ -2919,12 +2920,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2937,15 +2938,15 @@
         "computed"
       ],
       "textRevision": "318b4005b949",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0063#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0063#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0063",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{playerName} tried to hand the evening to {otherName}, who was not taking it.",
@@ -2954,12 +2955,12 @@
         "otherName",
         "playerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -2972,15 +2973,15 @@
         "computed"
       ],
       "textRevision": "d723df60b521",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0064#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0064#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0064",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} agreed to halve it.",
@@ -2988,12 +2989,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3006,15 +3007,15 @@
         "computed"
       ],
       "textRevision": "5062296513d4",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0065#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0065#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0065",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} agreed which half was whose.",
@@ -3022,12 +3023,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3040,15 +3041,15 @@
         "computed"
       ],
       "textRevision": "e26b7ff29c52",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0066#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0066#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0066",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} asked to be told what came of it.",
@@ -3056,12 +3057,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3074,15 +3075,15 @@
         "computed"
       ],
       "textRevision": "8193fb5a1ea4",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0067#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0067#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0067",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} had seen the notice.",
@@ -3090,12 +3091,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3108,15 +3109,15 @@
         "computed"
       ],
       "textRevision": "4b64a7d82748",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0068#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0068#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0068",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} had thought it was somebody else's.",
@@ -3124,12 +3125,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3142,15 +3143,15 @@
         "computed"
       ],
       "textRevision": "e9ab8d22cf76",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0069#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0069#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0069",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} let them take it.",
@@ -3158,12 +3159,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3176,15 +3177,15 @@
         "computed"
       ],
       "textRevision": "46917c6d443a",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0070#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0070#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0070",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} said no.",
@@ -3192,12 +3193,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3210,15 +3211,15 @@
         "computed"
       ],
       "textRevision": "445910c8ec6e",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0071#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0071#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0071",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} said they had been avoiding it too.",
@@ -3226,12 +3227,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3244,15 +3245,15 @@
         "computed"
       ],
       "textRevision": "81db5f2f2f95",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0072#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0072#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0072",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} said they would go.",
@@ -3260,12 +3261,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3278,15 +3279,15 @@
         "computed"
       ],
       "textRevision": "92a96d559df6",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0073#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0073#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0073",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} took a section of it instead.",
@@ -3294,12 +3295,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3312,15 +3313,15 @@
         "computed"
       ],
       "textRevision": "1f2c0114e844",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0074#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0074#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0074",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} took it on.",
@@ -3328,12 +3329,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3346,15 +3347,15 @@
         "computed"
       ],
       "textRevision": "30f3b12a9e84",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0075#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0075#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0075",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} would not agree a split.",
@@ -3362,12 +3363,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3380,15 +3381,15 @@
         "computed"
       ],
       "textRevision": "864ef053276b",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
-      "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0076#text",
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0076#text",
       "domain": "conversation",
-      "bank": "conversation-subject",
+      "bank": "commit-contract",
       "stableKey": "COMMIT_CONTRACTS-0076",
       "field": "text",
-      "surface": "status",
+      "surface": "artifact",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "sourceSymbol": "COMMIT_CONTRACTS",
       "text": "{speakerName} would not give the evening.",
@@ -3396,12 +3397,12 @@
       "slots": [
         "speakerName"
       ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
       "grounding": [
         {
-          "key": "subject",
-          "description": "The conversation subject family and the canonical vocabulary it commits turns in.",
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
           "kind": "requirement"
         }
       ],
@@ -3414,7 +3415,7 @@
         "computed"
       ],
       "textRevision": "60c5e17833cb",
-      "contextRevision": "8f11f8bcaa09"
+      "contextRevision": "867c7169c2d1"
     },
     {
       "id": "prose:conversation:conversation-subject:availableIntents-0001#text",
@@ -3429,7 +3430,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3463,7 +3464,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3495,7 +3496,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3530,7 +3531,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3562,7 +3563,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3596,7 +3597,7 @@
         "progress.subjectFacts.shortObligation"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3628,7 +3629,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3660,7 +3661,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3692,7 +3693,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3724,7 +3725,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3758,7 +3759,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3792,7 +3793,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3824,7 +3825,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3856,7 +3857,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3890,7 +3891,7 @@
         "progress.subjectFacts.shortObligation"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3922,7 +3923,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3954,7 +3955,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -3986,7 +3987,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4018,7 +4019,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4050,7 +4051,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4084,7 +4085,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4119,7 +4120,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4153,7 +4154,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4188,7 +4189,7 @@
         "progress.subjectFacts.preparedAmount"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4222,7 +4223,7 @@
         "progress.subjectFacts.work"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4257,7 +4258,7 @@
         "progress.subjectFacts.obligation"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4292,7 +4293,7 @@
         "progress.subjectFacts.subject"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4328,7 +4329,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4362,7 +4363,7 @@
         "other"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4397,7 +4398,7 @@
         "progress.subjectFacts.work"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4431,7 +4432,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4465,7 +4466,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4499,7 +4500,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4533,7 +4534,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4567,7 +4568,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4601,7 +4602,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4635,7 +4636,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4669,7 +4670,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4705,7 +4706,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4740,7 +4741,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4774,7 +4775,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4808,7 +4809,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4843,7 +4844,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4877,7 +4878,7 @@
         "shortPersonName(world,speaker.personId)"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4909,7 +4910,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4941,7 +4942,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -4975,7 +4976,7 @@
         "shortPersonName(world,conversationRole(room,\"briefing-lead\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5010,7 +5011,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5044,7 +5045,7 @@
         "shortPersonName(world,conversationRole(room,\"referral-verifier\"))"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5076,7 +5077,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5108,7 +5109,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5140,7 +5141,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5172,7 +5173,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5204,7 +5205,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5236,7 +5237,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5268,7 +5269,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5302,7 +5303,7 @@
         "other"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5334,7 +5335,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5366,7 +5367,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5398,7 +5399,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5430,7 +5431,7 @@
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5464,7 +5465,7 @@
         "speakerName"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5498,7 +5499,7 @@
         "speakerName"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5532,7 +5533,7 @@
         "speakerName"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",
@@ -5566,7 +5567,7 @@
         "speakerName"
       ],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "A conversation names its subject to the player before any turn commits.",
+      "reachabilityReason": "ConversationStrip and PlayerOffice render these beats, briefings, intents and option labels during an ordinary conversation.",
       "grounding": [
         {
           "key": "subject",

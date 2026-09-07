@@ -18,7 +18,7 @@ edit it by hand; edit the production bank or the generator and regenerate.
 ## Current state
 
 - **1872** inventoried templates.
-- Reachability: 90 LEGACY_OR_WITHDRAWN, 1678 PLAYER_REACHABLE, 104 WITHHELD_BY_GROUNDING.
+- Reachability: 76 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1602 PLAYER_REACHABLE, 104 WITHHELD_BY_GROUNDING.
 - **2786** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
 - **0** hard errors, **321** review warnings.
@@ -30,8 +30,34 @@ edit it by hand; edit the production bank or the generator and regenerate.
 
 Coordinates, never positions. Adding an unrelated line renumbers nothing, seed
 order and page position cannot reach an ID, and two records may never share
-one — collision detection fails closed. Owner marks in the review packet key to
-the ID, so a mark survives an edit elsewhere in the same bank.
+one — collision detection fails closed.
+
+For prose a function composes, the stable key is an **anchor** minted once into
+`scripts/prose-corpus/computed-anchors.json`. Identity is matched, not derived:
+extraction binds a site to its anchor on the site's FULL text within its own
+(file, symbol) group. The earlier eight-word slug let an inserted sentence
+sharing another's prefix take over its ID — carrying an owner's mark onto text
+they never read — and let an edit past the eighth word keep a stale approval
+alive. An unmapped site, an orphaned anchor or a changed repeat count is a hard
+error rather than a quiet rematch.
+
+## Review records are versioned
+
+A mark is stored against a semantic ID **and** the `textRevision` and
+`contextRevision` it was made against. Reword a line and it keeps its ID and
+shows prior feedback as stale; change what grounds it and the same happens.
+Marks written before versioning existed are migrated as historical, flagged for
+revalidation, and the old storage key is deliberately left in place — nothing
+here deletes an owner's feedback.
+
+## What regenerates byte-identically, and what does not
+
+Ten artifacts regenerate byte-identically. `review-packet.html` records the
+commit it was generated from, so it cannot be identical across two different
+commits; that field is marked `data-provenance="head-sha"` and
+`npm run corpus:prose -- check` compares the packet with it blanked. An earlier
+report called all eleven byte-identical, which was true of the ten and not of
+the packet.
 
 ## The review packet, and what is and is not proved about printing
 
