@@ -46,10 +46,10 @@ export interface ProseMetrics {
 export function normalizeText(text: string): string {
   return text
     .toLowerCase()
-    .replace(/\{[^}]*\}/g, "  ")
+    .replace(/\{[^}]*\}/g, "  ")
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
-    .replace(/[^a-z0-9' ]+/g, " ")
+    .replace(/[^a-z0-9' ]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -57,7 +57,7 @@ export function normalizeText(text: string): string {
 function words(text: string): readonly string[] {
   return normalizeText(text)
     .split(" ")
-    .filter((word) => word.length > 0 && word !== "");
+    .filter((word) => word.length > 0 && word !== "");
 }
 
 function group(
