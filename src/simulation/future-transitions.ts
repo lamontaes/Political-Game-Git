@@ -110,6 +110,31 @@ export function createFutureTransitionHandlerRegistry(
 export const EMPTY_FUTURE_TRANSITION_HANDLERS =
   createFutureTransitionHandlerRegistry([]);
 
+/**
+ * Layers registries into one, earlier registries winning a shared key.
+ *
+ * A campaigning life is still a life: the day its election falls due is the
+ * same day a promised conversation can come due on, and time refuses to step
+ * over a due item it has no handler for. Composing lets a surface carry both
+ * the campaign's own handlers and the ordinary life handlers without either
+ * knowing about the other, so neither consequence is lost.
+ */
+export function composeFutureTransitionHandlerRegistries(
+  ...registries: readonly FutureTransitionHandlerRegistry[]
+): FutureTransitionHandlerRegistry {
+  return {
+    get: (transitionKey) => {
+      for (const registry of registries) {
+        const handler = registry.get(transitionKey);
+        if (handler !== undefined) {
+          return handler;
+        }
+      }
+      return undefined;
+    },
+  };
+}
+
 export function scheduleFutureDueItem(
   world: World,
   input: ScheduleFutureDueItemInput,

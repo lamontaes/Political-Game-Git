@@ -161,13 +161,19 @@ export function AmbientTableau({
     : null;
 
   const presentation = showing ?? resolved ?? TYPOGRAPHIC_ONLY;
+  const cycleKey = frame ? `${frame.index}:${step}` : "still";
+  const leavingCycleKey =
+    frame?.leaving && frame.index >= 0
+      ? `${(frame.index - 1 + cycle.length) % cycle.length}:${step - 1}`
+      : null;
 
   return (
     <TitleTableau
       presentation={presentation}
       leaving={leaving}
       drifting={!reducedMotion}
-      cycleKey={frame ? `${frame.index}:${step}` : "still"}
+      cycleKey={cycleKey}
+      leavingCycleKey={leavingCycleKey}
     >
       {children(presentation.description)}
     </TitleTableau>
@@ -184,6 +190,24 @@ const TYPOGRAPHIC_ONLY: TitlePresentation = {
   description: "The title screen.",
   reasons: ["No banked tableau is available."],
 };
+
+/**
+ * The presentation a save summary justifies, resolved outside any screen.
+ *
+ * Lifted out so the persistent ambient shell can resolve the same room the
+ * title would have resolved for itself. Both call this; neither has its own
+ * opinion about which room a returning player arrives in.
+ */
+export function resolvedTitlePresentation(
+  saves: readonly BrowserWorldSummary[],
+): TitlePresentation {
+  return resolveTitlePresentation({
+    hero: titleHeroFromSaveSummary(saves[0]),
+    assetLibraryVersion: visualLibraryVersion(PRODUCTION_VISUAL_LIBRARY),
+    registry: TITLE_TABLEAU_REGISTRY,
+    scenes: SCENE_REGISTRY,
+  });
+}
 
 export function TitleScreen({
   saves,
@@ -204,86 +228,64 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
 
-  /**
-   * The backdrop is resolved from the same contract every other scene uses,
-   * and from nothing this component knows on its own.
-   *
-   * The title screen used to be plain markup on a pale page while the tableau
-   * architecture sat unused beside it, so approved art existed and the front
-   * door of the game never showed any of it. What is passed in is only what a
-   * save summary can support — a name, an age, whether a residence is on
-   * record — and the resolver decides the rest. If it decides there is nothing
-   * truthful to show, the markup below is exactly what it always was.
-   */
-  const resolved = useMemo(
-    () =>
-      resolveTitlePresentation({
-        hero: titleHeroFromSaveSummary(recent),
-        assetLibraryVersion: visualLibraryVersion(PRODUCTION_VISUAL_LIBRARY),
-        registry: TITLE_TABLEAU_REGISTRY,
-        scenes: SCENE_REGISTRY,
-      }),
-    [recent],
-  );
-
+  // The room behind this screen is painted by the persistent ambient shell in
+  // `PlayerGame`, not here. Mounting a second tableau was what made New Game
+  // flash: two of them, each with its own cycle and its own cover transform,
+  // swapped at a route change.
   return (
-    <AmbientTableau resolved={resolved}>
-      {() => (
-        <main className="game-title" data-testid="title-screen">
-          {/*
+    <main className="game-title" data-testid="title-screen">
+      {/*
             The room is the picture; it does not need a line telling the player
             it is a room (Task A). The environment-description prose — "a hall …
             with nobody in it" — is gone, and the scene stands on its own.
           */}
-          <h1>Our Civic Duty</h1>
-          <div className="game-title-actions">
-            <button type="button" data-testid="new-game" onClick={onNewGame}>
-              New game
-            </button>
-            <button
-              type="button"
-              data-testid="continue"
-              onClick={onContinue}
-              disabled={!recent}
-            >
-              Continue
-              {recent ? (
-                <small>
-                  {recent.playerName}, {recent.playerAge}
-                  {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
-                </small>
-              ) : null}
-            </button>
-            <button
-              type="button"
-              data-testid="open-saves"
-              onClick={onOpenSaves}
-              disabled={saves.length === 0}
-            >
-              Saved games
-              {saves.length > 0 ? <small>{saves.length} saved</small> : null}
-            </button>
-            <button
-              type="button"
-              data-testid="open-options"
-              onClick={onOpenOptions}
-            >
-              Options
-            </button>
-            <button type="button" data-testid="quit" disabled>
-              Quit
-              <small>Not available in this build.</small>
-            </button>
-          </div>
-          {savesUnavailable ? (
-            <p className="game-note">
-              This browser will not let the game store anything, so a game
-              played here will not still be here later.
-            </p>
+      <h1>Our Civic Duty</h1>
+      <div className="game-title-actions">
+        <button type="button" data-testid="new-game" onClick={onNewGame}>
+          New game
+        </button>
+        <button
+          type="button"
+          data-testid="continue"
+          onClick={onContinue}
+          disabled={!recent}
+        >
+          Continue
+          {recent ? (
+            <small>
+              {recent.playerName}, {recent.playerAge}
+              {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
+            </small>
           ) : null}
-          {problem ? <p className="game-problem">{problem}</p> : null}
-        </main>
-      )}
-    </AmbientTableau>
+        </button>
+        <button
+          type="button"
+          data-testid="open-saves"
+          onClick={onOpenSaves}
+          disabled={saves.length === 0}
+        >
+          Saved games
+          {saves.length > 0 ? <small>{saves.length} saved</small> : null}
+        </button>
+        <button
+          type="button"
+          data-testid="open-options"
+          onClick={onOpenOptions}
+        >
+          Options
+        </button>
+        <button type="button" data-testid="quit" disabled>
+          Quit
+          <small>Not available in this build.</small>
+        </button>
+      </div>
+      {savesUnavailable ? (
+        <p className="game-note">
+          This browser will not let the game store anything, so a game played
+          here will not still be here later.
+        </p>
+      ) : null}
+      {problem ? <p className="game-problem">{problem}</p> : null}
+    </main>
   );
 }

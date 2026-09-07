@@ -163,12 +163,19 @@ export function TitleTableau({
   leaving = null,
   drifting = false,
   cycleKey = "still",
+  leavingCycleKey = null,
 }: {
   readonly presentation: TitlePresentation;
   readonly children: ReactNode;
   readonly leaving?: TitlePresentation | null;
   readonly drifting?: boolean;
   readonly cycleKey?: string;
+  /**
+   * The key the outgoing stage had while it was current. Reusing it is what
+   * lets React move that exact decoded image and camera into the leaving slot
+   * instead of destroying it one render before the replacement has painted.
+   */
+  readonly leavingCycleKey?: string | null;
 }) {
   const hasPlate =
     !NO_PLATE_KINDS.has(presentation.kind) &&
@@ -186,7 +193,12 @@ export function TitleTableau({
       data-motion={drifting ? "drift" : "reduced"}
     >
       {leaving && !NO_PLATE_KINDS.has(leaving.kind) ? (
-        <TitleStage presentation={leaving} role="leaving" drifting={false} />
+        <TitleStage
+          key={leavingCycleKey ?? `leaving:${cycleKey}`}
+          presentation={leaving}
+          role="leaving"
+          drifting={false}
+        />
       ) : null}
       {NO_PLATE_KINDS.has(presentation.kind) ? null : (
         <TitleStage

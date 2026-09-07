@@ -79,6 +79,8 @@ Legacy `PersonFact` records remain embedded compatibility/background summaries. 
 
 Run B does not add a biography blob or `LifeEvent` truth family. A played, quick-generated, or manually authored `CharacterHistoryPlan` applies the same validated canonical transitions. Bounded situation definitions are content only; consequential choices append ordinary `HistoricalEvent`, relationship interaction, knowledge, memory, appraisal, temporary-state, and life records where warranted. Generated records use a typed deterministic provenance, and legitimate pre-play backdating still receives real current append sequence.
 
+The quick adult-history generator must produce child-appropriate chronology before any literal player-facing projection: elementary enrollment begins in the 5–7 band, a distinct middle-school step follows, secondary enrollment begins in the 13–15 band, and work begins no earlier than 16. Generated records are ordered and cannot postdate the World's current date. These are generator invariants only; canonical dates supplied by played, authored, or imported history are preserved exactly rather than normalized to the quick generator's bands.
+
 ## Run C resources, housing, and relationship history
 
 Run C adds no universal finance event or alternate relationship store. Exact opening position plus committed flow outcomes derives liquid history; expected terms and obligations are not treated as actual transfer. Dwellings, occupancy, and tenure are independent families rather than household/profile fields. Meaningful contact, missed opportunity, support, and reconnection use existing events/interactions/subjective records, while any continuity assessment remains an unstored qualitative projection.

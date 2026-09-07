@@ -13,7 +13,7 @@ import {
   NATIONAL_PLACES_META,
   NATIONAL_PLACES_ROWS,
 } from "./national-places.generated";
-import type { EntityId } from "./types";
+import type { EntityId, Jurisdiction } from "./types";
 
 /**
  * Where a life can start.
@@ -40,7 +40,29 @@ export interface LifePlaceCapabilities {
    * state's rules.
    */
   readonly legislativeScenarioKey: string | null;
+  /**
+   * The candidacy pack that says which offices are elected here and can be
+   * stood for. `null` means no accepted source establishes an elected office in
+   * this place, so nobody can file here and the game says so plainly rather
+   * than lending the seat next door's rules.
+   *
+   * Declared rather than derived from the legislative key above. The two
+   * happen to coincide today, but "we know how a bill moves here" and "we know
+   * this seat is filled by election" are different claims with different
+   * evidence, and a place should be able to have one without the other.
+   */
+  readonly candidacyPackId: string | null;
 }
+
+/**
+ * How wide a place is.
+ *
+ * A state and a town inside it are both places a life can be lived, but they
+ * are not the same kind of thing, and the setup screen must not let one be
+ * mistaken for the other. `locality` is where somebody actually lives;
+ * `state` is the whole state as its own entry.
+ */
+export type LifePlaceScope = "state" | "locality";
 
 export interface LifePlace {
   readonly key: string;
@@ -64,6 +86,34 @@ export interface LifePlace {
   /** The wider place this one sits inside, when the data names one. */
   readonly withinName: string | null;
   readonly context: DemoJurisdictionContext;
+  /**
+   * Whether this entry is a whole state or a place inside one.
+   *
+   * Read by the setup screen so a search for "Kentucky" cannot return the
+   * state and a city in it looking like the same kind of answer.
+   */
+  readonly scope: LifePlaceScope;
+  /**
+   * The state this place sits inside, keyed exactly as the accepted
+   * legislative rule packs key their own jurisdiction — `US-KY`, `US-IL`.
+   *
+   * This is the canonical parent-state authority relationship, and it is a
+   * declared field rather than something recovered from `withinName` at the
+   * moment a decision is made. Living in a city does not put a character
+   * outside their state, so this is what lets Lexington reach Kentucky's state
+   * offices without any place ever borrowing a different state's rules.
+   *
+   * `null` only where no state governs the entry.
+   */
+  readonly stateJurisdictionKey: string | null;
+  /**
+   * What this place declares on its own authority.
+   *
+   * Local, in the strict sense: a city's own council, a city's own procedure.
+   * State-level capability is not stored here — it is resolved through
+   * `stateJurisdictionKey`, because a city does not own its state's rules and
+   * copying them in would be the borrowing this design exists to prevent.
+   */
   readonly capabilities: LifePlaceCapabilities;
   /**
    * When an authored place is the same jurisdiction as a national corpus row,
@@ -108,49 +158,88 @@ export interface LifePlaceProvider {
   byJurisdictionId(jurisdictionId: EntityId): LifePlace | null;
 }
 
-const PLACES: readonly LifePlace[] = [
-  {
-    key: "kentucky",
-    displayName: "Kentucky",
-    formalName: null,
-    withinName: "United States",
-    context: KENTUCKY_CONTEXT,
-    capabilities: { legislativeScenarioKey: "kentucky" },
-  },
-  {
-    key: "nebraska",
-    displayName: "Nebraska",
-    formalName: null,
-    withinName: "United States",
-    context: NEBRASKA_CONTEXT,
-    capabilities: { legislativeScenarioKey: "nebraska" },
-  },
-  {
-    key: "alaska",
-    displayName: "Alaska",
-    formalName: null,
-    withinName: "United States",
-    context: ALASKA_CONTEXT,
-    capabilities: { legislativeScenarioKey: "alaska" },
-  },
-  {
-    key: "lexington-fayette",
-    // Nobody who lives there calls it Lexington-Fayette. That is the merged
-    // city-county's filing name, and the human playtest flagged it on the
-    // setup screen as one of the places the game sounded like a database.
-    // The formal label stays available for a legal or data view.
-    displayName: "Lexington, Kentucky",
-    formalName: "Lexington-Fayette, Kentucky",
-    withinName: "Kentucky",
-    context: LEXINGTON_DEMO_CONTEXT,
-    // The accepted rule packs are written for state legislatures. Nothing in
-    // the sources describes this city's own council, so it does not claim to.
-    capabilities: { legislativeScenarioKey: null },
-    // The same jurisdiction the Census Gazetteer lists as "Lexington-Fayette",
-    // so the corpus row is not offered as a second Lexington beside this one.
-    sourceGeoid: "2146027",
-  },
-];
+/**
+ * Built on first use rather than at module load.
+ *
+ * The contexts below come from `legislation-scenarios`, which reaches the world
+ * builder, which reaches the integrity pass, which now has a reason to ask
+ * which offices a place supports — and that question comes back here. Reading
+ * the contexts while that chain is still unwinding gets a binding that exists
+ * but is not yet initialized, and the whole app fails to start. Deferring the
+ * read to the first call means this module no longer cares what order anything
+ * was loaded in, which is the property it should have had all along.
+ */
+let places: readonly LifePlace[] | null = null;
+
+function allPlaces(): readonly LifePlace[] {
+  places ??= [
+    {
+      key: "kentucky",
+      scope: "state",
+      stateJurisdictionKey: "US-KY",
+      displayName: "Kentucky",
+      formalName: null,
+      withinName: "United States",
+      context: KENTUCKY_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "kentucky",
+        candidacyPackId: "us-ky-general-assembly-v1:candidacy",
+      },
+    },
+    {
+      key: "nebraska",
+      scope: "state",
+      stateJurisdictionKey: "US-NE",
+      displayName: "Nebraska",
+      formalName: null,
+      withinName: "United States",
+      context: NEBRASKA_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "nebraska",
+        candidacyPackId: "us-ne-legislature-v1:candidacy",
+      },
+    },
+    {
+      key: "alaska",
+      scope: "state",
+      stateJurisdictionKey: "US-AK",
+      displayName: "Alaska",
+      formalName: null,
+      withinName: "United States",
+      context: ALASKA_CONTEXT,
+      capabilities: {
+        legislativeScenarioKey: "alaska",
+        candidacyPackId: "us-ak-legislature-v1:candidacy",
+      },
+    },
+    {
+      key: "lexington-fayette",
+      scope: "locality",
+      // A resident of Lexington is a Kentuckian. This is the fact that was
+      // missing: the city carries no state rules of its own, and it does not
+      // need to, because it sits inside a state that has them.
+      stateJurisdictionKey: "US-KY",
+      // Nobody who lives there calls it Lexington-Fayette. That is the merged
+      // city-county's filing name, and the human playtest flagged it on the
+      // setup screen as one of the places the game sounded like a database.
+      // The formal label stays available for a legal or data view.
+      displayName: "Lexington, Kentucky",
+      formalName: "Lexington-Fayette, Kentucky",
+      withinName: "Kentucky",
+      context: LEXINGTON_DEMO_CONTEXT,
+      // Nothing in the sources describes this city's own council, so it claims
+      // no local office. That is a statement about Lexington's municipal
+      // government and nothing else: the Kentucky General Assembly seats a
+      // resident here can stand for arrive through the state above, not from
+      // this line.
+      capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
+      // The same jurisdiction the Census Gazetteer lists as "Lexington-Fayette",
+      // so the corpus row is not offered as a second Lexington beside this one.
+      sourceGeoid: "2146027",
+    },
+  ];
+  return places;
+}
 
 /* -------------------------------------------------------------------------- */
 /* The national corpus, reached only through the generated export             */
@@ -260,12 +349,48 @@ function nationwideIndex(): ReadonlyMap<string, NationwideRow> {
   return rowsByGeoid;
 }
 
-/** GEOIDs an authored place already stands for, kept out of corpus results. */
-const AUTHORED_SOURCE_GEOIDS: ReadonlySet<string> = new Set(
-  PLACES.map((place) => place.sourceGeoid).filter(
-    (geoid): geoid is string => geoid !== undefined,
-  ),
-);
+/**
+ * GEOIDs an authored place already stands for, kept out of corpus results.
+ *
+ * Computed on first use, not at module load, for the same load-order reason
+ * `allPlaces()` is deferred: reaching the authored contexts while the world
+ * module is still unwinding would leave the app blank.
+ */
+let authoredSourceGeoids: ReadonlySet<string> | null = null;
+
+function authoredSourceGeoidSet(): ReadonlySet<string> {
+  authoredSourceGeoids ??= new Set(
+    allPlaces()
+      .map((place) => place.sourceGeoid)
+      .filter((geoid): geoid is string => geoid !== undefined),
+  );
+  return authoredSourceGeoids;
+}
+
+/**
+ * Corpus jurisdiction identity back to its GEOID.
+ *
+ * The identity is derived from the GEOID, so this is a reverse of a pure
+ * function rather than a second source of truth. Built once on first use, for
+ * the same load-order reason the rest of this module defers its work.
+ */
+let geoidByJurisdictionId: Map<EntityId, string> | null = null;
+
+function nationwideGeoidByJurisdictionId(): ReadonlyMap<EntityId, string> {
+  if (geoidByJurisdictionId === null) {
+    const index = new Map<EntityId, string>();
+    for (const [geoid] of nationwideRows()) {
+      index.set(nationwideJurisdictionId(geoid), geoid);
+    }
+    geoidByJurisdictionId = index;
+  }
+  return geoidByJurisdictionId;
+}
+
+/** The one place a corpus jurisdiction identity is derived. */
+function nationwideJurisdictionId(geoid: string): EntityId {
+  return createStableId("jurisdiction", `national-place:${geoid}`);
+}
 
 function stateName(usps: string): string {
   return STATES[usps]?.name ?? usps;
@@ -275,19 +400,19 @@ function stateName(usps: string): string {
  * A national corpus row, turned into a playable place.
  *
  * The jurisdiction identity is the Census Gazetteer's own, carried with its
- * provenance. The clock default comes from the state reference. No legislative
- * capability is granted: the accepted rule packs are state legislatures, and a
- * corpus place is a town, so it plays as an ordinary life until a rule pack for
- * it is sourced.
+ * provenance. The clock default comes from the state reference. No LOCAL
+ * capability is granted: the accepted rule packs are state legislatures and a
+ * corpus place is a town, so this town's own offices stay unsourced.
+ *
+ * Its state is another matter. The row carries its USPS code, so the place can
+ * say which state it is in structurally rather than by reading its own label,
+ * and a town in a state the game has a pack for can reach that state's offices.
  */
 function synthesizeNationwidePlace(row: NationwideRow): LifePlace {
   const [geoid, displayName, usps] = row;
   const state = STATES[usps];
   const named = `${displayName}, ${stateName(usps)}`;
-  const jurisdictionId = createStableId(
-    "jurisdiction",
-    `national-place:${geoid}`,
-  );
+  const jurisdictionId = nationwideJurisdictionId(geoid);
   return {
     key: geoid,
     displayName: named,
@@ -317,7 +442,12 @@ function synthesizeNationwidePlace(row: NationwideRow): LifePlace {
       goalScope: named,
       householdLocationLabel: named,
     },
-    capabilities: { legislativeScenarioKey: null },
+    scope: "locality",
+    stateJurisdictionKey: `US-${usps}`,
+    // This town's OWN offices are unsourced, and stay null until a source for
+    // this jurisdiction is accepted. Whether its state has offices is answered
+    // by the state key above, not here.
+    capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
     sourceGeoid: geoid,
   };
 }
@@ -342,11 +472,12 @@ export function searchLifePlaces(
 ): readonly LifePlace[] {
   const needle = query.trim().toLowerCase();
   if (needle.length === 0) return [];
-  const authored = PLACES.filter((place) => placeMatches(place, needle));
+  const authored = allPlaces().filter((place) => placeMatches(place, needle));
   const results: LifePlace[] = [...authored];
+  const authoredGeoids = authoredSourceGeoidSet();
   for (const row of nationwideRows()) {
     if (results.length >= limit) break;
-    if (AUTHORED_SOURCE_GEOIDS.has(row[0])) continue;
+    if (authoredGeoids.has(row[0])) continue;
     const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
     if (haystack.includes(needle)) {
       results.push(synthesizeNationwidePlace(row));
@@ -365,7 +496,7 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
   coverage() {
     return {
       kind: "national-place-corpus",
-      placeCount: PLACES.length + NATIONAL_PLACES_META.recordCount,
+      placeCount: allPlaces().length + NATIONAL_PLACES_META.recordCount,
       supportsArbitrarySelection: true,
       outstandingDependency: OUTSTANDING_DEPENDENCY,
       playerNote: PLAYER_NOTE,
@@ -377,20 +508,27 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
     };
   },
   list() {
-    return PLACES;
+    return allPlaces();
   },
   byKey(key) {
-    const authored = PLACES.find((place) => place.key === key);
+    const authored = allPlaces().find((place) => place.key === key);
     if (authored) return authored;
     const row = nationwideIndex().get(key);
     return row ? synthesizeNationwidePlace(row) : null;
   },
   byJurisdictionId(jurisdictionId) {
-    return (
-      PLACES.find(
-        (place) => place.context.jurisdiction.id === jurisdictionId,
-      ) ?? null
+    const authored = allPlaces().find(
+      (place) => place.context.jurisdiction.id === jurisdictionId,
     );
+    if (authored) return authored;
+    // A life started anywhere in the corpus has to be able to find its own
+    // place again. Without this, every one of the nationwide places resolved to
+    // null the moment anything asked what it could do, so a character living in
+    // Chicago had no state above them and no capabilities at all.
+    const geoid = nationwideGeoidByJurisdictionId().get(jurisdictionId);
+    if (geoid === undefined) return null;
+    const row = nationwideIndex().get(geoid);
+    return row ? synthesizeNationwidePlace(row) : null;
   },
 };
 
@@ -404,6 +542,36 @@ export function lifePlaceSearch(
 
 export function lifePlaces(): readonly LifePlace[] {
   return acceptedLifePlaceProvider.list();
+}
+
+/**
+ * State identity for a pack's declared key, never a resident's locality.
+ * Reuse established state identities. Where only the state reference exists,
+ * retain its placeholder provenance without creating a playable place or
+ * granting any legislative capability.
+ */
+export function stateJurisdictionForKey(key: string): Jurisdiction | null {
+  const established = lifePlaces().find(
+    (place) => place.scope === "state" && place.stateJurisdictionKey === key,
+  );
+  if (established) return established.context.jurisdiction;
+  const state = /^US-[A-Z]{2}$/.test(key) ? STATES[key.slice(3)] : undefined;
+  if (!state) return null;
+  const slug = `state-${key.toLowerCase()}-placeholder`;
+  const id = createStableId("jurisdiction", `definition:${slug}`);
+  return {
+    id,
+    slug,
+    name: state.name,
+    kind: "state-placeholder",
+    parentName: "United States",
+    provenance: {
+      asOf: null,
+      source: null,
+      jurisdiction: id,
+      status: "placeholder",
+    },
+  };
 }
 
 export function lifePlaceByKey(key: string): LifePlace | null {

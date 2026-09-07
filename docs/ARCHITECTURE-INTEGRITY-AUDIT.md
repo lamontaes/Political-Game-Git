@@ -678,6 +678,49 @@ Stage 6.5 runs, and later-stage gates.
 | Earlier Stage 5/6 behavior           | Confirmed compatible                 | The accepted 2023 Wyoming QA corpus/compiler remain unchanged. The character-history union addition routes only a newly requested transition to an existing validated writer. Focused regression, source replay, and the full validation suite cover earlier behavior.                                                      |
 | Stage and UI scope                   | Confirmed absent                     | No personality, ideology, belief, motive, feeling, money, named employer/school, career, institution/law, campaign/election, player prose, UI, or art behavior was added. No Stage 6 semantic baseline was reopened and Stage 7 remains gated.                                                                              |
 
+## PR85B Post-Main Reconciliation Audit — 2026-09-06
+
+This audit covers the contained post-#99 repair on PR #85 and rechecks the
+canonical-history, scene-presentation, jurisdiction-authority, calendar, People
+rail, determinism, and later-stage boundaries affected by the owner replay.
+
+| Concern                               | Disposition                       | Evidence and rationale                                                                                                                                                                                                                                  |
+| ------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Generated adult-history chronology    | Corrected with a contained patch  | Quick generation now composes elementary, middle, and secondary enrollment in child-appropriate order and keeps work at 16 or later. Multi-age/multi-seed tests include age 34 and reject future-dated output.                                          |
+| Authored/imported canonical history   | Confirmed preserved               | The repair changes only the quick generator. An intentionally off-template authored enrollment date remains exact through the shared writer and JSON import; no heuristic normalizes played, authored, or imported history.                             |
+| History, provenance, and persistence  | Confirmed compatible              | The added organization, enrollment, and state records use the existing stable-keyed `CharacterHistoryPlan`, ordinary canonical writers, generated provenance, append sequence, integrity validation, and unchanged snapshot schema.                     |
+| Scene and camera ownership            | Corrected only where branch-owned | The ambient title tableau now reuses the arriving stage's stable key when it becomes the leaving stage, retaining the same decoded image and camera node through repeated transitions. Per-scene camera policies and cover transforms remain unchanged. |
+| Calendar and campaign action capacity | Confirmed existing behavior       | Same-day exhaustion remains a truthful result of three scheduled sessions before an existing evening commitment; every disabled action explains the conflict, and the next day restores action availability. No campaign arithmetic was rebalanced.     |
+| People rail and pin authority         | Confirmed presentation-only       | A campaign opponent may appear as a recurring relevant person. Only in-room people are automatically held; the opponent's separate Pin control remains unpressed until the player chooses it. Pin state writes no World or history truth.               |
+| Jurisdiction negative control         | Corrected test assumption         | Unsupported-place tests derive a locality by subtracting accepted candidacy-pack jurisdiction keys from the searchable corpus. No named state is treated as permanently unsupported, and the Lexington state-office route remains covered.              |
+| Post-merge ownership guard            | Corrected during reconciliation   | PR #112's inherited boundary test now measures its fixed shipped base-to-head range, following the accepted closed-range pattern. It continues to police that wave without treating later PR85 changes as PR #112 output.                               |
+| Determinism and headless core         | Confirmed                         | Simulation changes remain pure TypeScript with seeded identity and stable keys. Identical histories and campaign outcomes retain their existing replay and persistence tests; React owns only stage continuity and rail interaction.                    |
+| Stage and scope gates                 | Confirmed bounded                 | No Stage 6 semantic baseline, law/institution/electorate engine, campaign-engine rewrite, broad economics rebalance, team/staff mechanic, or new jurisdiction pack was added. Fundraising calibration and team depth remain recorded follow-ups.        |
+
+## P85D Integration Correction — 2026-09-07
+
+P85C found two gaps in the preceding acceptance claims. P85D corrects the
+integration without changing campaign effects or adding systems:
+
+- Adult choices, quiet stretches and episode choices now pass the same composed
+  campaign/life registry as the day panel. No second registry or election-day
+  special case exists; the existing callback handlers remain present.
+- Winner seating resolves the governing state from the accepted pack key and
+  reuses established state identity. A state reference without a playable
+  environment remains a placeholder, with no new place or capability granted.
+  The state joins the save's jurisdiction collection only when absent; no
+  person, household residence, prior record or municipality is rewritten.
+- Regression coverage follows actual advancement entry points and the
+  locality-origin win through canonical seating, reload and Work activation.
+  Chronology, money, observations, pinning, camera code, art/source inputs and
+  bargaining implementations remain unchanged.
+- Current-main reconciliation preserves the entire canonical M1 ownership test.
+
+LEARN: shared substrate correctness needs tests at every caller that advances
+time, and office access needs a locality-origin test where residence differs
+from governing authority. The focused integration and browser regressions are
+the durable mechanism; no broader prompt or new workflow is needed.
+
 ## Civil Service / Labor Source Substrate Audit — 2026-09-06
 
 This audit applies the source-substrate contracts to the bounded 92P first

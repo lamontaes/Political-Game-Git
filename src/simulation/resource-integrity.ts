@@ -373,7 +373,7 @@ export function assertResourceHousingIntegrity(
     optional(outcome.note, "resource outcome note");
     provenance(world, outcome.provenance, outcome.occurredAt, outcome.sequence);
     const owner = endpointOwner(flow.source);
-    if (owner && outcome.transferredAmount.minorUnits > 0) {
+    if (outcome.transferredAmount.minorUnits > 0) {
       const before = resourcePositionAt(
         world,
         owner,
@@ -924,10 +924,8 @@ function sameMoney(left: MoneyAmount, right: MoneyAmount): boolean {
   );
 }
 
-function endpointOwner(
-  endpoint: ResourceEndpoint,
-): ResourcePositionOwner | null {
-  return endpoint.kind === "organization" ? null : { ...endpoint };
+function endpointOwner(endpoint: ResourceEndpoint): ResourcePositionOwner {
+  return { ...endpoint };
 }
 
 function dateInWorld(world: World, value: string, recordId: EntityId): void {

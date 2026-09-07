@@ -2108,6 +2108,7 @@ export function generateQuickCharacterHistory(
   const teacherId = characterHistoryContextPersonId(world, teacherKey);
   const home = key("household");
   const elementary = key("elementary-school");
+  const middleSchool = key("middle-school");
   const highSchool = key("high-school");
   const club = key("civic-club");
   const job = key("teen-employer");
@@ -2175,6 +2176,19 @@ export function generateQuickCharacterHistory(
           provenance: generated,
           initialProfile: {
             name: "Local Elementary School",
+            classification: "service:school",
+            locationJurisdictionId: input.jurisdictionId,
+          },
+        },
+      },
+      {
+        kind: "organization",
+        input: {
+          stableKey: middleSchool,
+          formedAt: age(0),
+          provenance: generated,
+          initialProfile: {
+            name: "Local Middle School",
             classification: "service:school",
             locationJurisdictionId: input.jurisdictionId,
           },
@@ -2375,13 +2389,68 @@ export function generateQuickCharacterHistory(
       {
         kind: "education",
         input: {
+          stableKey: key("education:middle-school"),
+          personId: input.personId,
+          organizationId: createStableId(
+            "organization",
+            `${world.id}:${middleSchool}`,
+          ),
+          startedAt: age(11),
+          programKind: "schooling:middle",
+          contextKind: "stage:school",
+          provenance: generated,
+        },
+      },
+      {
+        kind: "work",
+        input: {
+          stableKey: key("work:teacher"),
+          personId: teacherId,
+          organizationId: createStableId(
+            "organization",
+            `${world.id}:${middleSchool}`,
+          ),
+          startedAt: age(11),
+          kind: "employment:education",
+          compensation: "paid",
+          authority: "directs-others",
+          dependency: "dependent",
+          economicRisk: "organization-borne",
+          provenance: generated,
+          initialRole: {
+            title: "Teacher",
+            occupationClassification: "profession:teacher",
+            locationJurisdictionId: input.jurisdictionId,
+            timeDemand: moderateTimeDemand(input.jurisdictionId),
+          },
+        },
+      },
+      {
+        kind: "education-state",
+        input: {
+          stableKey: key("education:middle-school:completed"),
+          enrollmentStableKey: key("education:middle-school"),
+          effectiveAt: age(14),
+          status: "completed",
+          contextKind: "stage:school",
+          reason: "Completed the middle-school program.",
+          provenance: generated,
+        },
+      },
+      {
+        kind: "education",
+        input: {
           stableKey: key("education:high-school"),
           personId: input.personId,
           organizationId: createStableId(
             "organization",
             `${world.id}:${highSchool}`,
           ),
-          startedAt: age(7),
+          // The summarized history used to put this at age seven. The
+          // projection then truthfully told a 34-year-old that high school had
+          // begun two years after elementary school. Secondary school starts
+          // in the adolescent band, after the recorded middle-school step.
+          startedAt: age(14),
           programKind: "schooling:secondary",
           contextKind: "stage:school",
           provenance: generated,
@@ -2396,34 +2465,10 @@ export function generateQuickCharacterHistory(
             "organization",
             `${world.id}:${highSchool}`,
           ),
-          startedAt: age(7),
+          startedAt: age(14),
           programKind: "schooling:secondary",
           contextKind: "stage:school",
           provenance: generated,
-        },
-      },
-      {
-        kind: "work",
-        input: {
-          stableKey: key("work:teacher"),
-          personId: teacherId,
-          organizationId: createStableId(
-            "organization",
-            `${world.id}:${highSchool}`,
-          ),
-          startedAt: age(7),
-          kind: "employment:education",
-          compensation: "paid",
-          authority: "directs-others",
-          dependency: "dependent",
-          economicRisk: "organization-borne",
-          provenance: generated,
-          initialRole: {
-            title: "Teacher",
-            occupationClassification: "profession:teacher",
-            locationJurisdictionId: input.jurisdictionId,
-            timeDemand: moderateTimeDemand(input.jurisdictionId),
-          },
         },
       },
       {
