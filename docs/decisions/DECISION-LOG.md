@@ -2156,11 +2156,15 @@ Rejected: treating the existing 2023 Wyoming QA slice as national or silently
 relabeling it 2024. It remains accepted QA evidence for its original bounded
 purpose; this bridge adds a separate versioned state-shard interface.
 
-## D-078 — Executive authority is a referenced rule substrate, populated only to independently verified depth
+## D-080 — Executive authority is a referenced rule substrate, populated only to independently verified depth
 
 - Date: 2026-09-06
 - Status: ACCEPTED
 - Supersedes: none
+- Reconciled: renumbered from D-078 on merge of accepted main (9c36b2f).
+  D-078 and D-079 are the earlier reservation held by the open garment
+  morphology and fit-profile lane; D-080 is the first identifier free on
+  the combined tree. The substrate is unchanged, only the identifier.
 
 Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
 and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
