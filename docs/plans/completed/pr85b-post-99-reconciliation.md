@@ -14,6 +14,8 @@ Second live-main reconciliation: `850048dc06ac5a1ee4c08d8f41d286c377707bb5`
 
 Second merge commit: `f86800c8aa5625ed0d045bfeb9e345b50bf1b603`
 
+Validated implementation head: `5d08fbfe9bf1b542fa3329a86cfa6bbf54597dc7`
+
 ## Scope
 
 - [x] Fetch and verify live PR #85 and live `main`.
@@ -37,9 +39,9 @@ Second merge commit: `f86800c8aa5625ed0d045bfeb9e345b50bf1b603`
 - [x] Relevant Playwright suites.
 - [x] Full validation coverage. Before the second reconciliation, all 136 files and 2,351 tests passed with one worker and a 120-second timeout. On the reconciled head, a disk-space interruption stopped collection after 105 files and 1,983 tests; the complete uncollected remainder then passed directly, for exact-head coverage of 140 files and 2,428 tests across non-overlapping shards.
 - [x] `npm run validate:art`, `npm run inventory:art`, and `npm run qa:art` without retaining generated noise.
-- [ ] `git diff --check` and final `npm run agent:preflight`.
-- [ ] Re-fetch `main`, reconcile if advanced, push the same branch, and verify exact-head GitHub CI success.
-- [ ] Move this plan to `docs/plans/completed/` and leave PR #85 unmerged.
+- [x] `git diff --check` and final `npm run agent:preflight`.
+- [x] Re-fetch `main`, reconcile if advanced, push the same branch, and verify exact-head GitHub CI success.
+- [x] Move this plan to `docs/plans/completed/` and leave PR #85 unmerged.
 
 ## Bounded follow-ups (not implemented here)
 
@@ -64,6 +66,7 @@ Second merge commit: `f86800c8aa5625ed0d045bfeb9e345b50bf1b603`
 - Exact owner-route and campaign Chromium suites: 16/16 tests, including pointer and keyboard activation. The exact-head rerun used isolated port 42851 after a default-port run was discarded because Playwright had reused another worktree's server.
 - Pre-second-reconciliation Vitest suite: 136/136 files, 2,351/2,351 tests with `--maxWorkers=1 --testTimeout=120000`.
 - Reconciled-head Vitest coverage: 140/140 files, 2,428/2,428 tests across non-overlapping shards after recoverable test-transform caches filled the local disk during collection.
+- GitHub exact-head validation passed at `5d08fbfe9bf1b542fa3329a86cfa6bbf54597dc7` (Actions run `34069662404`, job `101584539229`).
 - Formatting, lint, typecheck, source validation, byte-identical source replay, production build, deterministic demo, and art validation passed.
 - Art inventory was already current at 322 items; art QA regenerated deterministically with no tracked diff.
 - The first production-build attempt exhausted local disk while writing ignored `dist` output. Repository clean-build plus clearing the recoverable npm download cache restored space; the untouched build then passed. Generated `dist` was removed afterward.
