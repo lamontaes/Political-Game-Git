@@ -2155,3 +2155,129 @@ facts.
 Rejected: treating the existing 2023 Wyoming QA slice as national or silently
 relabeling it 2024. It remains accepted QA evidence for its original bounded
 purpose; this bridge adds a separate versioned state-shard interface.
+
+## D-078 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 while merging current main into PR #89,
+  whose accepted decisions already occupied D-074–D-077; the architecture is
+  unchanged, only the identifier.
+
+Packet 76 found that the proof cross-morphology garment sharing works was
+circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
+and they share a canvas and share their anchors, so the compositor computed the
+same rectangle twice and called it adaptation. The painted silhouettes differ by
+15–21%, and the olive knit hung 29 px past the slim body while nothing in the
+contract could say so: a component carries one canvas and one origin and had no
+place to put a per-family number. 76A recorded the consequence — tops and
+bottoms "SAFE ONLY WITHIN A BODY FAMILY", anything else "POSSIBLE ONLY WITH A
+CONTRACT CHANGE".
+
+The per-family number now exists, and three things about where it lives are the
+decision.
+
+It lives in its own bank, `art/manifest/garment_fit_profiles.json`, not on
+`CharacterComponentDefinition`. A generation's signature hashes the complete
+component definitions, so a fit field on a definition would rewrite the
+signature of a frozen generation and move every person pinned to it. This is the
+same reasoning that put `availability` on the manifest record (D-065).
+
+It is keyed by garment family, target body family AND pose. Dropping the body
+family is the defect above; dropping the pose would let a standing fit be
+applied to a seated raster, which is the cross-viewpoint substitution 76A §5.5
+refused for exactly the reason it refuses a front-on shoe derived from a
+three-quarter one — no transform produces geometry the source does not contain.
+
+A garment with no answer in the bank is refused, not placed. It keeps its
+unfitted geometry so a debug view can show where it would have gone, reports
+itself unreleased, and names why. It does not fall back to the old rectangle and
+it never borrows another family's profile: "no entry" and "it probably fits" are
+different facts, and one of them is a guess.
+
+The bank is derived rather than authored. `npm run derive:garment-fit` measures
+both silhouettes, takes the geometric mean of the smallest and largest required
+span ratio at the category's anchors — minimising the worst row rather than the
+average one — and writes the transform. Classification comes afterwards, from
+what that transform achieved when the real compositor placed the real rasters.
+Nothing is claimed and then confirmed.
+
+There is no rotation and no shear, and the absence is a finding. Every measured
+difference between these morphologies is a width difference along horizontal
+rows; nothing in the evidence rotates.
+
+A single affine does not solve everything, and the evidence says where it stops.
+Against a declared lean/average/heavy fixture triple whose waist moves three
+times as much as its shoulder, one scale takes a knit top from 30.0 px of
+residual to 12.1 px — better, and still 4.8% of the silhouette, outside the 3%
+bound. So there is a bounded escape hatch: a horizontal band warp with at most
+eight explicit control points, compiled to sixteen fixed bands, with stated
+limits on scale, on the step between adjacent bands and on the spread across
+them. It reaches 4.0 px. A garment that cannot be fitted inside those limits is
+classified `morphology-specific` and the art is regenerated; nothing is
+distorted indefinitely to avoid drawing it.
+
+What is measured is the PROPORTIONAL residual, not the distance from the
+garment's edge to the body's. A garment is not skin: a knit carries ease, ease is
+not error, and against the body's own outline a perfect fit can never score
+zero. Footwear is judged on whether it contains the foot and an accessory on
+whether it stays inside the silhouette, and neither is ever scaled — scaling
+them resizes the object rather than fitting it.
+
+Consequence: one canonical raster now serves every compatible adult morphology
+in the bank with a measured transform, and the categories that still need
+per-morphology art say so by name — front-on footwear, because the gap is
+viewpoint; child and adolescent bodies, because a child is not a scaled adult and
+no measured evidence of proportional compatibility exists; and any pairing that
+fails the bounds.
+
+## D-079 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none (amends D-078)
+- Reconciled: renumbered from D-075 while merging current main into PR #89,
+  whose accepted causal-tracing decision already occupied D-075; the
+  architecture is unchanged, only the identifier.
+
+An independent audit of the first D-078 head rejected it on three blockers and
+one contract defect, all reproduced before repair.
+
+**A warp could become a rectangle.** The only guard against drawing a bounded
+warp's bounding box lived in the render plan. Scene composition and the pose
+proof read projected layers directly, and a structurally valid sixteen-band warp
+came out of both as a drawable top and a drawable trouser with no bands and no
+refusal. The refusal now lives in `projectCharacterLayers`, the one place every
+consumer passes through: a warped layer is withheld there, keeps its unfitted
+rectangle, and names `fit-warp-not-renderable`. No caller declares band support
+any more, because no renderer has it; the measurement harness alone may admit a
+warp as geometry, to measure it, and a test keeps that option out of `src/`.
+A production bank may not carry a warp profile at all.
+
+**A limit that was not a number limited nothing.** `maxScale: "unlimited"`
+with a million-fold profile produced zero validation errors and resolved
+`ok: true`. Every bound is now validated for type, finiteness, sign, domain,
+envelope and coherence before any transform is compared against it, at runtime
+as well as in validation; a bank whose bounds fail refuses every governed
+garment. The transform schema is closed, so a `shearX` is refused rather than
+ignored.
+
+**No data measured as a perfect fit.** A window with no comparable rows scored
+zero, and a blank footwear raster classified as safe to share. Every measurement
+now carries a status, and only `measured` is evidence; anything else refuses to
+classify. And the residual compared spans, so a garment of the right width
+twelve pixels to one side scored zero while hanging off the body. The residual
+is now per side: each edge is held to where it would sit carrying the garment's
+own ease on the target body, so displacement, one-sided overhang and
+undercoverage all score as the pixels they are, and ease still scores zero.
+
+**The band recipe could not draw the band.** Bands carried a slice plus clip
+percentages against the whole image; drawing the whole image into the slice and
+clipping compresses it. Each band now records where the whole raster would sit
+so its own rows land in the slice, and the recipe is withdrawn.
+
+Consequence: the affine path — the only one the production bank uses — is
+unchanged in behaviour and every measured example still improves. What changed
+is that nothing downstream can draw a fit it cannot draw, nothing can widen a
+bound by misspelling it, and nothing is called a fit for want of pixels.

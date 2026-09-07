@@ -192,6 +192,11 @@ decides that such a thing exists — the simulation owns that.
   composited into a lit plate.
 - Identity, recipe version and catalog-generation pinning are unchanged. A
   catalog generation is frozen once written; growth is append-only.
+- **Morphology fit** lets one garment raster serve several compatible builds by
+  fitting it to the target silhouette. A fit is keyed by garment family, target
+  body family and pose; it lives in its own bank so no frozen generation
+  signature moves; and a garment with no answer is refused rather than placed
+  unfitted. See [Garment Morphology Fit](./garment-morphology-fit.md).
 
 ## Development warnings
 
