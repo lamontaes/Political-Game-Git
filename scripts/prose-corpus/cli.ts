@@ -4,9 +4,15 @@ import { join } from "node:path";
 import {
   ANCHOR_FILE,
   ANCHOR_SCHEMA,
+  LEDGER_FILE,
+  LEDGER_NOTE,
+  LEDGER_SCHEMA,
   loadAnchorFile,
+  loadAnchorLedger,
   mintAnchors,
+  reservedIds,
   writeAnchorFile,
+  writeAnchorLedger,
 } from "./anchors";
 import { buildCoverageReport, type CoverageReport } from "./coverage";
 import { runDiagnostics, type DiagnosticReport } from "./diagnostics";
@@ -33,6 +39,8 @@ import type { ProseInventory } from "./inventory";
  *   npm run corpus:prose -- check   rebuild in memory and fail on drift or a hard error
  *   npm run corpus:prose -- diff    differential against the committed baseline
  *   npm run corpus:prose -- anchors mint/refresh identities for computed sites
+ *   npm run corpus:prose -- ledger  absorb live anchor ids into the allocation
+ *                                   ledger without minting or writing anchors
  *
  * Nothing here writes to `src/`, and nothing under `src/` may import it.
  */
@@ -378,10 +386,21 @@ Confirming pagination needs a real browser print, which is an owner check.
  * Separate from `build` on purpose. Minting changes identity, and identity
  * changes are the thing an owner's review record is pinned to, so they happen
  * because somebody asked rather than as a side effect of regenerating a report.
+ *
+ * Two files move together here. The sidecar records which identities are alive;
+ * the ledger records which have ever been issued, so a retired number is burned
+ * rather than returned to the pool. The ledger is seeded from the live sidecar
+ * on every run, which is how it absorbs anchors minted on a branch that had not
+ * merged when it was last written.
  */
 function mint(): void {
   const before = loadAnchorFile();
-  const outcome = mintAnchors(computedLiterals(), before.anchors);
+  const ledgerBefore = loadAnchorLedger();
+  const outcome = mintAnchors(
+    computedLiterals(),
+    before.anchors,
+    ledgerBefore.issued,
+  );
 
   if (outcome.refused.length > 0) {
     const detail = outcome.refused
@@ -400,6 +419,11 @@ function mint(): void {
     note: "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
     anchors: outcome.anchors,
   });
+  writeAnchorLedger({
+    schema: LEDGER_SCHEMA,
+    note: LEDGER_NOTE,
+    issued: outcome.issued,
+  });
 
   process.stdout.write(
     `${ANCHOR_FILE}: ${outcome.anchors.length} anchors (${outcome.minted.length} minted, ${outcome.rebound.length} reworded, ${outcome.removed.length} retired).\n`,
@@ -409,12 +433,56 @@ function mint(): void {
       `  reworded ${entry.anchor}\n    from ${JSON.stringify(entry.from)}\n    to   ${JSON.stringify(entry.to)}\n`,
     );
   }
+
+  // Enough allocation detail to prove no retired id was handed to new text:
+  // the ledger only grew, every minted id is outside the pre-run ledger, and
+  // the burned set is what the ledger keeps closed.
+  const previouslyIssued = new Set(ledgerBefore.issued);
+  const absorbed = outcome.issued.filter((id) => !previouslyIssued.has(id));
+  process.stdout.write(
+    `${LEDGER_FILE}: ${outcome.issued.length} ids ever issued (+${absorbed.length} newly reserved, ${outcome.burned.length} retired and permanently burned).\n`,
+  );
+  for (const id of outcome.minted) {
+    process.stdout.write(
+      `  minted ${id} (not present in the ledger before this run)\n`,
+    );
+  }
+  for (const id of outcome.removed) {
+    process.stdout.write(`  retired ${id} (id burned, never re-issued)\n`);
+  }
+}
+
+/**
+ * Absorb every live anchor into the allocation ledger, minting nothing.
+ *
+ * The case this exists for: a branch that minted anchors merges in, so the
+ * sidecar now holds IDs the ledger never saw. Union them before anyone mints
+ * again, or the next mint could offer one of those numbers to a new site. It
+ * reads the sidecar and never writes it, so it is safe to run while another
+ * writer owns that file.
+ */
+function syncLedger(): void {
+  const before = loadAnchorLedger();
+  const issued = reservedIds(before.issued, loadAnchorFile().anchors);
+  writeAnchorLedger({
+    schema: LEDGER_SCHEMA,
+    note: LEDGER_NOTE,
+    issued: [...issued],
+  });
+  const absorbed = issued.size - new Set(before.issued).size;
+  process.stdout.write(
+    `${LEDGER_FILE}: ${issued.size} ids ever issued (+${absorbed} absorbed from ${ANCHOR_FILE}).\n`,
+  );
 }
 
 function main(): void {
   const mode = process.argv[2] ?? "build";
   if (mode === "anchors") {
     mint();
+    return;
+  }
+  if (mode === "ledger") {
+    syncLedger();
     return;
   }
   const inventory = buildProseInventory();
