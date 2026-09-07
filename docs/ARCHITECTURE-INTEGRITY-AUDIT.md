@@ -729,3 +729,9 @@ Following M1's closed-packet contract, preserve the original base and forbidden
 list and pin only the formerly open head to PR115's verified merge `333eeb1`.
 A negative regression still rejects a forbidden edit within the measured files.
 No existing frozen range or judicial behavior changes.
+
+Supersession: main's accepted M3 repair (PR123, main `25b7e7a`) now owns the
+judicial guard. Its complete file is adopted unchanged, including the frozen
+PR115 feature head `35ba89f` and stronger synthetic-history/missing-history
+proofs. It supersedes this task's interim `333eeb1` closure above. No M3 frozen
+range is edited and no competing ownership implementation remains on PR79.

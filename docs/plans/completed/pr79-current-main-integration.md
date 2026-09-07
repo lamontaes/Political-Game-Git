@@ -97,3 +97,19 @@ first. All PR79 runtime modules remain byte-identical to the green `8b672b0`
 head; the incoming source-domain work stays unchanged. Publish the reconciled
 head and obtain new exact-head CI rather than report the older green head as
 current-main acceptance evidence.
+
+## Adopt main's canonical M3 guard
+
+Head `c837e29e80c8da131e91f87dbdc1cfffe295e410` passed exact-head CI
+`34080288968`: 2,553 repository tests and all 254 browser tests. During that
+run, main advanced to `25b7e7a291e22374566c30d31552dcc4d8314d51` (PR123),
+which supplies the canonical M3 closure of PR115's ownership range.
+
+The only new conflict was that guard versus this task's interim closure. Take
+M3's entire file byte-for-byte, including its frozen feature-head endpoint
+`35ba89f6f60b50e5fd7fe00d44d03e928de5218b`, complete forbidden list, synthetic
+Git-history failure proof and missing-history checks. This supersedes the
+interim `333eeb1` merge-head closure above; it does not move M3's frozen range
+or keep a second competing guard. Runtime code remains unchanged from the
+previous two fully green integration heads. Obtain fresh exact-head CI for
+the final ordinary merge.
