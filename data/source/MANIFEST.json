@@ -319,6 +319,29 @@
     {
       "artifacts": [
         {
+          "artifactId": "92l-national-judicial-selection-tenure-completion",
+          "sha256": "de494b4f778fd47710649a9014718c52247504d90619d67d24a158c12128bf24",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-05",
+      "boundedSampleReason": null,
+      "canonicalSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "compiler": {
+        "name": "judicial-office-selection",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "corpusId": "judicial-office-selection",
+      "domain": "judicial-office-selection",
+      "isCompleteUniverse": true,
+      "recordCount": 156,
+      "universeDescription": "Every highest-court, intermediate-appellate, and general-trial office-family slot reported by 92L across the United States federal judiciary and all fifty states, plus its separately reported split-apex and chancery families: 156 slots, 148 active offices, and eight explicit non-applicable intermediate-court slots, as of 2026-09-05."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-places-zip",
           "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
           "sliceOfParent": null,

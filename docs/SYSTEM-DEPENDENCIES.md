@@ -80,6 +80,13 @@ validated World
 
 The simulation owns domain truth and transitions. UI, CLI, and persistence adapters consume the public simulation API; the simulation never imports them.
 
+Separately, the Node-only source substrate now compiles the 92L national
+judicial-office research into stable office-family identities and sourced
+selection, vacancy, tenure, and renewal evidence. It has no adapter into the
+simulation, presentation, or player layers. Reported legal citations remain
+reported citations until their underlying authorities are independently
+retrieved and locked.
+
 Run E evidence composes existing truth and information seams rather than creating parallel copies: an earlier event or incident may source an objective artifact; an alive person may explicitly discover that artifact; the writer then records an ordinary discovery event, the discovery identity, and direct event knowledge for that person only. Evidence integrity depends on the vitality cutoff query for alive status, while `world.ts` depends only on the cycle-free evidence-integrity helpers for global entity availability and persistence validation.
 
 The `HistoryStore` has one contiguous global sequence, and every record-family array is stored in strictly increasing append-sequence order. Cross-record formation, provenance, source, and supersession references must target an earlier appended record; a same-day reference is invalid when its target has a later sequence. Transition validation and snapshot-load integrity checks reject unknown discriminators and values outside the defined categorical vocabularies instead of accepting structurally plausible but unsupported records.
