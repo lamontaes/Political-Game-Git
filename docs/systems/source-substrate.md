@@ -220,6 +220,13 @@ A domain that cannot yet compile production records declares a
 a visible fact about the substrate rather than an absence somebody has to
 notice. `municipal-governance` is gated for independent first-party acquisition
 and audit; other gated domains state their own reason independently.
+`government-finances`, `government-units` and `public-employment` are gated
+on acquisition: a proxy denies census.gov, and a network that reaches it
+clears them without a code change. `state-office-qualifications` and
+`state-local-fiscal-authority` are gated on sourcing: both compile from
+research syntheses, and a secondary source cannot carry the evidence of a
+retrieval this repository never made. See
+[State and local fiscal authority](fiscal-authority-source.md).
 
 The 2024 PUMS state-shard form is explicit rather than a hidden alternate
 default:

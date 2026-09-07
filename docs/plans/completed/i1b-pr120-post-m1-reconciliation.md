@@ -42,3 +42,13 @@ imports those 12 main-owned files unchanged. All 12 accepted PR120 blobs and
 the canonical ownership test remain exact. No manifest regeneration or
 municipal-governance semantic change is needed. The final head must receive
 fresh exact-head CI/browser proof; prior-head results do not substitute.
+
+## M2 PR114 refresh
+
+Head `c7a42a49e6b97ab065ec288985920020566fdc3a` passed both CI runs with
+2,425 tests and 249 browser proofs each. Final fetch found PR114 on main at
+`1a91101ab4f5369aeec21c6e9f32c21114794c81`. Ordinary merge preserved the
+new fiscal domain. MANIFEST merged mechanically; source documentation kept
+the exact accepted municipal gate paragraph and appended main's fiscal and
+other-domain gate explanations, omitting its stale five-domain count. All
+other accepted PR120 blobs remain exact. Fresh CI is required on this head.
