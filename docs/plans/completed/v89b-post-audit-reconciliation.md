@@ -1,6 +1,6 @@
 # V89B post-audit reconciliation
 
-Status: active
+Status: reconciliation completed; exact-head CI and V89C are separate gates
 
 Accepted head: `a48f495da77fa5c6de830c38a3aa3de183962555`.
 Initial live main/M1: `a93b8f9da2b76d69123abc6b37b4b196f9d0d5db`.
@@ -81,3 +81,15 @@ the remaining normal-command gate and must pass before V89C readiness is claimed
 
 The final reconciliation report will identify the immutable merge SHA and CI run.
 PR #89 remains open; V89A acceptance is preserved, V89C acceptance remains pending.
+
+## Local rerun result
+
+The single-worker suite passed 2,479/2,480 tests; its only failure was the
+unchanged five-second corpus-digest timeout. The isolated digest test then passed
+with its normal timeout (2.67 seconds). All original failures therefore passed
+on unchanged code. The complete normal command remains delegated to exact-head CI.
+
+Ordinary merge commit: `0c093657615483d3b0ceb42623b8b271106ca9fc`.
+Parents, in order: accepted `a48f495da77fa5c6de830c38a3aa3de183962555` and
+main/M1 `a93b8f9da2b76d69123abc6b37b4b196f9d0d5db`. The final documentation
+commit only closes this plan; its exact-head CI is reported in the handoff.
