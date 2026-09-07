@@ -54,3 +54,11 @@ worktrees are testing. Run repository tests BEFORE starting the browser server:
 the art-readiness escape test briefly creates a symlink that Vite's art glob
 can observe. Neither workaround requires tracked configuration or feature
 changes. Interrupted browser runs remain diagnostic evidence, not passes.
+
+## M2 final-main reconciliation
+
+Main advanced during CI to `414b24ce6120799985d3b0bddbf196c9c064df36`.
+The required additional ordinary merge was clean. The five substantive J1A
+files and M1 ownership test remain unchanged; only the judicial ownership base
+moves to this latest main. The earlier validation evidence above is historical;
+this new exact head requires fresh full validation and browser CI.
