@@ -49,6 +49,15 @@ export default tseslint.config(
               message:
                 "The source substrate is evidence, not world truth. Reach it through a named one-way adapter instead.",
             },
+            {
+              // The prose corpus reads production banks to describe them. A
+              // production module importing it would make a review tool a
+              // runtime dependency and let a diagnostic decide what a player
+              // sees. One-way, enforced here rather than by convention.
+              group: ["**/prose-corpus", "**/prose-corpus/**"],
+              message:
+                "scripts/prose-corpus is a development-time review tool. Production runtime may never import it.",
+            },
           ],
         },
       ],

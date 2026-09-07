@@ -43,6 +43,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run bank:art` — validate or normalize an asset-bank QA manifest
 - `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
 - `npm run readiness:art` — reconcile the asset request queue against art the project already owns
+- `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
 
 ## Working Rules
 

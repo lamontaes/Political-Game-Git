@@ -3,14 +3,24 @@
 Every `known` value in `src/simulation/legislature-rule-packs.ts` cites an
 instrument. This page records what was actually read, so the `verification`
 field on each source can be checked rather than trusted. Kentucky, Nebraska and
-Alaska were read on 2026-09-02; Minnesota and Illinois were added on 2026-09-05
-(see their sections below, and the note on how they were read).
+the original Alaska pack were read on 2026-09-02; Alaska's formal membership
+provision was incorporated from the locked official artifact on 2026-09-06.
+Minnesota and Illinois were added on 2026-09-05 (see their sections below, and
+the note on how they were read); Maryland, Missouri, Nevada and Ohio were added
+on 2026-09-06 from each state's own publisher.
 
 `verified` means the operative text of the cited section was read and says what
 the pack claims. `partial` means the instrument and section are the right ones,
 but only a heading, table of sections or official summary was checked. Nothing
 is marked verified by construction, and a value no source settled stays
 `unknown`.
+
+Formal chamber capacity follows the same rule but admits only `known` or
+`unknown`: a known count is a positive integer with a verified source, while an
+unknown count has a reason and no numeric fallback. A consumer that actually
+needs formal capacity as a denominator must require a known count. Authored
+developer scenarios keep their body sizes separately as fixture inputs, so a
+playable roster cannot turn into an unsupported statement of law.
 
 ## Kentucky
 
@@ -79,18 +89,19 @@ Corrected from the previous pack:
 
 ## Alaska
 
-Read in full (`verified`): Const. Art. II Secs. 15, 16, 17 and 18, and the
+Read in full (`verified`): Const. Art. II Secs. 1, 15, 16, 17 and 18, and the
 headings and operative language of Uniform Rules 22, 23, 35 and 43.
 
-| Citation        | What it says                                                                                                                                                                                                                               |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Art. II Sec. 15 | Veto; the Governor may strike or reduce items in appropriation bills and returns a vetoed bill to the house of origin.                                                                                                                     |
-| Art. II Sec. 16 | Action Upon Veto: joint session; three-quarters of the membership for revenue and appropriation bills, two-thirds otherwise.                                                                                                               |
-| Art. II Sec. 17 | Bills Not Signed: fifteen days in session, twenty out of session, Sundays excepted — and the bill **becomes law**.                                                                                                                         |
-| Art. II Sec. 18 | Effective Date: ninety days after enactment, unless two-thirds of each house set another date.                                                                                                                                             |
-| Uniform Rule 23 | Committee Meetings and their notice requirement.                                                                                                                                                                                           |
-| Uniform Rule 35 | Amendment: a bill in second reading is subject to amendment; an amendment may not be made to a bill in its third reading, but the bill may be returned to second reading by a majority vote of the full membership for specific amendment. |
-| Uniform Rule 43 | Enrollment after both houses have passed a bill.                                                                                                                                                                                           |
+| Citation        | What it says                                                                                                                                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Art. II Sec. 1  | The Senate has twenty members and the House of Representatives has forty. This section was incorporated on 2026-09-06 from the locked official artifact merged from current `main`; it preserves the existing formal counts with direct provenance. |
+| Art. II Sec. 15 | Veto; the Governor may strike or reduce items in appropriation bills and returns a vetoed bill to the house of origin.                                                                                                                              |
+| Art. II Sec. 16 | Action Upon Veto: joint session; three-quarters of the membership for revenue and appropriation bills, two-thirds otherwise.                                                                                                                        |
+| Art. II Sec. 17 | Bills Not Signed: fifteen days in session, twenty out of session, Sundays excepted — and the bill **becomes law**.                                                                                                                                  |
+| Art. II Sec. 18 | Effective Date: ninety days after enactment, unless two-thirds of each house set another date.                                                                                                                                                      |
+| Uniform Rule 23 | Committee Meetings and their notice requirement.                                                                                                                                                                                                    |
+| Uniform Rule 35 | Amendment: a bill in second reading is subject to amendment; an amendment may not be made to a bill in its third reading, but the bill may be returned to second reading by a majority vote of the full membership for specific amendment.          |
+| Uniform Rule 43 | Enrollment after both houses have passed a bill.                                                                                                                                                                                                    |
 
 Corrected from the previous pack:
 
@@ -135,8 +146,8 @@ The seat counts are **not** constitutional and are not cited as though they were
 Art. IV, § 2 says the number of members "shall be prescribed by law", and
 **Minn. Stat. § 2.021** is the law that prescribes it: the senate is composed of
 67 members and the house of representatives of 134. That statute is the pack's
-`seatsSource` for both chambers, and both it and the delegating section are
-cited.
+known `seats` source for both chambers, and both it and the delegating section
+are cited.
 
 | Citation            | What it says                                                                                                        |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -179,6 +190,139 @@ sixty-day window with no separate post-adjournment period. Origination is
 `known`: art. IV, § 8 says a bill may originate in either house, and no subject
 class is confined to one of them.
 
+## The 2026-09-06 wave — Maryland, Missouri, Nevada and Ohio
+
+Four states compiled in one pass from the operative text of each state's own
+constitution, retrieved directly from that state's publisher on 2026-09-06.
+Unlike the Minnesota and Illinois pass, no search index stood in the way: each
+cited section was fetched from the official URL the pack carries, and each
+source's `note` holds the words that were read.
+
+| Pack     | Publisher read                                                                                                                                             |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Maryland | Maryland State Archives, _Maryland Manual On-Line_, plus the Maryland General Assembly's current per-section text for Article II § 17 and Article III § 52 |
+| Missouri | Missouri Revisor of Statutes, Constitution of Missouri, per-section pages                                                                                  |
+| Nevada   | Nevada Legislature, _The Constitution of the State of Nevada_ (rev. 4/15/2026)                                                                             |
+| Ohio     | Ohio Laws (`codes.ohio.gov`), Ohio Constitution, per-section pages                                                                                         |
+
+Maryland's current §§ 17 and 52 text comes from the General Assembly; the other
+Maryland article text remains sourced to the State Archives, and each
+`sourceTitle` identifies its publisher. The rest are the legislature's or the
+reviser's own.
+
+The same discipline as Minnesota and Illinois applies throughout: constitutional
+values only, no committee declared, and the chamber-rule layer left `unknown`
+rather than copied from a neighbour.
+
+### Maryland
+
+| Citation                     | What it says                                                                                                                                                                                                                                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Md. Const. art. III, § 2     | The Senate consists of forty-seven Senators and the House of Delegates of one hundred forty-one Delegates.                                                                                                                                                                                                                      |
+| Md. Const. art. III, § 14    | The General Assembly meets on the second Wednesday of January each year.                                                                                                                                                                                                                                                        |
+| Md. Const. art. III, § 15(1) | A session may run not longer than ninety days in each year, consecutive unless otherwise provided by law, extendable by thirty more on a three-fifths vote of the membership in each House.                                                                                                                                     |
+| Md. Const. art. III, § 19    | Each House determines the rules of its own proceedings — the authority behind the unread referral, committee and amendment rules.                                                                                                                                                                                               |
+| Md. Const. art. III, § 20    | A majority of the whole number of members elected to each House is a quorum.                                                                                                                                                                                                                                                    |
+| Md. Const. art. III, § 27(a) | Any bill may originate in either House and be altered, amended or rejected by the other; none may originate in the last thirty-five calendar days of a regular session without two-thirds; three different days of reading.                                                                                                     |
+| Md. Const. art. III, § 28    | No bill becomes a Law unless passed in each House by a majority of the whole number of members elected.                                                                                                                                                                                                                         |
+| Md. Const. art. III, § 30    | Presentment by the presiding officer of the House of origin; bills presented no later than twenty days after adjournment.                                                                                                                                                                                                       |
+| Md. Const. art. III, § 31    | A Law takes effect the first day of June next after the session at which it was passed, unless it declares otherwise.                                                                                                                                                                                                           |
+| Md. Const. art. III, § 52    | Section 52(2) recognizes both Budget Bills and Supplementary Appropriation Bills; § 52(8) applies the ordinary Article II § 17 route to a Supplementary Appropriation Bill after presentment.                                                                                                                                   |
+| Md. Const. art. II, § 17     | Ordinary bills retain the three-fifths reconsideration and action-window rules. Current § 17(f) authorizes only a limited Budget Bill item veto over Executive Department items increased or added by the General Assembly; § 17(g) requires return and permits item-by-item reconsideration in a timely extraordinary session. |
+
+Left `unknown`: referral, hearing guarantees, germaneness, whether a bill may be
+amended at third reading, conference, and whether a measure dies at adjournment.
+Recorded as gaps rather than coerced into a field: the thirty-five-day
+origination cutoff; the distinction between Budget Bills and Supplementary
+Appropriation Bills; the limited Budget Bill item-veto, return and extraordinary
+session reconsideration route in § 17(f)-(g); and the pocket veto in § 17(b).
+
+### Missouri
+
+| Citation                     | What it says                                                                                                                                                                                                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mo. Const. art. III, § 3(a)  | The house of representatives consists of one hundred sixty-three members.                                                                                                                                                                                                                         |
+| Mo. Const. art. III, § 5     | The senate consists of thirty-four members.                                                                                                                                                                                                                                                       |
+| Mo. Const. art. III, § 20    | Sessions convene the first Wednesday after the first Monday in January; a majority of the elected members of each house is a quorum.                                                                                                                                                              |
+| Mo. Const. art. III, § 20(a) | The general assembly adjourns at midnight on May thirtieth; bills left on a calendar after 6:00 p.m. on the first Friday following the second Monday in May are tabled.                                                                                                                           |
+| Mo. Const. art. III, § 21    | Bills may originate in either house and be amended or rejected by the other; **no bill may be so amended as to change its original purpose**; three different days of reading by title.                                                                                                           |
+| Mo. Const. art. III, § 22    | **Every bill shall be referred to a committee of the house in which it is pending**; one-third of the elected members may relieve a committee of a bill.                                                                                                                                          |
+| Mo. Const. art. III, § 27    | Concurrence, conference reports and final passage all take a majority of the members elected to each house, recorded by yeas and nays.                                                                                                                                                            |
+| Mo. Const. art. III, § 29    | No law except an appropriation act takes effect until ninety days after adjournment, absent a two-thirds emergency. After a recess of at least thirty days, a joint resolution may instead make previously passed, not-yet-effective laws effective ninety days from the beginning of the recess. |
+| Mo. Const. art. III, § 30    | Presentment to the governor in person on the day the bill is signed.                                                                                                                                                                                                                              |
+| Mo. Const. art. III, § 31    | Fifteen days after presentment in session, forty-five after adjournment or a thirty-day recess; a bill not returned becomes law.                                                                                                                                                                  |
+| Mo. Const. art. III, § 32    | Two-thirds of the elected members of each house to repass, in a September veto session where the return came late.                                                                                                                                                                                |
+| Mo. Const. art. IV, § 26     | Partial veto of appropriation items, but no reduction of free-public-school or debt-service appropriations.                                                                                                                                                                                       |
+
+Missouri is the first pack in the corpus whose **referral requirement and
+germaneness standard are constitutional** rather than chamber rules, so both are
+`known` here and `unknown` everywhere else. Requiring referral is not promising a
+hearing, and § 22 promises none, so the hearing guarantee stays `unknown`.
+
+Recorded as gaps: the one-third discharge power, the scheduled veto session, the
+May tabling deadline and the § 25 introduction limit, the item-veto carve-outs,
+the recess-specific § 29 effective-date route, and conference composition (§ 27
+fixes only the adoption threshold).
+
+### Nevada
+
+| Citation                 | What it says                                                                                                                                                                                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nev. Const. art. 4, § 2  | Sessions are biennial, commencing the first Monday of February after the Assembly election, and adjourn sine die not later than midnight at the end of the 120th consecutive calendar day; later action is void.                                  |
+| Nev. Const. art. 4, § 5  | The Senate is between one-third and one-half the size of the Assembly, and the Legislature fixes the numbers by law.                                                                                                                              |
+| Nev. Const. art. 4, § 6  | Each House determines the rules of its proceedings.                                                                                                                                                                                               |
+| Nev. Const. art. 4, § 13 | A majority of all the members elected to each House is a quorum.                                                                                                                                                                                  |
+| Nev. Const. art. 4, § 16 | Any bill may originate in either House, and all bills passed by one may be amended in the other.                                                                                                                                                  |
+| Nev. Const. art. 4, § 18 | Reading by sections on three several days; a majority of all the members elected to each House to pass; **two-thirds for a bill that creates, generates or increases public revenue**; a majority may instead refer such a measure to the people. |
+| Nev. Const. art. 4, § 35 | Two thirds of the members elected to each House to override; five days (Sunday excepted) in session; ten days after final adjournment to file objections with the Secretary of State.                                                             |
+
+Nevada's formal seat counts are **`unknown`**, with no numeric value or source.
+Art. 4, § 5 delegates the numbers to law, and the retrieved route through NRS
+218B.100, .250 and .260 creates the districts by adopting filed shapefiles
+rather than by textually stating 21 or 42. Citing § 18 or § 5 for those numbers
+would name a provision that does not fix them.
+
+The § 18(2) revenue supermajority is the wave's clearest schema gap: the runtime
+carries one threshold per floor stage and can confine a subject class by chamber
+but not by vote. The ordinary passage rule stays the majority § 18(1) states, and
+the supermajority is recorded in `unresolvedGaps` rather than raised into the
+general rule or disguised as an origination restriction.
+
+Nevada is also the corpus's first `unknown` item veto. Art. 4, § 35 describes the
+return of a whole bill and never mentions an item; that silence is neither a
+grant nor a denial, so the pack claims neither.
+
+### Ohio
+
+| Citation                    | What it says                                                                                                                                                                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ohio Const. art. II, § 1c   | No law goes into effect until ninety days after the governor files it with the secretary of state — the referendum window.                                                                                                                                          |
+| Ohio Const. art. II, § 1d   | Tax levies and current-expense appropriations take immediate effect under § 1d. Emergency laws are a separate category and take immediate effect only with the specified two-thirds elected-members vote and a statement of reasons passed on a separate roll call. |
+| Ohio Const. art. II, § 6    | A majority of all the members elected to each House is a quorum.                                                                                                                                                                                                    |
+| Ohio Const. art. II, § 7    | Each house determines its own rules of proceeding.                                                                                                                                                                                                                  |
+| Ohio Const. art. II, § 8    | First regular session convenes the first Monday of January in the odd-numbered year, second on the same date the following year; no adjournment deadline.                                                                                                           |
+| Ohio Const. art. II, § 15   | No bill passes without the concurrence of a majority of the members elected to each house; bills may originate in either house; three different days of consideration unless two-thirds suspend.                                                                    |
+| Ohio Const. art. II, § 16   | Three-fifths of the members elected in each house to repass; ten days (Sundays excepted) to act, and ten days after an adjournment that prevents return; item veto for appropriations.                                                                              |
+| Ohio Const. art. XI, § 2    | Each house district is entitled to a single representative; each senate district to a single senator.                                                                                                                                                               |
+| Ohio Const. art. XI, § 3(A) | The state's population is divided by ninety-nine and by thirty-three to fix the ratio of representation.                                                                                                                                                            |
+
+Ohio's seat provenance is the redistricting article, not the legislative one:
+§ 3(A) fixes ninety-nine and thirty-three districts and § 2 gives each district
+one member. Both halves of that chain are cited so it can be followed. The § 1d
+categories are recorded as a gap, because the schema carries one default
+effective rule and no fields for category-specific immediate effect. The
+ordinary § 1c ninety-days-after-filing default remains unchanged.
+
+### What this wave deliberately did not do
+
+Texas and Massachusetts were evaluated and left out. Both would have added a
+denominator the corpus does not yet have — a veto reconsidered by the members
+_present_ — but neither constitution fixes a general passage threshold for an
+ordinary bill, and the current Texas House Rules do not state one either. A rule
+pack must carry a passage vote for every chamber, so including either state would
+have meant inventing the one value the whole corpus exists to avoid inventing.
+They stay candidates for a wave that reads chamber rules properly.
+
 ## Amendability is read per stage, and per stage it is often unknown
 
 A chamber can be known to amend bills somewhere while nothing read says which
@@ -210,6 +354,9 @@ Committee sizes in the Kentucky, Nebraska and Alaska packs are the scenario's,
 and carry `membershipBasis: "scenario-fixture"`. Which committee takes a bill is
 likewise the scenario's choice, although the committee names used in Kentucky
 are real and appear in each chamber's own Rule 38. How a member votes is authored
-per scenario and is not a claim about anyone's behaviour. Minnesota and Illinois
-declare no committee at all: their chamber rules were not read, so the pack
-asserts no committee the sources did not establish.
+per scenario and is not a claim about anyone's behaviour. Minnesota, Illinois, Maryland,
+Missouri, Nevada and Ohio declare no committee at all: their chamber rules were
+not read, so those packs assert no committee the sources did not establish.
+Missouri is worth a second look here — its constitution requires that every bill
+be referred to _a_ committee without naming one, so the pack carries the referral
+requirement and still declares no committee.
