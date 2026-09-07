@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import {
   adoptProvisionRevision,
   assertWorldIntegrity,
+  bodyForChamber,
+  chamberByKey,
   assessCommitment,
   commitmentsKnownTo,
   currentMeasureProvisions,
@@ -751,6 +753,19 @@ describe("the institution still works", () => {
       session.progress,
     );
     assertWorldIntegrity(vote.world);
+
+    // R6 keeps unresolved formal capacity unknown. These fixture votes must
+    // carry their actual authored roster rather than use a numeric fallback.
+    const chamber = chamberByKey(session.fixture.scenario.pack, "house");
+    expect(chamber.seats.kind).toBe("unknown");
+    const membership = bodyForChamber(session.fixture.scenario, "house").members
+      .length;
+    for (const result of [amended, vote]) {
+      const record = (result.world.history.legislativeVotes ?? []).at(-1)!;
+      expect(record.eligibleMembers).toBe(membership);
+      expect(record.presentMembers).toBe(membership);
+    }
+    expect(chamber.seats.kind).toBe("unknown");
 
     const recorded = (vote.world.history.legislativeVotes ?? []).at(-1)!;
     const counted =

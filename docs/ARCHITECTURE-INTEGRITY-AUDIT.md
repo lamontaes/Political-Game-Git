@@ -741,3 +741,10 @@ helper, restoring it byte-for-byte to canonical main. Its frozen 120-file range
 matches none of the added paths; both versions report no violations or strays.
 All forbidden rules and range endpoints remain canonical. D-081/D-082 have no
 current-main collision; no runtime or player-route changes are included.
+
+Accepted PR111/R6 subsequently reached main at `87b9206`. Its explicit formal
+capacity contract is preserved: PR79's amendment and floor adapter now supplies
+the authored fixture roster's membership and presence, matching main's scenario
+adapter. A regression checks both vote records while the formal capacity stays
+unknown. No source fact, rule pack, bargaining evaluator, ownership guard or
+player-route behavior is redefined.

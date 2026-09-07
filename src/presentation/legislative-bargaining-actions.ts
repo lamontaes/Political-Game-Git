@@ -119,7 +119,8 @@ export function offerNegotiatedAmendment(
       countsFor(scenario.votePlan, votePlanKeyForAmendment(chamberKey)),
       derived.byPerson,
     ),
-    presentMembers: chamber.seats,
+    presentMembers: body.members.length,
+    electedMembers: body.members.length,
     provenance: {
       method: "member-decisions",
       note: "The three seated members this world actually models decided for themselves; the remaining seats vote as this scenario records.",
@@ -214,7 +215,8 @@ export function takeNegotiatedFloorVote(
       ),
       derived.byPerson,
     ),
-    presentMembers: chamber.seats,
+    presentMembers: body.members.length,
+    electedMembers: body.members.length,
     provenance: {
       method: "member-decisions",
       note: "The three seated members this world actually models decided for themselves; the remaining seats vote as this scenario records.",

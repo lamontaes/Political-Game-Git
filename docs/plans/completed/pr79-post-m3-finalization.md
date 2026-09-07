@@ -63,3 +63,16 @@ proofs. The final fetch found accepted PR111 on main at
 Both ownership files and D-081/D-082 remain unchanged. Obtain fresh exact-head
 proof for this merged tree rather than presenting the older green head as
 current-main evidence. The PR85 seam remains banked.
+
+R6 integration exposed sixteen focused failures: the two bargaining vote callers
+omitted explicit membership and still passed the old numeric `chamber.seats`
+shape. Match main's existing scenario adapter: both presence and elected
+membership come from the fixture's authored body roster. Do not change the
+formal unknown, rule pack, vote engine or bargaining evaluator. The existing
+end-to-end amendment/floor test now proves both records carry that roster while
+formal capacity remains unknown. This is a caller-contract repair, not a new
+rule or a PR85 player route.
+
+After the caller repair, all 249 focused tests across 16 files, typecheck,
+formatting and all five floor/keyboard browser proofs passed locally. Fresh
+exact-head CI remains the full-suite release proof for the updated main merge.
