@@ -1,9 +1,14 @@
 import {
   describePersonContext,
+  educationEnrollmentHistoryForPerson,
   householdMembershipsAt,
   introducePerson,
+  kinshipRelationshipsAt,
+  organizationProfileAt,
   peopleInHouseholdAt,
   personName,
+  workRelationshipHistoryForPerson,
+  workStatusAt,
   type EntityId,
   type World,
 } from "../simulation";
@@ -39,6 +44,20 @@ export interface IntroducedPerson {
   readonly basis: string;
 }
 
+/**
+ * One fact about the life that happened before the player arrived in it.
+ *
+ * Each is read off a record and carries the id of the record it came from, so
+ * a line on the screen can always be traced back to the thing that established
+ * it. A life with thin records produces few of these, and few is correct.
+ */
+export interface LifeGroundingFact {
+  readonly kind: "family" | "education" | "work";
+  readonly text: string;
+  /** The record that established it. Developer-facing. */
+  readonly basis: EntityId;
+}
+
 export interface LifeIntroduction {
   readonly personName: string;
   readonly age: number;
@@ -48,6 +67,17 @@ export interface LifeIntroduction {
   readonly household: readonly IntroducedPerson[];
   /** One or two sentences, built from the above and nothing else. */
   readonly sentences: readonly string[];
+  /**
+   * What the generator actually wrote down about this life before play began:
+   * who raised them, where they were schooled, what they have done for a
+   * living. Empty when the records hold none of it.
+   *
+   * This exists because the opening used to say only "You are 34, and you live
+   * in Lexington, Kentucky" — two facts the player had just typed in — and
+   * then went straight to a decision. The records held a childhood household,
+   * two schools and two jobs the whole time; none of it reached the screen.
+   */
+  readonly grounding: readonly LifeGroundingFact[];
 }
 
 function ageOn(birthDate: string, on: string): number {
@@ -59,6 +89,94 @@ function ageOn(birthDate: string, on: string): number {
     years -= 1;
   }
   return years;
+}
+
+const PROGRAM_LABELS: Readonly<Record<string, string>> = {
+  "schooling:elementary": "elementary school",
+  "schooling:middle": "middle school",
+  "schooling:secondary": "high school",
+  "schooling:tertiary": "college",
+};
+
+/** An organization's name at the current cutoff, or null when unnamed. */
+function organizationName(
+  world: World,
+  organizationId: EntityId,
+): string | null {
+  return organizationProfileAt(world, organizationId)?.name ?? null;
+}
+
+function yearOf(date: string): string {
+  return date.slice(0, 4);
+}
+
+/**
+ * What the records say happened before today, as short readable lines.
+ *
+ * Strictly a projection. Every line needs a record; a school with no name
+ * profile, or a work relationship whose organization was never named, is
+ * skipped rather than described as "somewhere". Nothing here reaches for an
+ * adjective, a motive or a reason — those are not in the records, and #99 owns
+ * how any of this eventually reads, not whether it is true.
+ */
+function buildGrounding(
+  world: World,
+  personId: EntityId,
+  household: readonly IntroducedPerson[],
+): readonly LifeGroundingFact[] {
+  const facts: LifeGroundingFact[] = [];
+
+  // Who the record says they are related to, read from the kinship records
+  // rather than from who happens to share an address today. A parent a
+  // thirty-four-year-old moved out from years ago is still their parent, and
+  // that is exactly the relationship the opening was dropping.
+  const alreadyNamed = new Set(household.map((person) => person.personId));
+  for (const kinship of kinshipRelationshipsAt(world, personId)) {
+    for (const otherId of kinship.personIds) {
+      if (otherId === personId || alreadyNamed.has(otherId)) continue;
+      const context = describePersonContext(world, personId, otherId);
+      if (!context?.relationship) continue;
+      alreadyNamed.add(otherId);
+      facts.push({
+        kind: "family",
+        text: `You were raised by ${introducePerson(context)}.`,
+        basis: kinship.id,
+      });
+    }
+  }
+
+  for (const enrollment of educationEnrollmentHistoryForPerson(
+    world,
+    personId,
+  )) {
+    const name = organizationName(world, enrollment.organizationId);
+    const label = PROGRAM_LABELS[enrollment.programKind];
+    if (name === null || label === undefined) continue;
+    facts.push({
+      kind: "education",
+      text: `You started ${label} at ${name} in ${yearOf(enrollment.startedAt)}.`,
+      basis: enrollment.id,
+    });
+  }
+
+  for (const work of workRelationshipHistoryForPerson(world, personId)) {
+    // Work with no organization on the record is real — somebody working for
+    // themselves — and there is no name to put in a sentence, so it is left
+    // out rather than described as working "somewhere".
+    if (work.organizationId === null) continue;
+    const name = organizationName(world, work.organizationId);
+    if (name === null) continue;
+    const ended = workStatusAt(world, work.id)?.status === "ended";
+    facts.push({
+      kind: "work",
+      text: ended
+        ? `You worked at ${name} from ${yearOf(work.startedAt)}.`
+        : `You work at ${name}, and have since ${yearOf(work.startedAt)}.`,
+      basis: work.id,
+    });
+  }
+
+  return facts;
 }
 
 /**
@@ -117,5 +235,12 @@ export function buildLifeIntroduction(
     for (const person of others) sentences.push(person.introduction);
   }
 
-  return { personName: name, age, placeName, household: others, sentences };
+  return {
+    personName: name,
+    age,
+    placeName,
+    household: others,
+    sentences,
+    grounding: buildGrounding(world, personId, others),
+  };
 }

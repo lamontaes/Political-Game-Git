@@ -93,11 +93,10 @@ function toItem(pack: LegislativeRulePack): ContentItem {
     ...pack.chambers.map((chamber) => ({
       key: `chamber:${chamber.chamberKey}`,
       label: chamber.name,
-      description: `${chamber.seats} seats${
-        chamber.seatsSource
-          ? ` (${chamber.seatsSource.citation})`
-          : " (seat-fixing instrument not established by this pack)"
-      }, ${chamber.committees.length} committee rule(s).`,
+      description:
+        chamber.seats.kind === "known"
+          ? `${chamber.seats.value} formal seats (${chamber.seats.source.citation}), ${chamber.committees.length} committee rule(s).`
+          : `Formal seat count unresolved: ${chamber.seats.note} ${chamber.committees.length} committee rule(s).`,
     })),
     ...pack.chambers.flatMap((chamber) =>
       chamber.floorStages.map((stage) => ({
@@ -114,7 +113,11 @@ function toItem(pack: LegislativeRulePack): ContentItem {
     itemKey: pack.packId,
     title: pack.displayName,
     summary: `A ${pack.structure} legislature: ${pack.chambers
-      .map((chamber) => `${chamber.name} (${chamber.seats} seats)`)
+      .map((chamber) =>
+        chamber.seats.kind === "known"
+          ? `${chamber.name} (${chamber.seats.value} formal seats)`
+          : `${chamber.name} (formal seat count unresolved)`,
+      )
       .join(", ")}. ${pack.session.sessionLabel}.`,
     domain: "legislation",
     family: pack.structure,
