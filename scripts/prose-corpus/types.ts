@@ -110,6 +110,22 @@ export interface ProseRecord {
   /** Review/provenance metadata the bank itself carries, where it does. */
   readonly provenance: Readonly<Record<string, string>> | null;
   readonly tags: readonly string[];
+  /**
+   * Digest of this exact text.
+   *
+   * Identity and wording are different questions. A reworded line keeps its
+   * semantic ID — it is the same line in the same place — and changes this, so
+   * an owner mark recorded against the old revision reads as historical rather
+   * than as approval of text nobody reviewed.
+   */
+  readonly textRevision: string;
+  /**
+   * Digest of the grounding this record's claims lean on.
+   *
+   * Changing what licenses a sentence can invalidate a review as thoroughly as
+   * changing the sentence, so it is versioned beside it.
+   */
+  readonly contextRevision: string;
 }
 
 /** A realized line seen in a transcript, linked back to its template. */

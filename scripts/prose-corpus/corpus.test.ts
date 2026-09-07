@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
+import { contextRevisionOf, revisionOf } from "./anchors";
 import { buildCoverageReport } from "./coverage";
 import { runDiagnostics } from "./diagnostics";
 import { findIdCollisions, parseProseId, proseId, templateSlots } from "./ids";
@@ -46,6 +47,8 @@ function fakeRecord(overrides: Partial<ProseRecord> = {}): ProseRecord {
     grounding: [],
     provenance: null,
     tags: [],
+    textRevision: revisionOf("A plain sentence."),
+    contextRevision: contextRevisionOf([]),
     ...overrides,
   };
 }
@@ -349,6 +352,7 @@ describe("repetition metrics", () => {
       warningsByFamily: { "vague-referent": 3 },
       reachability: {},
       texts: { "prose:life:episode:a/s#line:0": "1111", gone: "2222" },
+      contexts: { "prose:life:episode:a/s#line:0": "ctx1", gone: "ctx2" },
     };
     const after: ProseBaseline = {
       ...before,
@@ -356,13 +360,14 @@ describe("repetition metrics", () => {
       totalRecords: 2,
       warningsByFamily: { "vague-referent": 1 },
       texts: { "prose:life:episode:a/s#line:0": "3333", added: "4444" },
+      contexts: { "prose:life:episode:a/s#line:0": "ctx1", added: "ctx4" },
     };
     const differential = compareToBaseline(before, after);
-    expect(differential.changed).toStrictEqual([
+    expect(differential.reworded).toStrictEqual([
       "prose:life:episode:a/s#line:0",
     ]);
-    expect(differential.added).toStrictEqual(["added"]);
-    expect(differential.removed).toStrictEqual(["gone"]);
+    expect(differential.addedSites).toStrictEqual(["added"]);
+    expect(differential.removedSites).toStrictEqual(["gone"]);
     expect(differential.warningDeltas["vague-referent"]).toBe(-2);
   });
 });

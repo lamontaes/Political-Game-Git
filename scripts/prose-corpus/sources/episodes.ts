@@ -5,6 +5,7 @@ import type {
   EpisodeRequirement,
   EpisodeStage,
 } from "../../../src/simulation/life-episodes";
+import { contextRevisionOf, revisionOf } from "../anchors";
 import { proseId, templateSlots } from "../ids";
 import type { ProseGroundingRef, ProseRecord } from "../types";
 
@@ -169,6 +170,7 @@ function record(input: {
   const stableKey = `${family.key}/${stage.key}`;
   const held = withheldReason(stage);
   const slots = templateSlots(text);
+  const grounding = groundingFor(stage);
   return {
     id: proseId({ domain: "life", bank: "episode", stableKey, field }),
     domain: "life",
@@ -185,7 +187,7 @@ function record(input: {
     reachabilityReason:
       held ??
       "The stage declares only ordinary requirements; play reaches it when they hold.",
-    grounding: groundingFor(stage),
+    grounding,
     provenance: {
       sourceDocument: family.authority.sourceDocument,
       reference: family.authority.reference,
@@ -197,6 +199,8 @@ function record(input: {
       `stakes:${stage.stakes}`,
       ...(held ? ["withheld"] : []),
     ],
+    textRevision: revisionOf(text),
+    contextRevision: contextRevisionOf(grounding),
   };
 }
 

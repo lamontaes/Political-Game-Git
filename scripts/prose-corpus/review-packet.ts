@@ -68,7 +68,7 @@ function renderItem(
   const grounding = record.grounding
     .map((ref) => escapeHtml(ref.key))
     .join(", ");
-  return `<article class="item" id="${escapeHtml(record.id)}" data-surface="${escapeHtml(record.surface)}" data-reach="${escapeHtml(record.reachability)}" data-flags="${escapeHtml(warnings.map((w) => w.family).join(" "))}" data-text="${escapeHtml(record.text.toLowerCase())}">
+  return `<article class="item" id="${escapeHtml(record.id)}" data-surface="${escapeHtml(record.surface)}" data-reach="${escapeHtml(record.reachability)}" data-flags="${escapeHtml(warnings.map((w) => w.family).join(" "))}" data-text="${escapeHtml(record.text.toLowerCase())}" data-text-revision="${escapeHtml(record.textRevision)}" data-context-revision="${escapeHtml(record.contextRevision)}">
 <div class="top"><code class="sid">${escapeHtml(record.id)}</code>${flags}</div>
 <p class="prose">${escapeHtml(record.text)}</p>
 <dl class="meta">
@@ -81,6 +81,7 @@ ${record.slots.length > 0 ? `<dt>Slots</dt><dd>${escapeHtml(record.slots.join(",
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
 <span class="noteline"></span>
 </div>
 </article>`;
@@ -157,6 +158,11 @@ h2 .count { color:var(--accent); }
 .meta dd { margin:0; }
 .marks { display:flex; gap:.7rem; align-items:center; font-size:.8rem; color:var(--soft); }
 .marks .noteline { flex:1; border-bottom:1px solid var(--line); height:1.05rem; }
+.marks .state { font-size:.72rem; padding:.05rem .4rem; border-radius:99px; }
+.marks .state[data-state="none"] { display:none; }
+.marks .state[data-state="current"] { border:1px solid var(--line); }
+.marks .state[data-state="stale"],
+.marks .state[data-state="historical"] { border:1px solid var(--accent); color:var(--accent); font-weight:600; }
 .item[hidden] { display:none !important; }
 @media print {
   .toolbar { display:none !important; }
@@ -206,10 +212,6 @@ ${sections.join("\n")}
   var reach = document.getElementById("reach");
   var flag = document.getElementById("flag");
   var shown = document.getElementById("shown");
-  var STORE = "ocd-prose-marks-v1";
-  var marks = {};
-  try { marks = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { marks = {}; }
-
   function apply() {
     var text = (q.value || "").toLowerCase();
     var wantReach = reach.value;
@@ -231,20 +233,101 @@ ${sections.join("\n")}
     });
   }
 
+  // Review records are versioned. A mark belongs to a semantic ID *and* the
+  // exact text and grounding revision it was made against, because approving
+  // a sentence is not approving whatever later replaces it. v1 records carried
+  // the ID alone; they are kept and shown as unverified historical feedback,
+  // never silently promoted to approval of current text, and never discarded.
+  var STORE = "ocd-prose-marks-v2";
+  var LEGACY_STORE = "ocd-prose-marks-v1";
+  var store = { schema: 2, records: {} };
+  try {
+    var raw = JSON.parse(localStorage.getItem(STORE) || "null");
+    if (raw && raw.schema === 2 && raw.records) store = raw;
+  } catch (e) {}
+  try {
+    var legacy = JSON.parse(localStorage.getItem(LEGACY_STORE) || "null");
+    if (legacy && !store.migratedLegacy) {
+      for (var lid in legacy) {
+        if (!Object.prototype.hasOwnProperty.call(legacy, lid)) continue;
+        if (store.records[lid]) continue;
+        store.records[lid] = {
+          marks: legacy[lid] || [],
+          textRevision: null,
+          contextRevision: null,
+          historical: true
+        };
+      }
+      store.migratedLegacy = true;
+      try { localStorage.setItem(STORE, JSON.stringify(store)); } catch (e) {}
+      // The v1 key is deliberately left in place. Nothing here deletes an
+      // owner's feedback, even after it has been carried forward.
+    }
+  } catch (e) {}
+
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(store)); } catch (e) {}
+  }
+
+  function stateFor(record, textRevision, contextRevision) {
+    if (!record || !record.marks || !record.marks.length) return "none";
+    if (record.historical || !record.textRevision) return "historical";
+    if (record.textRevision !== textRevision) return "stale";
+    if (record.contextRevision !== contextRevision) return "stale";
+    return "current";
+  }
+
+  var STATE_LABEL = {
+    current: "reviewed",
+    stale: "text changed since this mark — revalidate",
+    historical: "unversioned older mark — revalidate",
+    none: ""
+  };
+
   Array.prototype.forEach.call(document.querySelectorAll(".marks"), function (row) {
     var id = row.getAttribute("data-id");
+    var item = row.closest(".item");
+    var textRevision = item.getAttribute("data-text-revision");
+    var contextRevision = item.getAttribute("data-context-revision");
+    var badge = row.querySelector(".state");
+
+    function paint() {
+      var record = store.records[id];
+      var state = stateFor(record, textRevision, contextRevision);
+      badge.setAttribute("data-state", state);
+      badge.textContent = STATE_LABEL[state];
+      item.setAttribute("data-review", state);
+    }
+
     Array.prototype.forEach.call(row.querySelectorAll("input[data-mark]"), function (box) {
       var kind = box.getAttribute("data-mark");
-      if (marks[id] && marks[id].indexOf(kind) >= 0) box.checked = true;
+      var record = store.records[id];
+      if (record && record.marks && record.marks.indexOf(kind) >= 0) box.checked = true;
       box.addEventListener("change", function () {
-        var list = marks[id] || [];
+        var current = store.records[id];
+        // Marking now records the revision it was made against, so a later
+        // edit turns this into stale feedback rather than standing approval.
+        var list = current && !current.historical ? (current.marks || []).slice() : [];
         var at = list.indexOf(kind);
         if (box.checked && at < 0) list.push(kind);
         if (!box.checked && at >= 0) list.splice(at, 1);
-        if (list.length) marks[id] = list; else delete marks[id];
-        try { localStorage.setItem(STORE, JSON.stringify(marks)); } catch (e) {}
+        if (list.length) {
+          store.records[id] = {
+            marks: list,
+            textRevision: textRevision,
+            contextRevision: contextRevision,
+            historical: false
+          };
+        } else if (current && current.historical) {
+          store.records[id] = { marks: [], textRevision: null, contextRevision: null, historical: true };
+        } else {
+          delete store.records[id];
+        }
+        save();
+        paint();
       });
     });
+    paint();
   });
 
   q.addEventListener("input", apply);

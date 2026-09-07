@@ -1,174 +1,174 @@
 [
   {
-    "id": "prose:campaign:campaign-status:detail:asking-people-who-might-give-for-something-the#text",
+    "id": "prose:campaign:campaign-status:detail-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:campaign:campaign-status:detail:somebody-s-street#text",
+    "id": "prose:campaign:campaign-status:detail-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Somebody"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS:agree-who-does-which-part-before-the-work#text",
+    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0009#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS:had-thought-it-was-somebody-else-s#text",
+    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0055#text",
+    "severity": "REVIEW_WARNING",
+    "family": "rather-than-scaffold",
+    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
+    "evidence": "rather than"
+  },
+  {
+    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0056#text",
+    "severity": "REVIEW_WARNING",
+    "family": "rather-than-scaffold",
+    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
+    "evidence": "rather than"
+  },
+  {
+    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS-0068#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS:put-the-meeting-back-to-rather-than-answering#text",
+    "id": "prose:conversation:conversation-subject:availableIntents-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:COMMIT_CONTRACTS:put-the-unstarted-work-in-front-of-rather#text",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
-    "id": "prose:conversation:conversation-subject:availableIntents:divide-the-week-rather-than-hand-it-to#text",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
-    "id": "prose:conversation:conversation-subject:describeBriefing:is-still-not-started-and-it-is-due#text",
+    "id": "prose:conversation:conversation-subject:describeBriefing-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:conversation:conversation-subject:describeBriefing:the-week-s-still-have-to-be-covered#text",
+    "id": "prose:conversation:conversation-subject:describeBriefing-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:conversation:conversation-subject:options:bring-it-up-rather-than-walking-past-it#text",
+    "id": "prose:conversation:conversation-subject:options-0006#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:options:put-the-question-back-rather-than-answering-it#text",
+    "id": "prose:conversation:conversation-subject:options-0012#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-subject:options:put-the-unstarted-part-in-front-of-rather#text",
+    "id": "prose:conversation:conversation-subject:options-0013#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
     "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
     "evidence": "rather than"
   },
   {
-    "id": "prose:conversation:conversation-turn:describeConversationHearing:private-conversation-is-not-possible-with-someone-else#text",
+    "id": "prose:conversation:conversation-turn:describeConversationHearing-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "someone"
   },
   {
-    "id": "prose:legislative:measure-briefing:ACTION_HEADLINES:sent-to-the-governor#text",
+    "id": "prose:legislative:measure-briefing:ACTION_HEADLINES-0017#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES:both-sides-have-agreed-on-one-bill-and#text",
+    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES:the-bill-is-on-the-governor-s-desk#text",
+    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES-0009#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES:the-bill-is-ready-to-go-to-the#text",
+    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES-0010#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES:the-governor-vetoed-the-bill-the-legislature-can#text",
+    "id": "prose:legislative:measure-briefing:PHASE_SENTENCES-0013#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "The governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:STEP_COPY:put-your-bill-in-and-it-gets-a#text",
+    "id": "prose:legislative:measure-briefing:STEP_COPY-0020#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:legislative:measure-briefing:STEP_COPY:send-the-bill-to-the-governor#text",
+    "id": "prose:legislative:measure-briefing:STEP_COPY-0021#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:STEP_COPY:the-bill-is-out-of-the-legislature-s#text",
+    "id": "prose:legislative:measure-briefing:STEP_COPY-0024#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:STEP_COPY:wait-for-the-governor-s-decision#text",
+    "id": "prose:legislative:measure-briefing:STEP_COPY-0029#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:projectMeasureBriefing:the-committee-refused-to-report-the-bill-and#text",
+    "id": "prose:legislative:measure-briefing:projectMeasureBriefing-0006#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:legislative:measure-briefing:questionLabel:override-the-governor-s-veto#text",
+    "id": "prose:legislative:measure-briefing:questionLabel-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",
     "message": "Third-person role reference on a character-facing surface, where second person is the register.",
     "evidence": "the governor"
   },
   {
-    "id": "prose:legislative:measure-briefing:uncertaintiesFor:a-committee-here-can-simply-decline-to-take#text",
+    "id": "prose:legislative:measure-briefing:uncertaintiesFor-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
@@ -973,91 +973,91 @@
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:callback:GENERIC_RETURN:something-decided-a-long-time-earlier-turned-out#text",
+    "id": "prose:life:callback:GENERIC_RETURN-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:an-evening-you-had-not-thought-about-turned#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-business-with-the-other-household-was-not#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "whatever"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-evening-you-said-you-would-give-came#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0004#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-question-about-standing-for-something-came-back#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0010#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-thing-about-the-week-that-never-gets#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0011#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "The thing"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-thing-about-whose-work-it-was-had#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0012#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "The thing"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-thing-you-rearranged-came-round-a-second#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0013#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "The thing"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-two-weeks-you-did-or-did-not#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0014#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:the-week-you-handed-over-turned-out-to#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0015#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
     "evidence": "and it"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:what-you-did-about-the-offer-got-back#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0017#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:callback:RETURN_SUMMARY:your-name-on-that-list-was-read-by#text",
+    "id": "prose:life:callback:RETURN_SUMMARY-0022#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:callback:lifeCallbackTransitionHandler:the-two-of-them-stopped-having-anything-to#text",
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0006#text",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
@@ -1988,77 +1988,77 @@
     "evidence": "somebody"
   },
   {
-    "id": "prose:narration:connective:quietSentence:whatever-was-going-on-at-home-with-has#text",
+    "id": "prose:narration:connective:quietSentence-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Whatever"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:has-something-running#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:narration:thread-recap:recapSentence:something-at-home-with-is-waiting-on-you#text",
+    "id": "prose:narration:thread-recap:recapSentence-0002#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:something-at-needs-an-answer#text",
+    "id": "prose:narration:thread-recap:recapSentence-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:something-you-owe-has-come-due#text",
+    "id": "prose:narration:thread-recap:recapSentence-0004#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:you-and-are-still-in-the-middle-of#text",
+    "id": "prose:narration:thread-recap:recapSentence-0009#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:you-and-have-something-unfinished#text",
+    "id": "prose:narration:thread-recap:recapSentence-0010#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:you-said-you-would-do-something-about#text",
+    "id": "prose:narration:thread-recap:recapSentence-0011#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:narration:thread-recap:recapSentence:your-name-is-attached-to-something-at#text",
+    "id": "prose:narration:thread-recap:recapSentence-0012#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
   },
   {
-    "id": "prose:narration:thread-recap:threadMovementSentence:something-at-happened-worth-remembering#text",
+    "id": "prose:narration:thread-recap:recapSentence-0013#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:narration:thread-recap:threadMovementSentence-0002#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
   },
   {
-    "id": "prose:narration:thread-recap:threadMovementSentence:the-aftermath-of-it-ran-on-longer-than#text",
+    "id": "prose:narration:thread-recap:threadMovementSentence-0003#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",

@@ -1,3 +1,11 @@
+import {
+  contextRevisionOf,
+  loadAnchorFile,
+  resolveAnchors,
+  revisionOf,
+  type AnchorProblem,
+  type ComputedAnchor,
+} from "../anchors";
 import { scanLiterals, type ScannedLiteral } from "../scan";
 import { proseId, templateSlots } from "../ids";
 import type { ProseDomain, ProseRecord, ProseSurface } from "../types";
@@ -18,15 +26,16 @@ import type { ProseDomain, ProseRecord, ProseSurface } from "../types";
  * the failure the old #92 corpus had, where whole surface families were
  * missing and the report still called itself complete.
  *
- * The key for one of these is `<function>:<slug>`, not an ordinal. A function
- * has no per-sentence key to borrow, and numbering the sentences would renumber
- * them the moment one was inserted — the defect that made the old global IDs
- * useless. The slug is derived from the sentence's own words, so inserting a
- * line above it changes nothing. Editing the sentence does change its ID, which
- * is the honest cost: for a keyless literal, a different sentence in the same
- * function is a different sentence, and an owner's mark should not silently
- * follow the edit. Where a function repeats one literal exactly, the duplicates
- * take a deterministic `--2`, `--3` suffix in source order.
+ * Identity for one of these comes from `../anchors`, not from the text.
+ *
+ * The first version keyed a site on the first eight words of its own sentence
+ * and broke ties by source order. Both halves were wrong: inserting a sentence
+ * that shared another's eight-word prefix handed the existing sentence's ID to
+ * the new one — moving an owner's mark onto text they never read — and editing
+ * a sentence past its eighth word left the ID untouched, so a stale approval
+ * kept applying. Anchors are minted once into a sidecar and matched on FULL
+ * text inside the site's own (file, symbol) group, and an unresolved match is a
+ * visible failure rather than a quiet rematch to the nearest neighbour.
  */
 
 export interface ComputedSurface {
@@ -257,43 +266,56 @@ function looksLikeProse(literal: ScannedLiteral): boolean {
   return true;
 }
 
-function slugOf(text: string): string {
-  const slug = text
-    .toLowerCase()
-    .replace(/\{[^}]*\}/g, " ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .split("-")
-    .filter(Boolean)
-    .slice(0, 8)
-    .join("-");
-  return slug.length > 0 ? slug : "unnamed";
+export interface ComputedExtraction {
+  readonly records: readonly ProseRecord[];
+  /**
+   * Sites the sidecar could not account for.
+   *
+   * Never empty-and-ignored: the CLI turns these into a hard error, because a
+   * site with no settled identity is exactly the state in which feedback slides
+   * onto the wrong sentence.
+   */
+  readonly problems: readonly AnchorProblem[];
 }
 
-export function computedProseRecords(): readonly ProseRecord[] {
+export function extractComputedProse(
+  surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,
+  anchors: readonly ComputedAnchor[] = loadAnchorFile().anchors,
+): ComputedExtraction {
   const records: ProseRecord[] = [];
-  for (const surface of COMPUTED_SURFACES) {
+  const problems: AnchorProblem[] = [];
+
+  for (const surface of surfaces) {
     const wanted = new Set(surface.symbols);
     const literals = scanLiterals(surface.sourcePath)
       .filter((literal) => wanted.has(literal.enclosingSymbol))
       .filter(looksLikeProse);
-    const used = new Map<string, number>();
-    for (const literal of literals) {
-      const base = `${literal.enclosingSymbol}:${slugOf(literal.text)}`;
-      const seen = (used.get(base) ?? 0) + 1;
-      used.set(base, seen);
-      const stableKey = seen === 1 ? base : `${base}--${seen}`;
+
+    // Scope by file AND symbol set. Two surfaces can read the same module —
+    // life-narration.ts carries both the connective and thread-recap banks —
+    // and scoping by path alone made each one report the other's anchors as
+    // orphaned.
+    const scoped = anchors.filter(
+      (anchor) =>
+        anchor.sourcePath === surface.sourcePath && wanted.has(anchor.symbol),
+    );
+    const resolution = resolveAnchors(literals, scoped);
+    problems.push(...resolution.problems);
+
+    const contextRevision = contextRevisionOf(surface.grounding);
+    for (const match of resolution.matches) {
+      const literal = match.literal;
       const slots = templateSlots(literal.text);
       records.push({
         id: proseId({
           domain: surface.domain,
           bank: surface.bank,
-          stableKey,
+          stableKey: match.anchor.anchor,
           field: "text",
         }),
         domain: surface.domain,
         bank: surface.bank,
-        stableKey,
+        stableKey: match.anchor.anchor,
         field: "text",
         surface: surface.surface,
         sourcePath: surface.sourcePath,
@@ -311,10 +333,34 @@ export function computedProseRecords(): readonly ProseRecord[] {
         provenance: {
           extraction: "syntax-tree",
           symbol: literal.enclosingSymbol,
+          anchor: match.anchor.anchor,
         },
         tags: ["computed"],
+        textRevision: revisionOf(literal.text),
+        contextRevision,
       });
     }
   }
-  return records;
+
+  return { records, problems };
+}
+
+/** The records alone, for callers that handle problems separately. */
+export function computedProseRecords(
+  surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,
+  anchors: readonly ComputedAnchor[] = loadAnchorFile().anchors,
+): readonly ProseRecord[] {
+  return extractComputedProse(surfaces, anchors).records;
+}
+
+/** Every literal the registry claims, for minting. */
+export function computedLiterals(
+  surfaces: readonly ComputedSurface[] = COMPUTED_SURFACES,
+): readonly ScannedLiteral[] {
+  return surfaces.flatMap((surface) => {
+    const wanted = new Set(surface.symbols);
+    return scanLiterals(surface.sourcePath)
+      .filter((literal) => wanted.has(literal.enclosingSymbol))
+      .filter(looksLikeProse);
+  });
 }

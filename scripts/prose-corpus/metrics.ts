@@ -322,12 +322,28 @@ export interface ProseBaseline {
   readonly reachability: Readonly<Record<string, number>>;
   /** `id` to a short digest of its text, so a differential can name changes. */
   readonly texts: Readonly<Record<string, string>>;
+  /** `id` to the digest of the grounding that licenses it. */
+  readonly contexts: Readonly<Record<string, string>>;
 }
 
+/**
+ * What changed between two corpus states, with the three kinds kept apart.
+ *
+ * A prose PR rewording a hundred sentences and a PR deleting a hundred sites
+ * are very different events, and the first version reported both as `changed`
+ * plus `added`/`removed`. Since identity now survives rewording, the
+ * distinction is available and worth making: `reworded` is the same semantic
+ * site saying something new, `addedSites`/`removedSites` are the population
+ * actually moving. Changing identity to flatter a metric would defeat the
+ * point, so the differential names sites, never counts alone.
+ */
 export interface ProseDifferential {
-  readonly added: readonly string[];
-  readonly removed: readonly string[];
-  readonly changed: readonly string[];
+  readonly addedSites: readonly string[];
+  readonly removedSites: readonly string[];
+  /** Same site, new wording. */
+  readonly reworded: readonly string[];
+  /** Same site and wording, different grounding. */
+  readonly regrounded: readonly string[];
   readonly metricDeltas: Readonly<Record<string, number>>;
   readonly warningDeltas: Readonly<Record<string, number>>;
 }
@@ -338,10 +354,18 @@ export function compareToBaseline(
 ): ProseDifferential {
   const before = new Set(Object.keys(baseline.texts));
   const after = new Set(Object.keys(current.texts));
-  const added = [...after].filter((id) => !before.has(id)).sort();
-  const removed = [...before].filter((id) => !after.has(id)).sort();
-  const changed = [...after]
+  const addedSites = [...after].filter((id) => !before.has(id)).sort();
+  const removedSites = [...before].filter((id) => !after.has(id)).sort();
+  const reworded = [...after]
     .filter((id) => before.has(id) && baseline.texts[id] !== current.texts[id])
+    .sort();
+  const regrounded = [...after]
+    .filter(
+      (id) =>
+        before.has(id) &&
+        baseline.texts[id] === current.texts[id] &&
+        (baseline.contexts?.[id] ?? null) !== (current.contexts?.[id] ?? null),
+    )
     .sort();
 
   const scalarKeys = [
@@ -367,5 +391,12 @@ export function compareToBaseline(
       (baseline.warningsByFamily[family] ?? 0);
   }
 
-  return { added, removed, changed, metricDeltas, warningDeltas };
+  return {
+    addedSites,
+    removedSites,
+    reworded,
+    regrounded,
+    metricDeltas,
+    warningDeltas,
+  };
 }

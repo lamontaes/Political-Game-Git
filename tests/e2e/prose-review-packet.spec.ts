@@ -100,12 +100,120 @@ test.describe("prose review packet", () => {
         .locator('input[data-mark="rewrite"]'),
     ).toBeChecked();
 
-    // The stored key is the semantic ID, not an ordinal position.
+    // The stored key is the semantic ID, not an ordinal position. The record
+    // is v2 now: the ID plus the revision it was marked against.
     const stored = await page.evaluate(() =>
-      localStorage.getItem("ocd-prose-marks-v1"),
+      localStorage.getItem("ocd-prose-marks-v2"),
     );
     expect(stored).toContain(id ?? "");
     expect(stored).not.toMatch(/"[SC]-\d{4}"/);
+  });
+
+  test("a mark records the revision it was made against", async ({ page }) => {
+    await page.goto(URL);
+    const first = page.locator("article.item").first();
+    const id = await first.getAttribute("id");
+    const revision = await first.getAttribute("data-text-revision");
+    expect(revision).toMatch(/^[0-9a-f]{12}$/);
+
+    await first.locator('input[data-mark="keep"]').check();
+    await expect(first.locator(".state")).toHaveAttribute(
+      "data-state",
+      "current",
+    );
+
+    const stored = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("ocd-prose-marks-v2") || "{}"),
+    );
+    expect(stored.records[id!].textRevision).toBe(revision);
+    expect(stored.records[id!].marks).toContain("keep");
+  });
+
+  test("a mark cannot follow its identity onto another sentence", async ({
+    page,
+  }) => {
+    // The reproduced defect, at the surface an owner actually touches: a mark
+    // is stored against a semantic ID, so it must only ever render on the item
+    // carrying that ID and that revision.
+    await page.goto(URL);
+    const items = page.locator("article.item");
+    const firstId = await items.nth(0).getAttribute("id");
+    const secondId = await items.nth(1).getAttribute("id");
+    expect(firstId).not.toBe(secondId);
+
+    await items.nth(0).locator('input[data-mark="cut"]').check();
+    await page.reload();
+
+    await expect(
+      page.locator("article.item").nth(0).locator('input[data-mark="cut"]'),
+    ).toBeChecked();
+    await expect(
+      page.locator("article.item").nth(1).locator('input[data-mark="cut"]'),
+    ).not.toBeChecked();
+    await expect(
+      page.locator("article.item").nth(1).locator(".state"),
+    ).toHaveAttribute("data-state", "none");
+  });
+
+  test("a revised sentence shows prior feedback as stale, not approval", async ({
+    page,
+  }) => {
+    await page.goto(URL);
+    const first = page.locator("article.item").first();
+    const id = await first.getAttribute("id");
+    await first.locator('input[data-mark="keep"]').check();
+    await expect(first.locator(".state")).toHaveAttribute(
+      "data-state",
+      "current",
+    );
+
+    // Simulate the text being reworded under a mark that was made earlier.
+    await page.evaluate((markId) => {
+      const store = JSON.parse(
+        localStorage.getItem("ocd-prose-marks-v2") || "{}",
+      );
+      store.records[markId].textRevision = "000000000000";
+      localStorage.setItem("ocd-prose-marks-v2", JSON.stringify(store));
+    }, id);
+    await page.reload();
+
+    await expect(
+      page.locator("article.item").first().locator(".state"),
+    ).toHaveAttribute("data-state", "stale");
+    await expect(
+      page.locator("article.item").first().locator(".state"),
+    ).toContainText("revalidate");
+  });
+
+  test("older unversioned marks survive as historical, never as approval", async ({
+    page,
+  }) => {
+    await page.goto(URL);
+    const id = await page.locator("article.item").first().getAttribute("id");
+
+    // A v1 record: the semantic ID alone, with no revision beside it.
+    await page.evaluate((markId) => {
+      localStorage.removeItem("ocd-prose-marks-v2");
+      localStorage.setItem(
+        "ocd-prose-marks-v1",
+        JSON.stringify({ [markId]: ["keep"] }),
+      );
+    }, id);
+    await page.reload();
+
+    const first = page.locator("article.item").first();
+    await expect(first.locator('input[data-mark="keep"]')).toBeChecked();
+    await expect(first.locator(".state")).toHaveAttribute(
+      "data-state",
+      "historical",
+    );
+    await expect(first.locator(".state")).toContainText("revalidate");
+
+    // The original v1 record is carried forward, and is never deleted.
+    const legacy = await page.evaluate(() =>
+      localStorage.getItem("ocd-prose-marks-v1"),
+    );
+    expect(legacy).toContain(id ?? "");
   });
 
   test("the document ends on content, not on an empty tail", async ({

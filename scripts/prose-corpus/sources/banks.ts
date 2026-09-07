@@ -6,6 +6,7 @@ import {
   WITHDRAWN_SETUP_ITEMS,
 } from "../../../src/simulation/setup-questionnaire-bank";
 import { ORDINARY_LIFE_WORK_ITEMS } from "../../../src/presentation/ordinary-life";
+import { contextRevisionOf, revisionOf } from "../anchors";
 import { proseId, templateSlots } from "../ids";
 import type { ProseGroundingRef, ProseRecord, ProseSurface } from "../types";
 
@@ -56,6 +57,8 @@ function make(input: {
     grounding: input.grounding,
     provenance: input.provenance ?? null,
     tags: input.tags ?? [],
+    textRevision: revisionOf(input.text),
+    contextRevision: contextRevisionOf(input.grounding),
   };
 }
 

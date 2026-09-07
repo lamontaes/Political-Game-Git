@@ -6,8 +6,9 @@ import {
   ordinaryProseRecords,
   setupProseRecords,
 } from "./sources/banks";
-import { computedProseRecords } from "./sources/computed";
+import { extractComputedProse } from "./sources/computed";
 import { episodeProseRecords } from "./sources/episodes";
+import type { AnchorProblem } from "./anchors";
 import type { ProseReachability, ProseRecord, ProseSurface } from "./types";
 
 /**
@@ -25,6 +26,14 @@ import type { ProseReachability, ProseRecord, ProseSurface } from "./types";
 
 export interface ProseInventory {
   readonly records: readonly ProseRecord[];
+  /**
+   * Computed sites the anchor sidecar could not account for.
+   *
+   * Carried on the inventory rather than thrown, so the CLI can report every
+   * one of them at once. It is a hard error: a site without settled identity is
+   * exactly the state in which owner feedback slides onto another sentence.
+   */
+  readonly anchorProblems: readonly AnchorProblem[];
   /** Digest of the whole inventory, so two reports can be told apart. */
   readonly digest: string;
   readonly counts: {
@@ -51,13 +60,14 @@ function tally<T extends string>(
 }
 
 export function buildProseInventory(): ProseInventory {
+  const computed = extractComputedProse();
   const records = [
     ...episodeProseRecords(),
     ...formativeProseRecords(),
     ...adultProseRecords(),
     ...setupProseRecords(),
     ...ordinaryProseRecords(),
-    ...computedProseRecords(),
+    ...computed.records,
   ].sort((left, right) =>
     left.id < right.id ? -1 : left.id > right.id ? 1 : 0,
   );
@@ -68,12 +78,20 @@ export function buildProseInventory(): ProseInventory {
   assertNoIdCollisions(records);
 
   const digest = createHash("sha256")
-    .update(records.map((record) => `${record.id} ${record.text}`).join(""))
+    .update(
+      records
+        .map(
+          (record) =>
+            `${record.id} ${record.textRevision} ${record.contextRevision}`,
+        )
+        .join(""),
+    )
     .digest("hex")
     .slice(0, 16);
 
   return {
     records,
+    anchorProblems: computed.problems,
     digest,
     counts: {
       total: records.length,

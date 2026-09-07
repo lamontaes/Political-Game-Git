@@ -1,6 +1,13 @@
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  ANCHOR_FILE,
+  ANCHOR_SCHEMA,
+  loadAnchorFile,
+  mintAnchors,
+  writeAnchorFile,
+} from "./anchors";
 import { buildCoverageReport, type CoverageReport } from "./coverage";
 import { runDiagnostics, type DiagnosticReport } from "./diagnostics";
 import { buildGroundingMap, groundingMarkdown } from "./grounding-map";
@@ -11,6 +18,7 @@ import {
   type ProseBaseline,
 } from "./metrics";
 import { renderReviewPacket, reviewPacketStats } from "./review-packet";
+import { computedLiterals } from "./sources/computed";
 import { runTranscriptMatrix, type SeedTranscript } from "./transcripts";
 import type { ProseInventory } from "./inventory";
 
@@ -20,6 +28,7 @@ import type { ProseInventory } from "./inventory";
  *   npm run corpus:prose            build every artifact into docs/prose-inventory
  *   npm run corpus:prose -- check   rebuild in memory and fail on drift or a hard error
  *   npm run corpus:prose -- diff    differential against the committed baseline
+ *   npm run corpus:prose -- anchors mint/refresh identities for computed sites
  *
  * Nothing here writes to `src/`, and nothing under `src/` may import it.
  */
@@ -55,8 +64,10 @@ export function buildBaseline(
 ): ProseBaseline {
   const metrics = buildProseMetrics(inventory.records);
   const texts: Record<string, string> = {};
+  const contexts: Record<string, string> = {};
   for (const record of inventory.records) {
-    texts[record.id] = shortHash(record.text);
+    texts[record.id] = record.textRevision;
+    contexts[record.id] = record.contextRevision;
   }
   const warningsByFamily: Record<string, number> = {};
   for (const warning of diagnostics.warnings) {
@@ -75,6 +86,7 @@ export function buildBaseline(
     ),
     reachability: inventory.counts.byReachability,
     texts,
+    contexts,
   };
 }
 
@@ -339,8 +351,51 @@ Confirming pagination needs a real browser print, which is an owner check.
 `;
 }
 
+/**
+ * Bring the computed-site anchor sidecar up to date.
+ *
+ * Separate from `build` on purpose. Minting changes identity, and identity
+ * changes are the thing an owner's review record is pinned to, so they happen
+ * because somebody asked rather than as a side effect of regenerating a report.
+ */
+function mint(): void {
+  const before = loadAnchorFile();
+  const outcome = mintAnchors(computedLiterals(), before.anchors);
+
+  if (outcome.refused.length > 0) {
+    const detail = outcome.refused
+      .map(
+        (problem) =>
+          `  [${problem.kind}] ${problem.sourcePath} ${problem.symbol}\n    ${JSON.stringify(problem.text)}\n    ${problem.detail}`,
+      )
+      .join("\n");
+    throw new Error(
+      `Refusing to mint: ${outcome.refused.length} site(s) cannot be bound without guessing. Nothing was written.\n${detail}`,
+    );
+  }
+
+  writeAnchorFile({
+    schema: ANCHOR_SCHEMA,
+    note: "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
+    anchors: outcome.anchors,
+  });
+
+  process.stdout.write(
+    `${ANCHOR_FILE}: ${outcome.anchors.length} anchors (${outcome.minted.length} minted, ${outcome.rebound.length} reworded, ${outcome.removed.length} retired).\n`,
+  );
+  for (const entry of outcome.rebound) {
+    process.stdout.write(
+      `  reworded ${entry.anchor}\n    from ${JSON.stringify(entry.from)}\n    to   ${JSON.stringify(entry.to)}\n`,
+    );
+  }
+}
+
 function main(): void {
   const mode = process.argv[2] ?? "build";
+  if (mode === "anchors") {
+    mint();
+    return;
+  }
   const inventory = buildProseInventory();
   const diagnostics = runDiagnostics(inventory.records);
   const coverage = buildCoverageReport(inventory);
@@ -363,6 +418,18 @@ function main(): void {
     generatedFor: "owner prose review",
   });
   const packetStats = reviewPacketStats(html, inventory.counts.total);
+
+  if (inventory.anchorProblems.length > 0) {
+    const detail = inventory.anchorProblems
+      .map(
+        (problem) =>
+          `  [${problem.kind}] ${problem.sourcePath} ${problem.symbol}\n    ${JSON.stringify(problem.text)}\n    ${problem.detail}`,
+      )
+      .join("\n");
+    throw new Error(
+      `${inventory.anchorProblems.length} computed site(s) have no settled identity. This is a hard error: an unanchored site is where owner feedback slides onto another sentence.\n${detail}`,
+    );
+  }
 
   if (mode === "check") {
     const again = buildProseInventory();

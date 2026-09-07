@@ -49,7 +49,7 @@ running first. `reviewPacketStats` asserts what the file actually contains, and
 the regression test in `review-packet.test.ts` holds it:
 
 - 1872 rendered items for 1872 inventory records;
-- 2407 bytes after the last item, of which the empty
+- 5415 bytes after the last item, of which the empty
   portion is small.
 
 **Stated limitation.** No dependency in this repository rasterizes HTML into
