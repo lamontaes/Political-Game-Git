@@ -2,19 +2,20 @@ import { describe, expect, it } from "vitest";
 import { ordinaryConversationReplay } from "./support/ordinary-conversation-replay";
 
 // Captured by running the identical replay on unmodified main
-// 1a91101ab4f5369aeec21c6e9f32c21114794c81, before adding subject consequences.
+// b61abf26118e50be351c09db5b3d0823333fc9ec (post-P1 prose migration), before
+// adding subject consequences.
 // Digests cover complete canonical records, including IDs, provenance and wording.
 const beforeIntegration = {
   household: {
     relationship: {
       count: 2,
       sha256:
-        "f5d271b9d423c52b949fcc1b920b45a96c476ea9594a0a2810033ad0b55c6074",
+        "86c802e89363ade58a1e546ad34821fcf3af6d25921389aa1a146af92dda5760",
     },
     commitment: {
       count: 1,
       sha256:
-        "4f7e301747c29555b3dc64f0ae8a60b76e5cc3554eb4e905ed3191dfef9b1903",
+        "5513a94417f706cdf4097d7a6dd2d87abee65271ccd9f3f4ba1c00103d36c560",
     },
     aftermath: {
       count: 0,
@@ -24,39 +25,39 @@ const beforeIntegration = {
     landed: {
       count: 2,
       sha256:
-        "2a63015be955f0a0fbdfef745fbd8398ebb52659b50a115955349dcbb3f7b20a",
+        "f259d4a81682f642e343567dc51e2a432e62e78a555fcdea5cf0a2a19b429a3a",
     },
     turns: {
       count: 2,
       sha256:
-        "579c577863a6086a56ffae87dfe27d9a594586c6ee84c5167d2c302ec0900822",
+        "1fa8b1865fc23d953e1a28f11afbcb67050c2071edf6bca6885d4469077617c6",
     },
   },
   householdCallback: {
     relationship: {
       count: 2,
       sha256:
-        "ea2109ff01002691b99aa126c588339727b65346fc1da1450acd0044b1d2b5aa",
+        "156f35c6096eb2a5c609a362a8f563d8ccfc6a1bc7939455c09312213320cbd4",
     },
     commitment: {
       count: 1,
       sha256:
-        "af2fd29219fa2a720bd84061d2db3b8386fc818bde981d5819ea9a9992d90667",
+        "83d68caab6d9f2cfb5b73cd345e60d4ee38e1a31b499d10735b38a26c3e304be",
     },
     aftermath: {
       count: 1,
       sha256:
-        "a1d2697b669d93c1aebb584c01c50448bbafe1b2cbe9dec59a95f621cace8808",
+        "c9979ce1dc47ef1d0c8ee06662fb2084d9a950d512b778e6f7830f0eac9c1318",
     },
     landed: {
       count: 2,
       sha256:
-        "e9a5f524dfbf8024cee3c1339407d4c181d6286aa8ae445ce8425dc2eb902fcd",
+        "6e8a68d347b5e794a751c1040b94dd52ae696acddce14c9b2035834ab10a3206",
     },
     turns: {
       count: 2,
       sha256:
-        "83b83c3dde7227dced6c2e5248c8a4b28cd06437d0c082a9616967dbd5ff1ba3",
+        "ec90def8bc4908ff7e6d9ca03567cfd6d4d5d17e93e2ad374f66819739ef9314",
     },
   },
   office: {
