@@ -1,9 +1,9 @@
 import {
-  LIFE_TRANSITION_HANDLERS,
   activeChildAuthoritiesAt,
   currentLifeCutoff,
   householdMembershipsAt,
   advanceWorld,
+  createCampaignElectionTransitionRegistry,
   ageOnDate,
   createScheduledActivity,
   createWorkItem,
@@ -272,17 +272,27 @@ export function projectOrdinaryDay(
   };
 }
 
-/** Moves an ordinary day forward. Nothing dramatic is manufactured to fill it. */
+/**
+ * Moves an ordinary day forward. Nothing dramatic is manufactured to fill it.
+ *
+ * The handlers are the campaign-aware ones, which is how election day arrives:
+ * by the world reaching it while somebody gets on with their week, not because
+ * a screen offered a button marked "hold the election". A contest nobody filed
+ * for falls through to the substrate's own handler, so this changes nothing for
+ * a life with no campaign in it.
+ */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
   // A day passed here is the same day as a day passed on the adult surface,
   // and a callback that comes due on it must be answered rather than stepped
   // over — time refuses to step over one it has no handler for, which is the
-  // behaviour that keeps a scheduled consequence from being lost.
+  // behaviour that keeps a scheduled consequence from being lost. The campaign
+  // registry composes the ordinary life handlers with the election handler, so
+  // election day arrives without either the life or the contest being dropped.
   return advanceWorld(
     world,
     Math.max(1, Math.trunc(days)),
-    LIFE_TRANSITION_HANDLERS,
+    createCampaignElectionTransitionRegistry(),
   );
 }
 

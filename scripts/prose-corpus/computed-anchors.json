@@ -1,0 +1,3182 @@
+{
+  "schema": 1,
+  "note": "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
+  "anchors": [
+    {
+      "anchor": "ACTION_HEADLINES-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Amendment adopted",
+      "occurrence": 0,
+      "textRevision": "7f3cce3f0afa"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Amendment rejected",
+      "occurrence": 0,
+      "textRevision": "dab1150dc7a3"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Became law",
+      "occurrence": 0,
+      "textRevision": "5a8cf0eeec6b"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Chamber voted on the override",
+      "occurrence": 0,
+      "textRevision": "65c45692de24"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Changes accepted",
+      "occurrence": 0,
+      "textRevision": "54781753076d"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0006",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Changes rejected",
+      "occurrence": 0,
+      "textRevision": "fe75153f5c3b"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0007",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Cleared a floor vote",
+      "occurrence": 0,
+      "textRevision": "90ea23b95834"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0008",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Committee hearing held",
+      "occurrence": 0,
+      "textRevision": "673766ea7e06"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0009",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Committee would not report it",
+      "occurrence": 0,
+      "textRevision": "cf1991fcd298"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0010",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Died when the session ended",
+      "occurrence": 0,
+      "textRevision": "1a214741702d"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0011",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Failed on the floor",
+      "occurrence": 0,
+      "textRevision": "552d6aa3da04"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Override failed",
+      "occurrence": 0,
+      "textRevision": "049383065ffb"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0013",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Put into final form",
+      "occurrence": 0,
+      "textRevision": "a7aeb1217104"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0014",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Reported out of committee",
+      "occurrence": 0,
+      "textRevision": "944a0a45fcb4"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0015",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Scheduled for the floor",
+      "occurrence": 0,
+      "textRevision": "f634d490a2d9"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0016",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Sent to committee",
+      "occurrence": 0,
+      "textRevision": "288d3cf2630a"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0017",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Sent to the governor",
+      "occurrence": 0,
+      "textRevision": "1de71f7957f6"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0018",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Sent to the other chamber",
+      "occurrence": 0,
+      "textRevision": "d9ac0c1a2d94"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0019",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Veto overridden",
+      "occurrence": 0,
+      "textRevision": "b80ce067127c"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A bounded in-room conversation during briefing work.",
+      "occurrence": 0,
+      "textRevision": "769b0d8cad3b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A conversation about who does which part of shared work.",
+      "occurrence": 0,
+      "textRevision": "41b94b4860b3"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A conversation at home about who carries the week.",
+      "occurrence": 0,
+      "textRevision": "4d41df70e308"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A conversation between neighbours about a meeting that has been posted.",
+      "occurrence": 0,
+      "textRevision": "83c32650972a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A conversation over the wording of a legislative draft.",
+      "occurrence": 0,
+      "textRevision": "8ceb665ab015"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0006",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A doorstep, on the way past",
+      "occurrence": 0,
+      "textRevision": "0fead9cc35d1"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0007",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A legislative office, during briefing work",
+      "occurrence": 0,
+      "textRevision": "e8b02973144e"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A legislative office, over a working draft",
+      "occurrence": 0,
+      "textRevision": "71d1b8afdd33"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0009",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Agree who does which part before the work is due rather than after.",
+      "occurrence": 0,
+      "textRevision": "25097ee9bdf1"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0010",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Clarify legal working language and staff projection without treating either as enacted policy.",
+      "occurrence": 0,
+      "textRevision": "47f5f7e43518"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0011",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Clarify the next step on the casework without turning the exchange into a score check.",
+      "occurrence": 0,
+      "textRevision": "da819dc903d7"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0012",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "School, between classes",
+      "occurrence": 0,
+      "textRevision": "e6fb99ae668b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0013",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Settle who carries the week, so it does not end up carried by whoever notices last.",
+      "occurrence": 0,
+      "textRevision": "ecc7955c7d5d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0014",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The afternoon briefing creates pressure for a clear next step.",
+      "occurrence": 0,
+      "textRevision": "5fe7ebdc98da"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0015",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The meeting happens on its posted evening whether or not anybody goes.",
+      "occurrence": 0,
+      "textRevision": "6aab4c06d901"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0016",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The office needs a clear working version while legal text and projected consequences remain distinct.",
+      "occurrence": 0,
+      "textRevision": "0c4da04bce58"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0017",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked for a concrete checklist or verification commitment.",
+      "occurrence": 0,
+      "textRevision": "09b0e8deffac"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0018",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked for an immediate answer.",
+      "occurrence": 0,
+      "textRevision": "a66f8784ca30"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0019",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked for the project to be split more evenly.",
+      "occurrence": 0,
+      "textRevision": "eb232f088678"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0020",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked to split the week with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "d87a013516c9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0021",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} to go to the meeting instead.",
+      "occurrence": 0,
+      "textRevision": "d7d1aed7c100"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0022",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} to take the week this time.",
+      "occurrence": 0,
+      "textRevision": "2ad815084ea0"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0023",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {named(\"briefing-lead\")} to interpret the selected working provision and compare its prepared alternative.",
+      "occurrence": 0,
+      "textRevision": "f036668fa127"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0024",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player brought up the week's errands with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "e878fa3d479b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0025",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player kept the checklist recommendation narrow and evidence-led.",
+      "occurrence": 0,
+      "textRevision": "808bfb6802a8"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0026",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player left the question of who carries the week unanswered.",
+      "occurrence": 0,
+      "textRevision": "2ae31fdb5849"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0027",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player left the question of who does which part unanswered.",
+      "occurrence": 0,
+      "textRevision": "b7def23031aa"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0028",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player listened for the next relevant contribution.",
+      "occurrence": 0,
+      "textRevision": "be4e067a1644"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0029",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player listened while the provision was talked through.",
+      "occurrence": 0,
+      "textRevision": "0ead4fdbf17b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0030",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player mentioned the posted meeting to {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "2578afa0ec12"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0031",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player offered to cover the week themselves.",
+      "occurrence": 0,
+      "textRevision": "b72700c9bac6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0032",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player offered to take on more of the project.",
+      "occurrence": 0,
+      "textRevision": "8f17687bc909"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0033",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player pressed for an answer on the checklist or last case.",
+      "occurrence": 0,
+      "textRevision": "b5df6360ca8a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0034",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player raised how the project was being divided with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "4c6fc242e128"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0035",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player said nothing about whether anybody would go.",
+      "occurrence": 0,
+      "textRevision": "f6d1921b32e0"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0036",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player said they would go to the meeting.",
+      "occurrence": 0,
+      "textRevision": "27108218d474"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0037",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The split has to be agreed while there is still time to do the work.",
+      "occurrence": 0,
+      "textRevision": "8bfe3beddab2"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0038",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The week starts whether or not anybody has said who is doing it.",
+      "occurrence": 0,
+      "textRevision": "6da48667fa4c"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0039",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Work out whether either of them is going, while the meeting is still ahead of them.",
+      "occurrence": 0,
+      "textRevision": "f20cfaf37cb1"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0040",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "household obligation",
+      "occurrence": 0,
+      "textRevision": "d08320c0d898"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0041",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "neighborhood meeting notice",
+      "occurrence": 0,
+      "textRevision": "9419c2b5663d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0042",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "school project share",
+      "occurrence": 0,
+      "textRevision": "fc93343bf08f"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0043",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "shared intake checklist",
+      "occurrence": 0,
+      "textRevision": "6e3b617cded2"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0044",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the neighborhood meeting you said you would go to",
+      "occurrence": 0,
+      "textRevision": "91c17bb69d6d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0045",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the part of the project nobody else started",
+      "occurrence": 0,
+      "textRevision": "d04abff343ef"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0046",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the week's errands at home",
+      "occurrence": 0,
+      "textRevision": "c4e0dd9a5cbb"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0047",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "the week's errands at home",
+      "occurrence": 1,
+      "textRevision": "c4e0dd9a5cbb"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0048",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "working provision",
+      "occurrence": 0,
+      "textRevision": "88f63b4c163d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0049",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} and {otherName} agreed which half each of them was doing.",
+      "occurrence": 0,
+      "textRevision": "161a64d8d1e7"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0050",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} and {otherName} split the week between them instead of leaving it with one of them.",
+      "occurrence": 0,
+      "textRevision": "f0aac1523369"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0051",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} asked for an even split and {otherName} would not agree one.",
+      "occurrence": 0,
+      "textRevision": "19103f6101ee"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0052",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} asked {otherName} to take the week, and was told no.",
+      "occurrence": 0,
+      "textRevision": "dccf8c02ff6f"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0053",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} kept the request narrow, strengthening the working exchange with {otherName}.",
+      "occurrence": 0,
+      "textRevision": "a51ce82dd65f"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0054",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} pressed for an immediate answer, straining the exchange with {otherName}.",
+      "occurrence": 0,
+      "textRevision": "93a8dc7cfd65"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0055",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} put the meeting back to {otherName} rather than answering it.",
+      "occurrence": 0,
+      "textRevision": "94e8de900087"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0056",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} put the unstarted work in front of {otherName} rather than working around it.",
+      "occurrence": 0,
+      "textRevision": "f716d2da2332"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0057",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} put the week onto {otherName}, who took it and said it was not every week.",
+      "occurrence": 0,
+      "textRevision": "5cc3ecedebda"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0058",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} said out loud to {otherName} what neither of them had been saying about the week.",
+      "occurrence": 0,
+      "textRevision": "f9931221efe2"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0059",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} stopped long enough to mention the notice to {otherName}.",
+      "occurrence": 0,
+      "textRevision": "0aae6183b2a9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0060",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} told {otherName} they would be at the meeting.",
+      "occurrence": 0,
+      "textRevision": "6eb99f782153"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0061",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} took the part nobody had started, and {otherName} let them.",
+      "occurrence": 0,
+      "textRevision": "65f94df5c031"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0062",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} took the week off {otherName} without being asked to.",
+      "occurrence": 0,
+      "textRevision": "318b4005b949"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0063",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} tried to hand the evening to {otherName}, who was not taking it.",
+      "occurrence": 0,
+      "textRevision": "d723df60b521"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0064",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} agreed to halve it.",
+      "occurrence": 0,
+      "textRevision": "5062296513d4"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0065",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} agreed which half was whose.",
+      "occurrence": 0,
+      "textRevision": "e26b7ff29c52"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0066",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} asked to be told what came of it.",
+      "occurrence": 0,
+      "textRevision": "8193fb5a1ea4"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0067",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} had seen the notice.",
+      "occurrence": 0,
+      "textRevision": "4b64a7d82748"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0068",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} had thought it was somebody else's.",
+      "occurrence": 0,
+      "textRevision": "e9ab8d22cf76"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0069",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} let them take it.",
+      "occurrence": 0,
+      "textRevision": "46917c6d443a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0070",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} said no.",
+      "occurrence": 0,
+      "textRevision": "445910c8ec6e"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0071",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} said they had been avoiding it too.",
+      "occurrence": 0,
+      "textRevision": "81db5f2f2f95"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0072",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} said they would go.",
+      "occurrence": 0,
+      "textRevision": "92a96d559df6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0073",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} took a section of it instead.",
+      "occurrence": 0,
+      "textRevision": "1f2c0114e844"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0074",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} took it on.",
+      "occurrence": 0,
+      "textRevision": "30f3b12a9e84"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0075",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} would not agree a split.",
+      "occurrence": 0,
+      "textRevision": "864ef053276b"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0076",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} would not give the evening.",
+      "occurrence": 0,
+      "textRevision": "60c5e17833cb"
+    },
+    {
+      "anchor": "GENERIC_RETURN-0001",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "GENERIC_RETURN",
+      "text": "Something decided a long time earlier turned out to still be there.",
+      "occurrence": 0,
+      "textRevision": "f66f4359c3c2"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "Both sides have agreed on one bill, and it is being put into final form.",
+      "occurrence": 0,
+      "textRevision": "9007d41787ac"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill has been filed and is waiting to be sent to a committee.",
+      "occurrence": 0,
+      "textRevision": "913615270a50"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill has cleared everything and is being recorded as law.",
+      "occurrence": 0,
+      "textRevision": "f0436dc7244e"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill has not been filed yet.",
+      "occurrence": 0,
+      "textRevision": "d8a5233e834b"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill has passed one chamber and is heading to the other.",
+      "occurrence": 0,
+      "textRevision": "27f6f82b5339"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0006",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is dead.",
+      "occurrence": 0,
+      "textRevision": "e3a782caf622"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0007",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is law.",
+      "occurrence": 0,
+      "textRevision": "0afc2fe32125"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0008",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is on the floor.",
+      "occurrence": 0,
+      "textRevision": "f857a8363126"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0009",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is on the governor's desk.",
+      "occurrence": 0,
+      "textRevision": "37fd82350ddb"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0010",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is ready to go to the governor.",
+      "occurrence": 0,
+      "textRevision": "110a70e5a2a1"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0011",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The bill is sitting in committee.",
+      "occurrence": 0,
+      "textRevision": "1aa35d1176cd"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The committee has reported the bill; it is waiting for floor time.",
+      "occurrence": 0,
+      "textRevision": "195ef88571a2"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0013",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The governor vetoed the bill; the legislature can try to override.",
+      "occurrence": 0,
+      "textRevision": "856f773fb7a3"
+    },
+    {
+      "anchor": "PHASE_SENTENCES-0014",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "PHASE_SENTENCES",
+      "text": "The other chamber changed the bill, so the chamber it started in has to decide whether to live with that.",
+      "occurrence": 0,
+      "textRevision": "7985cc6382bd"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0001",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "An evening you had not thought about turned out to have counted for something.",
+      "occurrence": 0,
+      "textRevision": "6cbbf243751d"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0002",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "It came back a third time, which is when a favour stops being a favour.",
+      "occurrence": 0,
+      "textRevision": "fba7b5a927a9"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0003",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The business with the other household was not over, whatever the meeting had decided.",
+      "occurrence": 0,
+      "textRevision": "686b56feee22"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0004",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The evening you said you would give came up again, from somebody who had noticed whether you gave it.",
+      "occurrence": 0,
+      "textRevision": "f1a1860c22a9"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0005",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The favour turned out to have been remembered rather more precisely than you remembered it.",
+      "occurrence": 0,
+      "textRevision": "8b4207216426"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0006",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
+      "occurrence": 0,
+      "textRevision": "523174ee332e"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0007",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The hours you took, or did not take, turned out to have been counted.",
+      "occurrence": 0,
+      "textRevision": "adeb6ff3988d"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0008",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The morning with the rule and the customer came back, from a direction you had not expected.",
+      "occurrence": 0,
+      "textRevision": "eb3d10d11e55"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0009",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The plan you settled on stopped being settled.",
+      "occurrence": 0,
+      "textRevision": "0b3d2ac4b703"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0010",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The question about standing for something came back, and this time it was not casual.",
+      "occurrence": 0,
+      "textRevision": "bf42104f8d7c"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0011",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The thing about the week that never gets done was raised again, and this time not by you.",
+      "occurrence": 0,
+      "textRevision": "c5c8e64b175c"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0012",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The thing about whose work it was had not been dropped after all.",
+      "occurrence": 0,
+      "textRevision": "8f005d06d33a"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0013",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The thing you rearranged came round a second time, and there was less room to rearrange it.",
+      "occurrence": 0,
+      "textRevision": "57c681052b01"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0014",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The two weeks you did or did not give came up again, in a conversation that was about something else.",
+      "occurrence": 0,
+      "textRevision": "89a5cedc3953"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0015",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The week you handed over turned out to have been counted, and it was raised without much warmth.",
+      "occurrence": 0,
+      "textRevision": "9ddcca4e3978"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0016",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What was decided about the building came back round, and the people it had cost were still there.",
+      "occurrence": 0,
+      "textRevision": "49b0b1cb2ec1"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0017",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you did about the offer got back to somebody it was not supposed to.",
+      "occurrence": 0,
+      "textRevision": "8efde7267f66"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0018",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
+      "occurrence": 0,
+      "textRevision": "ccff11fcf626"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0019",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you gave, or kept, after the flooding turned out to have been noticed.",
+      "occurrence": 0,
+      "textRevision": "1cf31939a68b"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0020",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you took on came round again, on a week that had no room for it.",
+      "occurrence": 0,
+      "textRevision": "e3208d29ec63"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0021",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you were told, and what you did about it, came back up.",
+      "occurrence": 0,
+      "textRevision": "688f152720b6"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0022",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Your name on that list was read by somebody who had not been meant to read it.",
+      "occurrence": 0,
+      "textRevision": "4eee17cf158c"
+    },
+    {
+      "anchor": "STEP_COPY-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask for the bill to be sent to a committee",
+      "occurrence": 0,
+      "textRevision": "154b76503548"
+    },
+    {
+      "anchor": "STEP_COPY-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask leadership for floor time",
+      "occurrence": 0,
+      "textRevision": "d539fe52b663"
+    },
+    {
+      "anchor": "STEP_COPY-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask the chamber to vote on the bill at the stage it has reached.",
+      "occurrence": 0,
+      "textRevision": "6582f53b6e06"
+    },
+    {
+      "anchor": "STEP_COPY-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask the committee for a hearing",
+      "occurrence": 0,
+      "textRevision": "163640e7f259"
+    },
+    {
+      "anchor": "STEP_COPY-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask the committee to vote on reporting the bill",
+      "occurrence": 0,
+      "textRevision": "f479accddebe"
+    },
+    {
+      "anchor": "STEP_COPY-0006",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Ask your chamber to accept the changes",
+      "occurrence": 0,
+      "textRevision": "006fe17cb1fa"
+    },
+    {
+      "anchor": "STEP_COPY-0007",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Call for the committee's recorded vote. The members decide what it says.",
+      "occurrence": 0,
+      "textRevision": "014f35a826c6"
+    },
+    {
+      "anchor": "STEP_COPY-0008",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Close the bill out as law.",
+      "occurrence": 0,
+      "textRevision": "95d8f38413b2"
+    },
+    {
+      "anchor": "STEP_COPY-0009",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Deliver the finished bill to the desk.",
+      "occurrence": 0,
+      "textRevision": "f1c1d38c9833"
+    },
+    {
+      "anchor": "STEP_COPY-0010",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "File the bill",
+      "occurrence": 0,
+      "textRevision": "9d787d0a6414"
+    },
+    {
+      "anchor": "STEP_COPY-0011",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Have the bill put into final form",
+      "occurrence": 0,
+      "textRevision": "21c24e60ce04"
+    },
+    {
+      "anchor": "STEP_COPY-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Have the new law entered in the record",
+      "occurrence": 0,
+      "textRevision": "b30cf470765a"
+    },
+    {
+      "anchor": "STEP_COPY-0013",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Move the question",
+      "occurrence": 0,
+      "textRevision": "c086cfb5ad51"
+    },
+    {
+      "anchor": "STEP_COPY-0014",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Move to override the veto",
+      "occurrence": 0,
+      "textRevision": "15b270d5b727"
+    },
+    {
+      "anchor": "STEP_COPY-0015",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Offer an amendment",
+      "occurrence": 0,
+      "textRevision": "b53130f1f171"
+    },
+    {
+      "anchor": "STEP_COPY-0016",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Press for a date to put the bill and its witnesses in front of the committee.",
+      "occurrence": 0,
+      "textRevision": "48726f8ad8c0"
+    },
+    {
+      "anchor": "STEP_COPY-0017",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Push to get the bill scheduled for debate.",
+      "occurrence": 0,
+      "textRevision": "b2e535cbc4d2"
+    },
+    {
+      "anchor": "STEP_COPY-0018",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Put a change to the bill and let the chamber decide it.",
+      "occurrence": 0,
+      "textRevision": "35768d5f95c8"
+    },
+    {
+      "anchor": "STEP_COPY-0019",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Put the vetoed bill back to the legislature.",
+      "occurrence": 0,
+      "textRevision": "58d62d65ef43"
+    },
+    {
+      "anchor": "STEP_COPY-0020",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Put your bill in, and it gets a number and a chamber.",
+      "occurrence": 0,
+      "textRevision": "4662c19c052c"
+    },
+    {
+      "anchor": "STEP_COPY-0021",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Send the bill to the governor",
+      "occurrence": 0,
+      "textRevision": "d2214c2faa17"
+    },
+    {
+      "anchor": "STEP_COPY-0022",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Send the bill to the other chamber",
+      "occurrence": 0,
+      "textRevision": "f2f3c08c75ee"
+    },
+    {
+      "anchor": "STEP_COPY-0023",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "The bill has cleared this chamber and moves on.",
+      "occurrence": 0,
+      "textRevision": "2741668fa9df"
+    },
+    {
+      "anchor": "STEP_COPY-0024",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "The bill is out of the legislature's hands. What happens next is the governor's to decide.",
+      "occurrence": 0,
+      "textRevision": "9aae70547fe8"
+    },
+    {
+      "anchor": "STEP_COPY-0025",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "The clerk prepares the agreed text for signature.",
+      "occurrence": 0,
+      "textRevision": "0417da47fd19"
+    },
+    {
+      "anchor": "STEP_COPY-0026",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "The other chamber changed the bill. Your chamber votes on whether to live with it.",
+      "occurrence": 0,
+      "textRevision": "67308aba1bd5"
+    },
+    {
+      "anchor": "STEP_COPY-0027",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "The referral authority decides which committee takes it; you can ask.",
+      "occurrence": 0,
+      "textRevision": "821558732986"
+    },
+    {
+      "anchor": "STEP_COPY-0028",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "This chamber takes its stages on separate days, so the bill cannot be reached again today.",
+      "occurrence": 0,
+      "textRevision": "4f477d05e1be"
+    },
+    {
+      "anchor": "STEP_COPY-0029",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Wait for the governor's decision",
+      "occurrence": 0,
+      "textRevision": "0132730dfd4a"
+    },
+    {
+      "anchor": "STEP_COPY-0030",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "STEP_COPY",
+      "text": "Wait for the next legislative day",
+      "occurrence": 0,
+      "textRevision": "412d3c6d230d"
+    },
+    {
+      "anchor": "availableIntents-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Ask for the concrete next step now.",
+      "occurrence": 0,
+      "textRevision": "18a78fb0f45b"
+    },
+    {
+      "anchor": "availableIntents-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Ask for {shortPersonName(world,conversationRole(room,\"briefing-lead\"))}'s known staff interpretation of the selected working-draft provision and prepared narrower version.",
+      "occurrence": 0,
+      "textRevision": "3007525fb9ad"
+    },
+    {
+      "anchor": "availableIntents-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Ask them to take it",
+      "occurrence": 0,
+      "textRevision": "125d978e22d1"
+    },
+    {
+      "anchor": "availableIntents-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} about the {progress.subjectFacts.currentAmount} provision",
+      "occurrence": 0,
+      "textRevision": "4d7663ce4f8e"
+    },
+    {
+      "anchor": "availableIntents-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Bring up the week",
+      "occurrence": 0,
+      "textRevision": "d0cf0d23809b"
+    },
+    {
+      "anchor": "availableIntents-0006",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Cover {progress.subjectFacts.shortObligation} yourself this week.",
+      "occurrence": 0,
+      "textRevision": "6ddb0671b238"
+    },
+    {
+      "anchor": "availableIntents-0007",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Divide the week rather than hand it to one person.",
+      "occurrence": 0,
+      "textRevision": "9e7898075384"
+    },
+    {
+      "anchor": "availableIntents-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Leave it there",
+      "occurrence": 0,
+      "textRevision": "1fdf3e050d5e"
+    },
+    {
+      "anchor": "availableIntents-0009",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Let it stay unmentioned for now.",
+      "occurrence": 0,
+      "textRevision": "24ecc22bfc3e"
+    },
+    {
+      "anchor": "availableIntents-0010",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Let the other person go first.",
+      "occurrence": 0,
+      "textRevision": "de9dd8762dda"
+    },
+    {
+      "anchor": "availableIntents-0011",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Press {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} to back the checklist",
+      "occurrence": 0,
+      "textRevision": "029c460b1e2b"
+    },
+    {
+      "anchor": "availableIntents-0012",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Press {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to check the third referral now",
+      "occurrence": 0,
+      "textRevision": "49bea361c27f"
+    },
+    {
+      "anchor": "availableIntents-0013",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Say nothing about it",
+      "occurrence": 0,
+      "textRevision": "7169974afc9e"
+    },
+    {
+      "anchor": "availableIntents-0014",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Say nothing more about the meeting.",
+      "occurrence": 0,
+      "textRevision": "a7aa39fb209c"
+    },
+    {
+      "anchor": "availableIntents-0015",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Say out loud that {progress.subjectFacts.shortObligation} have not been sorted.",
+      "occurrence": 0,
+      "textRevision": "8e468cf9b2bb"
+    },
+    {
+      "anchor": "availableIntents-0016",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Say you will take it",
+      "occurrence": 0,
+      "textRevision": "01eab15b1ed9"
+    },
+    {
+      "anchor": "availableIntents-0017",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Say your week will not stretch to it.",
+      "occurrence": 0,
+      "textRevision": "b671d16a79b8"
+    },
+    {
+      "anchor": "availableIntents-0018",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Stay quiet and hear what the room does next.",
+      "occurrence": 0,
+      "textRevision": "a5e9576c8335"
+    },
+    {
+      "anchor": "availableIntents-0019",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Suggest splitting it",
+      "occurrence": 0,
+      "textRevision": "8cac14ce56a7"
+    },
+    {
+      "anchor": "availableIntents-0020",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "availableIntents",
+      "text": "Wait and see if they raise it",
+      "occurrence": 0,
+      "textRevision": "a3c69181569e"
+    },
+    {
+      "anchor": "buildGrounding-0001",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You started {label} at {name} in {yearOf(enrollment.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "35b5cebde79d"
+    },
+    {
+      "anchor": "buildGrounding-0002",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You were raised by {introducePerson(context)}.",
+      "occurrence": 0,
+      "textRevision": "63cc07e9c396"
+    },
+    {
+      "anchor": "buildGrounding-0003",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You work at {name}, and have since {yearOf(work.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "31417ce64949"
+    },
+    {
+      "anchor": "buildGrounding-0004",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You worked at {name} from {yearOf(work.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "75d1ba529be9"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0001",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "At home with you:",
+      "occurrence": 0,
+      "textRevision": "6a074258f505"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0002",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "You live on your own.",
+      "occurrence": 0,
+      "textRevision": "b4319fce0ffb"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0003",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "You're {age}, and you live in {placeName}.",
+      "occurrence": 0,
+      "textRevision": "9bd98fa818ea"
+    },
+    {
+      "anchor": "buildLifeIntroduction-0004",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildLifeIntroduction",
+      "text": "You're {age}.",
+      "occurrence": 0,
+      "textRevision": "6eaa9e09f6b0"
+    },
+    {
+      "anchor": "commitConversationTurn-0001",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "(You listen.)",
+      "occurrence": 0,
+      "textRevision": "075d29643024"
+    },
+    {
+      "anchor": "commitConversationTurn-0002",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "Chose the {input.intent} intent",
+      "occurrence": 0,
+      "textRevision": "be912c9df96d"
+    },
+    {
+      "anchor": "commitConversationTurn-0003",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "Gave the recorded response",
+      "occurrence": 0,
+      "textRevision": "b0abfd2c76f3"
+    },
+    {
+      "anchor": "commitConversationTurn-0004",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "Listened without speaking",
+      "occurrence": 0,
+      "textRevision": "0ccd53b04a35"
+    },
+    {
+      "anchor": "commitConversationTurn-0005",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "The room settled briefly; no participant added another claim.",
+      "occurrence": 0,
+      "textRevision": "21ad4f9cf061"
+    },
+    {
+      "anchor": "commitConversationTurn-0006",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "The room settles. No one adds anything yet.",
+      "occurrence": 0,
+      "textRevision": "34ecb324377c"
+    },
+    {
+      "anchor": "commitConversationTurn-0007",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "Was directly addressed",
+      "occurrence": 0,
+      "textRevision": "ac4302d4a64e"
+    },
+    {
+      "anchor": "commitConversationTurn-0008",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "Was nearby and reasonably heard the exchange",
+      "occurrence": 0,
+      "textRevision": "d0aefcd580be"
+    },
+    {
+      "anchor": "commitConversationTurn-0009",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "You · {availableConversationIntents(world,input.room,input.addressee,currentProgress,input.audibility,).find((option)=>option.key===input.intent)?.label??input.intent}",
+      "occurrence": 0,
+      "textRevision": "2f5819f365ed"
+    },
+    {
+      "anchor": "commitConversationTurn-0010",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "commitConversationTurn",
+      "text": "{personName(world.people[claimSpeakerPersonId]!)} said: {resolved.dialogue}",
+      "occurrence": 0,
+      "textRevision": "ae2536b7d691"
+    },
+    {
+      "anchor": "commitmentLabel-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "commitmentLabel",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} to back the referral checklist",
+      "occurrence": 0,
+      "textRevision": "a30e5192f387"
+    },
+    {
+      "anchor": "commitmentLabel-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "commitmentLabel",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to check and {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} to decide",
+      "occurrence": 0,
+      "textRevision": "4b967c7ee9a7"
+    },
+    {
+      "anchor": "commitmentLabel-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "commitmentLabel",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to check the third referral",
+      "occurrence": 0,
+      "textRevision": "12e6576e81cd"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "Age on {until}; no place is recorded.",
+      "occurrence": 0,
+      "textRevision": "51af75090b30"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "Home jurisdiction resolves to {place.displayName}; age on {until}.",
+      "occurrence": 0,
+      "textRevision": "da09528e8f05"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "You're {toAge}, and you live in {place.displayName}.",
+      "occurrence": 0,
+      "textRevision": "37224e286ec3"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "You're {toAge}.",
+      "occurrence": 0,
+      "textRevision": "79898a43afaf"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "{days} day(s) between {since} and {until}.",
+      "occurrence": 0,
+      "textRevision": "18a76390e5d8"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "{days} day(s) between {since} and {until}; a birthday falls inside it.",
+      "occurrence": 0,
+      "textRevision": "f210d57a3013"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "{moving.length} record(s) on the {thread.family} thread \"{thread.title}\" fall inside the interval.",
+      "occurrence": 0,
+      "textRevision": "06883165e303"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "{opener}, and you're {toAge} now.",
+      "occurrence": 0,
+      "textRevision": "846a2dc72c8a"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0001",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“I need the third county referral checked,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “If it also lacked the proof-of-income form, I can decide whether to back the staff checklist.”",
+      "occurrence": 0,
+      "textRevision": "d8405e970983"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0002",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“I’m backing the pre-referral document checklist,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “{shortPersonName(world,conversationRole(room,\"referral-verifier\"))}’s check will tell us whether to keep it focused on the proof-of-income form.”",
+      "occurrence": 0,
+      "textRevision": "db9fab9e3432"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0003",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“I’m taking the third referral,” {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} says. “I’ll find out whether the county received it without the proof-of-income form and report back before the briefing.”",
+      "occurrence": 0,
+      "textRevision": "9ace29716e5a"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0004",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“The first two county referrals arrived without the proof-of-income form,” {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} says. “I can check whether the third one failed for that same reason.”",
+      "occurrence": 0,
+      "textRevision": "ad1b3f8f0282"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0005",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“The question is whether staff should check required documents before future county referrals,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “I need {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to find out whether the third referral lacked the proof-of-income form too.”",
+      "occurrence": 0,
+      "textRevision": "174db5c9c9c5"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0006",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“We have the next step,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “{shortPersonName(world,conversationRole(room,\"referral-verifier\"))} will check whether the third county referral lacked the proof-of-income form, and I’ll decide on the staff checklist when that answer comes back.”",
+      "occurrence": 0,
+      "textRevision": "de8c56acb44b"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0007",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“{shortPersonName(world,conversationRole(room,\"briefing-lead\"))} needs the third referral checked,” {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} says. “I can call the neighborhood office and find out whether its proof-of-income form was missing too.”",
+      "occurrence": 0,
+      "textRevision": "e5af7d243381"
+    },
+    {
+      "anchor": "continuingRunBReferralBeat-0008",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "continuingRunBReferralBeat",
+      "text": "“{shortPersonName(world,conversationRole(room,\"referral-verifier\"))} is checking the third county referral,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “Once he tells us whether the proof-of-income form was missing there too, I can answer on the staff checklist.”",
+      "occurrence": 0,
+      "textRevision": "7a6ba17a857e"
+    },
+    {
+      "anchor": "deadlinesFor-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "deadlinesFor",
+      "text": "If the session ends before the bill finishes, the bill dies.",
+      "occurrence": 0,
+      "textRevision": "89566876f61d"
+    },
+    {
+      "anchor": "deadlinesFor-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "deadlinesFor",
+      "text": "The {pack.executive.titleLabel} has {window.value} days to act while the legislature is sitting.",
+      "occurrence": 0,
+      "textRevision": "68a8e59c5771"
+    },
+    {
+      "anchor": "describeBriefing-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "Review Section 3 of the Transit Access Pilot office working draft. The current provision states {progress.subjectFacts.currentAmount}; a prepared version states {progress.subjectFacts.preparedAmount} for the same eligible-rider scope.",
+      "occurrence": 0,
+      "textRevision": "dfd78df9d56f"
+    },
+    {
+      "anchor": "describeBriefing-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "The question of who does which part of {progress.subjectFacts.work} is answered.",
+      "occurrence": 0,
+      "textRevision": "cb4a65f0570d"
+    },
+    {
+      "anchor": "describeBriefing-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "The week's {progress.subjectFacts.obligation} still have to be covered, and it is on you and {other} both. Neither of you has said who takes what.",
+      "occurrence": 0,
+      "textRevision": "49f8d1208d6d"
+    },
+    {
+      "anchor": "describeBriefing-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "There is a meeting about {progress.subjectFacts.subject}, {progress.subjectFacts.notice}. Nobody has to go, and nobody has said whether they will.",
+      "occurrence": 0,
+      "textRevision": "7ca7ae4e27aa"
+    },
+    {
+      "anchor": "describeBriefing-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "Three Lexington tenants asked this office for emergency-rent help. The county could not process two referrals because each lacked a required {facts.requiredDocument}. {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} is checking the third. Decide whether {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} should back a document checklist before future referrals.",
+      "occurrence": 0,
+      "textRevision": "37c0cf10f400"
+    },
+    {
+      "anchor": "describeBriefing-0006",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "You and {other} have said what you are each doing about the meeting.",
+      "occurrence": 0,
+      "textRevision": "e5f6b1e87711"
+    },
+    {
+      "anchor": "describeBriefing-0007",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "{progress.subjectFacts.work} is still not started, and it is due {progress.subjectFacts.deadline}. Nobody has said whose half is whose.",
+      "occurrence": 0,
+      "textRevision": "88c5f0b5664c"
+    },
+    {
+      "anchor": "describeConversationHearing-0001",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "Private conversation is not possible with someone else nearby.",
+      "occurrence": 0,
+      "textRevision": "6e9100e59c90"
+    },
+    {
+      "anchor": "describeConversationHearing-0002",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "You reasonably expect only {joinNames(addressedNames)} to hear.",
+      "occurrence": 0,
+      "textRevision": "4754ff4ae088"
+    },
+    {
+      "anchor": "describeConversationHearing-0003",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "{joinNames(addressedNames)} can hear you at this volume.",
+      "occurrence": 0,
+      "textRevision": "d2250d2f2257"
+    },
+    {
+      "anchor": "describeConversationHearing-0004",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "{joinNames(addressedNames)} can hear you clearly. {joinNames(bystanderNames,)} {bystanderNames.length===1?\"is\":\"are\"} nearby.",
+      "occurrence": 0,
+      "textRevision": "a89ebf1f051b"
+    },
+    {
+      "anchor": "describeConversationHearing-0005",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "{joinNames(addressedNames)} can hear you. You do not expect {joinNames(otherNames,)} to catch the details.",
+      "occurrence": 0,
+      "textRevision": "6123be8bc0bc"
+    },
+    {
+      "anchor": "describeConversationHearing-0006",
+      "sourcePath": "src/presentation/run-b-conversation.ts",
+      "symbol": "describeConversationHearing",
+      "text": "{joinNames(addressedNames)} can hear you{audibility===\"normal\"?\"clearly\":\"\"}.",
+      "occurrence": 0,
+      "textRevision": "1a65c1fe9c6c"
+    },
+    {
+      "anchor": "detail-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "An afternoon on the doors",
+      "occurrence": 0,
+      "textRevision": "5c0f15dd448c"
+    },
+    {
+      "anchor": "detail-0002",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "An afternoon on the phones",
+      "occurrence": 0,
+      "textRevision": "57b3a6158563"
+    },
+    {
+      "anchor": "detail-0003",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "Asking people who might give for something the campaign cannot do without.",
+      "occurrence": 0,
+      "textRevision": "c379ba69ac49"
+    },
+    {
+      "anchor": "detail-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "Knocking, and talking to whoever opens. Slow, and the only thing that changes minds.",
+      "occurrence": 0,
+      "textRevision": "1d852fe88f94"
+    },
+    {
+      "anchor": "detail-0005",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "Placing an advertising buy",
+      "occurrence": 0,
+      "textRevision": "20604ae99bea"
+    },
+    {
+      "anchor": "detail-0006",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "Reaching people nobody had the hours to meet, with money the campaign already raised.",
+      "occurrence": 0,
+      "textRevision": "cc6caa72e614"
+    },
+    {
+      "anchor": "detail-0007",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "Somebody's street",
+      "occurrence": 0,
+      "textRevision": "17c95a9585cc"
+    },
+    {
+      "anchor": "detail-0008",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "The campaign office",
+      "occurrence": 0,
+      "textRevision": "4bb3ee2cf7bc"
+    },
+    {
+      "anchor": "detail-0009",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "detail",
+      "text": "The campaign's call desk",
+      "occurrence": 0,
+      "textRevision": "61550e0168c1"
+    },
+    {
+      "anchor": "dialogue-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "dialogue",
+      "text": "{shortPersonName(world,speaker.personId)} is in the kitchen too, and hasn't brought up the week yet.",
+      "occurrence": 0,
+      "textRevision": "98ba594b0fb4"
+    },
+    {
+      "anchor": "dialogue-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "dialogue",
+      "text": "“So it is on both of us,” {shortPersonName(world,speaker.personId)} says. “Say what you can actually do.”",
+      "occurrence": 0,
+      "textRevision": "921e48af43a5"
+    },
+    {
+      "anchor": "elapsedPhrase-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A couple of weeks on",
+      "occurrence": 0,
+      "textRevision": "44ee947c18a4"
+    },
+    {
+      "anchor": "elapsedPhrase-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A month later",
+      "occurrence": 0,
+      "textRevision": "f85179752dbe"
+    },
+    {
+      "anchor": "elapsedPhrase-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A year on, and into another {seasonOf(to)}",
+      "occurrence": 0,
+      "textRevision": "05bba6b8ea9c"
+    },
+    {
+      "anchor": "elapsedPhrase-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "By the {season}",
+      "occurrence": 0,
+      "textRevision": "8efcc6d19672"
+    },
+    {
+      "anchor": "elapsedPhrase-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "Half a year on",
+      "occurrence": 0,
+      "textRevision": "d4163ad66d9a"
+    },
+    {
+      "anchor": "elapsedPhrase-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "The better part of two years later",
+      "occurrence": 0,
+      "textRevision": "42855390e1ea"
+    },
+    {
+      "anchor": "elapsedPhrase-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "The next day",
+      "occurrence": 0,
+      "textRevision": "66363f3b4a6b"
+    },
+    {
+      "anchor": "elapsedPhrase-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "Within the week",
+      "occurrence": 0,
+      "textRevision": "3f69279ad56b"
+    },
+    {
+      "anchor": "elapsedPhrase-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "{years} years later",
+      "occurrence": 0,
+      "textRevision": "9ca23e47665b"
+    },
+    {
+      "anchor": "fileForOffice-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "People who might give",
+      "occurrence": 0,
+      "textRevision": "d8d0eea00a3c"
+    },
+    {
+      "anchor": "fileForOffice-0002",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "Whoever sells the advertising",
+      "occurrence": 0,
+      "textRevision": "09ae3a7352a4"
+    },
+    {
+      "anchor": "fileForOffice-0003",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "{person.familyName} for the {option.chamberName}",
+      "occurrence": 0,
+      "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0001",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "An earlier choice became relevant again.",
+      "occurrence": 0,
+      "textRevision": "2cff1b0f1600"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0002",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "It was still there to be raised, and the person who could have raised it did not.",
+      "occurrence": 0,
+      "textRevision": "9a828e2316c5"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0003",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "The life this was owed to is no longer readable.",
+      "occurrence": 0,
+      "textRevision": "31c90d573724"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0004",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "The other person is no longer in this life at all.",
+      "occurrence": 0,
+      "textRevision": "72399415eaf0"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0005",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "The person this concerned is no longer living it.",
+      "occurrence": 0,
+      "textRevision": "89021fe63c62"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0006",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "The two of them stopped having anything to do with each other, and it never came up again.",
+      "occurrence": 0,
+      "textRevision": "db44e6f4b30d"
+    },
+    {
+      "anchor": "lifeCallbackTransitionHandler-0007",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "lifeCallbackTransitionHandler",
+      "text": "What was undertaken had already ended before anybody could hold them to it.",
+      "occurrence": 0,
+      "textRevision": "09bc2df5a129"
+    },
+    {
+      "anchor": "listOf-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "listOf",
+      "text": "{head} and {names.at(-1)}",
+      "occurrence": 0,
+      "textRevision": "4086e3ea5403"
+    },
+    {
+      "anchor": "offersFor-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "offersFor",
+      "text": "An hour and a half of a day that has other things in it.",
+      "occurrence": 0,
+      "textRevision": "03651752f61a"
+    },
+    {
+      "anchor": "offersFor-0002",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "offersFor",
+      "text": "An hour and a half, and {money(buy)} of what the committee has raised.",
+      "occurrence": 0,
+      "textRevision": "b83c13ddd1bc"
+    },
+    {
+      "anchor": "offersFor-0003",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "offersFor",
+      "text": "Place an advertising buy",
+      "occurrence": 0,
+      "textRevision": "e5eb367db1b4"
+    },
+    {
+      "anchor": "offersFor-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "offersFor",
+      "text": "Spend the afternoon on the doors",
+      "occurrence": 0,
+      "textRevision": "6b303987a034"
+    },
+    {
+      "anchor": "offersFor-0005",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "offersFor",
+      "text": "Spend the afternoon on the phones",
+      "occurrence": 0,
+      "textRevision": "36c65d6007cf"
+    },
+    {
+      "anchor": "officeAuthority-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "officeAuthority",
+      "text": "{option.seats.value} of them, as {option.recordedBy.packName} records it.",
+      "occurrence": 0,
+      "textRevision": "ff443ef0133d"
+    },
+    {
+      "anchor": "openingBeat-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} is already at the door, and the project has not come up.",
+      "occurrence": 0,
+      "textRevision": "a6248f36ab19"
+    },
+    {
+      "anchor": "openingBeat-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} is at the door with the mail, and the notice is still on the board behind them.",
+      "occurrence": 0,
+      "textRevision": "e5200e9d384f"
+    },
+    {
+      "anchor": "openingBeat-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} is on the step with a bag of shopping, and the notice is right there beside them.",
+      "occurrence": 0,
+      "textRevision": "08d0ffd105fb"
+    },
+    {
+      "anchor": "openingBeat-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} is packing up, and has not mentioned the project either.",
+      "occurrence": 0,
+      "textRevision": "0a0e207fd9a0"
+    },
+    {
+      "anchor": "openingBeat-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} is wheeling the trash cans back up, and glances at the board on the way past.",
+      "occurrence": 0,
+      "textRevision": "096d05ee3bbd"
+    },
+    {
+      "anchor": "openingBeat-0006",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,speaker.personId)} zips the bag shut without either of you saying anything about it.",
+      "occurrence": 0,
+      "textRevision": "11c983be6389"
+    },
+    {
+      "anchor": "openingBeat-0007",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“I have Section 3 open,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “You’re looking at the {progress.subjectFacts.currentAmount} ceiling and the prepared {progress.subjectFacts.preparedAmount} version for the same pilot scope.”",
+      "occurrence": 0,
+      "textRevision": "a27a292480c4"
+    },
+    {
+      "anchor": "openingBeat-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“If {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} finds the third county referral also lacked the proof-of-income form, I’ll decide whether to back one document checklist for staff to use before future referrals,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says.",
+      "occurrence": 0,
+      "textRevision": "fb259f43f571"
+    },
+    {
+      "anchor": "openingBeat-0009",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“Right,” {shortPersonName(world,speaker.personId)} says. “That is settled, then.”",
+      "occurrence": 0,
+      "textRevision": "ea29508f4882"
+    },
+    {
+      "anchor": "openingBeat-0010",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“The county could not process our first two referrals because the proof-of-income form was missing,” {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} says. “I can check whether the third referral arrived without that form too.”",
+      "occurrence": 0,
+      "textRevision": "a32b312c844c"
+    },
+    {
+      "anchor": "openingBeat-0011",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“The prepared {progress.subjectFacts.preparedAmount} language is still on the page for comparison,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “Neither version is enacted or implemented.”",
+      "occurrence": 0,
+      "textRevision": "ea84f75b8ae1"
+    },
+    {
+      "anchor": "openingBeat-0012",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "“We are fine now,” {shortPersonName(world,speaker.personId)} says, and means it.",
+      "occurrence": 0,
+      "textRevision": "c14665a1f11e"
+    },
+    {
+      "anchor": "options-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Ask to split it",
+      "occurrence": 0,
+      "textRevision": "43dba8d31a09"
+    },
+    {
+      "anchor": "options-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Ask whether they will go",
+      "occurrence": 0,
+      "textRevision": "7911d6349b24"
+    },
+    {
+      "anchor": "options-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} to back a document checklist before staff make future county referrals.",
+      "occurrence": 0,
+      "textRevision": "de1c1d700a12"
+    },
+    {
+      "anchor": "options-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} to check the third referral and {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} to decide on the staff checklist.",
+      "occurrence": 0,
+      "textRevision": "70586d4c8648"
+    },
+    {
+      "anchor": "options-0005",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Ask {shortPersonName(world,conversationRole(room,\"referral-verifier\"))} whether the third referral also lacked the required proof-of-income form.",
+      "occurrence": 0,
+      "textRevision": "0fb651f636d6"
+    },
+    {
+      "anchor": "options-0006",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Bring it up rather than walking past it.",
+      "occurrence": 0,
+      "textRevision": "c6ef4fe1d769"
+    },
+    {
+      "anchor": "options-0007",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Commit your own evening to it, and say so.",
+      "occurrence": 0,
+      "textRevision": "688177cc7635"
+    },
+    {
+      "anchor": "options-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Limit the checklist to proof-of-income forms",
+      "occurrence": 0,
+      "textRevision": "8e1cd4f1f88f"
+    },
+    {
+      "anchor": "options-0009",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Limit the staff checklist to the document problem these referrals establish.",
+      "occurrence": 0,
+      "textRevision": "0ed27026116f"
+    },
+    {
+      "anchor": "options-0010",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Mention the notice",
+      "occurrence": 0,
+      "textRevision": "14db09fc404c"
+    },
+    {
+      "anchor": "options-0011",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Offer to take it on",
+      "occurrence": 0,
+      "textRevision": "c12c4b3656ef"
+    },
+    {
+      "anchor": "options-0012",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Put the question back rather than answering it.",
+      "occurrence": 0,
+      "textRevision": "c363b3608271"
+    },
+    {
+      "anchor": "options-0013",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Put the unstarted part in front of {other} rather than working around it.",
+      "occurrence": 0,
+      "textRevision": "72b4a1b1f754"
+    },
+    {
+      "anchor": "options-0014",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Say nobody has started it",
+      "occurrence": 0,
+      "textRevision": "f4ebf65970d5"
+    },
+    {
+      "anchor": "options-0015",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Say you will do the part nobody started.",
+      "occurrence": 0,
+      "textRevision": "89905c83abf7"
+    },
+    {
+      "anchor": "options-0016",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Say you will go",
+      "occurrence": 0,
+      "textRevision": "d7225b0d1c74"
+    },
+    {
+      "anchor": "options-0017",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "options",
+      "text": "Take half each and say which half now.",
+      "occurrence": 0,
+      "textRevision": "1b77a53bb82f"
+    },
+    {
+      "anchor": "otherPart-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "otherPart",
+      "text": ", {other} not voting",
+      "occurrence": 0,
+      "textRevision": "6945ea2e3360"
+    },
+    {
+      "anchor": "projectCampaign-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "occurrence": 0,
+      "textRevision": "0486ea5ede7c"
+    },
+    {
+      "anchor": "projectCampaign-0002",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won. The seat is theirs, and so is everything that came before it.",
+      "occurrence": 0,
+      "textRevision": "9f38e3705693"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill did not get the votes it needed on the floor.",
+      "occurrence": 0,
+      "textRevision": "1bfaa07fc246"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill has been filed in the {chamber.name} and is waiting to be sent to a committee.",
+      "occurrence": 0,
+      "textRevision": "0552c92baa6a"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is law and takes effect on {enactment.effectiveAt}.",
+      "occurrence": 0,
+      "textRevision": "b09c35fc848a"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is on the floor of the {chamber.name} at {stage.label}.",
+      "occurrence": 0,
+      "textRevision": "068d38f3aa36"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is with the {chamber.name}'s {committee.name}.",
+      "occurrence": 0,
+      "textRevision": "056b2030ed74"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0006",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The committee refused to report the bill, and it went no further.",
+      "occurrence": 0,
+      "textRevision": "152749f6835f"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0007",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The session ended before the bill finished.",
+      "occurrence": 0,
+      "textRevision": "2fb747e375e6"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0008",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The two chambers could not agree on a single version.",
+      "occurrence": 0,
+      "textRevision": "531fef2a7ca7"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0009",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The veto stood, so the bill did not become law.",
+      "occurrence": 0,
+      "textRevision": "4b2dc9c3b609"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0010",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The {chamber.name} passed the bill; it now goes to the {target?.name??\"otherchamber\"}.",
+      "occurrence": 0,
+      "textRevision": "718d349175e7"
+    },
+    {
+      "anchor": "questionLabel-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "questionLabel",
+      "text": "Accept the other chamber's changes",
+      "occurrence": 0,
+      "textRevision": "bc72f0206d8c"
+    },
+    {
+      "anchor": "questionLabel-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "questionLabel",
+      "text": "Adopt an amendment",
+      "occurrence": 0,
+      "textRevision": "1c6578ade987"
+    },
+    {
+      "anchor": "questionLabel-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "questionLabel",
+      "text": "Override the governor's veto",
+      "occurrence": 0,
+      "textRevision": "7ecf2797c068"
+    },
+    {
+      "anchor": "questionLabel-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "questionLabel",
+      "text": "Pass the bill",
+      "occurrence": 0,
+      "textRevision": "e30c208e6345"
+    },
+    {
+      "anchor": "questionLabel-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "questionLabel",
+      "text": "Report the bill to the floor",
+      "occurrence": 0,
+      "textRevision": "35291fbd8411"
+    },
+    {
+      "anchor": "quietSentence-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Looking after {thread.title} has not needed anything from you in a long while.",
+      "occurrence": 0,
+      "textRevision": "055166e46a3b"
+    },
+    {
+      "anchor": "quietSentence-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Nobody has mentioned what you said about {thread.title} in a long time.",
+      "occurrence": 0,
+      "textRevision": "1476f78e85eb"
+    },
+    {
+      "anchor": "quietSentence-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Nobody has said anything about what you owe for a long time.",
+      "occurrence": 0,
+      "textRevision": "8e031ae752f6"
+    },
+    {
+      "anchor": "quietSentence-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Nothing has come from {thread.title} for a long time.",
+      "occurrence": 0,
+      "textRevision": "3512c62648f6"
+    },
+    {
+      "anchor": "quietSentence-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Nothing has come of the business at {thread.title} for a long time.",
+      "occurrence": 0,
+      "textRevision": "3b1e76b745b5"
+    },
+    {
+      "anchor": "quietSentence-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "What happened has not come up again in a long time.",
+      "occurrence": 0,
+      "textRevision": "59b7934ca63c"
+    },
+    {
+      "anchor": "quietSentence-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "Whatever was going on at home with {thread.title} has been quiet for a long time.",
+      "occurrence": 0,
+      "textRevision": "8d608ca41b71"
+    },
+    {
+      "anchor": "quietSentence-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "You and {thread.title} have not spoken in a long time.",
+      "occurrence": 0,
+      "textRevision": "09f3d2fb1026"
+    },
+    {
+      "anchor": "quietSentence-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "You have not been near {thread.title} in a long time.",
+      "occurrence": 0,
+      "textRevision": "03347a56aea1"
+    },
+    {
+      "anchor": "quietSentence-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "You have not heard anything from {thread.title} in a long while.",
+      "occurrence": 0,
+      "textRevision": "b79c9f0ea836"
+    },
+    {
+      "anchor": "quietSentence-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "quietSentence",
+      "text": "{thread.title} stopped coming up a long time ago.",
+      "occurrence": 0,
+      "textRevision": "ebec6f38dc45"
+    },
+    {
+      "anchor": "recapSentence-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Looking after {thread.title} is still yours.",
+      "occurrence": 0,
+      "textRevision": "769050123fe6"
+    },
+    {
+      "anchor": "recapSentence-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Something at home with {thread.title} is waiting on you.",
+      "occurrence": 0,
+      "textRevision": "73b2b5152863"
+    },
+    {
+      "anchor": "recapSentence-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Something at {thread.title} needs an answer.",
+      "occurrence": 0,
+      "textRevision": "be7e5692b041"
+    },
+    {
+      "anchor": "recapSentence-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Something you owe has come due.",
+      "occurrence": 0,
+      "textRevision": "2643fcc8669b"
+    },
+    {
+      "anchor": "recapSentence-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "There is money going out that you are keeping an eye on.",
+      "occurrence": 0,
+      "textRevision": "fb385fe7b01c"
+    },
+    {
+      "anchor": "recapSentence-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Things with {thread.title} are not settled.",
+      "occurrence": 0,
+      "textRevision": "4510f93f7d94"
+    },
+    {
+      "anchor": "recapSentence-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "What happened has not finished happening.",
+      "occurrence": 0,
+      "textRevision": "7e0df5dcbace"
+    },
+    {
+      "anchor": "recapSentence-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "What you said about {thread.title} has come round.",
+      "occurrence": 0,
+      "textRevision": "e87eb1bf07ca"
+    },
+    {
+      "anchor": "recapSentence-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "You and {thread.title} are still in the middle of something.",
+      "occurrence": 0,
+      "textRevision": "89e2ad1aa5d1"
+    },
+    {
+      "anchor": "recapSentence-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "You and {thread.title} have something unfinished.",
+      "occurrence": 0,
+      "textRevision": "6cf927975062"
+    },
+    {
+      "anchor": "recapSentence-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "You said you would do something about {thread.title}.",
+      "occurrence": 0,
+      "textRevision": "43a33272b26e"
+    },
+    {
+      "anchor": "recapSentence-0012",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "Your name is attached to something at {thread.title}.",
+      "occurrence": 0,
+      "textRevision": "90c53628e182"
+    },
+    {
+      "anchor": "recapSentence-0013",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "{thread.title} has something running.",
+      "occurrence": 0,
+      "textRevision": "c76baab95d3b"
+    },
+    {
+      "anchor": "recapSentence-0014",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "{thread.title} is still going.",
+      "occurrence": 0,
+      "textRevision": "9d187916357e"
+    },
+    {
+      "anchor": "recapSentence-0015",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "{thread.title} is waiting to hear from you.",
+      "occurrence": 0,
+      "textRevision": "b9b837511dd6"
+    },
+    {
+      "anchor": "recapSentence-0016",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "recapSentence",
+      "text": "{thread.title} still meets, and you are still in it.",
+      "occurrence": 0,
+      "textRevision": "582bf34cc1d2"
+    },
+    {
+      "anchor": "requirementNoteFor-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "requirementNoteFor",
+      "text": "Money bills take a heavier vote to override than ordinary ones, and nobody can tell you exactly what it is here.",
+      "occurrence": 0,
+      "textRevision": "0edfc55efc10"
+    },
+    {
+      "anchor": "requirementNoteFor-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "requirementNoteFor",
+      "text": "To carry, this needs {thresholdLabel}.",
+      "occurrence": 0,
+      "textRevision": "2f9355f12ad6"
+    },
+    {
+      "anchor": "settledHouseholdLine-0001",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "settledHouseholdLine",
+      "text": "“All right. It is yours this week,” {speakerName} says.",
+      "occurrence": 0,
+      "textRevision": "487da2c942e6"
+    },
+    {
+      "anchor": "settledHouseholdLine-0002",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "settledHouseholdLine",
+      "text": "“Half each, then,” {speakerName} says. “That I can do.”",
+      "occurrence": 0,
+      "textRevision": "b4c6137425ef"
+    },
+    {
+      "anchor": "settledHouseholdLine-0003",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "settledHouseholdLine",
+      "text": "“I will get it,” {speakerName} says. “Not every week, though.”",
+      "occurrence": 0,
+      "textRevision": "da3a610e6df5"
+    },
+    {
+      "anchor": "settledHouseholdLine-0004",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "settledHouseholdLine",
+      "text": "“We left it where it was,” {speakerName} says.",
+      "occurrence": 0,
+      "textRevision": "96bbce16f4ee"
+    },
+    {
+      "anchor": "steadyState-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "A commitment in force throughout.",
+      "occurrence": 0,
+      "textRevision": "bdc725bac492"
+    },
+    {
+      "anchor": "steadyState-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "A life commitment active across the interval.",
+      "occurrence": 0,
+      "textRevision": "cd0e26cc73e5"
+    },
+    {
+      "anchor": "steadyState-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "A participation that was active throughout.",
+      "occurrence": 0,
+      "textRevision": "52ceaea8de26"
+    },
+    {
+      "anchor": "steadyState-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "A work relationship active across the interval.",
+      "occurrence": 0,
+      "textRevision": "a1b69510e30e"
+    },
+    {
+      "anchor": "steadyState-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "A work relationship that was active throughout.",
+      "occurrence": 0,
+      "textRevision": "82a4e75c1a00"
+    },
+    {
+      "anchor": "steadyState-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "An education enrollment active across the interval.",
+      "occurrence": 0,
+      "textRevision": "dd6ff2dcb1d4"
+    },
+    {
+      "anchor": "steadyState-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "An enrollment that was active throughout.",
+      "occurrence": 0,
+      "textRevision": "c0abf3aef347"
+    },
+    {
+      "anchor": "steadyState-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "An organization participation active across the interval.",
+      "occurrence": 0,
+      "textRevision": "94b37347490b"
+    },
+    {
+      "anchor": "steadyState-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "Life went on at the same pace it had been going.",
+      "occurrence": 0,
+      "textRevision": "62c5aa7c6d6d"
+    },
+    {
+      "anchor": "steadyState-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "Most weeks were built around school.",
+      "occurrence": 0,
+      "textRevision": "451ddaf04f9d"
+    },
+    {
+      "anchor": "steadyState-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "No place is recorded, so the line says only that time passed.",
+      "occurrence": 0,
+      "textRevision": "116c01f934cf"
+    },
+    {
+      "anchor": "steadyState-0012",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "The household membership that was in force throughout.",
+      "occurrence": 0,
+      "textRevision": "1f2bd2dcfd33"
+    },
+    {
+      "anchor": "steadyState-0013",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "The meetings kept on, about once a month, and mostly dull.",
+      "occurrence": 0,
+      "textRevision": "3f947ee25cf0"
+    },
+    {
+      "anchor": "steadyState-0014",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "The person's home jurisdiction resolves to {place.displayName}.",
+      "occurrence": 0,
+      "textRevision": "49ede611619e"
+    },
+    {
+      "anchor": "steadyState-0015",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "Work stayed work — the same shifts, the same people, the same drive there.",
+      "occurrence": 0,
+      "textRevision": "94535ac81a5a"
+    },
+    {
+      "anchor": "steadyState-0016",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "You spent most evenings at home with {listOf(others)}, and most of them were quiet.",
+      "occurrence": 0,
+      "textRevision": "6e5081f0f3c6"
+    },
+    {
+      "anchor": "steadyState-0017",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "You spent most evenings at home with {others[0]}, and most of them were quiet.",
+      "occurrence": 0,
+      "textRevision": "51c6c992104d"
+    },
+    {
+      "anchor": "steadyState-0018",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "{commitment.label} went on taking its hours out of the week.",
+      "occurrence": 0,
+      "textRevision": "3c2aeb1c5189"
+    },
+    {
+      "anchor": "steadyState-0019",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "{others.length} other resident(s) on the household record.",
+      "occurrence": 0,
+      "textRevision": "1772dd02ba0d"
+    },
+    {
+      "anchor": "steadyState-0020",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "steadyState",
+      "text": "{place.displayName} went on the way it does, and so did you.",
+      "occurrence": 0,
+      "textRevision": "d9a67b849a01"
+    },
+    {
+      "anchor": "threadMovementSentence-0001",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "Looking after {subject} took up more of it than you had planned for.",
+      "occurrence": 0,
+      "textRevision": "2f6b0a2f8702"
+    },
+    {
+      "anchor": "threadMovementSentence-0002",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "Something at {subject} happened worth remembering.",
+      "occurrence": 0,
+      "textRevision": "ff258fb4b902"
+    },
+    {
+      "anchor": "threadMovementSentence-0003",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "The aftermath of it ran on longer than the thing itself did.",
+      "occurrence": 0,
+      "textRevision": "dca6d6afe7b8"
+    },
+    {
+      "anchor": "threadMovementSentence-0004",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "The money side of it moved, and not by itself.",
+      "occurrence": 0,
+      "textRevision": "80d71586cf96"
+    },
+    {
+      "anchor": "threadMovementSentence-0005",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "There was one evening with {subject} that stayed with you.",
+      "occurrence": 0,
+      "textRevision": "f7ea3b680720"
+    },
+    {
+      "anchor": "threadMovementSentence-0006",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "Things with {subject} came up more than once in that time.",
+      "occurrence": 0,
+      "textRevision": "bb5c95814d28"
+    },
+    {
+      "anchor": "threadMovementSentence-0007",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "What you said you would do about {subject} came back around.",
+      "occurrence": 0,
+      "textRevision": "3891ba9c9332"
+    },
+    {
+      "anchor": "threadMovementSentence-0008",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "Work at {subject} went through a few things.",
+      "occurrence": 0,
+      "textRevision": "d8bc57d2c565"
+    },
+    {
+      "anchor": "threadMovementSentence-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "You and {subject} were in and out of each other's business more than once.",
+      "occurrence": 0,
+      "textRevision": "67666e74ddd9"
+    },
+    {
+      "anchor": "threadMovementSentence-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "You saw {subject}.",
+      "occurrence": 0,
+      "textRevision": "b98da57b59dd"
+    },
+    {
+      "anchor": "threadMovementSentence-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} kept meeting, and you kept going.",
+      "occurrence": 0,
+      "textRevision": "8db557786171"
+    },
+    {
+      "anchor": "threadMovementSentence-0012",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} took up evenings you had not expected to give it.",
+      "occurrence": 0,
+      "textRevision": "7e1902d01184"
+    },
+    {
+      "anchor": "threadMovementSentence-0013",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "{subject} took up most of it.",
+      "occurrence": 0,
+      "textRevision": "d5cc308d8ed8"
+    },
+    {
+      "anchor": "unavailable-0001",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "unavailable",
+      "text": "Election day has arrived. There is nothing left to do but wait for the count.",
+      "occurrence": 0,
+      "textRevision": "7d8c776ef72b"
+    },
+    {
+      "anchor": "unavailable-0002",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "unavailable",
+      "text": "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
+      "occurrence": 0,
+      "textRevision": "5a0d555537c5"
+    },
+    {
+      "anchor": "unavailable-0003",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "unavailable",
+      "text": "There is nothing in the account to spend.",
+      "occurrence": 0,
+      "textRevision": "1b5c8d4ed244"
+    },
+    {
+      "anchor": "uncertaintiesFor-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "A committee here can simply decline to take the bill up, and it would go no further.",
+      "occurrence": 0,
+      "textRevision": "a5ad2f1b97af"
+    },
+    {
+      "anchor": "uncertaintiesFor-0002",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Both chambers reconsider the veto together as one body of {override.combinedSeats}, not separately.",
+      "occurrence": 0,
+      "textRevision": "166252eee7e3"
+    },
+    {
+      "anchor": "uncertaintiesFor-0003",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Every bill referred here gets a public hearing, so the committee cannot quietly bury it.",
+      "occurrence": 0,
+      "textRevision": "0a9e9f92693a"
+    },
+    {
+      "anchor": "uncertaintiesFor-0004",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "If the {pack.executive.titleLabel} lets the time run out without doing anything, the bill becomes law anyway.",
+      "occurrence": 0,
+      "textRevision": "ae36bb8041c1"
+    },
+    {
+      "anchor": "uncertaintiesFor-0005",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "If the {pack.executive.titleLabel} lets the time run out without doing anything, the bill dies.",
+      "occurrence": 0,
+      "textRevision": "da8ec0b9a7e4"
+    },
+    {
+      "anchor": "uncertaintiesFor-0006",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Most bills get a hearing here, but nobody will promise you that yours will.",
+      "occurrence": 0,
+      "textRevision": "c914d14a72ee"
+    },
+    {
+      "anchor": "uncertaintiesFor-0007",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Nobody can tell you how long the {pack.executive.titleLabel} has to make up their mind.",
+      "occurrence": 0,
+      "textRevision": "49d1f48d24c2"
+    },
+    {
+      "anchor": "uncertaintiesFor-0008",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Nobody can tell you when the new law would actually start to matter, so no date is being claimed.",
+      "occurrence": 0,
+      "textRevision": "9152d59d4e22"
+    },
+    {
+      "anchor": "uncertaintiesFor-0009",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "uncertaintiesFor",
+      "text": "Nobody has been able to tell you what happens if the {pack.executive.titleLabel} simply sits on the bill, so plan on needing a signature.",
+      "occurrence": 0,
+      "textRevision": "101e48a40b13"
+    },
+    {
+      "anchor": "voteSentence-0001",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "voteSentence",
+      "text": "{vote.tally.yea} in favor, {vote.tally.nay} against{otherPart} — {vote.requiredVotes} of {vote.denominatorValue} were needed.",
+      "occurrence": 0,
+      "textRevision": "eb19535c72b8"
+    }
+  ]
+}

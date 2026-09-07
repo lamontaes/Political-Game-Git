@@ -59,7 +59,8 @@
     "despill:edges": "node --import tsx scripts/art-asset-factory/cli-edge-despill.ts",
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts",
-    "prose:eval": "node --import tsx scripts/prose-eval/cli.ts"
+    "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
+    "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts"
   },
   "dependencies": {
     "react": "19.2.6",
