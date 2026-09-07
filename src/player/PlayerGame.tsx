@@ -49,7 +49,11 @@ import {
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import { SceneBackdrop } from "./SceneBackdrop";
-import { AmbientTableau, TitleScreen } from "./TitleScreen";
+import {
+  AmbientTableau,
+  TitleScreen,
+  resolvedTitlePresentation,
+} from "./TitleScreen";
 import {
   readReplaySeed,
   resolveSessionSeed,
@@ -76,6 +80,7 @@ import {
   openLegislativeWork,
   type LegislativeAssignment,
 } from "../presentation/legislation-world";
+import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
@@ -344,23 +349,43 @@ export function PlayerGame() {
     await refreshSaves();
   }
 
+  /*
+   * One room, held across the whole opening.
+   *
+   * The title, the creator and the questionnaire each used to mount their OWN
+   * `AmbientTableau`. Those were different component types at the same place in
+   * the tree, so a route change unmounted one and mounted the other: the plate
+   * was released and re-acquired, the drift cycle restarted from zero, and the
+   * cover transform was recomputed against a viewport that had just changed.
+   * That is the black flash and the crop jump the owner play reported between
+   * New Game and the creator.
+   *
+   * Each of the three now returns the SAME element type from this same
+   * position, so React keeps one instance and one painted plate across all of
+   * them. Only the panel in front of the room is swapped. The room is never
+   * released, so there is no frame without it.
+   */
   if (screen.kind === "title") {
     return (
-      <TitleScreen
-        saves={saves}
-        savesUnavailable={savesUnavailable}
-        problem={problem}
-        onNewGame={() => {
-          setProblem(null);
-          if (replaySeed === null) {
-            setSessionSeed(resolveSessionSeed("", window.crypto));
-          }
-          setScreen({ kind: "setup" });
-        }}
-        onContinue={() => void continueMostRecent()}
-        onOpenSaves={() => setScreen({ kind: "saves" })}
-        onOpenOptions={() => setScreen({ kind: "options" })}
-      />
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <TitleScreen
+            saves={saves}
+            savesUnavailable={savesUnavailable}
+            problem={problem}
+            onNewGame={() => {
+              setProblem(null);
+              if (replaySeed === null) {
+                setSessionSeed(resolveSessionSeed("", window.crypto));
+              }
+              setScreen({ kind: "setup" });
+            }}
+            onContinue={() => void continueMostRecent()}
+            onOpenSaves={() => setScreen({ kind: "saves" })}
+            onOpenOptions={() => setScreen({ kind: "options" })}
+          />
+        )}
+      </AmbientTableau>
     );
   }
 
@@ -381,42 +406,50 @@ export function PlayerGame() {
 
   if (screen.kind === "setup") {
     return (
-      <SetupScreen
-        seed={sessionSeed.seed}
-        seedOrigin={sessionSeed.origin}
-        onBack={() => setScreen({ kind: "title" })}
-        onBegin={(setup) => {
-          setProblem(null);
-          // The calibration runs before the world is built, because its answers
-          // are part of the setup the world is built from — not because the
-          // world reads them. It never does: they go into the world's
-          // non-diegetic corner and nowhere near a generator.
-          if (questionnaireScreenFor(setup)) {
-            setScreen({ kind: "questionnaire", setup });
-            return;
-          }
-          beginLife(endQuestionnaireEarly(setup));
-        }}
-        problem={problem}
-      />
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <SetupScreen
+            seed={sessionSeed.seed}
+            seedOrigin={sessionSeed.origin}
+            onBack={() => setScreen({ kind: "title" })}
+            onBegin={(setup) => {
+              setProblem(null);
+              // The calibration runs before the world is built, because its
+              // answers are part of the setup the world is built from — not
+              // because the world reads them. It never does: they go into the
+              // world's non-diegetic corner and nowhere near a generator.
+              if (questionnaireScreenFor(setup)) {
+                setScreen({ kind: "questionnaire", setup });
+                return;
+              }
+              beginLife(endQuestionnaireEarly(setup));
+            }}
+            problem={problem}
+          />
+        )}
+      </AmbientTableau>
     );
   }
 
   if (screen.kind === "questionnaire") {
     return (
-      <QuestionnaireScreenView
-        setup={screen.setup}
-        onAnswer={(choiceId) => {
-          const next = answerQuestionnaire(screen.setup, choiceId);
-          if (questionnaireScreenFor(next)) {
-            setScreen({ kind: "questionnaire", setup: next });
-            return;
-          }
-          beginLife(next);
-        }}
-        onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
-        onBack={() => setScreen({ kind: "setup" })}
-      />
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <QuestionnaireScreenView
+            setup={screen.setup}
+            onAnswer={(choiceId) => {
+              const next = answerQuestionnaire(screen.setup, choiceId);
+              if (questionnaireScreenFor(next)) {
+                setScreen({ kind: "questionnaire", setup: next });
+                return;
+              }
+              beginLife(next);
+            }}
+            onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
+            onBack={() => setScreen({ kind: "setup" })}
+          />
+        )}
+      </AmbientTableau>
     );
   }
 
@@ -624,497 +657,497 @@ function SetupScreen({
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
-    <AmbientTableau>
-      {() => (
-        <main className="game-setup game-creator" data-testid="setup-screen">
-          <h1>Your new life</h1>
+    <main className="game-setup game-creator" data-testid="setup-screen">
+      <h1>Your new life</h1>
 
-          {/*
+      {/*
             Finished steps, collapsed. Each is a one-line summary the player can
             reopen; this is what keeps the whole active step inside the viewport
             instead of stacking every section into a scrolling column.
           */}
-          {steps
-            .filter(
-              (step) =>
-                step !== "begin" && isDone(step) && Boolean(summaryText[step]),
-            )
-            .map((step) => (
-              <button
-                key={step}
-                type="button"
-                className="creator-summary"
-                data-testid={`creator-summary-${step}`}
-                onClick={() => reopen(step)}
-              >
-                <span className="creator-summary-value">
-                  {summaryText[step]}
-                </span>
-                <span className="creator-summary-edit" aria-hidden="true">
-                  Change
-                </span>
-              </button>
-            ))}
+      {steps
+        .filter(
+          (step) =>
+            step !== "begin" && isDone(step) && Boolean(summaryText[step]),
+        )
+        .map((step) => (
+          <button
+            key={step}
+            type="button"
+            className="creator-summary"
+            data-testid={`creator-summary-${step}`}
+            onClick={() => reopen(step)}
+          >
+            <span className="creator-summary-value">{summaryText[step]}</span>
+            <span className="creator-summary-edit" aria-hidden="true">
+              Change
+            </span>
+          </button>
+        ))}
 
-          {isCurrent("route") ? (
-            <section data-testid="creator-stage-route">
-              <h2>How do you want to start?</h2>
-              <div className="game-choices" data-testid="start-kind-choices">
-                <button
-                  type="button"
-                  data-testid="start-normal"
-                  aria-pressed={!custom}
-                  className={!custom ? "is-chosen" : undefined}
-                  onClick={() => {
-                    setSetup((now) => ({ ...now, startKind: "normal" }));
-                    setCurrent("character");
-                  }}
-                >
-                  Start a life
-                  <small>
-                    You say who you are and where you're from. Everything else —
-                    your family, your home, the years behind you — the game
-                    builds when you begin.
-                  </small>
-                </button>
-                <button
-                  type="button"
-                  data-testid="start-custom"
-                  aria-pressed={custom}
-                  className={custom ? "is-chosen" : undefined}
-                  onClick={() => {
-                    setSetup((now) => ({ ...now, startKind: "custom" }));
-                    setCurrent("character");
-                  }}
-                >
-                  Custom start
-                  <small>
-                    Set the background yourself — who's at home, whether you
-                    already work somewhere, how much of the early years to play.
-                  </small>
-                </button>
-              </div>
-            </section>
-          ) : null}
+      {isCurrent("route") ? (
+        <section data-testid="creator-stage-route">
+          <h2>How do you want to start?</h2>
+          <div className="game-choices" data-testid="start-kind-choices">
+            <button
+              type="button"
+              data-testid="start-normal"
+              aria-pressed={!custom}
+              className={!custom ? "is-chosen" : undefined}
+              onClick={() => {
+                setSetup((now) => ({ ...now, startKind: "normal" }));
+                setCurrent("character");
+              }}
+            >
+              Start a life
+              <small>
+                You say who you are and where you're from. Everything else —
+                your family, your home, the years behind you — the game builds
+                when you begin.
+              </small>
+            </button>
+            <button
+              type="button"
+              data-testid="start-custom"
+              aria-pressed={custom}
+              className={custom ? "is-chosen" : undefined}
+              onClick={() => {
+                setSetup((now) => ({ ...now, startKind: "custom" }));
+                setCurrent("character");
+              }}
+            >
+              Custom start
+              <small>
+                Set the background yourself — who's at home, whether you already
+                work somewhere, how much of the early years to play.
+              </small>
+            </button>
+          </div>
+        </section>
+      ) : null}
 
-          {isCurrent("character") ? (
-            <section data-testid="creator-stage-character">
-              <h2>Your character</h2>
-              <div className="game-fields">
-                <label>
-                  First name
-                  <input
-                    type="text"
-                    value={setup.givenName ?? ""}
-                    aria-describedby="creator-name-hint"
-                    onChange={(event) =>
-                      setSetup((now) => ({
-                        ...now,
-                        givenName: event.target.value || null,
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Last name
-                  <input
-                    type="text"
-                    value={setup.familyName ?? ""}
-                    aria-describedby="creator-name-hint"
-                    onChange={(event) =>
-                      setSetup((now) => ({
-                        ...now,
-                        familyName: event.target.value || null,
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Starting age
-                  <input
-                    type="number"
-                    data-testid="start-age"
-                    min={MINIMUM_START_AGE}
-                    max={MAXIMUM_START_AGE}
-                    value={setup.startAge}
-                    onChange={(event) =>
-                      setSetup((now) => ({
-                        ...now,
-                        startAge: Number(event.target.value),
-                      }))
-                    }
-                  />
-                </label>
-              </div>
-              <p
-                className="game-hint"
-                id="creator-name-hint"
-                data-testid="creator-name-hint"
-              >
-                Leave a name blank and the game gives you one.
-              </p>
+      {isCurrent("character") ? (
+        <section data-testid="creator-stage-character">
+          <h2>Your character</h2>
+          <div className="game-fields">
+            <label>
+              First name
+              <input
+                type="text"
+                value={setup.givenName ?? ""}
+                aria-describedby="creator-name-hint"
+                onChange={(event) =>
+                  setSetup((now) => ({
+                    ...now,
+                    givenName: event.target.value || null,
+                  }))
+                }
+              />
+            </label>
+            <label>
+              Last name
+              <input
+                type="text"
+                value={setup.familyName ?? ""}
+                aria-describedby="creator-name-hint"
+                onChange={(event) =>
+                  setSetup((now) => ({
+                    ...now,
+                    familyName: event.target.value || null,
+                  }))
+                }
+              />
+            </label>
+            <label>
+              Starting age
+              <input
+                type="number"
+                data-testid="start-age"
+                min={MINIMUM_START_AGE}
+                max={MAXIMUM_START_AGE}
+                value={setup.startAge}
+                onChange={(event) =>
+                  setSetup((now) => ({
+                    ...now,
+                    startAge: Number(event.target.value),
+                  }))
+                }
+              />
+            </label>
+          </div>
+          <p
+            className="game-hint"
+            id="creator-name-hint"
+            data-testid="creator-name-hint"
+          >
+            Leave a name blank and the game gives you one.
+          </p>
 
-              {/*
+          {/*
                 Gender, asked rather than decided. Guessing it from the first
                 name would be wrong: the name corpus carries no demographic
                 attribute for anything to be guessed from. Normal Start exposes
                 gender only (owner override) — pronouns derive silently from it
                 and are never a player-facing control here.
               */}
-              <fieldset className="game-fieldset" data-testid="gender-choices">
-                <legend>Gender</legend>
-                <div className="game-choices game-choices-inline">
-                  {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
-                    (key) => (
-                      <button
-                        key={key}
-                        type="button"
-                        data-testid={`gender-${key}`}
-                        aria-pressed={setup.gender === key}
-                        className={
-                          setup.gender === key ? "is-chosen" : undefined
-                        }
-                        onClick={() => {
-                          setSetup((now) => ({
-                            ...now,
-                            gender: key,
-                            pronouns: defaultPronounsForGender(key),
-                          }));
-                        }}
-                      >
-                        {GENDER_IDENTITY_LABELS[key]}
-                      </button>
-                    ),
-                  )}
-                </div>
-              </fieldset>
-
-              <button
-                type="button"
-                className="game-creator-next"
-                data-testid="creator-continue-character"
-                onClick={() => advanceTo("place")}
-              >
-                Next
-              </button>
-            </section>
-          ) : null}
-
-          {isCurrent("place") ? (
-            <section data-testid="creator-stage-place">
-              <h2>Where you're from</h2>
-              <label className="game-search">
-                Search places
-                <input
-                  type="search"
-                  data-testid="place-search"
-                  value={placeQuery}
-                  placeholder="Type a state or a city"
-                  onChange={(event) => setPlaceQuery(event.target.value)}
-                />
-              </label>
-              {matchingPlaces.length > 0 ? (
-                <div className="game-choices" data-testid="place-choices">
-                  {matchingPlaces.map((candidate) => (
-                    <button
-                      key={candidate.key}
-                      type="button"
-                      className={
-                        candidate.key === setup.placeKey
-                          ? "is-chosen"
-                          : undefined
-                      }
-                      onClick={() =>
-                        setSetup((now) => ({
-                          ...now,
-                          placeKey: candidate.key,
-                          startingLife:
-                            candidate.capabilities.legislativeScenarioKey ===
-                            null
-                              ? "ordinary-life"
-                              : now.startingLife,
-                        }))
-                      }
-                    >
-                      {candidate.displayName}
-                      <small>{candidate.withinName ?? ""}</small>
-                    </button>
-                  ))}
-                </div>
-              ) : placeQuery.trim().length === 0 ? (
-                <p className="game-note" data-testid="place-prompt">
-                  Type where you're from. {coverage.playerNote}
-                </p>
-              ) : (
-                <p className="game-note" data-testid="place-no-match">
-                  Nothing here matches that yet. {coverage.playerNote}
-                </p>
-              )}
-              {place ? (
-                <div
-                  className="creator-place-context"
-                  data-testid="place-context"
-                >
-                  <p className="creator-place-name">{place.displayName}</p>
-                  {placeContextLines(place).map((line) => (
-                    <p key={line} className="game-hint">
-                      {line}
-                    </p>
-                  ))}
+          <fieldset className="game-fieldset" data-testid="gender-choices">
+            <legend>Gender</legend>
+            <div className="game-choices game-choices-inline">
+              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
+                (key) => (
                   <button
+                    key={key}
                     type="button"
-                    className="game-creator-next"
-                    data-testid="creator-continue-place"
-                    onClick={() =>
-                      advanceTo(custom ? "background" : "whoAreYou")
-                    }
+                    data-testid={`gender-${key}`}
+                    aria-pressed={setup.gender === key}
+                    className={setup.gender === key ? "is-chosen" : undefined}
+                    onClick={() => {
+                      setSetup((now) => ({
+                        ...now,
+                        gender: key,
+                        pronouns: defaultPronounsForGender(key),
+                      }));
+                    }}
                   >
-                    Next
+                    {GENDER_IDENTITY_LABELS[key]}
                   </button>
-                </div>
-              ) : null}
-            </section>
-          ) : null}
+                ),
+              )}
+            </div>
+          </fieldset>
 
-          {custom && isCurrent("background") ? (
-            <section data-testid="creator-stage-background">
-              <h2>Your background</h2>
-              <h3>How much of the early years to play</h3>
-              <div className="game-choices">
-                <button
-                  type="button"
-                  data-testid="depth-childhood"
-                  className={
-                    setup.depth === "play-formative-years"
-                      ? "is-chosen"
-                      : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      depth: "play-formative-years",
-                    }))
-                  }
-                >
-                  Start in childhood
-                  <small>
-                    {setup.startAge < 18
-                      ? "Play the early years one at a time."
-                      : "Only for a character under eighteen."}
-                  </small>
-                </button>
-                <button
-                  type="button"
-                  data-testid="depth-later"
-                  className={
-                    setup.depth === "summarize-earlier-life"
-                      ? "is-chosen"
-                      : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      depth: "summarize-earlier-life",
-                    }))
-                  }
-                >
-                  Begin later
-                  <small>The early years are already behind you.</small>
-                </button>
-              </div>
+          <button
+            type="button"
+            className="game-creator-next"
+            data-testid="creator-continue-character"
+            onClick={() => advanceTo("place")}
+          >
+            Next
+          </button>
+        </section>
+      ) : null}
 
-              <h3>Work</h3>
-              <div className="game-choices">
+      {isCurrent("place") ? (
+        <section data-testid="creator-stage-place">
+          <h2>Where you're from</h2>
+          <label className="game-search">
+            Search places
+            <input
+              type="search"
+              data-testid="place-search"
+              value={placeQuery}
+              placeholder="Type a state or a city"
+              onChange={(event) => setPlaceQuery(event.target.value)}
+            />
+          </label>
+          {matchingPlaces.length > 0 ? (
+            <div className="game-choices" data-testid="place-choices">
+              {matchingPlaces.map((candidate) => (
                 <button
+                  key={candidate.key}
                   type="button"
                   className={
-                    setup.startingLife === "ordinary-life"
-                      ? "is-chosen"
-                      : undefined
+                    candidate.key === setup.placeKey ? "is-chosen" : undefined
                   }
                   onClick={() =>
                     setSetup((now) => ({
                       ...now,
-                      startingLife: "ordinary-life",
+                      placeKey: candidate.key,
+                      startingLife:
+                        candidate.capabilities.legislativeScenarioKey === null
+                          ? "ordinary-life"
+                          : now.startingLife,
                     }))
                   }
                 >
-                  Everyday life
-                  <small>No office. No formal political role.</small>
-                </button>
-                <button
-                  type="button"
-                  data-testid="office-start"
-                  className={
-                    setup.startingLife === "legislative-office"
-                      ? "is-chosen"
-                      : undefined
-                  }
-                  disabled={!officeAvailable}
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      startingLife: "legislative-office",
-                    }))
-                  }
-                >
-                  Legislative staff
-                  <small>
-                    {place?.capabilities.legislativeScenarioKey === null
-                      ? `${place.displayName} has no legislature you can work in yet.`
-                      : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                        ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
-                        : "Working for a state legislature."}
+                  {candidate.displayName}
+                  {/*
+                    A search for "Kentucky" returns the whole state AND cities
+                    inside it. The owner play picked one meaning to get the
+                    other, so the two are now labelled as the different kinds of
+                    thing they are instead of as two similar-looking rows.
+                  */}
+                  <small data-place-scope={candidate.scope}>
+                    {candidate.scope === "state"
+                      ? "Statewide — not a hometown"
+                      : (candidate.withinName ?? "")}
                   </small>
                 </button>
-              </div>
-
-              <h3>At home</h3>
-              <div className="game-choices" data-testid="household-choices">
-                <button
-                  type="button"
-                  data-testid="lives-alone"
-                  className={
-                    setup.household === "lives-alone" ? "is-chosen" : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({ ...now, household: "lives-alone" }))
-                  }
-                >
-                  Nobody else
-                  <small>
-                    {setup.startAge < 18
-                      ? "One adult raising you, and no other children."
-                      : "You live on your own."}
-                  </small>
-                </button>
-                <button
-                  type="button"
-                  data-testid="shares-a-home"
-                  className={
-                    setup.household === "shares-a-home"
-                      ? "is-chosen"
-                      : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({ ...now, household: "shares-a-home" }))
-                  }
-                >
-                  Somebody else
-                  <small>
-                    {setup.startAge < 18
-                      ? "A brother or a sister in the house too."
-                      : "One other adult shares the household."}
-                  </small>
-                </button>
-              </div>
+              ))}
+            </div>
+          ) : placeQuery.trim().length === 0 ? (
+            <p className="game-note" data-testid="place-prompt">
+              Type where you're from. {coverage.playerNote}
+            </p>
+          ) : (
+            <p className="game-note" data-testid="place-no-match">
+              Nothing here matches that yet. {coverage.playerNote}
+            </p>
+          )}
+          {place ? (
+            <div className="creator-place-context" data-testid="place-context">
+              {/*
+                The exact place that becomes canonical, said before Begin. The
+                owner play chose a state and was later told they lived in
+                Lexington; whatever the answer is, it is on screen first.
+              */}
+              <p className="creator-place-name" data-testid="place-canonical">
+                {place.displayName}
+              </p>
+              <p className="game-hint" data-testid="place-scope">
+                {place.scope === "state"
+                  ? "A whole state, chosen as the scope of this life."
+                  : "This is the exact place this life will be lived in."}
+              </p>
+              {placeContextLines(place).map((line) => (
+                <p key={line} className="game-hint">
+                  {line}
+                </p>
+              ))}
               <button
                 type="button"
                 className="game-creator-next"
-                data-testid="creator-continue-background"
-                onClick={() => advanceTo("whoAreYou")}
+                data-testid="creator-continue-place"
+                onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
               >
                 Next
               </button>
-            </section>
+            </div>
           ) : null}
+        </section>
+      ) : null}
 
-          {isCurrent("whoAreYou") ? (
-            <section data-testid="creator-stage-whoareyou">
-              <h2>Who are you?</h2>
-              <p className="game-note" data-testid="whoareyou-note">
-                This is optional. A few questions help the game understand what
-                matters to you, so the situations it puts in front of you land
-                closer to home. The world remembers what you choose — some
-                things fade, some echo back years later — but nothing here locks
-                a path or decides who you become. You can skip it and let the
-                game learn from how you actually play.
-              </p>
-              <div className="game-choices" data-testid="whoareyou-choices">
-                <button
-                  type="button"
-                  data-testid="whoareyou-answer"
-                  className={
-                    setup.questionnaire !== "skipped" ? "is-chosen" : undefined
-                  }
-                  onClick={() => {
-                    setSetup((now) => ({
-                      ...now,
-                      questionnaire: "short",
-                      priors: [],
-                    }));
-                    advanceTo("begin");
-                  }}
-                >
-                  Answer a Few Questions
-                </button>
-                <button
-                  type="button"
-                  data-testid="whoareyou-play"
-                  className={
-                    setup.questionnaire === "skipped" ? "is-chosen" : undefined
-                  }
-                  onClick={() => {
-                    setSetup((now) => ({
-                      ...now,
-                      questionnaire: "skipped",
-                      priors: [],
-                    }));
-                    advanceTo("begin");
-                  }}
-                >
-                  Discover Who I Am Through Play
-                </button>
-              </div>
-            </section>
-          ) : null}
-
-          {problems.length > 0 && onReady ? (
-            <p className="game-problem" data-testid="setup-problem">
-              {problems[0]!.message}
-            </p>
-          ) : null}
-          {problem ? <p className="game-problem">{problem}</p> : null}
-
-          <div className="game-setup-actions">
-            <button type="button" onClick={onBack}>
-              Back
+      {custom && isCurrent("background") ? (
+        <section data-testid="creator-stage-background">
+          <h2>Your background</h2>
+          <h3>How much of the early years to play</h3>
+          <div className="game-choices">
+            <button
+              type="button"
+              data-testid="depth-childhood"
+              className={
+                setup.depth === "play-formative-years" ? "is-chosen" : undefined
+              }
+              onClick={() =>
+                setSetup((now) => ({
+                  ...now,
+                  depth: "play-formative-years",
+                }))
+              }
+            >
+              Start in childhood
+              <small>
+                {setup.startAge < 18
+                  ? "Play the early years one at a time."
+                  : "Only for a character under eighteen."}
+              </small>
             </button>
             <button
               type="button"
-              data-testid="begin"
-              disabled={problems.length > 0 || !onReady}
-              onClick={() => onBegin(setup)}
+              data-testid="depth-later"
+              className={
+                setup.depth === "summarize-earlier-life"
+                  ? "is-chosen"
+                  : undefined
+              }
+              onClick={() =>
+                setSetup((now) => ({
+                  ...now,
+                  depth: "summarize-earlier-life",
+                }))
+              }
             >
-              Begin
+              Begin later
+              <small>The early years are already behind you.</small>
             </button>
           </div>
 
-          {/*
+          <h3>Work</h3>
+          <div className="game-choices">
+            <button
+              type="button"
+              className={
+                setup.startingLife === "ordinary-life" ? "is-chosen" : undefined
+              }
+              onClick={() =>
+                setSetup((now) => ({
+                  ...now,
+                  startingLife: "ordinary-life",
+                }))
+              }
+            >
+              Everyday life
+              <small>No office. No formal political role.</small>
+            </button>
+            <button
+              type="button"
+              data-testid="office-start"
+              className={
+                setup.startingLife === "legislative-office"
+                  ? "is-chosen"
+                  : undefined
+              }
+              disabled={!officeAvailable}
+              onClick={() =>
+                setSetup((now) => ({
+                  ...now,
+                  startingLife: "legislative-office",
+                }))
+              }
+            >
+              Legislative staff
+              <small>
+                {place?.capabilities.legislativeScenarioKey === null
+                  ? `${place.displayName} has no legislature you can work in yet.`
+                  : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
+                    ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
+                    : "Working for a state legislature."}
+              </small>
+            </button>
+          </div>
+
+          <h3>At home</h3>
+          <div className="game-choices" data-testid="household-choices">
+            <button
+              type="button"
+              data-testid="lives-alone"
+              className={
+                setup.household === "lives-alone" ? "is-chosen" : undefined
+              }
+              onClick={() =>
+                setSetup((now) => ({ ...now, household: "lives-alone" }))
+              }
+            >
+              Nobody else
+              <small>
+                {setup.startAge < 18
+                  ? "One adult raising you, and no other children."
+                  : "You live on your own."}
+              </small>
+            </button>
+            <button
+              type="button"
+              data-testid="shares-a-home"
+              className={
+                setup.household === "shares-a-home" ? "is-chosen" : undefined
+              }
+              onClick={() =>
+                setSetup((now) => ({ ...now, household: "shares-a-home" }))
+              }
+            >
+              Somebody else
+              <small>
+                {setup.startAge < 18
+                  ? "A brother or a sister in the house too."
+                  : "One other adult shares the household."}
+              </small>
+            </button>
+          </div>
+          <button
+            type="button"
+            className="game-creator-next"
+            data-testid="creator-continue-background"
+            onClick={() => advanceTo("whoAreYou")}
+          >
+            Next
+          </button>
+        </section>
+      ) : null}
+
+      {isCurrent("whoAreYou") ? (
+        <section data-testid="creator-stage-whoareyou">
+          <h2>Who are you?</h2>
+          <p className="game-note" data-testid="whoareyou-note">
+            This is optional. A few questions help the game understand what
+            matters to you, so the situations it puts in front of you land
+            closer to home. The world remembers what you choose — some things
+            fade, some echo back years later — but nothing here locks a path or
+            decides who you become. You can skip it and let the game learn from
+            how you actually play.
+          </p>
+          <div className="game-choices" data-testid="whoareyou-choices">
+            <button
+              type="button"
+              data-testid="whoareyou-answer"
+              className={
+                setup.questionnaire !== "skipped" ? "is-chosen" : undefined
+              }
+              onClick={() => {
+                setSetup((now) => ({
+                  ...now,
+                  questionnaire: "short",
+                  priors: [],
+                }));
+                advanceTo("begin");
+              }}
+            >
+              Answer a Few Questions
+            </button>
+            <button
+              type="button"
+              data-testid="whoareyou-play"
+              className={
+                setup.questionnaire === "skipped" ? "is-chosen" : undefined
+              }
+              onClick={() => {
+                setSetup((now) => ({
+                  ...now,
+                  questionnaire: "skipped",
+                  priors: [],
+                }));
+                advanceTo("begin");
+              }}
+            >
+              Discover Who I Am Through Play
+            </button>
+          </div>
+        </section>
+      ) : null}
+
+      {problems.length > 0 && onReady ? (
+        <p className="game-problem" data-testid="setup-problem">
+          {problems[0]!.message}
+        </p>
+      ) : null}
+      {problem ? <p className="game-problem">{problem}</p> : null}
+
+      <div className="game-setup-actions">
+        <button type="button" onClick={onBack}>
+          Back
+        </button>
+        <button
+          type="button"
+          data-testid="begin"
+          disabled={problems.length > 0 || !onReady}
+          onClick={() => onBegin(setup)}
+        >
+          Begin
+        </button>
+      </div>
+
+      {/*
             Reproducibility, moved off the setup surface proper. A raw seed and
             a replay address are development tools; they stay reachable behind a
             collapsed Advanced disclosure rather than on the creator itself.
           */}
-          <details className="game-dev" data-testid="setup-advanced">
-            <summary>Advanced &mdash; reproducing this world</summary>
-            <p>
-              This world is generated from{" "}
-              <code data-testid="setup-seed">{seed}</code>
-              {seedOrigin === "replay"
-                ? ", which was supplied to reproduce an earlier one."
-                : ", drawn fresh for this session."}{" "}
-              The address below carries the place, the age and any names you
-              typed as well, so it rebuilds the same world.
-            </p>
-            <p>
-              <code data-testid="setup-replay-link">
-                {replayDescriptorUrl("", "/", setup)}
-              </code>
-            </p>
-          </details>
-        </main>
-      )}
-    </AmbientTableau>
+      <details className="game-dev" data-testid="setup-advanced">
+        <summary>Advanced &mdash; reproducing this world</summary>
+        <p>
+          This world is generated from{" "}
+          <code data-testid="setup-seed">{seed}</code>
+          {seedOrigin === "replay"
+            ? ", which was supplied to reproduce an earlier one."
+            : ", drawn fresh for this session."}{" "}
+          The address below carries the place, the age and any names you typed
+          as well, so it rebuilds the same world.
+        </p>
+        <p>
+          <code data-testid="setup-replay-link">
+            {replayDescriptorUrl("", "/", setup)}
+          </code>
+        </p>
+      </details>
+    </main>
   );
 }
 
@@ -1159,57 +1192,52 @@ function QuestionnaireScreenView({
   if (!screen) return null;
   const note = questionnaireContentNote();
   return (
-    <AmbientTableau>
-      {() => (
-        <main
-          className="game-setup game-creator"
-          data-testid="questionnaire-screen"
-        >
-          <h1>Who are you?</h1>
-          {/*
+    <main
+      className="game-setup game-creator"
+      data-testid="questionnaire-screen"
+    >
+      <h1>Who are you?</h1>
+      {/*
             What these questions actually are, said once and plainly: they are
             about the player, they orient what the game offers, and they decide
             nothing about who the character becomes.
           */}
-          <p className="game-note" data-testid="questionnaire-framing">
-            These are about you, not your character. They help the game
-            understand how you decide, so it can put the right kind of thing in
-            front of you. Nothing here locks a path, and you can begin whenever
-            you like.
-          </p>
-          <p className="game-band" data-testid="questionnaire-progress">
-            {PHASE_LINE[screen.phase]}
-          </p>
-          <p className="game-scene" data-testid="questionnaire-prompt">
-            {screen.prompt}
-          </p>
-          <div className="game-choices" data-testid="questionnaire-options">
-            {screen.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() => onAnswer(option.key)}
-              >
-                {option.text}
-              </button>
-            ))}
-          </div>
-          <div className="game-setup-actions">
-            <button type="button" onClick={onBack}>
-              Back
-            </button>
-            <button
-              type="button"
-              data-testid="questionnaire-finish"
-              onClick={onFinishEarly}
-            >
-              Begin life
-            </button>
-          </div>
-          {note ? <p className="game-note">{note}</p> : null}
-        </main>
-      )}
-    </AmbientTableau>
+      <p className="game-note" data-testid="questionnaire-framing">
+        These are about you, not your character. They help the game understand
+        how you decide, so it can put the right kind of thing in front of you.
+        Nothing here locks a path, and you can begin whenever you like.
+      </p>
+      <p className="game-band" data-testid="questionnaire-progress">
+        {PHASE_LINE[screen.phase]}
+      </p>
+      <p className="game-scene" data-testid="questionnaire-prompt">
+        {screen.prompt}
+      </p>
+      <div className="game-choices" data-testid="questionnaire-options">
+        {screen.options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => onAnswer(option.key)}
+          >
+            {option.text}
+          </button>
+        ))}
+      </div>
+      <div className="game-setup-actions">
+        <button type="button" onClick={onBack}>
+          Back
+        </button>
+        <button
+          type="button"
+          data-testid="questionnaire-finish"
+          onClick={onFinishEarly}
+        >
+          Begin life
+        </button>
+      </div>
+      {note ? <p className="game-note">{note}</p> : null}
+    </main>
   );
 }
 
@@ -1509,6 +1537,27 @@ function PlayingScreen({
                 {sentence}
               </p>
             ))}
+            {/*
+              The life the generator already wrote, before the first thing the
+              player has to decide about it. Absent when the records hold
+              nothing, which is a real outcome and not a blank to be filled.
+            */}
+            {introduction.grounding.length > 0 ? (
+              <div
+                className="life-exposition-grounding"
+                data-testid="life-grounding"
+              >
+                {introduction.grounding.map((fact) => (
+                  <p
+                    key={fact.basis}
+                    className="life-exposition-line"
+                    data-grounding={fact.kind}
+                  >
+                    {fact.text}
+                  </p>
+                ))}
+              </div>
+            ) : null}
             <button
               type="button"
               className="ui-action ui-action--primary"
@@ -1553,6 +1602,25 @@ function PlayingScreen({
           onClose={() => setOpen(null)}
         >
           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+          {/*
+            Politics is a thing an ordinary life can turn into, so this sits
+            below the ordinary day rather than replacing it. A character who
+            never files never loses the rest of the day, and one who files and
+            loses gets it all back the next morning.
+          */}
+          {capabilities.campaign ? (
+            <CampaignWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : capabilities.formativeYears ? null : (
+            <p className="game-note" data-testid="no-campaign">
+              {capabilities.withheld.find(
+                (entry) => entry.surface === "campaign",
+              )?.reason ?? ""}
+            </p>
+          )}
         </LifeOverlay>
       ) : null}
 

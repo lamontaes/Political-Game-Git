@@ -445,9 +445,14 @@ export function samePositionOwner(
 export function positionOwnerEndpoint(
   owner: ResourcePositionOwner,
 ): ResourceEndpoint {
-  return owner.kind === "person"
-    ? { kind: "person", personId: owner.personId }
-    : { kind: "household", householdId: owner.householdId };
+  switch (owner.kind) {
+    case "person":
+      return { kind: "person", personId: owner.personId };
+    case "household":
+      return { kind: "household", householdId: owner.householdId };
+    case "organization":
+      return { kind: "organization", organizationId: owner.organizationId };
+  }
 }
 
 function available(
