@@ -35,7 +35,7 @@ const REPOSITORY_ROOT = path.resolve(__dirname, "..");
  * would count somebody else's accepted files as changes made here.
  */
 export const EXECUTIVE_GOVERNING_BASE =
-  "982f613a9737e25e506dc430e4f6e121dd72b3ca";
+  "850048dc06ac5a1ee4c08d8f41d286c377707bb5";
 
 interface OwnedElsewhere {
   readonly pattern: RegExp;
