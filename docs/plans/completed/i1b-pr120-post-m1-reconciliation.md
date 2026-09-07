@@ -31,3 +31,14 @@ semantic changes, rebase, force push, or PR merge.
 For inherited ownership-test failures, consume the canonical main repair and
 compare Git blobs before expanding an already accepted feature audit. This
 reconciliation needs no new municipal audit because every accepted blob is exact.
+
+## Final-main refresh
+
+The first reconciled head `ad34c21300661fcfa725fb798a6c85c79463137a` passed
+both GitHub runs: 2,386 semantic tests and 249 browser proofs in each.
+The final fetch then found M2/PR113 merged to main as
+`414b24ce6120799985d3b0bddbf196c9c064df36`. An ordinary conflict-free merge
+imports those 12 main-owned files unchanged. All 12 accepted PR120 blobs and
+the canonical ownership test remain exact. No manifest regeneration or
+municipal-governance semantic change is needed. The final head must receive
+fresh exact-head CI/browser proof; prior-head results do not substitute.
