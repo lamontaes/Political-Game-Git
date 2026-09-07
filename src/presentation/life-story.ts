@@ -2,7 +2,7 @@ import {
   describePersonContext,
   introducePerson,
   EPISODE_FAMILIES,
-  LIFE_TRANSITION_HANDLERS,
+  createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   addDays,
   advanceWorld,
@@ -691,7 +691,7 @@ export function chooseStoryOption(
       return advanceWorld(
         played.world,
         EPISODE_STEP_DAYS[scene.beat.stakes],
-        LIFE_TRANSITION_HANDLERS,
+        createCampaignElectionTransitionRegistry(),
       );
     }
     case "formative":
