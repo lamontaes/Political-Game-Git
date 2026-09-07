@@ -156,6 +156,113 @@
     {
       "artifacts": [
         {
+          "artifactId": "uscode-title5-section2102",
+          "sha256": "b8c26d4a76baaea9dd3a40e596f1fb51276a262eaa28962717b90aa7fe45040b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section2103",
+          "sha256": "c3282aff61dfef6cff098b484cbb3bc6c48c38cf077a78651f78897be334ee40",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section3304",
+          "sha256": "244d982091b141f991148b858683a9f445aa0cefc0757a4bc8443aa2a96d4644",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section7513",
+          "sha256": "08527db9be8d2d137a92f40f49fbfb4db726a8128faa9c507b99d3d3304dd962",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section7102",
+          "sha256": "b6fa57115156b83e983fa3ef72e321839357fa44bb790097db46faae5485de61",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section7106",
+          "sha256": "b9c77eda23b486d05972f1328d34fd6a9b834e3b7b58ac698fd9c2f860d8c6da",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section7119",
+          "sha256": "5fa24b1ee07bea3d5dc8d9c02b570702caa441c62c164367af46ce4f67463f67",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "uscode-title5-section7311",
+          "sha256": "02ad33707e2229b3558ede366ba3e74b3bb359e1af7441e4c5070f506d700499",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-civil-service-statutes",
+          "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-public-employment-relations-statutes",
+          "sha256": "158789e5e2315237f2ef1151caf5ed25040b51fc76c1e3129290cb63ce9c061b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mn-civil-service-statutes",
+          "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mn-public-employment-labor-relations-statutes",
+          "sha256": "b2236aba710d4ddfe374a19bdbc5f93ccb9a92f1ab5fa6f49a3be3afdf25addd",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-classified-service-statutes",
+          "sha256": "519c7539f84356aab9cb322d19fed430e1e80a62010857e71fe27b8e58cbaaa5",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-bargaining-scope-statutes",
+          "sha256": "02b242860b6c9d0e8fa628486e2a43bdb7c41123c94d118dad44afff117fb2a5",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-impasse-statutes",
+          "sha256": "874487b2d2383f5c07721f16ceacde08594701aa8aa28418e7b7222e16b1f587",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-06",
+      "boundedSampleReason": null,
+      "canonicalSha256": "9d63e5a66a1e4dcc9e08311b62c167818f705737779432a25dc17fb67dfd5c1f",
+      "compiler": {
+        "name": "civil-service-labor",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "9d63e5a66a1e4dcc9e08311b62c167818f705737779432a25dc17fb67dfd5c1f",
+      "corpusId": "civil-service-labor",
+      "domain": "civil-service-labor",
+      "isCompleteUniverse": true,
+      "recordCount": 51,
+      "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-counties-zip",
           "sha256": "4c90d0f805779923b5958ab13d0c1e9b99fe4932b786bfcf75dd739bb2dcb4ea",
           "sliceOfParent": null,
@@ -315,6 +422,29 @@
       "isCompleteUniverse": true,
       "recordCount": 9528,
       "universeDescription": "Every area in HUD's FY2025 county-level Fair Market Rent file and every area in its FY2025 Section 8 Income Limits file, held as two separate products. Both are complete as published; HUD also issues Small Area Fair Market Rents by ZIP code, which is a third product and is not part of this corpus."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "92l-national-judicial-selection-tenure-completion",
+          "sha256": "de494b4f778fd47710649a9014718c52247504d90619d67d24a158c12128bf24",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-05",
+      "boundedSampleReason": null,
+      "canonicalSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "compiler": {
+        "name": "judicial-office-selection",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "corpusId": "judicial-office-selection",
+      "domain": "judicial-office-selection",
+      "isCompleteUniverse": true,
+      "recordCount": 156,
+      "universeDescription": "Every highest-court, intermediate-appellate, and general-trial office-family slot reported by 92L across the United States federal judiciary and all fifty states, plus its separately reported split-apex and chancery families: 156 slots, 148 active offices, and eight explicit non-applicable intermediate-court slots, as of 2026-09-05."
     },
     {
       "artifacts": [
@@ -512,6 +642,10 @@
     {
       "domain": "public-employment",
       "productionGate": "Production compilation is gated on acquiring the Census Annual Survey of Public Employment & Payroll (ASPEP, and the Census of Governments employment phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the product at census.gov/programs-surveys/apes.html, not writing code."
+    },
+    {
+      "domain": "state-local-fiscal-authority",
+      "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
     },
     {
       "domain": "state-office-qualifications",
