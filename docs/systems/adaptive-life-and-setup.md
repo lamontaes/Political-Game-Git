@@ -284,3 +284,13 @@ continuity. Immediate retained scene circumstances are preserved in the
 ordinary resolution event, and stale selections are rechecked before writing.
 No canonical records are invented for eligibility. Independent C119C acceptance
 is pending; static review success is not runtime grounding approval.
+
+### Persistent episode cast identity (C119D)
+
+A stage's age-qualified cast must agree with the person selected by the
+existing instance key for every role the family persists. If the first
+candidate names one person and a stage gate selects another, eligibility
+withholds the stage. The beat writer revalidates that same eligibility before
+writing; it cannot record a stale mismatched beat. Neither the stored key nor
+the person is replaced to make a later callback available. Nonpersistent roles
+retain their existing stage-local binding behavior.

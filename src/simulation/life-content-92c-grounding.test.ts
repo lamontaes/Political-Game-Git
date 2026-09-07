@@ -16,7 +16,7 @@ import {
   occurIncident,
   activeIncidentsAt,
 } from "./incidents";
-import { recordLifeCommitment } from "./life";
+import { recordLifeCommitment, startHouseholdMembership } from "./life";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
   eligibleEpisodeBeats,
@@ -26,9 +26,9 @@ import {
   type EpisodeFamily,
 } from "./life-episodes";
 import { lifeContent92cStages } from "./life-content-92c";
-import type { EntityId, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
-function fixture(age = 7) {
+function fixture(age = 7, seed = "c119b-grounding") {
   return createNewGameWorld({
     placeKey: "kentucky",
     startAge: age,
@@ -36,7 +36,7 @@ function fixture(age = 7) {
     depth: "play-formative-years",
     startingLife: "ordinary-life",
     household: "shares-a-home",
-    seed: "c119b-grounding",
+    seed,
     givenName: null,
     familyName: null,
     questionnaire: "skipped",
@@ -46,7 +46,13 @@ function fixture(age = 7) {
 
 // Explicit synthetic people and encounters, only in tests. No production
 // initializer is changed to make any scene eligible.
-function familiar(world: World, personId: EntityId, age: number, key: string) {
+function familiar(
+  world: World,
+  personId: EntityId,
+  age: number,
+  key: string,
+  birthDate?: IsoDate,
+) {
   const template = createStartingPerson({
     worldId: world.id,
     worldSeed: key,
@@ -62,9 +68,17 @@ function familiar(world: World, personId: EntityId, age: number, key: string) {
     ...template,
     id,
     generationKey,
+    ...(birthDate ? { birthDate } : {}),
     establishedFacts: template.establishedFacts.map((fact) => ({
       ...fact,
       id: createStableId("fact", `${id}:${fact.stableKey}`),
+      ...(birthDate &&
+      (fact.kind === "birth-date" || fact.kind === "birthplace")
+        ? {
+            occurredAt: birthDate,
+            summary: `Synthetic ${fact.kind} established at ${birthDate}.`,
+          }
+        : {}),
     })),
   };
   world = {
@@ -439,5 +453,191 @@ describe("C119B childhood cast and current scene history", () => {
     expect(result.history.workRelationships).toEqual(
       created.world.history.workRelationships,
     );
+  });
+});
+
+describe("C119D persistent identity agrees with the age-qualified cast", () => {
+  function twoPeers(matching: boolean) {
+    const created = fixture(6);
+    const keys = ["identity-peer-a", "identity-peer-b"].sort((a, b) =>
+      createStableId(
+        "person",
+        `${created.world.id}:fixture:c119b:${a}`,
+      ).localeCompare(
+        createStableId("person", `${created.world.id}:fixture:c119b:${b}`),
+      ),
+    );
+    const birth = created.world.people[created.playerPersonId]!.birthDate;
+    const first = familiar(
+      created.world,
+      created.playerPersonId,
+      6,
+      keys[0]!,
+      matching ? birth : addDays(birth, 690),
+    );
+    const second = familiar(
+      first.world,
+      created.playerPersonId,
+      6,
+      keys[1]!,
+      birth,
+    );
+    const candidates = episodeRoleBindings(
+      second.world,
+      created.playerPersonId,
+    ).filter((b) => b.role === "familiar");
+    expect(candidates.map((b) => b.personId)).toEqual([
+      first.personId,
+      second.personId,
+    ]);
+    expect(candidates[0]!.age).toBe(matching ? 6 : 4);
+    expect(candidates[1]!.age).toBe(6);
+    return {
+      ...created,
+      world: second.world,
+      firstId: first.personId,
+      secondId: second.personId,
+    };
+  }
+
+  it("withholds a two-peer pact and false callback when keyed and age-qualified people differ", () => {
+    const c = twoPeers(false);
+    const before = serializeWorld(c.world);
+    const family = EPISODE_FAMILIES.find(
+      (f) => f.key === "companionship.the-friend-you-named",
+    )!;
+    // Reconstruct the old inconsistent beat without bypassing any age gate:
+    // compose Y with no persistent roles, then attach the old X instance key.
+    const castBeat = beats(c.world, c.playerPersonId, [
+      { ...family, roles: [] },
+    ]).find((b) => b.stageKey === "best-friend-pact")!;
+    expect(castBeat.bindings[0]!.personId).toBe(c.secondId);
+    const oldBeat = {
+      ...castBeat,
+      instanceKey: episodeInstanceKey(
+        family.key,
+        episodeRoleBindings(c.world, c.playerPersonId),
+        family.roles,
+      ),
+    };
+    expect(oldBeat.instanceKey).toContain(`familiar=${c.firstId}`);
+    expect(() =>
+      playEpisodeOption(c.world, {
+        personId: c.playerPersonId,
+        beat: oldBeat,
+        optionKey: "say-yes",
+        families: EPISODE_FAMILIES,
+      }),
+    ).toThrow("no longer eligible");
+    expect(
+      beats(c.world, c.playerPersonId).find(
+        (b) => b.stageKey === "best-friend-pact",
+      ),
+    ).toBeUndefined();
+    expect(
+      beats(atAge(c.world, c.playerPersonId, 18), c.playerPersonId).find(
+        (b) => b.stageKey === "across-the-checkout",
+      ),
+    ).toBeUndefined();
+    expect(serializeWorld(c.world)).toBe(before);
+  });
+
+  it("preserves the matching first peer through choice, elapsed time, save and deterministic callback", () => {
+    const c = twoPeers(true);
+    const pact = beats(c.world, c.playerPersonId).find(
+      (b) => b.stageKey === "best-friend-pact",
+    )!;
+    expect(pact.bindings[0]!.personId).toBe(c.firstId);
+    expect(pact.instanceKey).toContain(`familiar=${c.firstId}`);
+    const played = playEpisodeOption(c.world, {
+      personId: c.playerPersonId,
+      beat: pact,
+      optionKey: "say-yes",
+      families: EPISODE_FAMILIES,
+    }).world;
+    const later = atAge(
+      deserializeWorld(serializeWorld(played)),
+      c.playerPersonId,
+      18,
+    );
+    const callback = beats(later, c.playerPersonId).find(
+      (b) => b.stageKey === "across-the-checkout",
+    )!;
+    expect(callback.bindings[0]!.personId).toBe(c.firstId);
+    expect(callback.instanceKey).toBe(pact.instanceKey);
+    expect(beats(later, c.playerPersonId)).toEqual(
+      beats(later, c.playerPersonId),
+    );
+    expect(
+      callback.causalInputs
+        .flatMap((c) => c.satisfiedBy)
+        .some((a) =>
+          played.history.events.some(
+            (e) =>
+              e.id === a.recordId &&
+              e.tags.includes("episode-stage:best-friend-pact"),
+          ),
+        ),
+    ).toBe(true);
+  });
+
+  it("withholds sibling snatching and rejects its stale beat when an older peer sorts first", () => {
+    const c = fixture(5, "92c-age-proof");
+    const original = beats(c.world, c.playerPersonId).find(
+      (b) => b.stageKey === "sibling-toy-snatch",
+    )!;
+    expect(original).toBeDefined();
+    const youngId = original.bindings[0]!.personId;
+    expect(original.instanceKey).toContain(`household-peer=${youngId}`);
+    let key = "";
+    for (let i = 0; i < 1000; i++) {
+      const candidate = `older-peer-${i}`;
+      if (
+        createStableId(
+          "person",
+          `${c.world.id}:fixture:c119b:${candidate}`,
+        ).localeCompare(youngId) < 0
+      ) {
+        key = candidate;
+        break;
+      }
+    }
+    expect(key).not.toBe("");
+    const older = familiar(c.world, c.playerPersonId, 13, key);
+    const membership = c.world.history.householdMemberships.find(
+      (m) => m.personId === c.playerPersonId,
+    )!;
+    const world = startHouseholdMembership(older.world, {
+      stableKey: "fixture:c119d:older-membership",
+      householdId: membership.householdId,
+      personId: older.personId,
+      startedAt: older.world.currentDate,
+      residenceRole: "primary",
+      kind: "resident:family",
+      provenance: {
+        kind: "authored",
+        note: "Synthetic C119D older household peer",
+      },
+    });
+    const peers = episodeRoleBindings(world, c.playerPersonId).filter(
+      (b) => b.role === "household-peer",
+    );
+    expect(peers[0]!.personId).toBe(older.personId);
+    expect(peers.find((b) => b.personId === youngId)!.age).toBeLessThan(5);
+    const before = serializeWorld(world);
+    expect(
+      beats(world, c.playerPersonId).find(
+        (b) => b.stageKey === "sibling-toy-snatch",
+      ),
+    ).toBeUndefined();
+    expect(() =>
+      playEpisodeOption(world, {
+        personId: c.playerPersonId,
+        beat: original,
+        optionKey: "take-it-back",
+        families: EPISODE_FAMILIES,
+      }),
+    ).toThrow("no longer eligible");
+    expect(serializeWorld(world)).toBe(before);
   });
 });

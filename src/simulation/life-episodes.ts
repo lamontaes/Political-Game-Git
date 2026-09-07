@@ -1286,6 +1286,26 @@ export function eligibleEpisodeBeats(
       });
       if (stageBindings.length !== neededRoles.length) continue;
 
+      // Persistent roles keep the existing first-binding identity. A stage's
+      // age gates may select somebody else; withholding is safer than writing
+      // that person's choice under an instance that later recalls another.
+      // playEpisodeOption revalidates through this same eligibility boundary.
+      const mismatchedCast = stageBindings.find(
+        (cast) =>
+          family.roles.includes(cast.role) &&
+          bindings.find((binding) => binding.role === cast.role)?.personId !==
+            cast.personId,
+      );
+      if (mismatchedCast) {
+        exclusions.push({
+          episodeKey: family.key,
+          stageKey: stage.key,
+          requirement: { kind: "role", role: mismatchedCast.role },
+          detail: `The age-qualified ${mismatchedCast.role} does not match the persistent instance person.`,
+        });
+        continue;
+      }
+
       beats.push({
         episodeKey: family.key,
         instanceKey,

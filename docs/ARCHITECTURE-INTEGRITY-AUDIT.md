@@ -713,3 +713,18 @@ continuity. Immediate retained scene circumstances are preserved in the
 ordinary resolution event, and stale selections are rechecked before writing.
 No canonical records are invented for eligibility. Independent C119C acceptance
 is pending; static review success is not runtime grounding approval.
+
+## C119D persistent cast identity repair
+
+The shared episode eligibility boundary now rejects a stage whose age-qualified
+cast differs from its persistent instance person. Existing instance-key syntax,
+World/history schema, peer cohort filtering, role-age gates and write-boundary
+revalidation remain unchanged. The rule applies to every persistent family role,
+including the childhood pact and household toy scene, rather than a scene-ID
+exception. No content, runtime frequency, withheld circumstance, campaign or
+bargaining behavior is changed. Synthetic adversarial tests cover both sort
+orders, write rejection and matching-person save/callback behavior.
+
+LEARN: role eligibility, rendered cast and persistent identity must be tested
+together with multiple candidates; a one-candidate proof cannot detect their
+selection rules diverging. This lesson is enforced in the C119D regressions.
