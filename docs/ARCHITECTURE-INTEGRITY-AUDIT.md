@@ -757,6 +757,15 @@ ordinary resolution event, and stale selections are rechecked before writing.
 No canonical records are invented for eligibility. Independent C119C acceptance
 is pending; static review success is not runtime grounding approval.
 
+C119C's independent audit found a persistent-instance identity defect; that
+defect is closed by the C119D repair recorded below, and the "pending" status in
+the preceding paragraph is historical. C119E independently re-audited exact head
+`148ab1f37f36aad9ebbfe0410ace0e351f65ae46` and returned ACCEPT, confirming C119D
+closes the C119C defect and preserves the grounding, withholding, age, callback,
+persistence, research-accounting, campaign-isolation, bargaining-isolation and
+canonical-ownership controls. Landing onto current main is mechanical. Owner
+visual acceptance is still not implied by passing automated browser tests.
+
 ## C119D persistent cast identity repair
 
 The shared episode eligibility boundary now rejects a stage whose age-qualified
