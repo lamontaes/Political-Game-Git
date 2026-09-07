@@ -721,6 +721,66 @@ time, and office access needs a locality-origin test where residence differs
 from governing authority. The focused integration and browser regressions are
 the durable mechanism; no broader prompt or new workflow is needed.
 
+## 92C Life-Content First-Wave Audit — 2026-09-06
+
+This audit applies the 92C run packet and rechecks D-004, D-023, D-025, the
+accepted episode/content-bank architecture, the PR #99 development-time prose
+boundary, the frozen Stage 6 baseline, and the active #85/#79 ownership
+exclusions.
+
+| Concern                     | Disposition                          | Evidence and rationale                                                                                                                                                                                                                                                                                           |
+| --------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Primitive reuse             | Confirmed                            | Sixteen kernels use the existing episode, event, memory, relationship-interaction, commitment, organization-participation, incident, work, education, household, and deterministic selection paths. No canonical record family or second history was added.                                                      |
+| Age and context             | Corrected with a contained extension | Every new child stage carries a numeric floor and ceiling plus its required school, household, authority, or relationship context. `role-age-below` mirrors the accepted older-role gate and uses the qualifying binding for both eligibility and composition. Live tests distinguish ages five, seven, and ten. |
+| Child agency                | Confirmed bounded                    | Child options describe only the child's immediate response. They write no commitment and offer no housing, medical, custody, budgeting, employment, or school-selection decision.                                                                                                                                |
+| Adult-path plurality        | Confirmed                            | Work-only, education-only, combined work-and-education, kin, relationship, and neither-work-nor-education contexts are represented without naming a program type or assigning a demographic frequency.                                                                                                           |
+| Causal history              | Confirmed                            | New continuations name the earlier option, elapsed time, and required bound person where the prose claims them. Independent school, household, and incident moments extend accepted same-domain families rather than receiving fabricated causal branches.                                                       |
+| Provenance and player prose | Confirmed fail-closed                | All twenty rendered scenes have a stage-specific fact packet, accepted static writer output, and separate exact `GROUNDING: PASS` verdict. Tests map every rendered line, label, description, and memory to its own output; production code has no model call.                                                   |
+| Determinism and missingness | Confirmed                            | Identical worlds select identically. Different canonical ages change eligibility. Missing enrollment or guardian records withhold the relevant stages, and a missing or wrong-age person is never replaced with invented prose or an invented entity.                                                            |
+| Stable identity and history | Confirmed                            | Existing family and option keys are unchanged. New ids are stable, played stages remain ordinary tagged history, and long-tail identity is carried by the existing episode instance binding.                                                                                                                     |
+| Stage and ownership scope   | Confirmed absent                     | No Stage 6 semantic baseline, Run D-Lite clock/work substrate, player/campaign surface owned by #85, bargaining surface owned by #79, campaign/candidacy file, law/institution engine, runtime AI dependency, or new UI was changed.                                                                             |
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.
+
+C119C's independent audit found a persistent-instance identity defect; that
+defect is closed by the C119D repair recorded below, and the "pending" status in
+the preceding paragraph is historical. C119E independently re-audited exact head
+`148ab1f37f36aad9ebbfe0410ace0e351f65ae46` and returned ACCEPT, confirming C119D
+closes the C119C defect and preserves the grounding, withholding, age, callback,
+persistence, research-accounting, campaign-isolation, bargaining-isolation and
+canonical-ownership controls. Landing onto current main is mechanical. Owner
+visual acceptance is still not implied by passing automated browser tests.
+
+## C119D persistent cast identity repair
+
+The shared episode eligibility boundary now rejects a stage whose age-qualified
+cast differs from its persistent instance person. Existing instance-key syntax,
+World/history schema, peer cohort filtering, role-age gates and write-boundary
+revalidation remain unchanged. The rule applies to every persistent family role,
+including the childhood pact and household toy scene, rather than a scene-ID
+exception. No content, runtime frequency, withheld circumstance, campaign or
+bargaining behavior is changed. Synthetic adversarial tests cover both sort
+orders, write rejection and matching-person save/callback behavior.
+
+LEARN: role eligibility, rendered cast and persistent identity must be tested
+together with multiple candidates; a one-candidate proof cannot detect their
+selection rules diverging. This lesson is enforced in the C119D regressions.
+
 ## Civil Service / Labor Source Substrate Audit — 2026-09-06
 
 This audit applies the source-substrate contracts to the bounded 92P first
