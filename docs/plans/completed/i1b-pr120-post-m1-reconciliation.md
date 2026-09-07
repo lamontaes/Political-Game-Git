@@ -52,3 +52,12 @@ new fiscal domain. MANIFEST merged mechanically; source documentation kept
 the exact accepted municipal gate paragraph and appended main's fiscal and
 other-domain gate explanations, omitting its stale five-domain count. All
 other accepted PR120 blobs remain exact. Fresh CI is required on this head.
+
+## M2 PR115 and PR116 refresh
+
+Final fetch found main `9c36b2fb9f559db8c1cdc45ce98f7305c949f0ad` after
+PR115 and PR116 landed. Ordinary merge was conflict-free. The shared manifest,
+acceptance document and source-system document retain their municipal entries
+and gain only main-owned additions. Municipal domain, fixture, tests, completed
+92I plan and architecture audit remain byte-identical to the accepted head.
+No feature semantics changed; the new combined head receives fresh CI.

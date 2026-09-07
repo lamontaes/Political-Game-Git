@@ -228,6 +228,14 @@ research syntheses, and a secondary source cannot carry the evidence of a
 retrieval this repository never made. See
 [State and local fiscal authority](fiscal-authority-source.md).
 
+Research packets and the primary authorities they cite are separate evidence
+layers. The `judicial-office-selection` domain locks its received 92L research
+packet, labels the packet-referenced companion transcription as such, and keeps
+every reported constitution, statute, or court-rule citation at
+`CITATIONS_REPORTED_NOT_RETRIEVED`. A convenient transcription must never
+silently upgrade either itself or its citations into independently retrieved
+primary evidence. See `judicial-office-selection.md`.
+
 The 2024 PUMS state-shard form is explicit rather than a hidden alternate
 default:
 
