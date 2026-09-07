@@ -15,8 +15,16 @@ semantic changes, rebase, force push, or PR merge.
 - All 12 accepted PR120 feature/shared blobs remain byte-identical, including
   MANIFEST and municipal documentation. No source regeneration is required.
 - Ownership test matches current main exactly.
-- Pending: focused 33 tests, source validate/replay, full validation, art inventory
-  and QA, exact-head GitHub validation and browser proofs, final remote verification.
+- Focused tests passed: 33 municipal and five canonical ownership cases.
+- Local `npm run validate` passed format, lint, and typecheck; its test phase
+  hit five 5-second timeouts in unchanged art/stress/source cases under concurrent
+  machine load (2,381 passed). No assertion or municipal failure occurred.
+- Controlled full rerun passed 2,386/2,386 using two workers and a 30-second
+  test timeout. Source validate/replay, build, deterministic demo, art validation,
+  and 322-item art inventory passed. Standard CI settings remain unchanged.
+- Exact published-head GitHub validation/browser results and final remote state
+  are reported in the task completion response; acceptance requires those gates.
+- The implementation/reconciliation plan is complete; PR merge remains excluded.
 
 ## LEARN
 
