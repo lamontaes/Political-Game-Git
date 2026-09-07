@@ -65,8 +65,18 @@ branding search-and-replace was performed.
 
 ## Ownership
 
-No path owned by PR #126 was edited: `computed-anchors.json` (rewritten
-byte-identically by the no-op mint, zero diff), `corpus.test.ts`,
-`sources/computed.ts`, `docs/prose-inventory/**`, `src/presentation/life-narration*`,
-and `tests/e2e/narrative-life.spec.ts` are all unchanged. No `src/`, art, or
-source-domain file was touched, and no dependency was added.
+No path owned by PR #126 was edited. #126 merged to main while this cargo was in
+flight; main was merged in (ordinary merge, no rebase, no force-push) and the
+ledger synced with `corpus:prose -- ledger`, which absorbed its 22 newly minted
+ids. Its 25 retired ids were already in the seed and stay burned: 419 ever
+issued against 394 live.
+
+`computed-anchors.json`, `corpus.test.ts`, `sources/computed.ts`,
+`docs/prose-inventory/**`, `src/presentation/life-narration*`, and
+`tests/e2e/narrative-life.spec.ts` are unchanged against main. A no-op mint on
+the merged tree does propose one edit to `computed-anchors.json` — moving
+`threadMovementSentence-0016` into sort position after #126's hand-renumbering,
+with identical anchor, text, and revision. It is cosmetic, belongs to that file's
+owner rather than to this cargo, and was reverted; the next mint there will make
+it. No `src/`, art, or source-domain file was touched, and no dependency was
+added.
