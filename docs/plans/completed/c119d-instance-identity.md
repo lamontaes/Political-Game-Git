@@ -54,3 +54,28 @@ of the ownership integration blocker and completion of those gates.
 
 LEARN is encoded in the multi-candidate regressions and the architecture audit:
 instance identity and the age-qualified cast must be checked together.
+
+## Post-M3 publication
+
+The owner authorized resuming publication after M3. Main
+`25b7e7a291e22374566c30d31552dcc4d8314d51` was incorporated by ordinary merge
+`5181e565bc59fc8ccaa1cd70eaabd6c4988ccf9a`. The only merge conflict was
+independent appended audit sections; both were preserved. The judicial ownership
+file now matches canonical main exactly. No C119D production or test code was
+redesigned, and no unrelated local commit was introduced.
+
+Post-M3 focused validation: 178 tests across nine suites passed, including
+identity, grounding, narrative/content and ownership. All three affected triplets
+passed deterministic grounding and stored reviewer verification. Thirteen
+narrative browser tests passed on an isolated port. Inventory and QA passed with
+322 assets and no tracked churn.
+
+The local full validation passed formatting, lint and typecheck, then reported
+2,550 passing tests and eleven five-second timeouts across seven unrelated
+suites. A one-worker rerun also encountered host time limits; no limits or
+assertions were changed. Exact published-head GitHub validation and full browser
+proofs are required before reporting C119E readiness; final CI evidence belongs
+in the publication response. Owner acceptance and merge remain separate.
+
+Implementation is complete. The original blocker above is historical and was
+resolved by canonical M3, not a branch-local exemption.
