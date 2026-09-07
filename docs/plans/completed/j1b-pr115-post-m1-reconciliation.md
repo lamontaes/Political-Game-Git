@@ -1,6 +1,7 @@
 # J1B PR #115 post-M1 reconciliation
 
-Status: Active; exact-head validation pending.
+Status: Reconciliation complete; final exact-head CI/browser acceptance is
+reported separately on the task. No merge or human visual acceptance claimed.
 
 ## Authority and scope
 
@@ -31,3 +32,25 @@ An inherited ownership assertion must measure its original closed packet
 range after merge. Preserve M1's frozen 92H endpoints; only an open feature's
 own base follows reconciled main. Byte comparisons against the accepted head
 and current main provide a small, reproducible reconciliation check.
+
+## Reconciliation evidence
+
+The ordinary merge brought in only the inherited 92H ownership test, exactly
+as M1 shipped it. All five non-bookkeeping J1A files remain byte-identical to
+`59ac50983941dd6e640378adc964acd8f9fcd5cc`. The sixth file changes only its
+accepted-main base; its forbidden list is unchanged. The executable bank
+reports sixty rows: ten compiled, fifty mechanic-gated, ten definitions.
+
+Focused tests passed 24/24. The default local validation passed formatting,
+lint, and typecheck, then reported seven five-second timeouts in unchanged
+tests. A complete rerun with two workers and a 30-second allowance passed
+2,372/2,372 tests. Source validation, byte-identical replay, build, deterministic
+demo, art validation, inventory, and QA passed. The unmodified CI repository
+validation also passed on the reconciliation merge; final published-head CI
+and browser results remain the acceptance gate, not these earlier results.
+
+For browser proofs, use an exclusive port and refuse server reuse when other
+worktrees are testing. Run repository tests BEFORE starting the browser server:
+the art-readiness escape test briefly creates a symlink that Vite's art glob
+can observe. Neither workaround requires tracked configuration or feature
+changes. Interrupted browser runs remain diagnostic evidence, not passes.
