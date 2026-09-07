@@ -1,6 +1,10 @@
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { unknownRule } from "./legislature-rules";
-import type { LegislativeRulePack, RuleValue } from "./legislature-rules";
+import type {
+  FormalSeatCount,
+  LegislativeRulePack,
+  RuleValue,
+} from "./legislature-rules";
 import type { ElectiveOfficeRef } from "./types";
 
 /**
@@ -59,7 +63,7 @@ export interface ElectiveOfficeOption {
   /** The chamber, by the name the accepted pack gives it. */
   readonly chamberName: string;
   /** Members elected to the chamber, as the accepted pack records it. */
-  readonly seats: number;
+  readonly seats: FormalSeatCount;
   /**
    * Where the seat count comes from: the accepted rule pack, by name.
    *

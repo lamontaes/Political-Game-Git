@@ -110,8 +110,10 @@ test.describe("A life can stand for something", () => {
     const campaign = page.getByTestId("campaign-section");
     await expect(campaign).toBeVisible();
     await expect(page.getByTestId("campaign-offer")).toBeVisible();
-    // It names the instrument the office comes from rather than asserting it.
-    await expect(campaign).toContainText(/as .* records it/i);
+    // Current main carries the unresolved formal count without a numeric fallback.
+    await expect(campaign).toContainText(
+      /unresolved formal count carries no numeric fallback/i,
+    );
     // And it is willing to say what it still does not know.
     await campaign.getByRole("group").click();
     await expect(campaign).toContainText(/no accepted source/i);

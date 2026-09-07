@@ -49,3 +49,34 @@ proof URL and unmerged status. Local environment failures are not local passes.
 LEARN: M3's frozen ownership range and the existing P85D caller-level tests are
 already the smallest durable mechanisms for these recurring integration risks.
 Preserve them verbatim; no new workflow, test policy or larger prompt is needed.
+
+## Main advanced during exact-head CI
+
+The M3 reconciliation head `b65220861d5e364d51f8393857e6d3c0270cd79d`
+passed full unmodified CI: 149 files / 2,588 unit tests; browser gate passed
+with 267 first-pass tests and one unrelated viewport test passing on retry.
+Run: https://github.com/lamontaes/Political-Game-Git/actions/runs/34083412656.
+
+The final fetch found accepted PR111 newly landed at
+`87b9206e2c7e8721792c136afa1d7911bc100db1`. A second ordinary merge takes
+all 18 incoming paths byte-for-byte from that current main, without conflicts.
+
+PR111 changed formal seat-count metadata from a number to `FormalSeatCount`.
+The existing candidacy adapter already passed the value through; its declared
+type and display consumer now follow that accepted shared contract. Known
+counts use the unchanged wording with `.value`; unknown counts use main's
+existing `.note` verbatim. No new player-facing string is authored. Tests now
+assert unknown without a numeric fallback and preserve the known-count wording.
+The campaign browser metadata assertion follows the same accepted note.
+
+This is schema-consumer reconciliation only. Campaign effects, eligibility,
+time transitions, result/seating logic, residence and Work/reload activation
+are unchanged. The P85D integration test and its browser block remain exact.
+The judicial ownership test still equals canonical M3/current main.
+
+Current-main focused regression/ownership set: 14 files / 200 tests passed.
+All 9 campaign browser tests passed. Typecheck passed. Full local validation
+was attempted again: format, lint and typecheck passed, then Vitest startup
+failed explicitly with ENOSPC. The final exact-head CI must repeat the full
+unmodified gate before the landing verdict. The final task report carries its
+immutable head and run URL; no merge is authorized by this run.

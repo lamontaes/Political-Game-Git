@@ -199,7 +199,8 @@ describe("candidacy coverage is stated, never assumed", () => {
       // the seat count, because none of them establishes it.
       expect(office.recordedBy.packId.length).toBeGreaterThan(0);
       expect(office.recordedBy.packName.length).toBeGreaterThan(0);
-      expect(office.seats).toBeGreaterThan(0);
+      expect(office.seats.kind).toBe("unknown");
+      expect(office.seats).not.toHaveProperty("value");
       expect(office.unresolvedGaps.join(" ")).toMatch(
         /no instrument establishing the size of the chamber/i,
       );

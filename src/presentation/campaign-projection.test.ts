@@ -77,7 +77,12 @@ describe("what the game will and will not offer", () => {
     expect(view.phase).toBe("can-file");
     expect(view.officeTitle).toMatch(/seat in the/i);
     // It says how it knows, and what it still does not know.
-    expect(view.officeAuthority).toMatch(/as .* records it/i);
+    const seats = candidacyPacks().find(
+      (pack) => pack.jurisdictionKey === "US-KY",
+    )!.offices[0]!.seats;
+    expect(seats.kind).toBe("unknown");
+    if (seats.kind !== "unknown") throw new Error("Expected unknown seats");
+    expect(view.officeAuthority).toBe(seats.note);
     // The seat count is not attributed to a rule that does not establish it.
     expect(view.officeAuthority).not.toMatch(/rule \d+|const\./i);
     expect(view.openQuestions.join(" ")).toMatch(
@@ -85,6 +90,20 @@ describe("what the game will and will not offer", () => {
     );
     expect(view.openQuestions.length).toBeGreaterThan(0);
     expect(resolvePlayerCapabilities(life.world).campaign).toBe(true);
+  });
+
+  it("retains the accepted wording for a known chamber count", () => {
+    const life = adultLife("offer-alaska", "alaska");
+    const view = projectCampaign(life.world, life.personId);
+    const pack = candidacyPacks().find(
+      (candidate) => candidate.jurisdictionKey === "US-AK",
+    )!;
+    const seats = pack.offices[0]!.seats;
+    expect(seats.kind).toBe("known");
+    if (seats.kind !== "known") throw new Error("Expected known seats");
+    expect(view.officeAuthority).toBe(
+      `${seats.value} of them, as ${pack.displayName} records it.`,
+    );
   });
 
   it("offers a Lexington life the Kentucky seats it can actually stand for", () => {

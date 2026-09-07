@@ -334,7 +334,9 @@ export function projectCampaign(
 }
 
 function officeAuthority(option: ElectiveOfficeOption): string {
-  return `${option.seats} of them, as ${option.recordedBy.packName} records it.`;
+  return option.seats.kind === "known"
+    ? `${option.seats.value} of them, as ${option.recordedBy.packName} records it.`
+    : option.seats.note;
 }
 
 function notYetFiled(
