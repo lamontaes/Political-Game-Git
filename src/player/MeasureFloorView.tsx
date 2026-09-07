@@ -27,6 +27,7 @@ import {
 } from "../presentation/legislative-bargaining-actions";
 import { withAnalysisSeen } from "../presentation/legislative-bargaining";
 import { ConversationStrip } from "./ConversationStrip";
+import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { OfficeScene } from "./OfficeScene";
 import {
   MeasurePaperWorkspace,
@@ -215,6 +216,10 @@ export function MeasureFloorView() {
     >
       <OfficeScene
         fixture={sceneFixture}
+        surfaces={projectDynamicSurfaces(world, {
+          jurisdictionId: sceneFixture.roomContext.jurisdictionId,
+          measureId: progress.subjectFacts.measureId,
+        })}
         dossiers={dossiers}
         state={state}
         dispatch={dispatch}

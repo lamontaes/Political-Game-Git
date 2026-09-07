@@ -23,6 +23,7 @@ stable semantic IDs + normalized seed/keyed RNG + canonical simulation moments
      |- shared incident catalog
      |- shared vitality catalog
      |- observer / controlled-person state
+     |- optional non-diegetic setup priors (outside HistoryStore)
      |- current date + zoned minute-level current moment
      `- append-oriented HistoryStore
         |- canonical events
@@ -370,7 +371,7 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** household creation/location/membership transitions; `householdLocationAt`, `householdMembershipsAt`, `peopleInHouseholdAt`, and `hasHouseholdResidenceInJurisdiction`.
 - **Serialization/persistence:** append-oriented roots/states are validated for identity, chronology, supersession, provenance, jurisdiction references, and no overlapping primary residence. Concurrent secondary/shared memberships remain valid.
 - **Temporary scaffolding:** household location remains jurisdiction plus label and is not a dwelling, lease, room, or ownership interest. A household may now own a tracked liquid position or be a typed flow/occupancy/tenure endpoint, but membership is never inferred or generated from those records.
-- **Current/future consumers:** Stage 5 formative/adult movement, housing/resources/relationships; Stage 6 events; eligibility/geography; and archives.
+- **Current/future consumers:** Stage 5 formative/adult movement, housing/resources/relationships; the Node-only ACS PUMS coherent-household donor adapter; Stage 6 events; eligibility/geography; and archives.
 
 ## Kinship, Partnership, and Care
 
@@ -380,7 +381,17 @@ Materialization is a simulation-detail operation, not an in-world event. A light
 - **Queries/APIs:** record/create/state transitions; `kinshipRelationshipsAt`, `activePartnershipsAt`, care state history, and `activeCareResponsibilitiesAt`.
 - **Serialization/persistence:** records share global append sequence and validate distinct people, canonical pair ordering, chronology, lifecycle/supersession, provenance, open content kinds, and care time semantics.
 - **Temporary scaffolding:** no generation, marriage law, household inference, or automatic relationship interactions. Run C may link care to a separate flow/obligation and may append meaningful social episodes, but neither changes structural truth or creates automatic monthly upkeep.
-- **Current/future consumers:** completed Stage 5 formative/adult family, relationship, and resource systems; decisions; dialogue; eligibility; staff continuity; and archives.
+- **Current/future consumers:** completed Stage 5 formative/adult family, relationship, and resource systems; the ACS PUMS donor adapter's dictionary-supported reference-person relationships; decisions; dialogue; eligibility; staff continuity; and archives.
+
+## ACS PUMS Coherent-Household Donor Adapter
+
+- **Owns:** a source-only typed donor projection, exact state-shard identity, whole-household weighted selection, and an auditable one-way translation into canonical character-history intents.
+- **Stable IDs exposed:** no raw source ID enters `World`; deterministic world records use existing person/household/relationship/dwelling IDs and generated provenance keyed to an opaque donor digest.
+- **Referenced by:** world-initialization tooling only. The pure simulation and presentation layers do not import source code or raw microdata.
+- **Queries/APIs:** 2024 state acquisition declaration and cache opener; dictionary-controlled shard compiler; deterministic `selectAcsPumsHouseholdDonor`; and `applyAcsPumsCharacterHistoryBridge`.
+- **Serialization/persistence:** resulting ordinary history records use the existing snapshot and SQLite paths. The source selection, raw `SERIALNO`, weights, and audit are not new runtime truth stores.
+- **Temporary scaffolding:** the 2024 production gate remains closed until independently retrieved state housing/person archives and dictionary bytes are hashed and locked. The checked-in fixture is synthetic and proves behavior only.
+- **Current/future consumers:** bounded new-world household initialization. It does not authorize national coverage, exact-city representativeness, named schools/employers, finances, ideology, personality, Stage 7 institutions, or a second life engine.
 
 ## Child Authority
 

@@ -1,0 +1,39 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "census-gazetteer-2025-places-zip",
+      "bytes": {
+        "length": 1214053,
+        "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29"
+      },
+      "container": {
+        "memberLength": 3288984,
+        "memberPath": "2025_Gaz_place_national.txt",
+        "memberSha256": "15f4977a010cc42308f4d5ddc5e19f26ef63fc035f20745333a14b78aa08d3fa"
+      },
+      "localPath": "data/source/places/raw/2025_Gaz_place_national.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+        "releaseDate": null,
+        "schemaVersion": "2025 Gazetteer places national file layout",
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1214053,
+        "retrievedAt": "2026-09-03T03:16:41.228Z",
+        "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_place_national.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "places"
+}

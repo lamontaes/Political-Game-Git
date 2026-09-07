@@ -1,4 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  enterLife,
+  fillCreator,
+  openElsewhere,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * The game, in a browser, on the route a player actually opens.
@@ -41,25 +47,28 @@ interface LifeSetup {
   readonly age: number;
   readonly place?: string;
   readonly office?: boolean;
+  /** Pins who is at home, so a test that needs a housemate is not left to the
+   * generator's coin flip (a normal start may come out solo). */
+  readonly household?: "lives-alone" | "shares-a-home";
 }
 
-/** Walks the setup screen the way a player does and starts the life. */
+/**
+ * Walks the setup screen the way a player does and starts the life.
+ *
+ * The calibration is declined here on purpose. These tests are about the shell
+ * — saves, capabilities, what reaches disk — and the questionnaire has its own
+ * file. Declining it is one of the three things the screen offers, so this is
+ * still a route a player takes.
+ */
 async function startLife(page: Page, setup: LifeSetup) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-
-  if (setup.place) {
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: new RegExp(setup.place, "i") })
-      .first()
-      .click();
-  }
-  await page.getByTestId("start-age").fill(String(setup.age));
-  if (setup.office) await page.getByTestId("office-start").click();
-
-  await page.getByTestId("begin").click();
+  await walkCreator(page, {
+    age: setup.age,
+    ...(setup.place === undefined ? {} : { place: setup.place }),
+    ...(setup.office === undefined ? {} : { office: setup.office }),
+    ...(setup.household === undefined ? {} : { household: setup.household }),
+  });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
 }
 
 /** Every page error, so "it rendered" is not mistaken for "it worked". */
@@ -79,6 +88,15 @@ function watchForErrors(page: Page): string[] {
 }
 
 /** Waits until the world has actually been written before leaving or reloading. */
+/** Opens the journal, reads it, and closes it again. */
+async function readJournal(page: Page): Promise<string> {
+  await page.getByTestId("open-journal").click();
+  await expect(page.getByTestId("journal")).toBeVisible();
+  const text = await page.getByTestId("journal").innerText();
+  await page.getByTestId("open-journal").click();
+  return text;
+}
+
 async function keepAndWait(page: Page) {
   await page.getByTestId("keep-world").click();
   await expect(page.getByTestId("keep-world")).toHaveCount(0);
@@ -93,8 +111,10 @@ test.describe("Opening the game opens a game", () => {
     await expect(page.getByTestId("title-screen")).toBeVisible();
 
     await startLife(page, { age: 9 });
-    // A nine-year-old plays the growing-up years and has no office.
-    await expect(page.getByTestId("formative-section")).toBeVisible();
+    // A nine-year-old gets the story surface and has no office. The growing-up
+    // years and adult life are one surface now, so the assertion is that the
+    // life is being told rather than that a particular band's view is mounted.
+    await expect(page.getByTestId("story-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
     expect(errors).toEqual([]);
   });
@@ -115,13 +135,9 @@ test.describe("Opening the game opens a game", () => {
 
   test("rebuilds the exact world from a replay address", async ({ page }) => {
     await freshBrowser(page);
-    await page.getByTestId("new-game").click();
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Nebraska/i })
-      .first()
-      .click();
-    await page.getByTestId("start-age").fill("24");
+    // fillCreator already answers "Who are you?" (discover through play by
+    // default) and leaves Begin enabled, so there is no separate skip to press.
+    await fillCreator(page, { age: 24, place: "Nebraska" });
 
     // The link describes the setup on screen, which is the whole point: a bare
     // seed could not rebuild a configured world.
@@ -153,17 +169,26 @@ test.describe("A new life is not a renamed fixture", () => {
     await expect(page.getByTestId("office-section")).toHaveCount(0);
   });
 
-  test("shows an ordinary adult no political surfaces, and says why", async ({
+  test("shows an ordinary adult no political surfaces, and no explanation of why", async ({
     page,
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 41 });
 
+    // The day is one press away rather than stacked under the moment, and
+    // Work is not in the row at all for somebody who does not work in one.
+    await expect(page.getByTestId("elsewhere-work")).toHaveCount(0);
+    await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
-    const reason = await page.getByTestId("no-legislation").innerText();
-    expect(reason.trim().length).toBeGreaterThan(0);
-    expect(reason).not.toMatch(DEVELOPER_WORDS);
+    // The surface is simply absent. It used to carry a line saying "This
+    // character does not work in a legislature", which is the game explaining
+    // its own capability gating to somebody who never asked — the authority
+    // names it as development leakage, so it is gone rather than reworded.
+    await expect(page.getByTestId("no-legislation")).toHaveCount(0);
+    const screen = await page.getByTestId("play-screen").innerText();
+    expect(screen).not.toMatch(/does not work in a legislature/i);
+    expect(screen).not.toMatch(DEVELOPER_WORDS);
   });
 
   test("gives a staffer the legislature they work in, and no other", async ({
@@ -172,6 +197,7 @@ test.describe("A new life is not a renamed fixture", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Kentucky", office: true });
 
+    await openElsewhere(page, "work");
     await expect(page.getByTestId("office-section")).toBeVisible();
     await page.getByTestId("open-legislation").click();
     await expect(page.getByTestId("legislation-workspace")).toBeVisible();
@@ -339,24 +365,17 @@ test.describe("What is written to disk is a player's world", () => {
     await keepAndWait(page);
 
     // Act, then leave immediately: the autosave for this revision is still in
-    // flight as Leave is pressed. The revision used to be dropped and the
+    // flight as the menu is pressed. The revision used to be dropped and the
     // player would come back to the world before their last move.
-    await page
-      .getByTestId("formative-options")
-      .getByRole("button")
-      .first()
-      .click();
-    await expect(page.getByTestId("formative-memories")).toBeVisible();
-    const remembered = await page.getByTestId("formative-memories").innerText();
+    await page.getByTestId("story-options").getByRole("button").first().click();
+    const remembered = await readJournal(page);
 
     await page.getByTestId("leave-game").click();
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    expect(await page.getByTestId("formative-memories").innerText()).toBe(
-      remembered,
-    );
+    expect(await readJournal(page)).toBe(remembered);
   });
 });
 
@@ -366,27 +385,26 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 9 });
-    await expect(page.getByTestId("formative-section")).toBeVisible();
+    await expect(page.getByTestId("story-section")).toBeVisible();
 
-    await page
-      .getByTestId("formative-options")
-      .getByRole("button")
-      .first()
-      .click();
-    await expect(page.getByTestId("formative-memories")).toBeVisible();
+    await page.getByTestId("story-options").getByRole("button").first().click();
+    await page.getByTestId("open-journal").click();
+    await expect(page.getByTestId("journal-entries")).toBeVisible();
     const remembered = await page
-      .getByTestId("formative-memories")
+      .getByTestId("journal-entries")
       .getByRole("listitem")
-      .first()
+      .last()
       .innerText();
     expect(remembered.trim().length).toBeGreaterThan(0);
     expect(remembered).not.toMatch(DEVELOPER_WORDS);
+    await page.getByTestId("open-journal").click();
 
     await keepAndWait(page);
     await page.reload();
     await page.getByTestId("continue").click();
     // The same sentence the world wrote down, not a re-derived paraphrase.
-    await expect(page.getByTestId("formative-memories")).toContainText(
+    await page.getByTestId("open-journal").click();
+    await expect(page.getByTestId("journal-entries")).toContainText(
       remembered.slice(-60),
     );
   });
@@ -395,29 +413,38 @@ test.describe("What the world records, it keeps", () => {
     page,
   }) => {
     await freshBrowser(page);
-    await startLife(page, { age: 36 });
-    await expect(page.getByTestId("household-conversation")).toBeVisible();
+    // A shared home, so there is somebody to hold the kitchen conversation with;
+    // a normal start (Task E) generates the household and may be solo.
+    await startLife(page, { age: 36, household: "shares-a-home" });
+    await openElsewhere(page, "people");
+    // A day now offers more than one conversation, so everything below is
+    // scoped to the kitchen one rather than to whichever the page drew first.
+    const kitchen = page.getByTestId("conversation-household-obligation");
+    await expect(kitchen).toBeVisible();
 
-    const topic = await page.getByTestId("conversation-topic").innerText();
+    const topic = await kitchen.getByTestId("conversation-topic").innerText();
     expect(topic).not.toMatch(/constituent|referral|office/i);
 
-    await page
+    await kitchen
       .getByTestId("conversation-intents")
       .getByRole("button")
       .first()
       .click();
-    const afterTurn = await page
+    const afterTurn = await kitchen
       .getByTestId("conversation-briefing")
       .innerText();
     await keepAndWait(page);
 
     await page.reload();
     await page.getByTestId("continue").click();
+    await openElsewhere(page, "people");
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
-    await expect(page.getByTestId("conversation-briefing")).toHaveText(
-      afterTurn,
-    );
+    await expect(
+      page
+        .getByTestId("conversation-household-obligation")
+        .getByTestId("conversation-briefing"),
+    ).toHaveText(afterTurn);
   });
 
   test("keeps a legislative step in the player's own save", async ({
@@ -425,6 +452,7 @@ test.describe("What the world records, it keeps", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 38, place: "Kentucky", office: true });
+    await openElsewhere(page, "work");
     await page.getByTestId("open-legislation").click();
     await page.getByTestId("legislation-step-request-referral").click();
 
@@ -433,6 +461,7 @@ test.describe("What the world records, it keeps", () => {
 
     await page.reload();
     await page.getByTestId("continue").click();
+    await openElsewhere(page, "work");
     await page.getByTestId("open-legislation").click();
     // The bill is in the save, so it is where it was left rather than back at
     // the day it was filed.

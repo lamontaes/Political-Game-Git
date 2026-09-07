@@ -1,6 +1,7 @@
 # PG Resume Workflow
 
-- read `ACTIVE-HANDOFF.md` first;
+- read root `CLAUDE.md` and `AGENTS.md` first, then the canonical Drive chain
+  and the owning plan under `docs/plans/` for continuation state;
 - fetch origin;
 - verify expected SHA ancestry;
 - confirm intended worktree and branch;

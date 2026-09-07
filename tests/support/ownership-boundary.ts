@@ -40,6 +40,24 @@ import { execFileSync } from "child_process";
  */
 export const BASE_COMMIT = "5f735da209c59647e4b877717a40fe6cc045fc24";
 
+/**
+ * Where Packet 26 stopped: its merge into `main` as PR #82.
+ *
+ * The boundary above was written while Packet 26 was in flight, and it measured
+ * the working tree. That was right then and wrong the moment the packet landed:
+ * on `main` the check outlives the packet it guards and starts asserting that
+ * every LATER branch stays inside Packet 26's surfaces, which no later branch
+ * agreed to and which the routing authority frequently forbids. This narrative
+ * wave owns `src/simulation/` and `src/player/PlayerGame.tsx` outright.
+ *
+ * Pinning the head freezes the check to the range Packet 26 actually shipped,
+ * so it stays an executable claim about that packet — the reason it was written
+ * — instead of a standing constraint on work it knows nothing about. A later
+ * packet that wants a boundary of its own declares its own range; see
+ * `tests/narrative-wave-ownership-boundary.test.ts`.
+ */
+export const PACKET_26_HEAD = "6311dd688331985d5682b39910bf2b917d46d11b";
+
 export interface OwnedSurface {
   /** Matched against a repository-relative path. */
   readonly pattern: RegExp;
@@ -61,22 +79,19 @@ export interface OwnedSurface {
  * relaxed away: every other file the FORBIDDEN list guards is still guarded,
  * and a second edit to `PlayerGame.tsx` would have to be argued for in this
  * comment before it could pass.
- *
- * The conversation and shared-simulation entries below are here for the same
- * reason, from the other side. This check arrived in `main` with #86 and now
- * measures whichever branch runs it, and FORBIDDEN's `conversations` entry was
- * written to keep the GRAPHICS lane out of a file the bargaining lane owns.
- * On this branch that lane is the one running, so each file it genuinely owns
- * is named with what it does to it, one path at a time. The patterns are left
- * exactly as they are, so every other conversation and simulation file is
- * still guarded, and `PlayerGame.tsx`, persistence, life-places, the place
- * provider, the legislation state machine, the rule packs and name generation
- * are untouched by this branch and still caught if they ever move.
  */
 export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   [
     "src/player/PlayerGame.tsx",
     "Packet 68 gives the graphics lane the title-screen seam. The change is the import of ./TitleScreen and the removal of the component that moved there.",
+  ],
+  [
+    "src/simulation/index.ts",
+    "Packet 66 exports ./canonical-json from the simulation barrel so the causal-trace export can reach the world's own emitter instead of writing a second serializer. The barrel gains one export line; no simulation module is modified. Packet 49 additionally exports the legislative-politics modules.",
+  ],
+  [
+    "src/simulation/character-history.ts",
+    "Packet 67 adds one accessor, lifeSituationCatalog(), so the content index can read the formative bank without constructing a world. No situation, key or behaviour is changed.",
   ],
   [
     "src/presentation/run-b-conversation.ts",
@@ -93,10 +108,6 @@ export const PERMITTED_EXCEPTIONS: ReadonlyMap<string, string> = new Map([
   [
     "src/simulation/world.ts",
     "The legislative-politics records join the one canonical World: history collection, sequence ordering, stable-key uniqueness and the integrity assertion. No second World is introduced.",
-  ],
-  [
-    "src/simulation/index.ts",
-    "Two barrel exports for the legislative-politics modules.",
   ],
   [
     "src/simulation/decisions.ts",
@@ -161,16 +172,21 @@ export const FORBIDDEN: readonly OwnedSurface[] = [
  * widening this allowlist does not relax FORBIDDEN, which is what actually
  * guards other people's systems.
  *
- * `ARCHITECTURE.md`, `src/simulation/legislative-*` and the two measure views
- * are here because Packet 49's legislative bargaining owns them outright: a new
- * simulation namespace and two new player surfaces that did not exist before.
- * The two views are named as paths rather than by widening `src/player/`,
- * because the player shell is a separate active lane and this branch must stay
- * out of the rest of it — `PlayerGame.tsx` in particular is still guarded by
- * FORBIDDEN and is not touched here.
+ * `src/devtools/`, `src/content/`, `src/cli/`, `tsconfig.node.json` and
+ * `.gitignore` are here because the graphics packet merged into `main` and this
+ * check came with it, so it now measures whichever branch is running rather
+ * than only that lane. Packet 66's development causal-trace inspector and
+ * Packet 67's declarative content bank and development Content Browser own
+ * those surfaces outright: two new namespaces, three command-line entry points,
+ * the ignore rule for the content export directory, and the project file that
+ * has to list them because the project is composite. Naming them is what keeps
+ * the rest of the list meaningful — the alternative was to stop asserting the
+ * boundary at all on any branch that is not the graphics lane. FORBIDDEN is
+ * untouched, so player, save, legislation, place and name systems are guarded
+ * exactly as before.
  */
 export const ALLOWED =
-  /^(\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/environment\/|src\/simulation\/legislative-|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/MeasureFloorView\.tsx|src\/player\/MeasurePaperWorkspace\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|AGENTS\.md|ARCHITECTURE\.md|PATCH_NOTES\.md)/;
+  /^(src\/simulation\/legislative-|src\/player\/MeasureFloorView\.tsx|src\/player\/MeasurePaperWorkspace\.tsx|ARCHITECTURE\.md|\.claude\/launch\.json|\.github\/workflows\/|src\/authoring\/|src\/cli\/|src\/content\/|src\/devtools\/|src\/environment\/|src\/presentation\/|src\/ui\/|src\/player\/player\.css|src\/player\/OfficeScene\.tsx|src\/player\/ModularCharacter\.tsx|src\/player\/TitleScreen\.tsx|src\/player\/TitleTableau\.tsx|src\/player\/useRasterTier\.ts|src\/player\/useSceneTransform\.ts|src\/App\.tsx|scripts\/art-asset-factory\/|tests\/|art\/|docs\/|package\.json|package-lock\.json|tsconfig\.node\.json|\.gitignore|AGENTS\.md|PATCH_NOTES\.md)/;
 
 function git(repositoryRoot: string, args: readonly string[]): string {
   return execFileSync("git", [...args], {
@@ -195,16 +211,26 @@ export function hasCommit(repositoryRoot: string, commit: string): boolean {
 /**
  * Paths that differ between `baseCommit` and the current working tree.
  *
- * Returns null — rather than an empty list — when the base commit is missing,
- * so a shallow clone reports that it could not measure instead of reporting
- * that nothing moved.
+ * Returns null — rather than an empty list — when either commit is missing, so
+ * a shallow clone reports that it could not measure instead of reporting that
+ * nothing moved.
+ *
+ * With no `headCommit` the comparison runs against the working tree, which is
+ * what an in-flight packet wants. Passing one freezes the comparison to a
+ * finished range, which is what a landed packet wants.
  */
 export function changedFilesSince(
   repositoryRoot: string,
   baseCommit: string = BASE_COMMIT,
+  headCommit?: string,
 ): readonly string[] | null {
   if (!hasCommit(repositoryRoot, baseCommit)) return null;
-  return git(repositoryRoot, ["diff", "--name-only", baseCommit, "--"])
+  if (headCommit !== undefined && !hasCommit(repositoryRoot, headCommit)) {
+    return null;
+  }
+  const range =
+    headCommit === undefined ? [baseCommit] : [baseCommit, headCommit];
+  return git(repositoryRoot, ["diff", "--name-only", ...range, "--"])
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);

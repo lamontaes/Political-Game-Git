@@ -24,6 +24,7 @@ import type {
   PersonDetails,
   PersonFact,
   PersonGenerationProfile,
+  PersonIdentity,
 } from "./types";
 
 export const DEFAULT_PERSON_GENERATOR_VERSION = "person-v5";
@@ -527,6 +528,13 @@ export interface StartingPersonInput {
   readonly familyName?: string | null;
   readonly corpusVersion?: string;
   readonly appearanceCatalogGeneration?: number;
+  /**
+   * The gender and pronouns the player chose, when they chose any.
+   *
+   * Absent means they did not say, which is recorded as saying nothing rather
+   * than filled in from the name that was just drawn.
+   */
+  readonly identity?: PersonIdentity;
 }
 
 /**
@@ -625,6 +633,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     birthDate,
     homeJurisdictionId: input.homeJurisdictionId,
     appearance,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
     detailLevel: "lightweight",
     establishedFacts,
   };

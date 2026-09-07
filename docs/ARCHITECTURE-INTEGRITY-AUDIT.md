@@ -660,3 +660,50 @@ is unchanged.
 | Cause-identified repair | Confirmed            | Before evidence shows the chair painted over the woman and the man below his seat. The occluder polygon and the mid-torso roots are the measured causes; both are corrected from raster and plate measurements, and a regression test pins roots to the measured seat lines and the chair to alpha 0. |
 | Pose boundary           | Confirmed not faked  | Real bodies exist only as standing-neutral; the seated proof view fails closed and the office seam produces a placeholder rather than a standing body behind a chair.                                                                                                                                 |
 | Stage 6 and scope gates | Confirmed absent     | No simulation change beyond none; no campaign/election, corpus PR, Slice F, population generation, head-angle, animation, or engine change. The large asset bank was not imported.                                                                                                                    |
+
+## ACS PUMS Coherent-Household Donor Bridge Audit — 2026-09-06
+
+This audit applies D-077 to the source substrate and rechecks D-004, D-023,
+D-025, D-026, D-034, D-035, D-074, the frozen Stage 6 baseline, the accepted
+Stage 6.5 runs, and later-stage gates.
+
+| Concern                              | Disposition                          | Evidence and rationale                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Primitive reuse                      | Confirmed                            | The one-way adapter submits ordinary `CharacterHistoryPlan` intents and the plan now exposes the already-canonical partnership writer alongside its existing household, kinship, dwelling, occupancy, and tenure writers. No second person, household, relationship, history, RNG, or persistence engine exists.            |
+| Provenance and capability            | Corrected with a contained extension | Cache-only production bytes receive the same opaque capability only after lock, rights, confinement, and digest checks. The 2024 state interface declares no lock or bytes; its production gate remains explicit. The fixture is doubly marked and cannot pass the production writer.                                       |
+| Household coherence                  | Confirmed behavioral                 | The compiler joins every person through `SERIALNO`, validates year, state, PUMA, record type, duplicate/orphan keys, and housing-unit `NP`, and preserves both published weights. Selection draws the intact household by exact positive integer `WGTP`; it never reconstructs a household from marginal distributions.     |
+| Identity and coincident concepts     | Confirmed separated                  | Caller-supplied fictional names, birth dates, identity, and placement stay separate from donor evidence. Age checks consistency; source sex cannot write identity; PUMA cannot become city/address; household, kinship, partnership, dwelling, and tenure remain distinct records. Raw `SERIALNO` does not enter `World`.   |
+| Missingness and unsupported mappings | Confirmed fail-honest                | Dictionary labels control meaning. NIU, unresolved, and allocation states survive projection. Unknown labels retain `canonical: null`. School, attainment, employment, class, occupation, and hours remain in the bridge audit when canonical creation would require an institution or relationship terms the source lacks. |
+| Determinism and persistence          | Confirmed                            | Selection keys include normalized world seed, state, 2024 product, corpus ID/digest, and normalized constraints; exact rejection sampling avoids floating-point weighting and unrelated RNG consumption. Resulting canonical records round-trip through the existing snapshot codec.                                        |
+| Earlier Stage 5/6 behavior           | Confirmed compatible                 | The accepted 2023 Wyoming QA corpus/compiler remain unchanged. The character-history union addition routes only a newly requested transition to an existing validated writer. Focused regression, source replay, and the full validation suite cover earlier behavior.                                                      |
+| Stage and UI scope                   | Confirmed absent                     | No personality, ideology, belief, motive, feeling, money, named employer/school, career, institution/law, campaign/election, player prose, UI, or art behavior was added. No Stage 6 semantic baseline was reopened and Stage 7 remains gated.                                                                              |
+
+## PR79 Current-Main Conversation Integration Audit — 2026-09-07
+
+Authority: 79B implementation handoff; D-081/D-082 retain the repaired
+bargaining contract. This audit rechecks the affected conversation and scene
+contracts against the existing simulation rather than reopening Stage 6.
+
+- Primitive reuse / special cases: bargaining responses and outcome-bound
+  commit hooks are supplied by the subject registry. The one optional canonical
+  consequence hook uses existing legislative writers after the engine records
+  the turn's event, claim, recipients and perceptions. No second engine or clock.
+- Context / history / provenance: the consequence closure captures the resolved
+  response and original subject progress; the engine supplies the canonical
+  event/claim IDs and actual audience. History remains append-oriented.
+- Open-set safety: the existing closed outcome vocabulary gains bargaining
+  outcomes; no opaque payload, score, policy preference, or inferred fact added.
+- Retroactive compatibility: ordinary household and office replay digests match
+  pre-integration main, including relationship, commitment, scheduled aftermath,
+  landed events and full returned turns. Existing bargaining/standing tests are
+  unmodified.
+- Scene ownership: main's dynamic surface projection is passed into the floor
+  fixture, and OfficeScene retains the configurable entry labels. No new art.
+- Fallback / scope: PR85 is still open. The fixture remains a developer route;
+  player-world construction, governing-jurisdiction and no-fixture-leak route
+  regressions remain explicit follow-on work after its ownership handoff.
+- Ownership: preserve live main's M1 frozen range and all nine actual FORBIDDEN
+  patterns. The handoff's count of eleven was stale. Add only PR79 declarations.
+
+Independent exact-head and human visual acceptance remain pending. Validation
+results and the final head are recorded in the completed integration report.

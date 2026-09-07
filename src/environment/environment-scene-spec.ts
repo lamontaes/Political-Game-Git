@@ -524,6 +524,48 @@ export function minimumLegibleHeightPercent(kind: string): number {
 }
 
 /**
+ * How a surface could plausibly have come by what it shows.
+ *
+ * This is the second of the three questions a dynamic surface has to answer.
+ * The first — does the world contain this fact — belongs to the simulation.
+ * The third — is the character-facing presentation allowed to reveal it —
+ * belongs to the projection. This one belongs to the ROOM, because it is a
+ * fact about the physical object: a television in someone's living room is fed
+ * by whatever a broadcaster chose to air, and a clerk's terminal in a hearing
+ * room is fed by the body's own working systems. Those are different pipes,
+ * and a surface cannot show something that never came down its pipe however
+ * true the thing is.
+ *
+ * The vocabulary is closed and the ladder is total, so a slot's clearance can
+ * be compared against a fact's disclosure channel with an ordering rather than
+ * a table nobody maintains. `public-broadcast` and `personal-household` clear
+ * the same channel TODAY and are still separate values: they differ in what
+ * they would gain. A press system would widen what a television carries and
+ * would not put one more sheet of paper on somebody's coffee table.
+ */
+export const SURFACE_INFORMATION_ACCESS_CLASSES = [
+  /** Fed by whatever a broadcaster aired. */
+  "public-broadcast",
+  /** A person's own room and their own post. */
+  "personal-household",
+  /** Posted, filed, or read into the public record of an institution. */
+  "public-record",
+  /** An institution's or an office's own working material. */
+  "institutional-working",
+] as const;
+
+export type SurfaceInformationAccess =
+  (typeof SURFACE_INFORMATION_ACCESS_CLASSES)[number];
+
+export function isSurfaceInformationAccess(
+  value: string,
+): value is SurfaceInformationAccess {
+  return (SURFACE_INFORMATION_ACCESS_CLASSES as readonly string[]).includes(
+    value,
+  );
+}
+
+/**
  * A presentation sink for dynamic content. Surface slots do NOT decide what
  * document, seal or tally exists: the simulation owns that, and a slot only
  * says where such a thing would be painted and what class of thing may go
@@ -537,6 +579,15 @@ export interface SceneSurfaceSlot {
   allowed_content_classes: SceneSurfaceContentClass[];
   /** What the slot shows when nothing canonical fills it. */
   fallback_decoration?: string;
+  /**
+   * How this surface could have come by what it shows.
+   *
+   * Optional in the schema and load-bearing at runtime: a dynamic slot that
+   * declares nothing is treated by the resolver as having no pipe at all, so
+   * it falls back to its decoration rather than quietly clearing everything.
+   * Absent and "cleared for anything" must never be the same state.
+   */
+  information_access?: SurfaceInformationAccess;
   /**
    * Required when the slot may present a civic symbol. The only permitted
    * value states that the symbol comes from a canonical source; a civic seal
@@ -1342,6 +1393,22 @@ function validateSurfaceSlots(
       errors.push(
         `${path} declares civic_symbol_policy but presents no civic symbol class.`,
       );
+    }
+
+    if (entry.information_access !== undefined) {
+      if (
+        typeof entry.information_access !== "string" ||
+        !isSurfaceInformationAccess(entry.information_access)
+      ) {
+        errors.push(
+          `${path}.information_access must be one of ${SURFACE_INFORMATION_ACCESS_CLASSES.join(", ")}; found ${describeValue(entry.information_access)}.`,
+        );
+      }
+      if (!dynamic) {
+        errors.push(
+          `${path} declares information_access but carries no class that follows simulation state, so nothing would ever come down that pipe.`,
+        );
+      }
     }
 
     validateOptionalNonEmptyString(entry, "fallback_decoration", path, errors);

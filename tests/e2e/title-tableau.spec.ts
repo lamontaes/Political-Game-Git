@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { enterLife, startLife as walkCreator } from "./support/creator";
 
 /**
  * The Home/Title screen, on the route a player actually opens.
@@ -52,11 +53,12 @@ async function paintedPlate(page: Page) {
 }
 
 async function startAndKeepALife(page: Page, age: number) {
-  await page.getByTestId("new-game").click();
-  await expect(page.getByTestId("setup-screen")).toBeVisible();
-  await page.getByTestId("start-age").fill(String(age));
-  await page.getByTestId("begin").click();
+  // Nothing this file asserts depends on how the creator is answered — only
+  // that a life exists to give the title a room — so the shared walk takes its
+  // defaults and declines the calibration.
+  await walkCreator(page, { age });
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   await page.getByTestId("keep-world").click();
   await expect(page.getByTestId("keep-world")).toHaveCount(0);
   await page.getByTestId("leave-game").click();
@@ -130,14 +132,14 @@ test.describe("The title screen shows the game", () => {
     expect(scene).not.toBe("office-council-staff-fixture");
     await expect(plate).not.toHaveAttribute("src", /lexington/);
 
-    const description =
-      (await page.getByTestId("title-scene-description").textContent()) ?? "";
+    // The room no longer carries a line describing itself (Task A): the
+    // environment is the picture, not a caption. Whose title this is is said by
+    // the Continue control, which carries the save's own name.
+    await expect(page.getByTestId("title-scene-description")).toHaveCount(0);
     const name = (await page.getByTestId("continue").textContent()) ?? "";
-    // The copy says whose title this is, using the name the save already has.
-    expect(description.length).toBeGreaterThan(0);
     expect(name.length).toBeGreaterThan("Continue".length);
-    // And it says what is on screen without saying how it works.
-    expect(description).not.toMatch(
+    // And it says who without saying how it works.
+    expect(name).not.toMatch(
       /tableau|asset|tier|registry|raster|fixture|anchor/i,
     );
   });

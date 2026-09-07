@@ -123,3 +123,24 @@ Lobbying, campaign finance, ethics investigation, a media ecosystem, the full
 appropriations process, party-caucus AI, district electorate simulation, and a
 generalized member-vote model for a whole chamber. None of them is required to
 represent a bargain, and each is its own problem.
+
+## Current-main conversation integration (D-081 / D-082)
+
+The subject registry owns the bargaining response, the next conversation
+progress, and the resolved turn's commit contract. The optional `consequence`
+hook returns a canonical writer that runs once after the engine has recorded
+the event, claim and resolved listener knowledge. It receives those exact IDs
+and listeners; a subject cannot substitute intended listeners for actual ones.
+Relationship effects use the same kind/change/significance/summary contract as
+ordinary subjects. The engine has no `resolved.bargaining` write branch.
+
+Ordinary subjects omit the new hook. The integration regression compares their
+complete relationship, commitment, aftermath, event and turn records with
+digests captured on main before the hook existed, including an actual scheduled
+household callback. The repaired domain modules and existing regression cases
+remain unchanged.
+
+The floor fixture uses main's canonical dynamic-surface projection for its own
+world. It is still a developer route. Player-world construction and the
+OfficeScene paper/floor navigation remain the PR85 ownership handoff after that
+route lands; missing canonical measure content must fail closed.

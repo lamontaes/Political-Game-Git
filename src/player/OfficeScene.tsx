@@ -1,6 +1,7 @@
 import {
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -20,12 +21,20 @@ import type {
   RunBScenePersonContext,
 } from "../presentation/run-b-fixture";
 import {
+  bindSceneSurfaces,
+  dynamicSurfacePayloads,
+} from "../presentation/surface-binding";
+import type { DynamicSurfaceProjection } from "../presentation/surface-projection";
+import {
   composeOfficeVisuals,
+  OFFICE_FIXTURE_SCENE,
   OFFICE_VISUAL_SCENE,
   PRODUCTION_VISUAL_LIBRARY,
+  requireWorkingDocumentSlot,
   type ComposedCharacterVisual,
 } from "../presentation/visual-integration";
 import { ModularCharacter } from "./ModularCharacter";
+import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import {
   resolveSceneTransform,
   type SceneTransform,
@@ -277,6 +286,8 @@ export interface SceneEntryLabel {
 
 interface OfficeSceneProps {
   readonly fixture: RunBFixture;
+  /** What this world can honestly put on the office's declared surfaces. */
+  readonly surfaces: DynamicSurfaceProjection;
   readonly dossiers: Readonly<Record<string, QuickDossierProjection>>;
   readonly state: RunAUiState;
   readonly dispatch: (action: RunAUiAction) => void;
@@ -294,6 +305,7 @@ interface OfficeSceneProps {
 
 export function OfficeScene({
   fixture,
+  surfaces,
   dossiers,
   state,
   dispatch,
@@ -331,6 +343,13 @@ export function OfficeScene({
     transform: `translate3d(${sceneTransform.xOffset}px, ${sceneTransform.yOffset}px, 0) scale(${sceneTransform.uniformScale})`,
   } satisfies CSSProperties;
   const documentAnchors = OFFICE_VISUAL_SCENE.documentAnchors;
+  const workingDocumentRect =
+    requireWorkingDocumentSlot(OFFICE_FIXTURE_SCENE).rect_percent;
+  const surfaceBindings = useMemo(
+    () =>
+      bindSceneSurfaces(OFFICE_FIXTURE_SCENE, dynamicSurfacePayloads(surfaces)),
+    [surfaces],
+  );
 
   return (
     <section
@@ -367,6 +386,11 @@ export function OfficeScene({
           alt=""
           aria-hidden="true"
           draggable="false"
+        />
+        <SceneSurfaceLayer
+          slots={OFFICE_FIXTURE_SCENE.surfaceSlots}
+          bindings={surfaceBindings}
+          plate={OFFICE_VISUAL_SCENE.plate}
         />
         {visualComposition.characters.map((visual) =>
           visual.modular ? (
@@ -433,8 +457,10 @@ export function OfficeScene({
           type="button"
           className="office-working-document-entry"
           style={{
-            left: `${documentAnchors["working-draft"].xPercent}%`,
-            top: `${documentAnchors["working-draft"].yPercent}%`,
+            left: `${workingDocumentRect.x_percent}%`,
+            top: `${workingDocumentRect.y_percent}%`,
+            width: `${workingDocumentRect.width_percent}%`,
+            height: `${workingDocumentRect.height_percent}%`,
           }}
           aria-label={documentEntry.ariaLabel}
           data-testid="working-document-entry"
