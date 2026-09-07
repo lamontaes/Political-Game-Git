@@ -590,6 +590,15 @@ describe("A line never disagrees with the line beside it", () => {
     for (const family of EPISODE_FAMILIES) {
       const declared = new Set<string>(family.roles);
       for (const stage of family.stages) {
+        const required = new Set(
+          stage.requires.flatMap((requirement) =>
+            requirement.kind === "role" ||
+            requirement.kind === "role-age-at-least" ||
+            requirement.kind === "role-age-below"
+              ? [requirement.role]
+              : [],
+          ),
+        );
         const text = [
           ...stage.lines,
           ...stage.options.flatMap((option) => [
@@ -600,8 +609,8 @@ describe("A line never disagrees with the line beside it", () => {
         ].join(" ");
         for (const match of text.matchAll(/\{[a-z]+:([a-z-]+)\}/g)) {
           expect(
-            declared.has(match[1]!),
-            `${family.key}/${stage.key} names ${match[1]} which the family does not declare`,
+            declared.has(match[1]!) || required.has(match[1]!),
+            `${family.key}/${stage.key} names ${match[1]} without declaring or requiring it`,
           ).toBe(true);
         }
       }

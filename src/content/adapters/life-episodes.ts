@@ -66,6 +66,7 @@ function toItem(
   family: EpisodeFamilyEntry,
   stage: EpisodeStageEntry,
 ): ContentItem {
+  const authority = stage.authority ?? family.authority;
   const itemKey = `${family.key}/${stage.key}`;
   const summary = stage.lines.join(" ").trim() || humanize(stage.key);
 
@@ -123,11 +124,11 @@ function toItem(
     provenance: {
       sourceModule: SOURCE_MODULE,
       sourceSymbol: "EPISODE_FAMILIES",
-      citation: family.authority.reference,
+      citation: authority.reference,
       sourceUrl: null,
       retrievedAt: null,
       verification: null,
-      note: `Authored for the game. Copy authority: ${family.authority.sourceDocument} — ${family.authority.reference}.`,
+      note: `Authored for the game. Copy authority: ${authority.sourceDocument} — ${authority.reference}.`,
       sources: [],
     },
   };
@@ -179,7 +180,8 @@ function stageRoleKeys(
   for (const requirement of stage.requires) {
     if (
       requirement.kind === "role" ||
-      requirement.kind === "role-age-at-least"
+      requirement.kind === "role-age-at-least" ||
+      requirement.kind === "role-age-below"
     ) {
       keys.add(requirement.role);
     }
@@ -245,13 +247,20 @@ function declareRequiredFacts(
  * Every branch names the union member it came from, so a reader can go back to
  * `EpisodeRequirement` and check it. Nothing is collapsed into a generic
  * sentence: `without-capability` is not reported as `capability`, and
- * `role-age-at-least` keeps its age, because the whole reason that kind exists
- * is that the plain `role` requirement was not enough.
+ * `role-age-at-least` and `role-age-below` each keep their own age and their
+ * own direction, because the whole reason those kinds exist is that the plain
+ * `role` requirement was not enough — and reporting one as the other would
+ * describe a scene written for a small child as one written for an adult.
  */
 function describeRequirement(
   requirement: EpisodeRequirement,
 ): ContentRequirement {
   switch (requirement.kind) {
+    case "withheld":
+      return {
+        key: "withheld:missing-context",
+        description: requirement.reason,
+      };
     case "fact":
       return {
         key: `fact:${requirement.fact}`,
@@ -281,6 +290,11 @@ function describeRequirement(
       return {
         key: `role-age-at-least:${requirement.role}:${requirement.age}`,
         description: `The binding for ${requirement.role} is at least ${requirement.age}; a younger person does not satisfy this and the stage is not offered.`,
+      };
+    case "role-age-below":
+      return {
+        key: `role-age-below:${requirement.role}:${requirement.age}`,
+        description: `The binding for ${requirement.role} is under ${requirement.age}; an older person does not satisfy this and the stage is not offered.`,
       };
     case "capability":
       return {

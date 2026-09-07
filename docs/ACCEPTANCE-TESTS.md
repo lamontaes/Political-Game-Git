@@ -1712,3 +1712,47 @@ and campaign and commercial use are refused without reference to the symbol. All
 three downloaded packs validate, none is `use-now`, none harvested a file: the
 two CC0 packs are archived for needing rigging or rendering, and the office set
 is rejected for unverified rights before its contents are considered.
+
+### LIFE-001 — The first 92C wave is age-true and fact-bound
+
+The first wave contains exactly sixteen researched kernels: at least six for
+ages five through seven and at least six for adult transition or ordinary
+social life. Every early-child stage declares a narrow numeric age window and
+its canonical context, so a five-year-old and a ten-year-old never receive the
+same new kernel through a broad band. Child choices are immediate personal
+actions and write no adult commitment or legal, household, medical, education,
+employment, or financial decision.
+
+Required people and facts are explicit. A missing enrollment or guardian makes
+the corresponding scene ineligible; an under-age role binds the same actual
+person used in the rendered line. Adult-transition content reaches work-only,
+work-and-school, education-only, and neither-work-nor-school contexts without
+asserting a four-year program. A long-tail reunion requires the recorded
+childhood answer, the same bound person, and at least eight elapsed years.
+
+### LIFE-002 — 92C prose is reviewed at development time and static at runtime
+
+Each of the wave's twenty player-facing scenes has one stored canonical fact
+packet, one accepted writer output, and one separate unambiguous grounding
+review verdict. Every rendered line, label, description, and memory maps back
+to its own accepted output. Production source and dependencies contain no
+runtime model invocation. Identical world state selects deterministically;
+different canonical age and relationship contexts change eligibility without
+synonym-fragment variation.
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.

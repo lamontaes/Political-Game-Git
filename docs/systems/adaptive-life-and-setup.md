@@ -163,6 +163,23 @@ stage and the instance. Those tags are the entire mechanism by which a later
 stage knows an earlier one happened; there is no episode store to fall out of
 step with history. `episode-bank.ts` holds the authored families.
 
+The first 92C content wave keeps those rules and narrows eligibility where the
+old life bands were too broad. Every early-child stage declares both a numeric
+age window and the context it needs. A child can act only on their own immediate
+response; no child option writes a commitment or decides housing, money,
+medical care, custody, employment or school placement. A role written as a
+much younger household peer uses the same person's birth record both to satisfy
+the under-age gate and to compose the line, so an older sibling cannot be cast
+into that scene.
+
+The adult-transition stages gate independently on paid work, enrollment,
+kinship, familiar people, or an active incident. Enrollment does not identify a
+program type, and the wave adds no occurrence rates. Long-tail stages require
+the recorded earlier option, elapsed canonical time, and the same bound person;
+when any prerequisite is missing, the stage is absent rather than filled with
+an invented person or event. Independent moments join an accepted same-domain
+family instead of receiving a fabricated answer-dependent continuation.
+
 **`life-narration.ts` says what happened between the moments.** Every sentence
 is derived from a record and carries the records it came from, so "composition,
 not invention" is checkable. There is no branch that emits a contentless line: a
@@ -224,6 +241,8 @@ remove a reading, not a system.
 - no arrival rate, hazard or occurrence probability in any content bank;
 - no generative-AI dependency — every word a player reads is authored or
   templated over canonical state, and the game runs with no model available;
+  development-time generated prose is admitted only with its stored fact packet,
+  accepted output class and separate grounding-review PASS;
 - no diagnostic label, ideology summary or personality type shown to a player;
 - no thread, stage, instance or standing named on any player-facing surface;
 - no causal edge drawn from adjacency — where the repository records no link,
@@ -248,3 +267,30 @@ soon as they are played, because what happens writes records and records are
 what threads and beats are read from, and
 `narrative-life.test.ts` pins both halves of that — including the gap, so the
 claim fails the day somebody closes it.
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](../plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.
+
+### Persistent episode cast identity (C119D)
+
+A stage's age-qualified cast must agree with the person selected by the
+existing instance key for every role the family persists. If the first
+candidate names one person and a stage gate selects another, eligibility
+withholds the stage. The beat writer revalidates that same eligibility before
+writing; it cannot record a stale mismatched beat. Neither the stored key nor
+the person is replaced to make a later callback available. Nonpersistent roles
+retain their existing stage-local binding behavior.
