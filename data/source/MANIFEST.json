@@ -537,6 +537,10 @@
       "productionGate": "Production compilation is gated on acquiring the Census Annual Survey of Public Employment & Payroll (ASPEP, and the Census of Governments employment phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the product at census.gov/programs-surveys/apes.html, not writing code."
     },
     {
+      "domain": "state-local-fiscal-authority",
+      "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
+    },
+    {
       "domain": "state-office-qualifications",
       "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
     }
