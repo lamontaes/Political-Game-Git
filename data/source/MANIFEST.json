@@ -319,6 +319,29 @@
     {
       "artifacts": [
         {
+          "artifactId": "92l-national-judicial-selection-tenure-completion",
+          "sha256": "de494b4f778fd47710649a9014718c52247504d90619d67d24a158c12128bf24",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-05",
+      "boundedSampleReason": null,
+      "canonicalSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "compiler": {
+        "name": "judicial-office-selection",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "556d46cc98e4ba578dccf2469cfd08cdeab37a43431028fa6cf85607aa34df02",
+      "corpusId": "judicial-office-selection",
+      "domain": "judicial-office-selection",
+      "isCompleteUniverse": true,
+      "recordCount": 156,
+      "universeDescription": "Every highest-court, intermediate-appellate, and general-trial office-family slot reported by 92L across the United States federal judiciary and all fifty states, plus its separately reported split-apex and chancery families: 156 slots, 148 active offices, and eight explicit non-applicable intermediate-court slots, as of 2026-09-05."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-places-zip",
           "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
           "sliceOfParent": null,
@@ -512,6 +535,10 @@
     {
       "domain": "public-employment",
       "productionGate": "Production compilation is gated on acquiring the Census Annual Survey of Public Employment & Payroll (ASPEP, and the Census of Governments employment phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the product at census.gov/programs-surveys/apes.html, not writing code."
+    },
+    {
+      "domain": "state-local-fiscal-authority",
+      "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
     },
     {
       "domain": "state-office-qualifications",
