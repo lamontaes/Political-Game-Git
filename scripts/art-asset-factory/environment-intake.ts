@@ -16,6 +16,7 @@ import {
   createAssetBankManifest,
   type AssetBankManifest,
 } from "../../src/authoring/asset-bank";
+import { JpegStructureError, readJpegDimensions } from "./jpeg-dimensions";
 import { hashArtFile } from "./content-hash";
 import {
   pngHasAlphaChannel,
@@ -107,14 +108,37 @@ export function parseIntakeRequest(json: string): IntakeRequest {
   return parsed as IntakeRequest;
 }
 
-/** Measures one file, or returns null when its dimensions cannot be read. */
+/** Measures PNG/JPEG; malformed JPEGs throw a reportable structural error. */
 export function measureCandidateFile(
   filePath: string,
 ): MeasuredCandidate | null {
   if (!fs.existsSync(filePath)) return null;
   const buffer = fs.readFileSync(filePath);
   const header = readPngHeader(buffer);
-  if (!header) return null;
+  if (!header) {
+    // A suffix cannot establish a format. JPEG-looking paths with other bytes
+    // are an explicit structural failure; valid JPEGs must also name JPEG.
+    const extension = path.extname(filePath).toLowerCase();
+    const jpegExtension = extension === ".jpg" || extension === ".jpeg";
+    if (buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+      if (jpegExtension)
+        throw new JpegStructureError("JPEG structure: missing SOI signature.");
+      return null;
+    }
+    if (!jpegExtension)
+      throw new JpegStructureError(
+        "JPEG structure: signature conflicts with file extension.",
+      );
+    const dimensions = readJpegDimensions(buffer);
+    return {
+      ...dimensions,
+      byteLength: buffer.length,
+      format: "jpg",
+      contentHash: hashArtFile(filePath),
+      hasAlphaChannel: false,
+      hasVaryingAlpha: false,
+    };
+  }
   const hasAlphaChannel = pngHasAlphaChannel(header.colorType);
   return {
     width: header.width,
@@ -231,10 +255,24 @@ export function runEnvironmentIntake(
     const repoRelative = path
       .relative(repositoryRoot, absolute)
       .replace(/\\/g, "/");
-    return evaluateEnvironmentMasterIntake(
-      toCandidate(declared, repoRelative),
-      measureCandidateFile(absolute),
-    );
+    const candidate = toCandidate(declared, repoRelative);
+    try {
+      return evaluateEnvironmentMasterIntake(
+        candidate,
+        measureCandidateFile(absolute),
+      );
+    } catch (error) {
+      if (!(error instanceof JpegStructureError)) throw error;
+      const record = evaluateEnvironmentMasterIntake(candidate, null);
+      return {
+        ...record,
+        findings: record.findings.map((finding) =>
+          finding.code === "unreadable-dimensions"
+            ? { ...finding, message: error.message }
+            : finding,
+        ),
+      };
+    }
   });
 
   const report = buildEnvironmentIntakeReport(records);
