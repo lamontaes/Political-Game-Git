@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { buildCoverageReport, type CoverageReport } from "./coverage";
 import { runDiagnostics, type DiagnosticReport } from "./diagnostics";
+import { buildGroundingMap, groundingMarkdown } from "./grounding-map";
 import { buildProseInventory, inventoryCsv } from "./inventory";
 import {
   buildProseMetrics,
@@ -285,6 +286,8 @@ edit it by hand; edit the production bank or the generator and regenerate.
   that the inventory did not miss a surface family.
 - \`lint-summary.md\` / \`lint-findings.json\` — hard errors and review warnings.
 - \`transcripts.md\` — the fixed-seed matrix played through the real seams.
+- \`grounding-map.md\` — what canonical data licenses each family's claims, and
+  the exact evidence every withheld scene is missing.
 - \`metrics-baseline.json\` — the accepted baseline a later prose PR diffs
   against with \`npm run corpus:prose -- diff\`.
 - \`review-packet.html\` — the owner reading copy.
@@ -454,6 +457,10 @@ function main(): void {
   writeFileSync(
     join(OUT_DIR, "transcripts.md"),
     transcriptsMarkdown(transcripts),
+  );
+  writeFileSync(
+    join(OUT_DIR, "grounding-map.md"),
+    groundingMarkdown(buildGroundingMap(inventory)),
   );
   writeFileSync(join(OUT_DIR, "metrics-baseline.json"), stableJson(baseline));
   writeFileSync(join(OUT_DIR, "review-packet.html"), html);

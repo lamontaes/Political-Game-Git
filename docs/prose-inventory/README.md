@@ -9,6 +9,8 @@ edit it by hand; edit the production bank or the generator and regenerate.
   that the inventory did not miss a surface family.
 - `lint-summary.md` / `lint-findings.json` — hard errors and review warnings.
 - `transcripts.md` — the fixed-seed matrix played through the real seams.
+- `grounding-map.md` — what canonical data licenses each family's claims, and
+  the exact evidence every withheld scene is missing.
 - `metrics-baseline.json` — the accepted baseline a later prose PR diffs
   against with `npm run corpus:prose -- diff`.
 - `review-packet.html` — the owner reading copy.
