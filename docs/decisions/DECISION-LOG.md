@@ -2156,14 +2156,101 @@ Rejected: treating the existing 2023 Wyoming QA slice as national or silently
 relabeling it 2024. It remains accepted QA evidence for its original bounded
 purpose; this bridge adds a separate versioned state-shard interface.
 
-## D-078 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+## D-078 — Campaign truth is separate from what the campaign is told, and offices exist only where a source says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none. This branch originally used D-057; main claimed D-057
+  through D-073 while it was open, and D-074 through D-077 have since been
+  claimed on main by the source-evidence substrate, the causal-trace inspector,
+  the declarative content bank and the PUMS donor bridge. This entry takes the
+  next free number rather than any of them.
+
+A life can now stand for office. Candidacy, a campaign committee, campaign work
+and a first election are canonical state on the accepted architecture rather
+than a screen with buttons on it.
+
+Nothing here builds a second copy of a system that already exists. The contest
+is the accepted election-contest substrate's and fires on the ordinary time
+advance, so election day arrives because the world reached it. The committee is
+an organization; its treasury is a resource position that the organization owns.
+That last point required one contract change: `ResourcePositionOwner` gained an
+`organization` case, because campaign money is the committee's and calling it
+the candidate's would have been a false statement about ownership, while a
+separate campaign wallet would have been a second money system. Making the
+mapping total also tightened an existing rule rather than loosening one —
+organization-sourced transfers were previously exempt from the overdraw check
+and now are not, which is why an advertising buy cannot spend money the
+committee has not raised.
+
+An afternoon of campaign work is a scheduled activity that costs the hours it
+costs, and a commitment the character already made can get in the way of it.
+Three kinds, because three makes the choice real: phones turn time into money,
+doors turn time into support, an advertising buy turns money back into support
+without the candidate in the room. Effect size is computed from how many people
+worked, for how long, and how much was actually spent, with seeded variation on
+top. There is no flat bonus per click and no threshold to beat.
+
+Support truth and the campaign's reading of it are different records, and this
+is enforced rather than intended. Canonical support is a world metric state that
+decides the election and is shown to nobody. The field memo is an observation of
+that state, wrong by a deterministic amount drawn from the seed, carrying a
+stated four-point margin that it can exceed. `src/simulation/index.ts` names its
+campaign exports one by one instead of re-exporting the module, so the reader
+that can see canonical support is unreachable from the presentation and player
+layers, which import from that barrel and nowhere else. A test asserts the
+omission; another asserts that no number on the player's screen equals the
+truth. The memo reaches the player only through the knowledge record, so a memo
+written but not yet read is not something the player knows.
+
+Which offices can be stood for is derived from the accepted legislative rule
+packs and from nothing else. A pack cites the instrument that establishes a
+chamber and the number of members elected to it, which is enough to say the
+office exists and is filled by election. It is not enough to say who may stand,
+when filing closes, how long a term runs, or which district a seat belongs to,
+and all four stay `unknown` rather than being defaulted. "Unknown" must not
+resolve to "anyone", so the game applies one conservative rule of its own — the
+same adult threshold the setup screen already uses — and labels it as its own,
+because "the game will not put anyone under 21 on a ballot" and "the law says
+no" are different sentences and only one of them is true. The pack is read from
+the jurisdiction rather than supplied by the caller. P85B/P85D clarify the
+parent-state boundary: Lexington residents reach Kentucky state offices through
+the declared state key; municipal capabilities remain absent. A winning role
+records the governing state, never replacing the character's residence.
+
+The production catalog boundary was relaxed once, deliberately and by name. It
+forbids a new game carrying catalog content, because none of it is sourced and
+an empty catalog honestly says "nothing has been established here". A world
+metric _definition_ is a different case: it says what a quantity means, not that
+anybody measured anything, and candidate support is a quantity the simulation
+produces itself with `simulated` provenance on every state. So the boundary now
+allows an explicit list of metric keys the simulation establishes for itself,
+containing exactly one, with a test keeping the list and the module that relies
+on it from drifting apart. A fixture corpus describing somewhere real without
+having read anything is still refused.
+
+Consequence: losing an election is a thing that happened to somebody, not an
+ending. A lost campaign closes its committee, ends the work it created, writes
+itself into history, and hands back the same life with the same day screen.
+Winning seats the member through the ordinary work records — an organization, a
+work relationship, a role in a jurisdiction — which is what opens the office and
+legislative surfaces that already existed; nothing was invented to let a winner
+through the door. Across ten seeds one candidate wins having done nothing and
+six win after three afternoons on the doors, so campaigning changes the odds
+without deciding the result. What a term is worth, when it begins, primaries,
+ballot access, campaign finance, districts, an actual electorate, and any office
+outside the accepted pack registry all remain unimplemented, and the elections
+document lists them rather than leaving them to be discovered.
+
+## D-079 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
 
 - Date: 2026-09-04
 - Status: ACCEPTED
 - Supersedes: none
 - Reconciled: renumbered from D-074 while merging current main into PR #89,
-  whose accepted decisions already occupied D-074–D-077; the architecture is
-  unchanged, only the identifier.
+  whose accepted decisions already occupied D-074–D-077, and renumbered again
+  from D-078 after main claimed D-078 for the campaign-truth decision; the
+  architecture is unchanged, only the identifier.
 
 Packet 76 found that the proof cross-morphology garment sharing works was
 circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
@@ -2232,16 +2319,17 @@ viewpoint; child and adolescent bodies, because a child is not a scaled adult an
 no measured evidence of proportional compatibility exists; and any pairing that
 fails the bounds.
 
-## D-079 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+## D-080 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
 
 - Date: 2026-09-04
 - Status: ACCEPTED
-- Supersedes: none (amends D-078)
+- Supersedes: none (amends D-079)
 - Reconciled: renumbered from D-075 while merging current main into PR #89,
-  whose accepted causal-tracing decision already occupied D-075; the
-  architecture is unchanged, only the identifier.
+  whose accepted causal-tracing decision already occupied D-075, and renumbered
+  again from D-079 after main claimed D-078 and this entry moved with its
+  parent; the architecture is unchanged, only the identifier.
 
-An independent audit of the first D-078 head rejected it on three blockers and
+An independent audit of the first D-079 head rejected it on three blockers and
 one contract defect, all reproduced before repair.
 
 **A warp could become a rectangle.** The only guard against drawing a bounded
