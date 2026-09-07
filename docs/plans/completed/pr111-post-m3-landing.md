@@ -10,3 +10,16 @@ Owner-authorized mechanical landing of accepted R6C; no legislative re-audit or 
 - Stop on semantic conflict; re-fetch and check main ancestry and remote branch identity before push and merge.
 
 LEARN: compare the merged ownership-test blob directly with canonical main even when Git reports no conflicts. The existing M3 frozen-range regression is the durable guard; no branch-local repair is needed.
+
+## Reconciliation verification
+
+The mechanical reconciliation is complete. All 211 focused legislative and
+boundary tests passed. Exact pushed reconciliation head
+`bf714cfe581096a3749791a5ded6c124832aa3c0` passed full repository validation
+in GitHub run `34082473710`; local validation also ran but reported failures
+under concurrent machine load. Final error details and browser/merge outcomes
+are recorded in the task completion report rather than predicted here.
+
+This completed reconciliation record does not waive the final-head CI/browser
+gate or the fresh main-ancestry check before merge. No accepted legislative blob
+changed, and the judicial ownership test exactly matches canonical M3 main.
