@@ -256,6 +256,11 @@ function describeRequirement(
   requirement: EpisodeRequirement,
 ): ContentRequirement {
   switch (requirement.kind) {
+    case "withheld":
+      return {
+        key: "withheld:missing-context",
+        description: requirement.reason,
+      };
     case "fact":
       return {
         key: `fact:${requirement.fact}`,

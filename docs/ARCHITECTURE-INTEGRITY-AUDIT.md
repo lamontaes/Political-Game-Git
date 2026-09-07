@@ -696,3 +696,20 @@ exclusions.
 | Determinism and missingness | Confirmed                            | Identical worlds select identically. Different canonical ages change eligibility. Missing enrollment or guardian records withhold the relevant stages, and a missing or wrong-age person is never replaced with invented prose or an invented entity.                                                            |
 | Stable identity and history | Confirmed                            | Existing family and option keys are unchanged. New ids are stable, played stages remain ordinary tagged history, and long-tail identity is carried by the existing episode instance binding.                                                                                                                     |
 | Stage and ownership scope   | Confirmed absent                     | No Stage 6 semantic baseline, Run D-Lite clock/work substrate, player/campaign surface owned by #85, bargaining surface owned by #79, campaign/candidacy file, law/institution engine, runtime AI dependency, or new UI was changed.                                                                             |
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.

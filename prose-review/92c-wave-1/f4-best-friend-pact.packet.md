@@ -3,7 +3,7 @@ CHARACTER: You are six or seven years old.
 RELATIONSHIPS: {role:familiar} is somebody this life already keeps a running record with, who is not family and does not live in your household. Write their name as the literal token {role:familiar}; it is substituted at composition. Use no other name for them.
 KNOWN WORLD FACTS:
 
-- You and {role:familiar} have spent a lot of time together.
+- The record establishes prior familiarity; both birth dates place you less than two years apart, and this person is at least five and under nine. No quantity of time spent together is established.
 - {role:familiar} has said the two of you are best friends and that it should be just the two of you.
 - A third child has been playing with you both.
   PLAYER KNOWLEDGE: what was said.
@@ -15,3 +15,14 @@ KNOWN WORLD FACTS:
   Additionally: the third child has no name, and none may be invented. Refer to them only as a third child.
   PURPOSE: Best friends arrive at this age, and they arrive by exclusion. This is the moment the pact is offered, not the moment it is judged.
   OUTPUT REQUEST: Render two sentences of scene, then three options. Each option is one short action label (max five words), one clause of description, and one past-tense sentence recording what the child did, written as a memory. Format each option as `LABEL — description — memory:`. Use the token {role:familiar} wherever that child is named. The scene must reach the pressure and stop. Do not resolve it, do not say what follows, and do not close with a sentence that interprets the moment.
+
+## C119B evidence boundary
+
+Age, enrollment, household/authority and bound-person identity come only from
+the existing canonical eligibility queries, where required by this stage.
+The immediate physical encounter described above is the proposed scene being
+authored now, not a claim derived from those standing records. On resolution,
+the ordinary episode event preserves the complete scene in context.pressure
+and the selected action in its summary, with direct player knowledge. No
+new biography, institution, enrollment, employment or prior performance is
+created to qualify this scene. Earlier choices require this exact instance.

@@ -20,8 +20,10 @@ import type { DimensionNudge, InterestTension } from "./player-model";
  *
  * This file is the first wave against both, authored as data over the episode
  * machinery that already exists. It declares no schema, adds no record family
- * and owns no engine. Every stage here is offered because the world already
- * contains the thing it is about, and is not offered otherwise.
+ * and owns no engine. C119B distinguishes standing canonical eligibility from
+ * immediate scenes authored at resolution. Ten conditional adult/flood stages
+ * remain registered but are withheld for missing circumstance evidence; their
+ * broad work, school, kinship or incident gates never establish that evidence.
  *
  * ## Why the ages are narrow
  *
@@ -311,6 +313,7 @@ const FIRST_ROOM: EpisodeFamily = {
   stages: [
     {
       key: "cubby-space",
+      recordSceneContext: true,
       requires: [atSchool, isAChild, ...aged(5, 6)],
       lines: [
         "Your name is on the hook.",
@@ -357,6 +360,7 @@ const FIRST_ROOM: EpisodeFamily = {
     },
     {
       key: "partner-pairing",
+      recordSceneContext: true,
       requires: [atSchool, isAChild, ...aged(7, 8)],
       lines: [
         "The class is being put into pairs for a piece of work, and you've been put with the kid nobody else asked for.",
@@ -428,6 +432,7 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
   stages: [
     {
       key: "recess-race",
+      recordSceneContext: true,
       requires: [atSchool, isAChild, ...aged(6, 8)],
       lines: [
         "You lose the race across the yard.",
@@ -477,10 +482,11 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
     },
     {
       key: "tattle-boundary",
+      recordSceneContext: true,
       requires: [atSchool, isAChild, ...aged(6, 8)],
       lines: [
         "During quiet work you're supposed to stay at your table, and while the adult was out of the room another kid got up and went to the window.",
-        "The adult is back and hasn't said anything about it.",
+        "The adult is back.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -532,6 +538,7 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
     },
     {
       key: "it-was-still-there",
+      recordSceneContext: true,
       requires: [
         { kind: "after-stage", stage: "tattle-boundary" },
         { kind: "days-since-stage", stage: "tattle-boundary", days: 180 },
@@ -548,7 +555,7 @@ const RULES_AS_WRITTEN: EpisodeFamily = {
         tension(
           ["civic-order", "risk-appetite"],
           [1, 1],
-          "The rule is still the rule, and the window is still over there.",
+          "Going to the window, against staying at your table.",
         ),
       ],
       mayLeadTo: [],
@@ -598,6 +605,7 @@ const HOUSE_RULES: EpisodeFamily = {
   stages: [
     {
       key: "chore-resistance",
+      recordSceneContext: true,
       requires: [
         { kind: "fact", fact: "household.shared" },
         { kind: "role", role: "guardian" },
@@ -651,6 +659,7 @@ const HOUSE_RULES: EpisodeFamily = {
     },
     {
       key: "parent-exhaustion",
+      recordSceneContext: true,
       requires: [
         { kind: "fact", fact: "household.shared" },
         { kind: "role", role: "guardian" },
@@ -708,6 +717,7 @@ const HOUSE_RULES: EpisodeFamily = {
     },
     {
       key: "sibling-toy-snatch",
+      recordSceneContext: true,
       requires: [
         { kind: "fact", fact: "household.shared" },
         { kind: "role-age-below", role: "household-peer", age: 5 },
@@ -793,10 +803,18 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
   family: "companionship",
   authority: RESEARCH_AUTHORITY,
   roles: ["familiar"],
+  peerRoles: ["familiar"],
   stages: [
     {
       key: "best-friend-pact",
-      requires: [{ kind: "role", role: "familiar" }, isAChild, ...aged(6, 8)],
+      recordSceneContext: true,
+      requires: [
+        { kind: "role", role: "familiar" },
+        { kind: "role-age-at-least", role: "familiar", age: 5 },
+        { kind: "role-age-below", role: "familiar", age: 9 },
+        isAChild,
+        ...aged(6, 8),
+      ],
       lines: [
         "{role:familiar} says the two of you are best friends, and it should be just the two of you.",
         "There's a third child who has been playing with you both.",
@@ -845,6 +863,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
     },
     {
       key: "across-the-checkout",
+      recordSceneContext: true,
       requires: [
         { kind: "after-choice", stage: "best-friend-pact", option: "say-yes" },
         { kind: "days-since-stage", stage: "best-friend-pact", days: 2920 },
@@ -853,7 +872,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
       ],
       lines: [
         "You're both in the queue at the checkout, and {role:familiar} has recognised you.",
-        "You remember the two of you agreeing, as kids, that you were best friends.",
+        "You remember telling {role:familiar} it would be just the two of you.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -875,12 +894,13 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         },
         {
           key: "bring-up-being-kids",
-          label: "Bring up being kids",
-          description: "Say you remember the two of you being best friends.",
+          label: "Bring up the pact",
+          description:
+            "Say you remember agreeing it would be just the two of you.",
           nudges: [nudge("personal-ties", 0.4), nudge("risk-appetite", 0.2)],
           aftermath: "goodwill",
           memory:
-            "You told {role:familiar} you remembered the two of you being best friends as kids.",
+            "You told {role:familiar} you remembered agreeing it would be just the two of you.",
         },
         {
           key: "eyes-forward",
@@ -918,7 +938,16 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
   stages: [
     {
       key: "called-in",
-      requires: [hasWork, inTraining, ...aged(17, 26)],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing canonical supervisor shift request and coursework/evening conflict.",
+        },
+        hasWork,
+        inTraining,
+        ...aged(17, 26),
+      ],
       lines: [
         "Your supervisor has asked you to pick up a shift you weren't scheduled for.",
         "It's the evening you'd put aside for the coursework you have due.",
@@ -971,7 +1000,16 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     },
     {
       key: "asked-by-a-colleague",
-      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(17, 26)],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing canonical colleague coverage request and known funeral reason.",
+        },
+        hasWork,
+        { kind: "role", role: "colleague" },
+        ...aged(17, 26),
+      ],
       lines: [
         "{role:colleague} has asked you to take their shift.",
         "They say it's for a funeral.",
@@ -1027,6 +1065,11 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     {
       key: "it-came-back-round",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing current coverage need/rota and performed earlier shift help; choosing yes is not performance.",
+        },
         {
           kind: "after-choice",
           stage: "asked-by-a-colleague",
@@ -1117,7 +1160,16 @@ const MONEY_NOBODY_COUNTS: EpisodeFamily = {
   stages: [
     {
       key: "pooled-tips",
-      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(17, 26)],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing tipped workplace/pooling arrangement, cash removal and direct witness evidence.",
+        },
+        hasWork,
+        { kind: "role", role: "colleague" },
+        ...aged(17, 26),
+      ],
       lines: [
         "You saw {role:colleague} take cash out of the tip pool before it was counted.",
         "Nobody else was looking.",
@@ -1168,6 +1220,11 @@ const MONEY_NOBODY_COUNTS: EpisodeFamily = {
     {
       key: "what-you-said-stuck",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing continued workplace discussion and identified questioner knowledge linkage.",
+        },
         {
           kind: "after-choice",
           stage: "pooled-tips",
@@ -1237,7 +1294,16 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
   stages: [
     {
       key: "the-commute",
-      requires: [inTraining, hasWork, ...aged(17, 26)],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing canonical transit mode, journey/timetable and shift conflict.",
+        },
+        inTraining,
+        hasWork,
+        ...aged(17, 26),
+      ],
       lines: [
         "The bus that gets you to class on time leaves before your shift ends.",
         "It's a long ride each way, and the timetable and your shift don't fit together.",
@@ -1288,6 +1354,11 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
     {
       key: "carrying-the-group",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing shared enrollment, assignment/deadline and contribution evidence.",
+        },
         inTraining,
         { kind: "role", role: "familiar" },
         { kind: "age-at-least", age: 17 },
@@ -1365,6 +1436,11 @@ const WORK_NOT_PAID: EpisodeFamily = {
     {
       key: "the-family-shop",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing canonical family business/work relationship and unpaid weekend request; kinship is insufficient.",
+        },
         { kind: "fact", fact: "kin.present" },
         { kind: "role", role: "relative" },
         ...aged(17, 26),
@@ -1433,12 +1509,17 @@ const WORK_NOT_PAID: EpisodeFamily = {
     {
       key: "the-third-weekend",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing continuing specific family-work commitment, active business/work context and performed weekends; earlier yes and elapsed time are insufficient.",
+        },
         { kind: "after-choice", stage: "the-family-shop", option: "say-yes" },
         { kind: "days-since-stage", stage: "the-family-shop", days: 60 },
         { kind: "role", role: "relative" },
       ],
       lines: [
-        "Two months in, you're still working weekends at the business {role:relative} runs, unpaid, the way you agreed to.",
+        "You're still working the unpaid weekends you agreed to with {role:relative}.",
         "Nothing has been said about it ending.",
       ],
       stakes: "ordinary",
@@ -1497,6 +1578,11 @@ const WATER_CAME_UP: EpisodeFamily = {
     {
       key: "sandbag-line",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Missing relevant local flood/affected-place evidence and sandbag activity/participation context; an unrelated active incident is insufficient.",
+        },
         { kind: "fact", fact: "incident.active" },
         { kind: "age-at-least", age: 17 },
       ],

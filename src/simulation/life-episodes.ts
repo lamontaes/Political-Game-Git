@@ -342,6 +342,7 @@ export interface EpisodeRoleBinding {
 /* -------------------------------------------------------------------------- */
 
 export type EpisodeRequirement =
+  | { readonly kind: "withheld"; readonly reason: string }
   | { readonly kind: "fact"; readonly fact: EpisodeFactKey }
   | { readonly kind: "absent"; readonly fact: EpisodeFactKey }
   | { readonly kind: "age-at-least"; readonly age: number }
@@ -486,6 +487,8 @@ export interface EpisodeStage {
    * `{role:<role-key>}` for a bound person's name.
    */
   readonly lines: readonly string[];
+  /** Preserve this proposed immediate scene in the ordinary resolution event. */
+  readonly recordSceneContext?: boolean;
   readonly options: readonly EpisodeOption[];
   readonly stakes: LifeStakesTier;
   readonly tensions: readonly InterestTension[];
@@ -511,6 +514,8 @@ export interface EpisodeFamily {
   readonly authority: EpisodeAuthority;
   /** Roles this family may bind. A stage asks for the ones it needs. */
   readonly roles: readonly EpisodeRoleKey[];
+  /** Birth-cohort restriction applied before both instance identity and casting. */
+  readonly peerRoles?: readonly EpisodeRoleKey[];
   readonly stages: readonly EpisodeStage[];
   readonly exits: readonly EpisodeExit[];
 }
@@ -1187,7 +1192,7 @@ export function eligibleEpisodeBeats(
 
   const facts = episodeFacts(world, personId, asOfDate);
   const capabilities = episodeCapabilities(world, personId, asOfDate);
-  const bindings = episodeRoleBindings(world, personId, asOfDate);
+  const allBindings = episodeRoleBindings(world, personId, asOfDate);
   const played = playedEpisodeStages(world, personId, asOfDate);
   const age = ageOnDate(person.birthDate, asOfDate);
 
@@ -1195,6 +1200,18 @@ export function eligibleEpisodeBeats(
   const exclusions: EpisodeExclusion[] = [];
 
   for (const family of families) {
+    // Cohort membership is anchored to birth dates, so growing older cannot
+    // change a childhood cast. Unrelated familiar adults never enter it.
+    const bindings = allBindings.filter((binding) => {
+      if (!family.peerRoles?.includes(binding.role)) return true;
+      const other = world.people[binding.personId];
+      if (!other) return false;
+      const earlier =
+        person.birthDate < other.birthDate ? person.birthDate : other.birthDate;
+      const later =
+        person.birthDate < other.birthDate ? other.birthDate : person.birthDate;
+      return ageOnDate(earlier, later) < 2;
+    });
     const instanceKey = episodeInstanceKey(family.key, bindings, family.roles);
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
@@ -1415,6 +1432,8 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
     asOfDate,
   } = input;
   switch (requirement.kind) {
+    case "withheld":
+      return { satisfied: false, anchors: [], detail: requirement.reason };
     case "fact": {
       const fact = facts.get(requirement.fact);
       return {
@@ -1777,6 +1796,22 @@ export function playEpisodeOption(
   if (!family || !stage || !option) {
     throw new Error("That option is not part of this episode beat.");
   }
+  const currentBeat = eligibleEpisodeBeats({
+    world,
+    personId: input.personId,
+    families: input.families,
+  }).beats.find(
+    (beat) =>
+      beat.episodeKey === input.beat.episodeKey &&
+      beat.stageKey === input.beat.stageKey &&
+      beat.instanceKey === input.beat.instanceKey,
+  );
+  if (
+    !currentBeat ||
+    JSON.stringify(currentBeat) !== JSON.stringify(input.beat)
+  ) {
+    throw new Error("This episode beat is no longer eligible.");
+  }
   const person = world.people[input.personId];
   if (!person) throw new Error("This character is not in the world.");
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
@@ -1843,7 +1878,7 @@ export function playEpisodeOption(
               }
             : null,
           socialContext: family.key,
-          pressure: null,
+          pressure: stage.recordSceneContext ? input.beat.prose : null,
           choice: option.label,
           motivation: null,
           immediateReaction: null,

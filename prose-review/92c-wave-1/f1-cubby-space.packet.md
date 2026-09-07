@@ -14,3 +14,14 @@ KNOWN WORLD FACTS:
   ALLOWED INTERPRETATION: none beyond the facts above. The child perceives only concrete, physical, immediate things. No macroeconomic, institutional or political vocabulary. No option may read as obviously virtuous or obviously cruel; each is an ordinary thing a child of this age does.
   PURPOSE: A five-year-old's first collision between a rule they have been given ("this hook is yours") and another child who is already standing in it. At five a rule is an absolute handed down by adults, and fairness is a physical fact about who has what.
   OUTPUT REQUEST: Render two sentences of scene, then three options. Each option is one short action label (max five words), one clause of description, and one past-tense sentence recording what the child did, written as a memory. Format each option as `LABEL — description — memory:`. The scene must reach the pressure and stop. Do not resolve it, do not say what follows, and do not close with a sentence that interprets the moment.
+
+## C119B evidence boundary
+
+Age, enrollment, household/authority and bound-person identity come only from
+the existing canonical eligibility queries, where required by this stage.
+The immediate physical encounter described above is the proposed scene being
+authored now, not a claim derived from those standing records. On resolution,
+the ordinary episode event preserves the complete scene in context.pressure
+and the selected action in its summary, with direct player knowledge. No
+new biography, institution, enrollment, employment or prior performance is
+created to qualify this scene. Earlier choices require this exact instance.

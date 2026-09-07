@@ -15,3 +15,14 @@ KNOWN WORLD FACTS:
   Additionally: do not supply or imply a cause — no money trouble, no job, no illness, no argument, no other person. Do not have the child fix, advise, comfort-as-an-adult, or take on any responsibility for the adult. The child may only witness and respond as a child.
   PURPOSE: A child sees an adult not being all right and has no access to why. What is available to them is whether to go in, and how.
   OUTPUT REQUEST: Render two sentences of scene, then three options. Each option is one short action label (max five words), one clause of description, and one past-tense sentence recording what the child did, written as a memory. Format each option as `LABEL — description — memory:`. Use the token {role:guardian} wherever the adult is named. The scene must reach the pressure and stop. Do not resolve it, do not say what follows, and do not close with a sentence that interprets the moment.
+
+## C119B evidence boundary
+
+Age, enrollment, household/authority and bound-person identity come only from
+the existing canonical eligibility queries, where required by this stage.
+The immediate physical encounter described above is the proposed scene being
+authored now, not a claim derived from those standing records. On resolution,
+the ordinary episode event preserves the complete scene in context.pressure
+and the selected action in its summary, with direct player knowledge. No
+new biography, institution, enrollment, employment or prior performance is
+created to qualify this scene. Earlier choices require this exact instance.

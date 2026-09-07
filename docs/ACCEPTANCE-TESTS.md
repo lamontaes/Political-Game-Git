@@ -1707,3 +1707,20 @@ to its own accepted output. Production source and dependencies contain no
 runtime model invocation. Identical world state selects deterministically;
 different canonical age and relationship contexts change eligibility without
 synonym-fragment variation.
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.

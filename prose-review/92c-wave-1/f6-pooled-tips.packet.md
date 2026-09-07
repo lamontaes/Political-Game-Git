@@ -16,3 +16,11 @@ KNOWN WORLD FACTS:
   Additionally: do not state an amount. Do not establish {role:colleague}'s motive, circumstances or intent. Do not establish what management would do.
   PURPOSE: Something you saw, that costs the people you work with, done by somebody with more standing than you. The scene ends before you act.
   OUTPUT REQUEST: Render two sentences of scene, then three options. Each option is one short action label (max five words), one clause of description, and one past-tense sentence recording what the character did, written as a memory. Format each option as `LABEL — description — memory:`. Use the token {role:colleague} wherever that person is named. The scene must reach the pressure and stop. Do not resolve it, do not say what follows, and do not close with a sentence that interprets the moment.
+
+## C119B runtime disposition
+
+WITHHELD. The facts above specify the conditional authored scene; current
+canonical gates do not establish them. This packet and its static output are
+retained for the 20-triplet inventory, not treated as live-world evidence.
+The stage has an unconditional, explained withholding requirement. No world
+records are created to satisfy this packet. See the C119B grounding audit.

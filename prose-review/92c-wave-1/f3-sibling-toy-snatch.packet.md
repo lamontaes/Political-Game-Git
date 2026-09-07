@@ -16,3 +16,14 @@ KNOWN WORLD FACTS:
   Additionally: {role:household-peer} is a small child. Do not give them speech, reasoning or motive beyond wanting the object. Do not route any discipline of them to the player character.
   PURPOSE: Possession against a much younger child, with nobody to appeal to yet. Keeping your own thing is not a moral failure and giving it up is not virtue.
   OUTPUT REQUEST: Render two sentences of scene, then three options. Each option is one short action label (max five words), one clause of description, and one past-tense sentence recording what the child did, written as a memory. Format each option as `LABEL — description — memory:`. Use the token {role:household-peer} wherever the younger child is named. The scene must reach the pressure and stop. Do not resolve it, do not say what follows, and do not close with a sentence that interprets the moment.
+
+## C119B evidence boundary
+
+Age, enrollment, household/authority and bound-person identity come only from
+the existing canonical eligibility queries, where required by this stage.
+The immediate physical encounter described above is the proposed scene being
+authored now, not a claim derived from those standing records. On resolution,
+the ordinary episode event preserves the complete scene in context.pressure
+and the selected action in its summary, with direct player knowledge. No
+new biography, institution, enrollment, employment or prior performance is
+created to qualify this scene. Earlier choices require this exact instance.
