@@ -535,8 +535,10 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
+    // 48,066 rose to 48,087 when the Kentucky Sec. 88 operative-text source
+    // notes were compiled into the legislative rule packs.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48066);
+    expect(coverage.totalLiterals).toBe(48087);
     expect(coverage.counts.INVENTORIED).toBe(1902);
     expect(coverage.scannedFiles).toBe(313);
   });

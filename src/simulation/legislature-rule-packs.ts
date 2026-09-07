@@ -115,6 +115,22 @@ const KY_SEC_88 = source(
   "partial",
   "Gubernatorial veto and reconsideration. The section was identified from the constitution's own table of sections; its operative text was not read line by line for this pack.",
 );
+// The operative text of Sec. 88 as read for the R3H-accepted legislative-power
+// research (certified subset 92K-V4-R3G, node US-KY.legislative_powers). It is
+// kept apart from KY_SEC_42/KY_SEC_88 above because those record a
+// table-of-sections check on a different retrieval, and only the values this
+// receipt actually certifies cite it.
+const KY_SEC_88_OPERATIVE: RuleSourceRef = {
+  authority: "constitution",
+  citation: "Ky. Const. Sec. 88",
+  sourceTitle: "The Constitution of the Commonwealth of Kentucky",
+  sourceUrl:
+    "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=96",
+  retrievedAt: "2026-09-06",
+  verification: "verified",
+  note: "Gubernatorial veto and reconsideration, operative text: a bill not returned within ten days (Sundays excepted) becomes law without signature; if the General Assembly's adjournment prevents return, the bill becomes law unless the Governor files it with objections in the office of the Secretary of State within ten days after adjournment.",
+};
+
 const KY_SEC_42 = source(
   "constitution",
   "Ky. Const. Sec. 42",
@@ -430,11 +446,10 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     titleLabel: "Governor",
     presentmentRequired: knownRule(true, KY_SEC_88),
     actionWindowDaysInSession: knownRule(10, KY_SEC_88),
-    actionWindowDaysAfterAdjournment: unknownRule(
-      "The period the Governor has after adjournment was not resolved for this pack.",
-    ),
-    inactionOutcomeInSession: unknownRule(
-      "What becomes of a Kentucky bill the Governor neither signs nor returns was not resolved for this pack.",
+    actionWindowDaysAfterAdjournment: knownRule(10, KY_SEC_88_OPERATIVE),
+    inactionOutcomeInSession: knownRule(
+      "becomes-law-without-signature",
+      KY_SEC_88_OPERATIVE,
     ),
     lineItemVeto: knownRule(true, KY_SEC_88),
     override: {
@@ -470,6 +485,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
   sources: [
     KY_SEC_46,
     KY_SEC_88,
+    KY_SEC_88_OPERATIVE,
     KY_SEC_42,
     KY_SEC_47,
     KY_HOUSE_RULE_37,
@@ -492,8 +508,6 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
   ],
   unresolvedGaps: [
     "Constitutional quorum fraction is unresolved.",
-    "Post-adjournment gubernatorial action period is unresolved.",
-    "Outcome of gubernatorial inaction is unresolved.",
     "Default effective-date rule is unresolved; Sec. 55 is the section to review.",
     "What becomes of a pending measure at adjournment is unresolved.",
     "Conference committee composition and report rules are unresolved, and conference is not modelled.",
