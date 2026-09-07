@@ -134,3 +134,14 @@ one wins having done nothing and six win after three afternoons on the doors.
   coverage and playable legislative-work coverage are separate boundaries.
 - Any NPC standing for office on their own initiative. An opponent is
   materialized when a player files, and does not campaign.
+
+## Municipal election source authority
+
+A separate lane compiles what state general law says about municipal elections
+and municipal direct democracy — ballot structure, election timing, runoff
+rules, vacancy succession, and the availability and thresholds of recall,
+initiative and protest referendum across fifty states and the District of
+Columbia. That corpus is source authority for later systems to consume; it is
+not wired into any contest, candidacy or player-facing surface, and it must not
+be until an independent audit clears its gate. See [Where the municipal-election
+rule packs come from](./municipal-election-rule-sources.md).

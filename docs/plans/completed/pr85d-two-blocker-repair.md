@@ -16,3 +16,5 @@ Isolated takeover checkout: `/private/tmp/pg-p85d-repair`; prior workspace remai
 No campaign arithmetic, new systems, bargaining, UI redesign or unrelated source/art changes. The owner loop/taste gate is already accepted per P85D; this repair awaits the separate P85E technical recheck.
 
 Local validation: `npm run validate` passed (141 files, 2,435 tests), focused regressions passed (106 tests), campaign browser proofs passed (19 tests), and art inventory/QA passed. The canonical M1 ownership-test file matches main exactly.
+
+Main advanced during the first successful CI run (34075617723). A second ordinary merge reconciles `1a91101ab4f5369aeec21c6e9f32c21114794c81`; its municipal-source documentation is retained alongside the repaired runtime description, and its source systems are unchanged. Validation is repeated for this integrated head.
