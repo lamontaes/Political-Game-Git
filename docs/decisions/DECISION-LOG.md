@@ -2155,3 +2155,135 @@ facts.
 Rejected: treating the existing 2023 Wyoming QA slice as national or silently
 relabeling it 2024. It remains accepted QA evidence for its original bounded
 purpose; this bridge adds a separate versioned state-shard interface.
+
+## D-080 — Executive authority is a referenced rule substrate, populated only to independently verified depth
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-078 on merge of accepted main (9c36b2f).
+  D-078 and D-079 are the earlier reservation held by the open garment
+  morphology and fit-profile lane; D-080 is the first identifier free on
+  the combined tree. The substrate is unchanged, only the identifier.
+
+Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
+and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
+(the jurisdiction data) as a data-and-readers substrate for executive powers and
+constraints, alongside the legislative rule packs. It composes with the
+legislature contract's shared `RuleValue` algebra but locally narrows that
+algebra through `ExecutiveRuleValue<T>` to `known | unknown`. A `known` value is
+source-bearing; an unresolved value stays `unknown` rather than claiming that a
+concept does not exist. The legislature's own three-state `RuleValue` semantics
+remain unchanged.
+
+The executive-authority substrate categorically rejects `not-applicable` before
+accessing its note. The shared shape carries only free text for that state, so a
+citation-shaped note cannot establish affirmative sourced inapplicability and
+must not be interpreted as evidence. If executive authority later needs a
+`not-applicable` state, it requires a distinct source-bearing representation
+approved as an architecture contract; widening the existing note-only shape is
+not sufficient.
+
+Bill-presentment facts — presentment, action windows, inaction outcome,
+line-item veto and override — are NOT restated. They remain owned by
+`LegislativeRulePack.executive`, and an executive pack references the
+legislative pack by id. That reference is built by `presentmentRef`, which
+resolves the id against the live compiled registry at module load, so a pack
+cannot reference a legislative pack that does not exist and a synthetic
+presentment identifier cannot be written at all. `resolvePresentmentAuthority`
+returns the referenced pack's own `ExecutiveRule` object and fails closed where
+no pack is referenced. No second copy of the veto exists.
+
+Evidence boundary, recorded because it constrains what these packs may claim:
+
+- The `92H` executive-governing research is complete. It is read here as
+  research, and it does NOT convert rows of the national executive-authority
+  matrix into primary legal authority for any field.
+- The national `92K` executive-authority matrix is REJECTED and requires
+  reconstruction. It is candidate/diagnostic evidence only. No row of it is
+  ingested, no field is promoted to `known` on its strength, and none of its
+  synthetic pack identifiers appears anywhere in this substrate.
+- The five state packs (KY, NE, AK, MN, IL) rest on the 92A
+  jurisdiction-authority wave, which resolved office identity, the separately
+  elected officers that make a state a plural executive, and — for Alaska alone
+  — appointment with legislative confirmation at the exact scope of Alaska
+  Const. Art. III, Sec. 25. Everything else stays `unknown`.
+- A clause establishing one specific appointment — a judicial vacancy, a named
+  board — does not establish a general power to appoint the principal officers
+  of the branch. Kentucky, Nebraska, Minnesota and Illinois therefore hold the
+  general appointment field `unknown` rather than widening a specific clause to
+  fit it. Illinois's confirmation requirement and confirming body are `unknown`
+  for the same reason, and no supermajority confirmation rule is carried.
+- The federal pack rests on the operative text of U.S. Constitution Article II,
+  retrieved from the National Archives transcript and cited at clause precision.
+  Article II has no express executive-order clause and no general supervisory
+  clause, so directive authority and supervisory authority stay `unknown` rather
+  than being inferred from the vesting clause. Federal statutory dimensions —
+  removal doctrine, reorganization, emergency powers, budget submission — stay
+  `unknown`.
+- Wisconsin is deliberately not packed; it is carried as an explicit gap in
+  `UNRESEARCHED_JURISDICTIONS`.
+
+Contract correction made by this decision: `assertExecutiveAuthorityPackIntegrity`
+now refuses a `known` value whose citation names an instrument without naming a
+provision inside it. `isGenericCitation` encodes that test — a citation must
+carry a pinpoint ("Art. II, Sec. 3", "KRS 117.015(2)", "10 ILCS 5/1A-1") and
+must not be one of the template shapes ("<State> Const. executive article",
+"<State> Const. veto section", "<State> Const. executive succession clause")
+that read like evidence and are not. Unfalsifiable sourcing is now rejected at
+the seam rather than left to review.
+
+Rejected alternatives: ingesting the rejected national matrix wholesale;
+promoting a field to `known` on secondary synthesis, report prose, a generic
+citation template, or constitutional silence; treating silence as
+`not-applicable`; and adding the product ideas that are not accepted primitives
+— a veto-deterrence, legal-risk, morale, competence, loyalty, confirmability or
+"strong executive" score. None of those are encoded, and a test walks every pack
+to prove no score, ideology or probability field exists.
+
+Consequence: the substrate is reusable across jurisdictions and grows by adding
+independently verified sourced data, never by widening the engine; a later
+verified research pass fills the unknown dimensions and adds Wisconsin without
+any schema change.
+
+Reconciliation after PR #102 merged (main `982f613`, accepted PR head
+`365ec2d`): #102 compiled the Minnesota (`us-mn-legislature-v1`) and Illinois
+(`us-il-general-assembly-v1`) legislative rule packs, so those two presentment
+references were built through `presentmentRef` against the live registry and
+became `known`. Exactly that changed. Nothing was researched, no other field
+moved off `unknown`, and federal presentment remains `unknown` because no
+federal legislative pack exists to resolve. This is the mechanism working as
+decided above — a reference becomes resolvable when, and only when, the
+artifact it names is actually compiled — not a new claim about either state.
+
+Integrity hardening (R2 repair, same PR #101 branch, no new claim): the
+contract's runtime boundary was tightened so it fails closed rather than open,
+without changing any sourced row.
+
+- `assertRuleValue` now holds each locally admitted `RuleValue` to its exact
+  shape. A `known` value must carry a value and a pinpointed source and nothing
+  else, while an `unknown` may carry only its note (an "unknown" smuggling a
+  value is rejected). A `not-applicable` is rejected categorically before its
+  note is accessed: citation-shaped free text is not a source-bearing
+  determination and cannot turn silence into a claim that a concept does not
+  exist. A future executive `not-applicable` representation requires a distinct
+  source-bearing architecture contract. The three enumerated fields (branch
+  structure, removal mode, clemency model) are checked against their closed
+  domains at runtime, so an invalid enum fails at validation, not only at
+  compile time.
+- This narrowing is local to executive authority. The legislature's shared
+  `RuleValue`, `notApplicableRule`, and `requireKnown` semantics remain
+  unchanged.
+- `isGenericCitation` no longer treats a bare year as a pinpoint. A citation
+  such as "US CONSTITUTION 1787" is refused; a genuine locator — an article,
+  section, clause, rule, statutory-code section, or a section-sign form like
+  "§ 1983" — still passes.
+- `resolvePresentmentAuthority` resolves the referenced pack from the live
+  registry (`rulePackById`) and refuses a caller-supplied object that is not the
+  registered instance, so a fabricated pack bearing a correct-looking id cannot
+  stand in for real presentment authority.
+
+Federal presentment remains `unknown`; no federal authority is invented. The
+bounded six-jurisdiction substrate, all six shipped executive packs, every
+jurisdiction fact, and every accepted sourced row are unchanged by this
+documentation reconciliation.

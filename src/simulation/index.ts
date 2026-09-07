@@ -29,6 +29,8 @@ export * from "./legislation";
 export * from "./legislation-scenarios";
 export * from "./legislature-rules";
 export * from "./legislature-rule-packs";
+export * from "./executive-authority-rules";
+export * from "./executive-authority-rule-packs";
 export * from "./evidence";
 export * from "./mind";
 export * from "./mind-catalog";
