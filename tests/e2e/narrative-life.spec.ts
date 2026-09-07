@@ -246,7 +246,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
 /* -------------------------------------------------------------------------- */
 
 test.describe("A life is told continuously", () => {
-  test("says how the time passed before every beat after the first", async ({
+  test("bridges the beats that moved, and stays silent over the rest", async ({
     page,
   }) => {
     const errors = watchForErrors(page);
@@ -258,20 +258,29 @@ test.describe("A life is told continuously", () => {
       beats.push(await takeBeat(page, step % 3));
     }
 
-    // The opening introduces; everything after it bridges.
+    // The opening introduces. After that a beat either bridges — a nameable
+    // change or a birthday, said in a real sentence — or arrives in silence:
+    // the P1 migration (docs/plans/active/p1-prose-migration.md) removed the
+    // filler whose whole payload was that time passed.
     expect(beats[0]!.passage.length).toBeGreaterThan(20);
-    for (const beat of beats.slice(1)) {
+    const bridges = beats
+      .slice(1)
+      .map((beat) => beat.passage.trim())
+      .filter((passage) => passage.length > 0);
+    for (const passage of bridges) {
       expect(
-        beat.passage.length,
-        "a beat arrived with nothing said about the time before it",
+        passage.length,
+        "a bridge said less than a sentence",
       ).toBeGreaterThan(10);
     }
-    // And the passages are not one sentence repeated.
-    expect(new Set(beats.map((beat) => beat.passage)).size).toBeGreaterThan(2);
+    // A short run of adjacent beats may legitimately bridge nothing at all —
+    // nothing moved and no birthday fell — and the life must keep playing
+    // through that silence. That a moved record does produce a bridge is
+    // proved deterministically in src/presentation/life-narration.test.ts.
     expect(errors).toEqual([]);
   });
 
-  test("narrates a quiet stretch instead of saying nothing happened", async ({
+  test("keeps a quiet stretch honest: grounded sentences or silence", async ({
     page,
   }) => {
     await freshBrowser(page);
@@ -280,18 +289,25 @@ test.describe("A life is told continuously", () => {
     const said: string[] = [];
     for (let step = 0; step < 6; step += 1) {
       await page.getByTestId("story-let-time-pass").click();
-      const passage = await page.getByTestId("story-passage").innerText();
+      const shown = (await page.getByTestId("story-passage").count()) > 0;
+      const passage = shown
+        ? await page.getByTestId("story-passage").innerText()
+        : "";
       said.push(passage);
-      // The requirement: every quiet gap says something, and none of it is one
-      // of the sentences the playtest asked to be removed.
-      expect(passage.trim().length).toBeGreaterThan(10);
+      // A quiet gap either says something real or says nothing at all. It
+      // never pads, and never one of the sentences the playtest removed.
+      if (passage.trim().length > 0) {
+        expect(passage.trim().length).toBeGreaterThan(10);
+      }
       for (const banned of BANNED_COPY) {
         expect(passage).not.toMatch(banned);
       }
+      expect(passage).not.toMatch(/went on the way it does/i);
+      expect(passage).not.toMatch(/Work stayed work/i);
+      expect(passage).not.toMatch(/Most weeks were built around school/i);
     }
-    // And a run of them is not one paragraph repeated. Two distinct is the
-    // floor rather than six: a life with nothing in it but a household and a
-    // place genuinely has less to say, and padding it would be invention.
+    // And a run of them is not one paragraph repeated: silence and the
+    // occasional grounded bridge give at least two distinct outcomes.
     expect(new Set(said).size).toBeGreaterThan(1);
   });
 
