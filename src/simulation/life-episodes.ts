@@ -342,6 +342,7 @@ export interface EpisodeRoleBinding {
 /* -------------------------------------------------------------------------- */
 
 export type EpisodeRequirement =
+  | { readonly kind: "withheld"; readonly reason: string }
   | { readonly kind: "fact"; readonly fact: EpisodeFactKey }
   | { readonly kind: "absent"; readonly fact: EpisodeFactKey }
   | { readonly kind: "age-at-least"; readonly age: number }
@@ -359,6 +360,26 @@ export type EpisodeRequirement =
    */
   | {
       readonly kind: "role-age-at-least";
+      readonly role: EpisodeRoleKey;
+      readonly age: number;
+    }
+  /**
+   * A role that can be filled by somebody UNDER this age.
+   *
+   * The exact mirror of `role-age-at-least`, and needed for the same reason
+   * pointing the other way. A scene about a much younger child in the house —
+   * the one who takes a thing out of your hands and cannot yet be reasoned
+   * with — is only that scene if the person bound to it is actually younger.
+   * Without this the part is filled by whichever household peer the world
+   * happens to list first, which in a household with an older sibling casts a
+   * teenager as a toddler.
+   *
+   * Like its mirror it reads the person's own birth record and asserts nothing
+   * else about them; it is not a claim that being younger makes somebody a
+   * different kind of person.
+   */
+  | {
+      readonly kind: "role-age-below";
       readonly role: EpisodeRoleKey;
       readonly age: number;
     }
@@ -457,6 +478,8 @@ export interface EpisodeOption {
 
 export interface EpisodeStage {
   readonly key: string;
+  /** Copy authority for a bounded stage that extends an accepted family. */
+  readonly authority?: EpisodeAuthority;
   /** Every requirement must hold. An empty list means the stage may open. */
   readonly requires: readonly EpisodeRequirement[];
   /**
@@ -464,6 +487,8 @@ export interface EpisodeStage {
    * `{role:<role-key>}` for a bound person's name.
    */
   readonly lines: readonly string[];
+  /** Preserve this proposed immediate scene in the ordinary resolution event. */
+  readonly recordSceneContext?: boolean;
   readonly options: readonly EpisodeOption[];
   readonly stakes: LifeStakesTier;
   readonly tensions: readonly InterestTension[];
@@ -489,6 +514,8 @@ export interface EpisodeFamily {
   readonly authority: EpisodeAuthority;
   /** Roles this family may bind. A stage asks for the ones it needs. */
   readonly roles: readonly EpisodeRoleKey[];
+  /** Birth-cohort restriction applied before both instance identity and casting. */
+  readonly peerRoles?: readonly EpisodeRoleKey[];
   readonly stages: readonly EpisodeStage[];
   readonly exits: readonly EpisodeExit[];
 }
@@ -1165,7 +1192,7 @@ export function eligibleEpisodeBeats(
 
   const facts = episodeFacts(world, personId, asOfDate);
   const capabilities = episodeCapabilities(world, personId, asOfDate);
-  const bindings = episodeRoleBindings(world, personId, asOfDate);
+  const allBindings = episodeRoleBindings(world, personId, asOfDate);
   const played = playedEpisodeStages(world, personId, asOfDate);
   const age = ageOnDate(person.birthDate, asOfDate);
 
@@ -1173,6 +1200,18 @@ export function eligibleEpisodeBeats(
   const exclusions: EpisodeExclusion[] = [];
 
   for (const family of families) {
+    // Cohort membership is anchored to birth dates, so growing older cannot
+    // change a childhood cast. Unrelated familiar adults never enter it.
+    const bindings = allBindings.filter((binding) => {
+      if (!family.peerRoles?.includes(binding.role)) return true;
+      const other = world.people[binding.personId];
+      if (!other) return false;
+      const earlier =
+        person.birthDate < other.birthDate ? person.birthDate : other.birthDate;
+      const later =
+        person.birthDate < other.birthDate ? other.birthDate : person.birthDate;
+      return ageOnDate(earlier, later) < 2;
+    });
     const instanceKey = episodeInstanceKey(family.key, bindings, family.roles);
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
@@ -1242,10 +1281,30 @@ export function eligibleEpisodeBeats(
 
       const neededRoles = rolesUsedBy(stage);
       const stageBindings = neededRoles.flatMap((role) => {
-        const binding = bindings.find((candidate) => candidate.role === role);
+        const binding = bindingForStageRole(bindings, stage, role);
         return binding ? [binding] : [];
       });
       if (stageBindings.length !== neededRoles.length) continue;
+
+      // Persistent roles keep the existing first-binding identity. A stage's
+      // age gates may select somebody else; withholding is safer than writing
+      // that person's choice under an instance that later recalls another.
+      // playEpisodeOption revalidates through this same eligibility boundary.
+      const mismatchedCast = stageBindings.find(
+        (cast) =>
+          family.roles.includes(cast.role) &&
+          bindings.find((binding) => binding.role === cast.role)?.personId !==
+            cast.personId,
+      );
+      if (mismatchedCast) {
+        exclusions.push({
+          episodeKey: family.key,
+          stageKey: stage.key,
+          requirement: { kind: "role", role: mismatchedCast.role },
+          detail: `The age-qualified ${mismatchedCast.role} does not match the persistent instance person.`,
+        });
+        continue;
+      }
 
       beats.push({
         episodeKey: family.key,
@@ -1293,13 +1352,55 @@ export function eligibleEpisodeBeats(
   };
 }
 
+/**
+ * The person a stage's copy is composed around, for one role.
+ *
+ * Age-bounded role requirements are satisfied by *a* binding that meets the
+ * bound, and the copy has to be about that same person — the documented claim
+ * of `role-age-at-least`, which the plain by-role lookup here quietly did not
+ * honour. In a household holding both a teenager and a toddler, a stage that
+ * asked for a household peer over thirteen was satisfied by the teenager and
+ * then narrated about whichever peer the bindings happened to list first. The
+ * mirror kind makes the same gap worse, because a scene written for a small
+ * child would otherwise be handed a sibling old enough to drive.
+ *
+ * So the stage's own age bounds for the role are applied to the choice of
+ * binding, not only to the decision to offer the stage at all. When several
+ * people qualify the first still wins, which keeps selection deterministic.
+ */
+function bindingForStageRole(
+  bindings: readonly EpisodeRoleBinding[],
+  stage: EpisodeStage,
+  role: EpisodeRoleKey,
+): EpisodeRoleBinding | undefined {
+  const atLeast = stage.requires
+    .filter(
+      (requirement) =>
+        requirement.kind === "role-age-at-least" && requirement.role === role,
+    )
+    .map((requirement) => (requirement as { readonly age: number }).age);
+  const below = stage.requires
+    .filter(
+      (requirement) =>
+        requirement.kind === "role-age-below" && requirement.role === role,
+    )
+    .map((requirement) => (requirement as { readonly age: number }).age);
+  return bindings.find(
+    (candidate) =>
+      candidate.role === role &&
+      atLeast.every((age) => candidate.age >= age) &&
+      below.every((age) => candidate.age < age),
+  );
+}
+
 /** The roles a stage's copy actually names, so nothing is bound needlessly. */
 function rolesUsedBy(stage: EpisodeStage): readonly EpisodeRoleKey[] {
   const roles = new Set<EpisodeRoleKey>();
   for (const requirement of stage.requires) {
     if (
       requirement.kind === "role" ||
-      requirement.kind === "role-age-at-least"
+      requirement.kind === "role-age-at-least" ||
+      requirement.kind === "role-age-below"
     ) {
       roles.add(requirement.role);
     }
@@ -1351,6 +1452,8 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
     asOfDate,
   } = input;
   switch (requirement.kind) {
+    case "withheld":
+      return { satisfied: false, anchors: [], detail: requirement.reason };
     case "fact": {
       const fact = facts.get(requirement.fact);
       return {
@@ -1409,6 +1512,20 @@ function checkRequirement(input: RequirementCheckInput): RequirementOutcome {
         detail: binding
           ? `${requirement.role} is ${binding.personName}, ${binding.age}, old enough (needs ${requirement.age}).`
           : `No ${requirement.role} is at least ${requirement.age}, so this moment — which needs one who is — is not offered.`,
+      };
+    }
+    case "role-age-below": {
+      const binding = bindings.find(
+        (candidate) =>
+          candidate.role === requirement.role &&
+          candidate.age < requirement.age,
+      );
+      return {
+        satisfied: binding !== undefined,
+        anchors: binding?.anchors ?? [],
+        detail: binding
+          ? `${requirement.role} is ${binding.personName}, ${binding.age}, young enough (under ${requirement.age}).`
+          : `No ${requirement.role} is under ${requirement.age}, so this moment — which needs one who is — is not offered.`,
       };
     }
     case "capability": {
@@ -1699,6 +1816,22 @@ export function playEpisodeOption(
   if (!family || !stage || !option) {
     throw new Error("That option is not part of this episode beat.");
   }
+  const currentBeat = eligibleEpisodeBeats({
+    world,
+    personId: input.personId,
+    families: input.families,
+  }).beats.find(
+    (beat) =>
+      beat.episodeKey === input.beat.episodeKey &&
+      beat.stageKey === input.beat.stageKey &&
+      beat.instanceKey === input.beat.instanceKey,
+  );
+  if (
+    !currentBeat ||
+    JSON.stringify(currentBeat) !== JSON.stringify(input.beat)
+  ) {
+    throw new Error("This episode beat is no longer eligible.");
+  }
   const person = world.people[input.personId];
   if (!person) throw new Error("This character is not in the world.");
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
@@ -1765,7 +1898,7 @@ export function playEpisodeOption(
               }
             : null,
           socialContext: family.key,
-          pressure: null,
+          pressure: stage.recordSceneContext ? input.beat.prose : null,
           choice: option.label,
           motivation: null,
           immediateReaction: null,

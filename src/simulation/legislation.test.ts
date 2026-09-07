@@ -144,9 +144,10 @@ function clearFloor(
       measureId: scenario.measureId,
       dispositions: dispositionsFromCounts(body.members, {
         yea,
-        nay: chamber.seats - yea,
+        nay: body.members.length - yea,
       }),
-      presentMembers: chamber.seats,
+      presentMembers: body.members.length,
+      electedMembers: body.members.length,
       provenance: AUTHORED,
     });
   }
@@ -337,6 +338,7 @@ describe("Kentucky bicameral path", () => {
         { yea: 50, nay: 45, absent: 5 },
       ),
       presentMembers: 95,
+      electedMembers: bodyForChamber(scenario, "house").members.length,
       provenance: AUTHORED,
     });
     const position = measurePosition(world, scenario.measureId);
@@ -402,6 +404,7 @@ describe("Kentucky bicameral path", () => {
       forums: [
         {
           forumKey: "house",
+          electedMembers: bodyForChamber(scenario, "house").members.length,
           dispositions: dispositionsFromCounts(
             bodyForChamber(scenario, "house").members,
             { yea: 55, nay: 45 },
@@ -409,6 +412,7 @@ describe("Kentucky bicameral path", () => {
         },
         {
           forumKey: "senate",
+          electedMembers: bodyForChamber(scenario, "senate").members.length,
           dispositions: dispositionsFromCounts(
             bodyForChamber(scenario, "senate").members,
             { yea: 21, nay: 17 },
@@ -428,6 +432,7 @@ describe("Kentucky bicameral path", () => {
       forums: [
         {
           forumKey: "house",
+          electedMembers: bodyForChamber(scenario, "house").members.length,
           dispositions: dispositionsFromCounts(
             bodyForChamber(scenario, "house").members,
             { yea: 55, nay: 45 },
@@ -435,6 +440,7 @@ describe("Kentucky bicameral path", () => {
         },
         {
           forumKey: "senate",
+          electedMembers: bodyForChamber(scenario, "senate").members.length,
           dispositions: dispositionsFromCounts(
             bodyForChamber(scenario, "senate").members,
             { yea: 19, nay: 19 },
@@ -525,6 +531,7 @@ describe("Nebraska unicameral path", () => {
       stableKey: "gf",
       measureId: scenario.measureId,
       dispositions: dispositionsFromCounts(body.members, { yea: 30, nay: 19 }),
+      electedMembers: body.members.length,
       provenance: AUTHORED,
     });
     expect(measurePosition(world, scenario.measureId).floorStageKey).toBe(
@@ -536,6 +543,7 @@ describe("Nebraska unicameral path", () => {
       stableKey: "sf",
       measureId: scenario.measureId,
       dispositions: dispositionsFromCounts(body.members, { yea: 28, nay: 21 }),
+      electedMembers: body.members.length,
       provenance: AUTHORED,
     });
     expect(measurePosition(world, scenario.measureId).floorStageKey).toBe(
@@ -547,6 +555,7 @@ describe("Nebraska unicameral path", () => {
       stableKey: "fr",
       measureId: scenario.measureId,
       dispositions: dispositionsFromCounts(body.members, { yea: 27, nay: 22 }),
+      electedMembers: body.members.length,
       provenance: AUTHORED,
     });
     expect(measurePosition(world, scenario.measureId).phase).toBe(
@@ -589,6 +598,7 @@ describe("Nebraska unicameral path", () => {
       forums: [
         {
           forumKey: "legislature",
+          electedMembers: body.members.length,
           dispositions: dispositionsFromCounts(body.members, {
             yea: 29,
             nay: 20,
@@ -610,6 +620,7 @@ describe("Nebraska unicameral path", () => {
       forums: [
         {
           forumKey: "legislature",
+          electedMembers: body.members.length,
           dispositions: dispositionsFromCounts(body.members, {
             yea: 30,
             nay: 19,
@@ -778,6 +789,7 @@ describe("Procedural discipline", () => {
           nay: 20,
         }),
         presentMembers: 40,
+        electedMembers: body.members.length,
         provenance: AUTHORED,
       }),
     ).toThrow(/Recorded presence is smaller/);
@@ -791,6 +803,7 @@ describe("Procedural discipline", () => {
           { memberKey: "house-seat-001", personId: null, disposition: "yea" },
           { memberKey: "house-seat-001", personId: null, disposition: "nay" },
         ],
+        electedMembers: body.members.length,
         provenance: AUTHORED,
       }),
     ).toThrow(/Member voted twice/);
@@ -805,6 +818,7 @@ describe("Procedural discipline", () => {
       description: "Narrow the pilot to two counties.",
       offeredByLabel: "Member for District 12",
       dispositions: dispositionsFromCounts(body.members, { yea: 58, nay: 42 }),
+      electedMembers: body.members.length,
       provenance: AUTHORED,
     });
     const amendment = (world.history.legislativeAmendments ?? [])[0]!;

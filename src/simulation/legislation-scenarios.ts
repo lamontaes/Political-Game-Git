@@ -325,6 +325,34 @@ interface ScenarioBlueprint {
   readonly governorRationale: string;
 }
 
+/**
+ * Authored body sizes for the bounded developer scenarios.
+ *
+ * These are fixture inputs, not formal institutional claims. Keeping them in
+ * the scenario bank lets legacy demonstrations retain their seated rosters
+ * when a rule pack honestly leaves the formal seat count unresolved.
+ */
+const AUTHORED_SCENARIO_SEAT_COUNTS: Readonly<
+  Record<string, Readonly<Record<string, number>>>
+> = {
+  [KENTUCKY_RULE_PACK.packId]: { house: 100, senate: 38 },
+  [NEBRASKA_RULE_PACK.packId]: { legislature: 49 },
+  [ALASKA_RULE_PACK.packId]: { house: 40, senate: 20 },
+};
+
+export function authoredScenarioSeatCount(
+  pack: LegislativeRulePack,
+  chamberKey: string,
+): number {
+  const seats = AUTHORED_SCENARIO_SEAT_COUNTS[pack.packId]?.[chamberKey];
+  if (!Number.isSafeInteger(seats) || (seats ?? 0) <= 0) {
+    throw new Error(
+      `No positive authored scenario seat count exists for '${pack.packId}/${chamberKey}'.`,
+    );
+  }
+  return seats!;
+}
+
 const BLUEPRINTS: readonly ScenarioBlueprint[] = [
   {
     scenarioKey: "kentucky",
@@ -705,7 +733,7 @@ export function createLegislativeScenario(
     seatChamber(
       chamber.chamberKey,
       chamber.name,
-      chamber.seats,
+      authoredScenarioSeatCount(blueprint.pack, chamber.chamberKey),
       index === 0 ? linked : [],
       blueprint.nonpartisan,
     ),

@@ -110,9 +110,10 @@ describe("ordinary play cannot reach the development route", () => {
       ...capabilities.withheld.map((entry) => entry.surface),
       ...(capabilities.office ? ["office"] : []),
       ...(capabilities.legislation ? ["legislation"] : []),
+      ...(capabilities.campaign ? ["campaign"] : []),
     ];
     for (const surface of surfaces) {
-      expect(["office", "legislation"]).toContain(surface);
+      expect(["office", "legislation", "campaign"]).toContain(surface);
     }
     expect(JSON.stringify(capabilities)).not.toContain("trace");
   });
