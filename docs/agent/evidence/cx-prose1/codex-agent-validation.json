@@ -1,0 +1,75 @@
+{
+  "codexVersion": "0.153.4",
+  "agents": [
+    {
+      "role": "civic-prose-writer",
+      "sessionId": "01a079c5-0b45-7a00-8797-a8180512bd5b",
+      "parent": {
+        "subAgent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a079c4-c8ae-7f90-94df-59c58fc8f74a",
+            "depth": 1,
+            "agent_path": "/root/packet_writer",
+            "agent_nickname": "Curie",
+            "agent_role": "civic-prose-writer"
+          }
+        }
+      },
+      "exactDeveloperInstructionsLoaded": true,
+      "turnContexts": [
+        {
+          "model": "gpt-6-astra",
+          "effort": "low",
+          "sandbox_policy": {
+            "type": "read-only"
+          }
+        },
+        {
+          "model": "gpt-6-astra",
+          "effort": "low",
+          "sandbox_policy": {
+            "type": "read-only"
+          }
+        }
+      ],
+      "output": [
+        "result: SAFE_RENDER_WITH_OMISSION\nprose: Wendell asks you to serve on a trail-naming panel. The panel meets twice before it reports.\n\n- Accept the invitation.\n- Decline the invitation.\n\nomitted:\n\n- Delivery channel and location, because neither is established."
+      ]
+    },
+    {
+      "role": "civic-prose-grounding-reviewer",
+      "sessionId": "01a079c7-d012-7621-a0e5-049fdd80db12",
+      "parent": {
+        "subAgent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a079c7-9420-7a90-a589-f198652b0e0d",
+            "depth": 1,
+            "agent_path": "/root/grounding_review",
+            "agent_nickname": "Franklin",
+            "agent_role": "civic-prose-grounding-reviewer"
+          }
+        }
+      },
+      "exactDeveloperInstructionsLoaded": true,
+      "turnContexts": [
+        {
+          "model": "gpt-6-astra",
+          "effort": "low",
+          "sandbox_policy": {
+            "type": "read-only"
+          }
+        },
+        {
+          "model": "gpt-6-astra",
+          "effort": "low",
+          "sandbox_policy": {
+            "type": "read-only"
+          }
+        }
+      ],
+      "output": [
+        "GROUNDING: UNSUPPORTED\n- claim: Tuesday\n  class: date\n  why: The packet lists the date of the meeting under UNKNOWN / DO NOT ASSUME."
+      ]
+    }
+  ]
+}

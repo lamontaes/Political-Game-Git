@@ -1,0 +1,140 @@
+[
+  {
+    "kind": "writer",
+    "name": "channel-invention",
+    "output": "result: SAFE_RENDER_WITH_OMISSION\nprose: |\n  Wendell asks you to serve on a trail-naming panel. The panel meets twice before it reports.\n\n  - Accept.\n  - Decline.\nomitted:\n- Delivery channel and location, neither of which is established.",
+    "grounding": {
+      "pass": true,
+      "findings": []
+    },
+    "sessionId": "01a079c5-28c5-7583-b02d-95a25e1851e2"
+  },
+  {
+    "kind": "writer",
+    "name": "date-invention",
+    "output": "result: SAFE_RENDER_WITH_OMISSION\nprose: The zoning board voted 5-2 to approve Permit 19, a storage-yard expansion. Board chair Ines Okafor voted in favor.\nomitted:\n- The meeting date and the reason for the character\u2019s no vote are not supplied.",
+    "grounding": {
+      "pass": true,
+      "findings": []
+    },
+    "sessionId": "01a079c5-cf72-7210-9b2c-00a15a08a49f"
+  },
+  {
+    "kind": "writer",
+    "name": "note-plain-passes",
+    "output": "result: SAFE_RENDER\nprose: Prepare a two-page summary of Rule 12 for Nasser before the Friday filing. Rule 12 shortens the public comment window from 45 days to 30.",
+    "grounding": {
+      "pass": true,
+      "findings": []
+    },
+    "sessionId": "01a079c6-7ec4-7981-9ac6-36343772e42b"
+  },
+  {
+    "kind": "reviewer",
+    "name": "writer-channel",
+    "reply": "GROUNDING: PASS",
+    "parsed": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "sessionId": "01a079c6-53d1-7841-a56c-60bb94fd9ca6"
+  },
+  {
+    "kind": "reviewer",
+    "name": "date-invention",
+    "reply": "GROUNDING: UNSUPPORTED\n- claim: Tuesday\n  class: date\n  why: The packet explicitly marks the date of the meeting as UNKNOWN / DO NOT ASSUME.",
+    "parsed": {
+      "pass": false,
+      "malformed": false,
+      "claims": ["Tuesday"]
+    },
+    "sessionId": "01a079c6-7c83-7dc2-baf4-f4d94baed439"
+  },
+  {
+    "kind": "reviewer",
+    "name": "scope-widening",
+    "reply": "GROUNDING: UNSUPPORTED\n- claim: Members who voted against the increase did not respond to requests for comment.\n  class: scope\n  why: The packet establishes only that the character gave no statement to reporters. Other members\u2019 responses are not established.\n- claim: requests for comment\n  class: other\n  why: The packet does not establish that reporters requested comment from the character and explicitly leaves unknown whether any other member was asked for a statement.",
+    "parsed": {
+      "pass": false,
+      "malformed": false,
+      "claims": [
+        "Members who voted against the increase did not respond to requests for comment.",
+        "requests for comment"
+      ]
+    },
+    "sessionId": "01a079c6-ac02-77b2-9bb4-49e3da49751e"
+  },
+  {
+    "kind": "reviewer",
+    "name": "surface-drift",
+    "reply": "GROUNDING: UNSUPPORTED\n- claim: I need two pages on Rule 12 before we file Friday, Nasser tells you, leaning against the frame.\n  class: surface\n  why: The packet requires a staff-work task note, but the candidate stages spoken dialogue.\n- claim: Nasser tells you\n  class: delivery\n  why: The packet does not establish a spoken interaction.\n- claim: leaning against the frame\n  class: delivery\n  why: The packet establishes neither this physical action nor a frame.\n- claim: we file Friday\n  class: scope\n  why: The packet establishes a Friday filing but does not identify who files.",
+    "parsed": {
+      "pass": false,
+      "malformed": false,
+      "claims": [
+        "I need two pages on Rule 12 before we file Friday, Nasser tells you, leaning against the frame.",
+        "Nasser tells you",
+        "leaning against the frame",
+        "we file Friday"
+      ]
+    },
+    "sessionId": "01a079c6-e28d-7f90-91cf-5b3027787093"
+  },
+  {
+    "kind": "reviewer",
+    "name": "player-identity-from-npc",
+    "reply": "GROUNDING: UNSUPPORTED\n- claim: She\n  class: identity\n  why: The packet explicitly marks the character's gender as unknown; Adaeze Boase's established gender does not establish the character's.",
+    "parsed": {
+      "pass": false,
+      "malformed": false,
+      "claims": ["She"]
+    },
+    "sessionId": "01a079c7-2b71-74a2-a807-7e5e1351d89e"
+  },
+  {
+    "kind": "reviewer",
+    "name": "approx-time-invention",
+    "reply": "GROUNDING: UNSUPPORTED\n- claim: It's around 11\n  class: time\n  why: The packet explicitly marks the time of day as unknown.\n- claim: still stacked\n  class: other\n  why: The packet establishes a current stack of printouts, but no prior state or continuity.",
+    "parsed": {
+      "pass": false,
+      "malformed": false,
+      "claims": ["It's around 11", "still stacked"]
+    },
+    "sessionId": "01a079c7-57a1-7953-b2fa-f6e3b8da239e"
+  },
+  {
+    "kind": "reviewer",
+    "name": "note-plain-passes",
+    "reply": "GROUNDING: PASS",
+    "parsed": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "sessionId": "01a079c7-8b7e-79d0-ad19-a799a39879d4"
+  },
+  {
+    "kind": "reviewer",
+    "name": "explicit-channel-allowed",
+    "reply": "GROUNDING: PASS",
+    "parsed": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "sessionId": "01a079c7-ada2-7781-bf19-c918423dfb95"
+  },
+  {
+    "kind": "reviewer",
+    "name": "writer-date-invention",
+    "reply": "GROUNDING: PASS",
+    "sessionId": "01a079c9-3041-7550-b7e9-3e44ed90e244"
+  },
+  {
+    "kind": "reviewer",
+    "name": "writer-note-plain-passes",
+    "reply": "GROUNDING: PASS",
+    "sessionId": "01a079c9-5ce2-74f0-b8e5-e12ea222e424"
+  }
+]

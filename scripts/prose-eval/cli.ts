@@ -55,6 +55,9 @@ import { loadProbes } from "./probes";
 // the fresh grounding probes, and the grounding tests. Retired holdout packets
 // may not appear in any of them.
 const SKILL_ROOTS = [
+  ".agents/skills/civic-prose",
+  ".codex/agents/civic-prose-writer.toml",
+  ".codex/agents/civic-prose-grounding-reviewer.toml",
   ".claude/skills/civic-prose",
   ".claude/agents/civic-prose-writer.md",
   ".claude/agents/civic-prose-grounding-reviewer.md",
