@@ -720,3 +720,18 @@ LEARN: shared substrate correctness needs tests at every caller that advances
 time, and office access needs a locality-origin test where residence differs
 from governing authority. The focused integration and browser regressions are
 the durable mechanism; no broader prompt or new workflow is needed.
+
+## Civil Service / Labor Source Substrate Audit — 2026-09-06
+
+This audit applies the source-substrate contracts to the bounded 92P first
+wave and rechecks D-004, D-023, D-025, D-026, D-034, D-035, D-074, the frozen
+Stage 6 baseline, the accepted Stage 6.5 runs, and later-stage gates.
+
+| Concern                            | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Identity versus coverage           | Confirmed explicit    | The corpus has exactly one federal and fifty state records, each with distinct civil-service and labor profiles. Completeness applies only to this identity universe; unsupported fields have `UNKNOWN` state and no `value` key.                                                                                                |
+| Provenance and legal-text boundary | Confirmed fail-closed | Every `KNOWN` field cites a locked first-party artifact and a legal-section locator. Federal pages are U.S. House Law Revision Counsel publications; state captures carry a structured government-edict determination and the capability layer exposes only digest-pinned enacted text. Literal excerpt drift fails compilation. |
+| Jurisdiction isolation             | Confirmed             | Validation binds each cited artifact to its declared jurisdiction and rejects undeclared or cross-jurisdiction evidence. A federal or state record cannot inherit another jurisdiction's rule because the wording looks similar.                                                                                                 |
+| Retrieval failures                 | Confirmed honest      | Kentucky's returned PDF bytes and Nebraska's rate-limited strike page do not become facts. Illinois and all other unacquired authorities remain `UNKNOWN`; no summary matrix, search result, or Drive packet is production evidence.                                                                                             |
+| Domain size                        | Confirmed bounded     | The closed types cover classification, appointment/removal protection, appeal body, local mandate, bargaining coverage/scope, management rights, impasse, and strike restriction. No CBA terms, grievance state machine, hearing script, remedy calculator, scoring, or ranking exists.                                          |
+| Ownership and stage gates          | Confirmed absent      | The domain imports only source-core contracts. It changes no simulation, World, player, presentation, campaign/election, legislative-bargaining, or executive-authority file and adds no adapter or UI.                                                                                                                          |
