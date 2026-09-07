@@ -85,3 +85,15 @@ surface matrix. Two unchanged heavy suites initially exceeded their existing
 five-second timeouts during concurrent local runs; the same 48 tests passed
 with one worker and unchanged timeouts. Full local validation uses
 `VITEST_MAX_WORKERS=2` to avoid oversubscribing this shared host.
+
+## Main advanced during browser CI
+
+Published head `8b672b00ee657116c36c633f317037e2d5409bd5` passed exact-head
+CI run `34078856464`: 2,545 repository tests and all 254 browser tests.
+Main advanced during that run to `4f12772d25d26587e988f90418e56aedbb97a64a`
+(PR117). Its ordinary merge conflicted only where both branches appended
+architecture audits. Preserve both audit entries intact, taking main's entry
+first. All PR79 runtime modules remain byte-identical to the green `8b672b0`
+head; the incoming source-domain work stays unchanged. Publish the reconciled
+head and obtain new exact-head CI rather than report the older green head as
+current-main acceptance evidence.
