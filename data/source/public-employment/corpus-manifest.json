@@ -1,0 +1,38 @@
+{
+  "asOf": "2025-03-31",
+  "canonicalSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
+  "compiler": {
+    "name": "public-employment",
+    "version": "2.0.0"
+  },
+  "corpusId": "public-employment",
+  "coverage": {
+    "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+    "isCompleteUniverse": false,
+    "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "public-employment-2025-individual-units-data",
+      "sha256": "338065f72995f148ff710cee8cfce7032d835e93638271ae7f469ca0864012ad"
+    },
+    {
+      "artifactId": "public-employment-2025-individual-units-identity",
+      "sha256": "ebb8ba2eb80133ec34be3deac0eb6c9368758ecebbe22c21419f65ea9b72226c"
+    },
+    {
+      "artifactId": "public-employment-2025-individual-units-codebook",
+      "sha256": "dc579c78ef1c2134b2eae63c44b4f8746378ad583089fe472f686b89029090aa"
+    },
+    {
+      "artifactId": "public-employment-2025-individual-units-disclaimer",
+      "sha256": "a42dbf2b7259288cb19c4cffa34e7889e3d4ff14b49f1499ee15a9d158d91623"
+    }
+  ],
+  "parser": {
+    "name": "aspep-2025-fixed-width",
+    "version": "1.0.0"
+  },
+  "recordCount": 298
+}

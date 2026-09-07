@@ -397,6 +397,71 @@
     {
       "artifacts": [
         {
+          "artifactId": "government-finances-2024-individual-units",
+          "sha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "government-finances-2024-individual-units-data",
+          "sha256": "3f2fc567f3f860e45b2ceec9262357cf9d8d5873b069288b13375b1e989d21f4",
+          "sliceOfParent": "government-finances-2024-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "government-finances-2024-individual-units-identity",
+          "sha256": "caaca638e09bb3bbf5a6d3d47c32fe531643c9a2a02c39fca2668a3225907e27",
+          "sliceOfParent": "government-finances-2024-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "government-finances-2024-individual-units-codebook",
+          "sha256": "2c7ab34a520a99a1ca0d6eb627607948f8d3410c95b771e11263cc0ec5d86fe6",
+          "sliceOfParent": "government-finances-2024-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "government-finances-2024-individual-units-disclaimer",
+          "sha256": "4e930a828e2c61ace0a55e20370e4cbc6472c8223ed72d4a8491e9a24e3a1914",
+          "sliceOfParent": "government-finances-2024-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "census-pid-gid-crosswalk",
+          "sha256": "a29438ae699bb92c5f1c8f58a126d58fa73f280f4c51de8cfb7bfebe00fdc991",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-finance-local-methodology-2024",
+          "sha256": "6a8d82a94335bf6d03130ba047f68df037a555761d9d82bde15ead86f9a9b6f9",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-finance-state-technical-2024",
+          "sha256": "7817af29132782c6c2d8c4c18deb026c4d69f949a1269da6f1056b1daf3202c0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-09-30",
+      "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+      "canonicalSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
+      "compiler": {
+        "name": "government-finances",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
+      "corpusId": "government-finances",
+      "domain": "government-finances",
+      "isCompleteUniverse": false,
+      "recordCount": 886,
+      "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "hud-fy2025-fair-market-rents-xlsx",
           "sha256": "21217df7d8c5c2bd6633fe8d3deb460d7114712ac809fe1644235980240f2ab5",
           "sliceOfParent": null,
@@ -503,6 +568,53 @@
       "isCompleteUniverse": true,
       "recordCount": 7283,
       "universeDescription": "Every 119th Congressional District, state legislative lower-chamber district and state legislative upper-chamber district published in the U.S. Census Bureau 2025 Gazetteer national files, including at-large, delegate and unassigned-residual records exactly as published."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "public-employment-2025-individual-units",
+          "sha256": "4cc9e6ee37293f5154e63bd82c657b0901f0d9beaf3efeb6cdfbd150a76b03ff",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "public-employment-2025-individual-units-data",
+          "sha256": "338065f72995f148ff710cee8cfce7032d835e93638271ae7f469ca0864012ad",
+          "sliceOfParent": "public-employment-2025-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "public-employment-2025-individual-units-identity",
+          "sha256": "ebb8ba2eb80133ec34be3deac0eb6c9368758ecebbe22c21419f65ea9b72226c",
+          "sliceOfParent": "public-employment-2025-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "public-employment-2025-individual-units-codebook",
+          "sha256": "dc579c78ef1c2134b2eae63c44b4f8746378ad583089fe472f686b89029090aa",
+          "sliceOfParent": "public-employment-2025-individual-units",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "public-employment-2025-individual-units-disclaimer",
+          "sha256": "a42dbf2b7259288cb19c4cffa34e7889e3d4ff14b49f1499ee15a9d158d91623",
+          "sliceOfParent": "public-employment-2025-individual-units",
+          "storage": "derived-qa-slice"
+        }
+      ],
+      "asOf": "2025-03-31",
+      "boundedSampleReason": "Committed QA slice: first 25 nonzero legacy IDs sorted lexicographically in 25empid.txt and all matching 25empst.txt rows. Annual survey sample, not census universe. Reported/imputed flags retained; FTE unavailable. Census has not reviewed individual-unit time series or sanctioned analyses; sampling and nonsampling errors may affect these data. See locked publisher disclaimer.",
+      "canonicalSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
+      "compiler": {
+        "name": "public-employment",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "11be2f26896149e2ba161f0b28aac29cd138cd9de09952e259dd62f437cf1ece",
+      "corpusId": "public-employment",
+      "domain": "public-employment",
+      "isCompleteUniverse": false,
+      "recordCount": 298,
+      "universeDescription": "2025 ASPEP individual-government sample observations; Census Bureau source data, not a reviewed individual-unit time series."
     },
     {
       "artifacts": [
@@ -632,16 +744,8 @@
   ],
   "gatedDomains": [
     {
-      "domain": "government-finances",
-      "productionGate": "Production compilation is gated on acquiring the Census Annual Survey of State and Local Government Finances (and the Census of Governments finance phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the two products at census.gov/programs-surveys/gov-finances.html, not writing code."
-    },
-    {
       "domain": "government-units",
       "productionGate": "The 2025 Census Government Units listing could not be acquired in this coding environment: the outbound proxy denies census.gov, rejecting the CONNECT to www2.census.gov with an HTTP 403 policy denial, so gov_units_2025.zip cannot be retrieved and hashed here. Production compilation is gated on running source:acquire --domain government-units from a network environment that reaches census.gov, which pins the real artifact through the ordinary source lock and requires no code change to compile. The domain, its compiler, its validator and its capability boundary are complete and exercised by an authoritative fixture."
-    },
-    {
-      "domain": "public-employment",
-      "productionGate": "Production compilation is gated on acquiring the Census Annual Survey of Public Employment & Payroll (ASPEP, and the Census of Governments employment phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the product at census.gov/programs-surveys/apes.html, not writing code."
     },
     {
       "domain": "state-local-fiscal-authority",

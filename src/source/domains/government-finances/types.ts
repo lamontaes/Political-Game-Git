@@ -68,20 +68,11 @@ export interface FinanceRecord {
   /**
    * The Census survey year, carried on every record so years never merge.
    *
-   * This is the survey the amount was published in. It is not the government's
-   * fiscal year and it is not a calendar year: a survey year covers fiscal
-   * years ending from July 1 of the previous calendar year through June 30 of
-   * the survey year, so it names a window that most governments' books close
-   * inside rather than a year any one government would recognise as its own.
-   * See `survey-year.ts`.
-   *
-   * The field was called `fiscalYear` until an audit of this branch caught the
-   * name asserting something the value does not mean. Nothing about the number
-   * changed; it was always the survey year, and its own documentation said so
-   * while its name said otherwise. A name that disagrees with its type comment
-   * is read by the name, so a later caller comparing this against a
-   * government's actual fiscal year would have been comparing two different
-   * things and finding them equal.
+   * Local production follows the July–June window in survey-year.ts. State
+   * production follows the separately locked state technical documentation,
+   * which places its fiscal ending inside the survey calendar year. The
+   * publisher period basis records this distinction. Neither survey year nor
+   * closing date supplies the government's own fiscal-year label.
    */
   readonly surveyYear: number;
   /**
@@ -119,5 +110,14 @@ export interface FinanceRecord {
   readonly units: string;
   readonly estimateBasis: EstimateBasis;
   readonly amount: Sourced<number>;
+  readonly publisher?: {
+    readonly publisherId: string;
+    readonly pid6: string;
+    readonly rawAmount: string;
+    readonly dataFlag: string;
+    readonly endingMonthDay: string;
+    readonly identityEvidence: Evidence;
+    readonly periodBasis: "STATE_SURVEY_YEAR" | "LOCAL_JULY_JUNE";
+  };
   readonly evidence: Evidence;
 }

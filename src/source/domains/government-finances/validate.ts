@@ -10,11 +10,9 @@
  * and — the one the backbone is most emphatic about — no collapse of published
  * amounts into a single invented "capacity", "health" or "efficiency" score.
  *
- * The fiscal-window check is the subtle one. A survey year covers fiscal years
- * ending from July 1 of the previous calendar year through June 30 of the survey
- * year, so a September-30 or December-31 government is reported under a survey
- * year whose calendar year its books never touched. `survey-year.ts` holds that
- * contract; this file only applies it.
+ * Local records retain the July–June window; production state records carry
+ * their separately documented survey-calendar-year basis. These source rules
+ * must not be generalized across products.
  */
 
 import {
@@ -75,7 +73,11 @@ export function validateFinanceCorpus(
         recordId: record.recordId,
       });
     } else if (
-      !isWithinSurveyYearWindow(record.surveyYear, record.fiscalYearEnding)
+      !(compiled.corpus.inputClass === "production" &&
+      record.publisher?.periodBasis === "STATE_SURVEY_YEAR" &&
+      record.govTypeCode === "0"
+        ? record.fiscalYearEnding.slice(0, 4) === String(record.surveyYear)
+        : isWithinSurveyYearWindow(record.surveyYear, record.fiscalYearEnding))
     ) {
       const { firstDay, lastDay } = surveyYearWindow(record.surveyYear);
       findings.push({
