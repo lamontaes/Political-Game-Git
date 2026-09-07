@@ -535,10 +535,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
+    // Merging the garment-fit branch (PR #89) adds two scanned presentation
+    // sources, moving the audited 48,066 / 313 to the live 48,611 / 315;
+    // INVENTORIED is unchanged.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48066);
+    expect(coverage.totalLiterals).toBe(48611);
     expect(coverage.counts.INVENTORIED).toBe(1902);
-    expect(coverage.scannedFiles).toBe(313);
+    expect(coverage.scannedFiles).toBe(315);
   });
 });
 
