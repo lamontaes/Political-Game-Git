@@ -13,7 +13,7 @@ export const ARCHIVE_ID = "public-employment-2025-individual-units";
 
 function selectedIds(archive: Buffer): Set<string> {
   const ids = readZipMember(archive, IDENTITY_MEMBER)
-    .toString("ascii")
+    .toString("latin1")
     .split(/\r?\n/)
     .filter(Boolean)
     .map((line) => line.slice(0, 14))
@@ -22,16 +22,16 @@ function selectedIds(archive: Buffer): Set<string> {
   return new Set(ids.slice(0, 25));
 }
 
-/** Retain original line bytes, including their original line terminators. */
+/** Latin-1 round-trips every byte; publisher parsers separately reject non-ASCII. */
 export function cutPublisherRows(archive: Buffer, member: string): Buffer {
   const ids = selectedIds(archive);
   const rows =
     readZipMember(archive, member)
-      .toString("ascii")
+      .toString("latin1")
       .match(/[^\n]+(?:\n|$)/g) ?? [];
   return Buffer.from(
     rows.filter((line) => ids.has(line.slice(0, 14))).join(""),
-    "ascii",
+    "latin1",
   );
 }
 

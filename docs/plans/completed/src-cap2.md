@@ -32,8 +32,8 @@ State fiscal periods and effective-2022 state capital-expenditure labels follow
 the locked state technical document. Payroll is dated March 31; headcounts retain
 March 12. Fiscal labels and unpublished FTE remain UNKNOWN.
 
-Local verification completed: 182 focused tests; full `npm run validate` with
-144 files / 2,523 tests; both source acquisitions and compiles; manifest;
+Local verification completed: 184 focused tests; full `npm run validate` with
+144 files / 2,525 tests; both source acquisitions and compiles; manifest;
 source validation (zero domain errors); byte-identical source replay;
 artifact verification (78 verified, 3 pre-existing/cache-only absences, zero
 mismatches); art validation, inventory and QA; diff whitespace check.
@@ -45,3 +45,8 @@ Architecture and LEARN findings are recorded in
 `docs/systems/census-capacity-production.md`. The plan is complete for bounded
 source production. One draft PR remains unmerged for independent source and
 architecture review; exact-head CI is checked after publication.
+
+Final acquisition review corrected ASCII conversion to byte-preserving Latin-1
+selection. Non-ASCII publisher drift now survives extraction and is rejected by
+the parser; two adversarial ZIP tests protect this boundary. Existing locked
+QA bytes and corpus digests are unchanged.

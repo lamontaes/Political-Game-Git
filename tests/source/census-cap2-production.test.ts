@@ -337,3 +337,53 @@ describe("publisher layout adversaries", () => {
     );
   }
 });
+
+/** A one-member stored ZIP for byte-preservation adversaries. */
+function storedZip(name: string, content: Buffer): Buffer {
+  const n = Buffer.from(name);
+  let crc = ~0;
+  for (const byte of content) {
+    crc ^= byte;
+    for (let i = 0; i < 8; i += 1)
+      crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+  }
+  crc = ~crc >>> 0;
+  const local = Buffer.alloc(30),
+    central = Buffer.alloc(46),
+    end = Buffer.alloc(22);
+  local.writeUInt32LE(0x04034b50, 0);
+  local.writeUInt16LE(20, 4);
+  local.writeUInt32LE(crc, 14);
+  local.writeUInt32LE(content.length, 18);
+  local.writeUInt32LE(content.length, 22);
+  local.writeUInt16LE(n.length, 26);
+  central.writeUInt32LE(0x02014b50, 0);
+  central.writeUInt16LE(20, 6);
+  central.writeUInt32LE(crc, 16);
+  central.writeUInt32LE(content.length, 20);
+  central.writeUInt32LE(content.length, 24);
+  central.writeUInt16LE(n.length, 28);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(1, 8);
+  end.writeUInt16LE(1, 10);
+  end.writeUInt32LE(central.length + n.length, 12);
+  end.writeUInt32LE(local.length + n.length + content.length, 16);
+  return Buffer.concat([local, n, content, central, n, end]);
+}
+
+for (const [domain, cut, member, parse, nameOffset] of [
+  ["government-finances", cutFinance, FIN_ID, parseFinanceIdentities, 12],
+  ["public-employment", cutEmployment, EMP_ID, parseEmploymentIdentities, 14],
+] as const) {
+  it(`${domain}: QA selection preserves non-ASCII drift for parser rejection`, () => {
+    const row = Buffer.from(
+      bytes(domain, "identity.txt").toString("latin1").split(/\r?\n/)[0]! +
+        "\n",
+      "latin1",
+    );
+    row[nameOffset] = 0xe9;
+    const selected = cut(storedZip(member, row), member);
+    expect(selected).toEqual(row);
+    expect(() => parse(selected)).toThrow(/ASCII/);
+  });
+}
