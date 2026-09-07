@@ -137,3 +137,77 @@ Model pinning is verified, not assumed. `model:` frontmatter is honoured;
 **`effort:` is not** — launching by frontmatter alone runs the writer at effort
 `high` rather than the specified `low`, so `--effort low` must be passed on the
 command line and the served configuration confirmed in the session transcript.
+
+## Codex portability
+
+The repository-native `$civic-prose` skill is at
+`.agents/skills/civic-prose/SKILL.md`. Its entire contents are byte-identical to
+`.claude/skills/civic-prose/`, which remains the editorial authority. The
+portability regression checks the complete file inventory and bytes, the
+provider-adapted agent bodies, constrained TOML envelopes, and holdout hygiene.
+The `hygiene` command also scans both Codex agents and the Codex skill tree.
+
+The separate read-only project agents are:
+
+- `.codex/agents/civic-prose-writer.toml`
+- `.codex/agents/civic-prose-grounding-reviewer.toml`
+
+No model or effort is pinned in the skill or agents. Choose these at session
+launch. The writer explicitly reads the repository skill; there is no assumed
+Claude-style skill preload. No runtime model calls or source rewrites are added.
+
+Explicit writer prompt:
+
+```text
+Use $civic-prose. Invoke civic-prose-writer with the following one canonical
+FACT PACKET. Return the child's raw result envelope unchanged.
+<packet>
+```
+
+Independent reviewer prompt (new session, no writer reasoning):
+
+```text
+Invoke civic-prose-grounding-reviewer with exactly this FACT PACKET and
+CANDIDATE OUTPUT. Return its raw verdict unchanged. Do not rewrite prose.
+<packet>
+<candidate>
+```
+
+Read the actual child output, not a parent summary. Run `ground` on the writer
+output and `verify-review` on the reviewer's exact reply. Neither a writer's
+self-check nor a parent's claim that review passed is independent acceptance.
+Owner style acceptance remains separate from grounding.
+
+### Separate-session fallback
+
+If a Codex surface cannot select a custom agent by name, keep using the
+repository skill and start a fresh read-only session with the corresponding
+TOML's `developer_instructions` as the session configuration. Do not resume or
+fork the writer to make a reviewer. Supply only the exact packet and candidate
+to the reviewer. This preserves one role definition instead of another prompt
+copy. For example, with Python 3.11+ and the Codex CLI, run from the repo root:
+
+```python
+import json
+import subprocess
+import tomllib
+from pathlib import Path
+
+role = "civic-prose-grounding-reviewer"  # or civic-prose-writer
+config = tomllib.loads(Path(f".codex/agents/{role}.toml").read_text())
+prompt = Path("/absolute/path/review-input.txt").read_text()
+# For the writer, the input explicitly invokes $civic-prose plus one packet.
+subprocess.run(
+    [
+        "codex", "exec", "--strict-config", "-C", str(Path.cwd()),
+        "-s", config["sandbox_mode"],
+        "-c", "developer_instructions=" + json.dumps(config["developer_instructions"]),
+        "-o", "/absolute/path/raw-reply.txt", "-",
+    ],
+    input=prompt, text=True, check=True,
+)
+```
+
+The fallback uses the caller's model/effort settings; no model pin is embedded.
+Keep temporary inputs and outputs outside the skill/example trees. This is a
+manual development-time invocation, never part of the game's execution path.
