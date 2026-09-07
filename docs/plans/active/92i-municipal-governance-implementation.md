@@ -41,7 +41,7 @@ or a universal mayor-strength score.
       LEARN pass.
 - [ ] Re-fetch `main`, reconcile if needed, commit, push, and leave one draft PR
       unmerged with the audit state `READY FOR INDEPENDENT MUNICIPAL
-  SOURCE/ARCHITECTURE AUDIT`.
+SOURCE/ARCHITECTURE AUDIT`.
 
 ## Explicit exclusions
 
