@@ -196,7 +196,22 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 A domain that cannot yet compile production records declares a
 `productionGate` explaining why. The gate appears in `MANIFEST.json`, so it is
 a visible fact about the substrate rather than an absence somebody has to
-notice. `state-office-qualifications` is currently the only one.
+notice. Five domains are gated, for two different reasons.
+`government-finances`, `government-units` and `public-employment` are gated
+on acquisition: a proxy denies census.gov, and a network that reaches it
+clears them without a code change. `state-office-qualifications` and
+`state-local-fiscal-authority` are gated on sourcing: both compile from
+research syntheses, and a secondary source cannot carry the evidence of a
+retrieval this repository never made. See
+[State and local fiscal authority](fiscal-authority-source.md).
+
+Research packets and the primary authorities they cite are separate evidence
+layers. The `judicial-office-selection` domain locks its received 92L research
+packet, labels the packet-referenced companion transcription as such, and keeps
+every reported constitution, statute, or court-rule citation at
+`CITATIONS_REPORTED_NOT_RETRIEVED`. A convenient transcription must never
+silently upgrade either itself or its citations into independently retrieved
+primary evidence. See `judicial-office-selection.md`.
 
 The 2024 PUMS state-shard form is explicit rather than a hidden alternate
 default:

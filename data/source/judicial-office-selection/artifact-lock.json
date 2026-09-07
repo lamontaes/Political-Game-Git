@@ -1,0 +1,34 @@
+{
+  "domain": "judicial-office-selection",
+  "artifacts": [
+    {
+      "artifactId": "92l-national-judicial-selection-tenure-completion",
+      "provider": "Our Civic Duty research workspace via Google Drive",
+      "retrieval": {
+        "url": "https://drive.google.com/file/d/1zHRVfLrHcQuZnmSwpSKIavwuUEH_vIhs",
+        "method": "GET",
+        "retrievedAt": "2026-09-06T22:47:31Z",
+        "httpStatus": 200,
+        "responseBytes": 406819
+      },
+      "bytes": {
+        "length": 406819,
+        "sha256": "de494b4f778fd47710649a9014718c52247504d90619d67d24a158c12128bf24"
+      },
+      "mediaType": "text/markdown",
+      "publisher": {
+        "statedVintage": "2026-09-05",
+        "releaseDate": "2026-09-05",
+        "schemaVersion": null,
+        "documentationUrl": "https://drive.google.com/file/d/1zHRVfLrHcQuZnmSwpSKIavwuUEH_vIhs"
+      },
+      "rights": {
+        "status": "declared-license",
+        "declaredLicense": "Use in this repository was authorized by the repository owner for this task; no broader redistribution terms were stated.",
+        "attributionRequired": "UNKNOWN"
+      },
+      "storage": "committed",
+      "localPath": "data/source/judicial-office-selection/raw/92L_NATIONAL_JUDICIAL_SELECTION_TENURE_COMPLETION.md"
+    }
+  ]
+}
