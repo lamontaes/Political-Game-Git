@@ -27,6 +27,8 @@ export * from "./economy";
 export * from "./election-contests";
 export * from "./legislation";
 export * from "./legislation-scenarios";
+export * from "./legislative-politics";
+export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
 export * from "./legislature-rule-packs";
 export * from "./evidence";

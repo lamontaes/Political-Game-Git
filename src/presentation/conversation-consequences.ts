@@ -8,6 +8,7 @@ import {
 } from "../simulation";
 import type {
   AdultAftermathKind,
+  ClaimAudience,
   EntityId,
   IsoDate,
   LifeCommitmentKind,
@@ -49,7 +50,29 @@ export type ConversationOutcome =
   | "reassured"
   | "bystander-interjected"
   | "continued"
-  | "silence-held";
+  | "silence-held"
+  | "position-explained"
+  | "commitment-offered"
+  | "proposal-accepted"
+  | "proposal-refused"
+  | "proposal-countered"
+  | "inducement-refused"
+  | "commitment-recalled";
+
+/** Canonical evidence supplied only after the turn's event and claim exist. */
+export interface ConversationConsequenceContext {
+  readonly turnKey: string;
+  readonly eventId: EntityId;
+  readonly claimId: EntityId | null;
+  readonly audience: ClaimAudience;
+  readonly listenerPersonIds: readonly EntityId[];
+  readonly statement: string;
+}
+
+export type ConversationWorldConsequence = (
+  world: World,
+  context: ConversationConsequenceContext,
+) => World;
 
 /** The names a consequence sentence is allowed to reach for. */
 export interface ConversationEffectNames {

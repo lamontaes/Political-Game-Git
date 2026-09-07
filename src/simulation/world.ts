@@ -126,6 +126,8 @@ import {
   legislationHistoryRecords,
 } from "./legislation";
 import { assertLegislationIntegrity } from "./legislation-integrity";
+import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
+import { legislativePoliticsHistoryRecords } from "./legislative-politics";
 import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
@@ -1404,6 +1406,7 @@ function validateHistoryIntegrity(world: World): void {
     ...timeWorkHistoryRecords(world),
     ...electionContestHistoryRecords(world),
     ...legislationHistoryRecords(world),
+    ...legislativePoliticsHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1464,6 +1467,18 @@ function validateHistoryIntegrity(world: World): void {
   assertSequenceOrdered(history.committeeReferrals ?? [], "committee referral");
   assertSequenceOrdered(history.committeeActions ?? [], "committee action");
   assertSequenceOrdered(history.legislativeAmendments ?? [], "amendment");
+  assertSequenceOrdered(
+    history.legislativeProvisions ?? [],
+    "legislative provision",
+  );
+  assertSequenceOrdered(
+    history.legislativeCommitments ?? [],
+    "legislative commitment",
+  );
+  assertSequenceOrdered(
+    history.legislativeNegotiations ?? [],
+    "legislative negotiation",
+  );
   assertSequenceOrdered(history.legislativeVotes ?? [], "legislative vote");
   assertSequenceOrdered(
     history.executiveDispositions ?? [],
@@ -1496,6 +1511,7 @@ function validateHistoryIntegrity(world: World): void {
   assertTimeWorkIntegrity(world, ids);
   assertElectionContestIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
+  assertLegislativePoliticsIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1525,6 +1541,18 @@ function validateHistoryIntegrity(world: World): void {
   );
   assertUniqueStableKeys(history.committeeActions ?? [], "committee action");
   assertUniqueStableKeys(history.legislativeAmendments ?? [], "amendment");
+  assertUniqueStableKeys(
+    history.legislativeProvisions ?? [],
+    "legislative provision",
+  );
+  assertUniqueStableKeys(
+    history.legislativeCommitments ?? [],
+    "legislative commitment",
+  );
+  assertUniqueStableKeys(
+    history.legislativeNegotiations ?? [],
+    "legislative negotiation",
+  );
   assertUniqueStableKeys(history.legislativeVotes ?? [], "legislative vote");
   assertUniqueStableKeys(
     history.executiveDispositions ?? [],

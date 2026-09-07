@@ -692,3 +692,59 @@ Stage 6 baseline, the accepted Stage 6.5 runs, and later-stage gates.
 | Retrieval failures                 | Confirmed honest      | Kentucky's returned PDF bytes and Nebraska's rate-limited strike page do not become facts. Illinois and all other unacquired authorities remain `UNKNOWN`; no summary matrix, search result, or Drive packet is production evidence.                                                                                             |
 | Domain size                        | Confirmed bounded     | The closed types cover classification, appointment/removal protection, appeal body, local mandate, bargaining coverage/scope, management rights, impasse, and strike restriction. No CBA terms, grievance state machine, hearing script, remedy calculator, scoring, or ranking exists.                                          |
 | Ownership and stage gates          | Confirmed absent      | The domain imports only source-core contracts. It changes no simulation, World, player, presentation, campaign/election, legislative-bargaining, or executive-authority file and adds no adapter or UI.                                                                                                                          |
+
+## PR79 Current-Main Conversation Integration Audit — 2026-09-07
+
+Authority: 79B implementation handoff; D-081/D-082 retain the repaired
+bargaining contract. This audit rechecks the affected conversation and scene
+contracts against the existing simulation rather than reopening Stage 6.
+
+- Primitive reuse / special cases: bargaining responses and outcome-bound
+  commit hooks are supplied by the subject registry. The one optional canonical
+  consequence hook uses existing legislative writers after the engine records
+  the turn's event, claim, recipients and perceptions. No second engine or clock.
+- Context / history / provenance: the consequence closure captures the resolved
+  response and original subject progress; the engine supplies the canonical
+  event/claim IDs and actual audience. History remains append-oriented.
+- Open-set safety: the existing closed outcome vocabulary gains bargaining
+  outcomes; no opaque payload, score, policy preference, or inferred fact added.
+- Retroactive compatibility: ordinary household and office replay digests match
+  pre-integration main, including relationship, commitment, scheduled aftermath,
+  landed events and full returned turns. Existing bargaining/standing tests are
+  unmodified.
+- Scene ownership: main's dynamic surface projection is passed into the floor
+  fixture, and OfficeScene retains the configurable entry labels. No new art.
+- Fallback / scope: PR85 is still open. The fixture remains a developer route;
+  player-world construction, governing-jurisdiction and no-fixture-leak route
+  regressions remain explicit follow-on work after its ownership handoff.
+- Ownership: preserve live main's M1 frozen range and all nine actual FORBIDDEN
+  patterns. The handoff's count of eleven was stale. Add only PR79 declarations.
+
+Independent exact-head and human visual acceptance remain pending. Validation
+results and the final head are recorded in the completed integration report.
+
+PR79 exact-head CI exposed one additional inherited-boundary defect after
+PR115 merged: its judicial guard still measured the current working tree.
+Following M1's closed-packet contract, preserve the original base and forbidden
+list and pin only the formerly open head to PR115's verified merge `333eeb1`.
+A negative regression still rejects a forbidden edit within the measured files.
+No existing frozen range or judicial behavior changes.
+
+Supersession: main's accepted M3 repair (PR123, main `25b7e7a`) now owns the
+judicial guard. Its complete file is adopted unchanged, including the frozen
+PR115 feature head `35ba89f` and stronger synthetic-history/missing-history
+proofs. It supersedes this task's interim `333eeb1` closure above. No M3 frozen
+range is edited and no competing ownership implementation remains on PR79.
+
+Post-M3 finalization removes the inert PR79 declarations from the Packet 26
+helper, restoring it byte-for-byte to canonical main. Its frozen 120-file range
+matches none of the added paths; both versions report no violations or strays.
+All forbidden rules and range endpoints remain canonical. D-081/D-082 have no
+current-main collision; no runtime or player-route changes are included.
+
+Accepted PR111/R6 subsequently reached main at `87b9206`. Its explicit formal
+capacity contract is preserved: PR79's amendment and floor adapter now supplies
+the authored fixture roster's membership and presence, matching main's scenario
+adapter. A regression checks both vote records while the formal capacity stays
+unknown. No source fact, rule pack, bargaining evaluator, ownership guard or
+player-route behavior is redefined.

@@ -43,9 +43,12 @@ export type EntityKind =
   | "executive-disposition"
   | "legislative-action"
   | "legislative-amendment"
+  | "legislative-commitment"
   | "legislative-committee-action"
   | "legislative-enactment"
   | "legislative-measure"
+  | "legislative-negotiation"
+  | "legislative-provision"
   | "legislative-referral"
   | "legislative-vote"
   | "fact"
@@ -2959,6 +2962,9 @@ export interface HistoryStore {
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
   readonly committeeActions?: readonly CommitteeActionRecord[];
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
+  readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
+  readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
+  readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
   readonly executiveDispositions?: readonly ExecutiveDispositionRecord[];
   readonly legislativeEnactments?: readonly LegislativeEnactmentRecord[];
@@ -3253,6 +3259,273 @@ export interface LegislativeEnactmentRecord {
    */
   readonly effectiveAt: IsoDate | null;
   readonly outcomeEventId: EntityId;
+}
+
+// ---------------------------------------------------------------------------
+// Legislative politics — provisions, commitments, and negotiated exchange
+// ---------------------------------------------------------------------------
+
+/**
+ * How narrowly a provision is written.
+ *
+ * A provision that reaches everyone inside its scope and a provision written
+ * for one named project are different political facts, and that difference is
+ * usually the whole subject of a bargain. This is deliberately not a `pork`
+ * flag: particularization records who benefits and on what stated ground, and
+ * says nothing at all about whether the provision is defensible or corrupt.
+ */
+export type LegislativeParticularizationKind =
+  | "named-project"
+  | "named-locality"
+  | "eligibility-carve-out"
+  | "facility-authorization"
+  | "program-area";
+
+export type LegislativeProvisionBeneficiary =
+  | {
+      readonly kind: "general-application";
+      /** Plain-language statement of who the provision reaches. */
+      readonly appliesToLabel: string;
+    }
+  | {
+      readonly kind: "particularized";
+      readonly particularization: LegislativeParticularizationKind;
+      /** What the narrower language names, e.g. a transit authority. */
+      readonly beneficiaryLabel: string;
+      /** The place it is written for, when the provision names one. */
+      readonly placeLabel: string | null;
+      /**
+       * The stated public ground for writing it narrowly. Recorded because a
+       * particularized provision is an ordinary legislative act that has to be
+       * argued for in the open, not an admission of anything.
+       */
+      readonly statedGround: string;
+    };
+
+/**
+ * One operative section of a measure.
+ *
+ * Provisions are append-only. A revision records a new provision that names the
+ * version it replaces, so the bill's text has a history for the same reason its
+ * procedural position does, and nothing is quietly rewritten in place.
+ */
+export interface LegislativeProvisionRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  /**
+   * The section's durable identity, stable across revisions. Two records with
+   * the same provision key are two versions of the same section of the bill.
+   */
+  readonly provisionKey: string;
+  /** Section number as the measure prints it. */
+  readonly sectionNumber: number;
+  readonly heading: string;
+  /** The operative language, as it would read in the bill. */
+  readonly text: string;
+  readonly beneficiary: LegislativeProvisionBeneficiary;
+  /** Existing typed scope: the jurisdiction, and a segment when narrower. */
+  readonly applicationScope: MetricScope;
+  /** Stated fiscal exposure in plain language; null when it spends nothing. */
+  readonly fiscalExposureLabel: string | null;
+  /** The same exposure as a checkable amount, so a ceiling can be tested. */
+  readonly fiscalExposureMinorUnits: number | null;
+  readonly recordedAt: IsoDate;
+  /** The earlier version this replaces; null for a section as filed. */
+  readonly supersedesProvisionId: EntityId | null;
+  /**
+   * The adopted amendment that put this version into the bill. Null only for
+   * the text a measure was filed with: a provision cannot otherwise change
+   * except through the ordinary amendment path.
+   */
+  readonly originAmendmentId: EntityId | null;
+  readonly eventId: EntityId;
+}
+
+/** What a legislator said they would do. */
+export type LegislativeCommitmentStance =
+  | "support"
+  | "oppose"
+  | "support-if"
+  | "oppose-unless"
+  | "cosponsor-if-amended"
+  | "offer-amendment"
+  | "withdraw-objection"
+  | "seek-delay"
+  | "keep-options-open"
+  | "reciprocal-support";
+
+/**
+ * How firmly it was said, in the register people actually use.
+ *
+ * Deliberately not a probability. The player is told what was said and how
+ * hedged it sounded, never how likely a hidden model thinks it is to hold.
+ */
+export type LegislativeCommitmentFirmness =
+  "explicit" | "qualified" | "provisional" | "noncommittal";
+
+export type LegislativeCommitmentConditionKind =
+  LegislativeCommitmentCondition["kind"];
+
+/**
+ * What has to become true for a conditional commitment to be answerable.
+ *
+ * Each shape carries what the condition is actually about, so the game can say
+ * whether it has been met by looking at canonical state rather than by
+ * re-reading the sentence a legislator spoke.
+ *
+ * Every condition here is one the canonical world can actually prove. There
+ * was a `provision-removed` condition, and it could not be: provisions are
+ * append-only and nothing in the accepted model strikes one, so for a section
+ * the bill carries the condition could never become met. A condition the world
+ * cannot decide is worse than a missing one — it offers a promise that reads
+ * as checkable and silently never is — so it is gone rather than faked. If
+ * striking a section is ever wanted, it is an amendment path with its own
+ * canonical transition, and the condition comes back with it.
+ */
+export type LegislativeCommitmentCondition = {
+  readonly key: string;
+  /** The condition in the words it was stated, for the player to read. */
+  readonly description: string;
+} & (
+  | {
+      readonly kind: "provision-adopted";
+      readonly provisionKey: string;
+    }
+  | {
+      readonly kind: "scope-narrowed";
+      readonly provisionKey: string;
+    }
+  | {
+      readonly kind: "fiscal-ceiling";
+      readonly provisionKey: string;
+      readonly ceilingMinorUnits: number;
+    }
+  | {
+      readonly kind: "analysis-delivered";
+      /** The staff or fiscal analysis the holder said they were waiting on. */
+      readonly analysisEventStableKey: string;
+    }
+  | {
+      readonly kind: "reciprocal-support";
+      /** The other measure the holder expects help on in return. */
+      readonly reciprocalMeasureStableKey: string;
+    }
+  | {
+      readonly kind: "procedural";
+      /** The step the commitment is only good before. */
+      readonly requiredBeforeAction: LegislativeActionKind;
+    }
+);
+
+/**
+ * Exactly which legislative question something is about.
+ *
+ * A measure is asked more than one question, and they are different questions:
+ * passing a bill, agreeing to the other chamber's changes, overriding a veto
+ * and adopting one amendment to one section are four things a member can
+ * answer four different ways. Anything that matches promises to each other, or
+ * a promise to the vote that tested it, has to compare all of it — a promise
+ * about passage that gets checked against the override is not being checked.
+ *
+ * `purpose` and `measureId` are what a question always has. `provisionKey` and
+ * `amendmentStableKey` name the object of the question when it has one, which
+ * an amendment does and a passage vote does not. `forumKey` and
+ * `floorStageKey` say which chamber and which stage, and are null when the
+ * promise did not distinguish them: "I'll be with you on final passage" names
+ * a stage the speaker did not, and is answered by the passage vote that comes.
+ */
+export interface LegislativeQuestionIdentity {
+  readonly measureId: EntityId;
+  /** The stage the question is put at. */
+  readonly purpose: LegislativeVotePurpose;
+  /** The chamber or committee, when the promise named one. */
+  readonly forumKey: string | null;
+  /** The floor stage, when the promise named one. */
+  readonly floorStageKey: string | null;
+  /** The amendment the question is on, when the question is an amendment. */
+  readonly amendmentStableKey: string | null;
+  /** The section the question turns on, when it turns on one. */
+  readonly provisionKey: string | null;
+}
+
+export interface LegislativeCommitmentSubject {
+  /** Which question, exactly. */
+  readonly question: LegislativeQuestionIdentity;
+  /** That same question in plain language, for the player to read. */
+  readonly questionLabel: string;
+}
+
+/**
+ * A stated political commitment.
+ *
+ * This records what somebody said, not what will happen. Whether the commitment
+ * was kept is derived from later canonical events; it is never written back
+ * over the words. A promise is a claim about the future, and the epistemic
+ * boundary between a claim and the truth holds here exactly as it does
+ * everywhere else.
+ */
+export interface LegislativeCommitmentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly holderPersonId: EntityId;
+  readonly subject: LegislativeCommitmentSubject;
+  readonly stance: LegislativeCommitmentStance;
+  readonly firmness: LegislativeCommitmentFirmness;
+  readonly conditions: readonly LegislativeCommitmentCondition[];
+  /** Reuses claim audience: a private word and a public pledge differ. */
+  readonly audience: ClaimAudience;
+  readonly statedAt: IsoDate;
+  readonly eventId: EntityId;
+  /** The claim carrying the words, when the commitment was spoken aloud. */
+  readonly claimId: EntityId | null;
+  /** The people who actually heard it. */
+  readonly heardByPersonIds: readonly EntityId[];
+  /** The words as spoken, for the record and for any later confrontation. */
+  readonly statement: string;
+}
+
+/**
+ * What kind of exchange an approach was.
+ *
+ * These are held apart on purpose. Asking for a road in your district, trading
+ * votes with a colleague, and taking money for yourself are three different
+ * things, and a game that flattens them onto one corruption axis cannot
+ * describe a legislature. Nothing here ranks them; the distinction exists so
+ * the record can say which one happened.
+ */
+export type LegislativeExchangeCharacter =
+  | "policy-bargaining"
+  | "targeted-benefit-request"
+  | "reciprocal-support"
+  | "coalition-coordination"
+  | "constituent-advocacy"
+  | "public-interest-appeal"
+  | "personal-inducement";
+
+export type LegislativeNegotiationDisposition =
+  "proposed" | "accepted" | "refused" | "deferred" | "countered" | "withdrawn";
+
+/** One recorded approach over a measure, and what came of it. */
+export interface LegislativeNegotiationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly provisionKey: string | null;
+  readonly initiatorPersonId: EntityId;
+  readonly counterpartyPersonId: EntityId;
+  readonly character: LegislativeExchangeCharacter;
+  /** What was asked for, in plain language. */
+  readonly request: string;
+  readonly disposition: LegislativeNegotiationDisposition;
+  readonly audience: ClaimAudience;
+  readonly occurredAt: IsoDate;
+  readonly eventId: EntityId;
+  /** The trace behind an actor's disposition, when one was evaluated. */
+  readonly decisionTraceId: EntityId | null;
 }
 
 /**

@@ -191,7 +191,9 @@ export function projectRunADossier(
       {
         id: "briefing-habit",
         label: "Working habit",
-        value: "Organizes constituent-service notes before briefings.",
+        value:
+          sceneContext.workingHabit ??
+          "Organizes constituent-service notes before briefings.",
         access: "personally-known",
       },
       {
