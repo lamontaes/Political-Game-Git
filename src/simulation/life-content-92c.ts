@@ -971,11 +971,7 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     },
     {
       key: "asked-by-a-colleague",
-      requires: [
-        hasWork,
-        { kind: "role", role: "colleague" },
-        { kind: "age-at-least", age: 17 },
-      ],
+      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(17, 26)],
       lines: [
         "{role:colleague} has asked you to take their shift.",
         "They say it's for a funeral.",
@@ -1121,11 +1117,7 @@ const MONEY_NOBODY_COUNTS: EpisodeFamily = {
   stages: [
     {
       key: "pooled-tips",
-      requires: [
-        hasWork,
-        { kind: "role", role: "colleague" },
-        { kind: "age-at-least", age: 17 },
-      ],
+      requires: [hasWork, { kind: "role", role: "colleague" }, ...aged(17, 26)],
       lines: [
         "You saw {role:colleague} take cash out of the tip pool before it was counted.",
         "Nobody else was looking.",
@@ -1375,7 +1367,7 @@ const WORK_NOT_PAID: EpisodeFamily = {
       requires: [
         { kind: "fact", fact: "kin.present" },
         { kind: "role", role: "relative" },
-        { kind: "age-at-least", age: 17 },
+        ...aged(17, 26),
       ],
       lines: [
         "{role:relative} has asked you to work weekends at the business where the family works.",

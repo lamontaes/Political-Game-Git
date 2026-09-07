@@ -99,15 +99,21 @@ pulled past the authorized sixteen-kernel ceiling.
 
 ## Validation and LEARN record
 
-- Focused 92C, episode-bank, adapter, narrative, and character-context suites:
-  200 tests passed.
-- Every file implicated by the resource-constrained full-suite run was rerun
-  serially: 156 tests passed. The exact parallel suite recorded 2,300 passing
-  tests and eight unrelated five-second timeouts; no assertion remained
-  failing after the stage-role test correction.
+- Focused 92C, episode-bank, adapter, narrative, eligibility, dialogue, and
+  ownership suites: 179 tests passed.
+- The exact integrated parallel suite recorded 2,379 passing tests and six
+  unrelated five-second timeouts on this host. The five implicated files were
+  rerun alone (93 tests passed); the one source-corpus assertion that still
+  exceeded five seconds passed with a 30-second test timeout. No assertion
+  failure remained.
 - Formatting, lint, typecheck, source validation/replay, production build,
   deterministic demo, prose-review verification, and all three required art
   gates passed.
+- Reconciliation moved the newly merged 92H ownership harness's documented
+  base to the PR #112 merge. Current `main` itself failed that check because it
+  attributed PR #108's accepted `package.json` change to later work; the
+  repaired harness passes and permits only the 92C narrative regression test,
+  not a #85 runtime presentation surface.
 - LEARN: independently hosted stages need stage-local authority, and a
   role-qualified eligibility rule must also control binding so the character
   proved eligible is the character rendered in prose. Those constraints now

@@ -477,10 +477,7 @@ export interface EpisodeOption {
 
 export interface EpisodeStage {
   readonly key: string;
-  /**
-   * Stage-local copy authority when a bounded content wave extends an accepted
-   * family. Omission inherits the family's authority.
-   */
+  /** Copy authority for a bounded stage that extends an accepted family. */
   readonly authority?: EpisodeAuthority;
   /** Every requirement must hold. An empty list means the stage may open. */
   readonly requires: readonly EpisodeRequirement[];
