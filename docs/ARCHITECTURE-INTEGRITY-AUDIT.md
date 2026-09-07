@@ -707,3 +707,10 @@ contracts against the existing simulation rather than reopening Stage 6.
 
 Independent exact-head and human visual acceptance remain pending. Validation
 results and the final head are recorded in the completed integration report.
+
+PR79 exact-head CI exposed one additional inherited-boundary defect after
+PR115 merged: its judicial guard still measured the current working tree.
+Following M1's closed-packet contract, preserve the original base and forbidden
+list and pin only the formerly open head to PR115's verified merge `333eeb1`.
+A negative regression still rejects a forbidden edit within the measured files.
+No existing frozen range or judicial behavior changes.

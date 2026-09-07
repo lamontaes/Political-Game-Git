@@ -61,3 +61,27 @@ compile every reused scene consumer, and compare complete canonical ordinary
 turn records across a subject-hook change. Durable mechanisms: the existing
 scene co-registration tests, the new keyboard integration test, and the pinned
 ordinary-conversation replay regression.
+
+## Exact-head CI follow-up
+
+The prepublication fetch advanced main again to
+`9c36b2fb9f559db8c1cdc45ce98f7305c949f0ad` (PR116); its ordinary merge was
+clean. First published integration head `e1b499d` passed 2,542 of 2,543 CI
+tests. The only failure was the newly inherited judicial ownership guard:
+PR115 had merged at `333eeb1`, but its guard still compared its old base to
+every later working tree and therefore rejected PR79's authorized files.
+
+Apply the same closed-packet rule already recorded by M1 and J1B: retain the
+judicial guard's original `414b24c` base and all forbidden patterns, and close
+its previously open head at the verified PR115 merge `333eeb1`. Add a failure
+path regression that injects a forbidden world-integrity edit into the measured
+packet files. No existing frozen range changes and no assertion is removed or
+weakened. This is a necessary inherited-test reconciliation, not a judicial
+feature change. All substantive J1 files remain unchanged.
+
+Local focused browser validation passed 58/58, including all four original
+bargaining scenarios, the added keyboard proof and main's full dynamic-scene
+surface matrix. Two unchanged heavy suites initially exceeded their existing
+five-second timeouts during concurrent local runs; the same 48 tests passed
+with one worker and unchanged timeouts. Full local validation uses
+`VITEST_MAX_WORKERS=2` to avoid oversubscribing this shared host.
