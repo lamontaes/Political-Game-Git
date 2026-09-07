@@ -8,6 +8,7 @@ import {
 } from "../simulation";
 import type {
   AdultAftermathKind,
+  ClaimAudience,
   EntityId,
   IsoDate,
   LifeCommitmentKind,
@@ -63,7 +64,7 @@ export interface ConversationConsequenceContext {
   readonly turnKey: string;
   readonly eventId: EntityId;
   readonly claimId: EntityId | null;
-  readonly audience: import("../simulation").ClaimAudience;
+  readonly audience: ClaimAudience;
   readonly listenerPersonIds: readonly EntityId[];
   readonly statement: string;
 }

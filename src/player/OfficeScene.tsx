@@ -314,7 +314,7 @@ export function OfficeScene({
   onOpenWorkingDocument,
   onOpenBriefing,
   documentEntry = {
-    label: "Transit Access Pilot",
+    label: "",
     ariaLabel: "Open Working Draft — Transit Access Pilot",
   },
   briefingEntry = {
@@ -467,7 +467,7 @@ export function OfficeScene({
           data-scene-anchor-id="working-draft"
           onClick={onOpenWorkingDocument}
         >
-          <strong>{documentEntry.label}</strong>
+          {documentEntry.label ? <strong>{documentEntry.label}</strong> : null}
         </button>
 
         <button

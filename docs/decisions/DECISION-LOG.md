@@ -2219,10 +2219,10 @@ wise, and no part of it reveals a hidden score.
 - Date: 2026-09-03
 - Status: ACCEPTED
 - Amends: D-081, which introduced stated commitments
-- Numbering note: this branch originally used D-057/D-058. Main claimed
-  D-057 through D-073 while the branch was open, and D-074 and D-075 are
-  reserved by the causal-trace inspector and the content bank on the two
-  parallel development-tooling branches.
+- Numbering note: originally D-057/D-058, then D-076/D-077 on this branch.
+  Reconciled as D-081/D-082 against live main, whose bank-contract and PUMS
+  decisions retain D-076/D-077. Live PR89 reserves D-078/D-079; the 79B
+  handoff reserves D-080 for PR101 (its fetched branch still uses D-078).
 
 An independent audit of the first cut of D-081 reproduced six defects in the
 same place: the system was reading a promise as saying more than the person
