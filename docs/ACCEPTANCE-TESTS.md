@@ -1712,3 +1712,69 @@ and campaign and commercial use are refused without reference to the symbol. All
 three downloaded packs validate, none is `use-now`, none harvested a file: the
 two CC0 packs are archived for needing rigging or rendering, and the office set
 is rejected for unverified rights before its contents are considered.
+
+### MGOV-001 — Three Kentucky municipal institutions compile distinctly
+
+The fixture compiles exactly Lexington-Fayette Urban County Government,
+Louisville-Jefferson County Metro Government, and Bowling Green. Their body
+sizes, seat compositions, legal forms, presiding offices, executive structures,
+and budget proposal actors remain materially different.
+
+### MGOV-002 — Municipal power is never a strength scalar
+
+No record contains a strong/weak-mayor flag, strength score, generic mayor-power
+dial, or consolidation boolean. Every represented power is an actor-owned row
+with a sourced capability and a sourced detailed rule; introducing a forbidden
+scalar fails validation.
+
+### MGOV-003 — Presiding and voting are separate rules
+
+Lexington's Mayor presides regular meetings with only the recorded tie-breaking
+vote, Louisville's Council President presides as a voting member, and Bowling
+Green's Mayor presides with a full vote. Meeting context remains explicit.
+
+### MGOV-004 — Dated election rules do not rewrite history
+
+Louisville's pre-2025 partisan rule remains `HISTORICAL` and the operative
+nonpartisan rule is separately `KNOWN`. The compiler preserves both states and
+their dates.
+
+### MGOV-005 — Term-limit conflicts resolve to current first-party facts
+
+Louisville's Metro Mayor row states the current two-consecutive-term limit and
+Bowling Green's Mayor row states the current three-consecutive-term limit.
+Unsupported council term limits remain `UNKNOWN` with no value.
+
+### MGOV-006 — Vote arithmetic is exact or absent
+
+Lexington and Louisville veto overrides carry their sourced membership basis
+and fixed vote counts. Bowling Green carries a sourced false veto capability and
+no invented override. Invalid fractions, fixed counts, or counts larger than a
+known body fail validation.
+
+### MGOV-007 — Budget authority is jurisdiction-specific
+
+Lexington and Louisville assign proposal to the Mayor with the sourced 60-day
+lead time. Bowling Green assigns preparation/proposal to the City Manager with
+the sourced 30-day lead time. Preparation, proposal, amendment, adoption,
+fiscal year, deadlines, and balance constraints remain separate fields.
+
+### MGOV-008 — Consolidation stays relational
+
+Predecessors, retained constitutional offices, service districts, nested home-
+rule cities, and parallel general governments are separate facts. Louisville's
+exact retained-government count remains `UNKNOWN`; a city without consolidation
+uses `NOT_APPLICABLE` where the concept has no meaning.
+
+### MGOV-009 — Place identity grants no authority
+
+All three government-unit crosswalks remain `UNKNOWN`. A known legal basis or
+power citing only a Census place/statistical identity is a validation error.
+
+### MGOV-010 — Audit fixtures cannot enter production or gameplay
+
+The compiler is deterministic and validates every evidence edge, effective
+date, body-size sum, and current partisanship row. Its production compiler
+refuses to run until independently acquired first-party artifacts clear the
+declared gate, and no source adapter imports these records into simulation or
+player code.
