@@ -1,8 +1,7 @@
 /**
  * The public-employment compiler.
  *
- * The domain ships no production records — its gate is a network-egress denial
- * of the Census Bureau — so these tests demonstrate the compiler is real. They
+ * These tests preserve the independent fixture compiler contract. They
  * exercise it through the same capability boundary every other domain uses, on
  * the cases the task's critical data rules name: a genuine reported zero kept
  * distinct from a missing measure, a withheld measure, an inapplicable measure,
@@ -17,7 +16,6 @@ import { readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   EMPLOYMENT_COLUMNS,
-  PUBLIC_EMPLOYMENT_PRODUCTION_GATE,
   compileEmploymentFixture,
   openEmploymentFixture,
   parseEmploymentMatrix,
@@ -230,17 +228,16 @@ describe("the employment matrix reader refuses a shape it cannot transcribe", ()
   });
 });
 
-describe("the employment production gate", () => {
-  it("refuses to compile production records, and says why", () => {
+describe("the production capability boundary", () => {
+  it("requires locked artifacts and no longer claims a network gate", () => {
     expect(() =>
       sourceDomain.compileProduction({
         domain: "public-employment",
         artifacts: [],
       }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(PUBLIC_EMPLOYMENT_PRODUCTION_GATE);
-    expect(PUBLIC_EMPLOYMENT_PRODUCTION_GATE).toMatch(/census\.gov/);
-    expect(PUBLIC_EMPLOYMENT_PRODUCTION_GATE).toMatch(/403/);
+    ).toThrow(/not in .* lock/);
+    expect(sourceDomain.productionGate).toBeUndefined();
+    expect(sourceDomain.acquisitionPlan.requests.length).toBeGreaterThan(0);
   });
 });
 

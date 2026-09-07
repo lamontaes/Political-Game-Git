@@ -1,9 +1,7 @@
 /**
  * The government-finances compiler.
  *
- * The domain ships no production records — its gate is a network-egress denial
- * of the Census Bureau — so these tests are what demonstrate the compiler is
- * real. They exercise it through the same capability boundary every other domain
+ * These tests preserve the independent fixture compiler contract. They exercise it through the same capability boundary every other domain
  * uses, on the cases the task's critical data rules name: a genuine reported
  * zero kept distinct from a missing cell, a withheld amount, an inapplicable
  * line, a line the product never carried, reference years that never merge,
@@ -18,7 +16,6 @@ import {
   FINANCE_COLUMNS,
   isWithinSurveyYearWindow,
   surveyYearWindow,
-  GOVERNMENT_FINANCES_PRODUCTION_GATE,
   compileFinanceFixture,
   openFinanceFixture,
   parseFinanceMatrix,
@@ -237,19 +234,16 @@ describe("the finance matrix reader refuses a shape it cannot transcribe", () =>
   });
 });
 
-describe("the finance production gate", () => {
-  it("refuses to compile production records, and says why", () => {
+describe("the production capability boundary", () => {
+  it("requires locked artifacts and no longer claims a network gate", () => {
     expect(() =>
       sourceDomain.compileProduction({
         domain: "government-finances",
         artifacts: [],
       }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(
-      GOVERNMENT_FINANCES_PRODUCTION_GATE,
-    );
-    expect(GOVERNMENT_FINANCES_PRODUCTION_GATE).toMatch(/census\.gov/);
-    expect(GOVERNMENT_FINANCES_PRODUCTION_GATE).toMatch(/403/);
+    ).toThrow(/not in .* lock/);
+    expect(sourceDomain.productionGate).toBeUndefined();
+    expect(sourceDomain.acquisitionPlan.requests.length).toBeGreaterThan(0);
   });
 });
 

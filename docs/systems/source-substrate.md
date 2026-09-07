@@ -196,13 +196,19 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 A domain that cannot yet compile production records declares a
 `productionGate` explaining why. The gate appears in `MANIFEST.json`, so it is
 a visible fact about the substrate rather than an absence somebody has to
-notice. Five domains are gated, for two different reasons.
-`government-finances`, `government-units` and `public-employment` are gated
-on acquisition: a proxy denies census.gov, and a network that reaches it
-clears them without a code change. `state-office-qualifications` and
-`state-local-fiscal-authority` are gated on sourcing: both compile from
-research syntheses, and a secondary source cannot carry the evidence of a
-retrieval this repository never made. See
+notice. Government finances and public employment now independently compile bounded
+production QA corpora from locked official Census individual-unit bytes. Their
+full publisher archives are acquired and hashed; the committed samples retain
+unchanged fixed-width rows with reproducible selection predicates. The previous
+network-only gate was stale, and fixture matrices were not publisher parsers.
+See [Census finance and employment acquisition](census-capacity-production.md).
+
+Government-units identity migration remains separate SRC-GOV2 work. Its current
+14-digit identity contract cannot represent every government in the modern PID6
+universe: official historical crosswalks provide partial, not complete, coverage.
+This branch changes no government-unit identity semantics.
+`state-office-qualifications` and `state-local-fiscal-authority` remain gated on
+sourcing: research syntheses cannot carry primary retrieval evidence. See
 [State and local fiscal authority](fiscal-authority-source.md).
 
 Research packets and the primary authorities they cite are separate evidence
