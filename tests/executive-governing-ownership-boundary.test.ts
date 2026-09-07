@@ -27,15 +27,16 @@ import { changedFilesSince, hasCommit } from "./support/ownership-boundary";
 const REPOSITORY_ROOT = path.resolve(__dirname, "..");
 
 /**
- * Accepted `main` this branch sits on: the merge of PR #102.
+ * Accepted `main` this branch was cut from: the merge of PR #102.
  *
- * It moves when `main` moves under this branch, for the reason the other
- * boundary checks in this directory already record: the question is what THIS
- * branch adds to the `main` it sits on, so measuring from an older commit
- * would count somebody else's accepted files as changes made here.
+ * The matching head freezes the range now that this wave has landed. Without
+ * it, the test measures every later branch against this old base and starts
+ * treating unrelated accepted-main files as changes made by the 92H wave.
  */
 export const EXECUTIVE_GOVERNING_BASE =
   "982f613a9737e25e506dc430e4f6e121dd72b3ca";
+export const EXECUTIVE_GOVERNING_HEAD =
+  "409147596f9c130a91e11f6d806a7deb5e08d2c1";
 
 interface OwnedElsewhere {
   readonly pattern: RegExp;
@@ -80,12 +81,14 @@ const FORBIDDEN: readonly OwnedElsewhere[] = [
 describe("92H current-mechanics wave ownership boundary", () => {
   it("has the base commit it measures from", () => {
     expect(hasCommit(REPOSITORY_ROOT, EXECUTIVE_GOVERNING_BASE)).toBe(true);
+    expect(hasCommit(REPOSITORY_ROOT, EXECUTIVE_GOVERNING_HEAD)).toBe(true);
   });
 
   it("edits nothing owned by PR #85, PR #101 or PR #79", () => {
     const changed = changedFilesSince(
       REPOSITORY_ROOT,
       EXECUTIVE_GOVERNING_BASE,
+      EXECUTIVE_GOVERNING_HEAD,
     );
     expect(changed).not.toBeNull();
     const violations = (changed ?? []).flatMap((file) => {

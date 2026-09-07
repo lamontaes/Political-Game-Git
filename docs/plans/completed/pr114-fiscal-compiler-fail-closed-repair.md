@@ -51,6 +51,10 @@ legal-source acquisition, gameplay, UI, or fiscal scoring.
   added.
 - Existing balanced-budget derivation and unresolved-value behavior are
   unchanged.
+- Current-main reconciliation froze the newly landed 92H ownership check to its
+  own base/head range. Without that mechanical repair, the accepted test
+  attributed later `package.json` changes to the already-landed wave and failed
+  every downstream PR.
 
 ## LEARN
 
