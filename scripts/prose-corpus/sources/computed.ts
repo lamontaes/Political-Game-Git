@@ -58,7 +58,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     bank: "connective",
     symbols: [
       "elapsedPhrase",
-      "steadyState",
+      "openingFacts",
       "quietSentence",
       "composeConnectiveNarration",
       "listOf",
@@ -83,7 +83,7 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     sourcePath: "src/presentation/life-narration.ts",
     domain: "narration",
     bank: "thread-recap",
-    symbols: ["recapSentence", "threadMovementSentence"],
+    symbols: ["recapSentence", "threadMovementSentence", "obligationNoun"],
     surface: "thread-recap",
     reachability: "PLAYER_REACHABLE",
     reachabilityReason:

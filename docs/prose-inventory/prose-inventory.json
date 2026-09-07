@@ -1,13 +1,13 @@
 {
-  "digest": "c07a616d08ba2fea",
+  "digest": "1a2cbe537950d862",
   "counts": {
-    "total": 1872,
+    "total": 1869,
     "byDomain": {
       "campaign": 23,
       "conversation": 165,
       "legislative": 93,
       "life": 1155,
-      "narration": 78,
+      "narration": 75,
       "ordinary": 4,
       "setup": 354
     },
@@ -15,7 +15,7 @@
       "answer": 280,
       "artifact": 100,
       "callback": 30,
-      "connective": 57,
+      "connective": 51,
       "option-description": 301,
       "option-label": 301,
       "option-memory": 301,
@@ -23,17 +23,17 @@
       "prompt": 74,
       "scene-line": 162,
       "status": 185,
-      "thread-recap": 29
+      "thread-recap": 32
     },
     "byReachability": {
       "DEV_FIXTURE_ONLY": 76,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1602,
+      "PLAYER_REACHABLE": 1599,
       "WITHHELD_BY_GROUNDING": 104
     },
     "byRealization": {
-      "static": 1574,
-      "templated": 298
+      "static": 1568,
+      "templated": 301
     }
   },
   "records": [
@@ -55889,11 +55889,9 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "elapsedPhrase",
-      "text": "A year on, and into another {seasonOf(to)}",
-      "realization": "templated",
-      "slots": [
-        "seasonOf(to)"
-      ],
+      "text": "A year on",
+      "realization": "static",
+      "slots": [],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
       "grounding": [
@@ -55916,7 +55914,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "05bba6b8ea9c",
+      "textRevision": "e041a242959e",
       "contextRevision": "14407db43409"
     },
     {
@@ -55928,11 +55926,9 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "elapsedPhrase",
-      "text": "By the {season}",
-      "realization": "templated",
-      "slots": [
-        "season"
-      ],
+      "text": "A couple of months on",
+      "realization": "static",
+      "slots": [],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
       "grounding": [
@@ -55955,7 +55951,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "8efcc6d19672",
+      "textRevision": "69ba6f35a4a0",
       "contextRevision": "14407db43409"
     },
     {
@@ -56186,6 +56182,573 @@
       "contextRevision": "14407db43409"
     },
     {
+      "id": "prose:narration:connective:openingFacts-0001#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0001",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "A commitment in force.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "664481153e0a",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0002#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0002",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "A life commitment active at the opening.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ddbc552a97d",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0003#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0003",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "A work relationship active at the opening.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "64094b4086cd",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0004#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0004",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "An active enrollment at a named school.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "affe0decb985",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0005#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0005",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "An active participation in a named organization.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3ecd29c0800f",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0006#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0006",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "An active work relationship at a named organization.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "2df3940e84bb",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0007#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0007",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "An education enrollment active at the opening.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8ba1851bb2b3",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0008#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0008",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "An organization participation active at the opening.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6aaa4cb7c5bf",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0009#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0009",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "The household membership that is in force.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "22444e4fd8d6",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0010#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0010",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "You belong to {name}.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e95cb1a544b3",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0011#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0011",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "You live with {listOf(others)}.",
+      "realization": "templated",
+      "slots": [
+        "listOf(others)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "19246aa620cb",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0012#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0012",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "You work at {name}.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "3b6fe72fefe8",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0013#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0013",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "You're enrolled at {name}.",
+      "realization": "templated",
+      "slots": [
+        "name"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1f31b6bf911d",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0014#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0014",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "{commitment.label} is part of your week.",
+      "realization": "templated",
+      "slots": [
+        "commitment.label"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "4ce5ccaa45ea",
+      "contextRevision": "14407db43409"
+    },
+    {
+      "id": "prose:narration:connective:openingFacts-0015#text",
+      "domain": "narration",
+      "bank": "connective",
+      "stableKey": "openingFacts-0015",
+      "field": "text",
+      "surface": "connective",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "openingFacts",
+      "text": "{others.length} other resident(s) on the household record.",
+      "realization": "templated",
+      "slots": [
+        "others.length"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "grounding": [
+        {
+          "key": "elapsed-days",
+          "description": "Days between the last recorded moment and this one.",
+          "kind": "requirement"
+        },
+        {
+          "key": "recorded-events",
+          "description": "The events the record actually holds for the elapsed stretch.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "openingFacts",
+        "anchor": "openingFacts-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "1772dd02ba0d",
+      "contextRevision": "14407db43409"
+    },
+    {
       "id": "prose:narration:connective:quietSentence-0001#text",
       "domain": "narration",
       "bank": "connective",
@@ -56272,9 +56835,11 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "quietSentence",
-      "text": "Nobody has said anything about what you owe for a long time.",
-      "realization": "static",
-      "slots": [],
+      "text": "Nobody has pressed you about {payment} in a long time.",
+      "realization": "templated",
+      "slots": [
+        "payment"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
       "grounding": [
@@ -56297,7 +56862,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "8e031ae752f6",
+      "textRevision": "5f0606f150f3",
       "contextRevision": "14407db43409"
     },
     {
@@ -56309,7 +56874,7 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "quietSentence",
-      "text": "Nothing has come from {thread.title} for a long time.",
+      "text": "Nothing new has come from {thread.title} in a long time.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -56336,7 +56901,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "3512c62648f6",
+      "textRevision": "0b15b1f511a6",
       "contextRevision": "14407db43409"
     },
     {
@@ -56348,7 +56913,7 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "quietSentence",
-      "text": "Nothing has come of the business at {thread.title} for a long time.",
+      "text": "Nothing has come out of {thread.title} in a long time.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -56375,44 +56940,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "3b1e76b745b5",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:quietSentence-0006#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "quietSentence-0006",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "quietSentence",
-      "text": "What happened has not come up again in a long time.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "quietSentence",
-        "anchor": "quietSentence-0006"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "59b7934ca63c",
+      "textRevision": "04e13b4b2fb3",
       "contextRevision": "14407db43409"
     },
     {
@@ -56424,7 +56952,7 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "quietSentence",
-      "text": "Whatever was going on at home with {thread.title} has been quiet for a long time.",
+      "text": "It has been quiet at home with {thread.title} for a long time.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -56451,7 +56979,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "8d608ca41b71",
+      "textRevision": "61da068bfe2e",
       "contextRevision": "14407db43409"
     },
     {
@@ -56541,7 +57069,7 @@
       "surface": "connective",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "quietSentence",
-      "text": "You have not heard anything from {thread.title} in a long while.",
+      "text": "You have not heard from {thread.title} in a long while.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -56568,7 +57096,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "b79c9f0ea836",
+      "textRevision": "912f2fc77129",
       "contextRevision": "14407db43409"
     },
     {
@@ -56611,756 +57139,132 @@
       "contextRevision": "14407db43409"
     },
     {
-      "id": "prose:narration:connective:steadyState-0001#text",
+      "id": "prose:narration:thread-recap:obligationNoun-0001#text",
       "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0001",
+      "bank": "thread-recap",
+      "stableKey": "obligationNoun-0001",
       "field": "text",
-      "surface": "connective",
+      "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "A commitment in force throughout.",
+      "sourceSymbol": "obligationNoun",
+      "text": "the care payment",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
         {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
           "kind": "requirement"
         }
       ],
       "provenance": {
         "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0001"
+        "symbol": "obligationNoun",
+        "anchor": "obligationNoun-0001"
       },
       "tags": [
         "computed"
       ],
-      "textRevision": "bdc725bac492",
-      "contextRevision": "14407db43409"
+      "textRevision": "68808988d03a",
+      "contextRevision": "b48bf56644ff"
     },
     {
-      "id": "prose:narration:connective:steadyState-0002#text",
+      "id": "prose:narration:thread-recap:obligationNoun-0002#text",
       "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0002",
+      "bank": "thread-recap",
+      "stableKey": "obligationNoun-0002",
       "field": "text",
-      "surface": "connective",
+      "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "A life commitment active across the interval.",
+      "sourceSymbol": "obligationNoun",
+      "text": "the housing payment",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
         {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
           "kind": "requirement"
         }
       ],
       "provenance": {
         "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0002"
+        "symbol": "obligationNoun",
+        "anchor": "obligationNoun-0002"
       },
       "tags": [
         "computed"
       ],
-      "textRevision": "cd0e26cc73e5",
-      "contextRevision": "14407db43409"
+      "textRevision": "4dd16184b298",
+      "contextRevision": "b48bf56644ff"
     },
     {
-      "id": "prose:narration:connective:steadyState-0003#text",
+      "id": "prose:narration:thread-recap:obligationNoun-0003#text",
       "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0003",
+      "bank": "thread-recap",
+      "stableKey": "obligationNoun-0003",
       "field": "text",
-      "surface": "connective",
+      "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "A participation that was active throughout.",
+      "sourceSymbol": "obligationNoun",
+      "text": "the loan payment",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
         {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
           "kind": "requirement"
         }
       ],
       "provenance": {
         "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0003"
+        "symbol": "obligationNoun",
+        "anchor": "obligationNoun-0003"
       },
       "tags": [
         "computed"
       ],
-      "textRevision": "52ceaea8de26",
-      "contextRevision": "14407db43409"
+      "textRevision": "c0b7b83f20e4",
+      "contextRevision": "b48bf56644ff"
     },
     {
-      "id": "prose:narration:connective:steadyState-0004#text",
+      "id": "prose:narration:thread-recap:obligationNoun-0004#text",
       "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0004",
+      "bank": "thread-recap",
+      "stableKey": "obligationNoun-0004",
       "field": "text",
-      "surface": "connective",
+      "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "A work relationship active across the interval.",
+      "sourceSymbol": "obligationNoun",
+      "text": "the support payment",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
         {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
           "kind": "requirement"
         }
       ],
       "provenance": {
         "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0004"
+        "symbol": "obligationNoun",
+        "anchor": "obligationNoun-0004"
       },
       "tags": [
         "computed"
       ],
-      "textRevision": "a1b69510e30e",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0005#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0005",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "A work relationship that was active throughout.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0005"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "82a4e75c1a00",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0006#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0006",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "An education enrollment active across the interval.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0006"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "dd6ff2dcb1d4",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0007#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0007",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "An enrollment that was active throughout.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0007"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "c0abf3aef347",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0008#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0008",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "An organization participation active across the interval.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0008"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "94b37347490b",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0009#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0009",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "Life went on at the same pace it had been going.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0009"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "62c5aa7c6d6d",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0010#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0010",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "Most weeks were built around school.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0010"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "451ddaf04f9d",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0011#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0011",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "No place is recorded, so the line says only that time passed.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0011"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "116c01f934cf",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0012#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0012",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "The household membership that was in force throughout.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0012"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "1f2bd2dcfd33",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0013#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0013",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "The meetings kept on, about once a month, and mostly dull.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0013"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "3f947ee25cf0",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0014#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0014",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "The person's home jurisdiction resolves to {place.displayName}.",
-      "realization": "templated",
-      "slots": [
-        "place.displayName"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0014"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "49ede611619e",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0015#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0015",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "Work stayed work — the same shifts, the same people, the same drive there.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0015"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "94535ac81a5a",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0016#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0016",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "You spent most evenings at home with {listOf(others)}, and most of them were quiet.",
-      "realization": "templated",
-      "slots": [
-        "listOf(others)"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0016"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "6e5081f0f3c6",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0017#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0017",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "You spent most evenings at home with {others[0]}, and most of them were quiet.",
-      "realization": "templated",
-      "slots": [
-        "others[0]"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0017"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "51c6c992104d",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0018#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0018",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "{commitment.label} went on taking its hours out of the week.",
-      "realization": "templated",
-      "slots": [
-        "commitment.label"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0018"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "3c2aeb1c5189",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0019#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0019",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "{others.length} other resident(s) on the household record.",
-      "realization": "templated",
-      "slots": [
-        "others.length"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0019"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "1772dd02ba0d",
-      "contextRevision": "14407db43409"
-    },
-    {
-      "id": "prose:narration:connective:steadyState-0020#text",
-      "domain": "narration",
-      "bank": "connective",
-      "stableKey": "steadyState-0020",
-      "field": "text",
-      "surface": "connective",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "steadyState",
-      "text": "{place.displayName} went on the way it does, and so did you.",
-      "realization": "templated",
-      "slots": [
-        "place.displayName"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Every moment after the first opens with connective narration; it is never skipped.",
-      "grounding": [
-        {
-          "key": "elapsed-days",
-          "description": "Days between the last recorded moment and this one.",
-          "kind": "requirement"
-        },
-        {
-          "key": "recorded-events",
-          "description": "The events the record actually holds for the elapsed stretch.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "steadyState",
-        "anchor": "steadyState-0020"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "d9a67b849a01",
-      "contextRevision": "14407db43409"
+      "textRevision": "6ca409fc44a5",
+      "contextRevision": "b48bf56644ff"
     },
     {
       "id": "prose:narration:thread-recap:recapSentence-0001#text",
@@ -57405,7 +57309,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "Something at home with {thread.title} is waiting on you.",
+      "text": "What you left open at home with {thread.title} has come back around.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57427,7 +57331,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "73b2b5152863",
+      "textRevision": "2f3749ac261a",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57439,7 +57343,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "Something at {thread.title} needs an answer.",
+      "text": "{thread.title} is waiting on an answer from you.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57461,7 +57365,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "be7e5692b041",
+      "textRevision": "d444ef24bbba",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57473,9 +57377,11 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "Something you owe has come due.",
-      "realization": "static",
-      "slots": [],
+      "text": "{capitalize(payment)} is overdue.",
+      "realization": "templated",
+      "slots": [
+        "capitalize(payment)"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
@@ -57493,7 +57399,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2643fcc8669b",
+      "textRevision": "b745123eb76d",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57505,9 +57411,11 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "There is money going out that you are keeping an eye on.",
-      "realization": "static",
-      "slots": [],
+      "text": "{capitalize(payment)} is still going out.",
+      "realization": "templated",
+      "slots": [
+        "capitalize(payment)"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
@@ -57525,7 +57433,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "fb385fe7b01c",
+      "textRevision": "1499a389c31f",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57563,38 +57471,6 @@
       "contextRevision": "b48bf56644ff"
     },
     {
-      "id": "prose:narration:thread-recap:recapSentence-0007#text",
-      "domain": "narration",
-      "bank": "thread-recap",
-      "stableKey": "recapSentence-0007",
-      "field": "text",
-      "surface": "thread-recap",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "recapSentence",
-      "text": "What happened has not finished happening.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
-      "grounding": [
-        {
-          "key": "open-thread",
-          "description": "A narrative thread the record shows is open, and its last movement.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "recapSentence",
-        "anchor": "recapSentence-0007"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "7e0df5dcbace",
-      "contextRevision": "b48bf56644ff"
-    },
-    {
       "id": "prose:narration:thread-recap:recapSentence-0008#text",
       "domain": "narration",
       "bank": "thread-recap",
@@ -57603,10 +57479,10 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "What you said about {thread.title} has come round.",
+      "text": "What you said you'd do about {subject} has come due.",
       "realization": "templated",
       "slots": [
-        "thread.title"
+        "subject"
       ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
@@ -57625,7 +57501,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "e87eb1bf07ca",
+      "textRevision": "6f67a6822348",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57637,7 +57513,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "You and {thread.title} are still in the middle of something.",
+      "text": "You and {thread.title} still have unfinished business.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57659,7 +57535,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "89e2ad1aa5d1",
+      "textRevision": "b0643980963b",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57671,7 +57547,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "You and {thread.title} have something unfinished.",
+      "text": "Things at home with {thread.title} are not settled.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57693,7 +57569,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6cf927975062",
+      "textRevision": "061fae85b9ad",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57705,10 +57581,10 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "You said you would do something about {thread.title}.",
+      "text": "What you said you'd do about {subject} is still open.",
       "realization": "templated",
       "slots": [
-        "thread.title"
+        "subject"
       ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
@@ -57727,7 +57603,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "43a33272b26e",
+      "textRevision": "82ae7a0e1a61",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57739,7 +57615,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "Your name is attached to something at {thread.title}.",
+      "text": "You're still signed up with {thread.title}.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57761,7 +57637,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "90c53628e182",
+      "textRevision": "fa352b414e0b",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57773,7 +57649,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "{thread.title} has something running.",
+      "text": "There is still open business at {thread.title}.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57795,7 +57671,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "c76baab95d3b",
+      "textRevision": "5faad06fc159",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57807,7 +57683,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "recapSentence",
-      "text": "{thread.title} is still going.",
+      "text": "You're still at {thread.title}.",
       "realization": "templated",
       "slots": [
         "thread.title"
@@ -57829,7 +57705,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "9d187916357e",
+      "textRevision": "7068d4669637",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -57909,7 +57785,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "Looking after {subject} took up more of it than you had planned for.",
+      "text": "Looking after {subject} came up again and again.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -57931,73 +57807,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2f6b0a2f8702",
-      "contextRevision": "b48bf56644ff"
-    },
-    {
-      "id": "prose:narration:thread-recap:threadMovementSentence-0002#text",
-      "domain": "narration",
-      "bank": "thread-recap",
-      "stableKey": "threadMovementSentence-0002",
-      "field": "text",
-      "surface": "thread-recap",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "threadMovementSentence",
-      "text": "Something at {subject} happened worth remembering.",
-      "realization": "templated",
-      "slots": [
-        "subject"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
-      "grounding": [
-        {
-          "key": "open-thread",
-          "description": "A narrative thread the record shows is open, and its last movement.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "threadMovementSentence",
-        "anchor": "threadMovementSentence-0002"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "ff258fb4b902",
-      "contextRevision": "b48bf56644ff"
-    },
-    {
-      "id": "prose:narration:thread-recap:threadMovementSentence-0003#text",
-      "domain": "narration",
-      "bank": "thread-recap",
-      "stableKey": "threadMovementSentence-0003",
-      "field": "text",
-      "surface": "thread-recap",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "threadMovementSentence",
-      "text": "The aftermath of it ran on longer than the thing itself did.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
-      "grounding": [
-        {
-          "key": "open-thread",
-          "description": "A narrative thread the record shows is open, and its last movement.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "threadMovementSentence",
-        "anchor": "threadMovementSentence-0003"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "dca6d6afe7b8",
+      "textRevision": "2657fc7a1dfb",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58009,9 +57819,11 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "The money side of it moved, and not by itself.",
-      "realization": "static",
-      "slots": [],
+      "text": "{capitalize(payment)} came up more than once.",
+      "realization": "templated",
+      "slots": [
+        "capitalize(payment)"
+      ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
       "grounding": [
@@ -58029,7 +57841,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "80d71586cf96",
+      "textRevision": "39e752881f6d",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58041,7 +57853,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "There was one evening with {subject} that stayed with you.",
+      "text": "You saw {subject}.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58063,7 +57875,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "f7ea3b680720",
+      "textRevision": "b98da57b59dd",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58075,7 +57887,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "Things with {subject} came up more than once in that time.",
+      "text": "Things came up at home with {subject} more than once in that time.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58097,7 +57909,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "bb5c95814d28",
+      "textRevision": "bd46180c19da",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58109,7 +57921,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "What you said you would do about {subject} came back around.",
+      "text": "What you said you'd do about {subject} came back around.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58131,7 +57943,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "3891ba9c9332",
+      "textRevision": "2c28b5ae80f6",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58143,7 +57955,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "Work at {subject} went through a few things.",
+      "text": "Work at {subject} came up more than once.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58165,7 +57977,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "d8bc57d2c565",
+      "textRevision": "29c9f208bfb0",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58237,40 +58049,6 @@
       "contextRevision": "b48bf56644ff"
     },
     {
-      "id": "prose:narration:thread-recap:threadMovementSentence-0011#text",
-      "domain": "narration",
-      "bank": "thread-recap",
-      "stableKey": "threadMovementSentence-0011",
-      "field": "text",
-      "surface": "thread-recap",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "sourceSymbol": "threadMovementSentence",
-      "text": "{subject} kept meeting, and you kept going.",
-      "realization": "templated",
-      "slots": [
-        "subject"
-      ],
-      "reachability": "PLAYER_REACHABLE",
-      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
-      "grounding": [
-        {
-          "key": "open-thread",
-          "description": "A narrative thread the record shows is open, and its last movement.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "threadMovementSentence",
-        "anchor": "threadMovementSentence-0011"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "8db557786171",
-      "contextRevision": "b48bf56644ff"
-    },
-    {
       "id": "prose:narration:thread-recap:threadMovementSentence-0012#text",
       "domain": "narration",
       "bank": "thread-recap",
@@ -58279,7 +58057,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "{subject} took up evenings you had not expected to give it.",
+      "text": "{subject} came back around more than once.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58301,7 +58079,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "7e1902d01184",
+      "textRevision": "b7b96dc83297",
       "contextRevision": "b48bf56644ff"
     },
     {
@@ -58313,7 +58091,7 @@
       "surface": "thread-recap",
       "sourcePath": "src/presentation/life-narration.ts",
       "sourceSymbol": "threadMovementSentence",
-      "text": "{subject} took up most of it.",
+      "text": "{subject} kept coming up.",
       "realization": "templated",
       "slots": [
         "subject"
@@ -58335,7 +58113,109 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "d5cc308d8ed8",
+      "textRevision": "488b12779664",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0014#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0014",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "Looking after {subject} came up.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8bb90eaa291b",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0015#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0015",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "{capitalize(payment)} came up.",
+      "realization": "templated",
+      "slots": [
+        "capitalize(payment)"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e272986e000f",
+      "contextRevision": "b48bf56644ff"
+    },
+    {
+      "id": "prose:narration:thread-recap:threadMovementSentence-0016#text",
+      "domain": "narration",
+      "bank": "thread-recap",
+      "stableKey": "threadMovementSentence-0016",
+      "field": "text",
+      "surface": "thread-recap",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "sourceSymbol": "threadMovementSentence",
+      "text": "What you said you'd do about {subject} came up.",
+      "realization": "templated",
+      "slots": [
+        "subject"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "Open threads are recapped beside the scene whenever any are open.",
+      "grounding": [
+        {
+          "key": "open-thread",
+          "description": "A narrative thread the record shows is open, and its last movement.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "threadMovementSentence",
+        "anchor": "threadMovementSentence-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "7aff55d123e1",
       "contextRevision": "b48bf56644ff"
     },
     {
