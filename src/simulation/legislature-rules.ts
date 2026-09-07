@@ -41,20 +41,39 @@ export interface RuleSourceRef {
   readonly note: string | null;
 }
 
+export type KnownRuleValue<T> = {
+  readonly kind: "known";
+  readonly value: T;
+  readonly source: RuleSourceRef;
+};
+
+export type UnknownRuleValue = {
+  readonly kind: "unknown";
+  readonly note: string;
+};
+
 export type RuleValue<T> =
-  | {
-      readonly kind: "known";
-      readonly value: T;
-      readonly source: RuleSourceRef;
-    }
-  | { readonly kind: "unknown"; readonly note: string }
+  | KnownRuleValue<T>
+  | UnknownRuleValue
   | { readonly kind: "not-applicable"; readonly note: string };
 
-export function knownRule<T>(value: T, source: RuleSourceRef): RuleValue<T> {
+/**
+ * The formally authorized size of one chamber.
+ *
+ * A chamber necessarily has a size, so `not-applicable` is not a truthful
+ * state. The pack either establishes the positive integer and its source, or
+ * says why the count remains unresolved without carrying a fallback number.
+ */
+export type FormalSeatCount = KnownRuleValue<number> | UnknownRuleValue;
+
+export function knownRule<T>(
+  value: T,
+  source: RuleSourceRef,
+): KnownRuleValue<T> {
   return { kind: "known", value, source };
 }
 
-export function unknownRule<T>(note: string): RuleValue<T> {
+export function unknownRule(note: string): UnknownRuleValue {
   if (note.trim().length === 0) {
     throw new Error("An unknown rule must explain what is unresolved.");
   }
@@ -283,18 +302,15 @@ export interface FloorStageRule {
 export interface ChamberRule {
   readonly chamberKey: string;
   readonly name: string;
-  /** Seats in the chamber; the usual "members elected" denominator. */
-  readonly seats: number;
   /**
-   * The instrument that fixes `seats`, where the pack established one.
+   * Formally authorized seats in the chamber.
    *
    * A seat count is not automatically constitutional: Minnesota's constitution
    * delegates the number to statute, so the statute is the authority and citing
-   * the constitution for it would be wrong. `null` means this pack did not
-   * separately establish which instrument fixes the count — an honest absence,
-   * not a claim that no instrument does.
+   * the constitution for it would be wrong. An unresolved count carries no
+   * number at all, so it cannot silently become a legal denominator.
    */
-  readonly seatsSource: RuleSourceRef | null;
+  readonly seats: FormalSeatCount;
   readonly quorum: RuleValue<VoteThresholdRule>;
   /** Whether this chamber may receive an introduction at all. */
   readonly introductionAllowed: boolean;
@@ -614,9 +630,20 @@ export function nextFloorStageKey(
   return chamber.floorStages[index + 1]?.stageKey ?? null;
 }
 
-/** Total seats across every chamber, used for a joint sitting. */
+/** Requires the formally authorized capacity of one chamber. */
+export function requireFormalSeatCount(chamber: ChamberRule): number {
+  return requireKnown(
+    chamber.seats,
+    `formal seat count for the ${chamber.name}`,
+  );
+}
+
+/** Total known formal seats across every chamber, used for a joint sitting. */
 export function combinedSeats(pack: LegislativeRulePack): number {
-  return pack.chambers.reduce((total, chamber) => total + chamber.seats, 0);
+  return pack.chambers.reduce(
+    (total, chamber) => total + requireFormalSeatCount(chamber),
+    0,
+  );
 }
 
 export function assertSourceRef(source: RuleSourceRef, label: string): void {
@@ -692,6 +719,18 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.jurisdictionKey.trim().length === 0) {
     throw new Error(`Rule pack '${pack.packId}' must name a jurisdiction.`);
   }
+  const packState = /^us-([a-z]{2})-/.exec(pack.packId)?.[1];
+  if (!packState) {
+    throw new Error(
+      `Rule pack '${pack.packId}' must encode a standardized two-letter state segment.`,
+    );
+  }
+  const encodedJurisdictionKey = `US-${packState.toUpperCase()}`;
+  if (pack.jurisdictionKey !== encodedJurisdictionKey) {
+    throw new Error(
+      `Rule pack '${pack.packId}' encodes '${encodedJurisdictionKey}' but declares jurisdiction '${pack.jurisdictionKey}'.`,
+    );
+  }
   if (pack.chambers.length === 0) {
     throw new Error(`Rule pack '${pack.packId}' declares no chamber.`);
   }
@@ -719,15 +758,39 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
       );
     }
     seenChamberKeys.add(chamber.chamberKey);
-    if (!Number.isSafeInteger(chamber.seats) || chamber.seats <= 0) {
+    const formalSeats: RuleValue<number> = chamber.seats;
+    assertRuleValue(
+      formalSeats,
+      `formal seat count for '${chamber.chamberKey}'`,
+      (seats) => {
+        if (!Number.isSafeInteger(seats) || seats <= 0) {
+          throw new Error(
+            `Chamber '${chamber.chamberKey}' must declare a positive formal seat count.`,
+          );
+        }
+      },
+    );
+    if (
+      (chamber.seats as { readonly kind?: unknown }).kind === "not-applicable"
+    ) {
       throw new Error(
-        `Chamber '${chamber.chamberKey}' must declare a positive seat count.`,
+        `Formal seat count for '${chamber.chamberKey}' must be known or unknown, never not-applicable.`,
       );
     }
-    if (chamber.seatsSource !== null) {
-      assertSourceRef(
-        chamber.seatsSource,
-        `seat count for '${chamber.chamberKey}'`,
+    if (
+      formalSeats.kind === "unknown" &&
+      ("value" in formalSeats || "source" in formalSeats)
+    ) {
+      throw new Error(
+        `Unresolved formal seat count for '${chamber.chamberKey}' must not carry a numeric value or source.`,
+      );
+    }
+    if (
+      formalSeats.kind === "known" &&
+      formalSeats.source.verification !== "verified"
+    ) {
+      throw new Error(
+        `Known formal seat count for '${chamber.chamberKey}' must cite a verified source.`,
       );
     }
     if (chamber.floorStages.length === 0) {

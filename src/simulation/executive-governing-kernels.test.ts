@@ -276,10 +276,11 @@ function measureOnTheDesk(scenario: LegislativeScenario): World {
         stableKey: `${chamberKey}:${stage.stageKey}`,
         measureId: scenario.measureId,
         dispositions: dispositionsFromCounts(body.members, {
-          yea: chamber.seats,
+          yea: body.members.length,
           nay: 0,
         }),
-        presentMembers: chamber.seats,
+        presentMembers: body.members.length,
+        electedMembers: body.members.length,
         provenance: AUTHORED,
       });
     }

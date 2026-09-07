@@ -53,3 +53,13 @@ while still making a misleading ownership claim. Check actual path matches and
 all consumers, then restore canonical authority rather than preserving inert
 branch declarations. Record environmental failures separately from correctness
 proofs; never relabel a resource-failed local run as green.
+
+## Main advanced during exact-head proof
+
+Head `a4067b431b4fdf55002cb3026d6bf8ead34ab4a7` passed CI run
+`34083142957`: full validation (2,555 tests, 146 files) and all 254 browser
+proofs. The final fetch found accepted PR111 on main at
+`87b9206e2c7e8721792c136afa1d7911bc100db1`. Its ordinary merge was clean.
+Both ownership files and D-081/D-082 remain unchanged. Obtain fresh exact-head
+proof for this merged tree rather than presenting the older green head as
+current-main evidence. The PR85 seam remains banked.

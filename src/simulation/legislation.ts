@@ -9,6 +9,7 @@ import {
   floorStageByKey,
   nextChamberKey,
   nextFloorStageKey,
+  requireFormalSeatCount,
   requireKnown,
   resolveRequiredVotes,
   type ChamberRule,
@@ -1204,15 +1205,15 @@ export function electedMembersFor(
   chamber: ChamberRule,
   electedMembers?: number,
 ): number {
-  if (electedMembers === undefined) return chamber.seats;
+  if (electedMembers === undefined) return requireFormalSeatCount(chamber);
   if (!Number.isSafeInteger(electedMembers) || electedMembers <= 0) {
     throw new Error(
       `The ${chamber.name} needs a positive count of elected members.`,
     );
   }
-  if (electedMembers > chamber.seats) {
+  if (chamber.seats.kind === "known" && electedMembers > chamber.seats.value) {
     throw new Error(
-      `The ${chamber.name} cannot have more members elected than its ${chamber.seats} seats.`,
+      `The ${chamber.name} cannot have more members elected than its ${chamber.seats.value} formal seats.`,
     );
   }
   return electedMembers;
