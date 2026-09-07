@@ -7,7 +7,7 @@ const REPOSITORY_ROOT = path.resolve(__dirname, "..");
 
 /** Updated to the reconciled accepted-main base immediately before publish. */
 export const JUDICIAL_GAMEPLAY_BASE =
-  "850048dc06ac5a1ee4c08d8f41d286c377707bb5";
+  "a93b8f9da2b76d69123abc6b37b4b196f9d0d5db";
 
 interface OwnedElsewhere {
   readonly pattern: RegExp;
