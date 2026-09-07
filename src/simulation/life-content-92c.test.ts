@@ -827,9 +827,14 @@ describe("the wave says which 92C kernels it implemented", () => {
   });
 
   it("cites the research packet on every wave family", () => {
-    for (const family of LIFE_CONTENT_92C_FAMILIES) {
-      expect(family.authority.sourceDocument).toContain("92C");
-      expect(family.authority.reference.length).toBeGreaterThan(0);
+    for (const { episodeKey, stage } of lifeContent92cStages()) {
+      const family = EPISODE_FAMILIES.find(
+        (candidate) => candidate.key === episodeKey,
+      );
+      expect(family).toBeDefined();
+      const authority = stage.authority ?? family!.authority;
+      expect(authority.sourceDocument).toContain("92C");
+      expect(authority.reference.length).toBeGreaterThan(0);
     }
   });
 });

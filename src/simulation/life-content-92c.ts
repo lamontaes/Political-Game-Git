@@ -1587,15 +1587,15 @@ export const LIFE_CONTENT_92C_SCHOOL_STAGES: readonly EpisodeStage[] = [
   ...FIRST_ROOM.stages,
   ...RULES_AS_WRITTEN.stages,
   ...THE_LONG_WAY_IN.stages,
-];
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
 
 export const LIFE_CONTENT_92C_HOME_STAGES: readonly EpisodeStage[] = [
   ...HOUSE_RULES.stages,
-];
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
 
 export const LIFE_CONTENT_92C_CIVIC_STAGES: readonly EpisodeStage[] = [
   ...WATER_CAME_UP.stages,
-];
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
 
 /** New causal families whose reviewed 92C stages genuinely turn on answers. */
 export const LIFE_CONTENT_92C_FAMILIES: readonly EpisodeFamily[] = [

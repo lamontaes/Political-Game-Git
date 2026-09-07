@@ -66,6 +66,7 @@ function toItem(
   family: EpisodeFamilyEntry,
   stage: EpisodeStageEntry,
 ): ContentItem {
+  const authority = stage.authority ?? family.authority;
   const itemKey = `${family.key}/${stage.key}`;
   const summary = stage.lines.join(" ").trim() || humanize(stage.key);
 
@@ -123,11 +124,11 @@ function toItem(
     provenance: {
       sourceModule: SOURCE_MODULE,
       sourceSymbol: "EPISODE_FAMILIES",
-      citation: family.authority.reference,
+      citation: authority.reference,
       sourceUrl: null,
       retrievedAt: null,
       verification: null,
-      note: `Authored for the game. Copy authority: ${family.authority.sourceDocument} — ${family.authority.reference}.`,
+      note: `Authored for the game. Copy authority: ${authority.sourceDocument} — ${authority.reference}.`,
       sources: [],
     },
   };
