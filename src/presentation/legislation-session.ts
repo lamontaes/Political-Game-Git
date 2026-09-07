@@ -152,6 +152,8 @@ export function applyLegislativeStep(
           body.members,
           counts(scenario, votePlanKeyForAmendment(chamberKey)),
         ),
+        presentMembers: body.members.length,
+        electedMembers: body.members.length,
         provenance: {
           method: "authored-fixture",
           note: "Members' recorded decisions on the amendment.",
@@ -189,7 +191,8 @@ export function applyLegislativeStep(
           body.members,
           counts(scenario, votePlanKeyForFloor(chamberKey, stage.stageKey)),
         ),
-        presentMembers: chamber.seats,
+        presentMembers: body.members.length,
+        electedMembers: body.members.length,
         provenance: {
           method: "authored-fixture",
           note: "Members' recorded decisions on this question.",
@@ -245,6 +248,8 @@ export function applyLegislativeStep(
           body.members,
           counts(scenario, votePlanKeyForConcurrence(chamberKey)),
         ),
+        presentMembers: body.members.length,
+        electedMembers: body.members.length,
         provenance: {
           method: "authored-fixture",
           note: "Members' recorded decisions on accepting the other chamber's changes.",
@@ -305,15 +310,22 @@ export function applyLegislativeStep(
                   jointBody(scenario).members,
                   counts(scenario, votePlanKeyForOverride("joint")),
                 ),
+                presentMembers: jointBody(scenario).members.length,
+                electedMembers: jointBody(scenario).members.length,
               },
             ]
-          : pack.chamberOrder.map((forumChamberKey) => ({
-              forumKey: forumChamberKey,
-              dispositions: dispositionsFromCounts(
-                bodyForChamber(scenario, forumChamberKey).members,
-                counts(scenario, votePlanKeyForOverride(forumChamberKey)),
-              ),
-            }));
+          : pack.chamberOrder.map((forumChamberKey) => {
+              const body = bodyForChamber(scenario, forumChamberKey);
+              return {
+                forumKey: forumChamberKey,
+                dispositions: dispositionsFromCounts(
+                  body.members,
+                  counts(scenario, votePlanKeyForOverride(forumChamberKey)),
+                ),
+                presentMembers: body.members.length,
+                electedMembers: body.members.length,
+              };
+            });
       const next = attemptVetoOverride(world, {
         stableKey: key("override"),
         measureId,

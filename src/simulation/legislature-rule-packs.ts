@@ -308,18 +308,15 @@ const KY_SENATE_RULES: KentuckyChamberRules = {
 function kentuckyChamber(
   chamberKey: string,
   name: string,
-  seats: number,
   introductionAllowed: boolean,
   chamberRules: KentuckyChamberRules,
 ): ChamberRule {
   return {
     chamberKey,
     name,
-    seats,
-    // Kentucky's seat counts were carried from the compiled research without a
-    // separate read of the instrument that fixes them, so this pack does not
-    // claim one.
-    seatsSource: null,
+    seats: unknownRule(
+      "Kentucky's formal chamber seat count was carried from compiled research, but no instrument fixing it was separately read for this pack. The unresolved formal count carries no numeric fallback.",
+    ),
     quorum: unknownRule(
       "Kentucky's constitutional quorum fraction was not resolved for this pack.",
     ),
@@ -396,14 +393,8 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
   displayName: "Kentucky General Assembly",
   structure: "bicameral",
   chambers: [
-    kentuckyChamber(
-      "house",
-      "House of Representatives",
-      100,
-      true,
-      KY_HOUSE_RULES,
-    ),
-    kentuckyChamber("senate", "Senate", 38, true, KY_SENATE_RULES),
+    kentuckyChamber("house", "House of Representatives", true, KY_HOUSE_RULES),
+    kentuckyChamber("senate", "Senate", true, KY_SENATE_RULES),
   ],
   chamberOrder: ["house", "senate"],
   origination: {
@@ -583,10 +574,9 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
     {
       chamberKey: "legislature",
       name: "Legislature",
-      seats: 49,
-      // Carried from the compiled research; the instrument fixing the number of
-      // senators was not separately read for this pack.
-      seatsSource: null,
+      seats: unknownRule(
+        "Nebraska's formal chamber seat count was carried from compiled research, but no instrument fixing the exact number was separately read for this pack. The unresolved formal count carries no numeric fallback.",
+      ),
       quorum: unknownRule(
         "Nebraska's quorum fraction was not resolved for this pack.",
       ),
@@ -757,6 +747,16 @@ const AK_UNIFORM_TITLE =
 const AK_PROCESS_URL =
   "https://akleg.gov/docs/pdf/Legislative-Process-in-Alaska.pdf";
 
+const AK_ART2_SEC1: RuleSourceRef = {
+  authority: "constitution",
+  citation: "Alaska Const. Art. II, Sec. 1",
+  sourceTitle: "The Constitution of the State of Alaska",
+  sourceUrl: AK_CONST_URL,
+  retrievedAt: "2026-09-06",
+  verification: "verified",
+  note: 'Legislative power and membership: "The legislative power of the State is vested in a legislature consisting of a senate with a membership of twenty and a house of representatives with a membership of forty." The constitution fixes both formal chamber counts.',
+};
+
 const AK_ART2_SEC14 = source(
   "constitution",
   "Alaska Const. Art. II, Sec. 14",
@@ -854,10 +854,7 @@ function alaskaChamber(
   return {
     chamberKey,
     name,
-    seats,
-    // Carried from the compiled research; the instrument fixing the number of
-    // seats was not separately read for this pack.
-    seatsSource: null,
+    seats: knownRule(seats, AK_ART2_SEC1),
     quorum: unknownRule(
       "Alaska's quorum fraction was not resolved for this pack.",
     ),
@@ -1006,6 +1003,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     source: AK_ART2_SEC8,
   },
   sources: [
+    AK_ART2_SEC1,
     AK_ART2_SEC14,
     AK_ART2_SEC15,
     AK_ART2_SEC16,
@@ -1153,10 +1151,9 @@ function minnesotaChamber(
   return {
     chamberKey,
     name,
-    seats,
     // Not the constitution: art. IV, § 2 prescribes the number "by law", and
     // Minn. Stat. § 2.021 is the law that does it.
-    seatsSource: MN_STAT_2_021,
+    seats: knownRule(seats, MN_STAT_2_021),
     quorum: knownRule(
       majorityOf("members-elected", "a majority of the house", MN_ART4_SEC13),
       MN_ART4_SEC13,
@@ -1365,9 +1362,8 @@ function illinoisChamber(
   return {
     chamberKey,
     name,
-    seats,
     // Illinois names the district counts in the constitution itself.
-    seatsSource: IL_ART4_SEC1,
+    seats: knownRule(seats, IL_ART4_SEC1),
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -1605,10 +1601,10 @@ const MD_ART3_SEC2 = marylandSource(
   "III",
   'Membership: "The membership of the Senate shall consist of forty-seven (47) Senators. The membership of the House of Delegates shall consist of one hundred forty-one (141) Delegates." Maryland fixes both counts in the constitution itself, so the seat provenance in this pack is constitutional rather than statutory.',
 );
-const MD_ART3_SEC15 = marylandSource(
-  "Md. Const. art. III, § 15(1)",
+const MD_ART3_SECS14_15 = marylandSource(
+  "Md. Const. art. III, §§ 14 & 15(1)",
   "III",
-  'Session length: "The General Assembly may continue its session so long as in its judgment the public interest may require, for a period not longer than ninety days in each year. The ninety days shall be consecutive unless otherwise provided by law." The session may be extended by not more than thirty further days by resolution concurred in by a three-fifths vote of the membership in each House.',
+  'Regular-session timing is compound provenance. Section 14 provides that the General Assembly "shall meet on the second Wednesday of January" every year. Section 15(1) separately permits a session "for a period not longer than ninety days in each year," makes those days consecutive unless law provides otherwise, and permits an extension of not more than thirty days by a three-fifths vote of each House.',
 );
 const MD_ART3_SEC19 = marylandSource(
   "Md. Const. art. III, § 19",
@@ -1640,15 +1636,21 @@ const MD_ART3_SEC31 = marylandSource(
   "III",
   'Effective date: "A Law passed by the General Assembly shall take effect the first day of June next after the session at which it may be passed, unless it be otherwise expressly declared therein or provided for in this Constitution."',
 );
-const MD_ART3_SEC52 = marylandSource(
+const MD_ART3_SEC52 = waveTwoSource(
+  "constitution",
   "Md. Const. art. III, § 52",
-  "III",
-  "Budget: every appropriation bill is either a Budget Bill or a Supplementary Appropriation Bill, and the General Assembly may not appropriate except under this section. The Budget Bill runs on its own track and is expressly carved out of the ordinary veto procedure in art. II, § 17; this pack models only the ordinary track.",
+  "Constitution of Maryland, Article III, § 52 (Maryland General Assembly)",
+  "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=c3&enactments=false&section=52",
+  "verified",
+  "Appropriations: § 52(2) establishes Budget Bills and Supplementary Appropriation Bills as the two kinds of appropriation bill. Section 52(8) permits either House to consider a Supplementary Appropriation Bill after the Budget Bill has been finally acted on and applies Article II, § 17 to that supplementary bill after presentment.",
 );
-const MD_ART2_SEC17 = marylandSource(
+const MD_ART2_SEC17 = waveTwoSource(
+  "constitution",
   "Md. Const. art. II, § 17",
-  "II",
-  'Veto: every Bill is presented to the Governor; "Except for the Budget Bill, if the Governor disapproves the Bill, the Governor shall return it with objections to the House in which it originated." A returned Bill becomes law "if, after such reconsideration, three-fifths of the members elected to that House pass the Bill" and it passes the other House by the same three-fifths. A Bill not returned within six days (Sundays excepted) while the General Assembly is in session is a law as if signed, "unless the General Assembly, by adjournment, prevents its return, in which case it shall not be a law." A Bill presented within six days before adjournment, or after it, becomes law without signature unless vetoed within 30 days after presentment. Except for the Budget Bill the Governor may disapprove items in appropriation bills.',
+  "Constitution of Maryland, Article II, § 17 (Maryland General Assembly)",
+  "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=c2&enactments=false&section=17",
+  "verified",
+  "Veto: §§ 17(a)-(e) govern the ordinary return, three-fifths reconsideration, action windows, inaction and appropriation-item rules. Section 17(f) separately permits the Governor to disapprove only Budget Bill items relating to the Executive Department that the General Assembly increased or added. Section 17(g) requires return of that Budget Bill to its House of origin and permits item-by-item reconsideration in an extraordinary session convened within thirty days, with three-fifths in each House to override.",
 );
 
 /** A Maryland chamber. Seats and quorum are constitutional; committees are not read. */
@@ -1660,8 +1662,7 @@ function marylandChamber(
   return {
     chamberKey,
     name,
-    seats,
-    seatsSource: MD_ART3_SEC2,
+    seats: knownRule(seats, MD_ART3_SEC2),
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -1779,17 +1780,17 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
     sessionLabel: "Regular session",
     adjournmentRule: knownRule(
       "The General Assembly meets on the second Wednesday of January each year and may continue its session for a period not longer than ninety days in each year, consecutive unless otherwise provided by law; it may extend the session by not more than a further thirty days by resolution concurred in by a three-fifths vote of the membership in each House.",
-      MD_ART3_SEC15,
+      MD_ART3_SECS14_15,
     ),
     measuresDieAtAdjournment: unknownRule(
       "What becomes of a pending Maryland measure at adjournment is not settled by the sections read for this pack; art. III, § 15 fixes session length and says nothing about the fate of a bill still before a House.",
     ),
-    source: MD_ART3_SEC15,
+    source: MD_ART3_SECS14_15,
   },
   sources: [
     MD_ART3_SEC28,
     MD_ART2_SEC17,
-    MD_ART3_SEC15,
+    MD_ART3_SECS14_15,
     MD_ART3_SEC20,
     MD_ART3_SEC27,
     MD_ART3_SEC30,
@@ -1803,7 +1804,7 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
     "Maryland's germaneness standard for amendments, and whether a bill may be amended at third reading, are chamber-rules matters left unresolved here.",
     "Maryland's conference committee composition and report rules are unresolved, and conference is not modelled.",
     "Art. III, § 27(a) forbids a bill to originate in either House during the last thirty-five calendar days of a regular session unless two-thirds of the members elected so determine. The origination schema records which chambers may start a measure, not a date after which none may, so that cutoff is carried in the § 27 note rather than as a rule the runtime enforces.",
-    "The Maryland Budget Bill runs outside the ordinary track: art. III, § 52 makes it the only route to an appropriation, and art. II, § 17 expressly excepts it from return, from the ordinary item veto, and from reconsideration at the next session. This pack models the ordinary bill track only.",
+    "Maryland's appropriation routes and Budget Bill veto path do not fit the ordinary fields: art. III, § 52(2) recognizes both Budget Bills and Supplementary Appropriation Bills, while current art. II, § 17(f)-(g) gives the Governor a limited item veto over Executive Department items the General Assembly increased or added and provides return plus item-by-item reconsideration in an extraordinary session convened within thirty days. This pack's executive fields continue to model only the ordinary bill track.",
     "Md. Const. art. II, § 17(b) is a pocket veto: a bill the General Assembly's adjournment prevents the Governor from returning 'shall not be a law'. The schema records an inaction outcome for a bill left unacted on in session, which in Maryland is that it becomes law, and has no field for the adjournment case, so the pocket veto is carried in the § 17 note.",
     "Whether a Maryland measure dies at a given adjournment is unresolved; § 15 fixes only how long a session may run.",
     "This pack models a single third-reading final-passage stage; art. III, § 27(a) requires reading on three different days, but the intermediate reading and consent-calendar stages come from chamber rules not read here.",
@@ -1868,7 +1869,7 @@ const MO_ART3_SEC27 = missouriSource(
 const MO_ART3_SEC29 = missouriSource(
   "Mo. Const. art. III, § 29",
   "Article%20III%20Section%2029",
-  'Effective date: "No law passed by the general assembly, except an appropriation act, shall take effect until ninety days after the adjournment of the session in either odd-numbered or even-numbered years at which it was enacted," unless an emergency expressed in the act is directed otherwise by a two-thirds vote of the members elected to each house.',
+  'Effective date: "No law passed by the general assembly, except an appropriation act, shall take effect until ninety days after the adjournment of the session" at which it was enacted, unless an expressed emergency is directed otherwise by a two-thirds vote of each house. The section separately provides that, if the General Assembly recesses for thirty days or more, it may by joint resolution make previously passed, not-yet-effective laws take effect ninety days from the beginning of the recess.',
 );
 const MO_ART3_SEC30 = missouriSource(
   "Mo. Const. art. III, § 30",
@@ -1901,8 +1902,7 @@ function missouriChamber(
   return {
     chamberKey,
     name,
-    seats,
-    seatsSource,
+    seats: knownRule(seats, seatsSource),
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -2047,6 +2047,7 @@ export const MISSOURI_RULE_PACK: LegislativeRulePack = {
     "Mo. Const. art. III, § 27 fixes the threshold for adopting a conference report but not the composition of a Missouri conference committee, and a conference rule cannot be recorded from the threshold alone.",
     "Missouri's veto session is a scheduled institution: art. III, § 32 automatically reconvenes the general assembly on the first Wednesday following the second Monday in September for up to ten calendar days when a bill is returned on or after the fifth day before the last day for considering bills. The schema records the override threshold and forum but not when the forum sits, so the veto session is carried in the § 32 note.",
     "The 6:00 p.m. tabling deadline in art. III, § 20(a) and the sixtieth-legislative-day limit on introducing bills in art. III, § 25 are calendar mechanics the schema has no field for.",
+    "Mo. Const. art. III, § 29 separately provides that, after a recess of at least thirty days, the General Assembly may by joint resolution prescribe that laws previously passed and not yet effective take effect ninety days from the beginning of the recess. The schema carries the ordinary post-adjournment default but has no field for this recess-specific route, so it remains an explicit exception rather than being generalized into the default rule.",
     "Mo. Const. art. IV, § 26 bars the Governor from reducing an appropriation for free public schools or for principal and interest on the public debt. The schema records a line-item veto as a single flag, so that limit is carried in the § 26 note.",
     "Whether a Missouri measure dies at adjournment, as distinct from being tabled at the May deadline, is unresolved.",
     "This pack models a single third-reading final-passage stage; art. III, § 21 requires a reading by title on three different days, but the intermediate reading stages come from chamber rules not read here.",
@@ -2100,21 +2101,13 @@ const NV_ART4_SEC35 = nevadaSource(
 );
 
 /** A Nevada chamber. The constitution delegates the seat counts, so none is cited. */
-function nevadaChamber(
-  chamberKey: string,
-  name: string,
-  seats: number,
-): ChamberRule {
+function nevadaChamber(chamberKey: string, name: string): ChamberRule {
   return {
     chamberKey,
     name,
-    seats,
-    // Not the constitution and not, in current law, any instrument that states
-    // a number: art. 4, § 5 sends the counts to law, and the law that answers
-    // (NRS 218B.100, .250 and .260) creates the districts by adopting a filed
-    // shapefile rather than by naming a count. No instrument read for this pack
-    // establishes 21 and 42 as numerals, so this pack claims none.
-    seatsSource: null,
+    seats: unknownRule(
+      "Nevada's formal chamber seat count is unresolved. Nev. Const. art. 4, § 5 delegates the number to law, and the retrieved NRS route adopts district shapefiles without textually stating 21 or 42; no qualifying operative source read for this pack fixes a numeric count.",
+    ),
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -2170,8 +2163,8 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
   displayName: "Nevada Legislature",
   structure: "bicameral",
   chambers: [
-    nevadaChamber("assembly", "Assembly", 42),
-    nevadaChamber("senate", "Senate", 21),
+    nevadaChamber("assembly", "Assembly"),
+    nevadaChamber("senate", "Senate"),
   ],
   chamberOrder: ["assembly", "senate"],
   origination: {
@@ -2249,7 +2242,7 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
     NV_ART4_SEC5,
   ],
   unresolvedGaps: [
-    "Nevada's seat counts carry no instrument. Art. 4, § 5 bounds the Senate at between one-third and one-half of the Assembly and delegates the numbers to law, and the law that answers creates the districts by adopting a filed shapefile (NRS 218B.100, .250, .260) rather than by stating a count, so this pack records the counts with no source rather than citing a provision that does not establish them.",
+    "Nevada's formal chamber seat counts are UNKNOWN. Art. 4, § 5 bounds the Senate at between one-third and one-half of the Assembly and delegates the numbers to law, and the retrieved route through NRS 218B.100, .250 and .260 creates the districts by adopting filed shapefiles rather than textually stating 21 or 42. The formal seat-count values therefore carry no number or source.",
     "Nev. Const. art. 4, § 18(2) requires two-thirds of the members elected to each House to pass a bill that creates, generates or increases any public revenue, and § 18(3) lets a majority refer such a measure to the people instead. The schema carries one passage threshold per floor stage and can confine a subject class by chamber but not by vote, so the revenue supermajority is recorded here rather than coerced into the ordinary passage rule, which remains the majority § 18(1) states.",
     "Whether the Nevada Governor may object to an item of an appropriation is unresolved; art. 4, § 35 speaks only of returning a bill.",
     "Nevada's default effective date is set by NRS 218D.330, which was not read for this pack.",
@@ -2288,7 +2281,7 @@ const OH_ART2_SEC1C = ohioSource(
 const OH_ART2_SEC1D = ohioSource(
   "Ohio Const. art. II, § 1d",
   "2.1d",
-  'Emergency laws: tax levies, appropriations for current expenses, and emergency laws necessary for the immediate preservation of the public peace, health or safety "shall go into immediate effect," and such emergency laws "must receive the vote of two-thirds of all the members elected to each branch of the general assembly" with the reasons set out in one section of the law.',
+  "Immediate-effect categories are distinct. Laws providing for tax levies and appropriations for current expenses go into immediate effect under § 1d. An emergency law necessary for the immediate preservation of the public peace, health or safety goes into immediate effect only if it receives a yea-and-nay vote of two-thirds of all members elected to each branch and states the reasons for the necessity in a separate section passed by a separate roll call.",
 );
 const OH_ART2_SEC6 = ohioSource(
   "Ohio Const. art. II, § 6",
@@ -2335,11 +2328,10 @@ function ohioChamber(
   return {
     chamberKey,
     name,
-    seats,
     // The instrument that fixes the count is the redistricting article, not the
     // legislative one: art. XI, § 3(A) sets ninety-nine and thirty-three
     // districts and art. XI, § 2 gives each district a single member.
-    seatsSource: OH_ART11_SEC3,
+    seats: knownRule(seats, OH_ART11_SEC3),
     quorum: knownRule(
       majorityOf(
         "members-elected",
@@ -2472,7 +2464,7 @@ export const OHIO_RULE_PACK: LegislativeRulePack = {
     "Ohio's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules under art. II, § 7, which were not read for this pack.",
     "Ohio's germaneness standard for amendments, and whether a bill may be amended at its third consideration, are chamber-rules matters left unresolved here.",
     "Ohio's conference committee composition and report rules are unresolved, and conference is not modelled.",
-    "Ohio Const. art. II, § 1d puts a tax levy, an appropriation for current expenses, or a law declared an emergency into immediate effect on a two-thirds vote of all the members elected to each branch. The schema records one default effective rule and has no field for a class of law that escapes it, so the emergency route is carried in the § 1d note.",
+    "Ohio Const. art. II, § 1d creates distinct immediate-effect categories: tax levies and current-expense appropriations take immediate effect under § 1d, while an emergency law does so only after the specified two-thirds elected-members vote and a separate statement of reasons passed by separate roll call. The schema records one default effective rule and has no field for these category-specific routes, so they remain an explicit gap without changing the ordinary § 1c ninety-days-after-filing default.",
     "Whether an Ohio measure dies at a given adjournment, as distinct from at the end of the two-year general assembly, is unresolved.",
     "This pack models a single final-passage stage; art. II, § 15(C) requires consideration on three different days, but the intermediate stages come from chamber rules not read here.",
   ],

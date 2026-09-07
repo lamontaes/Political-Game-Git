@@ -17,6 +17,7 @@ import {
   assertOriginationPermitted,
   assertRulePackIntegrity,
   chamberSequenceFrom,
+  combinedSeats,
   nextChamberKey,
   permittedOriginChambers,
   type LegislativeRulePack,
@@ -102,6 +103,17 @@ describe("the legislative rule-pack matrix", () => {
     for (const pack of LEGISLATIVE_RULE_PACKS) {
       expect(() => assertRulePackIntegrity(pack)).not.toThrow();
     }
+  });
+
+  it("fails closed when a pack id and jurisdiction key name different states", () => {
+    const relabeledNevada = {
+      ...NEVADA_RULE_PACK,
+      jurisdictionKey: "US-TX",
+    };
+
+    expect(() => assertRulePackIntegrity(relabeledNevada)).toThrow(
+      /encodes 'US-NV' but declares jurisdiction 'US-TX'/,
+    );
   });
 
   it("no state inherits another state's unresolved value", () => {
@@ -248,7 +260,11 @@ describe("the legislative rule-pack matrix", () => {
       ALASKA_RULE_PACK,
     ]) {
       for (const source of pack.sources) {
-        expect(source.retrievedAt).toBe("2026-09-02");
+        expect(source.retrievedAt).toBe(
+          source.citation === "Alaska Const. Art. II, Sec. 1"
+            ? "2026-09-06"
+            : "2026-09-02",
+        );
       }
     }
     // The 2026-09-06 wave is dated for its own read, everywhere a citation
@@ -332,7 +348,11 @@ describe("the legislative rule-pack matrix", () => {
     const signatureOf = (pack: LegislativeRulePack): string =>
       JSON.stringify([
         pack.structure,
-        pack.chambers.map((chamber) => chamber.seats),
+        pack.chambers.map((chamber) =>
+          chamber.seats.kind === "known"
+            ? ["known", chamber.seats.value]
+            : ["unknown"],
+        ),
         pack.interChamber.kind,
         pack.executive.override.kind,
         pack.executive.override.threshold.numerator,
@@ -512,9 +532,10 @@ describe("seat counts cite the instrument that actually fixes them", () => {
     // Minn. Const. art. IV, § 2 sends the number to statute, so citing the
     // constitution for 67 and 134 would name the wrong instrument.
     for (const chamber of MINNESOTA_RULE_PACK.chambers) {
-      expect(chamber.seatsSource).not.toBeNull();
-      expect(chamber.seatsSource!.authority).toBe("statute");
-      expect(chamber.seatsSource!.citation).toBe("Minn. Stat. § 2.021");
+      expect(chamber.seats.kind).toBe("known");
+      if (chamber.seats.kind !== "known") continue;
+      expect(chamber.seats.source.authority).toBe("statute");
+      expect(chamber.seats.source.citation).toBe("Minn. Stat. § 2.021");
     }
     expect(
       MINNESOTA_RULE_PACK.sources.map((source) => source.citation),
@@ -527,22 +548,62 @@ describe("seat counts cite the instrument that actually fixes them", () => {
 
   it("attributes Illinois's seats to the constitution, which does fix them", () => {
     for (const chamber of ILLINOIS_RULE_PACK.chambers) {
-      expect(chamber.seatsSource).not.toBeNull();
-      expect(chamber.seatsSource!.authority).toBe("constitution");
-      expect(chamber.seatsSource!.citation).toBe("Ill. Const. art. IV, § 1");
+      expect(chamber.seats.kind).toBe("known");
+      if (chamber.seats.kind !== "known") continue;
+      expect(chamber.seats.source.authority).toBe("constitution");
+      expect(chamber.seats.source.citation).toBe("Ill. Const. art. IV, § 1");
     }
   });
 
-  it("says nothing rather than inventing a citation where none was read", () => {
-    for (const pack of [
-      KENTUCKY_RULE_PACK,
-      NEBRASKA_RULE_PACK,
-      ALASKA_RULE_PACK,
-    ]) {
+  it("carries no number when the formal count remains unresolved", () => {
+    for (const pack of [KENTUCKY_RULE_PACK, NEBRASKA_RULE_PACK]) {
       for (const chamber of pack.chambers) {
-        expect(chamber.seatsSource, `${pack.packId}`).toBeNull();
+        expect(chamber.seats.kind, `${pack.packId}`).toBe("unknown");
+        expect("value" in chamber.seats, `${pack.packId}`).toBe(false);
+        expect("source" in chamber.seats, `${pack.packId}`).toBe(false);
       }
     }
+  });
+
+  it("preserves Alaska's formal counts through their constitutional source", () => {
+    expect(
+      ALASKA_RULE_PACK.chambers.map((chamber) =>
+        chamber.seats.kind === "known" ? chamber.seats.value : null,
+      ),
+    ).toStrictEqual([40, 20]);
+    for (const chamber of ALASKA_RULE_PACK.chambers) {
+      expect(chamber.seats).toMatchObject({
+        kind: "known",
+        source: { citation: "Alaska Const. Art. II, Sec. 1" },
+      });
+    }
+  });
+
+  it("makes a formal-seat consumer fail closed on an unresolved count", () => {
+    expect(() => combinedSeats(NEVADA_RULE_PACK)).toThrow(
+      /formal seat count.*unknown/i,
+    );
+  });
+
+  it("rejects a fabricated numeric count whose provenance remains unresolved", () => {
+    const fabricated = {
+      ...NEVADA_RULE_PACK,
+      chambers: [
+        {
+          ...NEVADA_RULE_PACK.chambers[0]!,
+          seats: {
+            kind: "unknown",
+            note: "No qualifying operative source was retrieved.",
+            value: 999,
+          },
+        },
+        NEVADA_RULE_PACK.chambers[1]!,
+      ],
+    } as unknown as LegislativeRulePack;
+
+    expect(() => assertRulePackIntegrity(fabricated)).toThrow(
+      /unresolved formal seat count.*must not carry a numeric value or source/i,
+    );
   });
 });
 
@@ -608,11 +669,11 @@ const WAVE_TWO_PACKS = [
 ] as const;
 
 /** The state's own publisher, per pack. A citation must come from home. */
-const WAVE_TWO_HOSTS: Record<string, string> = {
-  "us-md-general-assembly-v1": "msa.maryland.gov",
-  "us-mo-general-assembly-v1": "revisor.mo.gov",
-  "us-nv-legislature-v1": "www.leg.state.nv.us",
-  "us-oh-general-assembly-v1": "codes.ohio.gov",
+const WAVE_TWO_HOSTS: Record<string, readonly string[]> = {
+  "us-md-general-assembly-v1": ["msa.maryland.gov", "mgaleg.maryland.gov"],
+  "us-mo-general-assembly-v1": ["revisor.mo.gov"],
+  "us-nv-legislature-v1": ["www.leg.state.nv.us"],
+  "us-oh-general-assembly-v1": ["codes.ohio.gov"],
 };
 
 describe("the 2026-09-06 wave carries its own evidence", () => {
@@ -672,12 +733,15 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
     // Membership provisions, never the passage or veto section that happens to
     // be nearby.
     for (const chamber of MARYLAND_RULE_PACK.chambers) {
-      expect(chamber.seatsSource!.citation).toBe("Md. Const. art. III, § 2");
+      expect(chamber.seats).toMatchObject({
+        kind: "known",
+        source: { citation: "Md. Const. art. III, § 2" },
+      });
     }
     expect(
       MISSOURI_RULE_PACK.chambers.map((chamber) => [
         chamber.chamberKey,
-        chamber.seatsSource!.citation,
+        chamber.seats.kind === "known" ? chamber.seats.source.citation : null,
       ]),
     ).toStrictEqual([
       ["house", "Mo. Const. art. III, § 3(a)"],
@@ -685,8 +749,13 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
     ]);
     for (const chamber of OHIO_RULE_PACK.chambers) {
       // Ohio's count is in the redistricting article, not the legislative one.
-      expect(chamber.seatsSource!.citation).toBe("Ohio Const. art. XI, § 3(A)");
-      expect(chamber.seatsSource!.authority).toBe("constitution");
+      expect(chamber.seats).toMatchObject({
+        kind: "known",
+        source: {
+          citation: "Ohio Const. art. XI, § 3(A)",
+          authority: "constitution",
+        },
+      });
     }
     expect(OHIO_RULE_PACK.sources.map((source) => source.citation)).toContain(
       "Ohio Const. art. XI, § 2",
@@ -696,10 +765,12 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
     // a shapefile, so no instrument read states 21 and 42. Saying nothing is the
     // honest answer; borrowing art. 4, § 18 for it would not be.
     for (const chamber of NEVADA_RULE_PACK.chambers) {
-      expect(chamber.seatsSource, "Nevada seat provenance").toBeNull();
+      expect(chamber.seats.kind, "Nevada seat epistemics").toBe("unknown");
+      expect("value" in chamber.seats).toBe(false);
+      expect("source" in chamber.seats).toBe(false);
     }
     expect(NEVADA_RULE_PACK.unresolvedGaps.join(" ")).toMatch(
-      /seat counts carry no instrument/,
+      /formal chamber seat counts are UNKNOWN/,
     );
 
     // And no pack in the wave hangs a seat count on its passage or veto rule.
@@ -717,9 +788,9 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
     );
     for (const pack of WAVE_TWO_PACKS) {
       for (const chamber of pack.chambers) {
-        if (!chamber.seatsSource) continue;
+        if (chamber.seats.kind !== "known") continue;
         expect(
-          proceduralCitations.has(chamber.seatsSource.citation),
+          proceduralCitations.has(chamber.seats.source.citation),
           `${pack.packId} seats cite a procedural provision`,
         ).toBe(false);
       }
@@ -728,17 +799,19 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
 
   it("refuses a citation, a URL or a title from another state", () => {
     for (const pack of WAVE_TWO_PACKS) {
-      const host = WAVE_TWO_HOSTS[pack.packId]!;
+      const hosts = WAVE_TWO_HOSTS[pack.packId]!;
       for (const source of collectSourceRefs(pack)) {
-        expect(
+        expect(hosts, `${pack.packId} cites ${source.sourceUrl}`).toContain(
           new URL(source.sourceUrl!).host,
-          `${pack.packId} cites ${source.sourceUrl}`,
-        ).toBe(host);
+        );
       }
     }
-    // The hosts are distinct, so the check above is a real separation and not
-    // four packs agreeing on one shared publisher.
-    expect(new Set(Object.values(WAVE_TWO_HOSTS)).size).toBe(4);
+    // The allowlists are disjoint, so no state can borrow another state's
+    // publisher. Maryland has two official publishers because current §§ 17
+    // and 52 come from the General Assembly and the remaining article text
+    // comes from the State Archives.
+    const hosts = Object.values(WAVE_TWO_HOSTS).flat();
+    expect(new Set(hosts).size).toBe(hosts.length);
   });
 });
 
@@ -779,6 +852,17 @@ describe("a rule the schema cannot hold stays a gap, not a coercion", () => {
     const gaps = MARYLAND_RULE_PACK.unresolvedGaps.join(" ");
     expect(gaps).toMatch(/pocket veto/);
     expect(gaps).toMatch(/Budget Bill/);
+    expect(gaps).toMatch(/Supplementary Appropriation Bills/);
+    expect(gaps).toMatch(/§ 17\(f\)-\(g\)/);
+    expect(gaps).toMatch(/extraordinary session/);
+    expect(gaps).not.toMatch(/only route to an appropriation/);
+    expect(MARYLAND_RULE_PACK.session.adjournmentRule).toMatchObject({
+      kind: "known",
+      source: { citation: "Md. Const. art. III, §§ 14 & 15(1)" },
+    });
+    const sessionSource = MARYLAND_RULE_PACK.session.source;
+    expect(sessionSource.note).toMatch(/Section 14.*second Wednesday/s);
+    expect(sessionSource.note).toMatch(/Section 15\(1\).*ninety days/s);
     expect(gaps).toMatch(/thirty-five calendar days/);
   });
 
@@ -786,6 +870,9 @@ describe("a rule the schema cannot hold stays a gap, not a coercion", () => {
     const gaps = MISSOURI_RULE_PACK.unresolvedGaps.join(" ");
     expect(gaps).toMatch(/one-third of the elected members/);
     expect(gaps).toMatch(/veto session/);
+    expect(gaps).toMatch(/recess of at least thirty days/);
+    expect(gaps).toMatch(/joint resolution/);
+    expect(gaps).toMatch(/ninety days from the beginning of the recess/);
     // The override threshold itself is still the sourced two-thirds.
     expect(MISSOURI_RULE_PACK.executive.override).toMatchObject({
       kind: "each-chamber",
@@ -802,6 +889,10 @@ describe("a rule the schema cannot hold stays a gap, not a coercion", () => {
       source: { citation: "Ohio Const. art. II, § 1c" },
     });
     expect(OHIO_RULE_PACK.unresolvedGaps.join(" ")).toMatch(/art\. II, § 1d/);
+    const ohioGap = OHIO_RULE_PACK.unresolvedGaps.join(" ");
+    expect(ohioGap).toMatch(/tax levies and current-expense appropriations/);
+    expect(ohioGap).toMatch(/emergency law.*two-thirds/s);
+    expect(ohioGap).toMatch(/separate statement of reasons/);
   });
 });
 
