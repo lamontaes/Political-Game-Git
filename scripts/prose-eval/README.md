@@ -144,7 +144,12 @@ The repository-native `$civic-prose` skill is at
 `.agents/skills/civic-prose/SKILL.md`. Its entire contents are byte-identical to
 `.claude/skills/civic-prose/`, which remains the editorial authority. The
 portability regression checks the complete file inventory and bytes, the
-provider-adapted agent bodies, constrained TOML envelopes, and holdout hygiene.
+complete developer-instruction bodies, constrained TOML envelopes, and holdout
+hygiene. Each role permits only its exact, closed Codex prefix followed by the
+accepted Claude editorial body with `.claude/skills/` adapted to `.agents/skills/`.
+No additional prefix, insertion, or suffix is allowed. In-memory adversarial
+regressions cover those overrides, path drift, and altered instructions; the
+provider files are never mutated by these tests.
 The `hygiene` command also scans both Codex agents and the Codex skill tree.
 
 The separate read-only project agents are:
