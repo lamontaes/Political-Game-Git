@@ -89,7 +89,7 @@ export function executiveKnown<T>(
 
 /** An unresolved executive rule — the state a field holds until sourced. */
 export function executiveUnknown<T>(note: string): ExecutiveRuleValue<T> {
-  return unknownRule<T>(note) as ExecutiveRuleValue<T>;
+  return unknownRule(note) as ExecutiveRuleValue<T>;
 }
 
 // ---------------------------------------------------------------------------
