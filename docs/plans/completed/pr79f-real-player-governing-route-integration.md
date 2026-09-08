@@ -164,3 +164,12 @@ re-captured main baseline described above.
   created by 79F.
 
 PR #79 remains OPEN AND UNMERGED for fresh independent exact-head acceptance.
+
+## Superseded by 79R1 (2026-09-08)
+
+Two claims above were rejected by independent review and repaired on this same
+branch: the "fail closed" first gate was the office capability, which admitted
+never-elected legislative employment to voting membership, and entry recorded
+a fabricated prior working history. See
+`docs/plans/completed/pr79r1-member-authority-repair.md` for the corrected
+boundary and evidence.
