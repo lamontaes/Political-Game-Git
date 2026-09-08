@@ -337,11 +337,8 @@ export function MeasurePaperWorkspace({
           </ul>
           <h4>What people have said</h4>
           <ul data-testid="record-commitments">
-            {commitmentsKnownTo(
-              world,
-              seat.playerPersonId,
-              seat.measureId,
-            ).length === 0 ? (
+            {commitmentsKnownTo(world, seat.playerPersonId, seat.measureId)
+              .length === 0 ? (
               <li>Nobody has told you anything yet.</li>
             ) : (
               commitmentsKnownTo(
@@ -374,11 +371,9 @@ export function MeasurePaperWorkspace({
             {measureNegotiations(world, seat.measureId).length === 0 ? (
               <li>Nobody has asked you for anything yet.</li>
             ) : (
-              measureNegotiations(world, seat.measureId).map(
-                (negotiation) => (
-                  <li key={negotiation.id}>{negotiation.request}</li>
-                ),
-              )
+              measureNegotiations(world, seat.measureId).map((negotiation) => (
+                <li key={negotiation.id}>{negotiation.request}</li>
+              ))
             )}
           </ul>
           <button

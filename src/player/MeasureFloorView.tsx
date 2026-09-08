@@ -21,6 +21,10 @@ export function MeasureFloorView() {
   const [world, setWorld] = useState(fixture.world);
 
   return (
-    <MeasureFloorSurface world={world} seat={fixture} onWorldChange={setWorld} />
+    <MeasureFloorSurface
+      world={world}
+      seat={fixture}
+      onWorldChange={setWorld}
+    />
   );
 }

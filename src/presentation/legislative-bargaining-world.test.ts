@@ -114,10 +114,7 @@ function wonAndOnTheFloor() {
 function talk(
   world: World,
   seat: NonNullable<
-    Extract<
-      ReturnType<typeof openLegislativeBargaining>,
-      { kind: "available" }
-    >
+    Extract<ReturnType<typeof openLegislativeBargaining>, { kind: "available" }>
   >["seat"],
   progressIn = seat.progress,
   intentKey?: string,
@@ -163,9 +160,9 @@ describe("proof A — win, govern, bargain, from the production route", () => {
     const seatWorld = wonAndOnTheFloor();
 
     // Residence and governing jurisdiction are different facts.
-    expect(
-      seatWorld.world.people[seatWorld.personId]!.homeJurisdictionId,
-    ).toBe(residence.context.jurisdiction.id);
+    expect(seatWorld.world.people[seatWorld.personId]!.homeJurisdictionId).toBe(
+      residence.context.jurisdiction.id,
+    );
     const member = activeWorkRelationshipsAt(
       seatWorld.world,
       seatWorld.personId,
@@ -188,9 +185,7 @@ describe("proof A — win, govern, bargain, from the production route", () => {
     // governing state's jurisdiction, the pack's own chamber, and colleagues
     // persisted in this world's people.
     expect(seat.measureStableKey).toBe("legislative-work:kentucky:measure");
-    expect(seat.roomContext.jurisdictionId).toBe(
-      state.context.jurisdiction.id,
-    );
+    expect(seat.roomContext.jurisdictionId).toBe(state.context.jurisdiction.id);
     expect(seat.progress.subjectFacts.chamberName).toBe(
       "House of Representatives",
     );
@@ -406,9 +401,8 @@ describe("proof D — missing content fails closed, never borrows", () => {
   });
 
   it("authors a sitting for exactly one legislature and says so", async () => {
-    const { bargainingBriefSupports } = await import(
-      "./legislative-bargaining-brief"
-    );
+    const { bargainingBriefSupports } =
+      await import("./legislative-bargaining-brief");
     expect(bargainingBriefSupports("kentucky")).toBe(true);
     for (const other of ["nebraska", "alaska", "kentucky-signage", ""]) {
       expect(bargainingBriefSupports(other)).toBe(false);

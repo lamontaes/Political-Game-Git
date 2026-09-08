@@ -128,9 +128,7 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await expect(page.getByTestId("measure-paper")).toBeVisible();
   await page.getByTestId("open-fiscal-note").click();
   await page.getByTestId("read-fiscal-note").click();
-  await expect(page.getByTestId("fiscal-note-body")).toContainText(
-    "8,000,000",
-  );
+  await expect(page.getByTestId("fiscal-note-body")).toContainText("8,000,000");
   await page.getByTestId("close-panel").click();
   await page.getByRole("button", { name: "Back to the room" }).click();
 

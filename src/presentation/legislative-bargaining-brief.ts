@@ -277,14 +277,8 @@ export function bargainingRoomContexts(input: {
     ...roomContext,
     sceneKey: `${input.sceneKeyPrefix}:advocate-only`,
     locationLabel: `Members' room after ${input.guardianFamilyName} stepped out`,
-    physicallyPresentPersonIds: [
-      input.playerPersonId,
-      input.advocatePersonId,
-    ],
-    activeParticipantPersonIds: [
-      input.playerPersonId,
-      input.advocatePersonId,
-    ],
+    physicallyPresentPersonIds: [input.playerPersonId, input.advocatePersonId],
+    activeParticipantPersonIds: [input.playerPersonId, input.advocatePersonId],
     eligibleAddresseePersonIds: [input.advocatePersonId],
     normalHearingPersonIds: [input.advocatePersonId],
     privateAvailable: true,
@@ -349,8 +343,7 @@ export function playerHasReadFiscalNoteFor(
     !!event &&
     world.history.knowledge.some(
       (record) =>
-        record.eventId === event.id &&
-        record.personId === seat.playerPersonId,
+        record.eventId === event.id && record.personId === seat.playerPersonId,
     )
   );
 }

@@ -183,9 +183,7 @@ export function createLegislativeBargainingFixture(
     }
     return personId;
   }
-
 }
-
 
 // ---------------------------------------------------------------------------
 // The bill as filed

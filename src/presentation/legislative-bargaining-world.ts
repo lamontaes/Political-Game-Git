@@ -39,7 +39,10 @@ import {
   createLegislativeBargainingProgress,
   withAnalysisSeen,
 } from "./legislative-bargaining";
-import { resolvePlayerCapabilities, withheldReason } from "./player-capabilities";
+import {
+  resolvePlayerCapabilities,
+  withheldReason,
+} from "./player-capabilities";
 
 /**
  * The one question a seated winner's route is allowed to ask:
@@ -177,7 +180,12 @@ export function openLegislativeBargaining(
     `legislative-work:${scenarioKey}:analyst`,
   );
 
-  next = ensureFiledBillText(next, scenarioKey, measureId, measure.jurisdictionId);
+  next = ensureFiledBillText(
+    next,
+    scenarioKey,
+    measureId,
+    measure.jurisdictionId,
+  );
   next = ensureFiscalNote(next, {
     scenarioKey,
     measureId,
