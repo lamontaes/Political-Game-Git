@@ -41,6 +41,12 @@ export interface RunAScenePersonContext {
   readonly role: string;
   readonly qualitativeRead: string;
   readonly inferredRead: string;
+  /**
+   * The one working habit the player has actually noticed. Optional because the
+   * office fixture's is about constituent notes and a colleague on the floor's
+   * is about something else entirely.
+   */
+  readonly workingHabit?: string;
 }
 
 export interface RunAFixture {
