@@ -748,6 +748,10 @@
       "productionGate": "The 2025 Census Government Units listing could not be acquired in this coding environment: the outbound proxy denies census.gov, rejecting the CONNECT to www2.census.gov with an HTTP 403 policy denial, so gov_units_2025.zip cannot be retrieved and hashed here. Production compilation is gated on running source:acquire --domain government-units from a network environment that reaches census.gov, which pins the real artifact through the ordinary source lock and requires no code change to compile. The domain, its compiler, its validator and its capability boundary are complete and exercised by an authoritative fixture."
     },
     {
+      "domain": "municipal-governance",
+      "productionGate": "The municipal-governance packs are compiled from the 92I Drive implementation cargo, which is a secondary synthesis even where it labels a field VERIFIED. Current first-party checks found stale claims in that cargo, so no production fact may cite the synthesis as if this repository read the law. Production compilation is gated on independently acquiring, rights-scoping, hashing, and proposition-checking the exact cited statutes, charters, codes, rules, and government-unit artifacts. The Kentucky packs remain audit fixtures until that source/architecture review clears them."
+    },
+    {
       "domain": "state-local-fiscal-authority",
       "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
     },
