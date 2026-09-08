@@ -2242,7 +2242,7 @@ ballot access, campaign finance, districts, an actual electorate, and any office
 outside the accepted pack registry all remain unimplemented, and the elections
 document lists them rather than leaving them to be discovered.
 
-## D-080 — Executive authority is a referenced rule substrate, populated only to independently verified depth
+## D-083 — Executive authority is a referenced rule substrate, populated only to independently verified depth
 
 - Date: 2026-09-06
 - Status: ACCEPTED
@@ -2250,9 +2250,10 @@ document lists them rather than leaving them to be discovered.
 - Reconciled: renumbered from D-078 on merge of accepted main (9c36b2f).
   D-078 and D-079 were then the reservation held by the open garment
   morphology and fit-profile lane; accepted main has since landed D-078 as
-  the campaign-truth decision (PR #85). D-080 remains the first identifier
-  free on the current combined tree. The substrate is unchanged, only the
-  identifier.
+  the campaign-truth decision (PR #85). During 101L convergence, live PR #89
+  owns D-079/D-080 and PR #79 owns D-081/D-082. The executive decision is
+  mechanically renumbered from D-080 to the next free identifier, D-083.
+  The substrate and decision substance are unchanged, only the identifier.
 
 Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
 and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`

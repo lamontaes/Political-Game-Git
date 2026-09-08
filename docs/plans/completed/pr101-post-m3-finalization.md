@@ -5,7 +5,7 @@ into `claude/executive-authority-rules-mr8hsf` from R2F
 `661b12ff319efdb7643633d60adcb0dff0b96faf`, in an isolated worktree.
 
 - Resolve the judicial ownership boundary entirely to canonical main/M3.
-- Preserve executive runtime, six packs, tests, index exports and D-080 exactly.
+- Preserve executive runtime, six packs, tests, index exports and D-083 (then D-080) exactly.
 - Verify executive and ownership suites, full validation including source replay,
   art inventory/QA, diff hygiene, and exact-head browser/CI proofs.
 - Push the same branch; leave PR #101 open for fresh R2E acceptance.

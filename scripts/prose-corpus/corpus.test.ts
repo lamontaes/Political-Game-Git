@@ -535,13 +535,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured on the executive-authority merge: the three
-    // executive-authority modules add 649 non-player-facing literals and
-    // three scanned files; INVENTORIED player-facing prose is unchanged.
+    // Measured by corpus:prose on the 101L combined tree: accepted P1
+    // narration plus the unchanged executive-authority modules.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48715);
-    expect(coverage.counts.INVENTORIED).toBe(1902);
-    expect(coverage.scannedFiles).toBe(316);
+    expect(coverage.totalLiterals).toBe(48766);
+    expect(coverage.counts.INVENTORIED).toBe(1899);
+    expect(coverage.scannedFiles).toBe(317);
   });
 });
 
