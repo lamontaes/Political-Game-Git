@@ -1,8 +1,12 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import {
+  ANCHOR_PATHS,
+  AnchorHistoryError,
   atomicWriteFile,
+  isAnchorId,
   sortIssued,
+  symbolOf,
   type AllocationHistory,
 } from "./anchor-history";
 import type { ScannedLiteral } from "./scan";
@@ -37,9 +41,8 @@ import type { ScannedLiteral } from "./scan";
  *   3. rendered realization — not here; a transcript records those.
  */
 
-/** Overridable for disposable CLI probes; see `anchor-history.ts`. */
-export const ANCHOR_FILE =
-  process.env.PROSE_ANCHOR_FILE ?? "scripts/prose-corpus/computed-anchors.json";
+/** One third of the coupled authoritative set; see `anchor-history.ts`. */
+export const ANCHOR_FILE = ANCHOR_PATHS.anchors;
 export const ANCHOR_SCHEMA = 1;
 
 export interface ComputedAnchor {
@@ -92,17 +95,167 @@ export function contextRevisionOf(
   return createHash("sha256").update(canonical).digest("hex").slice(0, 12);
 }
 
+/** True when the sidecar file is actually present. */
+export function anchorFileExists(path: string = ANCHOR_FILE): boolean {
+  return existsSync(path);
+}
+
+/**
+ * Load and fully validate the live sidecar.
+ *
+ * Validated with the SAME id grammar the allocator mints against, not a
+ * permissive reader of its own. Live identities flow into the ledger when a
+ * merge is absorbed, so a sidecar that is wrong is a ledger that is about to
+ * become wrong: an anchor id of `"not a valid id"` was reproduced being
+ * absorbed into the ledger verbatim, after which every later command refused
+ * to load it and the workspace was wedged.
+ *
+ * Duplicate ids are rejected here as well as at the mint, and for a different
+ * reason: the anchors are collected into a map keyed by id downstream, so two
+ * bindings sharing one id silently become one. Catching it at the boundary
+ * means no command can construct that map at all.
+ *
+ * What is NOT rejected: a symbol that legitimately repeats one exact literal.
+ * Those are distinct sites separated by `occurrence`, they are part of the
+ * accepted contract, and the duplicate rule here is about a repeated ANCHOR
+ * ID or a repeated (path, symbol, text, occurrence) coordinate — never about
+ * repeated text.
+ */
 export function loadAnchorFile(path: string = ANCHOR_FILE): AnchorFile {
   if (!existsSync(path)) {
     return { schema: ANCHOR_SCHEMA, note: "", anchors: [] };
   }
-  const parsed = JSON.parse(readFileSync(path, "utf8")) as AnchorFile;
-  if (parsed.schema !== ANCHOR_SCHEMA) {
-    throw new Error(
-      `${path} declares schema ${parsed.schema}; this build understands ${ANCHOR_SCHEMA}.`,
+  let parsed: unknown;
+  const raw = readFileSync(path, "utf8");
+  if (raw.trim() === "") {
+    throw new AnchorHistoryError(
+      `${path} is empty. An empty sidecar file is a lost file, not an empty sidecar.`,
     );
   }
-  return parsed;
+  try {
+    parsed = JSON.parse(raw) as unknown;
+  } catch (cause) {
+    throw new AnchorHistoryError(
+      `${path} is not valid JSON — it is truncated or corrupt: ${String(cause)}`,
+    );
+  }
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AnchorHistoryError(`${path} is not a JSON object.`);
+  }
+  const file = parsed as Record<string, unknown>;
+  if (file.schema !== ANCHOR_SCHEMA) {
+    throw new AnchorHistoryError(
+      `${path} declares schema ${JSON.stringify(file.schema ?? null)}; this build understands ${ANCHOR_SCHEMA}.`,
+    );
+  }
+  if (!Array.isArray(file.anchors)) {
+    throw new AnchorHistoryError(
+      `${path} has no \`anchors\` array (found ${JSON.stringify(file.anchors ?? null)}).`,
+    );
+  }
+
+  const anchors: ComputedAnchor[] = [];
+  const invalid: string[] = [];
+  file.anchors.forEach((entry: unknown, index: number) => {
+    const where = `${path} anchors[${index}]`;
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      invalid.push(`${where} is not an object.`);
+      return;
+    }
+    const record = entry as Record<string, unknown>;
+    const text = (field: string): string | null =>
+      typeof record[field] === "string" && (record[field] as string).length > 0
+        ? (record[field] as string)
+        : null;
+    if (!isAnchorId(record.anchor)) {
+      invalid.push(
+        `${where} has anchor ${JSON.stringify(record.anchor ?? null)}, which is not an anchor id.`,
+      );
+      return;
+    }
+    const anchor = record.anchor as string;
+    const symbol = text("symbol");
+    const sourcePath = text("sourcePath");
+    if (symbol === null || sourcePath === null) {
+      invalid.push(`${where} (${anchor}) has no non-empty symbol/sourcePath.`);
+      return;
+    }
+    if (symbolOf(anchor) !== symbol) {
+      invalid.push(
+        `${where} binds ${anchor} to symbol ${JSON.stringify(symbol)}; an anchor id always carries its own symbol.`,
+      );
+      return;
+    }
+    if (typeof record.text !== "string") {
+      invalid.push(`${where} (${anchor}) has no string \`text\`.`);
+      return;
+    }
+    if (
+      typeof record.occurrence !== "number" ||
+      !Number.isInteger(record.occurrence) ||
+      record.occurrence < 0
+    ) {
+      invalid.push(
+        `${where} (${anchor}) has occurrence ${JSON.stringify(record.occurrence ?? null)}; it must be a non-negative integer.`,
+      );
+      return;
+    }
+    if (
+      typeof record.textRevision !== "string" ||
+      !/^[0-9a-f]{12}$/.test(record.textRevision)
+    ) {
+      invalid.push(
+        `${where} (${anchor}) has textRevision ${JSON.stringify(record.textRevision ?? null)}; it must be twelve hex characters.`,
+      );
+      return;
+    }
+    anchors.push({
+      anchor,
+      sourcePath,
+      symbol,
+      text: record.text,
+      occurrence: record.occurrence,
+      textRevision: record.textRevision,
+    });
+  });
+
+  if (invalid.length > 0) {
+    throw new AnchorHistoryError(
+      `${path} has ${invalid.length} invalid live binding(s). Live identities are absorbed into allocation history, so an invalid one corrupts the ledger; nothing was read past this point.\n${invalid
+        .slice(0, 10)
+        .map((detail) => `  ${detail}`)
+        .join("\n")}`,
+    );
+  }
+
+  const seen = new Map<string, ComputedAnchor>();
+  for (const anchor of anchors) {
+    const first = seen.get(anchor.anchor);
+    if (first) {
+      throw new AnchorHistoryError(
+        `${path}: ${anchor.anchor} is bound to more than one live site. Two branches minted it independently, or a sidecar was union-merged by hand.\n  ${first.sourcePath} ${first.symbol} #${first.occurrence} ${JSON.stringify(first.text)}\n  ${anchor.sourcePath} ${anchor.symbol} #${anchor.occurrence} ${JSON.stringify(anchor.text)}\n  Reconcile deliberately — re-mint one of the sites. The owner review recorded against an id stays with whichever binding keeps it and does not transfer to the replacement. Nothing was read past this point.`,
+      );
+    }
+    seen.set(anchor.anchor, anchor);
+  }
+
+  const coordinates = new Map<string, ComputedAnchor>();
+  for (const anchor of anchors) {
+    const key = `${anchor.sourcePath}${UNIT}${anchor.symbol}${UNIT}${anchor.text}${UNIT}${anchor.occurrence}`;
+    const first = coordinates.get(key);
+    if (first) {
+      throw new AnchorHistoryError(
+        `${path}: ${first.anchor} and ${anchor.anchor} both claim ${anchor.sourcePath} ${anchor.symbol} occurrence ${anchor.occurrence} of ${JSON.stringify(anchor.text)}. One site cannot carry two identities. Reconcile deliberately; nothing was read past this point.`,
+      );
+    }
+    coordinates.set(key, anchor);
+  }
+
+  return {
+    schema: ANCHOR_SCHEMA,
+    note: typeof file.note === "string" ? file.note : "",
+    anchors,
+  };
 }
 
 export function writeAnchorFile(

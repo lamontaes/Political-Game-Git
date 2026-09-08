@@ -4,12 +4,15 @@ import { join } from "node:path";
 import {
   ANCHOR_FILE,
   ANCHOR_SCHEMA,
+  anchorFileExists,
   loadAnchorFile,
   mintAnchors,
   writeAnchorFile,
 } from "./anchors";
 import {
   allocationHistory,
+  ANCHOR_PATHS,
+  assertMonotonicAdvance,
   baselineOf,
   BASELINE_FILE,
   describeHistoryProblems,
@@ -17,6 +20,7 @@ import {
   ledgerOf,
   loadAnchorBaseline,
   loadAnchorLedger,
+  DEFAULT_ANCHOR_PATHS,
   verifyAllocationHistory,
   writeAnchorBaseline,
   writeAnchorLedger,
@@ -435,9 +439,27 @@ function verifiedHistory(liveIds: readonly string[]): {
  * a checkpoint that disagree, which every later run refuses on until
  * `-- recover` is run deliberately. A failed operation may burn an unused id.
  * It may not recycle one, and it may not report success on partial state.
+ *
+ * Every caller passes the state it read, and the monotonic guard runs here
+ * rather than in each command. A command is not trusted to preserve history
+ * merely because it intends to: `-- ledger` intended to synchronise and was
+ * reproduced re-basing trust downward.
  */
-function persistHistory(issued: Iterable<string>): void {
+function persistHistory(
+  issued: Iterable<string>,
+  prior: {
+    ledger: AnchorLedger | null;
+    baseline: AnchorBaseline | null;
+    operation: string;
+  },
+): void {
   const ledger = ledgerOf(issued);
+  assertMonotonicAdvance({
+    next: ledger.issued,
+    priorLedger: prior.ledger,
+    priorBaseline: prior.baseline,
+    operation: prior.operation,
+  });
   writeAnchorLedger(ledger);
   writeAnchorBaseline(baselineOf(ledger.issued));
 }
@@ -470,7 +492,11 @@ function mint(): void {
   }
 
   // Reserve first. Only then may a binding be removed or rebound.
-  persistHistory(outcome.issued);
+  persistHistory(outcome.issued, {
+    ledger,
+    baseline,
+    operation: "`-- anchors`",
+  });
   writeAnchorFile({
     schema: ANCHOR_SCHEMA,
     note: "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
@@ -508,35 +534,67 @@ function mint(): void {
 }
 
 /**
- * Absorb every live anchor into allocation history, minting nothing.
+ * Absorb genuinely new live anchors into allocation history. Never re-base it.
  *
  * The case this exists for: a branch that minted anchors merges in, so the
  * sidecar holds ids the ledger never saw. A mint refuses in that state rather
- * than seeding itself from the live sidecar, because "seed history from the
- * ids that happen to be alive" is exactly what makes a destroyed ledger look
- * survivable — the retired ids are the ones the sidecar does not contain. So
- * absorbing is a deliberate, separate, auditable step. It reads the sidecar
- * and never writes it, so it is safe to run while another writer owns it.
+ * than seeding itself from the live sidecar, so absorbing is a deliberate,
+ * auditable step.
+ *
+ * What this is NOT is a trust bootstrap, and that distinction is the whole
+ * repair. As shipped it loaded the ledger, unioned the live ids, and wrote a
+ * checkpoint derived from whatever the ledger happened to contain — never
+ * checking that ledger against the checkpoint that already attested it. Given
+ * a ledger with one retired id surgically removed it exited 0, rewrote the
+ * checkpoint DOWN to agree with the shortened file (count 420 to 419,
+ * `RETURN_SUMMARY` high-water 23 to 22), and the next mint handed
+ * `RETURN_SUMMARY-0023` to unrelated prose.
+ *
+ * So the existing three files are validated as one authoritative state before
+ * anything is written. `unreserved-live-id` — an id alive in the sidecar that
+ * history has not yet absorbed — is the ONE finding this command is allowed to
+ * resolve, because resolving it only ever adds. Every other finding is a
+ * refusal. The checkpoint then advances over evidence that already contains
+ * everything the previous checkpoint attested, never over the input it was
+ * supposed to be checking.
+ *
+ * It reads the sidecar and never writes it, so it stays safe to run while
+ * another writer owns that file.
  */
 function syncLedger(): void {
   const ledger = loadAnchorLedger();
   const baseline = loadAnchorBaseline();
-  if (ledger === null || baseline === null) {
+  const liveIds = loadAnchorFile().anchors.map((anchor) => anchor.anchor);
+
+  const problems = verifyAllocationHistory({ ledger, baseline, liveIds });
+  const blocking = problems.filter(
+    (problem) => problem.kind !== "unreserved-live-id",
+  );
+  if (blocking.length > 0) {
     throw new Error(
-      `Allocation history is incomplete, so nothing was written.\n${describeHistoryProblems(
-        verifyAllocationHistory({ ledger, baseline, liveIds: [] }),
-      )}`,
+      `Refusing to absorb: this is a synchronisation step, not a repair. Allocation history must already be sound before new live ids are added to it, and it is not. Nothing was written to the ledger, the checkpoint, or the sidecar.\n${describeHistoryProblems(blocking)}`,
     );
   }
-  const liveIds = loadAnchorFile().anchors.map((anchor) => anchor.anchor);
-  const issued = new Set(ledger.issued);
-  const absorbed = liveIds.filter((id) => !issued.has(id));
-  for (const id of absorbed) issued.add(id);
-  persistHistory(issued);
+  // Only `unreserved-live-id` survives, and that finding is never produced
+  // unless both files loaded.
+  const trusted = { ledger: ledger!, baseline: baseline! };
+
+  const known = new Set(trusted.ledger.issued);
+  const absorbed = [...new Set(liveIds.filter((id) => !known.has(id)))].sort();
+  const next = new Set([...trusted.ledger.issued, ...liveIds]);
+
+  if (absorbed.length === 0) {
+    process.stdout.write(
+      `${LEDGER_FILE}: ${next.size} ids ever issued (+0 absorbed from ${ANCHOR_FILE}); already synchronised, nothing written.\n`,
+    );
+    return;
+  }
+
+  persistHistory(next, { ...trusted, operation: "`-- ledger`" });
   process.stdout.write(
-    `${LEDGER_FILE}: ${issued.size} ids ever issued (+${new Set(absorbed).size} absorbed from ${ANCHOR_FILE}).\n`,
+    `${LEDGER_FILE}: ${next.size} ids ever issued (+${absorbed.length} absorbed from ${ANCHOR_FILE}).\n`,
   );
-  for (const id of [...new Set(absorbed)].sort()) {
+  for (const id of absorbed) {
     process.stdout.write(
       `  absorbed ${id} (live in the sidecar, now burned)\n`,
     );
@@ -560,9 +618,12 @@ function bootstrapHistory(): void {
       `Refusing to bootstrap: this project already has allocation history (${ledger !== null ? LEDGER_FILE : BASELINE_FILE} exists). Bootstrap seeds a new lineage and would erase what is recorded. Nothing was written.`,
     );
   }
-  const anchors = loadAnchorFile().anchors;
-  const seed = anchors.map((anchor) => anchor.anchor);
-  persistHistory(seed);
+  const seed = loadAnchorFile().anchors.map((anchor) => anchor.anchor);
+  persistHistory(seed, {
+    ledger: null,
+    baseline: null,
+    operation: "`-- bootstrap`",
+  });
   process.stdout.write(
     `Seeded allocation history from ${ANCHOR_FILE}.\n${LEDGER_FILE}: ${new Set(seed).size} ids.\n${BASELINE_FILE}: checkpoint written.\n`,
   );
@@ -572,33 +633,42 @@ function bootstrapHistory(): void {
 }
 
 /**
- * Re-derive the missing half of a pair whose other half is intact.
+ * Repair a partial commit, but only where the direction is provably monotonic.
  *
- * The bounded recovery rule, and its limit. A checkpoint can always be
- * re-derived from an intact ledger. A ledger cannot be re-derived from a
- * checkpoint, because the checkpoint holds marks and a digest rather than the
- * list; what it can do is reserve every index up to each recorded high-water
- * mark, which is a superset of what was issued and therefore safe. Either way
- * recovery only ever moves history forward: it cannot bless a ledger that lost
- * entries, because the high-water marks it rebuilds from are the marks that
- * were already reached.
+ * Every route here is allowed to move history FORWARD over independently
+ * retained evidence, and none is allowed to move it back. The route that used
+ * to break that — re-deriving a checkpoint from a ledger when the checkpoint
+ * was missing — is gone, because it was reproduced doing real damage: delete
+ * the checkpoint, shorten the ledger by one retired id, run `-- recover`, and
+ * it wrote a checkpoint whose `RETURN_SUMMARY` high-water had fallen from 23
+ * to 22. The next mint then handed `RETURN_SUMMARY-0023` to unrelated prose.
+ *
+ * A ledger with nothing to attest it is not evidence of itself. There is no
+ * safe automatic repair for that state, so it fails closed with a manual
+ * remedy: both files are committed to version control, and restoring the
+ * checkpoint is a one-line operation with a reviewable diff. Availability is
+ * subordinate to identity safety.
  */
 function recoverHistory(): void {
   const ledger = loadAnchorLedger();
   const baseline = loadAnchorBaseline();
+
   if (ledger === null && baseline === null) {
     throw new Error(
       `Nothing to recover from: both ${LEDGER_FILE} and ${BASELINE_FILE} are missing. Restore them from version control. If this project has genuinely never allocated an anchor, run \`npm run corpus:prose -- bootstrap\`.`,
     );
   }
-  if (ledger !== null && baseline === null) {
-    writeAnchorBaseline(baselineOf(ledger.issued));
-    process.stdout.write(
-      `${BASELINE_FILE}: re-derived from ${LEDGER_FILE} (${ledger.issued.length} ids).\n`,
+
+  if (baseline === null) {
+    throw new Error(
+      `Refusing to recover: ${BASELINE_FILE} is missing, so ${LEDGER_FILE} has nothing independent attesting it and this command cannot tell an intact ledger from a shortened one. Re-deriving a checkpoint from the ledger alone was reproduced lowering a high-water mark and making a retired id allocatable again.\n  Remedy: restore ${BASELINE_FILE} from version control — it is committed alongside the ledger, and the diff is reviewable. Nothing was written.`,
     );
-    return;
   }
-  if (ledger === null && baseline !== null) {
+
+  if (ledger === null) {
+    // The safe direction. The checkpoint's marks bound what was issued from
+    // above, so reserving every index up to each mark is a SUPERSET of the
+    // real history: some numbers are burned unused, and none can be recycled.
     const rebuilt = new Set<string>();
     for (const [symbol, mark] of Object.entries(baseline.highWater)) {
       for (let index = 1; index <= mark; index += 1) {
@@ -606,15 +676,20 @@ function recoverHistory(): void {
       }
     }
     for (const anchor of loadAnchorFile().anchors) rebuilt.add(anchor.anchor);
-    persistHistory(rebuilt);
+    persistHistory(rebuilt, {
+      ledger: null,
+      baseline,
+      operation: "`-- recover`",
+    });
     process.stdout.write(
       `${LEDGER_FILE}: rebuilt conservatively from ${BASELINE_FILE} — every index up to each recorded high-water mark is reserved (${rebuilt.size} ids). This is a superset of what was issued: some of these numbers were never used and are now burned unused, which is the safe direction.\n`,
     );
     return;
   }
+
   // Both present. The pair either agrees, or it disagrees in a direction that
   // says which failure produced it.
-  const present = { ledger: ledger!, baseline: baseline! };
+  const present = { ledger, baseline };
   const problems = verifyAllocationHistory({
     ledger: present.ledger,
     baseline: present.baseline,
@@ -635,13 +710,17 @@ function recoverHistory(): void {
   // The one repairable disagreement: a run that committed the ledger and was
   // interrupted before its checkpoint. History only ever grew, and no symbol's
   // reach went backwards, so re-deriving the checkpoint records what the
-  // ledger already durably says. Nothing that was issued stops being issued.
+  // ledger already durably says. The monotonic guard in `persistHistory` is
+  // still the thing that proves it, not this branch's own reasoning.
   const grew = present.ledger.issued.length > present.baseline.count;
   const regressed = mismatch.some(
     (problem) => problem.kind === "history-regressed",
   );
   if (grew && !regressed) {
-    writeAnchorBaseline(baselineOf(present.ledger.issued));
+    persistHistory(present.ledger.issued, {
+      ...present,
+      operation: "`-- recover`",
+    });
     process.stdout.write(
       `${BASELINE_FILE}: re-derived from ${LEDGER_FILE}, which had grown from ${present.baseline.count} to ${present.ledger.issued.length} ids with no symbol going backwards — a mint interrupted between its two history writes. Every id the old checkpoint attested is still issued.\n`,
     );
@@ -670,30 +749,49 @@ export function anchorHistoryProblems(): string[] {
   }).map((problem) => `[${problem.kind}] ${problem.detail}`);
 }
 
-const DEFAULT_ANCHOR_PATHS = {
-  anchors: "scripts/prose-corpus/computed-anchors.json",
-  ledger: "scripts/prose-corpus/computed-anchor-ledger.json",
-  baseline: "scripts/prose-corpus/computed-anchor-baseline.json",
-};
-
-/** Say so, loudly, when a run is not reading the repository's own files. */
-function reportRelocatedPaths(): void {
-  const relocated = [
-    [ANCHOR_FILE, DEFAULT_ANCHOR_PATHS.anchors],
-    [LEDGER_FILE, DEFAULT_ANCHOR_PATHS.ledger],
-    [BASELINE_FILE, DEFAULT_ANCHOR_PATHS.baseline],
-  ].filter(([used, standard]) => used !== standard);
-  if (relocated.length === 0) return;
+/**
+ * Say so, loudly, when a run is not reading the repository's own files.
+ *
+ * The override is all-or-none, so this prints the whole coupled set rather
+ * than whichever path happened to differ — the failure it guards against is
+ * exactly a caller believing they are on scratch data for one file and
+ * canonical data for another.
+ */
+function reportCoupledPaths(): void {
+  if (!ANCHOR_PATHS.overridden) return;
   process.stdout.write(
-    `NOTE: anchor paths are overridden by environment; this run does not read the repository's own files.\n${relocated
-      .map(([used]) => `  using ${used}\n`)
-      .join("")}`,
+    `NOTE: anchor paths are overridden by environment; this run does not read the repository's own files.\n  sidecar    ${ANCHOR_FILE}\n  ledger     ${LEDGER_FILE}\n  checkpoint ${BASELINE_FILE}\n`,
+  );
+}
+
+/**
+ * A sidecar that is simply absent is only legitimate before a bootstrap.
+ *
+ * Otherwise it is a lost file or a mis-aimed override, and treating it as "no
+ * live anchors" would let a command run against a state nobody has. Under an
+ * override it is the reproduced mis-aim: point the sidecar variable at a path
+ * that does not exist and every live identity silently disappears.
+ */
+function requireSidecar(mode: string): void {
+  if (anchorFileExists()) return;
+  const hasHistory =
+    loadAnchorLedger() !== null || loadAnchorBaseline() !== null;
+  if (!hasHistory) return;
+  throw new Error(
+    `Refusing to run \`-- ${mode}\`: ${ANCHOR_FILE} does not exist, but this project has allocation history. A missing sidecar is a lost file or a mis-aimed path, never an empty one. ${
+      ANCHOR_PATHS.overridden
+        ? "The anchor paths are overridden; check that the whole coupled set points at the intended copies."
+        : `Restore ${DEFAULT_ANCHOR_PATHS.anchors} from version control.`
+    } Nothing was written.`,
   );
 }
 
 function main(): void {
   const mode = process.argv[2] ?? "build";
-  reportRelocatedPaths();
+  reportCoupledPaths();
+  if (mode === "anchors" || mode === "ledger" || mode === "check") {
+    requireSidecar(mode);
+  }
   if (mode === "anchors") {
     mint();
     return;

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { resolve } from "node:path";
 import {
   closeSync,
   existsSync,
@@ -61,28 +62,113 @@ import {
  * No part of the game runtime and no save depends on this module.
  */
 
+export class AnchorHistoryError extends Error {}
+
+/* -------------------------------------------------------------------------- */
+/* Coupled authoritative paths                                                */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Where the two history files live.
+ * The three files that make up one authoritative state, and where they live.
  *
- * Overridable by environment variable for one reason: the regressions that
- * matter here are about what the PRODUCTION CLI does to a corrupted file on
- * disk, and those cannot be written at all if the only reachable paths are the
- * repository's own. A probe points the real command at disposable copies
- * instead of at the sidecar an owner's review is pinned to.
+ * Sidecar, ledger and checkpoint are not three independent settings. They are
+ * one coupled set: the sidecar says which ids are alive, the ledger says which
+ * were ever issued, and the checkpoint attests the ledger. Reading one from a
+ * scratch directory and another from the repository produces a hybrid that is
+ * nobody's real state, and it was reproduced doing real damage — overriding
+ * only the sidecar made a disposable probe absorb a scratch id into the
+ * CANONICAL ledger and checkpoint, and overriding only the history files made
+ * the real sidecar's ids flow into scratch history.
  *
- * This relocates the files; it does not relax anything. Every load still runs
- * the full schema and integrity checks, and the CLI prints the paths it used
- * whenever they are not the defaults, so a run against scratch files can never
- * be mistaken for a run against the real ones.
+ * So the override is ALL-OR-NONE. Either none of the three variables is set
+ * and every path is the repository's own, or all three are set and every path
+ * is the caller's. Anything in between fails here, before a single read or
+ * write, rather than silently falling back to canonical data for whichever
+ * path was left out.
+ *
+ * The override exists for one reason: the regressions that matter are about
+ * what the PRODUCTION CLI does to real files on disk, and they cannot be
+ * written at all if the only reachable paths are the repository's own. It
+ * relocates files and grants no exemption — every load runs the same schema
+ * and integrity checks, and the CLI prints the coupled set whenever it is
+ * active, so a scratch run can never be mistaken for a real one.
  */
-export const LEDGER_FILE =
-  process.env.PROSE_ANCHOR_LEDGER_FILE ??
-  "scripts/prose-corpus/computed-anchor-ledger.json";
+export const DEFAULT_ANCHOR_PATHS = {
+  anchors: "scripts/prose-corpus/computed-anchors.json",
+  ledger: "scripts/prose-corpus/computed-anchor-ledger.json",
+  baseline: "scripts/prose-corpus/computed-anchor-baseline.json",
+} as const;
+
+const OVERRIDE_VARS = {
+  anchors: "PROSE_ANCHOR_FILE",
+  ledger: "PROSE_ANCHOR_LEDGER_FILE",
+  baseline: "PROSE_ANCHOR_BASELINE_FILE",
+} as const;
+
+export interface AnchorPaths {
+  readonly anchors: string;
+  readonly ledger: string;
+  readonly baseline: string;
+  /** True when the caller supplied the whole set. */
+  readonly overridden: boolean;
+}
+
+export function resolveAnchorPaths(
+  env: Record<string, string | undefined> = process.env,
+): AnchorPaths {
+  const roles = ["anchors", "ledger", "baseline"] as const;
+  const supplied = roles.filter(
+    (role) => (env[OVERRIDE_VARS[role]] ?? "").trim() !== "",
+  );
+  if (supplied.length === 0) {
+    return { ...DEFAULT_ANCHOR_PATHS, overridden: false };
+  }
+  if (supplied.length !== roles.length) {
+    const missing = roles.filter((role) => !supplied.includes(role));
+    throw new AnchorHistoryError(
+      `Partial anchor path override. ${supplied
+        .map((role) => OVERRIDE_VARS[role])
+        .join(", ")} is set but ${missing
+        .map((role) => OVERRIDE_VARS[role])
+        .join(
+          ", ",
+        )} is not.\n  The sidecar, ledger and checkpoint are one coupled authoritative set. Overriding some of them would read or write the repository's real files alongside scratch ones, which is how a disposable probe was reproduced writing a scratch id into the canonical ledger.\n  Set all three, or none. Nothing was read or written.`,
+    );
+  }
+  const resolved = {
+    anchors: (env[OVERRIDE_VARS.anchors] ?? "").trim(),
+    ledger: (env[OVERRIDE_VARS.ledger] ?? "").trim(),
+    baseline: (env[OVERRIDE_VARS.baseline] ?? "").trim(),
+  };
+  // An "override" aimed back at a repository file is the accident this guard
+  // exists for: the caller believes they are on scratch data and are not.
+  for (const role of roles) {
+    for (const defaultRole of roles) {
+      if (
+        resolve(resolved[role]) === resolve(DEFAULT_ANCHOR_PATHS[defaultRole])
+      ) {
+        throw new AnchorHistoryError(
+          `${OVERRIDE_VARS[role]} points at the repository's own ${DEFAULT_ANCHOR_PATHS[defaultRole]}. An override is for disposable copies; pointing one back at canonical data defeats it. Nothing was read or written.`,
+        );
+      }
+    }
+  }
+  if (
+    new Set(roles.map((role) => resolve(resolved[role]))).size !== roles.length
+  ) {
+    throw new AnchorHistoryError(
+      `The three anchor path overrides must name three distinct files; two of them resolve to the same path. Nothing was read or written.`,
+    );
+  }
+  return { ...resolved, overridden: true };
+}
+
+export const ANCHOR_PATHS = resolveAnchorPaths();
+
+export const LEDGER_FILE = ANCHOR_PATHS.ledger;
 export const LEDGER_SCHEMA = 1;
 
-export const BASELINE_FILE =
-  process.env.PROSE_ANCHOR_BASELINE_FILE ??
-  "scripts/prose-corpus/computed-anchor-baseline.json";
+export const BASELINE_FILE = ANCHOR_PATHS.baseline;
 export const BASELINE_SCHEMA = 1;
 
 export const LEDGER_NOTE =
@@ -158,8 +244,6 @@ export function highWaterOf(issued: Iterable<string>): Record<string, number> {
 /* -------------------------------------------------------------------------- */
 /* Loading, strictly                                                          */
 /* -------------------------------------------------------------------------- */
-
-export class AnchorHistoryError extends Error {}
 
 function readJson(path: string): unknown {
   let raw: string;
@@ -525,6 +609,72 @@ export function allocationHistory(
     highWater[symbol] = Math.max(highWater[symbol] ?? 0, mark);
   }
   return { issued, highWater };
+}
+
+/**
+ * The one rule no write path may break: history never goes backwards.
+ *
+ * Called immediately before the ledger and checkpoint are replaced, by every
+ * command that replaces them. It is deliberately a separate, last-line guard
+ * rather than a property each command is trusted to maintain, because the
+ * reproduced blocker was exactly a command that meant to synchronise and in
+ * fact re-based trust downward: `-- ledger` accepted a ledger with one retired
+ * id surgically removed, wrote a checkpoint agreeing with the shortened file
+ * (count 420 to 419, `RETURN_SUMMARY` high-water 23 to 22), and the next mint
+ * handed `RETURN_SUMMARY-0023` to unrelated prose.
+ *
+ * A checkpoint may only ever advance, and it may only advance over evidence
+ * that already contains everything the previous checkpoint attested.
+ */
+export function assertMonotonicAdvance(input: {
+  readonly next: Iterable<string>;
+  readonly priorLedger: AnchorLedger | null;
+  readonly priorBaseline: AnchorBaseline | null;
+  readonly operation: string;
+}): void {
+  const next = new Set(input.next);
+  const failures: string[] = [];
+
+  if (input.priorLedger) {
+    const dropped = input.priorLedger.issued.filter((id) => !next.has(id));
+    if (dropped.length > 0) {
+      failures.push(
+        `${dropped.length} id(s) recorded in ${LEDGER_FILE} are absent from what ${input.operation} would write, e.g. ${dropped
+          .slice(0, 3)
+          .map((id) => JSON.stringify(id))
+          .join(", ")}. An issued id is never un-issued.`,
+      );
+    }
+  }
+
+  if (input.priorBaseline) {
+    if (next.size < input.priorBaseline.count) {
+      failures.push(
+        `${input.operation} would record ${next.size} ids where ${BASELINE_FILE} attests ${input.priorBaseline.count}. A checkpoint only advances.`,
+      );
+    }
+    const derived = highWaterOf(next);
+    for (const [symbol, mark] of Object.entries(
+      input.priorBaseline.highWater,
+    )) {
+      const now = derived[symbol] ?? 0;
+      if (now < mark) {
+        failures.push(
+          `${input.operation} would lower the ${symbol} high-water mark from ${mark} to ${now}. Ids at or below a mark already reached were issued and can never be offered again.`,
+        );
+      }
+    }
+  }
+
+  if (failures.length > 0) {
+    throw new AnchorHistoryError(
+      `Refusing to write: ${input.operation} would move allocation history BACKWARDS. Nothing was written.\n${failures
+        .map((failure) => `  ${failure}`)
+        .join(
+          "\n",
+        )}\n  A regression is never converted into a new accepted baseline. Restore the pair from version control.`,
+    );
+  }
 }
 
 export function describeHistoryProblems(

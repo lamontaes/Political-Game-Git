@@ -11,7 +11,10 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import {
   allocationHistory,
+  assertMonotonicAdvance,
   atomicWriteFile,
+  DEFAULT_ANCHOR_PATHS,
+  resolveAnchorPaths,
   baselineOf,
   highWaterOf,
   issuedDigest,
@@ -335,5 +338,117 @@ describe("persistence survives interruption", () => {
       openingBeat: 1,
       [SYMBOL]: 3,
     });
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* 128R2                                                                      */
+/* -------------------------------------------------------------------------- */
+
+describe("no write path may move history backwards", () => {
+  const prior = ledgerOf(THREE);
+  const checkpoint = baselineOf(prior.issued);
+
+  function advance(next: readonly string[]) {
+    return () =>
+      assertMonotonicAdvance({
+        next,
+        priorLedger: prior,
+        priorBaseline: checkpoint,
+        operation: "`-- ledger`",
+      });
+  }
+
+  it("refuses to drop an id the ledger already recorded", () => {
+    // The controlling 128A2 blocker, as a property rather than a route:
+    // `-- ledger` was reproduced writing a checkpoint that agreed with a
+    // ledger one retired id shorter, after which that id was allocatable.
+    expect(advance([`${SYMBOL}-0001`, `${SYMBOL}-0003`])).toThrow(
+      /never un-issued/,
+    );
+  });
+
+  it("refuses to shrink the attested count", () => {
+    expect(advance([`${SYMBOL}-0001`])).toThrow(/only advances/);
+  });
+
+  it("refuses to lower a per-symbol high-water mark", () => {
+    // Same count, lower reach: swapping the top id for a fresh lower one.
+    const sideways = [`${SYMBOL}-0001`, `${SYMBOL}-0002`, "openingBeat-0001"];
+    expect(advance(sideways)).toThrow(/lower the recapSentence high-water/);
+  });
+
+  it("allows a genuine advance, and an unchanged set", () => {
+    expect(advance(THREE)).not.toThrow();
+    expect(advance([...THREE, `${SYMBOL}-0090`])).not.toThrow();
+  });
+
+  it("allows anything when there is no prior state to protect", () => {
+    expect(() =>
+      assertMonotonicAdvance({
+        next: [`${SYMBOL}-0001`],
+        priorLedger: null,
+        priorBaseline: null,
+        operation: "`-- bootstrap`",
+      }),
+    ).not.toThrow();
+  });
+});
+
+describe("anchor paths are one coupled set, or none", () => {
+  const complete = {
+    PROSE_ANCHOR_FILE: "/scratch/anchors.json",
+    PROSE_ANCHOR_LEDGER_FILE: "/scratch/ledger.json",
+    PROSE_ANCHOR_BASELINE_FILE: "/scratch/baseline.json",
+  };
+
+  it("uses the repository's own files when nothing is overridden", () => {
+    const paths = resolveAnchorPaths({});
+    expect(paths.overridden).toBe(false);
+    expect(paths.anchors).toBe(DEFAULT_ANCHOR_PATHS.anchors);
+    expect(paths.ledger).toBe(DEFAULT_ANCHOR_PATHS.ledger);
+    expect(paths.baseline).toBe(DEFAULT_ANCHOR_PATHS.baseline);
+  });
+
+  it("accepts a complete override", () => {
+    const paths = resolveAnchorPaths(complete);
+    expect(paths.overridden).toBe(true);
+    expect(paths.ledger).toBe("/scratch/ledger.json");
+  });
+
+  it("refuses every partial combination, naming what is missing", () => {
+    // Overriding only the sidecar was reproduced making a disposable probe
+    // absorb a scratch id into the CANONICAL ledger and checkpoint.
+    for (const omitted of Object.keys(complete)) {
+      const partial = { ...complete, [omitted]: undefined };
+      expect(() => resolveAnchorPaths(partial)).toThrow(
+        /Partial anchor path override/,
+      );
+      expect(() => resolveAnchorPaths(partial)).toThrow(new RegExp(omitted));
+    }
+  });
+
+  it("treats an empty value as not set", () => {
+    expect(() =>
+      resolveAnchorPaths({ ...complete, PROSE_ANCHOR_FILE: "   " }),
+    ).toThrow(/Partial anchor path override/);
+  });
+
+  it("refuses an override aimed back at a repository file", () => {
+    expect(() =>
+      resolveAnchorPaths({
+        ...complete,
+        PROSE_ANCHOR_LEDGER_FILE: DEFAULT_ANCHOR_PATHS.ledger,
+      }),
+    ).toThrow(/points at the repository's own/);
+  });
+
+  it("refuses two overrides that name the same file", () => {
+    expect(() =>
+      resolveAnchorPaths({
+        ...complete,
+        PROSE_ANCHOR_BASELINE_FILE: complete.PROSE_ANCHOR_LEDGER_FILE,
+      }),
+    ).toThrow(/three distinct files/);
   });
 });
