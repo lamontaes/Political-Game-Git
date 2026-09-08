@@ -81,3 +81,65 @@ history, while preserving the repaired fail-closed garment-fit contract.
 - On a shared host, timeout-only failures should be replayed narrowly before
   changing unrelated code. Exact-head CI remains the final ordinary-timeout
   acceptance gate.
+
+---
+
+# Second reconciliation — onto post-#126 main
+
+Status: completed
+
+## Objective
+
+Merge live `main` again after PR #126 (the P1 prose migration) landed, without
+rebasing or rewriting history, and without reopening garment-fit semantics.
+
+## Grounded heads
+
+- Starting PR head: `5e49f6c9076e379972108db4f9c800def9effb79`
+- Live main at start: `b61abf26118e50be351c09db5b3d0823333fc9ec` (PR #126 merge)
+- Common base: `e9f9b2918c184c1e031cd9af8f6175568c601716` (PR #125 merge)
+
+## Reconciliation
+
+Git reported five conflicts, all of them in the prose corpus that #126
+reshaped. None was in a garment-fit file.
+
+1. `docs/prose-inventory/README.md`, `coverage-candidates.json`,
+   `coverage-report.md` and `review-packet.html` are generated aggregates. They
+   were taken from current main and then regenerated from the combined tree
+   with `npm run corpus:prose`, so no pre-P1 generated artifact survives. The
+   regeneration also rewrote the seven inventory files that merged cleanly but
+   whose contents are derived from the same scan.
+2. `scripts/prose-corpus/corpus.test.ts` pins live scanner counts, and both
+   sides had re-pinned it. The pins were re-measured against the merged tree
+   rather than taken from either side: main's 48,117 / 1,899 / 314 becomes
+   48,662 / 1,899 / 316. The delta is the two presentation sources this branch
+   adds to the scanned set; `INVENTORIED` is unchanged by either side, which is
+   what the pin exists to catch.
+
+No garment-fit semantics were re-audited or redesigned, because the merge
+revealed no semantic conflict in them.
+
+## Verification at `6e69550b0764d76234a011de42d5df686bc061d5`
+
+- `npm run derive:garment-fit` reproduces the committed bank and report byte
+  for byte on the merged tree; the classification table is unchanged.
+- Focused garment tests: 127 passed across the four garment-fit files.
+- `npm run validate:art`: passed. `npm run inventory:art`: up to date, 329
+  items. `npm run qa:art` and `npm run inventory:asset-bank`: regenerated
+  deterministically and left the tree clean.
+- `npm run validate`: format, lint, typecheck, **2,860 tests over 158 files**,
+  `source:validate`, `source:replay`, build, demo and `validate:art` — all pass
+  under the ordinary timeout, with a clean tree afterwards.
+- `npm run test:e2e`: the full Playwright suite exited 0 twice, so no spec
+  failed. The count itself is not recorded here because the captured tail of
+  both runs ends in the slow-test listing rather than the summary line.
+- `git diff --check`: clean, working tree and index.
+- Exact-head CI on `6e69550`: `validate` — success. This section is the only
+  change in the docs-only commit that follows it.
+
+## Stop conditions honored
+
+- PR #89 is left unmerged and draft for the final narrow landing verdict.
+- No rebase, no force-push, no history rewrite.
+- Fit semantics untouched.
