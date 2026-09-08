@@ -1,9 +1,13 @@
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import {
   formatMinorUnits,
+  legalInstrumentRule,
   programVariant,
   type AmendmentInvitation,
   type ClauseDimension,
+  type LegalInstrument,
+  type LegalInstrumentRule,
+  type PredicateAuthority,
   type ProgramContentEvidence,
   type ProgramFamily,
   type ProgramParameterOption,
@@ -62,6 +66,15 @@ export interface CompileBillDraftInput {
   /** The designation the docket assigned. Compiled in, never invented here. */
   readonly designation: string;
   readonly filedOn: IsoDate;
+  /**
+   * The authority this Act acts upon.
+   *
+   * Required for an instrument that amends, funds or repeals something, and
+   * refused for one that creates. Passing it is the caller's job because only
+   * the caller knows what is actually on this player's docket; deciding whether
+   * it is acceptable is this module's.
+   */
+  readonly predicateAuthority?: PredicateAuthority;
 }
 
 /** One numbered section of a compiled draft. */
@@ -118,6 +131,29 @@ export interface CompiledBillDraft {
   readonly authorizedCeilingMinorUnits: number | null;
   readonly authorizedCeilingLabel: string | null;
   readonly authorizesAppropriation: boolean;
+  /** What kind of legal act this is, and what that kind may do. */
+  readonly instrument: LegalInstrument;
+  readonly instrumentRule: LegalInstrumentRule;
+  /** The authority it acts upon, where its instrument takes one. */
+  readonly predicateAuthority: PredicateAuthority | null;
+  /**
+   * Money this Act actually makes available.
+   *
+   * Non-null only for an appropriation. An authorization states a ceiling and
+   * provides nothing, so its ceiling appears above and this stays null — the
+   * two numbers are never added, compared or shown as one figure.
+   */
+  readonly appropriatedMinorUnits: number | null;
+  readonly appropriatedLabel: string | null;
+  /**
+   * A charge the Act imposes, where it imposes one.
+   *
+   * Held apart from every spending figure. Nothing in this feature nets what a
+   * measure raises against what a measure spends, because that netting is an
+   * argument somebody makes, not a fact the compiler owns.
+   */
+  readonly revenueMinorUnits: number | null;
+  readonly revenueLabel: string | null;
   readonly declaredLimits: readonly string[];
   readonly amendmentInvitation: AmendmentInvitation;
   readonly evidence: readonly ProgramContentEvidence[];
@@ -276,6 +312,123 @@ function validateValue(
 }
 
 /* -------------------------------------------------------------------------- */
+/* Instrument checking                                                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Whether this configuration is shaped like the kind of act it says it is.
+ *
+ * An authoring check rather than a player-facing one: a variant that declares
+ * itself an appropriation and carries no clause naming what it appropriates
+ * for is a bug in the bank, and it fails here loudly rather than producing a
+ * bill that reads as an appropriation of nothing in particular.
+ */
+function checkInstrumentShape(
+  family: ProgramFamily,
+  variant: ProgramVariant,
+  rule: LegalInstrumentRule,
+): void {
+  const present = new Set(variant.clauses.map((clause) => clause.dimension));
+  for (const required of rule.requiredDimensions) {
+    if (!present.has(required)) {
+      throw new BillConfigurationError(
+        `The ${variant.label} configuration is declared as ${rule.label.toLowerCase()}, which must carry a ${required} clause, and it has none.`,
+      );
+    }
+  }
+  for (const dimension of present) {
+    if (!rule.permittedDimensions.includes(dimension)) {
+      throw new BillConfigurationError(
+        `${rule.label} does not carry ${dimension} clauses, and the ${variant.label} configuration has one.`,
+      );
+    }
+    if (!family.acceptedDimensions.includes(dimension)) {
+      throw new BillConfigurationError(
+        `The ${family.title} family does not carry ${dimension} clauses, and the ${variant.label} configuration has one.`,
+      );
+    }
+  }
+  if (variant.authorizesAppropriation && !rule.mayAuthorizeAppropriation) {
+    throw new BillConfigurationError(
+      `${rule.label} states no amount, so the ${variant.label} configuration may not authorize an appropriation.`,
+    );
+  }
+}
+
+/**
+ * Whether the authority this Act names is one it can actually act upon.
+ *
+ * The refusals here are the whole point of the instrument. An appropriation
+ * with nothing to appropriate for is not a small problem to be papered over
+ * with a default; it is the sentence that makes the Act do anything, missing.
+ * Equally, an authorization handed an authority is being asked to amend
+ * something it does not amend, and that is refused rather than ignored, because
+ * ignoring it would tell the caller their bill was about a programme when it
+ * was not.
+ */
+function checkPredicateAuthority(
+  variant: ProgramVariant,
+  rule: LegalInstrumentRule,
+  authority: PredicateAuthority | null,
+): PredicateAuthority | null {
+  if (!rule.requiresPredicateAuthority) {
+    if (authority !== null) {
+      throw new BillConfigurationError(
+        `${rule.label} creates rather than amends, so the ${variant.label} configuration cannot be written against ${authority.citationLabel}.`,
+      );
+    }
+    return null;
+  }
+  if (authority === null) {
+    throw new BillConfigurationError(
+      `${rule.label} acts on something that already exists, and the ${variant.label} configuration was given no authority to act on.`,
+    );
+  }
+  if (rule.predicateMustAuthorizeSpending && !authority.authorizesSpending) {
+    throw new BillConfigurationError(
+      `${authority.citationLabel} authorizes no spending, so there is nothing for the ${variant.label} configuration to appropriate against.`,
+    );
+  }
+  return authority;
+}
+
+/**
+ * An appropriation may not exceed the ceiling the authority it names set.
+ *
+ * Checked against the authority's own recorded ceiling rather than against a
+ * bound in the bank, because the limit is a fact about that programme, not a
+ * design choice about this bill — and it moves when the player appropriates
+ * against a bigger bill of their own. Refused rather than clamped, on the same
+ * ground as every other bound here.
+ */
+function checkAppropriationCeiling(
+  variant: ProgramVariant,
+  rule: LegalInstrumentRule,
+  authority: PredicateAuthority | null,
+  appropriated: number | null,
+): void {
+  if (!rule.makesMoneyAvailable || authority === null) return;
+  if (appropriated === null) return;
+  const ceiling = authority.authorizedCeilingMinorUnits;
+  if (ceiling === null) {
+    throw new BillConfigurationError(
+      `${authority.citationLabel} states no ceiling, so an appropriation cannot be measured against it.`,
+    );
+  }
+  if (appropriated > ceiling) {
+    throw new BillConfigurationError(
+      `The ${variant.label} configuration would appropriate ${formatMinorUnits(
+        appropriated,
+        authority.currency,
+      )} against ${authority.citationLabel}, which authorizes ${formatMinorUnits(
+        ceiling,
+        authority.currency,
+      )}.`,
+    );
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /* Compilation                                                                 */
 /* -------------------------------------------------------------------------- */
 
@@ -289,6 +442,14 @@ export function compileBillDraft(
       `No drafting authority is supported for the '${input.scenarioKey}' legislature, so a bill cannot be written for it.`,
     );
   }
+
+  const rule = legalInstrumentRule(variant.instrument);
+  const authority = checkPredicateAuthority(
+    variant,
+    rule,
+    input.predicateAuthority ?? null,
+  );
+  checkInstrumentShape(family, variant, rule);
 
   const supplied = input.parameterValues ?? {};
   const specsByKey = new Map(
@@ -338,12 +499,14 @@ export function compileBillDraft(
     input.filedOn,
     timing.startsOn,
     timing.endsOn,
+    authority,
   );
 
   const clauses: CompiledClause[] = variant.clauses.map((template, index) => {
     const rendering = template.render(resolved);
     if (
       rendering.fiscalExposureMinorUnits !== null &&
+      template.dimension !== "revenue" &&
       !variant.authorizesAppropriation
     ) {
       // A configuration that authorizes nothing may not produce a section that
@@ -366,12 +529,38 @@ export function compileBillDraft(
     };
   });
 
-  const exposures = clauses
+  // What the sections state, added up — and kept in three separate buckets,
+  // because a ceiling, an appropriation and a charge are three different facts
+  // about money and adding any two of them together would produce a number
+  // that describes nothing.
+  const spendingClauses = clauses.filter(
+    (clause) => clause.dimension !== "revenue",
+  );
+  const revenueClauses = clauses.filter(
+    (clause) => clause.dimension === "revenue",
+  );
+  const exposures = spendingClauses
     .map((clause) => clause.fiscalExposureMinorUnits)
     .filter((amount): amount is number => amount !== null);
-  const ceiling = variant.authorizesAppropriation
+  const stated = variant.authorizesAppropriation
     ? exposures.reduce((total, amount) => total + amount, 0)
     : null;
+
+  // An authorization states a ceiling and provides nothing. An appropriation
+  // provides money and states no ceiling of its own. The same arithmetic lands
+  // in a different field depending on which act this is, and nothing reads
+  // both.
+  const ceiling = rule.makesMoneyAvailable ? null : stated;
+  const appropriated = rule.makesMoneyAvailable ? stated : null;
+  checkAppropriationCeiling(variant, rule, authority, appropriated);
+
+  const revenueAmounts = revenueClauses
+    .map((clause) => clause.fiscalExposureMinorUnits)
+    .filter((amount): amount is number => amount !== null);
+  const revenue =
+    revenueAmounts.length === 0
+      ? null
+      : revenueAmounts.reduce((total, amount) => total + amount, 0);
 
   return {
     familyKey: family.familyKey,
@@ -398,6 +587,14 @@ export function compileBillDraft(
     authorizedCeilingLabel:
       ceiling === null ? null : formatMinorUnits(ceiling, "USD"),
     authorizesAppropriation: variant.authorizesAppropriation,
+    instrument: variant.instrument,
+    instrumentRule: rule,
+    predicateAuthority: authority,
+    appropriatedMinorUnits: appropriated,
+    appropriatedLabel:
+      appropriated === null ? null : formatMinorUnits(appropriated, "USD"),
+    revenueMinorUnits: revenue,
+    revenueLabel: revenue === null ? null : formatMinorUnits(revenue, "USD"),
     declaredLimits: variant.declaredLimits,
     amendmentInvitation: variant.amendmentInvitation,
     evidence: [
@@ -470,6 +667,7 @@ function resolveParameters(
   filedOn: IsoDate,
   startsOn: IsoDate,
   endsOn: IsoDate | null,
+  authority: PredicateAuthority | null,
 ): ResolvedParameters {
   const specsByKey = new Map(
     variant.parameters.map((spec) => [spec.key, spec]),
@@ -479,6 +677,7 @@ function resolveParameters(
     filedOn,
     startsOn,
     endsOn,
+    authority,
     money: (key) => {
       const value = values[key];
       if (value === undefined || value.kind !== "money") {
