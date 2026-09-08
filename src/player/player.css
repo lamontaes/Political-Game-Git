@@ -7674,3 +7674,28 @@
     width: 100%;
   }
 }
+
+/* ------------------------------------------------------------------------- */
+/* The members' room, reached from normal play (79F).                        */
+/* The production floor sits over the life shell while it is open, the same  */
+/* full-viewport room the developer route shows, with one way back out.      */
+/* ------------------------------------------------------------------------- */
+
+.production-floor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: auto;
+  background: #14110b;
+}
+
+.production-floor-layer > .ui-action {
+  position: absolute;
+  z-index: 44;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.production-floor-layer .measure-floor {
+  min-height: 100vh;
+}

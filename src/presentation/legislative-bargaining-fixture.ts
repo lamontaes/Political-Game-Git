@@ -9,18 +9,11 @@ import {
   recordWorldEvent,
   type EntityId,
   type LegislativeScenario,
-  type MetricSegmentKey,
   type SeatedBody,
   type World,
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
-import {
-  createLegislativeBargainingProgress,
-  type LegislativeBargainingIntent,
-} from "./legislative-bargaining";
-import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
-import type { ConversationRoomContext } from "./run-b-conversation";
-import type { RunBScenePersonContext } from "./run-b-fixture";
+import { createLegislativeBargainingProgress } from "./legislative-bargaining";
 import {
   bargainingRoomContexts,
   bargainingScenePeople,
@@ -30,7 +23,6 @@ import {
   formatPresentationTime,
   PRIOR_ADVOCATE_HISTORY_SUMMARY,
   PRIOR_GUARDIAN_HISTORY_SUMMARY,
-  requestedProvisionText,
   type LegislativeBargainingSeat,
 } from "./legislative-bargaining-brief";
 
