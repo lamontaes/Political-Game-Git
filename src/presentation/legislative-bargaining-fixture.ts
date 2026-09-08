@@ -21,6 +21,25 @@ import {
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import type { RunBScenePersonContext } from "./run-b-fixture";
+import {
+  bargainingRoomContexts,
+  bargainingScenePeople,
+  bargainingSubjectFacts,
+  FILED_SECTION_BRIEFS,
+  FISCAL_NOTE_SUMMARY,
+  formatPresentationTime,
+  PRIOR_ADVOCATE_HISTORY_SUMMARY,
+  PRIOR_GUARDIAN_HISTORY_SUMMARY,
+  requestedProvisionText,
+  type LegislativeBargainingSeat,
+} from "./legislative-bargaining-brief";
+
+export {
+  PROGRAM_PROVISION_KEY,
+  REQUESTED_PROVISION_KEY,
+  REQUESTED_SEGMENT_KEY,
+  requestedProvisionText,
+} from "./legislative-bargaining-brief";
 
 /**
  * One bill, two colleagues, and a genuinely open question.
@@ -39,40 +58,17 @@ import type { RunBScenePersonContext } from "./run-b-fixture";
  */
 
 export const BARGAINING_SEED = "legislative-bargaining-2026";
-export const PROGRAM_PROVISION_KEY = "pilot-support-limit";
-export const REQUESTED_PROVISION_KEY = "local-project-match";
 export const FISCAL_NOTE_EVENT_STABLE_KEY = "bargaining:hb-214:fiscal-note";
-export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
-  "transit.ashland-boyd-local-match";
 
-const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
-const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
-const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
-
-const BENEFICIARY_LABEL = "the Ashland–Boyd County Transit Authority";
-const PLACE_LABEL = "Ashland";
-
-export interface LegislativeBargainingFixture {
+/**
+ * The developer fixture is one way of producing a bargaining seat — a whole
+ * synthetic world built for the `?view=floor` proof route. Production derives
+ * the same seat shape from the player's canonical save instead, and the
+ * surface cannot tell the two apart.
+ */
+export interface LegislativeBargainingFixture extends LegislativeBargainingSeat {
   readonly world: World;
   readonly scenario: LegislativeScenario;
-  readonly measureId: EntityId;
-  readonly measureStableKey: string;
-  readonly playerPersonId: EntityId;
-  readonly advocatePersonId: EntityId;
-  readonly guardianPersonId: EntityId;
-  readonly analystPersonId: EntityId;
-  readonly scenePeople: readonly [
-    RunBScenePersonContext,
-    RunBScenePersonContext,
-  ];
-  readonly roomContext: ConversationRoomContext;
-  readonly privateRoomContext: ConversationRoomContext;
-  readonly progress: LegislativeBargainingProgress;
-  readonly locationDisplayName: string;
-  readonly locationLabel: string;
-  readonly presentationTime: string;
-  /** Moves the workspace offers outside the conversation strip. */
-  readonly floorIntents: readonly LegislativeBargainingIntent[];
 }
 
 export function createLegislativeBargainingFixture(
@@ -136,107 +132,38 @@ export function createLegislativeBargainingFixture(
   const stage = floorStageByKey(house, position.floorStageKey ?? "");
 
   const guardian = world.people[guardianPersonId]!;
-  const scenePeople = [
-    {
-      personId: advocatePersonId,
-      title: `Member, ${house.name}`,
-      role: `Represents ${PLACE_LABEL} and the counties around it`,
-      qualitativeRead: "You have worked together before",
-      inferredRead: `Direct about what ${PLACE_LABEL} needs and unembarrassed about asking. You do not know how far they will go for it.`,
-      anchorId: "primary-desk-chair",
-      visualVariant: "primary",
-    },
-    {
-      personId: guardianPersonId,
-      title: `Member, ${house.name}`,
-      role: "Has said in public what this session can commit",
-      qualitativeRead: "Cordial, and not on your side yet",
-      inferredRead:
-        "Reads bills closely and remembers numbers. You have no idea whether the objection is about money or about you.",
-      anchorId: "left-guest-chair",
-      visualVariant: "guest",
-    },
-  ] as const satisfies readonly [
-    RunBScenePersonContext,
-    RunBScenePersonContext,
-  ];
+  const scenePeople = bargainingScenePeople({
+    chamberName: house.name,
+    advocatePersonId,
+    guardianPersonId,
+  });
 
-  const present = [playerPersonId, advocatePersonId, guardianPersonId];
-  const roomContext: ConversationRoomContext = {
-    sceneKey: `bargaining:${seed}:both-present`,
-    // The parts this subject actually has. A bill on the floor has a member
-    // asking for something and a member counting the cost; it has no briefing
-    // lead and no referral verifier, and saying it does would put a
-    // caseworker's office into the record of a chamber.
-    roles: {
-      "district-advocate": advocatePersonId,
-      "fiscal-guardian": guardianPersonId,
-    },
-    locationLabel: "Members' room off the House floor",
+  const { roomContext, privateRoomContext } = bargainingRoomContexts({
+    sceneKeyPrefix: `bargaining:${seed}`,
+    chamberName: house.name,
     jurisdictionId: scenario.pack.chambers[0]
       ? world.history.legislativeMeasures![0]!.jurisdictionId
       : world.jurisdictionOrder[0]!,
     playerPersonId,
-    physicallyPresentPersonIds: present,
-    activeParticipantPersonIds: present,
-    eligibleAddresseePersonIds: [advocatePersonId, guardianPersonId],
-    normalHearingPersonIds: [advocatePersonId, guardianPersonId],
-    quietAmbientHearingPersonIds: [],
-    privateAvailable: false,
-    privateUnavailableReason: `Nothing said here is private while ${guardian.familyName} is standing four feet away.`,
-  };
-  const privateRoomContext: ConversationRoomContext = {
-    ...roomContext,
-    sceneKey: `bargaining:${seed}:advocate-only`,
-    locationLabel: `Members' room after ${guardian.familyName} stepped out`,
-    physicallyPresentPersonIds: [playerPersonId, advocatePersonId],
-    activeParticipantPersonIds: [playerPersonId, advocatePersonId],
-    eligibleAddresseePersonIds: [advocatePersonId],
-    normalHearingPersonIds: [advocatePersonId],
-    privateAvailable: true,
-    privateUnavailableReason: null,
-  };
-
-  const progress = createLegislativeBargainingProgress({
-    measureId: scenario.measureId,
-    measureStableKey: "kentucky:measure",
-    designation: "HB 214",
-    shortTitle: "Transit Access Pilot",
-    chamberName: house.name,
-    nextStepLabel: stage.label.toLowerCase(),
-
-    programProvisionKey: PROGRAM_PROVISION_KEY,
-    programSectionLabel: "Section 3",
-    programHeading: "Pilot support limit",
-    programReach:
-      "language reaching every rider enrolled in a state assistance programme",
-    billAmountLabel: "$8,000,000",
-
-    requestedProvisionKey: REQUESTED_PROVISION_KEY,
-    requestedSectionNumber: 4,
-    requestedSectionLabel: "Section 4",
-    requestedHeading: "Local project match",
-    requestedText: requestedProvisionText(REQUESTED_AMOUNT_MINOR_UNITS),
-    requestedBeneficiaryLabel: BENEFICIARY_LABEL,
-    requestedPlaceLabel: PLACE_LABEL,
-    requestedStatedGround:
-      "The authority is the only fixed-route provider in the region and cannot raise the pilot's local match from fare revenue.",
-    requestedAmountLabel: "$1,400,000",
-    requestedAmountMinorUnits: REQUESTED_AMOUNT_MINOR_UNITS,
-    requestedSegmentKey: REQUESTED_SEGMENT_KEY,
-
-    cappedText: requestedProvisionText(CAPPED_AMOUNT_MINOR_UNITS),
-    cappedAmountLabel: "$600,000",
-    cappedAmountMinorUnits: CAPPED_AMOUNT_MINOR_UNITS,
-
-    fiscalNoteEventStableKey: FISCAL_NOTE_EVENT_STABLE_KEY,
-    analystPersonId,
-
     advocatePersonId,
     guardianPersonId,
-    advocateVoice: "district-advocate",
-    guardianVoice: "fiscal-guardian",
+    guardianFamilyName: guardian.familyName,
   });
+
+  const progress = createLegislativeBargainingProgress(
+    bargainingSubjectFacts({
+      measureId: scenario.measureId,
+      measureStableKey: "kentucky:measure",
+      designation: "HB 214",
+      shortTitle: "Transit Access Pilot",
+      chamberName: house.name,
+      nextStepLabel: stage.label.toLowerCase(),
+      fiscalNoteEventStableKey: FISCAL_NOTE_EVENT_STABLE_KEY,
+      analystPersonId,
+      advocatePersonId,
+      guardianPersonId,
+    }),
+  );
 
   return {
     world,
@@ -253,7 +180,7 @@ export function createLegislativeBargainingFixture(
     progress,
     locationDisplayName: `${world.jurisdictions[roomContext.jurisdictionId]?.name ?? "Kentucky"} State Capitol`,
     locationLabel: "Capitol · Members' room",
-    presentationTime: formatTime(world.currentMoment.minuteOfDay),
+    presentationTime: formatPresentationTime(world.currentMoment.minuteOfDay),
     floorIntents: ["offer-targeted-provision", "counter-with-cap"],
   };
 
@@ -265,21 +192,8 @@ export function createLegislativeBargainingFixture(
     return personId;
   }
 
-  function formatTime(minuteOfDay: number): string {
-    const hour24 = Math.floor(minuteOfDay / 60);
-    const minute = minuteOfDay % 60;
-    const suffix = hour24 >= 12 ? "PM" : "AM";
-    const hour = hour24 % 12 || 12;
-    return `${hour}:${minute.toString().padStart(2, "0")} ${suffix}`;
-  }
 }
 
-export function requestedProvisionText(amountMinorUnits: number): string {
-  const amount = `$${(amountMinorUnits / 100).toLocaleString("en-US", {
-    maximumFractionDigits: 0,
-  })}`;
-  return `Of the amounts appropriated by Section 3 of this Act, not more than ${amount} may be awarded to ${BENEFICIARY_LABEL} as the local match required for pilot participation, and an award under this section shall not reduce the amount available to any other participating provider.`;
-}
 
 // ---------------------------------------------------------------------------
 // The bill as filed
@@ -292,51 +206,25 @@ function recordBillText(world: World, scenario: LegislativeScenario): World {
   if (!measure) throw new Error("The bargaining fixture lost its measure.");
   const scope = { jurisdictionId: measure.jurisdictionId, segmentKey: null };
 
-  let next = recordFiledProvision(world, {
-    stableKey: "bargaining:hb-214:section-1",
-    measureId: measure.id,
-    provisionKey: "purpose",
-    sectionNumber: 1,
-    heading: "Purpose and construction",
-    text: "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel: "everyone the Act reaches",
-    },
-    applicationScope: scope,
-  });
-
-  next = recordFiledProvision(next, {
-    stableKey: "bargaining:hb-214:section-2",
-    measureId: measure.id,
-    provisionKey: "eligibility",
-    sectionNumber: 2,
-    heading: "Eligible riders",
-    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance programme administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel: "every rider enrolled in a state assistance programme",
-    },
-    applicationScope: scope,
-  });
-
-  next = recordFiledProvision(next, {
-    stableKey: "bargaining:hb-214:section-3",
-    measureId: measure.id,
-    provisionKey: PROGRAM_PROVISION_KEY,
-    sectionNumber: 3,
-    heading: "Pilot support limit",
-    text: "There is appropriated for the two-year pilot a sum not to exceed $8,000,000, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
-    beneficiary: {
-      kind: "general-application",
-      appliesToLabel:
-        "every participating provider, in proportion to eligible boardings",
-    },
-    applicationScope: scope,
-    fiscalExposureLabel: "$8,000,000 over the two-year pilot",
-    fiscalExposureMinorUnits: PROGRAM_AMOUNT_MINOR_UNITS,
-  });
-
+  let next = world;
+  for (const section of FILED_SECTION_BRIEFS) {
+    next = recordFiledProvision(next, {
+      stableKey: `bargaining:hb-214:${section.keySuffix}`,
+      measureId: measure.id,
+      provisionKey: section.provisionKey,
+      sectionNumber: section.sectionNumber,
+      heading: section.heading,
+      text: section.text,
+      beneficiary: section.beneficiary,
+      applicationScope: scope,
+      ...(section.fiscalExposureLabel
+        ? {
+            fiscalExposureLabel: section.fiscalExposureLabel,
+            fiscalExposureMinorUnits: section.fiscalExposureMinorUnits,
+          }
+        : {}),
+    });
+  }
   return next;
 }
 
@@ -372,8 +260,7 @@ function recordFiscalNote(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["legislation", "legislation.fiscal-note"],
-    summary:
-      "A fiscal note on HB 214 as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.",
+    summary: FISCAL_NOTE_SUMMARY,
     context: {
       location: {
         jurisdictionId: measure.jurisdictionId,
@@ -407,8 +294,7 @@ function recordPriorWorkingHistory(
     kind: "work:co-sponsored-bill",
     change: "strengthened",
     significance: "meaningful",
-    summary:
-      "The two carried a road-fund bill together last session and neither of them had to be chased for a vote.",
+    summary: PRIOR_ADVOCATE_HISTORY_SUMMARY,
     tags: ["relationship.shared-work", "legislation.bargaining"],
   });
   next = recordRelationshipInteraction(next, {
@@ -419,8 +305,7 @@ function recordPriorWorkingHistory(
     kind: "contact:committee-acquaintance",
     change: "maintained",
     significance: "minor",
-    summary:
-      "They sit two seats apart in committee and have never worked on anything together.",
+    summary: PRIOR_GUARDIAN_HISTORY_SUMMARY,
     tags: ["relationship.shared-work"],
   });
   return next;

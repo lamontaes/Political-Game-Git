@@ -23,8 +23,8 @@ import {
   REQUESTED_PROVISION_KEY,
   REQUESTED_SEGMENT_KEY,
   requestedProvisionText,
-  type LegislativeBargainingFixture,
-} from "./legislative-bargaining-fixture";
+  type LegislativeBargainingSeat,
+} from "./legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
 
 /**
@@ -69,13 +69,13 @@ export interface FloorVoteResult {
  */
 export function offerNegotiatedAmendment(
   world: World,
-  fixture: LegislativeBargainingFixture,
+  seat: LegislativeBargainingSeat,
   progress: LegislativeBargainingProgress,
   variant: AmendmentVariant,
 ): AmendmentResult {
   const facts = progress.subjectFacts;
-  const scenario = fixture.scenario;
-  const position = measurePosition(world, fixture.measureId);
+  const scenario = seat.scenario;
+  const position = measurePosition(world, seat.measureId);
   const chamberKey = position.chamberKey ?? "house";
   const chamber = chamberByKey(scenario.pack, chamberKey);
   const body = bodyForChamber(scenario, chamberKey);
@@ -87,13 +87,13 @@ export function offerNegotiatedAmendment(
     variant === "capped" ? facts.cappedAmountLabel : facts.requestedAmountLabel;
   const stableKey = nextMeasureStableKey(
     world,
-    fixture.measureId,
+    seat.measureId,
     `amendment:${chamberKey}`,
   );
 
-  const derived = deriveSimulatedMembers(world, fixture, progress, {
+  const derived = deriveSimulatedMembers(world, seat, progress, {
     identity: {
-      measureId: fixture.measureId,
+      measureId: seat.measureId,
       purpose: "amendment",
       forumKey: chamberKey,
       floorStageKey: position.floorStageKey,
@@ -110,9 +110,9 @@ export function offerNegotiatedAmendment(
 
   const next = offerFloorAmendment(derived.world, {
     stableKey,
-    measureId: fixture.measureId,
+    measureId: seat.measureId,
     description: `Add Section 4, a local project match of not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
-    offeredByPersonId: fixture.playerPersonId,
+    offeredByPersonId: seat.playerPersonId,
     offeredByLabel: "Floor sponsor",
     dispositions: blendDispositions(
       body.members,
@@ -143,7 +143,7 @@ export function offerNegotiatedAmendment(
 
   const withText = adoptProvisionRevision(next, {
     stableKey: `${stableKey}:section-4`,
-    measureId: fixture.measureId,
+    measureId: seat.measureId,
     amendmentId: amendment.id,
     supersedesProvisionId: null,
     provisionKey: REQUESTED_PROVISION_KEY,
@@ -158,7 +158,7 @@ export function offerNegotiatedAmendment(
       statedGround: facts.requestedStatedGround,
     },
     applicationScope: {
-      jurisdictionId: scopeJurisdiction(world, fixture),
+      jurisdictionId: scopeJurisdiction(world, seat),
       segmentKey: REQUESTED_SEGMENT_KEY,
     },
     fiscalExposureLabel: `${amountLabel} local match`,
@@ -176,19 +176,19 @@ export function offerNegotiatedAmendment(
 /** Takes the recorded floor vote at the measure's current stage. */
 export function takeNegotiatedFloorVote(
   world: World,
-  fixture: LegislativeBargainingFixture,
+  seat: LegislativeBargainingSeat,
   progress: LegislativeBargainingProgress,
 ): FloorVoteResult {
-  const scenario = fixture.scenario;
-  const position = measurePosition(world, fixture.measureId);
+  const scenario = seat.scenario;
+  const position = measurePosition(world, seat.measureId);
   const chamberKey = position.chamberKey ?? "house";
   const chamber = chamberByKey(scenario.pack, chamberKey);
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
   const body = bodyForChamber(scenario, chamberKey);
 
-  const derived = deriveSimulatedMembers(world, fixture, progress, {
+  const derived = deriveSimulatedMembers(world, seat, progress, {
     identity: {
-      measureId: fixture.measureId,
+      measureId: seat.measureId,
       purpose: "floor-stage",
       forumKey: chamberKey,
       floorStageKey: stage.stageKey,
@@ -203,10 +203,10 @@ export function takeNegotiatedFloorVote(
   const next = takeFloorVote(derived.world, {
     stableKey: nextMeasureStableKey(
       world,
-      fixture.measureId,
+      seat.measureId,
       `floor:${chamberKey}:${stage.stageKey}`,
     ),
-    measureId: fixture.measureId,
+    measureId: seat.measureId,
     dispositions: blendDispositions(
       body.members,
       countsFor(
@@ -224,7 +224,7 @@ export function takeNegotiatedFloorVote(
     },
   });
 
-  const after = measurePosition(next, fixture.measureId);
+  const after = measurePosition(next, seat.measureId);
   return {
     world: next,
     passed: after.phase !== "failed",
@@ -249,7 +249,7 @@ interface DerivedMembers {
 
 function deriveSimulatedMembers(
   world: World,
-  fixture: LegislativeBargainingFixture,
+  seat: LegislativeBargainingSeat,
   progress: LegislativeBargainingProgress,
   question: {
     readonly identity: LegislativeQuestionIdentity;
@@ -269,25 +269,25 @@ function deriveSimulatedMembers(
 
   const seated = [
     {
-      personId: fixture.advocatePersonId,
+      personId: seat.advocatePersonId,
       localBeneficiaryLabels: [facts.requestedBeneficiaryLabel],
       fiscalConcernCeilingMinorUnits: null,
     },
     {
-      personId: fixture.guardianPersonId,
+      personId: seat.guardianPersonId,
       localBeneficiaryLabels: [],
       // What this member said in public before the bill was filed.
       fiscalConcernCeilingMinorUnits: 860_000_000,
     },
     {
-      personId: fixture.playerPersonId,
+      personId: seat.playerPersonId,
       localBeneficiaryLabels: [],
       fiscalConcernCeilingMinorUnits: null,
     },
   ] as const;
 
   for (const member of seated) {
-    if (member.personId === fixture.playerPersonId) {
+    if (member.personId === seat.playerPersonId) {
       // The sponsor votes for their own bill. That is the player's own choice,
       // not a modelled one, and the game does not put the controlled person
       // through an autonomous decision.
@@ -384,11 +384,11 @@ function countsFor(
 
 function scopeJurisdiction(
   world: World,
-  fixture: LegislativeBargainingFixture,
+  seat: LegislativeBargainingSeat,
 ): EntityId {
   const measure = (world.history.legislativeMeasures ?? []).find(
-    (record) => record.id === fixture.measureId,
+    (record) => record.id === seat.measureId,
   );
-  if (!measure) throw new Error("The bargaining fixture lost its measure.");
+  if (!measure) throw new Error("The bargaining sitting lost its measure.");
   return measure.jurisdictionId;
 }

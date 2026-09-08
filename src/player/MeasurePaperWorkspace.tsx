@@ -11,9 +11,9 @@ import {
   type World,
 } from "../simulation";
 import {
-  playerHasReadFiscalNote,
-  type LegislativeBargainingFixture,
-} from "../presentation/legislative-bargaining-fixture";
+  playerHasReadFiscalNoteFor,
+  type LegislativeBargainingSeat,
+} from "../presentation/legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "../presentation/run-b-conversation-progress";
 import type { MemberAccount } from "../presentation/legislative-bargaining-actions";
 
@@ -31,7 +31,7 @@ export type PaperPanel = "none" | "proposal" | "fiscal-note" | "record";
 
 export interface MeasurePaperWorkspaceProps {
   readonly world: World;
-  readonly fixture: LegislativeBargainingFixture;
+  readonly seat: LegislativeBargainingSeat;
   readonly progress: LegislativeBargainingProgress;
   readonly panel: PaperPanel;
   readonly proposalVariant: "as-asked" | "capped";
@@ -47,7 +47,7 @@ export interface MeasurePaperWorkspaceProps {
 
 export function MeasurePaperWorkspace({
   world,
-  fixture,
+  seat,
   progress,
   panel,
   proposalVariant,
@@ -66,15 +66,15 @@ export function MeasurePaperWorkspace({
   }, []);
 
   const facts = progress.subjectFacts;
-  const provisions = currentMeasureProvisions(world, fixture.measureId);
-  const position = measurePosition(world, fixture.measureId);
-  const amendments = measureAmendments(world, fixture.measureId);
+  const provisions = currentMeasureProvisions(world, seat.measureId);
+  const position = measurePosition(world, seat.measureId);
+  const amendments = measureAmendments(world, seat.measureId);
   const sectionInBill = provisions.some(
     (provision) => provision.provisionKey === facts.requestedProvisionKey,
   );
-  const noteRead = playerHasReadFiscalNote(world, fixture);
+  const noteRead = playerHasReadFiscalNoteFor(world, seat);
   const votes = (world.history.legislativeVotes ?? []).filter(
-    (vote) => vote.measureId === fixture.measureId,
+    (vote) => vote.measureId === seat.measureId,
   );
   const finalVote = votes.find((vote) => vote.purpose === "floor-stage");
   const proposedText =
@@ -339,15 +339,15 @@ export function MeasurePaperWorkspace({
           <ul data-testid="record-commitments">
             {commitmentsKnownTo(
               world,
-              fixture.playerPersonId,
-              fixture.measureId,
+              seat.playerPersonId,
+              seat.measureId,
             ).length === 0 ? (
               <li>Nobody has told you anything yet.</li>
             ) : (
               commitmentsKnownTo(
                 world,
-                fixture.playerPersonId,
-                fixture.measureId,
+                seat.playerPersonId,
+                seat.measureId,
               ).map((commitment) => {
                 const assessment = assessCommitment(world, commitment.id);
                 return (
@@ -371,10 +371,10 @@ export function MeasurePaperWorkspace({
           </ul>
           <h4>What was asked for</h4>
           <ul data-testid="record-negotiations">
-            {measureNegotiations(world, fixture.measureId).length === 0 ? (
+            {measureNegotiations(world, seat.measureId).length === 0 ? (
               <li>Nobody has asked you for anything yet.</li>
             ) : (
-              measureNegotiations(world, fixture.measureId).map(
+              measureNegotiations(world, seat.measureId).map(
                 (negotiation) => (
                   <li key={negotiation.id}>{negotiation.request}</li>
                 ),
