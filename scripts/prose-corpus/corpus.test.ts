@@ -535,12 +535,15 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Measured by corpus:prose on the FINAL-LANDING-Q4 Step B tree: P1
-    // narration, accepted current main and unchanged executive modules.
+    // Re-measured on the R3I tree, which adds two development-time
+    // executive-authority reconciliation modules under src/. INVENTORIED is
+    // unchanged at 1,899: R3I introduced no player-facing prose, and its
+    // reviewer-facing `reason` strings classify as non-player-facing, so only
+    // the raw literal and file totals moved.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49311);
+    expect(coverage.totalLiterals).toBe(50748);
     expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(319);
+    expect(coverage.scannedFiles).toBe(321);
   });
 });
 
