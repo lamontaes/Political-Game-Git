@@ -57,8 +57,7 @@ export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[]
     {
       key: PUBLIC_MEETING_KEY,
       title: "Whether to go to the meeting",
-      summary:
-        "The agenda is posted. Going costs an evening; not going costs knowing what was decided.",
+      summary: "The agenda is posted. Decide whether to attend.",
     },
   ];
 

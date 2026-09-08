@@ -60,75 +60,69 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  */
 export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.family-request":
-    "The two weeks you did or did not give came up again, in a conversation that was about something else.",
-  "adult.care-request":
-    "What you took on came round again, on a week that had no room for it.",
-  "adult.friend-favour":
-    "The favour turned out to have been remembered rather more precisely than you remembered it.",
+    "Your decision about helping your family came up again.",
+  "adult.care-request": "The question of helping with the care came back up.",
+  "adult.friend-favour": "Your decision about the favour came up again.",
   "adult.friend-in-difficulty":
-    "What you were told, and what you did about it, came back up.",
+    "You recall your decision about your friend’s difficulty.",
   "adult.friend-good-news":
-    "Whether you turned up that evening turned out to have been remembered.",
-  "adult.work-credit":
-    "The thing about whose work it was had not been dropped after all.",
-  "adult.work-extra-hours":
-    "The hours you took, or did not take, turned out to have been counted.",
+    "You were reminded of how you responded to the good news.",
+  "adult.work-credit": "The question of whose work it was came up again.",
+  "adult.work-extra-hours": "Your decision about the extra hours came back up.",
   // The adult scene has senior staff and colleagues in it, not a customer;
   // that detail belonged to the formative bank and was never true here.
   "adult.work-rule-pressure":
-    "The business with the rule at work came back, from a direction you had not expected.",
+    "Your decision about the rule at work came up again.",
   "adult.work-colleague-struggling":
-    "What you did about the colleague who was not managing turned out to have been noticed.",
-  "adult.local-dispute":
-    "The business with the other household was not over, whatever the meeting had decided.",
+    "You were reminded of your decision about your colleague’s difficulty.",
+  "adult.local-dispute": "Your decision about the local dispute came back up.",
   "adult.community-building":
-    "What was decided about the building came back round, and the people it had cost were still there.",
-  "adult.petition-ask":
-    "Your name on that list turned out to have been read and remembered.",
+    "Your decision about the community building came up again.",
+  "adult.petition-ask": "Your decision about the petition came up again.",
   "adult.candidacy-approach":
-    "The question about standing for something came back, and this time it was not casual.",
+    "The question of running for office came back up.",
   "adult.incident-aftermath":
-    "What you did in the days afterwards came up again, long after everybody else had stopped talking about it.",
+    "Your decision about what to do after the incident came up again.",
   // No incident kind is claimed: the incident engine decides what happened,
   // and "the flooding" was an invention on top of it.
   "adult.incident-neighbour-help":
-    "What you gave, or kept, when the other household needed it turned out to have been noticed.",
+    "Your decision about helping a neighbour came back up.",
   "adult.promise-comes-due":
-    "What you said you'd do came round a second time, and there was less room to move it.",
-  "adult.old-favour-returns": "The same favour came back a third time.",
+    "Your response when the promise came due came up again.",
+  "adult.old-favour-returns":
+    "Your decision about the earlier favour came up again.",
   "adult.household-standing":
-    "The business about the week's errands was raised again, and this time not by you.",
+    "Your decision about responsibilities at home came back up.",
   "adult.household-quiet-evening":
-    "An evening at home you had not thought twice about turned out to have been remembered.",
-  "adult.partner-plan": "The plan you settled on stopped being settled.",
+    "Your decision about the evening came up again.",
+  "adult.partner-plan": "Your decision about the plans came back up.",
   "adult.work-offer-elsewhere":
-    "What you did about the offer turned out to have been talked about.",
-  "adult.debt-call":
-    "What you still owed came back up, on somebody else's schedule again.",
+    "Your decision about the other job offer came up again.",
+  "adult.debt-call": "Your earlier choice about repayment came up again.",
   "adult.housing-cost-change":
     "The business about what it costs to stay came back around.",
   "adult.help-with-strings":
-    "The offer of help, and what you did with it, came up again.",
-  "adult.volunteer-ask": "The Saturdays you gave, or kept, came up again.",
+    "You recall your decision about whether to accept help.",
+  "adult.volunteer-ask": "Your decision about volunteering came up again.",
   "adult.weekend-invitation":
-    "Whether you came that Saturday turned out to have been noticed.",
+    "Your decision about the invitation came up again.",
   // These four situations are withheld from new play, but a save made before
   // the withholding can still carry a scheduled callback naming them, and a
   // record that comes due must still read as itself.
   "adult.household-repair":
-    "The favour you asked over the repair came back around.",
+    "Your decision about the household repair came back up.",
   "adult.household-money-shortfall":
-    "The extra work you took on to cover the month came up again.",
+    "Your decision about the shortfall came up again.",
   "adult.housing-repair-standoff":
     "The business with the repairs and the rent came back around.",
   "adult.small-windfall":
-    "The money you passed on turned out to have been remembered.",
+    "You were reminded of your decision about the extra money.",
   "conversation.subject.household-obligation":
-    "The week you handed over turned out to have been counted, and it was raised without much warmth.",
+    "The earlier household decision came up again.",
   "conversation.subject.neighborhood-meeting":
-    "The evening you said you would give came up again, from somebody who had noticed whether you gave it.",
+    "Your decision about the neighbourhood meeting came up again.",
   "conversation.subject.school-project":
-    "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
+    "Your decision about the school project came up again.",
 };
 
 // The last resort, for an origin whose tag no summary covers. A test holds
@@ -365,7 +359,7 @@ export function lifeCallbackTransitionHandler(
       world,
       status: "blocked",
       reasonKey: "life:actor-lost-standing",
-      context: "The life this was owed to is no longer readable.",
+      context: "The person or earlier event is missing from the record.",
       outcomeEventId: null,
     };
   }
@@ -378,7 +372,7 @@ export function lifeCallbackTransitionHandler(
       world,
       status: "blocked",
       reasonKey: "life:actor-lost-standing",
-      context: "The person this concerned is no longer living it.",
+      context: "Your record is missing, or it records your death.",
       outcomeEventId: null,
     };
   }
@@ -405,8 +399,7 @@ export function lifeCallbackTransitionHandler(
         world,
         status: "cancelled",
         reasonKey: "life:issue-overtaken",
-        context:
-          "What was undertaken had already ended before anybody could hold them to it.",
+        context: "There is no active commitment to follow up on.",
         outcomeEventId: null,
       };
     }
@@ -418,7 +411,7 @@ export function lifeCallbackTransitionHandler(
         world,
         status: "cancelled",
         reasonKey: "life:nobody-to-carry-it",
-        context: "The other person is no longer in this life at all.",
+        context: "The other person’s record is missing.",
         outcomeEventId: null,
       };
     }
@@ -428,7 +421,7 @@ export function lifeCallbackTransitionHandler(
         status: "cancelled",
         reasonKey: "life:attention-moved",
         context:
-          "The two of them stopped having anything to do with each other, and it never came up again.",
+          "The household, kinship, work or group connection needed for this follow-up is not on record.",
         outcomeEventId: null,
       };
     }

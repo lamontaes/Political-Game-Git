@@ -343,6 +343,17 @@ export function chooseAdultOption(
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
   const context = buildAdultLifeContext(world, input.personId);
+  // Validate the pre-offer World before option-specific writes can create
+  // records which would falsely serve as evidence for their own premise.
+  if (
+    !availableAdultSituations(context).some(
+      (candidate) => candidate.key === situation.key,
+    )
+  ) {
+    throw new Error(
+      "This adult situation is not available in the current world.",
+    );
+  }
   const companionId = resolveAdultCompanion(context, situation.companion);
   const played = playedAdultKeys(world, input.personId).length;
   const stableKey = `adult-life:${input.personId}:${played}:${input.situationKey}`;
