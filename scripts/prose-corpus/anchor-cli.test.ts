@@ -5,12 +5,15 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   unlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+
+import { issuedDigestV1 as v1Digest } from "./anchor-history";
 
 /**
  * The corruptions, driven through the command an operator actually runs.
@@ -101,6 +104,31 @@ function readJson(path: string): { issued?: unknown; anchors?: unknown } {
   };
 }
 
+/** One ledger record: an issued id and the binding history recorded for it. */
+interface Issuance {
+  id: string;
+  site?: string;
+  text?: string;
+  unknown?: string[];
+}
+
+function issuances(path: string): Issuance[] {
+  return readJson(path).issued as Issuance[];
+}
+
+function issuedIds(path: string): string[] {
+  return issuances(path).map((issuance) => issuance.id);
+}
+
+/** Surgically remove one issued id, leaving the file otherwise valid. */
+function dropIssued(path: string, id: string): void {
+  editLedger(path, (body) => {
+    body.issued = (body.issued as Issuance[]).filter(
+      (issuance) => issuance.id !== id,
+    );
+  });
+}
+
 function editLedger(
   path: string,
   edit: (body: Record<string, unknown>) => void,
@@ -120,9 +148,7 @@ function retiredId(paths: Scratch): string {
       (anchor) => anchor.anchor,
     ),
   );
-  const burned = (readJson(paths.ledger).issued as string[]).find(
-    (id) => !live.has(id),
-  );
+  const burned = issuedIds(paths.ledger).find((id) => !live.has(id));
   if (!burned) throw new Error("fixture has no retired id to work with");
   return burned;
 }
@@ -194,9 +220,7 @@ describe("the production CLI refuses lost or malformed established history", () 
     // the independently retained checkpoint is what catches it.
     const paths = scratch();
     const burned = retiredId(paths);
-    editLedger(paths.ledger, (body) => {
-      body.issued = (body.issued as string[]).filter((id) => id !== burned);
-    });
+    dropIssued(paths.ledger, burned);
     expectRefusalWithoutWriting(paths, /history-mismatch/);
   });
 
@@ -214,15 +238,25 @@ describe("the production CLI refuses lost or malformed established history", () 
   it("refuses entries that are not anchor ids", SLOW, () => {
     const paths = scratch();
     editLedger(paths.ledger, (body) => {
-      (body.issued as string[]).push("not an id");
+      (body.issued as unknown[]).push("not an id");
     });
-    expectRefusalWithoutWriting(paths, /not anchor ids/);
+    expectRefusalWithoutWriting(paths, /an issuance record was expected/);
+
+    // And a record whose id is not an id.
+    const malformed = scratch();
+    editLedger(malformed.ledger, (body) => {
+      (body.issued as Issuance[]).push({
+        id: "not an id",
+        unknown: ["site", "text"],
+      });
+    });
+    expectRefusalWithoutWriting(malformed, /not an anchor id/);
   });
 
   it("refuses a duplicated ledger entry", SLOW, () => {
     const paths = scratch();
     editLedger(paths.ledger, (body) => {
-      const issued = body.issued as string[];
+      const issued = body.issued as Issuance[];
       issued.push(issued[0]!);
     });
     expectRefusalWithoutWriting(paths, /more than once/);
@@ -346,21 +380,80 @@ describe("bootstrap and recovery are explicit and bounded", () => {
   });
 
   it(
-    "bootstraps only when there is genuinely nothing, and says what it cannot know",
+    "refuses to bootstrap an ESTABLISHED lineage whose history is missing",
     SLOW,
     () => {
+      // The controlling 128A3 blocker. As shipped this exited 0 and seeded a
+      // new lineage from the live sidecar alone — count 420 to 394, the
+      // RETURN_SUMMARY high-water 23 to 22 — after which an unrelated mint was
+      // handed the retired RETURN_SUMMARY-0023. The only guard was a printed
+      // warning, and loss of established history became a fresh lineage through
+      // an ordinary documented command.
       const paths = scratch();
       unlinkSync(paths.ledger);
       unlinkSync(paths.baseline);
+      const before = readFileSync(paths.anchors, "utf8");
+
       const result = run("bootstrap", paths);
-      expect(result.status).toBe(0);
-      expect(result.stdout).toMatch(/records only ids that are ALIVE/);
-      expect(existsSync(paths.ledger)).toBe(true);
-      expect(existsSync(paths.baseline)).toBe(true);
-      // And the project is usable again straight afterwards.
-      expect(run("anchors", paths).status).toBe(0);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/HAS an established anchor lineage/);
+      expect(result.stderr).toMatch(
+        /not evidence that nothing was ever issued/,
+      );
+      // Fails closed, and names the restoration remedy rather than inventing a
+      // lineage: neither history file is created, the sidecar is untouched.
+      expect(existsSync(paths.ledger)).toBe(false);
+      expect(existsSync(paths.baseline)).toBe(false);
+      expect(readFileSync(paths.anchors, "utf8")).toBe(before);
+      expect(result.stderr).toMatch(/restore/i);
+
+      // And a mint still refuses, so nothing downstream quietly proceeds.
+      expect(run("anchors", paths).status).not.toBe(0);
     },
   );
+
+  it(
+    "establishes only an EMPTY lineage, for a project that has issued nothing",
+    SLOW,
+    () => {
+      // Positive evidence of freshness: no history files AND no live binding.
+      // Bootstrap seeds nothing from live ids at all now, so even reached in
+      // error it cannot free a number or lower a mark.
+      const paths = scratch();
+      unlinkSync(paths.ledger);
+      unlinkSync(paths.baseline);
+      unlinkSync(paths.anchors);
+
+      const result = run("bootstrap", paths);
+      expect(result.status).toBe(0);
+      expect(result.stdout).toMatch(/EMPTY allocation lineage/);
+      expect(result.stdout).toMatch(/Nothing was seeded from live bindings/);
+      expect(issuances(paths.ledger)).toStrictEqual([]);
+      expect(
+        (JSON.parse(readFileSync(paths.baseline, "utf8")) as { count: number })
+          .count,
+      ).toBe(0);
+
+      // A genuinely fresh project is usable: the first mint allocates this
+      // lineage's first ids, from the bottom.
+      const mint = run("anchors", paths);
+      expect(mint.status).toBe(0);
+      expect(issuedIds(paths.ledger)).toContain("recapSentence-0001");
+    },
+  );
+
+  it("refuses to bootstrap over a sidecar it cannot read", SLOW, () => {
+    // A sidecar that is present but corrupt is not an absent one, and must not
+    // be read as "no live bindings, therefore fresh".
+    const paths = scratch();
+    unlinkSync(paths.ledger);
+    unlinkSync(paths.baseline);
+    writeFileSync(paths.anchors, '{"schema": 1, "anch');
+    const result = run("bootstrap", paths);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/truncated or corrupt/);
+    expect(existsSync(paths.ledger)).toBe(false);
+  });
 
   // 128R2 supersedes the 128R1 behaviour this replaces. Re-deriving a
   // checkpoint from a ledger with nothing attesting it was reproduced doing
@@ -389,9 +482,7 @@ describe("bootstrap and recovery are explicit and bounded", () => {
     () => {
       const paths = scratch();
       const burned = retiredId(paths);
-      editLedger(paths.ledger, (body) => {
-        body.issued = (body.issued as string[]).filter((id) => id !== burned);
-      });
+      dropIssued(paths.ledger, burned);
       unlinkSync(paths.baseline);
       expect(run("recover", paths).status).not.toBe(0);
       expect(existsSync(paths.baseline)).toBe(false);
@@ -405,9 +496,7 @@ describe("bootstrap and recovery are explicit and bounded", () => {
     // baseline. Both files exist, so neither can be treated as the true one.
     const paths = scratch();
     const burned = retiredId(paths);
-    editLedger(paths.ledger, (body) => {
-      body.issued = (body.issued as string[]).filter((id) => id !== burned);
-    });
+    dropIssued(paths.ledger, burned);
     const before = readFileSync(paths.baseline, "utf8");
     const result = run("recover", paths);
     expect(result.status).not.toBe(0);
@@ -425,7 +514,10 @@ describe("bootstrap and recovery are explicit and bounded", () => {
       // wedge a workspace after a crash between the two writes.
       const paths = scratch();
       editLedger(paths.ledger, (body) => {
-        (body.issued as string[]).push("recapSentence-9998");
+        (body.issued as Issuance[]).push({
+          id: "recapSentence-9998",
+          unknown: ["site", "text"],
+        });
       });
       const refused = run("anchors", paths);
       expect(refused.status).not.toBe(0);
@@ -460,9 +552,7 @@ describe("`-- ledger` absorbs, and never re-bases trust downward", () => {
     // RETURN_SUMMARY-0023 to unrelated prose.
     const paths = scratch();
     const burned = retiredId(paths);
-    editLedger(paths.ledger, (body) => {
-      body.issued = (body.issued as string[]).filter((id) => id !== burned);
-    });
+    dropIssued(paths.ledger, burned);
     const before = fingerprint(paths);
 
     const result = run("ledger", paths);
@@ -476,9 +566,7 @@ describe("`-- ledger` absorbs, and never re-bases trust downward", () => {
   it("leaves the retired id unallocatable after that attack", SLOW, () => {
     const paths = scratch();
     const burned = retiredId(paths);
-    editLedger(paths.ledger, (body) => {
-      body.issued = (body.issued as string[]).filter((id) => id !== burned);
-    });
+    dropIssued(paths.ledger, burned);
     run("ledger", paths);
     const mint = run("anchors", paths);
     expect(mint.status).not.toBe(0);
@@ -487,8 +575,7 @@ describe("`-- ledger` absorbs, and never re-bases trust downward", () => {
     const checkpoint = JSON.parse(readFileSync(paths.baseline, "utf8")) as {
       count: number;
     };
-    const ledger = readJson(paths.ledger).issued as string[];
-    expect(checkpoint.count).toBeGreaterThan(ledger.length);
+    expect(checkpoint.count).toBeGreaterThan(issuances(paths.ledger).length);
   });
 
   it(
@@ -511,14 +598,12 @@ describe("`-- ledger` absorbs, and never re-bases trust downward", () => {
       });
       writeFileSync(paths.anchors, JSON.stringify(body, null, 2));
       const sidecarBefore = readFileSync(paths.anchors, "utf8");
-      const countBefore = (readJson(paths.ledger).issued as string[]).length;
+      const countBefore = issuances(paths.ledger).length;
 
       const result = run("ledger", paths);
       expect(result.status).toBe(0);
       expect(result.stdout).toMatch(/absorbed recapSentence-0090/);
-      expect((readJson(paths.ledger).issued as string[]).length).toBe(
-        countBefore + 1,
-      );
+      expect(issuances(paths.ledger).length).toBe(countBefore + 1);
       const checkpoint = JSON.parse(readFileSync(paths.baseline, "utf8")) as {
         count: number;
         highWater: Record<string, number>;
@@ -690,7 +775,7 @@ describe("path overrides are one coupled set, or none", () => {
       PROSE_ANCHOR_BASELINE_FILE: paths.baseline,
     });
     expect(result.status).not.toBe(0);
-    expect(result.stderr).toMatch(/points at the repository's own/);
+    expect(result.stderr).toMatch(/resolves to the repository's own/);
   });
 
   it(
@@ -720,6 +805,371 @@ describe("path overrides are one coupled set, or none", () => {
       expect(result.status).not.toBe(0);
       expect(result.stderr).toMatch(/does not exist, but this project has/);
       expect(fingerprint(paths)).toBe(before);
+    },
+  );
+});
+
+/* -------------------------------------------------------------------------- */
+/* 128R3                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/** The three defaults, hashed, so "canonical untouched" is an assertion. */
+function repoTrio(): string {
+  return [LIVE_ANCHORS, LIVE_LEDGER, LIVE_BASELINE]
+    .map((path) => readFileSync(join(REPO, path), "utf8"))
+    .join("\u0000");
+}
+
+describe("recovery proves a superset, and is not satisfied by growth", () => {
+  /**
+   * The controlling 128A3 recovery blocker, built exactly as it was reproduced.
+   *
+   * One issued member is removed and three strictly later ids are added, so the
+   * attested count RISES and every per-symbol high-water mark RISES. Under the
+   * previous round this read as ordinary growth: `-- recover` exited 0, rewrote
+   * the checkpoint, and printed "every id the old checkpoint attested is still
+   * issued" while one of them was gone.
+   *
+   * The tampered file is well-formed on its face. That matters — a malformed
+   * ledger would be refused by the loader and would prove nothing about the
+   * direction rule.
+   */
+  function membershipLossDisguisedAsGrowth(paths: Scratch): string {
+    const burned = retiredId(paths);
+    const symbol = burned.slice(0, burned.lastIndexOf("-"));
+    editLedger(paths.ledger, (body) => {
+      const kept = (body.issued as Issuance[]).filter(
+        (issuance) => issuance.id !== burned,
+      );
+      for (const index of [9001, 9002, 9003]) {
+        kept.push({
+          id: `${symbol}-${index}`,
+          site: "a".repeat(12),
+          text: "b".repeat(12),
+        });
+      }
+      body.issued = kept.sort((left, right) =>
+        left.id < right.id ? -1 : left.id > right.id ? 1 : 0,
+      );
+    });
+    return burned;
+  }
+
+  it(
+    "refuses `-- recover` on a set that grew while dropping a member",
+    SLOW,
+    () => {
+      const paths = scratch();
+      const attested = JSON.parse(readFileSync(paths.baseline, "utf8")) as {
+        count: number;
+      };
+      const burned = membershipLossDisguisedAsGrowth(paths);
+      const after = issuances(paths.ledger);
+      // The disguise, asserted rather than assumed: both measures really do rise.
+      expect(after.length).toBeGreaterThan(attested.count);
+      expect(after.some((issuance) => issuance.id === burned)).toBe(false);
+
+      const before = fingerprint(paths);
+      const result = run("recover", paths);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(
+        /membership loss wearing growth as a disguise/,
+      );
+      expect(result.stderr).toMatch(new RegExp(burned));
+      // Zero authority writes.
+      expect(fingerprint(paths)).toBe(before);
+    },
+  );
+
+  it("refuses `-- ledger` and `-- anchors` in the same state", SLOW, () => {
+    const paths = scratch();
+    const burned = membershipLossDisguisedAsGrowth(paths);
+    const before = fingerprint(paths);
+    for (const mode of ["ledger", "anchors", "check"]) {
+      const result = run(mode, paths);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/history-regressed|history-mismatch/);
+    }
+    expect(fingerprint(paths)).toBe(before);
+    // And the dropped id stays unallocatable throughout.
+    expect(issuedIds(paths.ledger)).not.toContain(burned);
+    expect(
+      (
+        JSON.parse(readFileSync(paths.anchors, "utf8")) as {
+          anchors: { anchor: string }[];
+        }
+      ).anchors.some((anchor) => anchor.anchor === burned),
+    ).toBe(false);
+  });
+
+  it("still re-derives a checkpoint for a genuine interruption", SLOW, () => {
+    // The banked forward case must survive the new rule: a ledger that only
+    // GREW, keeping every attested member, is still repairable.
+    const paths = scratch();
+    editLedger(paths.ledger, (body) => {
+      (body.issued as Issuance[]).push({
+        id: "recapSentence-9998",
+        unknown: ["site", "text"],
+      });
+    });
+    const result = run("recover", paths);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toMatch(/checked id by id/);
+    expect(run("anchors", paths).status).toBe(0);
+  });
+});
+
+describe("a recorded issuance is immutable, and a live binding is checked", () => {
+  it("refuses a live id whose recorded site is a different one", SLOW, () => {
+    // The composition outcome the contract forbids: a previously issued id
+    // becoming valid for a site it was not issued for.
+    const paths = scratch();
+    const live = (
+      JSON.parse(readFileSync(paths.anchors, "utf8")) as {
+        anchors: { anchor: string }[];
+      }
+    ).anchors[0]!.anchor;
+    editLedger(paths.ledger, (body) => {
+      for (const issuance of body.issued as Issuance[]) {
+        if (issuance.id === live) issuance.site = "f".repeat(12);
+      }
+    });
+    // Written with its own consistent checkpoint, so the digest agrees and the
+    // binding rule is what has to catch this.
+    const rebuilt = run("recover", paths);
+    expect(rebuilt.status).not.toBe(0);
+
+    const result = run("check", paths);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/binding-mismatch|history-mismatch/);
+  });
+
+  it("refuses a live id whose provenance was erased to unknown", SLOW, () => {
+    const paths = scratch();
+    const live = (
+      JSON.parse(readFileSync(paths.anchors, "utf8")) as {
+        anchors: { anchor: string }[];
+      }
+    ).anchors[0]!.anchor;
+    editLedger(paths.ledger, (body) => {
+      body.issued = (body.issued as Issuance[]).map((issuance) =>
+        issuance.id === live
+          ? { id: live, unknown: ["site", "text"] }
+          : issuance,
+      );
+    });
+    const result = run("check", paths);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/unattested-live-binding|history-mismatch/);
+  });
+});
+
+describe("the one-way migration off the id-only schema", () => {
+  /** The inherited pair, as it was actually committed before this repair. */
+  function asV1(paths: Scratch): void {
+    const ledger = JSON.parse(readFileSync(paths.ledger, "utf8")) as {
+      issued: Issuance[];
+    };
+    const ids = ledger.issued.map((issuance) => issuance.id).sort();
+    writeFileSync(
+      paths.ledger,
+      `${JSON.stringify({ schema: 1, note: "inherited", issued: ids }, null, 2)}\n`,
+    );
+    const baseline = JSON.parse(readFileSync(paths.baseline, "utf8")) as {
+      highWater: Record<string, number>;
+    };
+    writeFileSync(
+      paths.baseline,
+      `${JSON.stringify(
+        {
+          schema: 1,
+          note: "inherited",
+          count: ids.length,
+          digest: v1Digest(ids),
+          highWater: baseline.highWater,
+        },
+        null,
+        2,
+      )}\n`,
+    );
+  }
+
+  it("refuses every normal command until the migration is run", SLOW, () => {
+    const paths = scratch();
+    asV1(paths);
+    const before = fingerprint(paths);
+    for (const mode of ["anchors", "ledger", "check", "recover"]) {
+      const result = run(mode, paths);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/-- migrate/);
+    }
+    expect(fingerprint(paths)).toBe(before);
+  });
+
+  it(
+    "carries membership forward exactly, and records what it cannot know",
+    SLOW,
+    () => {
+      const paths = scratch();
+      const liveIds = new Set(
+        (
+          JSON.parse(readFileSync(paths.anchors, "utf8")) as {
+            anchors: { anchor: string }[];
+          }
+        ).anchors.map((anchor) => anchor.anchor),
+      );
+      const idsBefore = issuedIds(paths.ledger).sort();
+      const sidecarBefore = readFileSync(paths.anchors, "utf8");
+      asV1(paths);
+
+      const result = run("migrate", paths);
+      expect(result.status).toBe(0);
+      // Membership is unchanged — a migration is not a repair and not a reset.
+      expect(issuedIds(paths.ledger).sort()).toStrictEqual(idsBefore);
+      // A live binding's coordinate is genuine evidence; a retired one's is gone
+      // and is recorded as gone rather than filled in.
+      for (const issuance of issuances(paths.ledger)) {
+        if (liveIds.has(issuance.id)) {
+          expect(issuance.site).toMatch(/^[0-9a-f]{12}$/);
+        } else {
+          expect(issuance.unknown).toStrictEqual(["site", "text"]);
+        }
+      }
+      expect(result.stdout).toMatch(/UNRECOVERABLE/);
+      // The sidecar is not a migration target.
+      expect(readFileSync(paths.anchors, "utf8")).toBe(sidecarBefore);
+      // And the project works straight afterwards.
+      expect(run("anchors", paths).status).toBe(0);
+      expect(run("check", paths).status).toBe(0);
+    },
+  );
+
+  it(
+    "refuses to migrate an inherited pair that disagrees with itself",
+    SLOW,
+    () => {
+      // Migration must not be the step that launders a truncation into a lineage.
+      const paths = scratch();
+      const burned = retiredId(paths);
+      asV1(paths);
+      editLedger(paths.ledger, (body) => {
+        body.issued = (body.issued as unknown as string[]).filter(
+          (id) => id !== burned,
+        );
+      });
+      const before = fingerprint(paths);
+      const result = run("migrate", paths);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/does not agree with itself/);
+      expect(fingerprint(paths)).toBe(before);
+    },
+  );
+});
+
+describe("a path override may not reach canonical authority by alias", () => {
+  /**
+   * The isolation guarantee, tested against the filesystem rather than spelling.
+   *
+   * `resolve` is lexical. A symlink in a scratch directory pointing at the
+   * repository's own ledger, and a scratch path whose PARENT is a link to
+   * `scripts/prose-corpus`, both passed the "aimed back at a repository file"
+   * guard and then read canonical authority — while the run printed that it
+   * "does not read the repository's own files".
+   */
+  function aliasDir(): string {
+    const dir = mkdtempSync(join(tmpdir(), "anchor-alias-"));
+    dirs.push(dir);
+    return dir;
+  }
+
+  it("refuses symlinks aimed at each canonical file", SLOW, () => {
+    const dir = aliasDir();
+    const alias: Scratch = {
+      anchors: join(dir, "a.json"),
+      ledger: join(dir, "l.json"),
+      baseline: join(dir, "b.json"),
+    };
+    symlinkSync(join(REPO, LIVE_ANCHORS), alias.anchors);
+    symlinkSync(join(REPO, LIVE_LEDGER), alias.ledger);
+    symlinkSync(join(REPO, LIVE_BASELINE), alias.baseline);
+
+    const before = repoTrio();
+    for (const mode of ["check", "ledger", "anchors", "recover", "bootstrap"]) {
+      const result = run(mode, alias);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/resolves to the repository's own/);
+      expect(result.stderr).toMatch(/symlink or aliased directory/);
+    }
+    expect(repoTrio()).toBe(before);
+  });
+
+  it("refuses paths reached through a symlinked parent directory", SLOW, () => {
+    const dir = aliasDir();
+    const linked = join(dir, "corpus");
+    symlinkSync(join(REPO, "scripts/prose-corpus"), linked);
+    const alias: Scratch = {
+      anchors: join(linked, "computed-anchors.json"),
+      ledger: join(linked, "computed-anchor-ledger.json"),
+      baseline: join(linked, "computed-anchor-baseline.json"),
+    };
+
+    const before = repoTrio();
+    for (const mode of ["check", "ledger", "anchors"]) {
+      const result = run(mode, alias);
+      expect(result.status).not.toBe(0);
+      expect(result.stderr).toMatch(/resolves to the repository's own/);
+    }
+    expect(repoTrio()).toBe(before);
+  });
+
+  it("refuses two overrides that are aliases of one file", SLOW, () => {
+    const dir = aliasDir();
+    const real = join(dir, "one.json");
+    copyFileSync(join(REPO, LIVE_LEDGER), real);
+    const link = join(dir, "also-one.json");
+    symlinkSync(real, link);
+    const alias: Scratch = {
+      anchors: join(dir, "anchors.json"),
+      ledger: real,
+      baseline: link,
+    };
+    copyFileSync(join(REPO, LIVE_ANCHORS), alias.anchors);
+
+    const result = run("check", alias);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/resolve to the same file/);
+  });
+
+  it("still accepts an ordinary disposable bundle", SLOW, () => {
+    // The guard must not have closed the door the overrides exist for.
+    const paths = scratch();
+    const before = repoTrio();
+    expect(run("check", paths).status).toBe(0);
+    expect(repoTrio()).toBe(before);
+  });
+
+  it(
+    "accepts a bundle that merely LIVES under a symlinked directory",
+    SLOW,
+    () => {
+      // Canonicalisation must reject aliases of canonical files, not every path
+      // that happens to involve a link. A scratch bundle behind a linked parent is
+      // still a scratch bundle.
+      const paths = scratch();
+      const dir = aliasDir();
+      const linked = join(dir, "bundle");
+      symlinkSync(
+        paths.anchors.slice(0, paths.anchors.lastIndexOf("/")),
+        linked,
+      );
+      const viaLink: Scratch = {
+        anchors: join(linked, "computed-anchors.json"),
+        ledger: join(linked, "computed-anchor-ledger.json"),
+        baseline: join(linked, "computed-anchor-baseline.json"),
+      };
+      const result = run("check", viaLink);
+      expect(result.stderr).toBe("");
+      expect(result.status).toBe(0);
     },
   );
 });

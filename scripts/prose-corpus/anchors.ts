@@ -5,9 +5,14 @@ import {
   AnchorHistoryError,
   atomicWriteFile,
   isAnchorId,
+  issuanceOf,
+  siteDigest,
   sortIssued,
   symbolOf,
+  unrecoverableIssuance,
   type AllocationHistory,
+  type AnchorIssuance,
+  type LiveBinding,
 } from "./anchor-history";
 import type { ScannedLiteral } from "./scan";
 
@@ -93,6 +98,29 @@ export function contextRevisionOf(
     .sort()
     .join(RECORD);
   return createHash("sha256").update(canonical).digest("hex").slice(0, 12);
+}
+
+/**
+ * The site coordinate of a live binding, digested.
+ *
+ * Path, symbol and occurrence — never the text. Those three are what a binding
+ * IS: rewording keeps them, and a site that moves file or symbol is retired and
+ * re-minted rather than carried across, so this is stable for the whole life of
+ * an anchor and can therefore be checked against what history recorded.
+ */
+export function siteOf(anchor: ComputedAnchor): string {
+  return siteDigest(anchor.sourcePath, anchor.symbol, anchor.occurrence);
+}
+
+/** The live sidecar reduced to what allocation history can be checked against. */
+export function liveBindingsOf(
+  anchors: readonly ComputedAnchor[],
+): LiveBinding[] {
+  return anchors.map((anchor) => ({
+    id: anchor.anchor,
+    site: siteOf(anchor),
+    where: `${anchor.sourcePath} ${anchor.symbol} #${anchor.occurrence}`,
+  }));
 }
 
 /** True when the sidecar file is actually present. */
@@ -446,6 +474,14 @@ export interface MintOutcome {
    */
   readonly issued: readonly string[];
   /**
+   * The same history with each id's recorded binding.
+   *
+   * A prior record is carried forward byte-for-byte; only a newly minted id
+   * gets a new one. Retirement changes nothing here — that is the whole point:
+   * the live binding goes and the issuance provenance stays.
+   */
+  readonly issuances: readonly AnchorIssuance[];
+  /**
    * IDs the ledger burns that no live anchor holds — retired identities.
    *
    * Reported so a mint can prove it reused none of them.
@@ -638,6 +674,21 @@ export function mintAnchors(
   const issued = sortIssued(reserved);
   const live = new Set(anchors.map((anchor) => anchor.anchor));
 
+  // Provenance, carried rather than recomputed. A prior record is history and
+  // is reproduced exactly; a newly minted id records the site it was issued for
+  // and the literal it was issued against. Neither a retirement nor a rewording
+  // touches an existing record.
+  const mintedNow = new Set(minted);
+  const issuances = issued.map((id): AnchorIssuance => {
+    const prior = history.issuances.get(id);
+    if (prior && !mintedNow.has(id)) return prior;
+    const anchor = kept.get(id);
+    if (anchor) return issuanceOf(id, siteOf(anchor), anchor.textRevision);
+    // Reachable only for an id the verified-history gate would already have
+    // refused. Recording nothing is the honest outcome; nothing is invented.
+    return prior ?? unrecoverableIssuance(id);
+  });
+
   return {
     anchors,
     minted: minted.sort(),
@@ -645,6 +696,7 @@ export function mintAnchors(
     removed: removed.sort(),
     refused,
     issued,
+    issuances,
     burned: issued.filter((id) => !live.has(id)),
   };
 }

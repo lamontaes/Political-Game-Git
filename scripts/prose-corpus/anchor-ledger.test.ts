@@ -6,12 +6,17 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   allocationHistory,
   baselineOf,
+  indexOfId,
+  issuanceOf,
   ledgerOf,
   loadAnchorLedger,
   LEDGER_NOTE,
   LEDGER_SCHEMA,
+  siteDigest,
+  symbolOf,
   writeAnchorLedger,
   type AllocationHistory,
+  type AnchorIssuance,
 } from "./anchor-history";
 import { mintAnchors, revisionOf, type ComputedAnchor } from "./anchors";
 import type { ScannedLiteral } from "./scan";
@@ -83,9 +88,19 @@ function idOf(anchors: readonly ComputedAnchor[], text: string): string {
  * point: the removed default was itself the defect, and a test that could omit
  * the argument would be testing a path production can no longer reach.
  */
+function records(issued: readonly string[]): AnchorIssuance[] {
+  return issued.map((id) =>
+    issuanceOf(
+      id,
+      siteDigest("scripts/prose-corpus/probe.ts", symbolOf(id), indexOfId(id)),
+      siteDigest("text", id, 0),
+    ),
+  );
+}
+
 function historyOf(issued: readonly string[]): AllocationHistory {
-  const ledger = ledgerOf(issued);
-  return allocationHistory(ledger, baselineOf(ledger.issued));
+  const ledger = ledgerOf(records(issued));
+  return allocationHistory(ledger, baselineOf(ledger.issuances));
 }
 
 const tempDirs: string[] = [];
@@ -276,16 +291,18 @@ describe("the ledger does not change settled behaviour", () => {
 describe("the ledger file round-trips deterministically", () => {
   it("writes sorted, de-duplicated ids and reads them back unchanged", () => {
     const path = tempLedgerPath();
+    const unsorted = records([
+      `${SYMBOL}-0002`,
+      `${SYMBOL}-0001`,
+      `${SYMBOL}-0002`,
+      "quietSentence-0001",
+    ]);
     writeAnchorLedger(
       {
         schema: LEDGER_SCHEMA,
         note: LEDGER_NOTE,
-        issued: [
-          `${SYMBOL}-0002`,
-          `${SYMBOL}-0001`,
-          `${SYMBOL}-0002`,
-          "quietSentence-0001",
-        ],
+        issuances: unsorted,
+        issued: unsorted.map((issuance) => issuance.id),
       },
       path,
     );
@@ -355,9 +372,9 @@ describe("live anchors are reconciled against history, not seeded from it", () =
   it("mints above the checkpoint's mark even when the ledger lost the entry", () => {
     // A ledger quietly shortened by one retired id. Detection reports it, and
     // independently of detection the floor keeps the number closed.
-    const intact = ledgerOf([`${SYMBOL}-0001`, `${SYMBOL}-0002`]);
-    const checkpoint = baselineOf(intact.issued);
-    const shortened = ledgerOf([`${SYMBOL}-0001`]);
+    const intact = ledgerOf(records([`${SYMBOL}-0001`, `${SYMBOL}-0002`]));
+    const checkpoint = baselineOf(intact.issuances);
+    const shortened = ledgerOf(records([`${SYMBOL}-0001`]));
     const history = allocationHistory(shortened, checkpoint);
     expect(history.highWater[SYMBOL]).toBe(2);
 

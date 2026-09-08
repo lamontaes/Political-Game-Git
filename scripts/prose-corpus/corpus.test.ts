@@ -7,7 +7,12 @@ import {
   loadAnchorLedger,
   verifyAllocationHistory,
 } from "./anchor-history";
-import { contextRevisionOf, loadAnchorFile, revisionOf } from "./anchors";
+import {
+  contextRevisionOf,
+  liveBindingsOf,
+  loadAnchorFile,
+  revisionOf,
+} from "./anchors";
 import { buildCoverageReport } from "./coverage";
 import { runDiagnostics } from "./diagnostics";
 import { findIdCollisions, parseProseId, proseId, templateSlots } from "./ids";
@@ -598,7 +603,7 @@ describe("computed-anchor allocation history is intact", () => {
     const problems = verifyAllocationHistory({
       ledger: loadAnchorLedger(),
       baseline: loadAnchorBaseline(),
-      liveIds: loadAnchorFile().anchors.map((anchor) => anchor.anchor),
+      live: liveBindingsOf(loadAnchorFile().anchors),
     });
     // A failure here means a retired id could be re-issued to unrelated prose,
     // carrying an owner's recorded judgement onto text nobody reviewed.

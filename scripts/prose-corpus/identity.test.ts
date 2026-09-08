@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   allocationHistory,
   baselineOf,
+  issuanceOf,
   ledgerOf,
   type AllocationHistory,
 } from "./anchor-history";
@@ -12,6 +13,7 @@ import {
   resolveAnchors,
   revisionOf,
   contextRevisionOf,
+  siteOf,
   type ComputedAnchor,
 } from "./anchors";
 import {
@@ -55,8 +57,12 @@ const SURFACE: ComputedSurface = {
  * their own fixture implies and nothing more.
  */
 function historyOf(anchors: readonly ComputedAnchor[]): AllocationHistory {
-  const ledger = ledgerOf(anchors.map((anchor) => anchor.anchor));
-  return allocationHistory(ledger, baselineOf(ledger.issued));
+  const ledger = ledgerOf(
+    anchors.map((anchor) =>
+      issuanceOf(anchor.anchor, siteOf(anchor), anchor.textRevision),
+    ),
+  );
+  return allocationHistory(ledger, baselineOf(ledger.issuances));
 }
 
 function mintFresh(): readonly ComputedAnchor[] {
