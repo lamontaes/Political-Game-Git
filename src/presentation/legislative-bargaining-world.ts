@@ -5,10 +5,10 @@ import {
   drawCanonicalName,
   floorStageByKey,
   legislativeBlueprint,
+  lifePlaceByJurisdictionId,
   makeIsoDate,
   measurePosition,
   recordFiledProvision,
-  recordRelationshipInteraction,
   recordWorldEvent,
   seatBodyForPack,
   authoredScenarioSeatCount,
@@ -30,8 +30,6 @@ import {
   FILED_SECTION_BRIEFS,
   FISCAL_NOTE_SUMMARY,
   formatPresentationTime,
-  PRIOR_ADVOCATE_HISTORY_SUMMARY,
-  PRIOR_GUARDIAN_HISTORY_SUMMARY,
   playerHasReadFiscalNoteFor,
   type LegislativeBargainingSeat,
 } from "./legislative-bargaining-brief";
@@ -43,6 +41,7 @@ import {
   resolvePlayerCapabilities,
   withheldReason,
 } from "./player-capabilities";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 
 /**
  * The one question a seated winner's route is allowed to ask:
@@ -92,20 +91,30 @@ export function openLegislativeBargaining(
       "The bargaining route can only be opened for the controlled character.",
     );
   }
-  if (!capabilities.legislation) {
+  // Voting membership is not the office capability. Staff legitimately hold
+  // the office and its bill; only a seat the canonical winner chain actually
+  // supports may enter the members' room, and the resolver says which.
+  const membership = resolveActiveMemberSeat(world, input.playerPersonId);
+  if (membership.kind !== "seated") {
     return {
       kind: "unavailable",
       reason:
-        withheldReason(capabilities, "legislation") ??
-        "This character holds no legislative seat.",
+        capabilities.office && !capabilities.legislation
+          ? (withheldReason(capabilities, "legislation") ?? membership.reason)
+          : membership.reason,
     };
   }
-  const scenarioKey = capabilities.legislativeScenarioKey;
-  const governingJurisdictionId = capabilities.legislativeJurisdictionId;
-  if (!scenarioKey || !governingJurisdictionId) {
+  const memberSeat = membership.seat;
+  const governingJurisdictionId = memberSeat.governingJurisdictionId;
+  // The scenario surface belongs to the governing state the seat records —
+  // never to where the member lives.
+  const scenarioKey =
+    lifePlaceByJurisdictionId(governingJurisdictionId)?.capabilities
+      .legislativeScenarioKey ?? null;
+  if (!scenarioKey) {
     return {
       kind: "unavailable",
-      reason: "This legislature has no accepted rule-pack surface.",
+      reason: "The governing state has no accepted rule-pack surface.",
     };
   }
   if (!bargainingBriefSupports(scenarioKey)) {
@@ -143,8 +152,22 @@ export function openLegislativeBargaining(
       reason: `${blueprint.designation} is not on the floor yet; the members' room has nothing to bargain over until it is.`,
     };
   }
-  const chamberKey = position.chamberKey ?? blueprint.pack.chamberOrder[0]!;
-  const chamber = chamberByKey(blueprint.pack, chamberKey);
+  if (blueprint.pack.packId !== memberSeat.legislativeRulePackId) {
+    return {
+      kind: "unavailable",
+      reason: "The seat's rule pack does not match this legislature's bill.",
+    };
+  }
+  // The sitting happens on the member's own floor. A bill before the other
+  // chamber, or one whose position names no chamber, is truthfully not in
+  // front of this member — there is no default chamber.
+  if (position.chamberKey !== memberSeat.chamberKey) {
+    return {
+      kind: "unavailable",
+      reason: `${blueprint.designation} is not before this member's chamber.`,
+    };
+  }
+  const chamber = chamberByKey(blueprint.pack, memberSeat.chamberKey);
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
 
   // The colleagues this sitting models, persisted through the same accepted
@@ -192,13 +215,6 @@ export function openLegislativeBargaining(
     jurisdictionId: measure.jurisdictionId,
     analystPersonId,
   });
-  next = ensurePriorWorkingHistory(next, {
-    scenarioKey,
-    playerPersonId: input.playerPersonId,
-    advocatePersonId,
-    guardianPersonId,
-  });
-
   const sponsorPersonId = characterHistoryContextPersonId(
     next,
     `legislative-work:${scenarioKey}:member`,
@@ -236,6 +252,7 @@ export function openLegislativeBargaining(
   });
 
   const seat: LegislativeBargainingSeat = {
+    memberSeatStableKey: memberSeat.relationshipStableKey,
     scenario: {
       pack: blueprint.pack,
       measureId,
@@ -256,6 +273,13 @@ export function openLegislativeBargaining(
       chamberName: chamber.name,
       advocatePersonId,
       guardianPersonId,
+      // What the read claims about the past is read from the record, never
+      // asserted for it.
+      workedWithAdvocateBefore: havePriorInteraction(
+        next,
+        input.playerPersonId,
+        advocatePersonId,
+      ),
     }),
     roomContext,
     privateRoomContext,
@@ -282,6 +306,18 @@ export function openLegislativeBargaining(
 
 function fiscalNoteStableKey(scenarioKey: string): string {
   return `legislative-work:${scenarioKey}:fiscal-note`;
+}
+
+/** Whether these two people have any recorded history with each other. */
+function havePriorInteraction(
+  world: World,
+  first: EntityId,
+  second: EntityId,
+): boolean {
+  return world.history.relationshipInteractions.some(
+    (record) =>
+      record.personIds.includes(first) && record.personIds.includes(second),
+  );
 }
 
 function ensureContextPerson(
@@ -404,62 +440,6 @@ function ensureFiscalNote(
       immediateReaction: null,
     },
   });
-}
-
-function ensurePriorWorkingHistory(
-  world: World,
-  input: {
-    readonly scenarioKey: string;
-    readonly playerPersonId: EntityId;
-    readonly advocatePersonId: EntityId;
-    readonly guardianPersonId: EntityId;
-  },
-): World {
-  let next = world;
-  const advocateKey = `legislative-work:${input.scenarioKey}:prior:advocate`;
-  if (
-    !next.history.relationshipInteractions.some(
-      (record) => record.stableKey === advocateKey,
-    )
-  ) {
-    next = recordRelationshipInteraction(next, {
-      stableKey: advocateKey,
-      personIds: canonicalPair(input.playerPersonId, input.advocatePersonId),
-      eventId: null,
-      occurredAt: next.currentDate,
-      kind: "work:co-sponsored-bill",
-      change: "strengthened",
-      significance: "meaningful",
-      summary: PRIOR_ADVOCATE_HISTORY_SUMMARY,
-      tags: ["relationship.shared-work", "legislation.bargaining"],
-    });
-  }
-  const guardianKey = `legislative-work:${input.scenarioKey}:prior:guardian`;
-  if (
-    !next.history.relationshipInteractions.some(
-      (record) => record.stableKey === guardianKey,
-    )
-  ) {
-    next = recordRelationshipInteraction(next, {
-      stableKey: guardianKey,
-      personIds: canonicalPair(input.playerPersonId, input.guardianPersonId),
-      eventId: null,
-      occurredAt: next.currentDate,
-      kind: "contact:committee-acquaintance",
-      change: "maintained",
-      significance: "minor",
-      summary: PRIOR_GUARDIAN_HISTORY_SUMMARY,
-      tags: ["relationship.shared-work"],
-    });
-  }
-  return next;
-}
-
-function canonicalPair(
-  first: EntityId,
-  second: EntityId,
-): readonly [EntityId, EntityId] {
-  return first.localeCompare(second) <= 0 ? [first, second] : [second, first];
 }
 
 /**

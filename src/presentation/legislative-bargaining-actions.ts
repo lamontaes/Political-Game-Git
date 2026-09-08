@@ -26,6 +26,29 @@ import {
   type LegislativeBargainingSeat,
 } from "./legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
+
+/**
+ * The write boundary re-establishes the seat it is about to act on.
+ *
+ * A production seat names the member-seat record it was opened on. Between
+ * opening the room and putting a question to the chamber, that membership can
+ * end or stop being supported; a stale or forged resolved seat must not carry
+ * a vote. The check is the same read-only resolver the entry uses — no second
+ * authorization framework — and it runs before anything is written.
+ */
+function assertSeatStillHeld(world: World, seat: LegislativeBargainingSeat) {
+  if (!seat.memberSeatStableKey) return;
+  const resolution = resolveActiveMemberSeat(world, seat.playerPersonId);
+  if (
+    resolution.kind !== "seated" ||
+    resolution.seat.relationshipStableKey !== seat.memberSeatStableKey
+  ) {
+    throw new Error(
+      "This member no longer holds the seat this sitting was opened on; nothing was put to the chamber.",
+    );
+  }
+}
 
 /**
  * The two moves that actually change something.
@@ -73,6 +96,7 @@ export function offerNegotiatedAmendment(
   progress: LegislativeBargainingProgress,
   variant: AmendmentVariant,
 ): AmendmentResult {
+  assertSeatStillHeld(world, seat);
   const facts = progress.subjectFacts;
   const scenario = seat.scenario;
   const position = measurePosition(world, seat.measureId);
@@ -179,6 +203,7 @@ export function takeNegotiatedFloorVote(
   seat: LegislativeBargainingSeat,
   progress: LegislativeBargainingProgress,
 ): FloorVoteResult {
+  assertSeatStillHeld(world, seat);
   const scenario = seat.scenario;
   const position = measurePosition(world, seat.measureId);
   const chamberKey = position.chamberKey ?? "house";

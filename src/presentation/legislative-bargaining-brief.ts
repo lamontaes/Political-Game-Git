@@ -121,13 +121,21 @@ export function bargainingScenePeople(input: {
   readonly chamberName: string;
   readonly advocatePersonId: EntityId;
   readonly guardianPersonId: EntityId;
+  /**
+   * Whether the record actually carries shared work with the advocate. The
+   * read never claims a past the world does not hold; a first-term member
+   * meets a colleague they have not worked with, and the read says so.
+   */
+  readonly workedWithAdvocateBefore: boolean;
 }): readonly [RunBScenePersonContext, RunBScenePersonContext] {
   return [
     {
       personId: input.advocatePersonId,
       title: `Member, ${input.chamberName}`,
       role: `Represents ${PLACE_LABEL} and the counties around it`,
-      qualitativeRead: "You have worked together before",
+      qualitativeRead: input.workedWithAdvocateBefore
+        ? "You have worked together before"
+        : "You have not worked with them before",
       inferredRead: `Direct about what ${PLACE_LABEL} needs and unembarrassed about asking. You do not know how far they will go for it.`,
       anchorId: "primary-desk-chair",
       visualVariant: "primary",
@@ -210,6 +218,16 @@ export function bargainingSubjectFacts(input: {
  * read the seat, never the constructor behind it.
  */
 export interface LegislativeBargainingSeat {
+  /**
+   * The stable key of the canonical member-seat work relationship this
+   * sitting was opened on, when it was opened through the production route.
+   * The floor actions re-resolve the seat against the current world before
+   * writing, so a seat that has since ended or been contradicted refuses at
+   * the write boundary. The developer fixture's synthetic world has no such
+   * record and leaves this unset; that route never reaches production (see
+   * legislative-bargaining-no-fixture.test.ts).
+   */
+  readonly memberSeatStableKey?: string;
   readonly scenario: LegislativeProcedureContext;
   readonly measureId: EntityId;
   readonly measureStableKey: string;
