@@ -763,6 +763,126 @@
       "textRevision": "60c5e17833cb"
     },
     {
+      "anchor": "COMMIT_CONTRACTS-0077",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player listened for the next relevant contribution.",
+      "occurrence": 1,
+      "textRevision": "be4e067a1644"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0078",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A conversation between members about a bill that is still open to change.",
+      "occurrence": 0,
+      "textRevision": "601b6da38508"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0079",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Find out what the other member actually needs, without pretending anything said here is already in the bill.",
+      "occurrence": 0,
+      "textRevision": "c5ae3f617d12"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0080",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The members' room off the chamber floor",
+      "occurrence": 0,
+      "textRevision": "0fcd177ef038"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0081",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked for the fiscal note to be read before anything further was said.",
+      "occurrence": 0,
+      "textRevision": "35fd2f11fe44"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0082",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} what they actually want out of the bill.",
+      "occurrence": 0,
+      "textRevision": "41eba8009396"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0083",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} where they will be when the bill is called.",
+      "occurrence": 0,
+      "textRevision": "88012276b5c0"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0084",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player countered {addresseeName} with the same section written to a ceiling.",
+      "occurrence": 0,
+      "textRevision": "71eb8371829a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0085",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player declined what {addresseeName} asked for and heard what it cost.",
+      "occurrence": 0,
+      "textRevision": "018879e89c2c"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0086",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player offered to carry the named section {addresseeName} asked for.",
+      "occurrence": 0,
+      "textRevision": "a24bfab474f2"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0087",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player offered {addresseeName} a personal benefit, and it was refused.",
+      "occurrence": 0,
+      "textRevision": "8136e4886fed"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0088",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player put {addresseeName}'s own words back in front of them.",
+      "occurrence": 0,
+      "textRevision": "f291d18eb06a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0089",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "measure bargaining",
+      "occurrence": 0,
+      "textRevision": "b44e0a4d55b7"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0090",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{facts.designation} is on the {facts.chamberName} floor and the text can still change; after {facts.nextStepLabel} it cannot.",
+      "occurrence": 0,
+      "textRevision": "b0078ac0b94a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0091",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} {words[outcome]}",
+      "occurrence": 0,
+      "textRevision": "956c490a5f7b"
+    },
+    {
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
@@ -2955,14 +3075,6 @@
       "textRevision": "2657fc7a1dfb"
     },
     {
-      "anchor": "threadMovementSentence-0016",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "symbol": "threadMovementSentence",
-      "text": "What you said you'd do about {subject} came up.",
-      "occurrence": 0,
-      "textRevision": "7aff55d123e1"
-    },
-    {
       "anchor": "threadMovementSentence-0004",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "threadMovementSentence",
@@ -3049,6 +3161,14 @@
       "text": "{capitalize(payment)} came up.",
       "occurrence": 0,
       "textRevision": "e272986e000f"
+    },
+    {
+      "anchor": "threadMovementSentence-0016",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "What you said you'd do about {subject} came up.",
+      "occurrence": 0,
+      "textRevision": "7aff55d123e1"
     },
     {
       "anchor": "unavailable-0001",
