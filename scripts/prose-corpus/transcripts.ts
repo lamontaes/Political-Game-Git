@@ -149,8 +149,13 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     key: "campaign-alternate",
     intent:
       "A second candidacy on a different seed, so a contest outcome is not read from one run.",
+    // Re-seeded from `corpus-campaign-b` after the P2 prose wave: withholding
+    // five under-grounded ordinary scenes changed the deterministic pre-filing
+    // beats enough that the old seed's contest resolved as a second win, and
+    // this lane exists to show a loss. `corpus-campaign-c` loses on the same
+    // seams.
     setup: setup({
-      seed: "corpus-campaign-b",
+      seed: "corpus-campaign-c",
       startAge: 41,
       placeKey: "lexington-fayette",
       depth: "summarize-earlier-life",

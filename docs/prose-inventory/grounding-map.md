@@ -17,8 +17,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `conversation/conversation-subject` | 65 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
-| `life/adult` | 382 | 0 | 0 | colleague-identity, household-kinship, persistent-cast |
-| `life/callback` | 30 | 0 | 0 | — |
+| `life/adult` | 382 | 47 | 0 | colleague-identity, household-kinship, persistent-cast |
+| `life/callback` | 41 | 0 | 0 | — |
 | `life/episode` | 558 | 104 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 8 | 0 | 0 | — |
@@ -48,10 +48,11 @@ count is how many families' declared grounding touches each one.
 
 ## Withheld scenes and the evidence each one is missing
 
-104 templates across 10 distinct
+151 templates across 15 distinct
 missing-evidence reasons. Each reason is the bank's own, read from the stage's
 `withheld` requirement rather than restated here.
 
+- **adult.small-windfall** — A money scene needs the amount, the source and whether anything already claims it, and the world records no receipt this could read. Money that arrives from nowhere in no amount cannot be grounded.
 - **work.the-shift-you-were-asked-for/asked-by-a-colleague** — Missing canonical colleague coverage request and known funeral reason.
 - **kin.the-work-that-is-not-paid/the-family-shop** — Missing canonical family business/work relationship and unpaid weekend request; kinship is insufficient.
 - **work.the-shift-you-were-asked-for/called-in** — Missing canonical supervisor shift request and coursework/evening conflict.
@@ -62,6 +63,10 @@ missing-evidence reasons. Each reason is the bank's own, read from the stage's
 - **civic.the-thing-nobody-else-turned-up-for/sandbag-line** — Missing relevant local flood/affected-place evidence and sandbag activity/participation context; an unrelated active incident is insufficient.
 - **school.the-thing-you-got-blamed-for/carrying-the-group** — Missing shared enrollment, assignment/deadline and contribution evidence.
 - **work.the-money-nobody-counts/pooled-tips** — Missing tipped workplace/pooling arrangement, cash removal and direct witness evidence.
+- **adult.household-repair** — The scene depends on a specific broken household object, and the world keeps no record that could name one. Until a canonical household object or repair record exists, an unnamed broken 'something' cannot be grounded, and a prettier synonym for 'thing' would not ground it either.
+- **adult.unexpected-expense** — The scene depends on a specific object having broken and on the month's arithmetic, and the world records neither objects nor monthly amounts. An unnamed broken 'something' with an unstated cost cannot be grounded.
+- **adult.housing-repair-standoff** — The scene depends on a specific unrepaired defect and a recorded repair-responsible counterpart, and the world contains neither: dwellings carry no defect records and tenures name no landlord. Withheld rather than rewritten around an unnamed broken 'something'.
+- **adult.household-money-shortfall** — The scene depends on the month's arithmetic having moved, and the world keeps no monthly income or spending record that could say so. Grounded money pressure lives in adult.debt-call and adult.housing-cost-change, which read recorded obligations.
 
 ## Families whose grounding the banks do not declare
 

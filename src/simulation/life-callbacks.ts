@@ -58,7 +58,7 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  * does not say what it is going to cost, because at this point nobody knows
  * and the record should not pretend to.
  */
-const RETURN_SUMMARY: Readonly<Record<string, string>> = {
+export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.family-request":
     "The two weeks you did or did not give came up again, in a conversation that was about something else.",
   "adult.care-request":
@@ -67,35 +67,62 @@ const RETURN_SUMMARY: Readonly<Record<string, string>> = {
     "The favour turned out to have been remembered rather more precisely than you remembered it.",
   "adult.friend-in-difficulty":
     "What you were told, and what you did about it, came back up.",
+  "adult.friend-good-news":
+    "Whether you turned up that evening turned out to have been remembered.",
   "adult.work-credit":
     "The thing about whose work it was had not been dropped after all.",
   "adult.work-extra-hours":
     "The hours you took, or did not take, turned out to have been counted.",
+  // The adult scene has senior staff and colleagues in it, not a customer;
+  // that detail belonged to the formative bank and was never true here.
   "adult.work-rule-pressure":
-    "The morning with the rule and the customer came back, from a direction you had not expected.",
+    "The business with the rule at work came back, from a direction you had not expected.",
+  "adult.work-colleague-struggling":
+    "What you did about the colleague who was not managing turned out to have been noticed.",
   "adult.local-dispute":
     "The business with the other household was not over, whatever the meeting had decided.",
   "adult.community-building":
     "What was decided about the building came back round, and the people it had cost were still there.",
   "adult.petition-ask":
-    "Your name on that list was read by somebody who had not been meant to read it.",
+    "Your name on that list turned out to have been read and remembered.",
   "adult.candidacy-approach":
     "The question about standing for something came back, and this time it was not casual.",
   "adult.incident-aftermath":
-    "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
+    "What you did in the days afterwards came up again, long after everybody else had stopped talking about it.",
+  // No incident kind is claimed: the incident engine decides what happened,
+  // and "the flooding" was an invention on top of it.
   "adult.incident-neighbour-help":
-    "What you gave, or kept, after the flooding turned out to have been noticed.",
+    "What you gave, or kept, when the other household needed it turned out to have been noticed.",
   "adult.promise-comes-due":
-    "The thing you rearranged came round a second time, and there was less room to rearrange it.",
-  "adult.old-favour-returns":
-    "It came back a third time, which is when a favour stops being a favour.",
+    "What you said you'd do came round a second time, and there was less room to move it.",
+  "adult.old-favour-returns": "The same favour came back a third time.",
   "adult.household-standing":
-    "The thing about the week that never gets done was raised again, and this time not by you.",
+    "The business about the week's errands was raised again, and this time not by you.",
   "adult.household-quiet-evening":
-    "An evening you had not thought about turned out to have counted for something.",
+    "An evening at home you had not thought twice about turned out to have been remembered.",
   "adult.partner-plan": "The plan you settled on stopped being settled.",
   "adult.work-offer-elsewhere":
-    "What you did about the offer got back to somebody it was not supposed to.",
+    "What you did about the offer turned out to have been talked about.",
+  "adult.debt-call":
+    "What you still owed came back up, on somebody else's schedule again.",
+  "adult.housing-cost-change":
+    "The business about what it costs to stay came back around.",
+  "adult.help-with-strings":
+    "The offer of help, and what you did with it, came up again.",
+  "adult.volunteer-ask": "The Saturdays you gave, or kept, came up again.",
+  "adult.weekend-invitation":
+    "Whether you came that Saturday turned out to have been noticed.",
+  // These four situations are withheld from new play, but a save made before
+  // the withholding can still carry a scheduled callback naming them, and a
+  // record that comes due must still read as itself.
+  "adult.household-repair":
+    "The favour you asked over the repair came back around.",
+  "adult.household-money-shortfall":
+    "The extra work you took on to cover the month came up again.",
+  "adult.housing-repair-standoff":
+    "The business with the repairs and the rent came back around.",
+  "adult.small-windfall":
+    "The money you passed on turned out to have been remembered.",
   "conversation.subject.household-obligation":
     "The week you handed over turned out to have been counted, and it was raised without much warmth.",
   "conversation.subject.neighborhood-meeting":
@@ -104,8 +131,11 @@ const RETURN_SUMMARY: Readonly<Record<string, string>> = {
     "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
 };
 
-const GENERIC_RETURN =
-  "Something decided a long time earlier turned out to still be there.";
+// The last resort, for an origin whose tag no summary covers. A test holds
+// that every situation able to schedule an aftermath has its own family
+// sentence, so this stays unreachable in ordinary play rather than becoming
+// the corpus's vaguest line by volume.
+const GENERIC_RETURN = "An earlier choice came back up.";
 
 /** Why nothing was scheduled, or why a scheduled thing came to nothing. */
 export type LifeCallbackReason =

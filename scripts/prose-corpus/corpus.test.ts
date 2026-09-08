@@ -537,11 +537,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // This pins the reported numbers to what the scanner actually returns.
     // Re-pinned after the P1 narration/thread migration
     // (docs/plans/active/p1-prose-migration.md) reshaped the life-narration
-    // banks and added its regression test file to the scanned tree.
+    // banks and added its regression test file to the scanned tree, and again
+    // after the P2 ordinary/adult scene and consequence migration
+    // (docs/plans/active/p2-prose-migration.md) reworded the adult and
+    // callback banks and added their regression test file.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48117);
-    expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(314);
+    expect(coverage.totalLiterals).toBe(48170);
+    expect(coverage.counts.INVENTORIED).toBe(1910);
+    expect(coverage.scannedFiles).toBe(315);
   });
 });
 

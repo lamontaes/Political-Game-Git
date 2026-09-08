@@ -926,10 +926,13 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     // life for something to have happened in.
     const left = playedShape("shape-a", 12);
     // The added 92C family-work thread makes the old `shape-b` witness take
-    // the same first twelve structural steps as `shape-a`. `shape-c` remains
-    // the deterministic counterexample: its different record produces a
-    // different played shape without relying on names or random prose.
-    const right = playedShape("shape-c", 12);
+    // the same first twelve structural steps as `shape-a`; the P2 prose wave's
+    // withholding of five under-grounded ordinary scenes then narrowed the
+    // early adult offering enough that `shape-c` converged with `shape-a` too.
+    // `shape-d` is the current deterministic counterexample: its different
+    // record produces a different played shape without relying on names or
+    // random prose.
+    const right = playedShape("shape-d", 12);
 
     const sameThreadShape =
       left.threads.families.join("|") === right.threads.families.join("|") &&
@@ -961,7 +964,7 @@ describe("Two lives differ for causal reasons, not in their names", () => {
 
   it("gives the two of them different numbers of live threads", () => {
     const left = playedShape("shape-a", 10);
-    const right = playedShape("shape-c", 10);
+    const right = playedShape("shape-d", 10);
     // Not a claim that any two lives must differ on this axis — only that
     // these two do, for reasons the records carry rather than by construction.
     const different =

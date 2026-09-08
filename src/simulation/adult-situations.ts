@@ -150,6 +150,20 @@ export interface AdultSituation {
   readonly stakes: LifeStakesTier;
   /** Which of the player's own priorities this moment sets against each other. */
   readonly tensions: readonly InterestTension[];
+  /**
+   * Why this situation is currently withheld from play, or absent when it is
+   * offered normally.
+   *
+   * A withheld situation stays authored — its key remains valid for saves that
+   * already carry it and for scheduled callbacks that still name it — but it is
+   * never offered again until the world actually contains the fact it is
+   * about. This is the same first-class withholding the episode banks use: the
+   * reason is written here, in the bank, and read by the corpus rather than
+   * inferred by it. P2 prose migration, following the PROSE-RESET rule that a
+   * scene which fundamentally depends on an object, amount or record the world
+   * does not contain is withheld rather than rewritten into prettier vagueness.
+   */
+  readonly withheld?: string;
   /** Whether the world currently contains the thing this is about. */
   readonly available: (context: AdultLifeContext) => boolean;
   /**
@@ -203,6 +217,12 @@ export interface AdultLifeContext {
    */
   readonly playerMadeCommitmentCount: number;
   readonly obligationCount: number;
+  /**
+   * Whether an active obligation with a `housing:` basis exists. A scene about
+   * what it costs to stay somewhere is offered only when the record actually
+   * carries a housing payment, not merely a tenure.
+   */
+  readonly hasHousingObligation: boolean;
   readonly civicParticipationCount: number;
   readonly hasDwelling: boolean;
   readonly hasHousingTenure: boolean;
@@ -364,11 +384,15 @@ export function buildAdultLifeContext(
     }
   }
 
-  const obligationCount = activeResourceObligationsForOwner(
+  const obligations = activeResourceObligationsForOwner(
     world,
     { kind: "person", personId },
     resourceCutoff,
-  ).length;
+  );
+  const obligationCount = obligations.length;
+  const hasHousingObligation = obligations.some((obligation) =>
+    obligation.basisKind.startsWith("housing:"),
+  );
 
   const playedKeys = new Set(
     world.history.memories
@@ -407,6 +431,7 @@ export function buildAdultLifeContext(
       lifeCutoff,
     ).filter((record) => record.stableKey.startsWith("adult-life:")).length,
     obligationCount,
+    hasHousingObligation,
     civicParticipationCount: participations.length,
     hasDwelling: activeDwellingOccupanciesAt(world, resourceCutoff).length > 0,
     hasHousingTenure: activeHousingTenuresAt(world, resourceCutoff).length > 0,
@@ -478,8 +503,11 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.household-standing",
     companion: "household-member",
     stakes: "notable",
+    // Grounded in the household errands work item `openOrdinaryLife` writes:
+    // the shopping and the appointments are the canonical week, so the scene
+    // names them instead of "the same thing".
     prose:
-      "The same thing has gone undone three weeks running, and it is not going to be mentioned again unless you mention it.",
+      "The shopping and the appointments have landed on you three weeks running, and nobody is going to mention it unless you do.",
     tensions: [
       tension(
         "personal-ties",
@@ -489,14 +517,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         "Keeping the peace, against saying what you are actually carrying.",
       ),
     ],
-    available: (context) => context.householdCompanionIds.length > 0,
+    available: (context) =>
+      context.householdCompanionIds.length > 0 && context.hasHouseholdWorkItem,
     options: [
       {
         key: "say-it",
         label: "Say it plainly",
         description: "Name what has been left, and to whom.",
         memory:
-          "You said out loud which of it had been yours for three weeks, and the room did not enjoy it.",
+          "You said out loud that the shopping and the appointments had been yours for three weeks.",
         witnessed:
           "They said which of the week had been theirs, and for how long.",
         stance: "engaged",
@@ -513,8 +542,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "absorb-it",
         label: "Do it yourself again",
         description: "Take it on rather than have the conversation.",
-        memory:
-          "You did it again yourself, and did not say so, and it stayed that way.",
+        memory: "You did the week again yourself, and did not say so.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -534,8 +562,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "set-it-out",
         label: "Work out who does what",
         description: "Turn it into a standing arrangement rather than a row.",
-        memory:
-          "You turned it into an arrangement instead of an argument, and it mostly held.",
+        memory: "You turned it into an arrangement instead of an argument.",
         witnessed:
           "They proposed splitting the week rather than arguing about the last one.",
         stance: "engaged",
@@ -550,6 +577,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.household-repair",
     companion: null,
     stakes: "ordinary",
+    withheld:
+      "The scene depends on a specific broken household object, and the world keeps no record that could name one. Until a canonical household object or repair record exists, an unnamed broken 'something' cannot be grounded, and a prettier synonym for 'thing' would not ground it either.",
     prose:
       "Something in the place has stopped working properly. It is not urgent, and it will not fix itself.",
     tensions: [
@@ -608,6 +637,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.household-money-shortfall",
     companion: null,
     stakes: "notable",
+    withheld:
+      "The scene depends on the month's arithmetic having moved, and the world keeps no monthly income or spending record that could say so. Grounded money pressure lives in adult.debt-call and adult.housing-cost-change, which read recorded obligations.",
     prose:
       "The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.",
     tensions: [
@@ -781,8 +812,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "find-someone-else",
         label: "Find somebody else to go",
         description: "Arrange cover rather than provide it.",
-        memory:
-          "You found somebody else to go, which worked, and which you thought about for a while afterwards.",
+        memory: "You found somebody else to go in your place.",
         witnessed: "They arranged for somebody else to come instead.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -805,7 +835,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: "kin",
     stakes: "pressing",
     prose:
-      "The looking-after that has been shared out is about to stop being shared out, and everyone is waiting to see who says something first.",
+      "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it.",
     tensions: [
       tension(
         "care-obligation",
@@ -835,7 +865,9 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         aftermath: "obligation",
         writes: {
           kind: "take-on-commitment",
-          label: "Looking after somebody at home",
+          // The scene is gated on kin, so "in the family" is a recorded fact;
+          // "at home" was not — the person needing care may live elsewhere.
+          label: "Looking after somebody in the family",
           commitmentKind: "personal:care",
           weeklyHours: [6, 14],
         },
@@ -845,7 +877,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Say what you can manage",
         description: "Offer a share, and be specific about its edges.",
         memory:
-          "You said exactly what you could manage before it became assumed, and the rest was worked out around it.",
+          "You said exactly what you could manage before it became assumed.",
         witnessed: "They named the part they could take and no more.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -861,8 +893,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "wait",
         label: "Wait for somebody else",
         description: "Let the silence run and see who breaks it.",
-        memory:
-          "You let the silence run, and somebody else broke it, and you both knew it.",
+        memory: "You let the silence run, and somebody else broke it.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "strained",
@@ -915,8 +946,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "your-way",
         label: "Hold out for yours",
         description: "Say plainly that yours is the one that works.",
-        memory:
-          "You held out for yours, and got it, and noticed what it had cost.",
+        memory: "You held out for yours, and got it.",
         witnessed: "They held out for their own plan.",
         stance: "engaged",
         relationalChange: "strained",
@@ -932,8 +962,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "postpone",
         label: "Put it off",
         description: "Neither, for now.",
-        memory:
-          "You put it off, and it stayed put off, which was its own answer.",
+        memory: "You put it off rather than settle it.",
         witnessed: "They agreed to leave it for now.",
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -971,7 +1000,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Do it by the book",
         description: "Follow the rule as stated.",
         memory:
-          "You did it the way it was written, in front of people who do not, and the rest of the day was quiet.",
+          "You did it the way it was written, in front of people who do not.",
         witnessed: "They did it exactly as the rule says.",
         stance: "engaged",
         relationalChange: "strained",
@@ -988,7 +1017,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Do it the usual way",
         description: "Do what the place actually does.",
         memory:
-          "You did it the way the place does it, and nobody said anything, which was the point.",
+          "You did it the way the place actually does it, and nobody said anything.",
         witnessed: "They did it the way everyone here does it.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -1008,7 +1037,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Say the rule is wrong",
         description: "Take the disagreement upward rather than sideways.",
         memory:
-          "You said out loud that the rule did not survive contact with the job, and then had to defend saying it.",
+          "You said out loud that the rule does not work on the floor, and then had to defend saying it.",
         witnessed: "They said the rule was the problem, and said it upward.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1027,7 +1056,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: null,
     stakes: "notable",
     prose:
-      "There is more work than week, and somebody has decided the difference is yours.",
+      "Work has asked you to take on more hours, and they would have to come out of everything that is not work.",
     tensions: [
       tension(
         "achievement-ambition",
@@ -1052,7 +1081,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Take the hours",
         description: "Absorb the difference.",
         memory:
-          "You took the hours, and for a while everything else got the leftovers.",
+          "You took the hours, and everything else got what was left of the week.",
         stance: "engaged",
         nudges: [
           nudge("achievement-ambition", 0.55),
@@ -1079,8 +1108,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "trade",
         label: "Take some, trade the rest",
         description: "Give what you can and hand back what you cannot.",
-        memory:
-          "You took the half of it that fitted and handed the rest back, which annoyed exactly one person.",
+        memory: "You took the half of it that fitted and handed the rest back.",
         stance: "engaged",
         nudges: [
           nudge("decision-style", 0.5),
@@ -1112,8 +1140,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "correct-it",
         label: "Correct it there and then",
         description: "Say whose it was, while everyone is still in the room.",
-        memory:
-          "You said whose it was while everyone was still in the room, and the room noticed both halves of that.",
+        memory: "You said whose it was while everyone was still in the room.",
         witnessed: "They corrected the account in front of everyone.",
         stance: "engaged",
         relationalChange: "strained",
@@ -1129,8 +1156,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "let-it-go",
         label: "Let them have it",
         description: "It is not worth the room.",
-        memory:
-          "You let it go, and it stayed gone, and you were not sure afterwards whether that had been generosity.",
+        memory: "You let them have it, and said nothing to anybody.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -1149,8 +1175,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "say-it-later",
         label: "Say it to them afterwards",
         description: "Have the conversation, but not in public.",
-        memory:
-          "You had it out with them afterwards, quietly, and they were careful with you for a month.",
+        memory: "You had it out with them afterwards, quietly.",
         witnessed: "They raised it privately afterwards.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1219,8 +1244,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "tell-someone",
         label: "Tell somebody who can act",
         description: "Put it where it can actually be dealt with.",
-        memory:
-          "You put it where it could actually be dealt with, and never entirely settled whether that had been loyal.",
+        memory: "You put it where it could actually be dealt with.",
         witnessed: "They raised it with somebody senior.",
         stance: "engaged",
         relationalChange: "strained",
@@ -1242,7 +1266,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: null,
     stakes: "pressing",
     prose:
-      "Something better paid has been mentioned to you, somewhere else, and mentioning it back is the part that costs.",
+      "A better-paid job somewhere else has been mentioned to you, and nobody at work knows it was.",
     tensions: [
       tension(
         "achievement-ambition",
@@ -1279,8 +1303,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "stay",
         label: "Keep the job you have",
         description: "Keep the thing that already works.",
-        memory:
-          "You stayed, and told yourself it was the sensible one, and half meant it.",
+        memory: "You kept the job you had, and let the other thing pass.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.5),
@@ -1307,8 +1330,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "say-nothing",
         label: "Say nothing to anyone",
         description: "Let it pass without it becoming a conversation.",
-        memory:
-          "You let it pass without telling anybody it had happened, and that was the whole of it.",
+        memory: "You let it pass without telling anybody it had happened.",
         stance: "withdrawn",
         nudges: [
           nudge("privacy-preference", 0.6),
@@ -1372,14 +1394,17 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         "The place itself, against everything that is arranged around it.",
       ),
     ],
-    available: (context) => context.hasHousingTenure,
+    // A tenure alone does not put a price on staying; a recorded housing
+    // payment does. The gate reads both, so the scene's "what it costs" is a
+    // fact the record carries rather than an assumption about the tenure.
+    available: (context) =>
+      context.hasHousingTenure && context.hasHousingObligation,
     options: [
       {
         key: "absorb",
         label: "Find the money",
         description: "Stay, and make the rest fit.",
-        memory:
-          "You found the money and stayed, and the rest of the year was arranged around having found it.",
+        memory: "You found the money and stayed.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.5),
@@ -1391,8 +1416,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "move",
         label: "Look for somewhere else",
         description: "Take the disruption rather than the cost.",
-        memory:
-          "You started looking, which turned out to be the beginning of a much longer few months.",
+        memory: "You started looking for somewhere else.",
         stance: "engaged",
         nudges: [
           nudge("risk-appetite", 0.4),
@@ -1405,7 +1429,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Push back on it",
         description: "Argue the increase rather than accept it.",
         memory:
-          "You argued it, which was uncomfortable, and got somewhere with about half of it.",
+          "You argued the increase instead of accepting it, which was uncomfortable.",
         stance: "engaged",
         nudges: [
           nudge("institutional-trust", -0.3),
@@ -1420,6 +1444,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.housing-repair-standoff",
     companion: null,
     stakes: "notable",
+    withheld:
+      "The scene depends on a specific unrepaired defect and a recorded repair-responsible counterpart, and the world contains neither: dwellings carry no defect records and tenures name no landlord. Withheld rather than rewritten around an unnamed broken 'something'.",
     prose:
       "Something that is not yours to fix has not been fixed, and the person whose job it is has stopped replying.",
     tensions: [
@@ -1497,8 +1523,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "pay-it",
         label: "Pay what you can now",
         description: "Take the hit and clear it.",
-        memory:
-          "You paid what you could immediately and felt better about it than the balance justified.",
+        memory: "You paid what you could immediately.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.4),
@@ -1524,7 +1549,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Borrow it from someone",
         description: "Move the problem, and owe a person instead.",
         memory:
-          "You borrowed it from somebody you knew, which solved it, and changed something between you.",
+          "You borrowed it from somebody you knew, which moved the debt rather than ended it.",
         stance: "engaged",
         nudges: [
           nudge("personal-ties", 0.3),
@@ -1539,6 +1564,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.unexpected-expense",
     companion: null,
     stakes: "notable",
+    withheld:
+      "The scene depends on a specific object having broken and on the month's arithmetic, and the world records neither objects nor monthly amounts. An unnamed broken 'something' with an unstated cost cannot be grounded.",
     prose:
       "Something has broken that has to be replaced, and it was not in the month's arithmetic.",
     tensions: [],
@@ -1573,6 +1600,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.small-windfall",
     companion: null,
     stakes: "ordinary",
+    withheld:
+      "A money scene needs the amount, the source and whether anything already claims it, and the world records no receipt this could read. Money that arrives from nowhere in no amount cannot be grounded.",
     prose:
       "A small amount of money has arrived that nothing is already claiming.",
     tensions: [],
@@ -1645,8 +1674,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "do-it",
         label: "Say yes and do it",
         description: "Say yes and get on with it.",
-        memory:
-          "You said yes without making them ask twice, and it cost you an afternoon.",
+        memory: "You said yes without making them ask twice, and did it.",
         witnessed: "They said yes straight away.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -1658,8 +1686,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "conditions",
         label: "Do it, with conditions",
         description: "Yes, and be clear about where it stops.",
-        memory:
-          "You said yes and said where it stopped, which they took better than you had expected.",
+        memory: "You said yes, and said where it stopped.",
         witnessed: "They agreed, and said what they would not do.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1674,8 +1701,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "decline",
         label: "Tell them you cannot",
         description: "Not this one.",
-        memory:
-          "You said no, and it was fine, and it was slightly less fine than they said it was.",
+        memory: "You said no. They said it was fine.",
         witnessed: "They said no.",
         stance: "engaged",
         relationalChange: "strained",
@@ -1720,8 +1746,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "take-it",
         label: "Take the help",
         description: "Let them sort it out.",
-        memory:
-          "You let them sort it out, and it was sorted out, and something between you was different afterwards.",
+        memory: "You let them sort it out, and it was sorted out.",
         witnessed: "They accepted the offer.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -1737,8 +1762,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "pay-for-it",
         label: "Take it, and settle up",
         description: "Accept, and insist on paying your way.",
-        memory:
-          "You accepted and insisted on settling up, which they found faintly insulting and you found necessary.",
+        memory: "You accepted, and paid your way over their objection.",
         witnessed: "They accepted, and insisted on paying their way.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1754,8 +1778,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "decline",
         label: "Refuse the help",
         description: "Keep the problem, and keep the ledger clear.",
-        memory:
-          "You turned it down and kept the problem, and were not sure for months whether that had been pride.",
+        memory: "You turned the help down and kept the problem.",
         witnessed: "They turned the offer down.",
         stance: "engaged",
         relationalChange: "strained",
@@ -1795,7 +1818,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Tell nobody else",
         description: "They told you, and that is where it stops.",
         memory:
-          "You kept it, because they had told you rather than anybody else, and that had to mean something.",
+          "You kept it to yourself, because they had told you rather than anybody else.",
         witnessed: null,
         stance: "engaged",
         relationalChange: "strengthened",
@@ -1816,7 +1839,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Push them to sort it",
         description: "Say you will not carry it for them.",
         memory:
-          "You told them you would not carry it, and made them go and deal with it, and they did.",
+          "You told them you would not carry it for them, and to go and deal with it.",
         witnessed: "They told them to go and deal with it.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1833,7 +1856,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Keep your distance",
         description: "This is not somewhere you can be.",
         memory:
-          "You stepped back from it, and were not entirely sure afterwards whether that had been sense.",
+          "You told them this was not somewhere you could be, and stepped back.",
         witnessed: "They stepped back from it.",
         stance: "withdrawn",
         relationalChange: "strained",
@@ -1859,8 +1882,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "go",
         label: "Turn up for them",
         description: "Turn up for it.",
-        memory:
-          "You went, and it was a good evening, and being there was most of the point.",
+        memory: "You went, and it was a good evening.",
         witnessed: "They came.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -1872,8 +1894,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "send-word",
         label: "Send word instead",
         description: "Mean it from here.",
-        memory:
-          "You sent word rather than going, meant it, and it was not the same thing.",
+        memory: "You sent word rather than going, and meant it.",
         witnessed: "They sent word rather than coming.",
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -1925,8 +1946,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "talk-to-them",
         label: "Talk to them first",
         description: "Try to settle it before the meeting does.",
-        memory:
-          "You went and talked to them before the meeting, and about half of it went away.",
+        memory: "You went and talked to them before the meeting could.",
         witnessed: "They came to talk before it reached the meeting.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -1938,8 +1958,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "let-it-run",
         label: "Let it run",
         description: "It may not pass, and it may not matter.",
-        memory:
-          "You let it run, on the grounds that it might not pass, and did not find out for months whether that had been right.",
+        memory: "You let it run, on the grounds that it might not pass.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -1965,8 +1984,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "go",
         label: "Go to the meeting",
         description: "Give it the evening.",
-        memory:
-          "You gave it an evening and found out how much of the decision had already been made elsewhere.",
+        memory: "You went, and sat through the whole agenda.",
         stance: "engaged",
         nudges: [
           nudge("institutional-trust", 0.2),
@@ -2002,8 +2020,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.volunteer-ask",
     companion: null,
     stakes: "ordinary",
+    // The group the sign-up option writes is the ask's own subject, so the
+    // scene names it as what it is rather than as "something local".
     prose:
-      "Something local is short of hands, and somebody has worked out that you have a Saturday.",
+      "A local volunteer group is short of hands for Saturdays, and somebody has asked for yours.",
     tensions: [],
     available: (context) =>
       context.hasPostedMeeting && context.civicParticipationCount === 0,
@@ -2098,7 +2118,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Move somewhere cheaper",
         description: "Keep the group, lose the building.",
         memory:
-          "You argued for moving, kept the group together, and watched what the building had been doing become obvious once it was gone.",
+          "You argued for moving somewhere cheaper and keeping the group together.",
         stance: "engaged",
         nudges: [
           nudge("decision-style", 0.5),
@@ -2112,7 +2132,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Pay for it out of something else",
         description: "Keep the building; something else goes.",
         memory:
-          "You paid for it out of something else, and spent a long time afterwards being asked which something.",
+          "You argued for paying for it out of something else, and were asked, twice, which something.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.4),
@@ -2126,7 +2146,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Go and find the money",
         description: "Take it to people who might fund it, with no promises.",
         memory:
-          "You went looking for money instead, which might have worked, and which took the whole autumn.",
+          "You argued for going to find the money instead, with no promises attached.",
         stance: "engaged",
         nudges: [
           nudge("risk-appetite", 0.45),
@@ -2179,7 +2199,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Leave it open",
         description: "Decide it when it matters.",
         memory:
-          "You did not settle it, on the grounds that you would know more later, and later you did.",
+          "You left it open, on the grounds that you would know more later.",
         stance: "withdrawn",
         nudges: [nudge("decision-style", 0.4), nudge("risk-appetite", -0.2)],
         aftermath: null,
@@ -2227,7 +2247,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Add your name",
         description: "Put your name to it.",
         memory:
-          "You signed it, and it was read by people who knew you, which was the point and also the cost.",
+          "You signed it, and your name went where people who know you would read it.",
         witnessed: "They signed it.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -2242,8 +2262,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "help-quietly",
         label: "Help without signing",
         description: "Do the work, keep the name off it.",
-        memory:
-          "You did the work and kept your name off it, which most people took for not helping.",
+        memory: "You did the work and kept your name off the sheet.",
         witnessed: "They helped without putting their name to it.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -2262,8 +2281,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "refuse",
         label: "Decline the petition",
         description: "Not something you will put your name to.",
-        memory:
-          "You said no to putting your name to it, and gave the real reason, which was worse.",
+        memory: "You said no to signing, and gave the real reason.",
         witnessed: "They declined to sign.",
         stance: "engaged",
         relationalChange: "strained",
@@ -2304,8 +2322,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "say-maybe",
         label: "Say you would think about it",
         description: "Do not close it off.",
-        memory:
-          "You said you would think about it, which everybody correctly heard as most of a yes.",
+        memory: "You said you would think about it, and did not close it off.",
         witnessed: "They said they would think about it.",
         stance: "engaged",
         relationalChange: "strengthened",
@@ -2324,8 +2341,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "say-no",
         label: "Rule it out now",
         description: "Close it off, plainly.",
-        memory:
-          "You said no, plainly, and they asked somebody else within the month.",
+        memory: "You said no, plainly.",
         witnessed: "They said no.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -2340,8 +2356,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "ask-what-for",
         label: "Ask what they actually want",
         description: "Find out whose idea this is before answering.",
-        memory:
-          "You asked whose idea it actually was, and the answer was more interesting than the question.",
+        memory: "You asked whose idea it actually was before you answered.",
         witnessed: "They asked who wanted this.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -2361,7 +2376,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: null,
     stakes: "pressing",
     prose:
-      "What happened has stopped happening, and the part that is left is the part you have to do something about.",
+      "The worst of it is over. What is left is the part you have to do something about.",
     tensions: [
       tension(
         "care-obligation",
@@ -2380,8 +2395,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "sort-your-own",
         label: "Sort out your own first",
         description: "Get your household straight before anything else.",
-        memory:
-          "You got your own straight first, which was sensible and which you were slightly ashamed of.",
+        memory: "You got your own household straight before anything else.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.5),
@@ -2403,8 +2417,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "push-for-answers",
         label: "Ask who was supposed to have prevented it",
         description: "Turn it into a question somebody has to answer.",
-        memory:
-          "You started asking who was supposed to have stopped it, and found out how long that kind of question takes.",
+        memory: "You started asking who was supposed to have stopped it.",
         stance: "engaged",
         nudges: [
           nudge("institutional-trust", -0.45),
@@ -2447,8 +2460,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "keep-yours",
         label: "Keep what you have",
         description: "You may need it.",
-        memory:
-          "You kept what you had, on the grounds that you might need it, and did not.",
+        memory: "You kept what you had, on the grounds that you might need it.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",
@@ -2512,8 +2524,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         // player the outcome before they chose it, which is the one thing an
         // option description must never do. It says what the choice is now.
         description: "Say nothing about it, and see whether they do.",
-        memory:
-          "You let it go, on the assumption that it would not be raised, and it was not.",
+        // "…and it was not" claimed an outcome that belongs to the callback
+        // machinery, which may in fact raise it. The memory stops where the
+        // player's knowledge stops.
+        memory: "You let it go, on the assumption that it would not be raised.",
         stance: "withdrawn",
         nudges: [
           nudge("personal-ties", -0.45),
@@ -2565,8 +2579,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "name-the-difference",
         label: "Say this is a different thing",
         description: "Help, and say plainly that it is not the same favour.",
-        memory:
-          "You helped and said plainly that it was not the same favour, and both halves of that were heard.",
+        memory: "You helped, and said plainly that it was not the same favour.",
         witnessed: "They helped, and said it was a different thing.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -2610,8 +2623,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "go-out",
         label: "Go out into it",
         description: "Spend the day outside.",
-        memory:
-          "You spent the whole day outside for no reason at all, and remembered it longer than several more important ones.",
+        memory: "You spent the whole day outside for no reason at all.",
         stance: "engaged",
         nudges: [nudge("risk-appetite", 0.15)],
         aftermath: null,
@@ -2633,8 +2645,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "do-nothing",
         label: "Do nothing at all",
         description: "Waste it deliberately.",
-        memory:
-          "You wasted it deliberately, which is not the same as wasting it.",
+        memory: "You did nothing at all with it, on purpose.",
         stance: "engaged",
         nudges: [nudge("privacy-preference", 0.25)],
         aftermath: null,
@@ -2646,7 +2657,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: null,
     stakes: "ordinary",
     prose:
-      "There is a thing on at the weekend that you would probably enjoy and have no obligation to attend.",
+      "There is something on this Saturday that you would probably enjoy, and nobody needs you there.",
     tensions: [],
     available: always,
     options: [
@@ -2711,6 +2722,9 @@ export function availableAdultSituations(
   context: AdultLifeContext,
 ): readonly AdultSituation[] {
   return ADULT_SITUATIONS.filter((situation) => {
+    // Withheld content is never offered. The rows stay authored so saves and
+    // scheduled callbacks that already name them remain readable.
+    if (situation.withheld !== undefined) return false;
     if (!situation.available(context)) return false;
     if (situation.companion === null) return true;
     return resolveAdultCompanion(context, situation.companion) !== null;

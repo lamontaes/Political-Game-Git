@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1899 |
+| INVENTORIED | 1910 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4513 |
-| DIAGNOSTIC_OR_TEST | 3212 |
-| **NEEDS_CLASSIFICATION** | **2786** |
+| DIAGNOSTIC_OR_TEST | 3223 |
+| **NEEDS_CLASSIFICATION** | **2791** |
 
-Scanned 314 files holding 48117 string
+Scanned 315 files holding 48170 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -45,6 +45,7 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
+| 38 | `src/simulation/adult-situations.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
@@ -54,7 +55,6 @@ literals in total; the table counts only those that read like a sentence.
 | 34 | `src/simulation/life-episodes.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 33 | `src/presentation/life-diagnostics.ts` |
-| 33 | `src/simulation/adult-situations.ts` |
 | 32 | `src/content/adapters/legislative-blueprints.ts` |
 | 31 | `src/content/adapters/life-episodes.ts` |
 | 31 | `src/simulation/people.ts` |

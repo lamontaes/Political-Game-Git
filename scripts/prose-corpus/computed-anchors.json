@@ -766,9 +766,9 @@
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
-      "text": "Something decided a long time earlier turned out to still be there.",
+      "text": "An earlier choice came back up.",
       "occurrence": 0,
-      "textRevision": "f66f4359c3c2"
+      "textRevision": "18ec731376b1"
     },
     {
       "anchor": "PHASE_SENTENCES-0001",
@@ -886,17 +886,17 @@
       "anchor": "RETURN_SUMMARY-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "An evening you had not thought about turned out to have counted for something.",
+      "text": "An evening at home you had not thought twice about turned out to have been remembered.",
       "occurrence": 0,
-      "textRevision": "6cbbf243751d"
+      "textRevision": "a782f04c44cb"
     },
     {
       "anchor": "RETURN_SUMMARY-0002",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "It came back a third time, which is when a favour stops being a favour.",
+      "text": "The same favour came back a third time.",
       "occurrence": 0,
-      "textRevision": "fba7b5a927a9"
+      "textRevision": "75592722a780"
     },
     {
       "anchor": "RETURN_SUMMARY-0003",
@@ -942,9 +942,9 @@
       "anchor": "RETURN_SUMMARY-0008",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The morning with the rule and the customer came back, from a direction you had not expected.",
+      "text": "The business with the rule at work came back, from a direction you had not expected.",
       "occurrence": 0,
-      "textRevision": "eb3d10d11e55"
+      "textRevision": "853bf20e3c19"
     },
     {
       "anchor": "RETURN_SUMMARY-0009",
@@ -966,9 +966,9 @@
       "anchor": "RETURN_SUMMARY-0011",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The thing about the week that never gets done was raised again, and this time not by you.",
+      "text": "The business about the week's errands was raised again, and this time not by you.",
       "occurrence": 0,
-      "textRevision": "c5c8e64b175c"
+      "textRevision": "97b83486420a"
     },
     {
       "anchor": "RETURN_SUMMARY-0012",
@@ -982,9 +982,9 @@
       "anchor": "RETURN_SUMMARY-0013",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The thing you rearranged came round a second time, and there was less room to rearrange it.",
+      "text": "What you said you'd do came round a second time, and there was less room to move it.",
       "occurrence": 0,
-      "textRevision": "57c681052b01"
+      "textRevision": "cd85373f281e"
     },
     {
       "anchor": "RETURN_SUMMARY-0014",
@@ -1014,25 +1014,25 @@
       "anchor": "RETURN_SUMMARY-0017",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you did about the offer got back to somebody it was not supposed to.",
+      "text": "What you did about the offer turned out to have been talked about.",
       "occurrence": 0,
-      "textRevision": "8efde7267f66"
+      "textRevision": "bf6329a6c624"
     },
     {
       "anchor": "RETURN_SUMMARY-0018",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
+      "text": "What you did in the days afterwards came up again, long after everybody else had stopped talking about it.",
       "occurrence": 0,
-      "textRevision": "ccff11fcf626"
+      "textRevision": "15e246828a51"
     },
     {
       "anchor": "RETURN_SUMMARY-0019",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you gave, or kept, after the flooding turned out to have been noticed.",
+      "text": "What you gave, or kept, when the other household needed it turned out to have been noticed.",
       "occurrence": 0,
-      "textRevision": "1cf31939a68b"
+      "textRevision": "3a6fc347b83d"
     },
     {
       "anchor": "RETURN_SUMMARY-0020",
@@ -1054,9 +1054,97 @@
       "anchor": "RETURN_SUMMARY-0022",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "Your name on that list was read by somebody who had not been meant to read it.",
+      "text": "Your name on that list turned out to have been read and remembered.",
       "occurrence": 0,
-      "textRevision": "4eee17cf158c"
+      "textRevision": "285e285628f4"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0023",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The Saturdays you gave, or kept, came up again.",
+      "occurrence": 0,
+      "textRevision": "432f088fa8e9"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0024",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The business about what it costs to stay came back around.",
+      "occurrence": 0,
+      "textRevision": "9110b6f46ee9"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0025",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The business with the repairs and the rent came back around.",
+      "occurrence": 0,
+      "textRevision": "19b49839be80"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0026",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The extra work you took on to cover the month came up again.",
+      "occurrence": 0,
+      "textRevision": "2854a426b73f"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0027",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The favour you asked over the repair came back around.",
+      "occurrence": 0,
+      "textRevision": "373c67e2d791"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0028",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The money you passed on turned out to have been remembered.",
+      "occurrence": 0,
+      "textRevision": "f833a21a0c1a"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0029",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The offer of help, and what you did with it, came up again.",
+      "occurrence": 0,
+      "textRevision": "054e6fd75fa7"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0030",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you did about the colleague who was not managing turned out to have been noticed.",
+      "occurrence": 0,
+      "textRevision": "43e50b5c6957"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0031",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What you still owed came back up, on somebody else's schedule again.",
+      "occurrence": 0,
+      "textRevision": "1da4332bb6f1"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0032",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Whether you came that Saturday turned out to have been noticed.",
+      "occurrence": 0,
+      "textRevision": "ce77985e57e8"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0033",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Whether you turned up that evening turned out to have been remembered.",
+      "occurrence": 0,
+      "textRevision": "6f95452582ff"
     },
     {
       "anchor": "STEP_COPY-0001",
@@ -2955,14 +3043,6 @@
       "textRevision": "2657fc7a1dfb"
     },
     {
-      "anchor": "threadMovementSentence-0016",
-      "sourcePath": "src/presentation/life-narration.ts",
-      "symbol": "threadMovementSentence",
-      "text": "What you said you'd do about {subject} came up.",
-      "occurrence": 0,
-      "textRevision": "7aff55d123e1"
-    },
-    {
       "anchor": "threadMovementSentence-0004",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "threadMovementSentence",
@@ -3049,6 +3129,14 @@
       "text": "{capitalize(payment)} came up.",
       "occurrence": 0,
       "textRevision": "e272986e000f"
+    },
+    {
+      "anchor": "threadMovementSentence-0016",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "threadMovementSentence",
+      "text": "What you said you'd do about {subject} came up.",
+      "occurrence": 0,
+      "textRevision": "7aff55d123e1"
     },
     {
       "anchor": "unavailable-0001",
