@@ -18,10 +18,10 @@ edit it by hand; edit the production bank or the generator and regenerate.
 ## Current state
 
 - **1880** inventoried templates.
-- Reachability: 76 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1563 PLAYER_REACHABLE, 151 WITHHELD_BY_GROUNDING.
-- **2818** coverage candidates still need a
+- Reachability: 76 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1250 PLAYER_REACHABLE, 464 WITHHELD_BY_GROUNDING.
+- **2846** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
-- **0** hard errors, **288** review warnings.
+- **0** hard errors, **257** review warnings.
 
 ## Semantic IDs
 

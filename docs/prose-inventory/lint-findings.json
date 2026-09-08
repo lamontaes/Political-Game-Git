@@ -184,16 +184,9 @@
   {
     "id": "prose:life:adult:adult.care-request#option:take-it-on:memory",
     "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.care-request#option:take-it-on:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.care-request#option:wait:label",
@@ -206,8 +199,8 @@
     "id": "prose:life:adult:adult.care-request#option:wait:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.care-request#prose",
@@ -231,13 +224,6 @@
     "evidence": "something"
   },
   {
-    "id": "prose:life:adult:adult.community-building#option:cut-something-else:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
     "id": "prose:life:adult:adult.debt-call#option:borrow:label",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -247,16 +233,9 @@
   {
     "id": "prose:life:adult:adult.debt-call#option:borrow:memory",
     "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
-    "id": "prose:life:adult:adult.debt-call#option:borrow:memory",
-    "severity": "REVIEW_WARNING",
     "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.debt-call#option:negotiate:description",
@@ -336,20 +315,6 @@
     "evidence": "Turn up for them"
   },
   {
-    "id": "prose:life:adult:adult.friend-good-news#option:go:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.friend-good-news#option:send-word:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
     "id": "prose:life:adult:adult.friend-good-news#option:send-word:witnessed",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
@@ -362,13 +327,6 @@
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Somebody"
-  },
-  {
-    "id": "prose:life:adult:adult.friend-in-difficulty#option:keep-it:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
   },
   {
     "id": "prose:life:adult:adult.friend-in-difficulty#prose",
@@ -392,13 +350,6 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:life:adult:adult.help-with-strings#option:take-it:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:adult:adult.help-with-strings#prose",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -413,32 +364,11 @@
     "evidence": "the thing"
   },
   {
-    "id": "prose:life:adult:adult.household-money-shortfall#option:say-so:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:adult:adult.household-money-shortfall#option:take-the-work:description",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "whatever"
-  },
-  {
-    "id": "prose:life:adult:adult.household-quiet-evening#option:keep-it-yours:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.household-quiet-evening#option:spend-it-together:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
   },
   {
     "id": "prose:life:adult:adult.household-repair#option:ask-for-help:description",
@@ -462,20 +392,6 @@
     "evidence": "someone"
   },
   {
-    "id": "prose:life:adult:adult.household-repair#option:ask-for-help:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
-  },
-  {
-    "id": "prose:life:adult:adult.household-repair#option:fix-it:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:adult:adult.household-repair#prose",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -488,27 +404,6 @@
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
-  },
-  {
-    "id": "prose:life:adult:adult.household-standing#option:absorb-it:description",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
-    "id": "prose:life:adult:adult.household-standing#option:set-it-out:description",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
-    "id": "prose:life:adult:adult.household-standing#option:set-it-out:witnessed",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
   },
   {
     "id": "prose:life:adult:adult.housing-cost-change#option:move:description",
@@ -553,13 +448,6 @@
     "evidence": "something"
   },
   {
-    "id": "prose:life:adult:adult.incident-neighbour-help#option:help:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:adult:adult.incident-neighbour-help#prose",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -568,13 +456,6 @@
   },
   {
     "id": "prose:life:adult:adult.local-dispute#option:let-it-run:description",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.local-dispute#option:speak-at-the-meeting:memory",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
     "message": "The \"and it ...\" scaffold appears 1 time(s).",
@@ -609,11 +490,11 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:life:adult:adult.partner-plan#option:postpone:memory",
+    "id": "prose:life:adult:adult.ordinary-good-day#prose",
     "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.partner-plan#prose",
@@ -658,13 +539,6 @@
     "evidence": "something"
   },
   {
-    "id": "prose:life:adult:adult.promise-comes-due#option:renegotiate:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
     "id": "prose:life:adult:adult.promise-comes-due#prose",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -689,25 +563,11 @@
     "id": "prose:life:adult:adult.small-windfall#option:give-it:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.small-windfall#option:put-it-away:description",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:adult:adult.small-windfall#option:put-it-away:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.small-windfall#option:put-it-away:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
@@ -728,13 +588,6 @@
     "evidence": "something"
   },
   {
-    "id": "prose:life:adult:adult.unexpected-expense#option:make-do:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
     "id": "prose:life:adult:adult.unexpected-expense#prose",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -747,20 +600,6 @@
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Something"
-  },
-  {
-    "id": "prose:life:adult:adult.volunteer-ask#option:sign-up:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:adult:adult.volunteer-ask#option:sign-up:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
   },
   {
     "id": "prose:life:adult:adult.volunteer-ask#prose",
@@ -789,6 +628,13 @@
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
+  },
+  {
+    "id": "prose:life:adult:adult.work-colleague-struggling#option:tell-someone:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:adult:adult.work-colleague-struggling#option:tell-someone:witnessed",
@@ -826,13 +672,6 @@
     "evidence": "rather than"
   },
   {
-    "id": "prose:life:adult:adult.work-good-week#option:press-on:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "rather-than-scaffold",
-    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
-    "evidence": "rather than"
-  },
-  {
     "id": "prose:life:adult:adult.work-offer-elsewhere#option:stay:description",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
@@ -852,62 +691,6 @@
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "somebody"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0003#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"whatever\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "whatever"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0004#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0010#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0012#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"the thing\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "The thing"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0014#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0015#text",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
-  },
-  {
-    "id": "prose:life:callback:RETURN_SUMMARY-0031#text",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "somebody"
-  },
-  {
-    "id": "prose:life:callback:lifeCallbackTransitionHandler-0006#text",
-    "severity": "REVIEW_WARNING",
-    "family": "and-it-scaffold",
-    "message": "The \"and it ...\" scaffold appears 1 time(s).",
-    "evidence": "and it"
   },
   {
     "id": "prose:life:episode:care.the-person-you-look-after/it-stayed-yours#line:1",

@@ -1,5 +1,7 @@
 # P2 prose migration — ordinary/adult scenes and consequence/memory bank
 
+> Historical P2 implementation record. Its prior PASS claim was rejected. Current repair, failures and acceptance state are in [P2R1 owner review](p2-owner-review.md).
+
 Owning authority: Drive packet `P2-PROSE-01 — ORDINARY ADULT SCENES + MEMORY
 BANK MIGRATION — 2026-09-07`, under `PROSE-RESET — CURRENT-MAIN PLAYER-FACING
 LANGUAGE MIGRATION PLAN — 2026-09-07`. Base: `origin/main` at

@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "c0c1757a285143c3b1ee09f47f6d00602a93a26b",
+  "authoredScenes": 35,
+  "authoredOptions": 102,
+  "withheldScenes": 33,
+  "retainedFamilies": ["adult.household-standing", "adult.ordinary-good-day"],
+  "sceneAndOptionKeysPreserved": true,
+  "nonProseEffectsPreserved": true,
+  "anchorCountBefore": 405,
+  "anchorCountAfter": 405,
+  "addedAnchorIdentities": [],
+  "removedAnchorIdentities": [],
+  "allocatorAndCliIdenticalToAcceptedMain": true
+}
