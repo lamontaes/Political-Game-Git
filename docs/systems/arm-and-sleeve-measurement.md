@@ -188,6 +188,50 @@ component, catalog generation or fit profile is altered; the report lives under
 `art/qa/`, beside the fit report, and is authority for nothing until a
 derivation consumes it.
 
+## What the post-#89 reconciliation changed
+
+This lane was authored against PR #89's frozen head. It was reconciled onto
+current main after #89 was accepted there as D-079/D-080, and every conclusion
+above was re-derived from the combined tree rather than carried forward.
+
+The measurement is unchanged: 16 subjects, 32 arms, and a report and sixteen
+overlays that regenerate byte-for-byte identical to the ones the original
+branch committed. Nothing accepted main landed moved a number.
+
+Two changes to the repository's art were examined and neither is new arm
+evidence:
+
+- **The despilled Packet 76 bodies.** Main added a despilled copy of all eight
+  Packet 71 bodies under `art/generated/candidates/ocd-p76/bodies-despilled/`.
+  The despill writes colour and never alpha, and that was verified rather than
+  assumed: all eight despilled rasters carry a byte-identical alpha channel,
+  the same dimensions and the same opaque-pixel count as their Packet 71
+  sources. This contract reads alpha, so the despilled copies are the same
+  silhouette evidence. Measuring them would report eight facts twice.
+- **The Wave A morphology candidates.** Main added 51 bodies marked
+  `usableAsMorphologyEvidenceFor89` — `fat-man`, `skinny-man`, `average-man`,
+  `average-woman`, `older-woman`, `skinny-woman` and an additional heavy
+  feminine pose. This matters, because a heavy and a lean body do now exist in
+  the same apparent poses, which is the generation the limitation above named.
+
+That second finding changes why the limitation stands, not whether it stands.
+Those 51 bodies are `CANDIDATE_REFERENCE_ONLY` with `productionPixelsReleased`
+false, every one of them is `eligibleAsProductionCharacterBody: false`, none is
+in `art/manifest/asset_manifest.json`, and none carries a registered pose
+family: their `apparentPoseCategory` labels are sheet-apparent strings, and not
+one of them is a `pose_family_id` in `art/manifest/pose_families.json`. Pointing
+the measurement at them would mean reading pose and body identity off a
+filename and a chop cell, which is the inference this contract and the art
+constraints both refuse.
+
+So the arm evidence has not improved, and the blocker has moved rather than
+lifted. It was "no lean and heavy body exists in one pose with arms held
+clear". It is now "that art exists as unreleased candidate reference, and no
+declared pose or body-family identity admits it as measurable evidence".
+Registering those candidates — a manifest entry with a real pose family, or a
+disposition record that assigns one — is what would let this tool measure them,
+and it is a separate authorization from this lane.
+
 ## Commands
 
 | Command                | What it does                                                                        |

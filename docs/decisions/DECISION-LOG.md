@@ -2559,6 +2559,20 @@ occluded upper arm and a partially-measured elbow is the guess this decision
 exists to refuse, and the evidence names the generation that would change
 that: a lean and a heavy body in the same pose with arms held clear.
 
+Reconciling onto accepted main re-derived all of this rather than copying it,
+and the regenerated report is byte-identical. Accepted main does now carry a
+heavy and a lean body in the same apparent poses, among 51 Wave A morphology
+candidates, and it also carries a despilled copy of all eight Packet 71 bodies.
+Neither is arm evidence here. The despill writes colour and never alpha —
+verified, all eight alpha channels byte-identical to their sources — so the
+despilled copies are the same silhouette. The Wave A candidates are
+`CANDIDATE_REFERENCE_ONLY`, none is production-eligible, none is in the asset
+manifest, and none carries a registered pose family; admitting them would mean
+reading pose identity off a filename. So the limitation stands and its blocker
+moved: from no such art existing, to that art existing unreleased with no
+declared identity that makes it measurable. Registering it is a separate
+authorization from this decision.
+
 Consequence: `art/qa/arm-measurements/` holds a report and overlays regenerated
 by test from the rasters; the pose registry's nominal landmarks stay control
 geometry and are shown beside the measurement as deviations; `assessSleeveFitReadiness`
