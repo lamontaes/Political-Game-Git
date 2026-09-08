@@ -542,9 +542,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // dialogue, subjects and floor surface add prose sites and files that the
     // scanner now measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49967);
+    expect(coverage.totalLiterals).toBe(50165);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(325);
+    expect(coverage.scannedFiles).toBe(330);
   });
 });
 
