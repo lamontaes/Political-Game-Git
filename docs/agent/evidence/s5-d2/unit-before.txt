@@ -1,0 +1,37 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/raster-tiers.test.ts
+
+
+ RUN  v4.1.1 /private/tmp/pg-s5-d2
+
+ ❯ src/presentation/raster-tiers.test.ts (28 tests | 1 failed) 46ms
+     × has no painted tier until the first successful decode 12ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/raster-tiers.test.ts > decode before swap > has no painted tier until the first successful decode
+AssertionError: expected 1024 to be null
+
+- Expected:
+null
+
++ Received:
+1024
+
+ ❯ src/presentation/raster-tiers.test.ts:342:34
+    340|   it("has no painted tier until the first successful decode", () => {
+    341|     const initial = createTierPaintState(1_024);
+    342|     expect(initial.paintedWidth).toBeNull();
+       |                                  ^
+    343|     expect(isTierSwapPending(initial)).toBe(true);
+    344|     expect(requestTierPaint(initial, 1_024)).toBe(initial);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 27 passed (28)
+   Start at  08:24:10
+   Duration  894ms (transform 199ms, setup 0ms, import 248ms, tests 46ms, environment 0ms)
+

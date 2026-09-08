@@ -337,8 +337,21 @@ describe("tier hysteresis", () => {
 });
 
 describe("decode before swap", () => {
+  it(createTierPaintState.name, () => {
+    const initial = createTierPaintState(1_024);
+    expect(initial.paintedWidth).toBeNull();
+    expect(isTierSwapPending(initial)).toBe(true);
+    expect(requestTierPaint(initial, 1_024)).toBe(initial);
+    expect(commitDecodedTier(initial, 2_048)).toBe(initial);
+    const decoded = commitDecodedTier(initial, 1_024);
+    expect(decoded.paintedWidth).toBe(1_024);
+    expect(isTierSwapPending(decoded)).toBe(false);
+    expect(commitDecodedTier(decoded, 1_024)).toBe(decoded);
+    expect(requestTierPaint(decoded, 1_024)).toBe(decoded);
+  });
+
   it("keeps painting the current raster until the replacement decodes", () => {
-    let paint = createTierPaintState(1_024);
+    let paint = commitDecodedTier(createTierPaintState(1_024), 1_024);
     paint = requestTierPaint(paint, 2_048);
     expect(paint.paintedWidth).toBe(1_024);
     expect(paint.requestedWidth).toBe(2_048);
@@ -350,7 +363,7 @@ describe("decode before swap", () => {
   });
 
   it("ignores a decode the runtime has already moved past", () => {
-    let paint = createTierPaintState(1_024);
+    let paint = commitDecodedTier(createTierPaintState(1_024), 1_024);
     paint = requestTierPaint(paint, 2_048);
     paint = requestTierPaint(paint, 3_072);
     paint = commitDecodedTier(paint, 2_048);
@@ -360,7 +373,7 @@ describe("decode before swap", () => {
   });
 
   it("never reports an empty raster mid-resize", () => {
-    let paint = createTierPaintState(1_024);
+    let paint = commitDecodedTier(createTierPaintState(1_024), 1_024);
     for (const width of [2_048, 3_072, 4_096, 2_048]) {
       paint = requestTierPaint(paint, width);
       expect(paint.paintedWidth).toBeGreaterThan(0);

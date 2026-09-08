@@ -1,0 +1,97 @@
+[
+  {
+    "title": "initial raster waits for readiness 1440 reduce",
+    "outcome": "expected",
+    "durationMs": 16405,
+    "held-response-state": {
+      "paintedTier": "",
+      "imagePresent": false,
+      "naturalWidth": 0,
+      "stageOpacity": "1"
+    }
+  },
+  {
+    "title": "initial raster waits for readiness 1440 no-preference",
+    "outcome": "expected",
+    "durationMs": 15402,
+    "held-response-state": {
+      "paintedTier": "",
+      "imagePresent": false,
+      "naturalWidth": 0,
+      "stageOpacity": "1"
+    }
+  },
+  {
+    "title": "initial raster waits for readiness 900 reduce",
+    "outcome": "expected",
+    "durationMs": 13998,
+    "held-response-state": {
+      "paintedTier": "",
+      "imagePresent": false,
+      "naturalWidth": 0,
+      "stageOpacity": "1"
+    }
+  },
+  {
+    "title": "initial raster waits for readiness 900 no-preference",
+    "outcome": "expected",
+    "durationMs": 15392,
+    "held-response-state": {
+      "paintedTier": "",
+      "imagePresent": false,
+      "naturalWidth": 0,
+      "stageOpacity": "1"
+    }
+  },
+  {
+    "title": "hook gates actual decode, retains A during resize, ignores stale completion and reuses same width",
+    "outcome": "expected",
+    "durationMs": 6065
+  },
+  {
+    "title": "initial error never claims paint and a later valid tier recovers",
+    "outcome": "expected",
+    "durationMs": 4257
+  },
+  {
+    "title": "initial decode-rejection never claims paint and a later valid tier recovers",
+    "outcome": "expected",
+    "durationMs": 4670
+  },
+  {
+    "title": "initial unavailable never claims paint and a later valid tier recovers",
+    "outcome": "expected",
+    "durationMs": 3943
+  },
+  {
+    "title": "non-title production office waits for its image response",
+    "outcome": "expected",
+    "durationMs": 11580
+  },
+  {
+    "title": "cold and warm title paint plus resize sweep never expose an undecoded claimed tier",
+    "outcome": "expected",
+    "durationMs": 23305,
+    "cold-frames": {
+      "frames": 168,
+      "claimed": 153,
+      "unreadyClaimed": 0,
+      "stageIds": [1],
+      "imageIds": [2, null],
+      "tiers": ["", "2048", "1376"]
+    },
+    "warm-frames": {
+      "frames": 291,
+      "claimed": 281,
+      "unreadyClaimed": 0,
+      "stageIds": [1],
+      "imageIds": [2, null],
+      "tiers": ["", "2048", "1376"]
+    }
+  },
+  {
+    "title": "decoded title A stays visible while resized B response is held",
+    "outcome": "expected",
+    "durationMs": 22421
+  }
+]

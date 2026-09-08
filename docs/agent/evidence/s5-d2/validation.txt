@@ -1,0 +1,388 @@
+
+> political-life-rpg@0.2.0 validate
+> npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art
+
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> political-life-rpg@0.2.0 lint
+> eslint .
+
+
+> political-life-rpg@0.2.0 typecheck
+> tsc -b
+
+
+> political-life-rpg@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.1 /private/tmp/pg-s5-d2
+
+(node:91406) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91461) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91501) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91734) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:92127) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93621) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  159 passed (159)
+      Tests  2875 passed (2875)
+   Start at  09:29:12
+   Duration  34.79s (transform 10.05s, setup 0ms, import 46.21s, tests 167.10s, environment 18ms)
+
+
+> political-life-rpg@0.2.0 source:validate
+> node --import tsx scripts/source/validate.ts
+
+  gate government-finances: Production compilation is gated on acquiring the Census Annual Survey of State and Local Government Finances (and the Census of Governments finance phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the two products at census.gov/programs-surveys/gov-finances.html, not writing code.
+  gate government-units: The 2025 Census Government Units listing could not be acquired in this coding environment: the outbound proxy denies census.gov, rejecting the CONNECT to www2.census.gov with an HTTP 403 policy denial, so gov_units_2025.zip cannot be retrieved and hashed here. Production compilation is gated on running source:acquire --domain government-units from a network environment that reaches census.gov, which pins the real artifact through the ordinary source lock and requires no code change to compile. The domain, its compiler, its validator and its capability boundary are complete and exercised by an authoritative fixture.
+  gate public-employment: Production compilation is gated on acquiring the Census Annual Survey of Public Employment & Payroll (ASPEP, and the Census of Governments employment phase) as first-party artifacts through source:acquire. Acquisition was attempted and refused by this session's egress policy: the proxy returned HTTP 403 CONNECT-tunnel denials for api.census.gov and www.census.gov, so no publisher bytes could be retrieved or hashed. The domain — types, parser, normalizer, validator and fixtures — is complete and exercised end to end; clearing the gate is acquiring the product at census.gov/programs-surveys/apes.html, not writing code.
+  gate state-local-fiscal-authority: 92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier.
+  gate state-office-qualifications: 31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8.
+  ok   acs-pums: 220 records, 0 errors
+  ok   bea-regional: 11832 records, 0 errors
+  ok   bls-laus: 13082 records, 0 errors
+        [warning] laus/incomplete-components: 78 area-periods have an unresolved component and were reported unreconcilable rather than reconciled against a substituted zero.
+  ok   civil-service-labor: 51 records, 0 errors
+  ok   counties: 3222 records, 0 errors
+  ok   fec: 39355 records, 0 errors
+        [warning] fec/linkage-not-closed-over-masters: 152 of 8619 linkage rows name a candidate absent from the 2024 candidate master, and 158 name an absent committee. The FEC's linkage file spans cycles the master files do not; these rows are preserved as published.
+  ok   federal-courts: 201 records, 0 errors
+  ok   fema-disasters: 721 records, 0 errors
+  ok   hud-housing: 9528 records, 0 errors
+  ok   judicial-office-selection: 156 records, 0 errors
+  ok   places: 32350 records, 0 errors
+  ok   political-districts: 7283 records, 0 errors
+  ok   state-legislatures: 50 records, 0 errors
+source:validate: 13 domains, 83.11 MiB of tracked JSON
+
+> political-life-rpg@0.2.0 source:replay
+> node --import tsx scripts/source/replay.ts
+
+source:replay: clean; every tracked source artifact regenerates byte-identically.
+
+> political-life-rpg@0.2.0 build
+> npm run typecheck && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs
+
+
+> political-life-rpg@0.2.0 typecheck
+> tsc -b
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 540 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/index.html                                                                                                   1.14 kB │ gzip:   0.47 kB
+dist/client/assets/dev_top_tee_teal_seated_v1-HQmX5SCx.png                                                               4.99 kB
+dist/client/assets/dev_top_tee_teal_standing_v1-BVnQ-B2k.png                                                             5.34 kB
+dist/client/assets/dev_g2_top_knit_olive_seated_v1-Dd8QdQvn.png                                                          5.78 kB
+dist/client/assets/fit_body_adult_heavy_standing_v1-D70wrA52.png                                                         5.92 kB
+dist/client/assets/dev_body_adult_seated_v1-BQl4lFOH.png                                                                 6.44 kB
+dist/client/assets/dev_g2_top_knit_olive_standing_v1-BUcg9Xq3.png                                                        6.47 kB
+dist/client/assets/standing-listening__front-CJwSdjip.svg                                                                6.55 kB │ gzip:   1.02 kB
+dist/client/assets/standing-conversational__front-CvEznG6k.svg                                                           6.56 kB │ gzip:   1.07 kB
+dist/client/assets/standing-neutral__front-yZyThIeq.svg                                                                  6.56 kB │ gzip:   1.04 kB
+dist/client/assets/standing-podium-or-lectern__front-C8mNl2_B.svg                                                        6.56 kB │ gzip:   1.04 kB
+dist/client/assets/dev_g2_body_slim_deep_rich_seated_v1-DCCAGizV.png                                                     6.57 kB
+dist/client/assets/dev_g2_body_slim_medium_warm_seated_v1-DvpNAfzA.png                                                   6.73 kB
+dist/client/assets/dev_g2_body_broad_deep_rich_seated_v1-BijtEZf5.png                                                    6.74 kB
+dist/client/assets/dev_g2_body_slim_light_seated_v1-BW1AcQ55.png                                                         6.75 kB
+dist/client/assets/seated-at-desk__front-CEqfjtvD.svg                                                                    6.79 kB │ gzip:   1.06 kB
+dist/client/assets/seated-guest-neutral__front-B7GBPIE8.svg                                                              6.79 kB │ gzip:   1.07 kB
+dist/client/assets/dev_g2_body_broad_medium_warm_seated_v1-CVbgFVPi.png                                                  6.90 kB
+dist/client/assets/dev_g2_body_broad_light_seated_v1-Bou7y5ZO.png                                                        6.93 kB
+dist/client/assets/fit_body_adult_average_standing_v1-I0kmOrkY.png                                                       7.18 kB
+dist/client/assets/fit_body_adult_lean_standing_v1-CRLYd83A.png                                                          7.50 kB
+dist/client/assets/dev_top_blazer_navy_seated_v1-LC-OILeA.png                                                            7.83 kB
+dist/client/assets/dev_g2_top_suit_charcoal_seated_v1-BSAkGVWV.png                                                       8.33 kB
+dist/client/assets/dev_body_adult_standing_v1-Vd4DR-d3.png                                                               8.36 kB
+dist/client/assets/dev_top_blazer_navy_standing_v1-DaRODaFE.png                                                          8.60 kB
+dist/client/assets/dev_g2_body_slim_deep_rich_standing_v1-CxiLQLG-.png                                                   8.94 kB
+dist/client/assets/dev_g2_body_broad_deep_rich_standing_v1-D2J8qjq0.png                                                  9.06 kB
+dist/client/assets/dev_g2_body_slim_light_standing_v1-C8G3qi5O.png                                                       9.07 kB
+dist/client/assets/dev_g2_body_slim_medium_warm_standing_v1-16N7x4bF.png                                                 9.11 kB
+dist/client/assets/dev_g2_top_suit_charcoal_standing_v1-BCkNlxRk.png                                                     9.17 kB
+dist/client/assets/dev_g2_body_broad_light_standing_v1-JyoE0AzC.png                                                      9.21 kB
+dist/client/assets/dev_g2_body_broad_medium_warm_standing_v1-D6fugbdk.png                                                9.22 kB
+dist/client/assets/pg_hair_f_black_001_short_tapered_afro_v1-DiemAqh0.png                                               21.79 kB
+dist/client/assets/pg_head_m_002_white_adult_v1-D4qpGeqN.png                                                            22.46 kB
+dist/client/assets/pg_shoe_009_low_practical_flats_ml_v1-C-zVK61N.png                                                   22.69 kB
+dist/client/assets/pg_head_f_01_bald_neutral_v1-CmQQrFjg.png                                                            22.73 kB
+dist/client/assets/pg_head_m_001_black_young_adult_v1-Ab6IF1KI.png                                                      22.76 kB
+dist/client/assets/pg_shoe_004_leather_loafers_ml_v1-486R6jIn.png                                                       23.07 kB
+dist/client/assets/pg_head_m_004_east_asian_young_adult_v1-CjBrw0-B.png                                                 24.26 kB
+dist/client/assets/pg_shoe_001_low_top_sneakers_ml_v1-3lMRE4sR.png                                                      25.62 kB
+dist/client/assets/pg_head_m_005_black_older_adult_v1-sgQwoMtP.png                                                      25.97 kB
+dist/client/assets/pg_hair_f_black_005_high_puff_v1-CgVnNKgp.png                                                        30.96 kB
+dist/client/assets/pg_hair_f_black_010_cornrows_low_bun_v1-zQJBE2bG.png                                                 38.60 kB
+dist/client/assets/pg_bottom_010_a_line_knee_skirt_fl_v1-Dln4liZ4.png                                                   43.73 kB
+dist/client/assets/pg_shoe_009_low_practical_flats_fl_v1-BARNaqj0.png                                                   55.94 kB
+dist/client/assets/pg_bottom_010_a_line_knee_skirt_ml_v1-C__o1Wd2.png                                                   59.41 kB
+dist/client/assets/pg_shoe_004_leather_loafers_fl_v1-Bhdq2ea2.png                                                       59.66 kB
+dist/client/assets/pg_bottom_005_dress_trousers_fl_v1-CrUQ7PPz.png                                                      63.11 kB
+dist/client/assets/pg_top_001_short_sleeve_crew_tee_fl_v1-CoSReDUo.png                                                  64.86 kB
+dist/client/assets/pg_shoe_001_low_top_sneakers_fl_v1-BlFXYvSQ.png                                                      66.14 kB
+dist/client/assets/pg_top_001_short_sleeve_crew_tee_ml_v1-BNGryPZk.png                                                  77.60 kB
+dist/client/assets/pg_hair_f_black_002_rounded_medium_afro_v1-BpNhH6JB.png                                              82.81 kB
+dist/client/assets/pg_top_006_pullover_sweater_fl_v1-CakYV2CK.png                                                       83.31 kB
+dist/client/assets/pg_bottom_005_dress_trousers_ml_v1-CFHKpYrT.png                                                      84.93 kB
+dist/client/assets/pg_bottom_001_straight_leg_blue_jeans_fl_v1-D_hFk_Tp.png                                             85.41 kB
+dist/client/assets/pg_top_011_structured_blazer_fl_v1-D69RsT31.png                                                      96.95 kB
+dist/client/assets/pg_top_005_long_sleeve_button_shirt_fl_v1-DZNu4jQo.png                                               98.95 kB
+dist/client/assets/pg_top_006_pullover_sweater_ml_v1-CLHX_yLG.png                                                      100.68 kB
+dist/client/assets/pg_hair_f_black_007_shoulder_box_braids_v1-BF2mfnxw.png                                             114.09 kB
+dist/client/assets/pg_bottom_001_straight_leg_blue_jeans_ml_v1-Bo--gDUz.png                                            115.05 kB
+dist/client/assets/pg_top_011_structured_blazer_ml_v1-dWmLEVpf.png                                                     117.30 kB
+dist/client/assets/pg_top_005_long_sleeve_button_shirt_ml_v1-C_DEe9KZ.png                                              119.56 kB
+dist/client/assets/pg_hair_f_black_012_shoulder_locs_v1-C4Qcolk0.png                                                   132.44 kB
+dist/client/assets/pg_hair_f_black_004_shoulder_natural_curls_v1-D-4xirj7.png                                          159.84 kB
+dist/client/assets/pg_hair_f_black_008_long_box_braids_v1-Dj3v3mnM.png                                                 188.24 kB
+dist/client/assets/wave_a_supplies_R1C3_single_earbud_case_v1-BsUVslsQ.png                                             244.28 kB
+dist/client/assets/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1-BEHEzT7L.png                      277.78 kB
+dist/client/assets/wave_a_supplies_R2C4_single_sticky_notes_v1-CRnkKA00.png                                            340.75 kB
+dist/client/assets/human_candidate_A01_primary_desk_seated_v1-oI84f8ST.png                                             359.57 kB
+dist/client/assets/pg_body_fl_standing_v1-CU0nOpFz.png                                                                 364.60 kB
+dist/client/assets/pg_body_ml_standing_v1-BRzfQ679.png                                                                 389.50 kB
+dist/client/assets/human_candidate_B01_left_guest_seated_v1-D9PzlhiB.png                                               399.36 kB
+dist/client/assets/wave_a_supplies_R2C3_single_stapler_v1-BVdMi8vf.png                                                 459.71 kB
+dist/client/assets/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1-BG5lL1YA.png     462.99 kB
+dist/client/assets/wave_a_male_bottom_khaki_shorts_v1-DoJJPw2N.png                                                     463.65 kB
+dist/client/assets/habs_tx3326_00013a_normalized-Dru7r5Nc.jpg                                                          470.63 kB
+dist/client/assets/page-15-Cet4zGyU.png                                                                                475.94 kB
+dist/client/assets/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1-C-JBmRbL.png       493.08 kB
+dist/client/assets/wave_a_supplies_R1C1_single_phone_v1-6Js7z_ER.png                                                   506.60 kB
+dist/client/assets/wave_a_supplies_R1C4_single_usb_cable_v1-BZfnqhLH.png                                               541.49 kB
+dist/client/assets/wave_a_male_bottom_charcoal_dress_trousers_v1-B1dkcjB4.png                                          618.75 kB
+dist/client/assets/wave_a_male_bottom_light_gray_dress_trousers_v1-CyqlxpFu.png                                        626.19 kB
+dist/client/assets/wave_a_male_bottom_black_joggers_v1-Bw6IhNjX.png                                                    650.44 kB
+dist/client/assets/wave_a_male_bottom_navy_work_trousers_v1-ByNPm_Mw.png                                               706.10 kB
+dist/client/assets/wave_a_male_bottom_khaki_chinos_v1-DbFdiJEr.png                                                     713.83 kB
+dist/client/assets/wave_a_male_bottom_brown_corduroy_trousers_v1-DAyGUzoI.png                                          716.27 kB
+dist/client/assets/wave_a_female_top_gray_short_sleeve_tee_v1-DmYwwJzz.png                                             732.79 kB
+dist/client/assets/wave_a_male_bottom_dark_blue_slim_jeans_v1-BULHxv9x.png                                             735.01 kB
+dist/client/assets/wave_a_supplies_R2C1_single_legal_pad_v1-BZWSkLxT.png                                               761.74 kB
+dist/client/assets/wave_a_male_bottom_light_blue_dress_trousers_v1-Bdzzxn0m.png                                        764.92 kB
+dist/client/assets/wave_a_male_bottom_olive_cargo_trousers_v1-CG0eDZ8h.png                                             766.93 kB
+dist/client/assets/ocd_head_adult_deep_square_adult_masc_v1-C2jETk05.png                                               767.56 kB
+dist/client/assets/ocd_head_adult_deep_round_young_v1-BLHTGRhQ.png                                                     779.82 kB
+dist/client/assets/wave_a_male_top_burgundy_long_sleeve_polo_v1-CCpozI00.png                                           795.39 kB
+dist/client/assets/wave_a_male_bottom_tan_cargo_trousers_v1-Da3hx6wP.png                                               801.01 kB
+dist/client/assets/ocd_head_adult_light_oval_young_fem_v1-DVe2FX4x.png                                                 811.25 kB
+dist/client/assets/wave_a_male_bottom_blue_straight_jeans_v1-BrqGdP_l.png                                              811.79 kB
+dist/client/assets/page-03-Dv3Lqz-t.png                                                                                817.63 kB
+dist/client/assets/ocd_head_adult_light_oval_young_v1-DXnfAhmC.png                                                     818.50 kB
+dist/client/assets/ocd_head_adult_deep_oval_adult_v1-CLW4Dwia.png                                                      826.80 kB
+dist/client/assets/ocd_head_adult_olive_oval_adult_v1-DJ__G-Dl.png                                                     832.17 kB
+dist/client/assets/page-04-BjjeckpE.png                                                                                848.37 kB
+dist/client/assets/ocd_head_adult_tan_square_adult_masc_v1-CKjcXlJ8.png                                                848.99 kB
+dist/client/assets/ocd_head_adult_tan_oval_adult_fem_v1-BJ5Oqm5L.png                                                   854.40 kB
+dist/client/assets/ocd_head_adult_tan_round_young_v1-CBzCTEGT.png                                                      860.82 kB
+dist/client/assets/page-05-DK63cfOo.png                                                                                894.14 kB
+dist/client/assets/ocd_footwear_green_ballet_flat_v1-EsFKCdez.png                                                      897.70 kB
+dist/client/assets/ocd_footwear_plum_mid_block_heel_v1-C1dekygr.png                                                    914.67 kB
+dist/client/assets/ocd_head_adult_light_long_older_v1-BrdQS6e2.png                                                     928.92 kB
+dist/client/assets/wave_a_fat_man_standing_neutral_profile_v1-BpO5e8__.png                                             933.01 kB
+dist/client/assets/ocd_head_adult_light_square_older_masc_v1-DpfFk8B2.png                                              938.49 kB
+dist/client/assets/ocd_footwear_grey_low_block_heel_v1-BSWNGBoY.png                                                    943.78 kB
+dist/client/assets/wave_a_supplies_R3C4_multiple_pencil_briefcase_v1-91OwUVtL.png                                      954.80 kB
+dist/client/assets/ocd_footwear_black_cap_toe_oxford_v1-BDSzCGXn.png                                                   957.07 kB
+dist/client/assets/wave_a_average_man_standing_neutral_three_quarter_v1-CiXyGH85.png                                   968.96 kB
+dist/client/assets/env_lexington_council_staff_office_prompt30_v1-BILtlfyO.png                                         973.98 kB
+dist/client/assets/wave_a_footwear_flat_green_v1-B35uQ7my.png                                                          980.93 kB
+dist/client/assets/wave_a_male_top_navy_zip_hoodie_v1-CY1WnyBC.png                                                     991.26 kB
+dist/client/assets/wave_a_footwear_pump_gray_v1-CIBCE3cf.png                                                           995.88 kB
+dist/client/assets/ocd_footwear_brown_penny_loafer_v1-Dnb0uz2e.png                                                   1,001.39 kB
+dist/client/assets/wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1-C6b8s5rc.png                                1,008.58 kB
+dist/client/assets/page-01-f-vL78cY.png                                                                              1,012.14 kB
+dist/client/assets/ocd_head_adult_light_square_older_lined_v1-CwcSPNJg.png                                           1,013.78 kB
+dist/client/assets/wave_a_footwear_pump_burgundy_v1-TqZjMNNU.png                                                     1,021.26 kB
+dist/client/assets/page-02-IQlmHp18.png                                                                              1,032.77 kB
+dist/client/assets/ocd_footwear_grey_court_sneaker_v1-B1Dx9cGe.png                                                   1,037.08 kB
+dist/client/assets/wave_a_skinny_woman_standing_neutral_three_quarter_v1-BaB7-0Ge.png                                1,037.86 kB
+dist/client/assets/wave_a_skinny_man_standing_neutral_three_quarter_v1-BxoQ1Kwx.png                                  1,038.19 kB
+dist/client/assets/wave_a_male_top_white_button_up_shirt_v1-Bws4V8aM.png                                             1,043.01 kB
+dist/client/assets/ocd_footwear_navy_canvas_plimsoll_v1-Dp9Qni1C.png                                                 1,068.54 kB
+dist/client/assets/wave_a_female_top_burgundy_short_sleeve_polo_v1-DhrZ38fs.png                                      1,068.99 kB
+dist/client/assets/wave_a_average_woman_standing_neutral_three_quarter_v1-ByzQ4ouT.png                               1,077.65 kB
+dist/client/assets/wave_a_male_top_olive_shell_jacket_v1-BSRLolaa.png                                                1,080.03 kB
+dist/client/assets/wave_a_average_man_standing_neutral_front_b_v1-oyUoj1nh.png                                       1,083.42 kB
+dist/client/assets/wave_a_skinny_man_standing_neutral_back_v1-BhTys1I_.png                                           1,091.03 kB
+dist/client/assets/wave_a_male_top_tan_utility_shirt_v1-hVL3MD2C.png                                                 1,104.08 kB
+dist/client/assets/wave_a_male_top_charcoal_puffer_vest_layered_v1-D-gx_Hv4.png                                      1,108.75 kB
+dist/client/assets/wave_a_skinny_man_standing_neutral_front_a_v1-D6EO28b_.png                                        1,111.65 kB
+dist/client/assets/wave_a_skinny_woman_standing_neutral_front_b_v1-oLpxSA1D.png                                      1,114.21 kB
+dist/client/assets/wave_a_average_man_standing_neutral_front_a_v1-zGuJUpqJ.png                                       1,118.06 kB
+dist/client/assets/wave_a_female_top_olive_button_up_shirt_v1-YpFlQPGA.png                                           1,119.62 kB
+dist/client/assets/ocd_footwear_brown_strap_sandal_v1-BGxJLe3t.png                                                   1,130.42 kB
+dist/client/assets/wave_a_male_top_charcoal_blazer_v1-BlIK6Gyy.png                                                   1,132.43 kB
+dist/client/assets/wave_a_female_top_charcoal_blazer_v1-BzAUG3hE.png                                                 1,144.89 kB
+dist/client/assets/wave_a_female_top_navy_zip_hoodie_v1-_hS-IdI_.png                                                 1,151.08 kB
+dist/client/assets/wave_a_footwear_oxford_black_v1-BDnKbYAs.png                                                      1,154.34 kB
+dist/client/assets/wave_a_skinny_woman_seated_front_neutral_v1-DMqqkjDf.png                                          1,160.26 kB
+dist/client/assets/wave_a_average_man_seated_front_neutral_v1-B1_gv2G2.png                                           1,164.45 kB
+dist/client/assets/wave_a_fat_man_standing_neutral_back_v1-i4QJtgLB.png                                              1,171.87 kB
+dist/client/assets/wave_a_female_top_teal_shell_jacket_v1-d8MVd3TT.png                                               1,183.00 kB
+dist/client/assets/env_residence_apartment_living_canonical_03_v1-DS2Ga1i0.png                                       1,187.96 kB
+dist/client/assets/ocd_footwear_blue_running_shoe_v1-CTxzOW8C.png                                                    1,188.30 kB
+dist/client/assets/wave_a_older_woman_standing_neutral_three_quarter_v1-D1nlfsM8.png                                 1,191.24 kB
+dist/client/assets/wave_a_average_woman_seated_front_neutral_v1-DE-1L2pI.png                                         1,191.45 kB
+dist/client/assets/wave_a_skinny_woman_standing_neutral_front_a_v1-BwlJcSdw.png                                      1,197.95 kB
+dist/client/assets/wave_a_footwear_loafer_brown_v1-DXH_kXfi.png                                                      1,200.96 kB
+dist/client/assets/wave_a_skinny_man_seated_front_chair_v1-BJ3u6ir4.png                                              1,202.60 kB
+dist/client/assets/wave_a_male_top_gray_long_sleeve_tee_v1-DXvQIVJn.png                                              1,207.62 kB
+dist/client/assets/ocd_body_adult_fem_seated_guest_three_quarter_v1-D_LGsVUh.png                                     1,209.00 kB
+dist/client/assets/wave_a_female_top_olive_puffer_vest_layered_v1-CR4zTx-Y.png                                       1,222.17 kB
+dist/client/assets/wave_a_fat_man_standing_neutral_front_a_v1-MGJFkK6y.png                                           1,227.74 kB
+dist/client/assets/ocd_body_adult_fem_seated_gesture_forward_v1-C-actkwr.png                                         1,229.33 kB
+dist/client/assets/ocd_body_adult_fem_standing_conversational_b_v1-oWqUtYAV.png                                      1,236.22 kB
+dist/client/assets/wave_a_fat_man_seated_front_chair_v1-D6CI0zJq.png                                                 1,245.21 kB
+dist/client/assets/ocd_body_adult_fem_seated_guest_three_quarter_v1-YBwEKPBL.png                                     1,250.54 kB
+dist/client/assets/env_residence_apartment_living_ordinary_02_v1-oyHurSTa.png                                        1,251.87 kB
+dist/client/assets/ocd_footwear_taupe_chukka_boot_v1-B48gjxJR.png                                                    1,255.46 kB
+dist/client/assets/ocd_body_adult_fem_standing_neutral_b_v1-B7tbZXgK.png                                             1,255.86 kB
+dist/client/assets/wave_a_male_top_cream_cardigan_v1-BUc_tncr.png                                                    1,258.39 kB
+dist/client/assets/wave_a_skinny_woman_standing_interaction_surface_v1-DWS8AjPz.png                                  1,258.42 kB
+dist/client/assets/ocd_body_adult_fem_standing_conversational_a_v1-CD9mFMJo.png                                      1,259.83 kB
+dist/client/assets/ocd_body_adult_fem_seated_gesture_forward_v1-C3EgBb-N.png                                         1,262.39 kB
+dist/client/assets/ocd_body_adult_fem_standing_conversational_b_v1-CaPkiQBF.png                                      1,270.83 kB
+dist/client/assets/ocd_body_adult_fem_seated_guest_front_v1-DAZNc7js.png                                             1,275.79 kB
+dist/client/assets/wave_a_older_woman_seated_front_neutral_v1-lJDPOVsq.png                                           1,294.65 kB
+dist/client/assets/ocd_body_adult_fem_standing_conversational_a_v1-ES-D07i7.png                                      1,297.17 kB
+dist/client/assets/ocd_body_adult_fem_standing_neutral_b_v1-q-L58hiS.png                                             1,299.09 kB
+dist/client/assets/ocd_body_adult_fem_seated_conversational_left_v1-BgK8sLyQ.png                                     1,306.11 kB
+dist/client/assets/wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1-CiSfbXrI.png                             1,313.61 kB
+dist/client/assets/ocd_body_adult_fem_seated_guest_front_v1-pEKTy5Or.png                                             1,319.87 kB
+dist/client/assets/wave_a_average_woman_standing_interaction_surface_v1-AGx4_Xpo.png                                 1,320.07 kB
+dist/client/assets/wave_a_footwear_low_top_sneaker_gray_v1-_MAlK8aG.png                                              1,321.01 kB
+dist/client/assets/wave_a_female_top_tan_utility_shirt_v1-CcV0xeKT.png                                               1,321.13 kB
+dist/client/assets/wave_a_average_man_seated_conversational_open_hand_v1-LmdWrOBV.png                                1,323.54 kB
+dist/client/assets/wave_a_average_man_standing_conversational_open_hand_v1-jfWGVRor.png                              1,323.73 kB
+dist/client/assets/ocd_body_adult_fem_standing_neutral_a_v1-UPheQcek.png                                             1,323.93 kB
+dist/client/assets/wave_a_skinny_woman_standing_conversational_open_hand_v1-OWFiAwix.png                             1,329.16 kB
+dist/client/assets/wave_a_male_top_plaid_overshirt_v1-DLaLyND8.png                                                   1,330.21 kB
+dist/client/assets/wave_a_older_woman_standing_neutral_front_b_v1-X9PcjKPt.png                                       1,333.23 kB
+dist/client/assets/ocd_body_adult_fem_seated_conversational_left_v1-DJJ9YsHW.png                                     1,335.39 kB
+dist/client/assets/wave_a_average_woman_standing_neutral_front_b_v1-CEruPTrR.png                                     1,335.79 kB
+dist/client/assets/wave_a_average_man_standing_interaction_surface_v1-BgE8WtAQ.png                                   1,339.88 kB
+dist/client/assets/wave_a_footwear_canvas_sneaker_navy_v1-tvEBJV5n.png                                               1,341.97 kB
+dist/client/assets/wave_a_footwear_sandal_brown_v1-iKFwgtxJ.png                                                      1,355.55 kB
+dist/client/assets/page-13-C4NJF7be.png                                                                              1,362.27 kB
+dist/client/assets/wave_a_average_woman_standing_neutral_front_a_v1-0Xt7PRVj.png                                     1,362.66 kB
+dist/client/assets/wave_a_skinny_man_standing_conversational_open_hand_v1--2VZ4kKx.png                               1,368.09 kB
+dist/client/assets/ocd_body_adult_fem_standing_neutral_a_v1-xn2LY94O.png                                             1,369.59 kB
+dist/client/assets/wave_a_fat_man_seated_conversational_open_hand_v1-cs8xsKfM.png                                    1,375.31 kB
+dist/client/assets/wave_a_skinny_man_seated_conversational_open_hand_v1-SdLVWHXT.png                                 1,375.72 kB
+dist/client/assets/ocd_footwear_tan_work_boot_v1-_8Y-F_QX.png                                                        1,386.30 kB
+dist/client/assets/wave_a_skinny_woman_seated_interaction_surface_v1-BoeNFkyW.png                                    1,393.52 kB
+dist/client/assets/wave_a_average_woman_standing_conversational_open_hand_v1-BG6tRw3F.png                            1,402.25 kB
+dist/client/assets/wave_a_male_top_brown_fur_hood_parka_v1-BMs9phY4.png                                              1,403.62 kB
+dist/client/assets/wave_a_average_woman_seated_conversational_open_hand_v1-Cna2Qo7y.png                              1,403.79 kB
+dist/client/assets/wave_a_fat_man_standing_conversational_open_hand_v1-1C0FjKIn.png                                  1,404.44 kB
+dist/client/assets/page-06-DDsOXfI6.png                                                                              1,409.12 kB
+dist/client/assets/wave_a_older_woman_seated_conversational_open_hand_v1-BRe5Ayd9.png                                1,411.60 kB
+dist/client/assets/wave_a_skinny_woman_seated_conversational_open_hand_v1-DA0p5PwQ.png                               1,414.10 kB
+dist/client/assets/wave_a_fat_man_standing_lectern_interaction_v1-BAMDIIma.png                                       1,415.95 kB
+dist/client/assets/page-14-gjSRFYH5.png                                                                              1,416.82 kB
+dist/client/assets/wave_a_older_woman_standing_conversational_open_hand_v1-CcKIWh84.png                              1,418.30 kB
+dist/client/assets/wave_a_female_top_brown_fur_hood_parka_v1-CPOGM5IT.png                                            1,421.19 kB
+dist/client/assets/wave_a_skinny_man_standing_lectern_interaction_v1-C68wipiD.png                                    1,430.01 kB
+dist/client/assets/office-clipping-after-1440x900-BeEofdGr.png                                                       1,434.67 kB
+dist/client/assets/wave_a_older_woman_standing_interaction_surface_v1-DpET-YTg.png                                   1,438.79 kB
+dist/client/assets/office-clipping-before-1440x900-DeLoAt8M.png                                                      1,441.22 kB
+dist/client/assets/wave_a_footwear_athletic_sneaker_blue_v1-CuTSOdFg.png                                             1,446.76 kB
+dist/client/assets/ocd_footwear_olive_hiking_boot_v1-CBfgebyv.png                                                    1,446.79 kB
+dist/client/assets/wave_a_male_top_green_cable_sweater_v1-BKytfLIL.png                                               1,447.83 kB
+dist/client/assets/wave_a_footwear_chukka_taupe_v1-CsENbSH6.png                                                      1,469.58 kB
+dist/client/assets/wave_a_older_woman_standing_neutral_front_a_v1-C30GlgsY.png                                       1,474.82 kB
+dist/client/assets/wave_a_average_woman_seated_interaction_surface_v1-lSxPQxjj.png                                   1,474.94 kB
+dist/client/assets/wave_a_skinny_man_seated_interaction_surface_v1-DmhgV48J.png                                      1,531.01 kB
+dist/client/assets/wave_a_female_top_plaid_overshirt_v1-Bt1MK5Zx.png                                                 1,561.62 kB
+dist/client/assets/wave_a_average_man_seated_interaction_surface_v1-BmcS_Stu.png                                     1,632.06 kB
+dist/client/assets/wave_a_older_woman_seated_interaction_surface_v1-CCuBgJta.png                                     1,632.96 kB
+dist/client/assets/env_civic_hearing_room_v1-CS1lQeVE.png                                                            1,640.65 kB
+dist/client/assets/wave_a_fat_man_seated_interaction_surface_v1-C5ILfmZU.png                                         1,657.01 kB
+dist/client/assets/wave_a_female_top_cream_cardigan_v1-BHK0Sozd.png                                                  1,686.53 kB
+dist/client/assets/wave_a_footwear_combat_boot_olive_v1-CrFZ8oBP.png                                                 1,724.60 kB
+dist/client/assets/wave_a_female_top_mustard_cable_sweater_v1-Coh9QBc7.png                                           1,731.89 kB
+dist/client/assets/wave_a_additional_fat_female_standing_lectern_interaction_v1-ls0qSNNo.png                         1,743.29 kB
+dist/client/assets/title_bg_civic_community_meeting_hero_slot_v1-DXAYd1AF.png                                        1,765.79 kB
+dist/client/assets/wave_a_footwear_work_boot_tan_v1-ak5xyc8n.png                                                     1,776.19 kB
+dist/client/assets/page-10-JRMvV4DP.png                                                                              1,850.18 kB
+dist/client/assets/page-12-DURPXMiz.png                                                                              1,895.86 kB
+dist/client/assets/page-09-C1jAFlRh.png                                                                              1,955.28 kB
+dist/client/assets/page-08-CVf5SFvv.png                                                                              1,962.98 kB
+dist/client/assets/env_shared_workroom_office_v1-IHDMN9D1.png                                                        1,972.00 kB
+dist/client/assets/wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1-B9DBVbtL.png                       1,978.55 kB
+dist/client/assets/env_legislative_chamber_floor_v1-BaxlsD7G.png                                                     1,981.31 kB
+dist/client/assets/page-07-Ba4HI8WT.png                                                                              2,007.24 kB
+dist/client/assets/wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1-iHic_nzs.png                          2,101.47 kB
+dist/client/assets/page-11-D-GQeCU6.png                                                                              2,213.56 kB
+dist/client/assets/env_lexington_council_staff_office_prompt30_runtime_2x_v1-CwM71ntn.png                            3,027.43 kB
+dist/client/assets/wave_a_additional_fat_female_seated_interaction_surface_v1-b2NejsAB.png                           3,273.65 kB
+dist/client/assets/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1-CMVJP2EI.png                3,556.53 kB
+dist/client/assets/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1-DPM2k6pp.png                           3,747.35 kB
+dist/client/assets/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1-KmNEGBYU.png                        4,428.49 kB
+dist/client/assets/env_civic_hearing_room_runtime_2x_v1-Dw7e7nN7.png                                                 6,066.40 kB
+dist/client/assets/env_legislative_chamber_floor_runtime_2x_v1-DIihQ3bt.png                                          6,371.11 kB
+dist/client/assets/env_shared_workroom_office_runtime_2x_v1-C9Euk7aS.png                                             6,876.81 kB
+dist/client/assets/male bottom-w1C6MXOT.png                                                                          8,613.66 kB
+dist/client/assets/additional fat female pose-Chay_d_9.png                                                           8,689.61 kB
+dist/client/assets/average man-BgWjef25.png                                                                         11,056.10 kB
+dist/client/assets/fat man-B_hdNq55.png                                                                             11,141.18 kB
+dist/client/assets/skinny man-CwH5NXq2.png                                                                          11,159.70 kB
+dist/client/assets/skinny woman-BTcoWsi3.png                                                                        11,597.35 kB
+dist/client/assets/male tops-DHZyIZET.png                                                                           11,732.44 kB
+dist/client/assets/older woman-BEJh9yFg.png                                                                         11,868.93 kB
+dist/client/assets/average woman-BkyVXV7t.png                                                                       11,873.61 kB
+dist/client/assets/female top-Tlk3zs9C.png                                                                          12,485.78 kB
+dist/client/assets/supplies-Bxzdm9xQ.png                                                                            13,399.36 kB
+dist/client/assets/shoes-BawHeOsX.png                                                                               22,343.99 kB
+dist/client/assets/index-DzxeNgZZ.css                                                                                  117.70 kB │ gzip:  24.87 kB
+dist/client/assets/index-xA6t4HZ0.js                                                                                 3,286.87 kB │ gzip: 853.37 kB
+
+✓ built in 1.09s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+> political-life-rpg@0.2.0 demo
+> node --import tsx src/cli/demo.ts validation-seed
+
+{
+  "seed": "validation-seed",
+  "worldId": "world_57ea127c581f9ec2",
+  "snapshotId": "snapshot_3450ed053bd831ba",
+  "reproducible": true,
+  "currentDate": "2026-01-26",
+  "jurisdictionCount": 1,
+  "personCount": 6,
+  "eventCount": 11,
+  "organizationCount": 1,
+  "workRelationshipCount": 2,
+  "householdCount": 2,
+  "careResponsibilityCount": 1,
+  "materializedPerson": {
+    "id": "person_30ade6b1e0913534",
+    "name": "Maya Harris",
+    "detailLevel": "materialized"
+  }
+}
+
+> political-life-rpg@0.2.0 validate:art
+> node --import tsx scripts/art-asset-factory/cli-validate.ts
+
+Validation passed.

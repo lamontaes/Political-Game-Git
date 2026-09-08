@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/raster-tiers.test.ts src/presentation/title-tableau.test.ts src/presentation/scene-registry.test.ts src/presentation/scene-composition.test.ts
+
+
+ RUN  v4.1.1 /private/tmp/pg-s5-d2
+
+
+ Test Files  4 passed (4)
+      Tests  77 passed (77)
+   Start at  09:30:51
+   Duration  705ms (transform 960ms, setup 0ms, import 1.30s, tests 29ms, environment 0ms)
+
