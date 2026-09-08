@@ -81,14 +81,14 @@ below.
 The 133 rows were read again, with their real neighbours. Two systematic
 failures were measured, repaired, and then re-measured on the repair itself:
 
-| Measure, bounded P2 scope | P2R1 | P2R2 |
-| --- | --- | --- |
-| Rows opening `Your decision about` | 20 of 33 callback rows | 0 |
-| Callback rows sharing one return frame | 31 of 33 | 0 (largest shared ending: 1) |
-| `You chose to` / `You chose not to` / `You decided to` memories | 19 | 0 |
-| Near-duplicate clusters | 6 | 2 — the same two that exist at accepted main |
-| Bounded review warnings | 75 | 77 |
-| Distinct texts / rows | 425 / 427 | 427 / 429 |
+| Measure, bounded P2 scope                                       | P2R1                   | P2R2                                         |
+| --------------------------------------------------------------- | ---------------------- | -------------------------------------------- |
+| Rows opening `Your decision about`                              | 20 of 33 callback rows | 0                                            |
+| Callback rows sharing one return frame                          | 31 of 33               | 0 (largest shared ending: 1)                 |
+| `You chose to` / `You chose not to` / `You decided to` memories | 19                     | 0                                            |
+| Near-duplicate clusters                                         | 6                      | 2 — the same two that exist at accepted main |
+| Bounded review warnings                                         | 75                     | 77                                           |
+| Distinct texts / rows                                           | 425 / 427              | 427 / 429                                    |
 
 The two remaining near-duplicate clusters (`Go to the meeting` against the
 meeting work-item title, and one label/description pair) are present at
