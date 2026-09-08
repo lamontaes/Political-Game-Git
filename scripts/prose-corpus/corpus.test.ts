@@ -539,7 +539,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // (docs/plans/active/p1-prose-migration.md) reshaped the life-narration
     // Reconciled with accepted main; regenerated from the combined P2 tree.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48857);
+    expect(coverage.totalLiterals).toBe(48858);
     expect(coverage.counts.INVENTORIED).toBe(1910);
     expect(coverage.scannedFiles).toBe(320);
   });

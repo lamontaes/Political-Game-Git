@@ -32,6 +32,13 @@ describe("P2R1 canonical pre-offer counterexamples", () => {
       assertWorldIntegrity(world);
       const before = serializeWorld(world);
       const context = buildAdultLifeContext(world, personId);
+      if (key === "adult.care-request") {
+        expect(
+          world.history.careResponsibilities.some((record) =>
+            context.kinIds.includes(record.recipientPersonId),
+          ),
+        ).toBe(false);
+      }
       const scene = adultSituationBank().find((s) => s.key === key)!;
       // These legacy predicates remain readable as evidence; withholding is
       // applied by the established availability seam, before any option writes.

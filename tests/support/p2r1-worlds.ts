@@ -24,7 +24,7 @@ export function fixture() {
   const personId = world.personOrder[1]!;
   world = recordKinship(world, {
     stableKey: "p2r1:kin",
-    personIds: [personId, world.personOrder[2]!],
+    personIds: [personId, world.personOrder[3]!],
     establishedAt: world.currentDate,
     kind: "collateral:sibling",
     provenance: authored,
