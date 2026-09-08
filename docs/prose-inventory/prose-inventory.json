@@ -1,10 +1,10 @@
 {
-  "digest": "0c82468efe4ce571",
+  "digest": "cafa4521bad1cc3c",
   "counts": {
-    "total": 1882,
+    "total": 1897,
     "byDomain": {
       "campaign": 23,
-      "conversation": 165,
+      "conversation": 180,
       "legislative": 93,
       "life": 1168,
       "narration": 75,
@@ -13,7 +13,7 @@
     },
     "bySurface": {
       "answer": 280,
-      "artifact": 100,
+      "artifact": 115,
       "callback": 41,
       "connective": 51,
       "option-description": 301,
@@ -26,14 +26,14 @@
       "thread-recap": 32
     },
     "byReachability": {
-      "DEV_FIXTURE_ONLY": 76,
+      "DEV_FIXTURE_ONLY": 91,
       "LEGACY_OR_WITHDRAWN": 90,
       "PLAYER_REACHABLE": 1325,
       "WITHHELD_BY_GROUNDING": 391
     },
     "byRealization": {
-      "static": 1581,
-      "templated": 301
+      "static": 1587,
+      "templated": 310
     }
   },
   "records": [
@@ -3415,6 +3415,507 @@
         "computed"
       ],
       "textRevision": "60c5e17833cb",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0077#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0077",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player listened for the next relevant contribution.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0077"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "be4e067a1644",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0078#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0078",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "A conversation between members about a bill that is still open to change.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0078"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "601b6da38508",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0079#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0079",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "Find out what the other member actually needs, without pretending anything said here is already in the bill.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0079"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "c5ae3f617d12",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0080#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0080",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The members' room off the chamber floor",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0080"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "0fcd177ef038",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0081#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0081",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player asked for the fiscal note to be read before anything further was said.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0081"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "35fd2f11fe44",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0082#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0082",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} what they actually want out of the bill.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0082"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "41eba8009396",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0083#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0083",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} where they will be when the bill is called.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0083"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "88012276b5c0",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0084#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0084",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player countered {addresseeName} with the same section written to a ceiling.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0084"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "71eb8371829a",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0085#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0085",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player declined what {addresseeName} asked for and heard what it cost.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0085"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "018879e89c2c",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0086#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0086",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player offered to carry the named section {addresseeName} asked for.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0086"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a24bfab474f2",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0087#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0087",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player offered {addresseeName} a personal benefit, and it was refused.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0087"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8136e4886fed",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0088#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0088",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "The player put {addresseeName}'s own words back in front of them.",
+      "realization": "templated",
+      "slots": [
+        "addresseeName"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0088"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f291d18eb06a",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0089#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0089",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "measure bargaining",
+      "realization": "static",
+      "slots": [],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0089"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b44e0a4d55b7",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0090#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0090",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "{facts.designation} is on the {facts.chamberName} floor and the text can still change; after {facts.nextStepLabel} it cannot.",
+      "realization": "templated",
+      "slots": [
+        "facts.chamberName",
+        "facts.designation",
+        "facts.nextStepLabel"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0090"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "b0078ac0b94a",
+      "contextRevision": "867c7169c2d1"
+    },
+    {
+      "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0091#text",
+      "domain": "conversation",
+      "bank": "commit-contract",
+      "stableKey": "COMMIT_CONTRACTS-0091",
+      "field": "text",
+      "surface": "artifact",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "sourceSymbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} {words[outcome]}",
+      "realization": "templated",
+      "slots": [
+        "speakerName",
+        "words[outcome]"
+      ],
+      "reachability": "DEV_FIXTURE_ONLY",
+      "reachabilityReason": "Canonical-record text. A conversation turn writes these into event context (setting, socialContext, motivation, pressure, choice); the only surface that renders them is EventHistory, which DeveloperViewer mounts and App.tsx shows only for `?view=developer`. Ordinary play never opens it.",
+      "grounding": [
+        {
+          "key": "conversation-turn",
+          "description": "The committed turn, its intent and its outcome, as the event record states them.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "COMMIT_CONTRACTS",
+        "anchor": "COMMIT_CONTRACTS-0091"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "956c490a5f7b",
       "contextRevision": "867c7169c2d1"
     },
     {

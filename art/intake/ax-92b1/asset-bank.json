@@ -1,0 +1,47 @@
+{
+  "batchId": "environment-batch-ax-92b1",
+  "entries": [
+    {
+      "artifactFlags": [],
+      "assessedBy": "unassessed",
+      "bakedPeople": "unassessed",
+      "bakedReadableText": "unassessed",
+      "contentHash": "935ce236f421786061677da8f017fc775fab50e47693d7f611c916920f22f59f",
+      "disposition": "undecided",
+      "entryId": "env_park_community_pavilion_5504x3072_01",
+      "floorUsable": "unassessed",
+      "height": 3072,
+      "heroSlot": "unassessed",
+      "occluderCandidates": [],
+      "proposedFilename": "IMG_5204.JPG",
+      "reuseContexts": [],
+      "seatUsable": "unassessed",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "styleFamilyStatus": "unassessed",
+      "uiSafeRegions": [],
+      "width": 5504
+    },
+    {
+      "artifactFlags": [],
+      "assessedBy": "unassessed",
+      "bakedPeople": "unassessed",
+      "bakedReadableText": "unassessed",
+      "contentHash": "e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065",
+      "disposition": "undecided",
+      "entryId": "env_press_briefing_room_5504x3072_01",
+      "floorUsable": "unassessed",
+      "height": 3072,
+      "heroSlot": "unassessed",
+      "occluderCandidates": [],
+      "proposedFilename": "IMG_5202.JPG",
+      "reuseContexts": [],
+      "seatUsable": "unassessed",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "styleFamilyStatus": "unassessed",
+      "uiSafeRegions": [],
+      "width": 5504
+    }
+  ],
+  "manifestVersion": 1,
+  "note": "Seeded by environment intake. Every judgement is unassessed until a reviewer or an external QA pass fills it in."
+}
