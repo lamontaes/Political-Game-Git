@@ -1,7 +1,18 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { contextRevisionOf, revisionOf } from "./anchors";
+import {
+  describeHistoryProblems,
+  loadAnchorBaseline,
+  loadAnchorLedger,
+  verifyAllocationHistory,
+} from "./anchor-history";
+import {
+  contextRevisionOf,
+  liveBindingsOf,
+  loadAnchorFile,
+  revisionOf,
+} from "./anchors";
 import { buildCoverageReport } from "./coverage";
 import { runDiagnostics } from "./diagnostics";
 import { findIdCollisions, parseProseId, proseId, templateSlots } from "./ids";
@@ -535,16 +546,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Reconciled with accepted PR101 main and P2R1; these values are
-    // measured from the actual combined tree, not a reachability target.
-    // Re-measured for P2R2 against the actual tree. Three new files carry the
-    // movement: `life-opportunities.ts`, with the summaries and believed lines
-    // the generated requests are written with, and the two proof suites beside
-    // it. 49,522 → 49,738 literals / 1,910 → 1,912 inventoried / 323 → 326
-    // files. The inventoried count barely moves because the new module writes
-    // canonical records rather than adding a player-facing bank.
+    // Re-measured on the actual composed tree — not a pin carried from either
+    // side of the merge. Current main brings the accepted R3J Kentucky Sec. 88
+    // source notes and the PR128 allocator; P2R2 brings `life-opportunities.ts`
+    // and its two proof suites. The number below is what the scanner returns
+    // with both of those present.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49738);
+    expect(coverage.totalLiterals).toBe(49759);
     expect(coverage.counts.INVENTORIED).toBe(1912);
     expect(coverage.scannedFiles).toBe(326);
   });
@@ -572,6 +580,38 @@ describe("the corpus stays out of production runtime", () => {
     const literals = scanLiterals("scripts/prose-corpus/sources/episodes.ts");
     expect(literals.length).toBeGreaterThan(0);
     expect(records.some((record) => record.bank === "episode")).toBe(true);
+  });
+});
+
+/**
+ * The one gate that has to run in CI, over the repository's own files.
+ *
+ * 128R1 integration test. Claims only itself: it pins no count and touches no
+ * other case in this file.
+ *
+ * `npm run corpus:prose -- check` verifies allocation history too, but nothing
+ * in CI runs that command — `npm run validate` runs format, lint, typecheck,
+ * `npm run test`, the source and build steps, and `validate:art`. So a check
+ * that lives only in the CLI is a check that never runs on a pull request, and
+ * an emptied ledger reached `main` green. This case is how the integrity
+ * contract gets onto the path CI actually executes.
+ *
+ * Read-only by construction: it loads the three files and reports. It cannot
+ * repair them, which is the point — a validator that rewrites what it is
+ * validating cannot be trusted to have found anything.
+ */
+describe("computed-anchor allocation history is intact", () => {
+  it("verifies the committed ledger against its independent checkpoint", () => {
+    const problems = verifyAllocationHistory({
+      ledger: loadAnchorLedger(),
+      baseline: loadAnchorBaseline(),
+      live: liveBindingsOf(loadAnchorFile().anchors),
+    });
+    // A failure here means a retired id could be re-issued to unrelated prose,
+    // carrying an owner's recorded judgement onto text nobody reviewed.
+    expect(problems.length === 0 ? "" : describeHistoryProblems(problems)).toBe(
+      "",
+    );
   });
 });
 

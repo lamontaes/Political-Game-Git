@@ -158,7 +158,7 @@ describe("What the player is told about a bill", () => {
     );
   });
 
-  it("says plainly what the rules do not settle", () => {
+  it("says plainly what the rules settle about executive inaction", () => {
     const steps: MeasureStepKey[] = [
       "request-referral",
       "request-committee-hearing",
@@ -175,7 +175,11 @@ describe("What the player is told about a bill", () => {
     ];
     const { world, scenario } = run("kentucky", steps);
     const briefing = projectMeasureBriefing(world, scenario.measureId);
+    // Ky. Const. Sec. 88 settles inaction: the bill becomes law anyway.
     expect(briefing.uncertainties.join(" ")).toContain(
+      "the bill becomes law anyway",
+    );
+    expect(briefing.uncertainties.join(" ")).not.toContain(
       "Nobody has been able to tell you",
     );
     expect(briefing.deadlines.join(" ")).toContain("60 legislative days");

@@ -1,5 +1,5 @@
 {
-  "digest": "14a93660d2bdeb4f",
+  "digest": "acc22d62221ca701",
   "counts": {
     "total": 1882,
     "byDomain": {
@@ -13037,7 +13037,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.friend-favour",
-      "text": "You agreed to do the requested favour.",
+      "text": "You said yes to the favour and got on with it.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -13059,7 +13059,7 @@
         "stakes:notable",
         "companion:other-household"
       ],
-      "textRevision": "09da6cc43706",
+      "textRevision": "d006db822713",
       "contextRevision": "6a535a714479"
     },
     {
@@ -13558,7 +13558,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.friend-in-difficulty",
-      "text": "You kept the personal matter private.",
+      "text": "You told nobody else what they had told you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -13580,7 +13580,7 @@
         "stakes:pressing",
         "companion:other-household"
       ],
-      "textRevision": "e681116bd8e2",
+      "textRevision": "2956500d1591",
       "contextRevision": "6a535a714479"
     },
     {
@@ -13694,7 +13694,7 @@
       "surface": "option-witnessed",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.friend-in-difficulty",
-      "text": "They told them to go and deal with it.",
+      "text": "They told them to sort it out themselves.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -13716,7 +13716,7 @@
         "stakes:pressing",
         "companion:other-household"
       ],
-      "textRevision": "17bb9f606fbf",
+      "textRevision": "552fe554427b",
       "contextRevision": "6a535a714479"
     },
     {
@@ -15425,7 +15425,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-standing",
-      "text": "You decided to handle the shopping and appointments yourself.",
+      "text": "You took on the shopping and the appointments yourself.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -15447,7 +15447,7 @@
         "stakes:notable",
         "companion:household-member"
       ],
-      "textRevision": "e7d4e2b1f1cb",
+      "textRevision": "658b4f393c81",
       "contextRevision": "9881c4e11947"
     },
     {
@@ -22224,7 +22224,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.work-extra-hours",
-      "text": "You declined the requested extra hours.",
+      "text": "You said you would not take the extra hours.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -22241,7 +22241,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "122488a3e5ed",
+      "textRevision": "b373ea2c7dcf",
       "contextRevision": "82db573bc6c3"
     },
     {

@@ -69,10 +69,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `you took the` | 9 |
 | `say you will` | 8 |
 | `the player asked` | 7 |
-| `you agreed to` | 7 |
 | `you told them` | 7 |
 | `it is not` | 6 |
 | `the bill has` | 6 |
+| `you agreed to` | 6 |
 | `you asked for` | 6 |
 | `ask about the` | 5 |
 | `say nothing to` | 5 |
