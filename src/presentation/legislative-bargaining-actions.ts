@@ -20,9 +20,6 @@ import {
   type World,
 } from "../simulation";
 import {
-  REQUESTED_PROVISION_KEY,
-  REQUESTED_SEGMENT_KEY,
-  requestedProvisionText,
   type LegislativeBargainingSeat,
 } from "./legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
@@ -200,11 +197,11 @@ export function offerNegotiatedAmendment(
       forumKey: chamberKey,
       floorStageKey: position.floorStageKey,
       amendmentStableKey: stableKey,
-      provisionKey: REQUESTED_PROVISION_KEY,
+      provisionKey: facts.requestedProvisionKey,
     },
-    questionLabel: `Adoption of the ${amountLabel} local match amendment`,
+    questionLabel: `Adoption of the ${facts.requestedSectionLabel} amendment, ${amountLabel} for ${facts.requestedBeneficiaryLabel}`,
     pendingChange: {
-      provisionKey: REQUESTED_PROVISION_KEY,
+      provisionKey: facts.requestedProvisionKey,
       beneficiaryLabels: [facts.requestedBeneficiaryLabel],
       addsExposureMinorUnits: amountMinorUnits,
     },
@@ -213,7 +210,7 @@ export function offerNegotiatedAmendment(
   const next = offerFloorAmendment(derived.world, {
     stableKey,
     measureId: seat.measureId,
-    description: `Add Section 4, a local project match of not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
+    description: `Add ${facts.requestedSectionLabel}, ${facts.requestedHeading}: not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
     offeredByPersonId: seat.playerPersonId,
     offeredByLabel: "Floor sponsor",
     dispositions: blendDispositions(
@@ -238,20 +235,20 @@ export function offerNegotiatedAmendment(
     return {
       world: next,
       adopted: false,
-      message: `The ${chamber.name} rejected the amendment. Section 4 is not in the bill, and nothing anybody said about it changed the text.`,
+      message: `The ${chamber.name} rejected the amendment. ${facts.requestedSectionLabel} is not in the bill, and nothing anybody said about it changed the text.`,
       memberAccounts: derived.accounts,
     };
   }
 
   const withText = adoptProvisionRevision(next, {
-    stableKey: `${stableKey}:section-4`,
+    stableKey: `${stableKey}:${facts.requestedProvisionKey}`,
     measureId: seat.measureId,
     amendmentId: amendment.id,
     supersedesProvisionId: null,
-    provisionKey: REQUESTED_PROVISION_KEY,
+    provisionKey: facts.requestedProvisionKey,
     sectionNumber: facts.requestedSectionNumber,
     heading: facts.requestedHeading,
-    text: requestedProvisionText(amountMinorUnits),
+    text: variant === "capped" ? facts.cappedText : facts.requestedText,
     beneficiary: {
       kind: "particularized",
       particularization: "named-project",
@@ -261,16 +258,16 @@ export function offerNegotiatedAmendment(
     },
     applicationScope: {
       jurisdictionId: scopeJurisdiction(world, seat),
-      segmentKey: REQUESTED_SEGMENT_KEY,
+      segmentKey: facts.requestedSegmentKey,
     },
-    fiscalExposureLabel: `${amountLabel} local match`,
+    fiscalExposureLabel: `${amountLabel} under ${facts.requestedSectionLabel}`,
     fiscalExposureMinorUnits: amountMinorUnits,
   });
 
   return {
     world: withText,
     adopted: true,
-    message: `The ${chamber.name} adopted the amendment. Section 4 is now in the bill, and it names ${facts.requestedBeneficiaryLabel} at ${amountLabel}.`,
+    message: `The ${chamber.name} adopted the amendment. ${facts.requestedSectionLabel} is now in the bill, and it names ${facts.requestedBeneficiaryLabel} at ${amountLabel}.`,
     memberAccounts: derived.accounts,
   };
 }

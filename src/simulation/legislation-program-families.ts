@@ -287,6 +287,28 @@ export interface ProgramFamily {
   readonly acceptedDimensions: readonly ClauseDimension[];
   /** Source material that demonstrated this clause shape exists. */
   readonly structuralProvenance: readonly ProgramContentEvidence[];
+  /**
+   * What the programme is meant to change, and why the game cannot score it.
+   *
+   * Declared so the analysis surface can name the exact series an estimate
+   * would need instead of producing a confident number from nothing. A world
+   * that has never measured this series has no business forecasting a change
+   * in it, and saying which series is missing is more useful to a player than
+   * a fabricated total would be.
+   */
+  readonly intendedOutcome: {
+    /** The metric-catalog key: dotted, as metric definitions are keyed. */
+    readonly metricStableKey: string;
+    /**
+     * The policy-semantics series key: colon-namespaced, as baselines and
+     * estimates are keyed. Held separately rather than derived from the metric
+     * key, because the two key spaces are validated by different rules and a
+     * silent transformation between them would be a guess.
+     */
+    readonly baselineSeriesKey: `${string}:${string}`;
+    readonly statement: string;
+    readonly evidence: ProgramContentEvidence;
+  };
   readonly variants: readonly ProgramVariant[];
 }
 
@@ -419,6 +441,18 @@ const TRANSIT_ACCESS: ProgramFamily = {
     "Reduces what riders pay, or extends an existing assistance formula to places a provider does not serve.",
   acceptedDimensions: ["funding-cap", "eligibility-scope", "timing"],
   structuralProvenance: [IIJA_HEARING_RECORD, TARGETED_SECTION_SOURCE],
+  intendedOutcome: {
+    metricStableKey: "transit.eligible-boardings",
+    baselineSeriesKey: "transit:eligible-boardings",
+    statement:
+      "Whether removing the fare actually moves boardings by riders who qualify.",
+    evidence: {
+      kind: "forecast-claim",
+      note: "Any figure for additional boardings under this Act would be a projection, not a count.",
+      unavailableReason:
+        "No boardings series has been measured in this world, so there is nothing for a projection to move.",
+    },
+  },
   variants: [
     {
       variantKey: "enrollment-fare-relief",
@@ -726,6 +760,18 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
     "Makes an inspection condition rating the operative test for which structures a maintenance programme may reach.",
   acceptedDimensions: ["funding-cap", "eligibility-scope", "oversight", "timing"],
   structuralProvenance: [IIJA_HEARING_RECORD, IIJA_FISCAL_TREATMENT],
+  intendedOutcome: {
+    metricStableKey: "structures.condition-rating-mean",
+    baselineSeriesKey: "structures:condition-rating-mean",
+    statement:
+      "Whether repair or preventive treatment holds average structure condition.",
+    evidence: {
+      kind: "forecast-claim",
+      note: "Any figure for structures kept out of the worst rating band would be a projection.",
+      unavailableReason:
+        "No structure condition series has been measured in this world, and no department has been asked to report one.",
+    },
+  },
   variants: [
     {
       variantKey: "worst-first-condition",
@@ -1060,6 +1106,18 @@ const BROADBAND_ACCESS: ProgramFamily = {
     "Attaches a minimum service standard and a reporting duty to public support for internet service.",
   acceptedDimensions: ["funding-cap", "eligibility-scope", "oversight", "timing"],
   structuralProvenance: [IIJA_HEARING_RECORD, IIJA_FISCAL_TREATMENT],
+  intendedOutcome: {
+    metricStableKey: "broadband.served-household-share",
+    baselineSeriesKey: "broadband:served-household-share",
+    statement:
+      "Whether the share of households that can and do take service actually rises.",
+    evidence: {
+      kind: "forecast-claim",
+      note: "Any figure for households newly served or newly subscribing would be a projection.",
+      unavailableReason:
+        "No service or take-up series has been measured in this world, so a projection would have no baseline.",
+    },
+  },
   variants: [
     {
       variantKey: "unserved-buildout",
@@ -1418,6 +1476,18 @@ const WATER_SERVICE_LINES: ProgramFamily = {
     "Imposes a dated compliance duty on water systems, with or without money attached to discharging it.",
   acceptedDimensions: ["eligibility-scope", "timing", "oversight", "funding-cap"],
   structuralProvenance: [IIJA_HEARING_RECORD, TARGETED_SECTION_SOURCE],
+  intendedOutcome: {
+    metricStableKey: "water.identified-service-lines",
+    baselineSeriesKey: "water:identified-service-lines",
+    statement:
+      "How many service lines are identified, and how many are replaced.",
+    evidence: {
+      kind: "forecast-claim",
+      note: "The inventory this Act requires is the thing that would produce the number; the number does not exist before it.",
+      unavailableReason:
+        "No system has filed an inventory in this world, which is precisely what the Act is for.",
+    },
+  },
   variants: [
     {
       variantKey: "inventory-and-plan",
