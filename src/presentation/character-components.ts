@@ -1,6 +1,16 @@
 import { stableHash } from "../simulation/ids";
 import type { PersonAppearance } from "../simulation/person-appearance";
 import { SeededRng } from "../simulation/rng";
+import {
+  compileGarmentFitMatrix,
+  compileWarpBands,
+  resolveGarmentFit,
+  GARMENT_FIT_IDENTITY_MATRIX,
+  type GarmentFitBank,
+  type GarmentFitClass,
+  type GarmentFitMatrix,
+  type GarmentFitRefusalCode,
+} from "./garment-fit";
 
 /**
  * Modular character component contract.
@@ -369,6 +379,17 @@ export interface CharacterComponentLibrary {
   readonly slots: readonly CharacterSlotDefinition[];
   readonly generations: readonly CharacterCatalogGeneration[];
   readonly components: ReadonlyMap<string, CharacterComponent>;
+  /**
+   * Morphology fit profiles, or null for a library assembled without them.
+   *
+   * Null is the PRE-FIT contract, kept because it is what every existing caller
+   * and every catalog generation already means: place a component by its own
+   * canvas against the body's, and accept whatever silhouette it lands on. A
+   * library that carries a bank is held to the fit contract instead, and a
+   * garment the bank does not answer for fails closed rather than falling back
+   * to the unfitted rectangle.
+   */
+  readonly fit: GarmentFitBank | null;
 }
 
 export const CHARACTER_GENERATION_SIGNATURE_PREFIX = "csig_";
@@ -500,6 +521,7 @@ function validateBodyContacts(
 export function createCharacterComponentLibrary(
   records: readonly CharacterComponentManifestRecord[],
   catalog: CharacterCatalogData,
+  fit: GarmentFitBank | null = null,
 ): CharacterComponentLibrary {
   const components = new Map<string, CharacterComponent>();
   for (const record of records) {
@@ -516,6 +538,7 @@ export function createCharacterComponentLibrary(
     slots: catalog.slots,
     generations: catalog.generations,
     components,
+    fit,
   };
 }
 
@@ -1992,6 +2015,63 @@ export function reproduceCharacterRecipe(
 // Layer projection
 // ---------------------------------------------------------------------------
 
+/**
+ * One horizontal slice of a bounded-warp fit.
+ *
+ * A band is an ordinary axis-aligned rectangle plus the fraction of the SOURCE
+ * raster it shows, so a renderer draws the same image once per band, positioned
+ * and scaled for that band, clipped to its own slice. Nothing is resampled and
+ * no pixel is written; the raster on disk is drawn N times through N windows.
+ */
+export interface ProjectedCharacterBand {
+  readonly index: number;
+  /** The slice this band shows, in body-canvas units. */
+  readonly left: number;
+  readonly top: number;
+  readonly width: number;
+  readonly height: number;
+  /** Fraction of the component raster's height this band reveals. */
+  readonly sourceTopFraction: number;
+  readonly sourceBottomFraction: number;
+  /**
+   * Where the WHOLE raster would be drawn so that exactly this band's source
+   * rows land in the slice above. Drawing the full image here and clipping to
+   * the slice reproduces the band; drawing the full image INTO the slice does
+   * not, because that compresses the whole raster into one sixteenth of its
+   * height. This is the metadata the first head's "clip percentages" recipe
+   * was missing, recorded so the geometry is reproducible even though nothing
+   * renders it.
+   */
+  readonly image: {
+    readonly left: number;
+    readonly top: number;
+    readonly width: number;
+    readonly height: number;
+  };
+}
+
+/**
+ * The fit that was applied to a layer, as data a reviewer can read.
+ *
+ * `matrix` is the compiled 2x3 affine in body-canvas normalized coordinates,
+ * carried even when it is the identity so "no transform" and "a transform that
+ * happens to be 1" are told apart by the classification rather than by the
+ * absence of a field.
+ */
+export interface ProjectedLayerFit {
+  readonly classification: GarmentFitClass;
+  readonly transformKind: "direct" | "affine" | "bounded-warp";
+  readonly matrix: GarmentFitMatrix;
+  /** Non-null only for a bounded warp; ordered top to bottom. */
+  readonly bands: readonly ProjectedCharacterBand[] | null;
+}
+
+export interface ProjectedLayerFitRefusal {
+  readonly assetId: string;
+  readonly code: GarmentFitRefusalCode;
+  readonly message: string;
+}
+
 export interface ProjectedCharacterLayer {
   readonly assetId: string;
   readonly kind: CharacterComponentKind;
@@ -2005,6 +2085,17 @@ export interface ProjectedCharacterLayer {
   readonly top: number;
   readonly width: number;
   readonly height: number;
+  /**
+   * The fit applied, or null when the library carries no fit bank and the
+   * pre-fit contract is in force.
+   */
+  readonly fit: ProjectedLayerFit | null;
+  /**
+   * Why this layer has no usable fit. Set means the layer is NOT drawable: it
+   * is reported unreleased above, and a consumer must show the gap rather than
+   * the garment.
+   */
+  readonly fitRefusal: ProjectedLayerFitRefusal | null;
 }
 
 export interface ProjectedCharacter {
@@ -2014,6 +2105,8 @@ export interface ProjectedCharacter {
   readonly layers: readonly ProjectedCharacterLayer[];
   /** True when every layer is runtime eligible. */
   readonly fullyReleased: boolean;
+  /** Every layer the fit bank refused, in layer order. Empty when all fitted. */
+  readonly fitRefusals: readonly ProjectedLayerFitRefusal[];
 }
 
 /**
@@ -2021,10 +2114,36 @@ export interface ProjectedCharacter {
  * component's declared origin lands on its declared body-rig anchor. Sizes are
  * relative to the body canvas at a 1:1 authored pixel scale within one body
  * family. Returns null when the pose has no body art (fail closed).
+ *
+ * When the library carries a fit bank, each non-body layer additionally asks
+ * what transform it needs to sit on THIS body family in THIS pose, and the
+ * answer is folded into the rectangle above. The fold is exact: a scale about
+ * the component's origin plus a translate, both in the same normalized units,
+ * so a fitted layer is still one axis-aligned rectangle and every consumer
+ * downstream keeps working unchanged. A garment with no usable answer is
+ * refused, not placed.
  */
+export interface ProjectCharacterLayersOptions {
+  /**
+   * Let a bounded-warp layer through as DRAWABLE.
+   *
+   * Nothing that renders may pass this. A bounded warp is a set of horizontal
+   * slices and no renderer in this repository draws slices, so the compositor
+   * withholds such a layer by default for every consumer — the projection is
+   * the one place every consumer passes through, which makes it the one place
+   * the refusal cannot be bypassed by a caller that never heard of bands.
+   *
+   * The measurement harness is the single exception: it reads the bands back
+   * out of the projection to measure what the warp would achieve, and writes
+   * that down as derivation evidence. A test keeps this option out of `src/`.
+   */
+  readonly admitUnrenderableWarps?: boolean;
+}
+
 export function projectCharacterLayers(
   recipe: CharacterRecipe,
   library: CharacterComponentLibrary,
+  options: ProjectCharacterLayersOptions = {},
 ): ProjectedCharacter | null {
   const bodyEntry = recipe.context.components.find(
     (component) => component.kind === "body",
@@ -2041,6 +2160,8 @@ export function projectCharacterLayers(
     body.definition.attachment_anchors.map((anchor) => [anchor.id, anchor]),
   );
 
+  const bodyFamily = body.definition.family;
+  const poseFamily = recipe.context.poseFamily;
   const layers: ProjectedCharacterLayer[] = [];
   for (const entry of recipe.context.components) {
     const component = library.components.get(entry.assetId);
@@ -2050,6 +2171,8 @@ export function projectCharacterLayers(
       );
     }
     if (entry.kind === "body") {
+      // The body is what everything else is fitted TO. Fitting it would move
+      // the very geometry the anchors are expressed in.
       layers.push({
         assetId: entry.assetId,
         kind: entry.kind,
@@ -2061,6 +2184,8 @@ export function projectCharacterLayers(
         top: 0,
         width: 1,
         height: 1,
+        fit: null,
+        fitRefusal: null,
       });
       continue;
     }
@@ -2078,6 +2203,172 @@ export function projectCharacterLayers(
     }
     const width = canvas.width / bodyCanvas.width;
     const height = canvas.height / bodyCanvas.height;
+    const unfitted = {
+      left: anchor.x - origin.x * width,
+      top: anchor.y - origin.y * height,
+      width,
+      height,
+    };
+
+    if (!library.fit) {
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: entry.released,
+        attachmentAnchorId: anchor.id,
+        ...unfitted,
+        fit: null,
+        fitRefusal: null,
+      });
+      continue;
+    }
+
+    const resolution = resolveGarmentFit(
+      {
+        componentAssetId: entry.assetId,
+        componentFamily: entry.family,
+        kind: entry.kind,
+        targetBodyFamily: bodyFamily,
+        poseFamily,
+      },
+      library.fit,
+    );
+    if (!resolution.ok) {
+      const refusal: ProjectedLayerFitRefusal = {
+        assetId: entry.assetId,
+        code: resolution.code,
+        message: resolution.message,
+      };
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: false,
+        attachmentAnchorId: anchor.id,
+        ...unfitted,
+        fit: null,
+        fitRefusal: refusal,
+      });
+      continue;
+    }
+
+    const transform = resolution.transform;
+    if (transform.kind === "direct") {
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: entry.released,
+        attachmentAnchorId: anchor.id,
+        ...unfitted,
+        fit: {
+          classification: resolution.classification,
+          transformKind: "direct",
+          matrix: GARMENT_FIT_IDENTITY_MATRIX,
+          bands: null,
+        },
+        fitRefusal: null,
+      });
+      continue;
+    }
+
+    // Vertical is affine in both remaining cases: scale about the origin, then
+    // translate, both in body-canvas normalized units.
+    const scaleY = transform.scaleY;
+    const translateY = transform.translateY;
+    const fittedHeight = height * scaleY;
+    const fittedTop = anchor.y - origin.y * fittedHeight + translateY;
+
+    if (transform.kind === "affine") {
+      const fittedWidth = width * transform.scaleX;
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: entry.released,
+        attachmentAnchorId: anchor.id,
+        left: anchor.x - origin.x * fittedWidth + transform.translateX,
+        top: fittedTop,
+        width: fittedWidth,
+        height: fittedHeight,
+        fit: {
+          classification: resolution.classification,
+          transformKind: "affine",
+          matrix: compileGarmentFitMatrix(
+            transform.scaleX,
+            scaleY,
+            transform.translateX,
+            translateY,
+            anchor.x,
+            anchor.y,
+          ),
+          bands: null,
+        },
+        fitRefusal: null,
+      });
+      continue;
+    }
+
+    const compiled = compileWarpBands(transform);
+    const bands: ProjectedCharacterBand[] = compiled.map((band) => {
+      const bandWidth = width * band.scaleX;
+      const imageLeft = anchor.x - origin.x * bandWidth + band.offsetX;
+      return {
+        index: band.index,
+        left: imageLeft,
+        top: fittedTop + band.fromFraction * fittedHeight,
+        width: bandWidth,
+        height: (band.toFraction - band.fromFraction) * fittedHeight,
+        sourceTopFraction: band.fromFraction,
+        sourceBottomFraction: band.toFraction,
+        image: {
+          left: imageLeft,
+          top: fittedTop,
+          width: bandWidth,
+          height: fittedHeight,
+        },
+      };
+    });
+    // A bounded warp is NOT RENDERABLE here. The projection is the one place
+    // every consumer passes through, so the refusal is issued here, once: the
+    // layer keeps its UNFITTED rectangle (so a debug view can show where it
+    // would have gone) and is reported unreleased with a named reason. The
+    // bands ride along as derivation evidence only. No consumer that reads
+    // rectangles can paint a warp by accident, because there is no drawable
+    // warp rectangle to read.
+    if (!options.admitUnrenderableWarps) {
+      const refusal: ProjectedLayerFitRefusal = {
+        assetId: entry.assetId,
+        code: "fit-warp-not-renderable",
+        message: `Component '${entry.assetId}' resolves to a bounded-warp fit of ${bands.length} bands on body family '${bodyFamily}' in pose '${poseFamily}'. No renderer in this repository draws bands, and drawing the bounding rectangle would paint the garment at its widest band down its whole length, so the layer is withheld.`,
+      };
+      layers.push({
+        assetId: entry.assetId,
+        kind: entry.kind,
+        slotId: entry.slotId,
+        layer: entry.layer,
+        released: false,
+        attachmentAnchorId: anchor.id,
+        ...unfitted,
+        fit: {
+          classification: resolution.classification,
+          transformKind: "bounded-warp",
+          matrix: GARMENT_FIT_IDENTITY_MATRIX,
+          bands,
+        },
+        fitRefusal: refusal,
+      });
+      continue;
+    }
+    // The layer rectangle is the union of its bands, so the harness gets a
+    // correct bounding box for the shape it is about to measure.
+    const unionLeft = Math.min(...bands.map((band) => band.left));
+    const unionRight = Math.max(...bands.map((band) => band.left + band.width));
     layers.push({
       assetId: entry.assetId,
       kind: entry.kind,
@@ -2085,10 +2376,28 @@ export function projectCharacterLayers(
       layer: entry.layer,
       released: entry.released,
       attachmentAnchorId: anchor.id,
-      left: anchor.x - origin.x * width,
-      top: anchor.y - origin.y * height,
-      width,
-      height,
+      left: unionLeft,
+      top: fittedTop,
+      width: unionRight - unionLeft,
+      height: fittedHeight,
+      fit: {
+        classification: resolution.classification,
+        transformKind: "bounded-warp",
+        // The compiled matrix reports the warp's VERTICAL affine only; the
+        // horizontal transform varies by band and lives there. A single matrix
+        // cannot describe a warp, and pretending otherwise is what the bands
+        // exist to avoid.
+        matrix: compileGarmentFitMatrix(
+          1,
+          scaleY,
+          0,
+          translateY,
+          anchor.x,
+          anchor.y,
+        ),
+        bands,
+      },
+      fitRefusal: null,
     });
   }
   layers.sort((a, b) => a.layer - b.layer);
@@ -2098,5 +2407,8 @@ export function projectCharacterLayers(
     bodyCanvas,
     layers,
     fullyReleased: layers.every((layer) => layer.released),
+    fitRefusals: layers.flatMap((layer) =>
+      layer.fitRefusal ? [layer.fitRefusal] : [],
+    ),
   };
 }

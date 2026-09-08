@@ -180,6 +180,28 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 `src/ui/`, `src/persistence/`, `src/cli/` and `src/environment/` may not import
 `src/source/**`, and no domain may import another domain.
 
+## Municipal governance audit fixtures
+
+`municipal-governance` describes legal institutions rather than gameplay. Its
+Kentucky audit fixture keeps the elected body, mayor, council president or vice
+mayor, professional manager, and chief administrative officer as distinct
+actors. Powers are rows with a holder, sourced capability, conditions,
+exceptions, and vote arithmetic where an authority states it. There is no
+strong/weak-mayor field or score from which powers can be inferred.
+
+The fixture also keeps election partisanship as dated history, presiding and
+voting roles as separate rules, budget preparation/proposal/adoption as separate
+authority, and consolidation as predecessor, retained-office, service-district,
+and nested-government relationships. Missing government-unit crosswalks, exact
+nested-government counts, or local procedures remain `UNKNOWN` without a value.
+
+The 92I Drive cargo is an audit input, not a production artifact. A current
+first-party statute or official municipal page controls when it conflicts with
+the cargo's candidate JSON, but a browser check does not manufacture a locked
+artifact. Production stays gated until the exact cited bytes are acquired,
+rights-scoped, hashed, and proposition-checked. No municipal adapter exists, so
+these records cannot change the World or a player surface.
+
 ## Adding a domain
 
 1. Create `src/source/domains/<name>/` with `types.ts`, `parse.ts`,
@@ -196,13 +218,21 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 A domain that cannot yet compile production records declares a
 `productionGate` explaining why. The gate appears in `MANIFEST.json`, so it is
 a visible fact about the substrate rather than an absence somebody has to
-notice. Five domains are gated, for two different reasons.
-`government-finances`, `government-units` and `public-employment` are gated
-on acquisition: a proxy denies census.gov, and a network that reaches it
-clears them without a code change. `state-office-qualifications` and
-`state-local-fiscal-authority` are gated on sourcing: both compile from
-research syntheses, and a secondary source cannot carry the evidence of a
-retrieval this repository never made. See
+notice. `municipal-governance` is gated for independent first-party acquisition
+and audit; other gated domains state their own reason independently.
+Government finances and public employment now independently compile bounded
+production QA corpora from locked official Census individual-unit bytes. Their
+full publisher archives are acquired and hashed; the committed samples retain
+unchanged fixed-width rows with reproducible selection predicates. The previous
+network-only gate was stale, and fixture matrices were not publisher parsers.
+See [Census finance and employment acquisition](census-capacity-production.md).
+
+Government-units identity migration remains separate SRC-GOV2 work. Its current
+14-digit identity contract cannot represent every government in the modern PID6
+universe: official historical crosswalks provide partial, not complete, coverage.
+This branch changes no government-unit identity semantics.
+`state-office-qualifications` and `state-local-fiscal-authority` remain gated on
+sourcing: research syntheses cannot carry primary retrieval evidence. See
 [State and local fiscal authority](fiscal-authority-source.md).
 
 Research packets and the primary authorities they cite are separate evidence

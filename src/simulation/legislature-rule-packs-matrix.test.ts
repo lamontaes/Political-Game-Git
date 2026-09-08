@@ -158,7 +158,7 @@ describe("the legislative rule-pack matrix", () => {
     // The same field, three ways, across three packs: post-adjournment action
     // window is a known number in Minnesota, genuinely not-applicable in
     // Illinois (one flat window, no separate one), and simply unresolved in
-    // Kentucky. None of the three collapses into another.
+    // Nebraska. None of the three collapses into another.
     expect(
       MINNESOTA_RULE_PACK.executive.actionWindowDaysAfterAdjournment,
     ).toMatchObject({ kind: "known", value: 14 });
@@ -166,7 +166,7 @@ describe("the legislative rule-pack matrix", () => {
       ILLINOIS_RULE_PACK.executive.actionWindowDaysAfterAdjournment.kind,
     ).toBe("not-applicable");
     expect(
-      KENTUCKY_RULE_PACK.executive.actionWindowDaysAfterAdjournment.kind,
+      NEBRASKA_RULE_PACK.executive.actionWindowDaysAfterAdjournment.kind,
     ).toBe("unknown");
 
     // And nowhere in the corpus does an unknown or not-applicable value smuggle
@@ -260,10 +260,17 @@ describe("the legislative rule-pack matrix", () => {
       ALASKA_RULE_PACK,
     ]) {
       for (const source of pack.sources) {
+        // Two sources in the 2026-09-02 packs came from later operative-text
+        // reads and carry their own dates: Alaska's Art. II, Sec. 1 seat-count
+        // read, and Kentucky's Sec. 88 operative-text read from the
+        // R3H-accepted legislative-power research (a verified retrieval kept
+        // apart from the original table-of-sections check of the same section).
+        const laterOperativeRead =
+          source.citation === "Alaska Const. Art. II, Sec. 1" ||
+          (source.citation === "Ky. Const. Sec. 88" &&
+            source.verification === "verified");
         expect(source.retrievedAt).toBe(
-          source.citation === "Alaska Const. Art. II, Sec. 1"
-            ? "2026-09-06"
-            : "2026-09-02",
+          laterOperativeRead ? "2026-09-06" : "2026-09-02",
         );
       }
     }
@@ -338,6 +345,26 @@ describe("the legislative rule-pack matrix", () => {
     });
     expect(NEBRASKA_RULE_PACK.structure).toBe("unicameral");
     expect(ALASKA_RULE_PACK.executive.override.kind).toBe("joint-session");
+  });
+
+  it("carries Kentucky's Sec. 88 post-adjournment window and inaction outcome", () => {
+    // Compiled from the operative text of Ky. Const. Sec. 88 (R3H-accepted
+    // legislative-power research): ten days after adjournment to file
+    // objections with the Secretary of State, and a bill neither signed nor
+    // returned in session becomes law without signature — Kentucky has no
+    // in-session pocket veto.
+    expect(
+      KENTUCKY_RULE_PACK.executive.actionWindowDaysAfterAdjournment,
+    ).toMatchObject({ kind: "known", value: 10 });
+    expect(KENTUCKY_RULE_PACK.executive.inactionOutcomeInSession).toMatchObject(
+      { kind: "known", value: "becomes-law-without-signature" },
+    );
+    const afterAdjournment =
+      KENTUCKY_RULE_PACK.executive.actionWindowDaysAfterAdjournment;
+    if (afterAdjournment.kind === "known") {
+      expect(afterAdjournment.source.citation).toBe("Ky. Const. Sec. 88");
+      expect(afterAdjournment.source.verification).toBe("verified");
+    }
   });
 
   it("gives every distinct institution a distinct machine-readable signature", () => {
