@@ -1,8 +1,8 @@
 # P2R1 evidence
 
-Source/test commit: `c0c1757a285143c3b1ee09f47f6d00602a93a26b`. The enclosing evidence commit changes documentation and generated inventory only.
+Source/test commit: `748c4dec08cee8ae8026c51fe4a803d2fb01dfc3`. The enclosing evidence commit changes documentation and generated inventory only.
 Rejected/start head: `dd9ac1f79a301d71c128a03aab6bac555f21fc0c`.
-Publication main: `1b0603ca61f454ad2e8b9412b4869ae6d38e2b6f`.
+Publication main: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`.
 Accepted Skill merge: `9d14f040c395787819c5971a0fc5985f42a95305`.
 
 - [Owner review](../../active/p2-owner-review.md) states acceptance limits and failures.
@@ -17,7 +17,7 @@ Accepted Skill merge: `9d14f040c395787819c5971a0fc5985f42a95305`.
 - [Rejected-head diff](diff-from-rejected.json), [publication-main diff](diff-from-publication-main.json), and [scoped metrics](scoped-metrics.json) keep the two comparisons separate.
 - `rejected-old-seeds.json` and `repaired-old-seeds.json` preserve the same seeded sequences, answers, scene keys and text. No new seed was substituted to hide lost reachability. Inventory classification is not proof of runtime demonstration.
 - [Accepted Skill parity](accepted-skill-parity.json) verifies bytes against merged #121.
-- `logs/` contains red reproduction, final tests and supporting validation. Red logs are chronological: the care fixture was subsequently tightened to a relative with no care record. `full-validation-with-ports.log` precedes the final cancellation test; `final-full-tests.log` is the final 3,104-test result. Initial permission-only failures are not counted as defects in the final report.
+- `logs/` contains red reproduction, final tests and supporting validation. Red logs are chronological: the care fixture was subsequently tightened to a relative with no care record. `full-validation-with-ports.log` precedes the final cancellation test; `final-full-tests.log` records the pre-PR101 tree; `reconciled-full-tests.log` is the final 3,173-test result. Initial permission-only failures are not counted as defects in the final report.
 - `screenshots/` contains the inspected before/after pointer and keyboard proof. The shared presence caption and visible layout remain outside this repair's acceptance.
 
 ## Reproduction
@@ -41,3 +41,5 @@ npm run qa:art
 ```
 
 Local HTTP tests/browser proof require permission to bind a localhost port. Full validation is **not green**; preserve the reported failures when reproducing. There are no lowered breadth assertions, new skips, increased browser timeouts or reseeded coverage fixtures in this repair.
+
+The first post-merge browser rerun overlapped unit tests that create/remove temporary art fixtures. Vite encountered a disappearing fixture and one navigation timed out. The isolated `reconciled-browser-final.log` is the definitive post-merge browser result; the failed overlap log is retained. Checks were rerun after formatting regenerated evidence JSON.

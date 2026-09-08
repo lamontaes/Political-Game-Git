@@ -8,7 +8,7 @@ claude/p2-prose-01-wave-yz0ft4 / PR129. Prior Claude writer is retired by owner;
 independent Q1 auditor remains separate. Original workspace stays read-only.
 
 Rejected/start head: dd9ac1f79a301d71c128a03aab6bac555f21fc0c.
-Publication main: 1b0603ca61f454ad2e8b9412b4869ae6d38e2b6f (normal merges).
+Publication main: 89b2f7649f4db6225f8b16fdc1d2e762013ad62f (normal merges).
 Workspace: /private/tmp/p2r1-production. Preflight clean, branch and upstream
 both pinned to the rejected head before normal main reconciliation.
 
@@ -36,6 +36,6 @@ be reported separately.
 
 ## Results and LEARN
 
-See [owner review](p2-owner-review.md) and [full evidence](../evidence/p2r1/README.md). Source/test commit: c0c1757a285143c3b1ee09f47f6d00602a93a26b. This plan stays active until independent and owner recheck.
+See [owner review](p2-owner-review.md) and [full evidence](../evidence/p2r1/README.md). Source/test commit: 748c4dec08cee8ae8026c51fe4a803d2fb01dfc3. This plan stays active until independent and owner recheck.
 
 The durable regression tests encode the recurring lesson: a relationship does not establish an occurrence; option writes cannot prove their own preconditions; missing historical option detail never licenses an affirmative outcome. Explicit missing-record withholding and pre-write availability checks enforce those boundaries. No larger prompt, new style framework or Skill edits were introduced.
