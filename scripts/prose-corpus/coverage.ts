@@ -74,6 +74,11 @@ export const SCAN_EXCLUSIONS: readonly { path: string; reason: string }[] = [
     reason: "Headless command output for developers and CI.",
   },
   {
+    path: "src/ui-prototype",
+    reason:
+      "UI-PROTOTYPE-01, a development-only clickable visual prototype served from ui-prototype.html. Its strings are labelled placeholder copy for an owner visual review, not authored player prose: the production entry never imports it and the production build never emits it, so no player can reach a word of it.",
+  },
+  {
     path: "src/simulation/national-places.generated.ts",
     reason:
       "Generated place-name data compiled from the Census places corpus. Names of real localities are sourced facts, not authored prose.",
