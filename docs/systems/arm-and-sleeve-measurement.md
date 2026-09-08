@@ -123,7 +123,8 @@ Three findings matter for what comes next.
 **A hanging arm on a real body is measurable from the elbow down.** Both lean
 production candidates and the heavy Packet 71 body give a wrist, a forearm and
 an elbow region with both edges in the alpha; the upper arm is fused on all of
-them. Forearm length is 0.14–0.15 of figure height on the lean bodies and 0.09
+them at the shoulder (one of the 32 arms reads a midpoint width; see “Why no
+sleeve transform yet”). Forearm length is 0.14–0.15 of figure height on the lean bodies and 0.09
 on the heavy one; wrist width is 22–23 px on a 343-px canvas and 62–66 px on an
 830–892-px canvas — 6.4% and 7.5% of canvas width. That is the first measured
 cross-morphology arm difference in the repository.
@@ -164,10 +165,21 @@ bend delta, and target-over-source width ratios for every width both arms
 measured — with the note that no transform is derived here and that the
 upper-arm ratios rest on partially-measured elbows.
 
-On the bodies measured today it passes for exactly one pairing: the two lean
-production candidates, image-left arm, standing-neutral (forearm length ratio
-0.905, wrist width ratio 0.957). Every other pairing fails closed, and the
-codes say why.
+On the bodies measured today it passes for **two** pairings, both
+standing-neutral. Enumerated over the whole same-side space — 240 unordered
+pairings, 62 of which are also same-pose — exactly two are ready:
+
+| Pairing                                                               | Side        | Forearm length ratio | Widths                                                                                                             |
+| --------------------------------------------------------------------- | ----------- | -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `pg_body_ml_standing_v1` → `pg_body_fl_standing_v1`                   | image-left  | 0.905                | elbow 0.849, forearm-mid 0.871, wrist 0.957 — one canvas, so these are morphology                                  |
+| `ocd_body_adult_fem_standing_neutral_b_v1` → `pg_body_ml_standing_v1` | image-right | 0.967                | elbow 0.482, forearm-mid 0.356, wrist 0.349 — 830–892 px against 343 px, so these are canvas scale, not morphology |
+
+The other 60 same-pose pairings fail closed: 41 `sleeve-landmarks-incomplete`,
+19 `sleeve-arm-occluded`. A cross-pose pairing never reaches those gates — 178
+are refused `sleeve-pose-mismatch` first. An earlier version of this section
+said one pairing; it had enumerated only image-left arms. The gate's behaviour
+is unchanged, and so is the conclusion below: the second pairing spans two
+canvases, so it adds no cross-morphology width evidence.
 
 ## Why no sleeve transform yet
 
@@ -176,8 +188,14 @@ there is a width difference along rows. A sleeve is not that. On the one pose
 family with two measured real morphologies, the forearm is 10% shorter and the
 upper-arm angle differs by under a degree, so an affine along the arm axis
 would probably serve — but the upper arm, where a sleeve attaches, is fused on
-every body measured, its width is occluded, and its elbow is a contour bow
-rather than a joint. A transform anchored on a partially-measured elbow and an
+every body measured at the shoulder, and its elbow is a contour bow rather than
+a joint. One qualification, for accuracy: `upperArmMid` is `measured` on 1 of
+the 32 arms — `pg_body_fl_standing_v1`, image-left, 45 px and 0.1312 of canvas
+width — because that separated segment clears the torso at its midpoint.
+`upperArmNearShoulder`, the width a sleeve actually attaches at, is `occluded`
+on 22 arms and `unavailable` on the other 10: all 32. A single mid-span width
+on one arm of one body is not an upper-arm span, and the operative conclusion
+does not move. A transform anchored on a partially-measured elbow and an
 occluded upper arm is the guess this contract exists to refuse. The evidence
 says what to do instead, in order: measure a lean and a heavy body in the same
 pose with arms held clear, or read the interior arm line, and only then decide

@@ -107,7 +107,10 @@ adding it to the manifest with a pose family; nothing in the tool is edited.
 - **Direct reuse:** viable only within a body family and pose, as today.
 - **Affine:** plausible along the forearm on the one pose with two measured
   morphologies (lean masc → lean fem forearm ratio 0.905, angle delta under
-  1°), but unproven: the upper arm the sleeve attaches to is occluded on both.
+  1°), but unproven: the upper arm the sleeve attaches to is occluded at the
+  shoulder on both. (The lean-fem image-left arm does read a midpoint width,
+  45 px; the near-shoulder width, which is the one a sleeve attaches at, is
+  occluded or unavailable on all 32 arms.)
 - **Bounded warp:** the torso's horizontal band warp is the wrong shape for a
   sleeve; a sleeve varies along its own axis, not along canvas rows.
 - **Independent transforms / layers:** not decidable from this evidence. The
@@ -120,7 +123,11 @@ adding it to the manifest with a pose family; nothing in the tool is edited.
   whose forearm rejoins the torso; any sleeve on a child or adolescent body.
 
 The readiness gate is implemented and fails closed; on the current bodies it
-passes for one pairing and refuses fifteen.
+passes for two pairings and refuses the other sixty of the sixty-two same-side
+same-pose pairings the sixteen subjects allow (41 `sleeve-landmarks-incomplete`,
+19 `sleeve-arm-occluded`); cross-pose pairings are refused earlier still. Both
+passing pairings are standing-neutral. Only the image-left one is within a
+single canvas, so only it carries width evidence.
 
 ## 6. Economics
 
@@ -131,7 +138,7 @@ Categories are labelled by the kind of evidence behind them.
 | Adult body-family multiplication of tops/bottoms | Large: one raster per garment, per pose, instead of per morphology | Measured production evidence (dev-g2, PR #89) and synthetic fixture proof (lean/average/heavy) — no real heavy-in-standing-neutral top yet |
 | Sleeveless tops, bottoms                         | 2–3× fewer                                                         | As above                                                                                                                                   |
 | Short sleeves                                    | Unknown                                                            | Arm measured only from the elbow down; a short sleeve ends above it                                                                        |
-| Long sleeves, jackets                            | Not yet                                                            | Upper arm occluded on every measured body                                                                                                  |
+| Long sleeves, jackets                            | Not yet                                                            | Upper-arm width at the shoulder occluded or unavailable on all 32 arms; one arm reads a midpoint width only                                |
 | Footwear                                         | None                                                               | Measured: safe as drawn, or viewpoint gap (76A §5.5)                                                                                       |
 | Accessories, heads, hair, eyewear                | None needed                                                        | Measured: placement identical across families                                                                                              |
 | Poses                                            | None                                                               | Every pose is new geometry; the registry only prevents wrong substitution                                                                  |
@@ -143,7 +150,7 @@ Categories are labelled by the kind of evidence behind them.
 average and heavy adults?** For the torso of the shirt, yes, and that was
 PR #89's result, conditional on real morphology bodies. For the sleeves, not
 yet: the measurement shows the sleeve attachment region is fused on every real
-body, so a reusable sleeve is still a projection. The honest count today is
+body at the shoulder, so a reusable sleeve is still a projection. The honest count today is
 that a sleeveless garment needs one raster per pose across adult morphologies
 and a sleeved garment still needs one per morphology until an upper arm is
 measured.
