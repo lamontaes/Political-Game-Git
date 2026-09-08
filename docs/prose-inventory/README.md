@@ -17,11 +17,11 @@ edit it by hand; edit the production bank or the generator and regenerate.
 
 ## Current state
 
-- **1869** inventoried templates.
-- Reachability: 76 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1599 PLAYER_REACHABLE, 104 WITHHELD_BY_GROUNDING.
-- **2948** coverage candidates still need a
+- **1884** inventoried templates.
+- Reachability: 91 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1599 PLAYER_REACHABLE, 104 WITHHELD_BY_GROUNDING.
+- **3341** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
-- **0** hard errors, **310** review warnings.
+- **0** hard errors, **311** review warnings.
 
 ## Semantic IDs
 
@@ -74,7 +74,7 @@ emitted as server-rendered HTML, so reading and printing do not depend on script
 running first. `reviewPacketStats` asserts what the file actually contains, and
 the regression test in `review-packet.test.ts` holds it:
 
-- 1869 rendered items for 1869 inventory records;
+- 1884 rendered items for 1884 inventory records;
 - 5415 bytes after the last item, of which the empty
   portion is small.
 

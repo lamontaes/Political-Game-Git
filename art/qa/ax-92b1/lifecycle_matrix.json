@@ -1,0 +1,101 @@
+{
+  "tool": "ax-92b1-park-press-lifecycle-matrix-v1",
+  "packet": "AX-92B1 — EXISTING PARK + PRESS-ROOM ASSET INTAKE",
+  "reconciled_on": "2026-09-08",
+  "baseline_accepted_main": "89b2f7649f4db6225f8b16fdc1d2e762013ad62f",
+  "branch": "claude/ax-92b1-execution-5cwhut",
+  "scope_note": "Exactly two sources, by Drive ID. No body sheets, storefronts, symbols, other offices or new generation were touched. No source byte was re-encoded, resized, regenerated, renamed or deleted; no Drive file was modified.",
+  "state_vocabulary": {
+    "exists": "The exact Drive ID resolves to a live file today.",
+    "ingested": "The source bytes are preserved inside this repository.",
+    "measured": "Dimensions, byte count, container and content hash were read from the actual bytes through the accepted environment-intake path.",
+    "candidate_registered": "An asset-bank entry exists for it in an intake batch.",
+    "human_approved": "A named human has accepted it. Absent is absent; it is never inferred.",
+    "released": "It appears in art/manifest/asset_manifest.json as production cargo.",
+    "production_consumer_present": "Some player-facing surface resolves a scene that paints it."
+  },
+  "sources": [
+    {
+      "drive_id": "1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1",
+      "drive_title_now": "OCD_CANDIDATE_SCENE_PARK_COMMUNITY_PAVILION_5504x3072_01.JPG",
+      "former_drive_title": "IMG_5204.JPG",
+      "rename_authority": "18E-R1A, 2026-09-07. Metadata-only; Drive ID, MIME and byte size unchanged.",
+      "asset_id": "env_park_community_pavilion_5504x3072_01",
+      "repository_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "source_sha256": "935ce236f421786061677da8f017fc775fab50e47693d7f611c916920f22f59f",
+      "byte_length": 3464125,
+      "drive_reported_file_size": 3464125,
+      "mime": "image/jpeg",
+      "container_confirmed_from_bytes": "JPEG, SOI through EOI, 8-bit baseline/progressive marker stream walked in full",
+      "measured_dimensions": { "width": 5504, "height": 3072 },
+      "aspect_ratio": 1.7917,
+      "depicts": "Outdoor park and community pavilion: an open timber shelter over a paved slab with picnic tables, a curving asphalt path, waste bins, a bike rack and a blank notice board.",
+      "states": {
+        "exists": "yes",
+        "ingested": "yes",
+        "measured": "yes",
+        "candidate_registered": "yes",
+        "human_approved": "no",
+        "released": "no",
+        "production_consumer_present": "no"
+      },
+      "changed_by_this_run": ["measured", "candidate_registered"],
+      "unchanged_by_this_run": [
+        "exists",
+        "ingested",
+        "human_approved",
+        "released",
+        "production_consumer_present"
+      ]
+    },
+    {
+      "drive_id": "1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6",
+      "drive_title_now": "OCD_CANDIDATE_SCENE_PRESS_BRIEFING_ROOM_5504x3072_01.JPG",
+      "former_drive_title": "IMG_5202.JPG",
+      "rename_authority": "18E-R1A, 2026-09-07. Metadata-only; Drive ID, MIME and byte size unchanged.",
+      "asset_id": "env_press_briefing_room_5504x3072_01",
+      "repository_path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "source_sha256": "e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065",
+      "byte_length": 3068797,
+      "drive_reported_file_size": 3068797,
+      "mime": "image/jpeg",
+      "container_confirmed_from_bytes": "JPEG, SOI through EOI, 8-bit baseline/progressive marker stream walked in full",
+      "measured_dimensions": { "width": 5504, "height": 3072 },
+      "aspect_ratio": 1.7917,
+      "depicts": "Interior press or announcement room: a low riser stage with a wooden lectern and microphone against a full-height curtain, rows of empty stacking chairs, camera tripods, an audio-visual table, track lighting, a blank wall display and a corkboard of blank sheets.",
+      "states": {
+        "exists": "yes",
+        "ingested": "yes",
+        "measured": "yes",
+        "candidate_registered": "yes",
+        "human_approved": "no",
+        "released": "no",
+        "production_consumer_present": "no"
+      },
+      "changed_by_this_run": ["measured", "candidate_registered"],
+      "unchanged_by_this_run": [
+        "exists",
+        "ingested",
+        "human_approved",
+        "released",
+        "production_consumer_present"
+      ]
+    }
+  ],
+  "no_derivatives_created": "No derivative raster was produced. No tier was derived, no scene scaffold was emitted, no plate was normalized. There is therefore no derivative hash to report, which is the honest answer rather than an omission.",
+  "identity_evidence": {
+    "method": "The repository copies were hashed and measured from their own bytes. Their sha256 values equal the values the P95 recent-Drive sweep recorded for these exact Drive IDs, and their byte counts equal the file sizes the live Drive metadata reports for those IDs today.",
+    "limit": "The authorized Drive connector exposes file size and MIME for these IDs but not a server-side content hash, and streaming 6.5 MB of image bytes back through a text channel is not a sound integrity check. So Drive-side identity is established by exact byte-count agreement plus the sweep's recorded hash, not by an independently recomputed Drive-side digest. That is the exact strength of the claim."
+  },
+  "reachable_in_normal_play": "NO. Neither the park nor the press briefing room is reachable in normal play, and this run did not change that. Intake measures and registers a picture; it does not create travel, an event, a schedule, or a place. No EnvironmentSceneSpec, no scene-registry entry and no scene consumer references either asset.",
+  "consumer_seam": {
+    "where": "src/presentation/scene-consumers.ts declares every player-facing surface that could show a room; src/presentation/scene-registry.ts registers the scenes; src/environment/scenes/*.ts author the specs; art/manifest/asset_manifest.json is the release ledger that src/presentation/production-office.ts reads.",
+    "what_would_be_required": "A released manifest entry with a derived tier ladder, an authored EnvironmentSceneSpec with measured geometry, a registry entry, and a consumer whose canonical gate is satisfied by real world state. None of the four exists for either asset, and three of them depend on human decisions listed in the release review.",
+    "not_authorized_here": "Building any of that is outside AX-92B1. This slice was bounded to intake."
+  },
+  "consumed_sources": [
+    "1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1",
+    "1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6"
+  ],
+  "untouched_remainder": "Everything else. The other P95 sweep sources (IMG_5189 executive office, IMG_5190/IMG_5207 baked-text storefront, IMG_5192, IMG_5203 prop sheet, IMG_5205 clean storefront, the Wave-A morphology sheets, the wardrobe and footwear sheets, supplies) were read only as Phase 0 reuse evidence and were not ingested, registered, measured or modified. #79, #89, #90 and their fit/sleeve and production-shell semantics were not touched. art/manifest/*, art/requests/*, art/qa/asset_readiness.*, art/qa/inventory_report.json, art/qa/qa_report.json and art/qa/asset_bank_inventory.* are byte-unchanged on this branch."
+}

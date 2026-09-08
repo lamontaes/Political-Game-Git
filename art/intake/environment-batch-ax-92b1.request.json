@@ -1,0 +1,24 @@
+{
+  "requestVersion": 1,
+  "batchId": "environment-batch-ax-92b1",
+  "candidates": [
+    {
+      "asset_id": "env_park_community_pavilion_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "AX-92B1 CANDIDATE INTAKE ONLY. Drive 1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1, current Drive title OCD_CANDIDATE_SCENE_PARK_COMMUNITY_PAVILION_5504x3072_01.JPG, formerly IMG_5204.JPG (18E-R1A metadata-only rename, 2026-09-07; Drive ID, MIME and byte size unchanged). The bytes measured here are the copy already preserved in this repository by the P95 recent-Drive sweep at art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG; the repository filename is deliberately NOT changed, because renaming preserved source bytes is not an intake step. Depicts an outdoor park/community pavilion. No family_id is declared: which environment family this serves, and what the World would call the place, are decisions nobody has made, and intake must not infer either from the picture or from a filename. native_detail_state is 'unverified' because no evidence in this project establishes whether the 5504px render is native detail or an external enlargement, and 'probably native' is exactly the guess this contract forbids. No owner approval is recorded, so approved_by is absent rather than invented."
+    },
+    {
+      "asset_id": "env_press_briefing_room_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "AX-92B1 CANDIDATE INTAKE ONLY. Drive 1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6, current Drive title OCD_CANDIDATE_SCENE_PRESS_BRIEFING_ROOM_5504x3072_01.JPG, formerly IMG_5202.JPG (18E-R1A metadata-only rename, 2026-09-07; Drive ID, MIME and byte size unchanged). The bytes measured here are the copy already preserved in this repository by the P95 recent-Drive sweep at art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG; the repository filename is deliberately NOT changed. Depicts a press or announcement room: a low stage, a wooden lectern against a curtain, rows of empty stacking chairs, camera tripods and a blank wall screen. It is NOT the committee hearing room plate the mask request needs, and no family_id is declared for the same reason as the pavilion. native_detail_state is 'unverified'. No owner approval is recorded."
+    }
+  ]
+}
