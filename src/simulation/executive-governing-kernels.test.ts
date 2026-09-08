@@ -727,18 +727,40 @@ describe("92H-K-030 presentment", () => {
       expect(itemVeto.reason).toBe("record-family-absent");
     }
 
-    // Kentucky has not resolved what inaction means; Nebraska has, and it is
-    // still withheld, because no disposition record can carry the act.
+    // Kentucky and Nebraska both resolve inaction as becoming law without
+    // signature (Ky. Const. Sec. 88; Neb. Const. art. IV, § 15), and the act
+    // is still withheld in both, because no disposition record can carry it.
+    for (const options of [kentucky, nebraska]) {
+      expect(
+        options.withheld.find(
+          (entry) => entry.option === "let-become-law-without-signature",
+        )?.reason,
+      ).toBe("record-family-absent");
+    }
+
+    // A pack that has not resolved inaction still answers rule-unknown for
+    // both inaction options: the branch fails closed on missing law, not on
+    // the missing mechanic. No live pack is unresolved here any more, so the
+    // branch is exercised on a derived pack rather than lost.
+    const unresolved = resolveExecutiveDispositionOptions({
+      ...rulePackById("us-ky-general-assembly-v1"),
+      executive: {
+        ...rulePackById("us-ky-general-assembly-v1").executive,
+        inactionOutcomeInSession: {
+          kind: "unknown",
+          note: "What inaction means here was not resolved.",
+        },
+      },
+    });
     expect(
-      kentucky.withheld.find(
+      unresolved.withheld.find(
         (entry) => entry.option === "let-become-law-without-signature",
       )?.reason,
     ).toBe("rule-unknown");
     expect(
-      nebraska.withheld.find(
-        (entry) => entry.option === "let-become-law-without-signature",
-      )?.reason,
-    ).toBe("record-family-absent");
+      unresolved.withheld.find((entry) => entry.option === "pocket-veto")
+        ?.reason,
+    ).toBe("rule-unknown");
   });
 
   it("signs a bill on the desk through the accepted legislative spine", () => {
@@ -776,7 +798,8 @@ describe("92H-K-030 presentment", () => {
     const definition = kernel("92H-K-030");
     const base = fullContext(world, definition);
 
-    // A rule the live Kentucky pack has not resolved.
+    // An act Kentucky's pack resolves (inaction becomes law, Ky. Const.
+    // Sec. 88) but no disposition record on accepted main can carry.
     const inaction = compileExecutiveGoverningPlan(definition, {
       ...base,
       measure: {
@@ -790,7 +813,9 @@ describe("92H-K-030 presentment", () => {
     expect(inaction.ok).toBe(false);
     if (!inaction.ok) {
       expect(inaction.reason).toBe("disposition-option-unavailable");
-      expect(inaction.detail.join(" ")).toMatch(/has not resolved/);
+      expect(inaction.detail.join(" ")).toMatch(
+        /no executive-disposition record/,
+      );
     }
 
     // A power 92H marks NEEDS_MECHANIC.
