@@ -535,12 +535,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured from the actual 127R combined tree after merging post-P1
-    // main with the accepted R3J Kentucky Sec. 88 operative-text source notes.
+    // Re-measured by corpus:prose on the actual FINAL-LANDING-Q4 Step C
+    // combined tree: P1 narration and the accepted executive modules carried
+    // by current main, plus the accepted R3J Kentucky Sec. 88 operative-text
+    // source notes. Not a stale pin from either side of the merge.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48138);
+    expect(coverage.totalLiterals).toBe(49332);
     expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(314);
+    expect(coverage.scannedFiles).toBe(319);
   });
 });
 

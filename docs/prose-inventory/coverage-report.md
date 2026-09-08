@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1899 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4512 |
-| DIAGNOSTIC_OR_TEST | 3217 |
-| **NEEDS_CLASSIFICATION** | **2786** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4622 |
+| DIAGNOSTIC_OR_TEST | 3425 |
+| **NEEDS_CLASSIFICATION** | **2948** |
 
-Scanned 314 files holding 48138 string
+Scanned 319 files holding 49332 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -28,6 +28,7 @@ literals in total; the table counts only those that read like a sentence.
 | Candidates | File |
 | --- | --- |
 | 221 | `src/presentation/run-b-conversation.ts` |
+| 135 | `src/simulation/executive-authority-rule-packs.ts` |
 | 124 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 69 | `src/simulation/character-history.ts` |
@@ -63,6 +64,7 @@ literals in total; the table counts only those that read like a sentence.
 | 29 | `src/presentation/run-d-lite.ts` |
 | 28 | `src/content/adapters/simulation-catalogs.ts` |
 | 28 | `src/ui/MindProfile.tsx` |
+| 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
