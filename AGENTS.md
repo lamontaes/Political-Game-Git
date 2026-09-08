@@ -41,6 +41,9 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run derive:tiers` — derive the runtime raster ladder from an approved master
 - `npm run scaffold:scene` — emit a scene authoring scaffold with explicit unknowns
 - `npm run bank:art` — validate or normalize an asset-bank QA manifest
+- `npm run release:declare -- <id>` — declare a change for the player-facing notes
+- `npm run release:check` — validate versions, notes and pending change declarations
+- `npm run release:preview` — show what the next push to `main` would release
 - `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
 - `npm run readiness:art` — reconcile the asset request queue against art the project already owns
 - `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
@@ -54,6 +57,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
 - Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
+- Declare player-facing changes once, in `docs/release/changes/`, via `npm run release:declare -- <id>`. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. Source-only work declares `impact: none` rather than inventing a player note, and needs no declaration at all. See [Releases](docs/release/README.md).
 - Do not use proprietary code, assets, text, or implementation from other political games.
 
 ## Scope and Authorization

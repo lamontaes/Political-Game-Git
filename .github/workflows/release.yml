@@ -1,0 +1,124 @@
+name: Release
+
+# Accepted work reaches main, and the release that describes it happens here.
+# No agent allocates a version number; no prompt has to remember to.
+on:
+  push:
+    branches: [main]
+  # A drain for the one case the push path leaves behind: a run whose push was
+  # refused because main moved underneath it, with nothing merging afterwards.
+  workflow_dispatch:
+
+# One release at a time. Actions does not guarantee the order of queued runs,
+# and this does not need it to: each run consumes whatever is pending at its own
+# revision, so a run that loses the race recovers what the other one left.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Step 4 runs the repository's full validation against the released tree.
+    timeout-minutes: 40
+    permissions:
+      # Scoped to this job, and used for exactly one operation: pushing the
+      # release commit. Nothing here reads a pull request's code.
+      contents: write
+    # The release commit is pushed with GITHUB_TOKEN, and GitHub does not start
+    # workflow runs from that token's events. This is the second guard, so a
+    # future change of push credential cannot turn the release into a loop.
+    if: >-
+      !contains(github.event.head_commit.message, '[release-automation]')
+    steps:
+      - name: Check out the pushed revision
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Decide what this revision releases
+        id: plan
+        run: |
+          set -euo pipefail
+          npm run --silent release:preview -- --json > /tmp/release-plan.json
+          node -e '
+            const fs = require("fs");
+            const plan = JSON.parse(fs.readFileSync("/tmp/release-plan.json", "utf8"));
+            const out = process.env.GITHUB_OUTPUT;
+            fs.appendFileSync(out, `outcome=${plan.outcome}\n`);
+            fs.appendFileSync(out, `next=${plan.nextVersion}\n`);
+            const summary = process.env.GITHUB_STEP_SUMMARY;
+            fs.appendFileSync(summary, `## Release plan\n\n- outcome: \`${plan.outcome}\`\n- current: \`${plan.currentVersion}\`\n- next: \`${plan.nextVersion}\`\n`);
+            if (plan.reason) fs.appendFileSync(summary, `- reason: ${plan.reason}\n`);
+            if (plan.renderedSection) fs.appendFileSync(summary, `\n\`\`\`markdown\n${plan.renderedSection}\n\`\`\`\n`);
+          '
+
+      - name: Apply the release to the working tree
+        if: steps.plan.outputs.outcome == 'release'
+        run: npm run release:apply
+
+      # The version has to describe a tree somebody validated. Validating the
+      # revision and then publishing a different one would be a claim nobody
+      # checked, so validation runs after the release edits, not before them.
+      - name: Validate the released tree
+        if: steps.plan.outputs.outcome == 'release'
+        run: npm run validate
+
+      - name: Publish the release commit
+        if: steps.plan.outputs.outcome == 'release' && vars.RELEASE_AUTOMATION == 'enabled'
+        env:
+          NEXT_VERSION: ${{ steps.plan.outputs.next }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json PATCH_NOTES.md docs/release
+          git commit -m "Release ${NEXT_VERSION} [release-automation]"
+          # One push, fast-forward only. If main moved underneath, nothing is
+          # published, the declarations stay unconsumed on main, and the next
+          # push event releases them. There is no partial publication because
+          # publication is this single command.
+          if ! git push origin "HEAD:${GITHUB_REF_NAME}"; then
+            echo "::warning::main advanced during this run. Nothing was published; the pending declarations remain on main and the next push event will release them."
+            exit 0
+          fi
+
+      - name: Stage the release for review
+        if: steps.plan.outputs.outcome == 'release' && vars.RELEASE_AUTOMATION != 'enabled'
+        run: |
+          set -euo pipefail
+          git diff > /tmp/staged-release.patch
+          git status --porcelain >> /tmp/staged-release.patch
+          {
+            echo ""
+            echo "Release automation is not enabled for this repository, so nothing was published."
+            echo "The staged release patch is attached to this run as an artifact."
+            echo "To enable it, set the repository variable RELEASE_AUTOMATION to \`enabled\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the staged release
+        if: steps.plan.outputs.outcome == 'release' && vars.RELEASE_AUTOMATION != 'enabled'
+        uses: actions/upload-artifact@v7
+        with:
+          name: staged-release
+          path: /tmp/staged-release.patch
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Report a blocked release
+        if: steps.plan.outputs.outcome == 'blocked'
+        run: |
+          echo "::error::This revision has pending changes that cannot be released automatically. See the release plan in the job summary. Nothing was published and no declaration was consumed."
+          exit 1
