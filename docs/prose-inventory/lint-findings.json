@@ -42,6 +42,13 @@
     "evidence": "somebody"
   },
   {
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0087#text",
+    "severity": "REVIEW_WARNING",
+    "family": "and-it-scaffold",
+    "message": "The \"and it ...\" scaffold appears 1 time(s).",
+    "evidence": "and it"
+  },
+  {
     "id": "prose:conversation:conversation-subject:availableIntents-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
