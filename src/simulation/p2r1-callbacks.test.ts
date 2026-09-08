@@ -172,6 +172,60 @@ describe("P2R1 every historical originating option, including withheld keys", ()
       });
     }
   }
+  it("does not call a never-made care commitment an ended undertaking", () => {
+    let world = createDemoWorld("p2r1-no-care-commitment");
+    const personId = world.personOrder[1]!;
+    expect(
+      world.history.lifeCommitments.filter((c) => c.personId === personId),
+    ).toHaveLength(0);
+    world = recordWorldEvent(world, {
+      stableKey: "old-care-limit",
+      type: "life.situation-resolved",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [personId],
+      participants: [
+        { personId, role: "focus:subject", detail: "Historical player" },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["adult.care-request", "choice.name-the-limit"],
+      summary: "You offered limited help with the care.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: "name-the-limit",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const origin = world.history.events.at(-1)!;
+    world = scheduleFutureDueItem(world, {
+      stableKey: "old-care-return",
+      dueAt: addDays(world.currentDate, 1),
+      transitionKey: LIFE_CALLBACK_TRANSITION_KEY,
+      entityIds: [personId, origin.id].sort(),
+      jurisdictionId: null,
+      provenance: { kind: "simulated", sourceEntityIds: [origin.id] },
+    });
+    assertWorldIntegrity(world);
+    const next = advanceWorld(
+      world,
+      1,
+      createFutureTransitionHandlerRegistry([
+        [LIFE_CALLBACK_TRANSITION_KEY, lifeCallbackTransitionHandler],
+      ]),
+    );
+    const state = next.history.futureDueItemStates.at(-1)!;
+    expect(state.status).toBe("cancelled");
+    expect(state.reasonKey).toBe("life:issue-overtaken");
+    expect(state.context).not.toMatch(/undertaken|ended|hold them/i);
+    expect(next.history.lifeCommitments).toEqual(world.history.lifeCommitments);
+    expect(next.history.memories).toEqual(world.history.memories);
+    assertWorldIntegrity(next);
+  });
   it("a petition refusal never becomes a signature in its callback", () => {
     const scene = adultSituationBank().find(
       (s) => s.key === "adult.petition-ask",
