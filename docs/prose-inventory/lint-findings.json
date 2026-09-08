@@ -196,13 +196,6 @@
     "evidence": "somebody"
   },
   {
-    "id": "prose:life:adult:adult.care-request#option:wait:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "someone"
-  },
-  {
     "id": "prose:life:adult:adult.care-request#prose",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

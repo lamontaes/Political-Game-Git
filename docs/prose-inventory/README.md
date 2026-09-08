@@ -21,7 +21,7 @@ edit it by hand; edit the production bank or the generator and regenerate.
 - Reachability: 76 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1325 PLAYER_REACHABLE, 391 WITHHELD_BY_GROUNDING.
 - **3002** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
-- **0** hard errors, **259** review warnings.
+- **0** hard errors, **258** review warnings.
 
 ## Semantic IDs
 

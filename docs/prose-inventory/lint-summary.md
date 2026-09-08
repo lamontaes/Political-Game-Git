@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 259 review warnings.**
+**0 hard errors. 258 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 165 |
+| vague-referent | 164 |
 | and-it-scaffold | 38 |
 | rather-than-scaffold | 27 |
 | slot-agreement | 12 |
@@ -25,7 +25,7 @@ defect than the one it was aimed at.
 - 1882 templates, 1860 distinct texts.
 - 18 exact duplicate groups.
 - 23 normalized duplicate groups.
-- 8 near-duplicate clusters (Jaccard ≥ 0.72).
+- 9 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -40,11 +40,11 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `asked you to` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `and it is` | 13 | 5 |
+| `out of the` | 12 | 4 |
 | `proof of income` | 12 | 2 |
 | `the two of` | 12 | 3 |
 | `has asked you` | 11 | 4 |
 | `of income form` | 11 | 2 |
-| `out of the` | 11 | 3 |
 | `proof of income form` | 11 | 2 |
 | `is on the` | 10 | 5 |
 | `the bill is` | 10 | 1 |

@@ -990,9 +990,9 @@
       "anchor": "RETURN_SUMMARY-0014",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "Your family raised the fortnight they had asked you for.",
+      "text": "Your family raised the two weeks they had asked you for.",
       "occurrence": 0,
-      "textRevision": "989974cf3c23"
+      "textRevision": "ea5bc08df789"
     },
     {
       "anchor": "RETURN_SUMMARY-0015",

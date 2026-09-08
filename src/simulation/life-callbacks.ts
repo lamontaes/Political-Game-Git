@@ -60,7 +60,7 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  *
  * Two rules the P2A2 editorial review made necessary. Twenty of these opened
  * "Your decision about", and thirty-one of thirty-three ended in some form of
- * "came back up" — one frame applied to a family fortnight, a debt, a colleague
+ * "came back up" — one frame applied to a two-week family ask, a debt, a colleague
  * and a candidacy alike, which is what made the whole surface read as a single
  * sentence with the nouns swapped.
  *
@@ -72,7 +72,7 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  */
 export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.family-request":
-    "Your family raised the fortnight they had asked you for.",
+    "Your family raised the two weeks they had asked you for.",
   // Not "the care". What was asked of you has a task behind it, and the
   // handler has already confirmed the undertaking is still running — but which
   // way the player answered is not knowable here, so this says what was asked

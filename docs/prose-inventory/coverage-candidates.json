@@ -9009,7 +9009,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 932,
+      "line": 933,
       "text": "A partnership does not establish two conflicting plans or an imminent decision. The plans and the partner proposal are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9017,7 +9017,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 943,
+      "line": 944,
       "text": "Where the two of you are, against where the work is.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9025,7 +9025,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1001,
+      "line": 1002,
       "text": "Employment and a colleague do not establish a conflicting work rule or a senior request. The rule, conflict and request are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9033,7 +9033,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1012,
+      "line": 1013,
       "text": "The rule as written, against the people who work around it every day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9041,7 +9041,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1087,
+      "line": 1088,
       "text": "What the job would notice, against what home would.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9049,7 +9049,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1094,
+      "line": 1095,
       "text": "Taking it on, against keeping the week the shape it was.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9057,7 +9057,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1144,
+      "line": 1145,
       "text": "Shared employment does not establish authorship, misattributed credit or who heard the claim. Those occurrences need records.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9065,7 +9065,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1155,
+      "line": 1156,
       "text": "Being seen to have done it, against what correcting it does to them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9073,7 +9073,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1218,
+      "line": 1219,
       "text": "Shared employment does not establish a colleague difficulty, a disclosure, or the player knowing about it. Those facts are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9081,7 +9081,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1229,
+      "line": 1230,
       "text": "Covering for them, against what covering costs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9089,7 +9089,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1291,
+      "line": 1292,
       "text": "Employment does not establish another offer, better terms or coworkers being unaware. An actual offer and the player knowledge of it are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9097,7 +9097,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1302,
+      "line": 1303,
       "text": "The move, against the ground you are standing on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9105,7 +9105,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1309,
+      "line": 1310,
       "text": "What it would do for you, against what it would do to everyone arranged around you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9113,7 +9113,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1374,
+      "line": 1375,
       "text": "Employment does not establish a successful week, completed work or available time. The achievements and circumstances are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9121,7 +9121,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1409,
+      "line": 1410,
       "text": "Tenure and a housing payment do not establish an increase. Changed payment terms and notice to the player are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9129,7 +9129,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1420,
+      "line": 1421,
       "text": "The place itself, against everything that is arranged around it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9137,7 +9137,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1473,
+      "line": 1474,
       "text": "The scene depends on a specific unrepaired defect and a recorded repair-responsible counterpart, and the world contains neither: dwellings carry no defect records and tenures name no landlord. Withheld rather than rewritten around an unnamed broken 'something'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9145,7 +9145,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1482,
+      "line": 1483,
       "text": "Doing it the proper way, against how long the proper way takes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9153,7 +9153,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1529,
+      "line": 1530,
       "text": "A resource obligation need not be debt and establishes no payment demand or call. Debt terms, a demand and the resources needed by the payment choices are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9161,7 +9161,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1540,
+      "line": 1541,
       "text": "Dealing with it, against who has to find out that it exists.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9169,7 +9169,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1590,
+      "line": 1591,
       "text": "The scene depends on a specific object having broken and on the month's arithmetic, and the world records neither objects nor monthly amounts. An unnamed broken 'something' with an unstated cost cannot be grounded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9177,7 +9177,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1624,
+      "line": 1625,
       "text": "A money scene needs the amount, the source and whether anything already claims it, and the world records no receipt this could read. Money that arrives from nowhere in no amount cannot be grounded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9185,7 +9185,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1687,
+      "line": 1688,
       "text": "Helping, against what helping puts your name to.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9193,7 +9193,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1742,
+      "line": 1743,
       "text": "Dependency does not establish an offer of help or the concrete problem it would solve. The offer and terms are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9201,7 +9201,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1753,
+      "line": 1754,
       "text": "Having the problem gone, against owing it to somebody who is already owed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9209,7 +9209,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1760,
+      "line": 1761,
       "text": "Taking the help, against being somebody who took the help.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9217,7 +9217,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1840,
+      "line": 1841,
       "text": "Keeping what you were told, against what the rest of it says you should do with it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9225,7 +9225,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1904,
+      "line": 1905,
       "text": "Prior interaction does not establish good news or an invitation. The actual news and invitation are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9233,7 +9233,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1943,
+      "line": 1944,
       "text": "A posted meeting and another household do not establish a proposal or its cost to that household. The agenda item and effects are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9241,7 +9241,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1954,
+      "line": 1955,
       "text": "Settling it through the meeting, against settling it with the people themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9249,7 +9249,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2008,
+      "line": 2009,
       "text": "A posted work item does not establish a meeting tonight, an available agenda item for these decisions or completed minutes to read. The meeting and document states needed by the choices are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9257,7 +9257,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2054,
+      "line": 2055,
       "text": "A posted meeting and no civic participation do not establish a staffing shortage or a Saturday request. The organization and actual request must precede the option; joining an organization afterwards is not evidence.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9265,7 +9265,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2075,
+      "line": 2076,
       "text": "Local volunteer group",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9273,7 +9273,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2109,
+      "line": 2110,
       "text": "Group participation does not establish a building closure, an expiring charge or who pays. The building decision and payment terms are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9281,7 +9281,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2120,
+      "line": 2121,
       "text": "Who ends up paying, against the place the people you know actually meet in.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9289,7 +9289,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2127,
+      "line": 2128,
       "text": "Keeping the thing that is there, against having said the charge would stop.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9297,7 +9297,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2213,
+      "line": 2214,
       "text": "Keeping your own counsel, against thinking somebody ought to say it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9305,7 +9305,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2267,
+      "line": 2268,
       "text": "Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9313,7 +9313,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2278,
+      "line": 2279,
       "text": "Staying out of it, against the person asking.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9321,7 +9321,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2350,
+      "line": 2351,
       "text": "Wanting the job, against everything having your name on it would cost.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9329,7 +9329,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2357,
+      "line": 2358,
       "text": "Standing, against what standing does to everybody arranged around you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9337,7 +9337,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2419,
+      "line": 2420,
       "text": "An active incident anywhere in the World does not establish local impact, recovery, or player knowledge. The affected household, recovery state and acquired knowledge are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9345,7 +9345,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2430,
+      "line": 2431,
       "text": "Helping with the clearing up, against getting your own back in order.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9353,7 +9353,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2481,
+      "line": 2482,
       "text": "An active incident and another household do not establish comparative damage or a request for help. The impact, request and player knowledge are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9361,7 +9361,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2523,
+      "line": 2524,
       "text": "An active player commitment does not establish that it is due or conflicts with something else. The due terms and actual conflict are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9369,7 +9369,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2534,
+      "line": 2535,
       "text": "Having said you would, against what doing it now actually costs.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9377,7 +9377,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2587,
+      "line": 2588,
       "text": "An earlier favour-family choice may be a refusal. It does not establish help given, a new larger request or a recurrence count. The actual prior action and new request are missing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9385,7 +9385,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2598,
+      "line": 2599,
       "text": "What you did once, against what it is now being read as meaning.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

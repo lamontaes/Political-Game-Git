@@ -1,5 +1,5 @@
 {
-  "digest": "383f2cf860f25746",
+  "digest": "14a93660d2bdeb4f",
   "counts": {
     "total": 1882,
     "byDomain": {
@@ -10444,7 +10444,7 @@
       "surface": "option-description",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.care-request",
-      "text": "Offer to help with the care and say how much you can manage.",
+      "text": "Offer to take a share of the looking-after, and say how much you can manage.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -10471,7 +10471,7 @@
         "stakes:pressing",
         "companion:kin"
       ],
-      "textRevision": "b1e13bb396bf",
+      "textRevision": "3c352016ee4f",
       "contextRevision": "fe516988fffd"
     },
     {
@@ -10522,7 +10522,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.care-request",
-      "text": "You offered to help with the care and said how much you could manage.",
+      "text": "You offered to take a share of looking after your relative, and said how much.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -10549,7 +10549,7 @@
         "stakes:pressing",
         "companion:kin"
       ],
-      "textRevision": "8f62cdbf05a5",
+      "textRevision": "f5e093c04f09",
       "contextRevision": "fe516988fffd"
     },
     {
@@ -10834,7 +10834,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.care-request",
-      "text": "You waited for someone else to offer help with the care.",
+      "text": "You waited to see whether anybody else in the family would offer.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -10861,7 +10861,7 @@
         "stakes:pressing",
         "companion:kin"
       ],
-      "textRevision": "d51280304643",
+      "textRevision": "d386a047ce4f",
       "contextRevision": "fe516988fffd"
     },
     {
@@ -17175,7 +17175,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.local-dispute",
-      "text": "You chose not to intervene in the proposal.",
+      "text": "You stayed out of the proposal.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -17202,7 +17202,7 @@
         "stakes:notable",
         "companion:other-household"
       ],
-      "textRevision": "2e470525d605",
+      "textRevision": "1ce9843536ae",
       "contextRevision": "ffc819e6c821"
     },
     {
@@ -21932,7 +21932,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.work-credit",
-      "text": "You chose not to correct the claim about whose work it was.",
+      "text": "You let the claim about whose work it was stand.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -21959,7 +21959,7 @@
         "stakes:notable",
         "companion:colleague"
       ],
-      "textRevision": "ae0caaad2f72",
+      "textRevision": "d6c6a3d695fd",
       "contextRevision": "3a17d48da146"
     },
     {
@@ -24091,7 +24091,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your family raised the fortnight they had asked you for.",
+      "text": "Your family raised the two weeks they had asked you for.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24111,7 +24111,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "989974cf3c23",
+      "textRevision": "ea5bc08df789",
       "contextRevision": "609477ccd6c0"
     },
     {
