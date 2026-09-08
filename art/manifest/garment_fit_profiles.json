@@ -1,0 +1,200 @@
+{
+  "schema": "garment-fit-profiles-v1",
+  "note": "Derived, not authored. Every transform below is the difference between two MEASURED silhouettes, and every classification is what that transform achieved when projectCharacterLayers placed the real rasters. Regenerate with `npm run derive:garment-fit`; the numbers are reproducible from the rasters in the bank.",
+  "bounds": {
+    "minScale": 0.7,
+    "maxScale": 1.45,
+    "maxTranslate": 0.12,
+    "maxWarpOffset": 0.08,
+    "maxWarpBandStep": 1.06,
+    "maxWarpScaleSpread": 1.6,
+    "maxEdgeErrorFraction": 0.03
+  },
+  "garments": [
+    {
+      "component_family": "dev-blazer-navy",
+      "kind": "top",
+      "classification": "morphology-specific",
+      "authored_for_body_family": "dev-adult",
+      "basis": "Declares one body family (dev-adult) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-g2-derby-oxblood",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs. Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-g2-knit-olive",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "dev-g2-broad",
+      "basis": "One axis-aligned scale brings the worst edge error from 22.99px (8.64%) to 2.79px (1.01%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 24.21px (9.53%) to 2.11px (0.82%), inside the 3.0% bound.",
+      "profiles": [
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.845685,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["shoulder", "waist", "hip"],
+            "note": "Worst per-side residual 22.99px unfitted, 2.79px fitted, over rows 136-455 (edge-match)."
+          }
+        },
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "seated-at-desk",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.841585,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["shoulder", "waist", "hip"],
+            "note": "Worst per-side residual 24.21px unfitted, 2.11px fitted, over rows 145-380 (edge-match)."
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "dev-g2-lanyard",
+      "kind": "accessory",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs. Unfitted placement already sits within 3.0% of the target silhouette (worst 0px, 0.00%). A transform here would move art that is already where it belongs.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-g2-suit-charcoal",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "dev-g2-broad",
+      "basis": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.15%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 23.92px (9.42%) to 2.26px (0.87%), inside the 3.0% bound.",
+      "profiles": [
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.845685,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["shoulder", "waist", "hip"],
+            "note": "Worst per-side residual 23.04px unfitted, 3.23px fitted, over rows 136-455 (edge-match)."
+          }
+        },
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "seated-at-desk",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.841585,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["shoulder", "waist", "hip"],
+            "note": "Worst per-side residual 23.92px unfitted, 2.26px fitted, over rows 145-380 (edge-match)."
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "dev-g2-trousers-slate",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "dev-g2-broad",
+      "basis": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound.",
+      "profiles": [
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.847629,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["hip", "crotch", "knee", "ankle"],
+            "note": "Worst per-side residual 17.98px unfitted, 3.05px fitted, over rows 455-785 (edge-match)."
+          }
+        },
+        {
+          "target_body_family": "dev-g2-slim",
+          "pose_family": "seated-at-desk",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.842873,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          },
+          "derivation": {
+            "method": "anchor-span-minimax-v1",
+            "source_body_family": "dev-g2-broad",
+            "anchors": ["crotch", "knee", "ankle"],
+            "note": "Worst per-side residual 18.61px unfitted, 0.7px fitted, over rows 430-610 (edge-match)."
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "dev-lapel-pin",
+      "kind": "accessory",
+      "classification": "morphology-specific",
+      "authored_for_body_family": "dev-adult",
+      "basis": "Declares one body family (dev-adult) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-oxford-black",
+      "kind": "footwear",
+      "classification": "morphology-specific",
+      "authored_for_body_family": "dev-adult",
+      "basis": "Declares one body family (dev-adult) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-slacks-charcoal",
+      "kind": "bottom",
+      "classification": "morphology-specific",
+      "authored_for_body_family": "dev-adult",
+      "basis": "Declares one body family (dev-adult) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.",
+      "profiles": []
+    },
+    {
+      "component_family": "dev-tee-teal",
+      "kind": "top",
+      "classification": "morphology-specific",
+      "authored_for_body_family": "dev-adult",
+      "basis": "Declares one body family (dev-adult) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.",
+      "profiles": []
+    }
+  ]
+}
