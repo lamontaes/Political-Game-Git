@@ -184,6 +184,23 @@ export interface CharacterComponentDefinition {
    * can refuse a conflicting layer instead of drawing through it.
    */
   readonly blocked_slots?: readonly string[];
+
+  /**
+   * Body only: slot KINDS this body raster already paints, so no component of
+   * that kind is required or drawn.
+   *
+   * A modular body normally paints no head; the head is a component that
+   * attaches at the neck. Some source art is not authored that way — the Wave A
+   * crops are whole figures with the head painted in — and for such a body
+   * "no head component declares this morphology" is not a missing part. It is a
+   * part that is already there, and a required-slot refusal reporting it as
+   * absent is reporting the contract's assumption rather than the raster.
+   *
+   * A baked kind is measured off the raster, never declared by hand: the Wave A
+   * derivation writes it only where opaque rows are painted above the body's
+   * own measured neck anchor.
+   */
+  readonly baked_slots?: readonly CharacterComponentKind[];
 }
 
 export interface CharacterComponentManifestRecord {
@@ -1348,6 +1365,20 @@ export type CharacterRecipeDiagnosticCode =
   | "slot-family-has-no-art-for-pose"
   /** The chosen family has art for this pose, but not for this facing. */
   | "slot-family-has-no-art-for-facing"
+  /**
+   * The chosen family has art for this pose, but no derivative fitted to this
+   * body family. A garment family holds one derivative per morphology it was
+   * measured against; reaching for another morphology's derivative would put a
+   * garment cut for one silhouette on a different one.
+   */
+  | "slot-family-has-no-art-for-body"
+  /**
+   * The body raster already paints this kind, so no component is required or
+   * drawn. Not a gap: a whole-figure body carries its own head, and reporting
+   * that head as missing reports the contract's assumption about how bodies are
+   * authored rather than anything about the art.
+   */
+  | "slot-painted-by-body"
   /** W8: another worn component forbids this slot. */
   | "slot-conflict"
   /** No body in the chosen family carries the identity's complexion. */
@@ -1622,6 +1653,7 @@ function contextCompatible(
   definition: CharacterComponentDefinition,
   poseFamily: string,
   headOrientation: string,
+  bodyFamily: string,
 ): boolean {
   const poseOk =
     definition.compatible_pose_families === undefined ||
@@ -1629,7 +1661,16 @@ function contextCompatible(
   const orientationOk =
     definition.compatible_head_orientations === undefined ||
     definition.compatible_head_orientations.includes(headOrientation);
-  return poseOk && orientationOk;
+  // A family can hold one derivative PER BODY FAMILY — the pg intake writes
+  // exactly that, one garment fitted to each body it was measured against —
+  // and the identity stage only asked whether the FAMILY reaches this body.
+  // Without this the context stage could pick any derivative in the family,
+  // which put `pg_top_005_..._ml_v1`, fitted to the male-lean silhouette, on a
+  // `pg-female-lean` body on the review surface that ships today.
+  const bodyOk =
+    definition.compatible_body_families === undefined ||
+    definition.compatible_body_families.includes(bodyFamily);
+  return poseOk && orientationOk && bodyOk;
 }
 
 function pickFamily(
@@ -1715,6 +1756,27 @@ export function resolveCharacterRecipe(
     bodyFamilies,
   );
 
+  /**
+   * Kinds the chosen body family paints into its own raster.
+   *
+   * Every body of the family must agree: a morphology whose art is inconsistent
+   * about whether it carries a head is not a morphology a recipe can reason
+   * about, and taking the union would make a slot vanish because one crop
+   * happened to include a face.
+   */
+  const familyBodies = available.filter(
+    (component) =>
+      component.definition.kind === "body" &&
+      component.definition.family === bodyFamily,
+  );
+  const bakedKinds: ReadonlySet<CharacterComponentKind> = new Set(
+    (familyBodies[0]?.definition.baked_slots ?? []).filter((kind) =>
+      familyBodies.every((component) =>
+        (component.definition.baked_slots ?? []).includes(kind),
+      ),
+    ),
+  );
+
   const headFamilies = [
     ...new Set(
       available
@@ -1731,7 +1793,17 @@ export function resolveCharacterRecipe(
   const identityDiagnostics: CharacterRecipeDiagnostic[] = [];
   const diagnoseUnresolvable = request.unresolvableRequiredSlots === "diagnose";
   let headFamily: string;
-  if (headFamilies.length === 0) {
+  if (bakedKinds.has("head")) {
+    headFamily = CHARACTER_UNRESOLVED_FAMILY;
+    identityDiagnostics.push({
+      code: "slot-painted-by-body",
+      slotId:
+        library.slots.find((slot) => slot.kind === "head")?.slot_id ?? "head",
+      kind: "head",
+      family: bodyFamily,
+      message: `Body family '${bodyFamily}' paints its own head, so no head component is selected for it.`,
+    });
+  } else if (headFamilies.length === 0) {
     if (!diagnoseUnresolvable) {
       throw new Error(
         `No head family is compatible with body family '${bodyFamily}' at generation ${generation}.`,
@@ -1760,8 +1832,19 @@ export function resolveCharacterRecipe(
       slots[slot.slot_id] = bodyFamily;
       continue;
     }
-    if (slot.kind === "head") {
+    if (slot.kind === "head" && !bakedKinds.has("head")) {
       slots[slot.slot_id] = headFamily;
+      continue;
+    }
+    if (bakedKinds.has(slot.kind)) {
+      slots[slot.slot_id] = null;
+      identityDiagnostics.push({
+        code: "slot-painted-by-body",
+        slotId: slot.slot_id,
+        kind: slot.kind,
+        family: bodyFamily,
+        message: `Body family '${bodyFamily}' paints its own ${slot.kind}, so slot '${slot.slot_id}' takes no component.`,
+      });
       continue;
     }
     const families = [
@@ -1913,22 +1996,32 @@ export function resolveCharacterRecipe(
           component.definition.compatible_pose_families === undefined ||
           component.definition.compatible_pose_families.includes(poseFamily),
       );
-      const candidates = forPose.filter((component) =>
+      const forBody = forPose.filter(
+        (component) =>
+          component.definition.compatible_body_families === undefined ||
+          component.definition.compatible_body_families.includes(bodyFamily),
+      );
+      const candidates = forBody.filter((component) =>
         contextCompatible(
           component.definition,
           poseFamily,
           headOrientation ?? "",
+          bodyFamily,
         ),
       );
       if (candidates.length === 0) {
         const code: CharacterRecipeDiagnosticCode =
           forPose.length === 0
             ? "slot-family-has-no-art-for-pose"
-            : "slot-family-has-no-art-for-facing";
+            : forBody.length === 0
+              ? "slot-family-has-no-art-for-body"
+              : "slot-family-has-no-art-for-facing";
         const detail =
           forPose.length === 0
             ? `has no art for pose '${poseFamily}'`
-            : `has no art facing '${headOrientation ?? "unknown"}', which body '${body.assetId}' presents`;
+            : forBody.length === 0
+              ? `has no derivative fitted to body family '${bodyFamily}'`
+              : `has no art facing '${headOrientation ?? "unknown"}', which body '${body.assetId}' presents`;
         diagnostics.push({
           code: slot.required ? "required-slot-empty" : code,
           slotId: slot.slot_id,

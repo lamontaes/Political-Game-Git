@@ -204,3 +204,158 @@ npm run admit:wave-a-candidates
 Deterministic: `tests/wave-a-candidate-admission.test.ts` re-runs it and compares
 the result to the checked-in registry byte for byte, twice, to catch
 non-determinism.
+
+---
+
+# PEOPLE1-R1 — clothing the admitted bodies from existing art
+
+Status: **partial checkpoint, explicitly evidenced.** Continues the same PR on
+the same branch. The admission above is preserved exactly: its registry, its
+report and all fifty-one source crops are read and never rewritten.
+
+RETURN-REVIEW1 found the admission sound and the job incomplete, with one
+correction that turned out to be the key to the whole task:
+
+> `no wave-a-* family declaration` is NOT evidence of missing garment art. […]
+> Correct classification is UNMEASURED COMPATIBILITY until tested.
+
+That was right, and the reason nothing had been measured turned out to be
+mechanical rather than artistic.
+
+## Four measured findings
+
+### 1. The admitted crops are not on the modular runtime canvas
+
+Every banked garment was normalized against a **960 px** body. An admitted
+Wave A crop is **1642–1752 px** tall. `projectCharacterLayers` sizes a
+component as `component.canvas / body.canvas`, so a banked garment lands on a
+Wave A crop at **55–63%** of the size it should be. That is a units mismatch,
+not a morphology one, and it is far outside any fit bound — which is why no
+compatibility question could even be _asked_, let alone answered, before now.
+
+`npm run derive:wave-a-wardrobe` resamples each admitted crop DOWN onto the
+runtime canvas (scales 0.5915–0.6341, asserted to be reductions; nothing is
+enlarged and no source crop is written). Twelve runtime bodies, 295–458 px wide
+by 960 tall, directly comparable with the 343/345 px pg bodies.
+
+### 2. The `hips` garment anchor is the measured WAIST, on every measured body
+
+`character-components.ts` states the contract in its own words: `hips` is "the
+line on the outside of the body where a bottom's waistband sits", at or below
+the pelvis root. `measureBodyRig` emits `rig.waistRow` for it.
+
+| body                                             | declared `hips` | measured hip | measured crotch |
+| ------------------------------------------------ | --------------- | ------------ | --------------- |
+| `dev_g2_body_broad_light_standing_v1` (authored) | 0.540           | 0.499        | 0.549           |
+| `pg_body_fl_standing_v1` (measured)              | **0.339**       | 0.493        | 0.497           |
+| `pg_body_ml_standing_v1` (measured)              | **0.348**       | 0.526        | 0.540           |
+| `wave_a_average_man_standing_neutral_front_a_v1` | **0.376**       | 0.566        | 0.579           |
+
+Every bottom in the bank hangs from this anchor, so on the pg surface that
+ships today trousers start at the ribcage and end mid-shin — the bare grey
+shins visible under every figure at `?view=character-proof&set=real`, and the
+"knee" skirt that reaches the upper thigh. The derived runtime bodies place
+`hips` on the measured hip line: the widest central run between the waist and
+the crotch.
+
+### 3. A Wave A body paints its own head
+
+All twelve. The review surface reported `head` as a required slot with the
+refusal "no head declares body family 'wave-a-average-man' as compatible: the
+art has never been drawn for this morphology" — which reports the modular
+contract's assumption that a body carries no head, not anything about the art.
+`baked_slots` records what the raster actually paints, measured (opaque rows
+above the body's own neck anchor), and the resolver and the review surface no
+longer ask for a head that is already there.
+
+### 4. Asset selection ignored `compatible_body_families` — a live defect
+
+`resolveCharacterRecipe` filters FAMILIES against the body family, then picks
+any asset within the chosen family filtered only by pose and facing. A garment
+family holds one derivative **per body family**, so the context stage could
+choose a derivative cut for a different silhouette. It does, today: the checked
+in proof screenshot for the `real` set shows `Ray Hale`, a `pg-female-lean`
+person, wearing `pg_top_005_long_sleeve_button_shirt_ml_v1`. Fixed, with the
+new `slot-family-has-no-art-for-body` diagnostic naming the case where a family
+reaches a body but no derivative in it does.
+
+## What was derived, and what it measures
+
+`npm run derive:wave-a-wardrobe` derives a wardrobe for each admitted
+morphology from the garment masters the project already owns — no new pixels,
+the same keying, cropping and Lanczos resampling the pg intake performs. Twelve
+runtime bodies and **68 derived garments**. Vertical scale comes from the
+anchor span the garment is authored across (`shoulder→hip` for a top,
+`hip→ankle` for a bottom); horizontal from the spec's own measured width
+reference on that body.
+
+Complete clothed Wave A people now compose through the accepted resolver,
+projection, render plan and scene transform at `?view=character-proof&set=wave-a`.
+Before this they were bare bodies in baked underwear.
+
+**Nothing is approved.** Every record is an unreleased candidate in no catalog
+generation. `art/qa/p95-wave-a-morphology/wave-a-wardrobe-report.json` carries
+the measurement for all 68, and the honest summary is:
+
+**0 of 68 sit inside the accepted 3% edge bound.** Worst coverage residual runs
+6.5–43% of the body span. The largest are at the shoulder and the waist, and
+they are the same defect in two places: these masters are **flat lays**. A
+flat-laid shirt is narrow where it buttons at the neck and cannot cover a
+rounded shoulder, and its bbox at the waist row is sleeve-tip to sleeve-tip. A
+bounded affine does not fix either.
+
+### Limits of the measurement, stated
+
+- The accepted `measureEdgeError` compares a garment against the ease the same
+  garment carries on the body it was drawn for, keyed by **normalized y**. That
+  is right between bodies sharing a canvas and a framing — the generation-2
+  rigs it was calibrated on — and wrong here: a Wave A crop puts its shoulder
+  at 0.225 of its canvas where the pg mannequin puts it at 0.198. Its numbers
+  are carried in the report as `ease_metric_derived` and must not be read as a
+  verdict. The summary figure is the framing-independent landmark residual.
+- The landmark residual on a garment's own attachment row measures the shape of
+  a flat lay, not a fit. It is reported (`on_attachment_row`) and excluded from
+  the coverage figure.
+- The "authored proportion" carried across from the pg set **disagrees with
+  itself by up to 35%** between the two pg bodies (jeans: 0.827 from
+  female-lean, 1.116 from male-lean), because the banked garment is width-scaled
+  and its length is whatever the aspect ratio gave. The reference body is named,
+  the check body's value is recorded beside it, and derived hem lengths inherit
+  that uncertainty. This is the largest open source of error in the derivation.
+- `chest` and `knee` are not measured and are not invented: neither is a feature
+  of a front-on silhouette.
+
+### Refused by pose, not by taste
+
+The two seated bodies get tops derived across their own measured shoulder-to-hip
+span. They get **no bottoms and no footwear**: the banked bottoms are straight
+flat lays drawn for standing legs, and placing one on a bent thigh is a
+cross-viewpoint fit the accepted contract refuses outright. Four refusals, each
+recorded with its reason. Nothing is flattened to raise a count.
+
+## Exact remaining gaps
+
+| Gap                                                 | Kind                     | Evidence                                                                                                            |
+| --------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| No fat-woman body in the admitted set               | **missing pixels**       | Six families admitted; `wave_a_additional_fat_female_*` crops are one baked-prop, one ambiguous, one partial figure |
+| No face on any Wave A body                          | **source crop defect**   | All twelve carry a head with a blank face; hair attaches to `brow` and no brow line exists to measure               |
+| Garment shoulder coverage                           | **missing pixels**       | 6.5–43% uncovered at the shoulder/waist; flat-lay masters, not fixable by a bounded transform                       |
+| Seated bottoms and footwear                         | **missing pose art**     | 4 refusals; needs garments drawn for a seated viewpoint                                                             |
+| Hem length uncertainty                              | **missing metadata**     | The authored proportion disagrees by up to 35% between the two pg reference bodies                                  |
+| Rights on the Wave A sheets and the pg masters      | **missing rights**       | Unknown, left unknown                                                                                               |
+| Whether this illustration style is the game's style | **owner style approval** | Two styles cannot both be the look; not inferable                                                                   |
+
+## Not done in this checkpoint
+
+Named, not glossed:
+
+- The render plan still reports `head` in `MISSING` for a baked-head body; the
+  resolver and the review surface honour `baked_slots`, `buildCharacterRenderPlan`
+  does not yet.
+- Serialize/reload identity proof with a real wardrobe change is not written.
+- Scene placement against the office anchors and the production person/portrait
+  consumers are untouched; no person adapter is added.
+- No test covers the wardrobe derivation, and its outputs are not yet in
+  `npm run validate`.
+- `npm run derive:wave-a-wardrobe -- --check` exists but regeneration
+  determinism is not asserted by a test.

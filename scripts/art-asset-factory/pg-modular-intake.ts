@@ -812,11 +812,14 @@ export interface PgIntakeOutput {
   };
 }
 
-async function readPng(filePath: string): Promise<Bitmap> {
+export async function readPng(filePath: string): Promise<Bitmap> {
   return PImage.decodePNGFromStream(fs.createReadStream(filePath));
 }
 
-async function writePng(filePath: string, bitmap: Bitmap): Promise<void> {
+export async function writePng(
+  filePath: string,
+  bitmap: Bitmap,
+): Promise<void> {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   const stream = fs.createWriteStream(filePath);
   const finished = new Promise<void>((resolve, reject) => {
@@ -827,20 +830,20 @@ async function writePng(filePath: string, bitmap: Bitmap): Promise<void> {
   await finished;
 }
 
-function scaled(bitmap: Bitmap, scale: number): Bitmap {
+export function scaled(bitmap: Bitmap, scale: number): Bitmap {
   const width = Math.max(1, Math.round(bitmap.width * scale));
   const height = Math.max(1, Math.round(bitmap.height * scale));
   return resampleLanczos(bitmap, width, height, PG_LANCZOS_LOBES);
 }
 
-interface NormalizedBody {
+export interface NormalizedBody {
   readonly spec: PgBodySpec;
   readonly bitmap: Bitmap;
   readonly rig: BodyRigMeasurement;
   readonly anchors: readonly CharacterAttachmentAnchor[];
 }
 
-async function normalizeBody(
+export async function normalizeBody(
   repositoryRoot: string,
   spec: PgBodySpec,
   outputDirectory: string,
@@ -950,7 +953,7 @@ function referenceValue(
   }
 }
 
-async function normalizeComponent(
+export async function normalizeComponent(
   repositoryRoot: string,
   spec: PgComponentSpec,
   body: NormalizedBody,

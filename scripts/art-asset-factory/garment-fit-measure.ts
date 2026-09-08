@@ -703,7 +703,16 @@ export interface FitCaseResult {
   readonly reason: string;
 }
 
-function projectOne(
+/**
+ * Projects one garment onto one body through the REAL compositor and returns
+ * the layer it produced.
+ *
+ * Exported because a second measurement caller — the candidate wardrobe
+ * derivation — needs the same projection to compare a derivative against the
+ * ease the original carries on the body it was drawn for. A second projection
+ * written for that caller would measure the second projection.
+ */
+export function projectForMeasurement(
   body: FitSubject,
   garment: FitSubject,
   poseFamily: string,
@@ -772,6 +781,22 @@ export interface MeasureCaseRequest {
   /** The garment's own extent in body-canvas normalized units. */
   readonly extent: { readonly topY: number; readonly bottomY: number };
   readonly maxEdgeErrorFraction?: number;
+  /**
+   * Reference rows to read each body at, as canvas fractions.
+   *
+   * Omitted, each body is read at `referenceRowsFor(poseFamily)` — the declared
+   * per-pose table, which is the right answer for the dev fixtures it was
+   * calibrated on because they share a canvas and a framing.
+   *
+   * A body measured from a source crop does NOT share that framing: a Wave A
+   * crop puts its shoulder line at 0.225 of its canvas where the generation-2
+   * rig puts it at 0.162, so reading one at the other's fractions measures the
+   * neck and calls it a shoulder. Passing rows measured from THAT body's own
+   * silhouette is the only way the comparison is between two bodies rather
+   * than between two framings.
+   */
+  readonly sourceRows?: Readonly<Record<string, number>>;
+  readonly targetRows?: Readonly<Record<string, number>>;
 }
 
 /**
@@ -791,6 +816,8 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     poseFamily,
     extent,
     maxEdgeErrorFraction = GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction,
+    sourceRows,
+    targetRows,
   } = request;
   const kind = garment.definition.kind;
   if (!isGarmentFitGoverned(kind)) {
@@ -806,11 +833,13 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     sourceBody.file,
     sourceBody.definition.family,
     poseFamily,
+    sourceRows ?? referenceRowsFor(poseFamily),
   );
   const target = measureBodyFitReference(
     targetBody.file,
     targetBody.definition.family,
     poseFamily,
+    targetRows ?? referenceRowsFor(poseFamily),
   );
   const metric = metricFor(kind, target, extent, bodyCanvas.height);
 
@@ -818,14 +847,14 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
   // definition: a garment always fits its own morphology, and that pairing is
   // the yardstick every fitted pairing below is held against.
   const sourceProportion = measureSourceProportion(
-    projectOne(sourceBody, garment, poseFamily, null),
+    projectForMeasurement(sourceBody, garment, poseFamily, null),
     garmentSpans,
     sourceBodySpans,
     sourceCanvas,
   );
 
   const unfitted = measureEdgeError(
-    projectOne(targetBody, garment, poseFamily, null),
+    projectForMeasurement(targetBody, garment, poseFamily, null),
     garmentSpans,
     bodySpans,
     bodyCanvas,
@@ -850,7 +879,7 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
       extent,
     );
     const result = measureEdgeError(
-      projectOne(targetBody, garment, poseFamily, derived.transform),
+      projectForMeasurement(targetBody, garment, poseFamily, derived.transform),
       garmentSpans,
       bodySpans,
       bodyCanvas,
@@ -878,7 +907,7 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
       extent,
     );
     const result = measureEdgeError(
-      projectOne(targetBody, garment, poseFamily, derived.transform),
+      projectForMeasurement(targetBody, garment, poseFamily, derived.transform),
       garmentSpans,
       bodySpans,
       bodyCanvas,

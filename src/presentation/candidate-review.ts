@@ -1,5 +1,6 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import candidateRegistry from "../../art/manifest/character_candidate_registry.json";
+import wardrobeRegistry from "../../art/manifest/character_candidate_wardrobe_registry.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
 import { derivePersonAppearance } from "../simulation/person-appearance";
 import type { PersonAppearance } from "../simulation/person-appearance";
@@ -48,6 +49,18 @@ import {
 export const WAVE_A_CANDIDATE_RECORDS =
   candidateRegistry.assets as readonly CharacterComponentManifestRecord[];
 
+/**
+ * The runtime-canvas bodies and the wardrobe derived for them.
+ *
+ * `npm run derive:wave-a-wardrobe` writes these. They are a SECOND candidate
+ * registry rather than an edit of the first: the admission at `06a5e200`
+ * measured the source crops and is the record of that measurement, and a
+ * derivation that rewrote it would destroy the thing it was derived from.
+ * Every record here names the admitted crop it came from.
+ */
+export const WAVE_A_WARDROBE_RECORDS =
+  wardrobeRegistry.assets as readonly CharacterComponentManifestRecord[];
+
 const CATALOG = characterCatalog as CharacterCatalogData;
 
 /**
@@ -58,9 +71,10 @@ const CATALOG = characterCatalog as CharacterCatalogData;
  * generation — this throws where it is imported instead of quietly composing a
  * candidate as production art.
  */
-const registryErrors = validateCharacterComponentCandidates(
-  WAVE_A_CANDIDATE_RECORDS,
-);
+const registryErrors = validateCharacterComponentCandidates([
+  ...WAVE_A_CANDIDATE_RECORDS,
+  ...WAVE_A_WARDROBE_RECORDS,
+]);
 if (registryErrors.length > 0) {
   throw new Error(
     `Candidate registry is not a candidate registry:\n${registryErrors.join("\n")}`,
@@ -83,6 +97,7 @@ const CANDIDATE_POOL_RECORDS: readonly CharacterComponentManifestRecord[] = [
     assetManifest.assets as readonly CharacterComponentManifestRecord[]
   ).filter((record) => record.asset_type === "character-component-candidate"),
   ...WAVE_A_CANDIDATE_RECORDS,
+  ...WAVE_A_WARDROBE_RECORDS,
 ];
 
 const waveAReview = liftCandidatesForReview(
@@ -121,6 +136,8 @@ export interface CandidateSlotAvailability {
   readonly compatible: readonly string[];
   /** Why nothing is compatible, in the contract's own terms. Null when some is. */
   readonly refusal: string | null;
+  /** The body raster paints this kind itself, so the slot takes no component. */
+  readonly paintedByBody?: boolean;
 }
 
 export interface CandidateBodyReview {
@@ -156,10 +173,24 @@ export function reviewCandidateBody(
   const anchorIds = new Set(
     (body.definition.attachment_anchors ?? []).map((anchor) => anchor.id),
   );
+  const bakedKinds = new Set(body.definition.baked_slots ?? []);
 
   const slots = library.slots
     .filter((slot) => slot.kind !== "body")
     .map((slot): CandidateSlotAvailability => {
+      if (bakedKinds.has(slot.kind)) {
+        // The raster already paints it. Reporting it as an unfilled required
+        // slot would report the modular contract's assumption that a body
+        // carries no head, not anything about this body.
+        return {
+          slotId: slot.slot_id,
+          kind: slot.kind,
+          required: false,
+          compatible: [],
+          refusal: null,
+          paintedByBody: true,
+        };
+      }
       const ofKind = [...library.components.values()].filter(
         (component) => component.definition.kind === slot.kind,
       );
