@@ -1179,7 +1179,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "let-it-go",
         label: "Let them have it",
         description: "It is not worth the room.",
-        memory: "You let the claim about whose work it was stand.",
+        memory: "You let them have the credit and said nothing.",
         witnessed: null,
         stance: "withdrawn",
         relationalChange: "maintained",

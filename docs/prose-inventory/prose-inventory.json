@@ -1,5 +1,5 @@
 {
-  "digest": "acc22d62221ca701",
+  "digest": "0c82468efe4ce571",
   "counts": {
     "total": 1882,
     "byDomain": {
@@ -21932,7 +21932,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.work-credit",
-      "text": "You let the claim about whose work it was stand.",
+      "text": "You let them have the credit and said nothing.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -21959,7 +21959,7 @@
         "stakes:notable",
         "companion:colleague"
       ],
-      "textRevision": "d6c6a3d695fd",
+      "textRevision": "32b26ccdb480",
       "contextRevision": "3a17d48da146"
     },
     {

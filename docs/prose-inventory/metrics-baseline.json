@@ -1,10 +1,10 @@
 {
-  "digest": "acc22d62221ca701",
+  "digest": "0c82468efe4ce571",
   "totalRecords": 1882,
   "distinctTexts": 1860,
   "exactDuplicateGroups": 18,
   "normalizedDuplicateGroups": 23,
-  "nearDuplicateClusters": 9,
+  "nearDuplicateClusters": 8,
   "warningsByFamily": {
     "and-it-scaffold": 38,
     "label-restated-in-description": 9,
@@ -636,7 +636,7 @@
     "prose:life:adult:adult.work-credit#option:correct-it:witnessed": "3e381f971fd3",
     "prose:life:adult:adult.work-credit#option:let-it-go:description": "fbbcf918f911",
     "prose:life:adult:adult.work-credit#option:let-it-go:label": "4d815fdf09ee",
-    "prose:life:adult:adult.work-credit#option:let-it-go:memory": "d6c6a3d695fd",
+    "prose:life:adult:adult.work-credit#option:let-it-go:memory": "32b26ccdb480",
     "prose:life:adult:adult.work-credit#option:say-it-later:description": "fb6c42a5b86f",
     "prose:life:adult:adult.work-credit#option:say-it-later:label": "6e3c93ca5633",
     "prose:life:adult:adult.work-credit#option:say-it-later:memory": "fefe11121767",

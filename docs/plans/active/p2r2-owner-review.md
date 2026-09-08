@@ -93,7 +93,7 @@ failures were measured, repaired, and then re-measured on the repair itself:
 
 The two remaining near-duplicate clusters (`Go to the meeting` against the
 meeting work-item title, and one label/description pair) are present at
-publication main `89b2f76` and are not P2's to close. Bounded warnings are two
+publication main `89b2f76` and are not P2's to close. Bounded warnings are one
 higher than P2R1's: the callback rows that now name who asked read as
 `Somebody …`, which the deterministic lint counts as a vague referent. That is
 the honest state — the string is family-level and no name is bound at render
