@@ -68,5 +68,12 @@ export interface EmploymentRecord {
   readonly fullTimeEquivalent: Sourced<number>;
   readonly fullTimePayroll: Sourced<number>;
   readonly partTimePayroll: Sourced<number>;
+  /** Production-only publisher details; flags are FT count/payroll then PT count/payroll. */
+  readonly publisher?: {
+    readonly pid6: string;
+    readonly identityEvidence: Evidence;
+    readonly dataFlags: readonly string[];
+    readonly payrollPeriod: { readonly start: string; readonly end: string };
+  };
   readonly evidence: Evidence;
 }
