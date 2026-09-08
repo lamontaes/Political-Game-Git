@@ -1527,7 +1527,6 @@ function PlayingScreen({
     if (!assignment) return;
     const entry = openLegislativeBargaining(session.world, {
       playerPersonId: session.personId,
-      assignment,
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);

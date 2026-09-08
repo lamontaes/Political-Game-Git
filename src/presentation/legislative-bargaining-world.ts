@@ -40,7 +40,6 @@ import {
   withAnalysisSeen,
 } from "./legislative-bargaining";
 import { resolvePlayerCapabilities, withheldReason } from "./player-capabilities";
-import type { LegislativeAssignment } from "./legislation-world";
 
 /**
  * The one question a seated winner's route is allowed to ask:
@@ -78,8 +77,6 @@ export type LegislativeBargainingEntry =
 
 export interface OpenLegislativeBargainingInput {
   readonly playerPersonId: EntityId;
-  /** The bill already opened through the ordinary Work route. */
-  readonly assignment: LegislativeAssignment;
 }
 
 export function openLegislativeBargaining(
@@ -114,24 +111,21 @@ export function openLegislativeBargaining(
       reason: `No bargaining sitting is authored for the ${capabilities.workPlace?.displayName ?? scenarioKey} legislature yet.`,
     };
   }
-  if (input.assignment.scenarioKey !== scenarioKey) {
-    return {
-      kind: "unavailable",
-      reason: "The open bill does not belong to this character's legislature.",
-    };
-  }
-
   const blueprint = legislativeBlueprint(scenarioKey);
-  const measureId = input.assignment.measureId;
+  // The measure the ordinary Work route introduces into this world, found
+  // where openLegislativeWork left it. No measure means the player has not
+  // taken the bill up yet, and this route says so instead of introducing one.
+  const measureStableKey = `legislative-work:${scenarioKey}:measure`;
   const measure = (world.history.legislativeMeasures ?? []).find(
-    (record) => record.id === measureId,
+    (record) => record.stableKey === measureStableKey,
   );
   if (!measure) {
     return {
       kind: "unavailable",
-      reason: `${blueprint.designation} has not been taken up in this world.`,
+      reason: `${blueprint.designation} has not been taken up in this world; open the bill through the office first.`,
     };
   }
+  const measureId = measure.id;
   if (measure.jurisdictionId !== governingJurisdictionId) {
     return {
       kind: "unavailable",
@@ -197,9 +191,13 @@ export function openLegislativeBargaining(
     guardianPersonId,
   });
 
+  const sponsorPersonId = characterHistoryContextPersonId(
+    next,
+    `legislative-work:${scenarioKey}:member`,
+  );
   const bodies = seatBargainingBodies(next, blueprint, {
     playerPersonId: input.playerPersonId,
-    sponsorPersonId: input.assignment.sponsorPersonId,
+    sponsorPersonId,
     advocatePersonId,
     guardianPersonId,
   });
@@ -231,8 +229,14 @@ export function openLegislativeBargaining(
 
   const seat: LegislativeBargainingSeat = {
     scenario: {
-      ...input.assignment.procedure,
+      pack: blueprint.pack,
+      measureId,
       bodies,
+      committeeMemberCount:
+        blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? 7,
+      votePlan: blueprint.votePlan,
+      governorAction: blueprint.governorAction,
+      governorRationale: blueprint.governorRationale,
     },
     measureId,
     measureStableKey: measure.stableKey,
