@@ -37,7 +37,31 @@ import { createWorldMetricCatalog } from "./world-metrics";
  * When real sourced content arrives it lands here, with its provenance, and
  * `assertProductionCatalogBoundary` is relaxed deliberately in the same change
  * rather than drifting open.
+ *
+ * One relaxation has since been made on purpose, and it is a different case
+ * from the ones above. A world metric *definition* says what a quantity means;
+ * it is not a claim that anybody measured anything. Where the simulation
+ * produces a quantity itself — candidate support during a campaign, whose
+ * states all carry `simulated` provenance — the definition describing it is the
+ * simulation's own and belongs in the save. What the boundary still refuses is
+ * a fixture corpus that describes somewhere real without having read anything:
+ * a synthetic mortality table, a synthetic policy corpus, a storm model built
+ * to exercise the engine. Those remain empty until sourced, and the allow-list
+ * below is a list of names rather than a hole.
  */
+
+/**
+ * Metric definitions the running simulation establishes for its own quantities.
+ *
+ * Written out here rather than imported from the modules that own them:
+ * `campaigns.ts` imports `world.ts`, which imports this file, so importing back
+ * would close a cycle. A test beside each owning module asserts its key still
+ * appears here, so the list cannot drift away from the code that relies on it.
+ */
+export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
+  // src/simulation/campaigns.ts — CAMPAIGN_SUPPORT_METRIC_STABLE_KEY
+  "campaign.candidate-support-share",
+];
 
 /**
  * Version stamped into a production save's policy catalog. It exists so the
@@ -89,6 +113,17 @@ export function createProductionVitalityCatalog(): VitalityCatalog {
  * content — at construction, through a later edit, or by loading a tampered
  * save — fails to exist rather than being written to disk.
  */
+/** Metric definitions a production world did not establish for itself. */
+function simulationEstablishedMetricCount(catalog: WorldMetricCatalog): number {
+  return catalog.definitionOrder.filter((id) => {
+    const definition = catalog.definitions[id];
+    return (
+      definition !== undefined &&
+      !SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS.includes(definition.stableKey)
+    );
+  }).length;
+}
+
 export function assertProductionCatalogBoundary(world: {
   readonly policyCatalog: PolicyCatalog;
   readonly mindCatalog: MindCatalog;
@@ -115,7 +150,7 @@ export function assertProductionCatalogBoundary(world: {
     ["policy principle", world.policyCatalog.principleOrder.length],
     ["personality tendency", world.mindCatalog.tendencyOrder.length],
     ["personal value", world.mindCatalog.valueOrder.length],
-    ["world metric", world.metricCatalog.definitionOrder.length],
+    ["world metric", simulationEstablishedMetricCount(world.metricCatalog)],
     ["causal mechanism", world.causalMechanismCatalog.definitionOrder.length],
     ["incident", world.incidentCatalog.definitionOrder.length],
     ["mortality table", world.vitalityCatalog.mortalityTableOrder.length],

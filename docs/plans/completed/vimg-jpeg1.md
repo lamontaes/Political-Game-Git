@@ -102,3 +102,49 @@ The focused suite is the durable mechanism.
 Implementation complete; independent JPEG tooling acceptance pending. Draft PR
 must remain unmerged. Published head and exact-head CI are recorded in the PR
 and delivery message, avoiding a self-referential commit SHA in this file.
+
+## LANDING-Q2 — current-main reconciliation
+
+Authority: LANDING-Q2, Google Doc `1TKe-QXBThprCTHwbGoaLTXjrnocjHlK4jAM30GmZ4dc`.
+
+Start: `8e2bda85aa0239c258e9e20399a251241a9a9cf2`.
+Main: `b61abf26118e50be351c09db5b3d0823333fc9ec`.
+Worktree: `/private/tmp/pg-landing-q2-122`, existing branch `codex/vimg-jpeg1`.
+Preflight passed with a duplicate-branch warning: the earlier workspace is
+read-only during this takeover. No files there are edited.
+
+1. Merge fetched main normally, preserving the four accepted PR blobs.
+2. Run focused intake tests, preserved candidate replays if available, all art
+   gates, full validation, and whitespace checks.
+3. Record any required mechanical reconciliation, commit, verify remote heads,
+   push the existing branch, and inspect exact-head CI. Leave the PR unmerged.
+
+The merge is conflict-free. No accepted JPEG semantics are reopened.
+
+The accepted parser, measurement seam, and test blobs are unchanged. All 240
+changed paths versus the accepted head before this completion update are inherited
+from main. There are no merge conflicts or generated-output changes.
+
+Validation evidence is in `/private/tmp/landing122-focused.log`,
+`/private/tmp/landing122-art.log`, and `/private/tmp/landing122-validate.log`.
+The 32 focused intake tests pass. Both preserved requests replay at 5504×3072,
+with original hashes, sizes, and mtimes preserved; rights remain unknown and
+native detail unverified. Reports are under `/private/tmp/landing122-replay/`.
+All three art commands pass, inventory remains 322 items, and QA causes no
+tracked changes. No art or human acceptance is granted by these checks.
+
+Architecture compatibility: no new rule, domain behavior, or runtime change;
+accepted PNG-first measurement and all non-dimensional gates are preserved.
+LEARN: compare accepted blobs directly during a mechanical landing and replay
+preserved declarations against immutable sources; existing focused tests retain
+these checks. A sandbox port-binding failure is an environment failure, not
+permission to weaken lifecycle tests.
+
+Full `npm run validate` passes with localhost access: format, lint, typecheck,
+155 test files / 2,742 tests, 13 source domains, byte-identical source replay,
+production build, deterministic demo, and art validation. The earlier sandboxed
+run failed only because lifecycle tests could not bind localhost ports.
+`git diff --check origin/main` passes; the merge-parent diff also contains one
+pre-existing main-only trailing blank line in `docs/prose-inventory/transcripts.md`,
+which this narrow landing does not edit. No known landing defect remains locally.
+Exact-head CI and narrow human landing acceptance remain separate gates.

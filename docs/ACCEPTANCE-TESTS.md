@@ -495,7 +495,7 @@ Apprenticeship composes canonical training enrollment, paid work, mentor interac
 
 ### NOW-121 — Run B eligibility, determinism, persistence, and scope hold
 
-Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick generation is deterministic and unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
+Teen work asks the injected eligibility provider; a block returns structured reasons and writes no forbidden work truth. Quick adult generation is deterministic across seeds and ages, keeps elementary schooling in ages 5–7, follows it with a distinct middle-school step, starts secondary schooling in ages 13–15, starts work no earlier than 16, and writes nothing after the current date. Those generator bands do not rewrite played, authored, or imported canonical dates. Quick generation remains unaffected by unrelated materialization. JSON and SQLite preserve generated history, bounded context people, provenance, global sequence, and references exactly. Run B adds no Run C finance/housing, Stage 6 generalized event engine, Stage 7 law/territory/institution content, foreign-government simulation, or polished UI.
 
 ### NOW-122 — Work compensation produces exact actual income
 
@@ -1597,6 +1597,38 @@ referral or amendment. Nebraska does not claim every bill is guaranteed a
 hearing. Committee sizes are marked as the scenario's rather than as sourced
 rules, and no source is marked verified without recording what was read.
 
+### SOURCE-001 — The 92L judicial universe is complete without inventing offices
+
+The compiled corpus contains all 51 researched jurisdictions, 156 stable
+jurisdiction/office-family slots and 148 active office families. The eight
+jurisdictions without an intermediate appellate court retain a stable slot
+whose existence is known false and whose dependent fields are
+`NOT_APPLICABLE`.
+
+### SOURCE-002 — Judicial selection remains an ordered atomic pipeline
+
+Initial selection, interim vacancy filling and renewal retain the research
+packet's ordered workflow tokens and expose only recognized atomic stages.
+Alternative county or district routes remain separate paths, and every path's
+stage order is contiguous and deterministic.
+
+### SOURCE-003 — Tenure and source-state distinctions survive compilation
+
+Good-behavior tenure is not coerced into a fixed term; fixed terms preserve
+their reported year count; renewal remains distinct from initial selection;
+and exact reported thresholds remain source tokens. `UNKNOWN`,
+`NOT_APPLICABLE` and `NO_REQUIREMENT_FOUND` remain distinct and never carry an
+invented value.
+
+### SOURCE-004 — A research synthesis never masquerades as primary authority
+
+Every judicial record points to the exact locked 92L Drive packet. The
+packet-referenced transcription is labeled as a transcription, while reported
+constitutional, statutory and court-rule citations remain
+`CITATIONS_REPORTED_NOT_RETRIEVED`. The domain contains no judging, ideology,
+predicted-ruling, quality or suitability field and has no runtime adapter or
+player surface.
+
 ### VISUAL-012 — Real masters normalize deterministically and reproduce by hash
 
 Every source master under `art/references/masters/pg-modular/` is
@@ -1680,3 +1712,56 @@ and campaign and commercial use are refused without reference to the symbol. All
 three downloaded packs validate, none is `use-now`, none harvested a file: the
 two CC0 packs are archived for needing rigging or rendering, and the office set
 is rejected for unverified rights before its contents are considered.
+
+### LIFE-001 — The first 92C wave is age-true and fact-bound
+
+The first wave contains exactly sixteen researched kernels: at least six for
+ages five through seven and at least six for adult transition or ordinary
+social life. Every early-child stage declares a narrow numeric age window and
+its canonical context, so a five-year-old and a ten-year-old never receive the
+same new kernel through a broad band. Child choices are immediate personal
+actions and write no adult commitment or legal, household, medical, education,
+employment, or financial decision.
+
+Required people and facts are explicit. A missing enrollment or guardian makes
+the corresponding scene ineligible; an under-age role binds the same actual
+person used in the rendered line. Adult-transition content reaches work-only,
+work-and-school, education-only, and neither-work-nor-school contexts without
+asserting a four-year program. A long-tail reunion requires the recorded
+childhood answer, the same bound person, and at least eight elapsed years.
+
+### LIFE-002 — 92C prose is reviewed at development time and static at runtime
+
+Each of the wave's twenty player-facing scenes has one stored canonical fact
+packet, one accepted writer output, and one separate unambiguous grounding
+review verdict. Every rendered line, label, description, and memory maps back
+to its own accepted output. Production source and dependencies contain no
+runtime model invocation. Identical world state selects deterministically;
+different canonical age and relationship contexts change eligibility without
+synonym-fragment variation.
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.
+
+C119C's independent audit found a persistent-instance identity defect; that
+defect is closed by the C119D repair recorded below, and the "pending" status in
+the preceding paragraph is historical. C119E independently re-audited exact head
+`148ab1f37f36aad9ebbfe0410ace0e351f65ae46` and returned ACCEPT, confirming C119D
+closes the C119C defect and preserves the grounding, withholding, age, callback,
+persistence, research-accounting, campaign-isolation, bargaining-isolation and
+canonical-ownership controls. Landing onto current main is mechanical. Owner
+visual acceptance is still not implied by passing automated browser tests.

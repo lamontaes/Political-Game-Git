@@ -1,6 +1,7 @@
 import {
   AUTHORED_MEASURE_NOTICE,
   applyCharacterHistoryPlan,
+  authoredScenarioSeatCount,
   characterHistoryContextPersonId,
   createStableId,
   drawCanonicalName,
@@ -233,7 +234,7 @@ function seatBodies(
     seatBodyForPack(
       chamber.chamberKey,
       chamber.name,
-      chamber.seats,
+      authoredScenarioSeatCount(blueprint.pack, chamber.chamberKey),
       index === 0 ? linked : [],
       blueprint.nonpartisan,
     ),

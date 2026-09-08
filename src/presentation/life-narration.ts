@@ -19,7 +19,7 @@ import {
 } from "../simulation";
 
 /**
- * The time between the moments, said out loud.
+ * The time between the moments, said out loud — or nothing at all.
  *
  * The playtest's sharpest complaint was structural rather than cosmetic: two
  * decisions at ten produced "you are eleven" and a card about something else.
@@ -29,24 +29,30 @@ import {
  * This module composes that missing connective tissue, and it composes it from
  * the record. Every sentence it emits is derived from a canonical fact — a
  * date, an enrollment, a household membership, an obligation, a thread that
- * did or did not move — and every sentence carries the records it came from in
- * `sources`, so the claim "this is composition, not invention" is checkable
- * rather than asserted.
+ * moved — and every sentence carries the records it came from in `sources`, so
+ * the claim "this is composition, not invention" is checkable rather than
+ * asserted.
  *
  * Two rules follow from that and are worth stating plainly.
  *
- * *A quiet stretch is not an empty one.* There is no branch here that says
- * nothing happened. A person who spent two years going to the same school and
- * living with the same people did those things, and the record contains them,
- * so that is what gets said. The banned sentences — "nothing this year that
- * anyone would tell a story about", "let the year go by, some of them do" —
- * are not merely avoided by convention: the composer has no path that produces
- * a contentless line, because it always has the household, the place and the
- * age to speak from.
+ * *A quiet stretch is allowed to be silent.* When nothing on the record moved
+ * and no birthday fell inside the gap, the composer says nothing, and the next
+ * scene simply arrives. The earlier version filled such gaps with steady-state
+ * atmosphere — "Work stayed work", "Most weeks were built around school",
+ * "{place} went on the way it does" — and at corpus scale those lines
+ * contaminated every life with the same connective filler. Silence carries no
+ * false information; the filler carried none of any kind.
  *
- * *Age is not a beat.* A birthday is mentioned only alongside something else,
- * and never as the whole of what happened. Turning eleven is not an event; it
- * is a fact about the date the events happened on.
+ * *Age is not a beat.* A birthday is mentioned only as a clause on the elapsed
+ * opener, and never as the whole of what happened. Turning eleven is not an
+ * event; it is a fact about the date the events happened on.
+ *
+ * A third rule governs everything that names a subject: when the record cannot
+ * name it — an organization without a recorded profile name, an incident known
+ * only by a machine key, a follow-up with no nameable counterpart — the line is
+ * suppressed rather than rendered around a placeholder. "You and X have
+ * something unfinished" tells a player nothing; the record either supports a
+ * real subject or the sentence does not exist.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -93,46 +99,22 @@ export interface ConnectiveNarration {
 /* Elapsed time                                                                */
 /* -------------------------------------------------------------------------- */
 
-const SEASONS: readonly string[] = [
-  "winter",
-  "winter",
-  "spring",
-  "spring",
-  "spring",
-  "summer",
-  "summer",
-  "summer",
-  "autumn",
-  "autumn",
-  "autumn",
-  "winter",
-];
-
-function seasonOf(date: IsoDate): string {
-  const month = Number(date.slice(5, 7));
-  return SEASONS[month - 1] ?? "winter";
-}
-
 /**
  * How long it was, in the words a person would use.
  *
  * Deliberately vague at the long end: "the better part of two years" is how
  * somebody describes a stretch they were living through, and a precise day
- * count would read as a log line.
+ * count would read as a log line. No season is named — "By the spring" was the
+ * corpus's single most copied bridge, and the season added no state.
  */
-function elapsedPhrase(days: number, from: IsoDate, to: IsoDate): string {
+function elapsedPhrase(days: number): string {
   if (days <= 1) return "The next day";
   if (days <= 10) return "Within the week";
   if (days <= 24) return "A couple of weeks on";
   if (days <= 45) return "A month later";
-  if (days <= 100) {
-    const season = seasonOf(to);
-    return `By the ${season}`;
-  }
+  if (days <= 100) return "A couple of months on";
   if (days <= 200) return "Half a year on";
-  if (days <= 400) {
-    return `A year on, and into another ${seasonOf(to)}`;
-  }
+  if (days <= 400) return "A year on";
   if (days <= 800) return "The better part of two years later";
   const years = Math.round(days / 365);
   return `${years} years later`;
@@ -159,19 +141,13 @@ export interface ComposeNarrationInput {
 }
 
 /**
- * Below this, a gap is short enough that saying what stayed the same reads as
- * padding. "A couple of weeks on" is the whole of what happened, and the
- * composer stops there rather than reciting the household again.
- */
-const STEADY_STATE_MINIMUM_DAYS = 25;
-
-/**
  * What happened between the last moment and this one.
  *
  * Ordering is by what a person would actually lead with: how long it was,
- * then what changed, then what stayed the same, then who was around. Nothing
- * is padded — a short interval with one change gets two sentences, and that is
- * the honest length for it.
+ * then what changed. A gap in which nothing moved and no birthday fell says
+ * nothing at all — the next scene arrives without a bridge, because a bridge
+ * whose whole payload is "time passed" is filler, and the date on the scene
+ * already carries the time.
  */
 export function composeConnectiveNarration(
   input: ComposeNarrationInput,
@@ -212,20 +188,10 @@ export function composeConnectiveNarration(
     sentences.push(sentence);
   }
 
-  const threads = narrativeThreads(world, personId, until);
-  const changed = threads.filter((thread) =>
-    thread.anchors.some(
-      (anchor) =>
-        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
-    ),
-  );
-
-  const steady = steadyState(world, person.id);
-
   if (opening) {
     // The first thing said about a life introduces it. Where, how old, and
-    // what the ordinary week is made of — all read off the record, and no gap
-    // measured, because there is nothing yet to measure a gap from.
+    // the standing facts the record can actually name — no gap measured,
+    // because there is nothing yet to measure a gap from.
     const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
     say(
       place
@@ -237,8 +203,7 @@ export function composeConnectiveNarration(
         ? `Home jurisdiction resolves to ${place.displayName}; age on ${until}.`
         : `Age on ${until}; no place is recorded.`,
     );
-    for (const line of steady) {
-      if (line.kind === "place") continue;
+    for (const line of openingFacts(world, person.id)) {
       say(line.sentence, line.kind, line.anchors, line.note);
       if (sentences.length >= maximum) break;
     }
@@ -254,11 +219,45 @@ export function composeConnectiveNarration(
     };
   }
 
-  // 1. How long it was, and — only when a birthday actually fell inside it —
-  //    how old that made them. The age is a clause, never a sentence.
-  if (days > 0) {
-    const crossed = toAge > fromAge;
-    const opener = elapsedPhrase(days, since, until);
+  const threads = narrativeThreads(world, personId, until);
+  const changed = threads.filter((thread) =>
+    thread.anchors.some(
+      (anchor) =>
+        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
+    ),
+  );
+
+  // What moved, where the record can name it. A thread whose subject cannot
+  // be named produces no sentence — the record still holds it, and the scene
+  // surfaces still act on it, but a line built around a placeholder tells the
+  // player nothing and is not written.
+  const movements: {
+    readonly sentence: string;
+    readonly anchors: readonly ThreadAnchor[];
+    readonly note: string;
+  }[] = [];
+  for (const thread of changed) {
+    if (movements.length >= 2) break;
+    const moving = thread.anchors.filter(
+      (anchor) =>
+        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
+    );
+    const sentence = threadMovementSentence(world, thread, moving.length);
+    if (sentence === null) continue;
+    movements.push({
+      sentence,
+      anchors: moving,
+      note: `${moving.length} record(s) on the ${thread.family} thread "${thread.title}" fall inside the interval.`,
+    });
+  }
+
+  const crossed = toAge > fromAge;
+
+  // The elapsed opener exists to situate what follows. When nothing follows —
+  // no nameable movement, no birthday — it would be a sentence whose whole
+  // payload is that time passed, and the composer stays silent instead.
+  if (days > 0 && (movements.length > 0 || crossed)) {
+    const opener = elapsedPhrase(days);
     say(
       crossed ? `${opener}, and you're ${toAge} now.` : `${opener}.`,
       "elapsed",
@@ -269,33 +268,8 @@ export function composeConnectiveNarration(
     );
   }
 
-  // 2. What moved, if anything did. Threads name the records themselves.
-  for (const thread of changed.slice(0, 2)) {
-    const moving = thread.anchors.filter(
-      (anchor) =>
-        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
-    );
-    say(
-      threadMovementSentence(thread, moving.length),
-      "thread",
-      moving,
-      `${moving.length} record(s) on the ${thread.family} thread "${thread.title}" fall inside the interval.`,
-    );
-  }
-
-  // 3. What stayed the same, when nothing moved and the gap was long enough to
-  //    be worth describing. This is the branch that makes a quiet stretch
-  //    legible: standing facts read out as the shape of the life, rather than
-  //    a line saying nothing happened.
-  //
-  //    One line, not all of them. Reciting the household, the school and the
-  //    meetings at every beat is how the connective tissue turns back into a
-  //    wall of the same text, which is the defect this whole module answers.
-  //    Which line is chosen rotates on the interval's own dates, so it is
-  //    stable under replay and different between gaps.
-  if (changed.length === 0 && days >= STEADY_STATE_MINIMUM_DAYS) {
-    const line = steady[rotationIndex(since, until, steady.length)];
-    if (line) say(line.sentence, line.kind, line.anchors, line.note);
+  for (const movement of movements) {
+    say(movement.sentence, "thread", movement.anchors, movement.note);
   }
 
   return {
@@ -311,55 +285,60 @@ export function composeConnectiveNarration(
 }
 
 /**
- * Which of the steady lines this gap gets.
+ * What one moved thread contributes to the bridge, or null.
  *
- * Derived from the dates rather than from a counter, so the same save replays
- * to the same paragraph and two different gaps in one life do not read
- * identically. It is presentation rotation and nothing else — no record is
- * selected by it and nothing downstream sees it.
+ * Every sentence states only what the anchors support: that records naming
+ * this subject fall inside the interval, and how many. Null where the subject
+ * cannot be named from the record — an unnamed organization, an incident, a
+ * single unelaborated event at a workplace — because "something happened" is
+ * not information.
  */
-function rotationIndex(from: IsoDate, to: IsoDate, length: number): number {
-  if (length <= 0) return 0;
-  let total = 0;
-  for (const character of `${from}${to}`) {
-    total = (total * 31 + character.charCodeAt(0)) % 100_000;
-  }
-  return total % length;
-}
-
 function threadMovementSentence(
+  world: World,
   thread: NarrativeThread,
   moved: number,
-): string {
+): string | null {
   const subject = thread.title;
   switch (thread.family) {
     case "household":
       return moved > 1
-        ? `Things with ${subject} came up more than once in that time.`
-        : `There was one evening with ${subject} that stayed with you.`;
+        ? `Things came up at home with ${subject} more than once in that time.`
+        : `You saw ${subject}.`;
     case "kin":
     case "companionship":
       return moved > 1
         ? `You and ${subject} were in and out of each other's business more than once.`
         : `You saw ${subject}.`;
     case "work":
-      return moved > 1
-        ? `Work at ${subject} went through a few things.`
-        : `Something at ${subject} happened worth remembering.`;
+      if (!namedOrganization(world, thread)) return null;
+      return moved > 1 ? `Work at ${subject} came up more than once.` : null;
     case "school":
-      return `${subject} took up most of it.`;
-    case "money":
-      return "The money side of it moved, and not by itself.";
+      if (!namedOrganization(world, thread)) return null;
+      return moved > 1 ? `${subject} kept coming up.` : null;
+    case "money": {
+      const payment = obligationNoun(world, thread);
+      if (payment === null) return null;
+      return moved > 1
+        ? `${capitalize(payment)} came up more than once.`
+        : `${capitalize(payment)} came up.`;
+    }
     case "care":
-      return `Looking after ${subject} took up more of it than you had planned for.`;
+      return moved > 1
+        ? `Looking after ${subject} came up again and again.`
+        : `Looking after ${subject} came up.`;
     case "civic":
-      return `${subject} kept meeting, and you kept going.`;
     case "political":
-      return `${subject} took up evenings you had not expected to give it.`;
+      if (!namedOrganization(world, thread)) return null;
+      return moved > 1 ? `${subject} came back around more than once.` : null;
     case "promise":
-      return `What you said you would do about ${subject} came back around.`;
+      if (promiseSubject(thread) === null) return null;
+      return moved > 1
+        ? `What you said you'd do about ${subject} came back around.`
+        : `What you said you'd do about ${subject} came up.`;
     case "incident":
-      return "The aftermath of it ran on longer than the thing itself did.";
+      // The incident record names its subject only by machine key; there is
+      // no sentence to build that a player could act on.
+      return null;
   }
 }
 
@@ -371,58 +350,18 @@ interface SteadyLine {
 }
 
 /**
- * The shape of an ordinary stretch, read off the standing records.
+ * The standing facts an opening can introduce, read off the record.
  *
- * This is what stands in for "nothing happened". It cannot come back empty for
- * a person who exists: everybody has a place, and the place alone gives a
- * sentence. Everything more specific than that comes from a record.
+ * Only for the life's first told moment. Each line exists only when the
+ * record can name its subject: a school or workplace without a recorded
+ * profile name contributes nothing rather than a generic line about weeks
+ * being built around school.
  */
-function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
+function openingFacts(world: World, personId: EntityId): readonly SteadyLine[] {
   const person = world.people[personId];
   if (!person) return [];
   const cutoff = currentLifeCutoff(world);
   const lines: SteadyLine[] = [];
-
-  const enrollments = activeEducationEnrollmentsAt(world, personId, cutoff);
-  for (const entry of enrollments.slice(0, 1)) {
-    lines.push({
-      sentence: "Most weeks were built around school.",
-      kind: "school",
-      anchors: [
-        {
-          store: "educationEnrollments",
-          recordId: entry.enrollment.id,
-          stableKey: entry.enrollment.stableKey,
-          at: entry.enrollment.startedAt,
-          sequence: entry.enrollment.sequence,
-          role: "context",
-          note: "An enrollment that was active throughout.",
-        },
-      ],
-      note: "An education enrollment active across the interval.",
-    });
-  }
-
-  const work = activeWorkRelationshipsAt(world, personId, cutoff);
-  for (const entry of work.slice(0, 1)) {
-    lines.push({
-      sentence:
-        "Work stayed work — the same shifts, the same people, the same drive there.",
-      kind: "work",
-      anchors: [
-        {
-          store: "workRelationships",
-          recordId: entry.relationship.id,
-          stableKey: entry.relationship.stableKey,
-          at: entry.relationship.startedAt,
-          sequence: entry.relationship.sequence,
-          role: "context",
-          note: "A work relationship that was active throughout.",
-        },
-      ],
-      note: "A work relationship active across the interval.",
-    });
-  }
 
   for (const entry of householdMembershipsAt(world, personId, cutoff)) {
     const others = peopleInHouseholdAt(
@@ -437,10 +376,7 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
       });
     if (others.length === 0) continue;
     lines.push({
-      sentence:
-        others.length === 1
-          ? `You spent most evenings at home with ${others[0]}, and most of them were quiet.`
-          : `You spent most evenings at home with ${listOf(others)}, and most of them were quiet.`,
+      sentence: `You live with ${listOf(others)}.`,
       kind: "household",
       anchors: [
         {
@@ -450,12 +386,58 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
           at: entry.membership.startedAt,
           sequence: entry.membership.sequence,
           role: "context",
-          note: "The household membership that was in force throughout.",
+          note: "The household membership that is in force.",
         },
       ],
       note: `${others.length} other resident(s) on the household record.`,
     });
     break;
+  }
+
+  const enrollments = activeEducationEnrollmentsAt(world, personId, cutoff);
+  for (const entry of enrollments.slice(0, 1)) {
+    const name = organizationName(world, entry.enrollment.organizationId);
+    if (name === null) continue;
+    lines.push({
+      sentence: `You're enrolled at ${name}.`,
+      kind: "school",
+      anchors: [
+        {
+          store: "educationEnrollments",
+          recordId: entry.enrollment.id,
+          stableKey: entry.enrollment.stableKey,
+          at: entry.enrollment.startedAt,
+          sequence: entry.enrollment.sequence,
+          role: "context",
+          note: "An active enrollment at a named school.",
+        },
+      ],
+      note: "An education enrollment active at the opening.",
+    });
+  }
+
+  const work = activeWorkRelationshipsAt(world, personId, cutoff);
+  for (const entry of work.slice(0, 1)) {
+    const organizationId = entry.relationship.organizationId;
+    const name =
+      organizationId === null ? null : organizationName(world, organizationId);
+    if (name === null) continue;
+    lines.push({
+      sentence: `You work at ${name}.`,
+      kind: "work",
+      anchors: [
+        {
+          store: "workRelationships",
+          recordId: entry.relationship.id,
+          stableKey: entry.relationship.stableKey,
+          at: entry.relationship.startedAt,
+          sequence: entry.relationship.sequence,
+          role: "context",
+          note: "An active work relationship at a named organization.",
+        },
+      ],
+      note: "A work relationship active at the opening.",
+    });
   }
 
   const participations = activeOrganizationParticipationsAt(
@@ -464,8 +446,10 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
     cutoff,
   );
   for (const entry of participations.slice(0, 1)) {
+    const name = organizationName(world, entry.participation.organizationId);
+    if (name === null) continue;
     lines.push({
-      sentence: "The meetings kept on, about once a month, and mostly dull.",
+      sentence: `You belong to ${name}.`,
       kind: "civic",
       anchors: [
         {
@@ -475,17 +459,17 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
           at: entry.participation.startedAt,
           sequence: entry.participation.sequence,
           role: "context",
-          note: "A participation that was active throughout.",
+          note: "An active participation in a named organization.",
         },
       ],
-      note: "An organization participation active across the interval.",
+      note: "An organization participation active at the opening.",
     });
   }
 
   const commitments = activeLifeCommitmentsAt(world, personId, cutoff);
   for (const commitment of commitments.slice(0, 1)) {
     lines.push({
-      sentence: `${commitment.label} went on taking its hours out of the week.`,
+      sentence: `${commitment.label} is part of your week.`,
       kind: "commitment",
       anchors: [
         {
@@ -495,26 +479,12 @@ function steadyState(world: World, personId: EntityId): readonly SteadyLine[] {
           at: commitment.startsAt,
           sequence: commitment.sequence,
           role: "context",
-          note: "A commitment in force throughout.",
+          note: "A commitment in force.",
         },
       ],
-      note: "A life commitment active across the interval.",
+      note: "A life commitment active at the opening.",
     });
   }
-
-  // The floor. A person has a place, so there is always something truthful to
-  // say about a quiet stretch, and no path here returns nothing.
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  lines.push({
-    sentence: place
-      ? `${place.displayName} went on the way it does, and so did you.`
-      : `Life went on at the same pace it had been going.`,
-    kind: "place",
-    anchors: [],
-    note: place
-      ? `The person's home jurisdiction resolves to ${place.displayName}.`
-      : "No place is recorded, so the line says only that time passed.",
-  });
 
   return lines;
 }
@@ -523,6 +493,110 @@ function listOf(names: readonly string[]): string {
   if (names.length <= 1) return names[0] ?? "";
   const head = names.slice(0, -1).join(", ");
   return `${head} and ${names.at(-1)}`;
+}
+
+function capitalize(text: string): string {
+  return text.length === 0 ? text : text[0]!.toUpperCase() + text.slice(1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Subject support                                                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The organization's recorded profile name, or null.
+ *
+ * Read from the same store `narrative-threads` titles from, so a thread whose
+ * title fell back to "Work" or "Something in the neighbourhood" is detected by
+ * the absence of the record rather than by matching the fallback string.
+ */
+function organizationName(
+  world: World,
+  organizationId: EntityId,
+): string | null {
+  const profiles = world.history.organizationProfiles
+    .filter((profile) => profile.organizationId === organizationId)
+    .sort((left, right) => left.sequence - right.sequence);
+  return profiles.at(-1)?.name ?? null;
+}
+
+function namedOrganization(world: World, thread: NarrativeThread): boolean {
+  return (
+    thread.organizationId !== null &&
+    organizationName(world, thread.organizationId) !== null
+  );
+}
+
+/**
+ * What a money thread's payment is, in ordinary words, or null.
+ *
+ * The obligation record's own basis namespace supplies the noun. A `custom:`
+ * basis names nothing a player would recognize, so the thread contributes no
+ * sentence rather than a line about unspecified money.
+ */
+function obligationNoun(world: World, thread: NarrativeThread): string | null {
+  const origin = thread.anchors.find(
+    (anchor) => anchor.store === "resourceObligations",
+  );
+  if (!origin) return null;
+  const obligation = world.history.resourceObligations.find(
+    (record) => record.id === origin.recordId,
+  );
+  if (!obligation) return null;
+  const namespace = obligation.basisKind.split(":")[0];
+  switch (namespace) {
+    case "housing":
+      return "the housing payment";
+    case "debt":
+      return "the loan payment";
+    case "support":
+      return "the support payment";
+    case "care":
+      return "the care payment";
+    default:
+      return null;
+  }
+}
+
+/**
+ * Whether a promise thread's subject can be said to a player.
+ *
+ * A commitment thread carries the commitment's own label as its title. A
+ * scheduled callback carries its counterparts' names — and when it has none,
+ * its title is a placeholder and the thread is unspeakable.
+ */
+function promiseSubject(thread: NarrativeThread): string | null {
+  if (thread.linkBasis.kind === "shared-stable-key") return thread.title;
+  return thread.withPersonIds.length > 0 ? thread.title : null;
+}
+
+/**
+ * Whether this thread's actual subject can be named from the record.
+ *
+ * The gate every recap passes before a sentence is composed. Person threads
+ * always can — their titles are canonical names. Organization threads need a
+ * recorded profile name; money threads a recognizable basis; promise threads a
+ * label or a counterpart; incidents never can.
+ */
+function nameableSubject(world: World, thread: NarrativeThread): boolean {
+  switch (thread.family) {
+    case "household":
+    case "kin":
+    case "companionship":
+    case "care":
+      return true;
+    case "school":
+    case "work":
+    case "civic":
+    case "political":
+      return namedOrganization(world, thread);
+    case "money":
+      return obligationNoun(world, thread) !== null;
+    case "promise":
+      return promiseSubject(thread) !== null;
+    case "incident":
+      return false;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -547,8 +621,12 @@ export interface ThreadRecap {
  * What is currently open in this life, in the player's own terms.
  *
  * Never a list of thread machinery: no standing labels, no counts, no
- * families. One sentence per thing, and only for the things the record says
- * are actually unfinished.
+ * families. One sentence per thing, only for the things the record says are
+ * actually unfinished, and only where the record can name what the thing is.
+ * A thread whose subject cannot be named — an incident, an organization with
+ * no recorded name, a follow-up with no nameable counterpart — is withheld
+ * rather than recapped as "something": the generic sentence tells the player
+ * nothing and reads as the machine it came from.
  */
 export function openThreadRecaps(
   world: World,
@@ -556,8 +634,10 @@ export function openThreadRecaps(
   limit = 3,
   asOfDate: IsoDate = world.currentDate,
 ): readonly ThreadRecap[] {
-  const named = narrativeThreads(world, personId, asOfDate).filter((thread) =>
-    thread.anchors.some((anchor) => anchor.role !== "context"),
+  const named = narrativeThreads(world, personId, asOfDate).filter(
+    (thread) =>
+      thread.anchors.some((anchor) => anchor.role !== "context") &&
+      nameableSubject(world, thread),
   );
   const moving = named.filter(
     (thread) => thread.standing === "pressing" || thread.standing === "running",
@@ -572,17 +652,23 @@ export function openThreadRecaps(
     ...moving.slice(0, limit),
     ...quiet.slice(0, Math.max(0, Math.min(2, limit - moving.length))),
   ];
-  return chosen.map((thread) => ({
-    threadKey: thread.key,
-    sentence:
+  return chosen.flatMap((thread) => {
+    const sentence =
       thread.standing === "dormant"
-        ? quietSentence(thread)
-        : recapSentence(thread),
-    anchors: thread.anchors
-      .filter((anchor) => anchor.role !== "context")
-      .slice(-2),
-    stillMoving: thread.standing !== "dormant",
-  }));
+        ? quietSentence(world, thread)
+        : recapSentence(world, thread);
+    if (sentence === null) return [];
+    return [
+      {
+        threadKey: thread.key,
+        sentence,
+        anchors: thread.anchors
+          .filter((anchor) => anchor.role !== "context")
+          .slice(-2),
+        stillMoving: thread.standing !== "dormant",
+      },
+    ];
+  });
 }
 
 /**
@@ -592,68 +678,86 @@ export function openThreadRecaps(
  * player needs to know is that they have not heard anything for a long time,
  * which is a different sentence and the only one that belongs on a screen.
  */
-function quietSentence(thread: NarrativeThread): string {
+function quietSentence(world: World, thread: NarrativeThread): string | null {
   switch (thread.family) {
     case "household":
-      return `Whatever was going on at home with ${thread.title} has been quiet for a long time.`;
+      return `It has been quiet at home with ${thread.title} for a long time.`;
     case "kin":
-      return `You have not heard anything from ${thread.title} in a long while.`;
+      return `You have not heard from ${thread.title} in a long while.`;
     case "companionship":
       return `You and ${thread.title} have not spoken in a long time.`;
     case "school":
       return `${thread.title} stopped coming up a long time ago.`;
     case "work":
-      return `Nothing has come from ${thread.title} for a long time.`;
-    case "money":
-      return "Nobody has said anything about what you owe for a long time.";
+      return `Nothing new has come from ${thread.title} in a long time.`;
+    case "money": {
+      const payment = obligationNoun(world, thread);
+      if (payment === null) return null;
+      return `Nobody has pressed you about ${payment} in a long time.`;
+    }
     case "care":
       return `Looking after ${thread.title} has not needed anything from you in a long while.`;
     case "civic":
       return `You have not been near ${thread.title} in a long time.`;
     case "political":
-      return `Nothing has come of the business at ${thread.title} for a long time.`;
+      return `Nothing has come out of ${thread.title} in a long time.`;
     case "promise":
       return `Nobody has mentioned what you said about ${thread.title} in a long time.`;
     case "incident":
-      return "What happened has not come up again in a long time.";
+      return null;
   }
 }
 
-function recapSentence(thread: NarrativeThread): string {
+/**
+ * A thread that is still moving, said concretely or not at all.
+ *
+ * "Pressing" is canonical: it means a scheduled item on this thread has come
+ * due and is unanswered, so the sentence may say something has come due.
+ * "Running" means recent records name the subject, so the sentence may say it
+ * is still open. Neither licenses a motive, a promise, or an event the record
+ * does not hold.
+ */
+function recapSentence(world: World, thread: NarrativeThread): string | null {
   const pressing = thread.standing === "pressing";
   switch (thread.family) {
     case "household":
       return pressing
-        ? `Something at home with ${thread.title} is waiting on you.`
-        : `You and ${thread.title} have something unfinished.`;
+        ? `What you left open at home with ${thread.title} has come back around.`
+        : `Things at home with ${thread.title} are not settled.`;
     case "kin":
       return `Things with ${thread.title} are not settled.`;
     case "companionship":
       return pressing
         ? `${thread.title} is waiting to hear from you.`
-        : `You and ${thread.title} are still in the middle of something.`;
+        : `You and ${thread.title} still have unfinished business.`;
     case "school":
-      return `${thread.title} is still going.`;
+      return `You're still at ${thread.title}.`;
     case "work":
       return pressing
-        ? `Something at ${thread.title} needs an answer.`
-        : `${thread.title} has something running.`;
-    case "money":
+        ? `${thread.title} is waiting on an answer from you.`
+        : `There is still open business at ${thread.title}.`;
+    case "money": {
+      const payment = obligationNoun(world, thread);
+      if (payment === null) return null;
       return pressing
-        ? "Something you owe has come due."
-        : "There is money going out that you are keeping an eye on.";
+        ? `${capitalize(payment)} is overdue.`
+        : `${capitalize(payment)} is still going out.`;
+    }
     case "care":
       return `Looking after ${thread.title} is still yours.`;
     case "civic":
       return `${thread.title} still meets, and you are still in it.`;
     case "political":
-      return `Your name is attached to something at ${thread.title}.`;
-    case "promise":
+      return `You're still signed up with ${thread.title}.`;
+    case "promise": {
+      const subject = promiseSubject(thread);
+      if (subject === null) return null;
       return pressing
-        ? `What you said about ${thread.title} has come round.`
-        : `You said you would do something about ${thread.title}.`;
+        ? `What you said you'd do about ${subject} has come due.`
+        : `What you said you'd do about ${subject} is still open.`;
+    }
     case "incident":
-      return "What happened has not finished happening.";
+      return null;
   }
 }
 

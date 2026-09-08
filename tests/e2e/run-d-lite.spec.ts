@@ -349,7 +349,10 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
   expect(transitionDurations).toStrictEqual({ container: "0s", button: "0s" });
 
   const touchContext = await browser.newContext({
-    baseURL: "http://127.0.0.1:4173",
+    // Follows the same override the config uses, so a concurrent worktree
+    // running on its own port does not send this context to another branch's
+    // server — or, as here, to nothing at all.
+    baseURL: `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? 4173}`,
     hasTouch: true,
     viewport: { width: 1_440, height: 900 },
   });
