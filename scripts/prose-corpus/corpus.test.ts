@@ -540,11 +540,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // banks and added its regression test file to the scanned tree.
     // Re-pinned again after merging current main into PR79, whose bargaining
     // dialogue, subjects and floor surface add prose sites and files that the
-    // scanner now measures.
+    // scanner now measures. Re-pinned once more for the 79R1 member-seat
+    // resolver and its regression file.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(50165);
+    expect(coverage.totalLiterals).toBe(50330);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(330);
+    expect(coverage.scannedFiles).toBe(332);
   });
 });
 
