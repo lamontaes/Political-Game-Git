@@ -1,0 +1,1438 @@
+/*
+ * UI-PROTOTYPE-01 — prototype style system.
+ *
+ * DEVELOPMENT-ONLY. Scoped entirely to this file and loaded only by
+ * `ui-prototype.html`. It does not touch `src/player/player.css`, does not
+ * define a project-wide token architecture, and none of these colours or fonts
+ * are final: typography in particular is a prototype choice on local system
+ * stacks, not a font lock.
+ *
+ * The token names are semantic roles rather than colour names so the owner can
+ * reject a value without the role losing its meaning.
+ */
+
+:root {
+  /* Warm ivory primary text, over art and over dark surfaces alike. */
+  --p-ivory: #f4ece0;
+  /* Subdued warm neutral, for secondary and supporting lines. */
+  --p-ivory-dim: #c6bba9;
+  --p-ivory-faint: #9a9081;
+  /* Deep navy/charcoal contextual surface: navigation, pins, dossiers. */
+  --p-navy: rgba(15, 21, 30, 0.9);
+  --p-navy-solid: #0f151e;
+  /* Slate subordinate surface, modestly lighter than its parent. */
+  --p-slate: rgba(33, 44, 59, 0.94);
+  --p-slate-solid: #212c3b;
+  /* Restrained brass/gold accent. Ornament, never a fill. */
+  --p-brass: #c9a25c;
+  --p-brass-dim: rgba(201, 162, 92, 0.45);
+  /* Warm paper for deliberate document workspaces. */
+  --p-paper: #f2ece0;
+  --p-paper-edge: #ddd3c1;
+  --p-ink: #241f18;
+  --p-ink-dim: #5c5346;
+  /* Accessible focus ring. */
+  --p-focus: #ffd689;
+  /* Important, used sparingly and never as decoration. */
+  --p-important: #e0876b;
+
+  --p-hairline: rgba(244, 236, 224, 0.16);
+  --p-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+  --p-radius: 3px;
+
+  --p-sans:
+    "Optima", "Iowan Old Style", "Palatino Linotype", "Georgia", "Cambria",
+    serif;
+  --p-ui:
+    "Inter", "Segoe UI", "Helvetica Neue", system-ui, -apple-system, sans-serif;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#ui-prototype-root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #07090d;
+  color: var(--p-ivory);
+  font-family: var(--p-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--p-focus);
+  outline-offset: 2px;
+}
+
+.p-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------- app frame */
+
+.p-app {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*
+ * The development banner.
+ *
+ * It is deliberately always present and deliberately plain. The owner must
+ * never be able to mistake this surface for the production route, and a marker
+ * that can be dismissed is a marker that will be.
+ */
+.p-devbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 90;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.3rem 0.9rem;
+  background: rgba(7, 9, 13, 0.82);
+  border-bottom: 1px solid var(--p-hairline);
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-devbar strong {
+  color: var(--p-brass);
+  font-weight: 600;
+}
+
+.p-devbar .p-devbar-note {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--p-ivory-faint);
+}
+
+/* ------------------------------------------------------------ the backdrop */
+
+.p-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: #0b0f15;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/*
+ * The declared fallback for a room with no released plate.
+ *
+ * It says so in words above; this only makes the absence look deliberate
+ * rather than broken. No other room's picture is ever substituted.
+ */
+.p-backdrop[data-plate="missing"] {
+  background-image: linear-gradient(
+    170deg,
+    #1b2430 0%,
+    #131a24 55%,
+    #0c1119 100%
+  );
+}
+
+.p-backdrop-missing {
+  position: absolute;
+  inset: auto 0 46% 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--p-ivory-faint);
+}
+
+/* -------------------------------------------------------------- the title */
+
+.p-title {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  padding: 0 clamp(2.5rem, 7vw, 8rem);
+}
+
+/*
+ * A localized legibility wash, not a panel.
+ *
+ * The released title plate is a bright, high-key room, and warm ivory type over
+ * a sunlit wall is genuinely unreadable without help. This is the help the
+ * direction sanctions: a soft transparent gradient anchored to the left edge
+ * that falls continuously to nothing before the middle of the frame. It has no
+ * edge, no corner and no boundary anywhere, so it cannot read as a slab or a
+ * card; the scene stays plainly visible across the majority of the screen and
+ * the whole right side is untouched.
+ *
+ * If this ever starts to read as a rectangle behind the menu it has failed, and
+ * the fix is to weaken it — never to square it off.
+ */
+.p-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /*
+   * A radial ellipse rather than a linear ramp, precisely because a radial
+   * falloff has no straight boundary anywhere on any side. A linear wash across
+   * part of the frame still ends in a vertical line if it is strong enough to
+   * be useful; this one cannot, whatever its strength.
+   */
+  background: radial-gradient(
+    ellipse 72% 88% at 17% 52%,
+    rgba(5, 8, 13, 0.86) 0%,
+    rgba(5, 8, 13, 0.68) 34%,
+    rgba(5, 8, 13, 0.32) 64%,
+    rgba(5, 8, 13, 0.08) 84%,
+    rgba(5, 8, 13, 0) 100%
+  );
+  /* Above the plate. Without this the whole wash paints underneath it. */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.p-title-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 34rem;
+}
+
+/* The working wordmark: transparent type with one restrained line ornament. */
+.p-wordmark {
+  margin: 0 0 clamp(2rem, 5vh, 3.4rem);
+}
+
+.p-wordmark-line {
+  display: block;
+  font-family: var(--p-sans);
+  color: var(--p-ivory);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.62);
+}
+
+.p-wordmark-our {
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--p-ivory-dim);
+}
+
+.p-wordmark-civic {
+  font-size: clamp(3.1rem, 6.4vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+}
+
+.p-wordmark-rule {
+  display: block;
+  width: 8.5rem;
+  height: 1px;
+  margin: 0.85rem 0 0;
+  background: linear-gradient(
+    90deg,
+    var(--p-brass) 0%,
+    var(--p-brass-dim) 62%,
+    transparent 100%
+  );
+}
+
+.p-wordmark-sub {
+  margin: 0.7rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-title-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+/*
+ * Title actions are type over the art.
+ *
+ * Unselected is text and nothing else. The selected or hovered item gets the
+ * ornament: a thin brass line that extends from the left, a small bracket, a
+ * step in brightness and a small position shift. That is the whole treatment —
+ * there is no fill, no card, no button chrome, and no raster.
+ */
+.p-title-action {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  padding: 0.42rem 0.2rem 0.42rem 0;
+  border: 0;
+  background: none;
+  font-family: var(--p-sans);
+  font-size: clamp(1.18rem, 1.9vw, 1.6rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--p-ivory-dim);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.p-title-action-marker {
+  display: inline-block;
+  width: 2.4rem;
+  height: 1px;
+  background: transparent;
+  transition:
+    background 160ms ease,
+    width 160ms ease;
+}
+
+.p-title-action:hover:not(:disabled),
+.p-title-action:focus-visible:not(:disabled),
+.p-title-action[data-selected="true"] {
+  color: var(--p-ivory);
+  transform: translateX(0.4rem);
+}
+
+.p-title-action:hover:not(:disabled) .p-title-action-marker,
+.p-title-action:focus-visible:not(:disabled) .p-title-action-marker,
+.p-title-action[data-selected="true"] .p-title-action-marker {
+  background: var(--p-brass);
+  width: 3.4rem;
+}
+
+.p-title-action[data-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: -0.55rem;
+  top: 50%;
+  width: 2px;
+  height: 1.05em;
+  transform: translateY(-50%);
+  background: var(--p-brass);
+}
+
+.p-title-action:disabled {
+  color: var(--p-ivory-faint);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.p-title-action-reason {
+  font-family: var(--p-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--p-ivory-faint);
+}
+
+.p-title-room {
+  margin: clamp(2rem, 5vh, 3rem) 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+/* ------------------------------------------------ title overlay workspaces */
+
+.p-title-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem 1.5rem;
+  background: rgba(6, 9, 14, 0.72);
+}
+
+/* ----------------------------------------------------------- scene shell */
+
+.p-shell {
+  position: relative;
+  height: 100%;
+}
+
+.p-scene-stage {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * A scene person.
+ *
+ * Released modular character art is out of scope for this prototype, so a
+ * person is drawn as a small marker sitting on the room's own authored anchor
+ * rather than as a portrait the art bank has not released. It is a real button
+ * with a real accessible name, so pointer and keyboard reach exactly the same
+ * person, and hover/focus shows the identification label the design calls for.
+ */
+.p-scene-person {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.4rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/*
+ * The marker is deliberately a UI object, not a drawn person.
+ *
+ * Released modular character art is not in this prototype's scope, so a figure
+ * here would be a fake. What the owner needs to judge is where an actionable
+ * person sits in the composition and how selecting one feels — so this reads as
+ * an honest placement marker: dark enough to hold against a sunlit floor, brass
+ * enough to be found, and shaped like a standing figure without pretending to
+ * be one.
+ */
+.p-scene-person-figure {
+  position: relative;
+  width: calc(var(--p-figure-height, 5rem) * 0.17);
+  height: var(--p-figure-height, 5rem);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 14, 21, 0.34),
+    rgba(10, 14, 21, 0.14)
+  );
+  border: 1.5px solid rgba(201, 162, 92, 0.9);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(5, 8, 13, 0.4);
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    transform 140ms ease;
+}
+
+/* A small head mark, so the marker reads as a person-shaped target. */
+.p-scene-person-figure::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1.5%;
+  width: 200%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1.5px solid rgba(201, 162, 92, 0.9);
+  background: rgba(10, 14, 21, 0.34);
+}
+
+/* The floor ellipse: says which floor line this figure is standing on. */
+.p-scene-person-figure::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -2%;
+  width: 320%;
+  height: 9%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(201, 162, 92, 0.55);
+  background: rgba(5, 8, 13, 0.28);
+}
+
+.p-scene-person[data-selected="true"] .p-scene-person-figure,
+.p-scene-person:hover .p-scene-person-figure,
+.p-scene-person:focus-visible .p-scene-person-figure {
+  border-color: var(--p-focus);
+  background: linear-gradient(
+    180deg,
+    rgba(201, 162, 92, 0.5),
+    rgba(10, 14, 21, 0.42)
+  );
+  transform: translateY(-2px);
+}
+
+/* The hover/focus identification label. Unobtrusive, and never hover-only:
+   focus shows it too, so keyboard reaches the same information. */
+.p-scene-person-label {
+  opacity: 0;
+  padding: 0.16rem 0.5rem;
+  border-radius: var(--p-radius);
+  background: rgba(9, 13, 19, 0.86);
+  border: 1px solid var(--p-hairline);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  color: var(--p-ivory);
+  transition: opacity 140ms ease;
+}
+
+.p-scene-person:hover .p-scene-person-label,
+.p-scene-person:focus-visible .p-scene-person-label,
+.p-scene-person[data-selected="true"] .p-scene-person-label {
+  opacity: 1;
+}
+
+.p-scene-person-label small {
+  color: var(--p-ivory-dim);
+}
+
+/* Anchored action menu: small, near the person, dark-neutral, low density. */
+.p-action-menu {
+  position: absolute;
+  z-index: 30;
+  transform: translate(-50%, -100%);
+  min-width: 11rem;
+  padding: 0.35rem;
+  border-radius: var(--p-radius);
+  background: var(--p-navy);
+  border: 1px solid var(--p-hairline);
+  box-shadow: var(--p-shadow);
+  backdrop-filter: blur(3px);
+}
+
+.p-action-menu-name {
+  margin: 0.25rem 0.55rem 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+.p-action-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.38rem 0.55rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  text-align: left;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.p-action-menu button:hover,
+.p-action-menu button:focus-visible {
+  background: rgba(201, 162, 92, 0.16);
+}
+
+.p-action-menu button small {
+  display: block;
+  color: var(--p-ivory-faint);
+  font-size: 0.7rem;
+}
+
+/* -------------------------------------------------- bottom-left navigation */
+
+.p-nav {
+  position: absolute;
+  left: 1.15rem;
+  bottom: 1.15rem;
+  z-index: 25;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.p-nav-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.5rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: var(--p-navy);
+  box-shadow: var(--p-shadow);
+  cursor: pointer;
+  text-align: left;
+}
+
+.p-nav-emblem {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-brass-dim);
+  color: var(--p-brass);
+  font-family: var(--p-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.p-nav-copy {
+  display: grid;
+  line-height: 1.24;
+}
+
+.p-nav-time {
+  font-size: 0.94rem;
+  color: var(--p-ivory);
+}
+
+.p-nav-date,
+.p-nav-place {
+  font-size: 0.72rem;
+  color: var(--p-ivory-dim);
+}
+
+/* The upward-opening primary stack. One submenu level, and no more. */
+.p-nav-flyout {
+  min-width: 16rem;
+  padding: 0.4rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: var(--p-navy);
+  box-shadow: var(--p-shadow);
+}
+
+/*
+ * A subordinate menu level is DARKER SLATE, modestly lighter than its parent,
+ * with a clear left edge and offset. The historically rejected near-white
+ * submenu must not come back; this is the accepted correction.
+ */
+.p-nav-flyout[data-level="submenu"] {
+  background: var(--p-slate);
+  border-left: 2px solid var(--p-brass);
+  margin-left: 0.7rem;
+}
+
+.p-nav-heading {
+  margin: 0.3rem 0.55rem 0.35rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+.p-nav-flyout button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.42rem 0.55rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  text-align: left;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.p-nav-flyout button:hover,
+.p-nav-flyout button:focus-visible {
+  background: rgba(201, 162, 92, 0.16);
+}
+
+.p-nav-flyout button small {
+  color: var(--p-ivory-faint);
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+.p-nav-flyout button[aria-current="true"] {
+  color: var(--p-brass);
+}
+
+/* --------------------------------------------------------------- pin rail */
+
+/*
+ * Floating pins with NO shared backing panel and no "PINS" header.
+ *
+ * Each pin is its own small surface. That is the later correction to the
+ * original rail sketch, and the reason the rail can grow dense without
+ * becoming one large permanent slab on the right of the screen.
+ */
+.p-pin-rail {
+  position: absolute;
+  right: 1.15rem;
+  top: 3.4rem;
+  bottom: 1.15rem;
+  z-index: 24;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding-left: 0.5rem;
+  scrollbar-width: thin;
+  /*
+   * The rail is a full-height column so pins can stack down the screen, but it
+   * is mostly empty space. Without this it swallows every click aimed at the
+   * workspace behind it — including that workspace's own close button.
+   */
+  pointer-events: none;
+}
+
+.p-pin-slot {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  pointer-events: auto;
+}
+
+.p-pin {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 2.9rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: var(--p-navy);
+  box-shadow: var(--p-shadow);
+  text-align: left;
+  cursor: pointer;
+}
+
+.p-pin[data-size="tiny"] {
+  padding: 0.35rem 0.4rem;
+}
+
+.p-pin[data-size="expanded"] {
+  min-width: 15rem;
+}
+
+.p-pin-monogram {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-brass-dim);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--p-brass);
+}
+
+.p-pin-copy {
+  display: grid;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.p-pin-kind {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-pin-copy strong {
+  font-size: 0.85rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p-pin-copy small {
+  font-size: 0.72rem;
+  color: var(--p-ivory-dim);
+}
+
+/* A separate affordance, because opening a reference and managing a pin are
+   different operations and one control cannot honestly be both. */
+.p-pin-manage {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.35rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-hairline);
+  background: var(--p-navy);
+  color: var(--p-ivory-dim);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.p-pin-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.3rem);
+  z-index: 26;
+  min-width: 11rem;
+  padding: 0.3rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: var(--p-slate);
+  box-shadow: var(--p-shadow);
+}
+
+.p-pin-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.34rem 0.5rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  text-align: left;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.p-pin-menu button:hover,
+.p-pin-menu button:focus-visible {
+  background: rgba(201, 162, 92, 0.18);
+}
+
+.p-pin-menu button[aria-current="true"]::after {
+  content: " ·";
+  color: var(--p-brass);
+}
+
+.p-pin-menu-unpin {
+  color: var(--p-important);
+}
+
+/* ---------------------------------------------------------- quick dossier */
+
+/*
+ * The quick dossier is narrow, contextual and adaptive.
+ *
+ * It sits beside the selected person on whichever side has room, so the person
+ * the player just clicked stays visible. It never becomes a permanent panel
+ * and it never covers the selected figure.
+ */
+.p-quick-dossier {
+  position: absolute;
+  z-index: 28;
+  width: min(21rem, 34vw);
+  max-height: 68vh;
+  overflow-y: auto;
+  padding: 0.9rem 1rem 1rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  border-top: 2px solid var(--p-brass);
+  background: var(--p-navy);
+  box-shadow: var(--p-shadow);
+}
+
+.p-quick-dossier header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.p-quick-dossier h2 {
+  margin: 0.15rem 0 0.1rem;
+  font-family: var(--p-sans);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.p-kicker {
+  margin: 0;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+.p-close {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-hairline);
+  background: none;
+  color: var(--p-ivory-dim);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.p-close:hover {
+  color: var(--p-ivory);
+}
+
+.p-role {
+  margin: 0.1rem 0 0.7rem;
+  font-size: 0.82rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-impression {
+  margin: 0 0 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border-left: 2px solid var(--p-brass-dim);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.86rem;
+}
+
+.p-impression p {
+  margin: 0.3rem 0 0;
+  color: var(--p-ivory-dim);
+}
+
+.p-facts {
+  margin: 0 0 0.8rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+}
+
+/*
+ * Access is conveyed by more than colour.
+ *
+ * Every access class carries a written prefix as well as its own tint, so a
+ * player who cannot distinguish the tints still reads what kind of claim this
+ * is. Knowledge states must never be a colour-only signal.
+ */
+.p-facts li::before {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-facts li[data-access="known"]::before {
+  content: "You know";
+}
+
+.p-facts li[data-access="public"]::before {
+  content: "Public record";
+  color: var(--p-brass);
+}
+
+.p-facts li[data-access="inferred"]::before {
+  content: "You think";
+}
+
+.p-facts li[data-access="unknown"]::before {
+  content: "Not known to you";
+}
+
+.p-facts li[data-access="unknown"] {
+  color: var(--p-ivory-faint);
+  font-style: italic;
+}
+
+.p-dossier-section h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-dossier-section p {
+  margin: 0 0 0.7rem;
+  font-size: 0.83rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-dossier-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+/* ----------------------------------------------------------- shared button */
+
+.p-button {
+  padding: 0.4rem 0.7rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-hairline);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.p-button:hover,
+.p-button:focus-visible {
+  border-color: var(--p-brass);
+  color: var(--p-ivory);
+}
+
+.p-button[data-variant="accent"] {
+  border-color: var(--p-brass-dim);
+  color: var(--p-brass);
+}
+
+.p-button[aria-pressed="true"],
+.p-button[aria-current="true"] {
+  border-color: var(--p-brass);
+  color: var(--p-brass);
+}
+
+.p-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------- workspaces */
+
+/*
+ * A deliberately opened workspace takes the centre and dims — never hides —
+ * the room behind it. The scene remains the thing the player is in; this is a
+ * thing they opened, and Back or the close control puts it away.
+ */
+.p-workspace-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: start center;
+  /*
+   * The right gutter is the pin rail's lane.
+   *
+   * Pins stay visible while a workspace is open, so the rail is real chrome
+   * sitting over this surface. Without a reserved lane a wide workspace runs
+   * underneath it and the rail covers the workspace's own Back and close
+   * controls — which is a dead control, not a cosmetic overlap.
+   */
+  padding: 3.2rem 19rem 6rem 15rem;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 9, 14, 0.72),
+    rgba(6, 9, 14, 0.86)
+  );
+  overflow-y: auto;
+}
+
+.p-workspace {
+  width: min(62rem, 100%);
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: var(--p-navy-solid);
+  box-shadow: var(--p-shadow);
+}
+
+/* The warm paper variant, for a document-like reading surface. */
+.p-workspace[data-surface="paper"] {
+  background: var(--p-paper);
+  border-color: var(--p-paper-edge);
+  color: var(--p-ink);
+}
+
+.p-workspace[data-surface="paper"] .p-kicker {
+  color: #8a6a29;
+}
+
+.p-workspace[data-surface="paper"] .p-workspace-head {
+  border-bottom-color: var(--p-paper-edge);
+}
+
+.p-workspace[data-surface="paper"] .p-close,
+.p-workspace[data-surface="paper"] .p-button {
+  border-color: var(--p-paper-edge);
+  color: var(--p-ink-dim);
+}
+
+.p-workspace[data-surface="paper"] .p-muted,
+.p-workspace[data-surface="paper"] small {
+  color: var(--p-ink-dim);
+}
+
+.p-workspace-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--p-hairline);
+}
+
+.p-workspace-head h1 {
+  margin: 0.2rem 0 0;
+  font-family: var(--p-sans);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.p-workspace-head-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+}
+
+.p-workspace-body {
+  padding: 1.1rem 1.25rem 1.4rem;
+}
+
+.p-muted {
+  color: var(--p-ivory-dim);
+}
+
+.p-faint {
+  color: var(--p-ivory-faint);
+  font-size: 0.78rem;
+}
+
+.p-section {
+  margin: 0 0 1.5rem;
+}
+
+.p-section > h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+.p-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+/* A record row. Deliberately not a launcher card with an icon and a blurb. */
+.p-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border: 0;
+  border-bottom: 1px solid var(--p-hairline);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.p-row:hover,
+.p-row:focus-visible {
+  background: rgba(201, 162, 92, 0.1);
+}
+
+.p-row-main {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.p-row-main strong {
+  font-weight: 500;
+}
+
+.p-row-main small,
+.p-row-aside {
+  font-size: 0.76rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-workspace[data-surface="paper"] .p-row {
+  border-bottom-color: var(--p-paper-edge);
+}
+
+.p-workspace[data-surface="paper"] .p-row:hover,
+.p-workspace[data-surface="paper"] .p-row:focus-visible {
+  background: rgba(138, 106, 41, 0.1);
+}
+
+.p-workspace[data-surface="paper"] .p-row-main small,
+.p-workspace[data-surface="paper"] .p-row-aside {
+  color: var(--p-ink-dim);
+}
+
+.p-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.p-search {
+  flex: 1 1 12rem;
+  min-width: 8rem;
+  padding: 0.42rem 0.6rem;
+  border-radius: 2px;
+  border: 1px solid var(--p-hairline);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--p-ivory);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.p-panel {
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-hairline);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.p-workspace[data-surface="paper"] .p-panel {
+  border-color: var(--p-paper-edge);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.p-panel h3 {
+  margin: 0 0 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.p-panel p {
+  margin: 0 0 0.35rem;
+  font-size: 0.82rem;
+}
+
+.p-defs {
+  margin: 0;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+}
+
+.p-def {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Fund scope, said in words as well as tint. */
+.p-fund-scope {
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.p-panel[data-scope="personal"] .p-fund-scope {
+  color: var(--p-ivory-dim);
+}
+
+.p-panel[data-scope="campaign"] .p-fund-scope {
+  color: var(--p-brass);
+}
+
+.p-panel[data-scope="public"] .p-fund-scope {
+  color: var(--p-important);
+}
+
+/*
+ * The dotted-underlined reference.
+ *
+ * It appears ONLY where the authored data carries an explicit id, so the
+ * affordance is never a guess about a name in a sentence.
+ */
+.p-ref {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--p-brass);
+  cursor: pointer;
+}
+
+.p-ref:hover,
+.p-ref:focus-visible {
+  color: var(--p-brass);
+}
+
+.p-workspace[data-surface="paper"] .p-ref {
+  text-decoration-color: #8a6a29;
+}
+
+.p-workspace[data-surface="paper"] .p-ref:hover,
+.p-workspace[data-surface="paper"] .p-ref:focus-visible {
+  color: #7a5c22;
+}
+
+.p-timeline {
+  margin: 0;
+  padding: 0 0 0 1rem;
+  border-left: 1px solid var(--p-brass-dim);
+  display: grid;
+  gap: 1rem;
+}
+
+.p-timeline-entry p {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.p-calendar-day {
+  margin-bottom: 1.1rem;
+}
+
+.p-calendar-day h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+/* Commitment confidence, carried by a written word plus an edge. */
+.p-commitment {
+  border-left: 3px solid var(--p-ivory-faint);
+}
+
+.p-commitment[data-confidence="confirmed"] {
+  border-left-color: var(--p-brass);
+}
+
+.p-commitment[data-confidence="tentative"] {
+  border-left-style: dashed;
+}
+
+.p-commitment[data-confidence="flexible"] {
+  border-left-color: var(--p-ivory-dim);
+}
+
+.p-commitment[data-confidence="travel"] {
+  border-left-color: transparent;
+  border-left-style: dotted;
+  border-left-color: var(--p-ivory-faint);
+}
+
+.p-tag {
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+}
+
+.p-option {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.2rem;
+}
+
+.p-option-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* ------------------------------------------------------------- responsive */
+
+/*
+ * Desktop review widths. The layout adapts by giving the chrome less room and
+ * the scene more, never by shrinking type below a readable size.
+ */
+@media (max-width: 1400px) {
+  .p-workspace {
+    width: min(54rem, 100%);
+  }
+}
+
+@media (max-width: 1200px) {
+  .p-quick-dossier {
+    width: min(19rem, 40vw);
+  }
+
+  .p-pin[data-size="expanded"] {
+    min-width: 12rem;
+  }
+
+  .p-workspace-scrim {
+    padding-right: 16rem;
+  }
+}
+
+/*
+ * Below this width there is no room for a left gutter as well as a right one,
+ * so the workspace reclaims the cluster's lane and clears it vertically
+ * instead. The body's own bottom padding keeps the last rows off the cluster
+ * when the workspace is scrolled to its end.
+ */
+@media (max-width: 1200px) {
+  .p-workspace-scrim {
+    padding-left: 1rem;
+    padding-right: 15rem;
+  }
+
+  .p-workspace-body {
+    padding-bottom: 6rem;
+  }
+}
+
+@media (max-width: 1060px) {
+  .p-title {
+    padding: 0 clamp(1.5rem, 5vw, 3rem);
+  }
+
+  .p-workspace-scrim {
+    padding: 3.2rem 13rem 5rem 0.8rem;
+  }
+
+  .p-nav {
+    left: 0.7rem;
+    bottom: 0.7rem;
+  }
+
+  .p-pin-rail {
+    right: 0.7rem;
+    bottom: 0.7rem;
+  }
+
+  /* Below this width the dossier stops trying to sit beside the figure and
+     docks to the right edge, which is honest about the space rather than
+     overlapping the person it is describing. */
+  .p-quick-dossier {
+    left: auto !important;
+    right: 0.7rem;
+    top: 3.4rem !important;
+    width: min(19rem, 46vw);
+    max-height: 60vh;
+  }
+}
+
+@media (max-height: 720px) {
+  .p-pin-rail {
+    top: 2.9rem;
+  }
+
+  .p-quick-dossier {
+    max-height: 58vh;
+  }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+/*
+ * The system preference is respected, and the Options override can only ever
+ * ADD suppression. There is no setting here that re-enables motion for someone
+ * whose operating system asked for less of it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.p-app[data-motion="reduce"] *,
+.p-app[data-motion="reduce"] *::before,
+.p-app[data-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
