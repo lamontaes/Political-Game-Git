@@ -101,11 +101,24 @@ above used ports 4211–4233.
 - **35 family keys and 102 option keys unchanged.** No family was added,
   removed or renamed. Nine are offered where two were; the other 26 keep their
   withheld reasons verbatim.
-- **Non-prose option effects unchanged** — nudges, hypotheses, aftermath kinds,
-  writes, stances, relational changes and interaction kinds. Two options gained
-  a `witnessed` line and a `relationalChange`, because `adult.weekend-invitation`
-  now has a person in it and the engine requires an option in a scene with
-  somebody else to say what they saw.
+- **Non-prose option effects unchanged.** Every nudge, hypothesis, aftermath
+  kind, option write and stance is byte-identical across all 102 options;
+  [boundaries.json](boundaries.json) carries the machine comparison. Four
+  declarations did change, and all four are consequences of a scene gaining a
+  person it did not have:
+  - `adult.weekend-invitation`'s companion role goes from none to
+    `other-household`, and both its options gain a `witnessed` line, a
+    `relationalChange` and an `interactionKind`. The invitation now comes from a
+    recorded person, so goodwill has somebody to be owed to — without this the
+    aftermath was decided in advance to be nothing — and the engine requires an
+    option in a scene with somebody else to say what they saw.
+  - `adult.friend-favour` and `adult.friend-in-difficulty` move from
+    `community-member` to `other-household`. Both were gated on prior
+    interaction while declaring a role read from organization membership, which
+    is why neither could ever resolve a companion. In practice the counterpart
+    now comes from the request record itself, so the person in the prose and the
+    person in the record are the same person by construction; the declared role
+    is the fallback and now matches the pool the writer actually draws from.
 - **`createDemoWorld` and `createScenarioWorld` are unchanged.** An earlier
   draft wrote the ordinary week into the scenario builder and broke 50 accepted
   byte-level world fixtures. Those are an accepted contract; the draft was

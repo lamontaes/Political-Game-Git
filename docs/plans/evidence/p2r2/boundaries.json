@@ -1,0 +1,2622 @@
+{
+  "startHead": "2660796ca67e96494158d7f6835aa4572e0268fb",
+  "families": {
+    "before": 35,
+    "after": 35
+  },
+  "options": {
+    "before": 102,
+    "after": 102
+  },
+  "withheld": {
+    "before": 33,
+    "after": 26
+  },
+  "familyKeysAddedOrRemoved": [],
+  "optionKeysAddedOrRemoved": [],
+  "optionEffectChanges": [],
+  "companionRoleChanges": [
+    {
+      "family": "adult.friend-favour",
+      "from": "community-member",
+      "to": "other-household"
+    },
+    {
+      "family": "adult.friend-in-difficulty",
+      "from": "community-member",
+      "to": "other-household"
+    },
+    {
+      "family": "adult.weekend-invitation",
+      "from": null,
+      "to": "other-household"
+    }
+  ],
+  "sceneFieldAdditions": [
+    {
+      "family": "adult.weekend-invitation",
+      "option": "say-yes",
+      "added": [
+        "witnessed",
+        "relationalChange: strengthened",
+        "interactionKind: contact:neighbourhood"
+      ]
+    },
+    {
+      "family": "adult.weekend-invitation",
+      "option": "stay-in",
+      "added": [
+        "witnessed",
+        "relationalChange: maintained",
+        "interactionKind: contact:neighbourhood"
+      ]
+    }
+  ],
+  "shapeAfter": [
+    {
+      "key": "adult.household-standing",
+      "stakes": "notable",
+      "companion": "household-member",
+      "withheld": false,
+      "options": [
+        {
+          "key": "say-it",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "conflict:household",
+          "hasWitnessed": true
+        },
+        {
+          "key": "absorb-it",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "care.welfare-first",
+              "support": 0.5
+            },
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.7
+            }
+          ],
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "support:household",
+          "hasWitnessed": false
+        },
+        {
+          "key": "set-it-out",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "exchange:household",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.household-repair",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "fix-it",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "leave-it",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "ask-for-help",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.household-money-shortfall",
+      "stakes": "notable",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "cut-back",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "say-so",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.55
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "take-the-work",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.2
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.household-quiet-evening",
+      "stakes": "ordinary",
+      "companion": "household-member",
+      "withheld": false,
+      "options": [
+        {
+          "key": "spend-it-together",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "contact:household",
+          "hasWitnessed": true
+        },
+        {
+          "key": "keep-it-yours",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "contact:household",
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.family-request",
+      "stakes": "pressing",
+      "companion": "kin",
+      "withheld": true,
+      "options": [
+        {
+          "key": "go",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.6
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "ties.family-first",
+              "support": 0.85
+            }
+          ],
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "care:family",
+          "hasWitnessed": true
+        },
+        {
+          "key": "stay",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "conflict:family",
+          "hasWitnessed": true
+        },
+        {
+          "key": "split-it",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "care:family",
+          "hasWitnessed": true
+        },
+        {
+          "key": "find-someone-else",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.2
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "style.delegation-as-competence",
+              "support": 0.7
+            },
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.35
+            }
+          ],
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:family",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.care-request",
+      "stakes": "pressing",
+      "companion": "kin",
+      "withheld": true,
+      "options": [
+        {
+          "key": "take-it-on",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.65
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": {
+            "kind": "take-on-commitment",
+            "label": "Looking after somebody in the family",
+            "commitmentKind": "personal:care",
+            "weeklyHours": [6, 14]
+          },
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "care:family",
+          "hasWitnessed": true
+        },
+        {
+          "key": "name-the-limit",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.2
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.3
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:family",
+          "hasWitnessed": true
+        },
+        {
+          "key": "wait",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.8
+            }
+          ],
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "strained",
+          "interactionKind": "experience:family",
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.partner-plan",
+      "stakes": "notable",
+      "companion": "partner",
+      "withheld": true,
+      "options": [
+        {
+          "key": "their-way",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "commitment:partnership",
+          "hasWitnessed": true
+        },
+        {
+          "key": "your-way",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "conflict:partnership",
+          "hasWitnessed": true
+        },
+        {
+          "key": "postpone",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "experience:partnership",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.work-rule-pressure",
+      "stakes": "notable",
+      "companion": "colleague",
+      "withheld": true,
+      "options": [
+        {
+          "key": "by-the-book",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "civic-order",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "work:colleague",
+          "hasWitnessed": true
+        },
+        {
+          "key": "the-usual-way",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "trust.rules-are-obstacles",
+              "support": 0.7
+            },
+            {
+              "hypothesisKey": "ties.loyalty-first",
+              "support": 0.55
+            }
+          ],
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "work:colleague",
+          "hasWitnessed": true
+        },
+        {
+          "key": "raise-it",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.2
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "conflict:workplace",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.work-extra-hours",
+      "stakes": "notable",
+      "companion": null,
+      "withheld": false,
+      "options": [
+        {
+          "key": "take-them",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.3
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "decline",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.25
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.35
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "trade",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.work-credit",
+      "stakes": "notable",
+      "companion": "colleague",
+      "withheld": true,
+      "options": [
+        {
+          "key": "correct-it",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.55
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "conflict:workplace",
+          "hasWitnessed": true
+        },
+        {
+          "key": "let-it-go",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.8
+            },
+            {
+              "hypothesisKey": "ties.loyalty-first",
+              "support": 0.4
+            }
+          ],
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "experience:workplace",
+          "hasWitnessed": false
+        },
+        {
+          "key": "say-it-later",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "conflict:colleague",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.work-colleague-struggling",
+      "stakes": "notable",
+      "companion": "colleague",
+      "withheld": true,
+      "options": [
+        {
+          "key": "cover",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "support:colleague",
+          "hasWitnessed": false
+        },
+        {
+          "key": "ask-them",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:colleague",
+          "hasWitnessed": true
+        },
+        {
+          "key": "tell-someone",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "trust.process-delivers",
+              "support": 0.6
+            },
+            {
+              "hypothesisKey": "care.welfare-first",
+              "support": 0.5
+            }
+          ],
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "other:referral",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.work-offer-elsewhere",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "go-for-it",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.6
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "stay",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "use-it",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "say-nothing",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.6
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.7
+            },
+            {
+              "hypothesisKey": "image.manage-exposure",
+              "support": 0.5
+            }
+          ],
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.work-good-week",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "enjoy-it",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "press-on",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.housing-cost-change",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "absorb",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "move",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.45
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "push-back",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.35
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.housing-repair-standoff",
+      "stakes": "notable",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "formal",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "fix-it-yourself",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "withhold",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "civic-order",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.debt-call",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "pay-it",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "negotiate",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "borrow",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.unexpected-expense",
+      "stakes": "notable",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "handle-it",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "make-do",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.25
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.small-windfall",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "put-it-away",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "spend-it",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.2
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "give-it",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "econ-distribution",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.friend-favour",
+      "stakes": "notable",
+      "companion": "other-household",
+      "withheld": false,
+      "options": [
+        {
+          "key": "do-it",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "conditions",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "decline",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "experience:friendship",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.help-with-strings",
+      "stakes": "pressing",
+      "companion": "community-member",
+      "withheld": true,
+      "options": [
+        {
+          "key": "take-it",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "pay-for-it",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "decline",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.35
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "image.manage-exposure",
+              "support": 0.5
+            },
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.2
+            }
+          ],
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "experience:community",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.friend-in-difficulty",
+      "stakes": "pressing",
+      "companion": "other-household",
+      "withheld": false,
+      "options": [
+        {
+          "key": "keep-it",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "ties.loyalty-first",
+              "support": 0.85
+            },
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.25
+            }
+          ],
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:friendship",
+          "hasWitnessed": false
+        },
+        {
+          "key": "push-them",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.15
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "conflict:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "step-back",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "strained",
+          "interactionKind": "experience:friendship",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.friend-good-news",
+      "stakes": "ordinary",
+      "companion": "community-member",
+      "withheld": true,
+      "options": [
+        {
+          "key": "go",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "contact:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "send-word",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "contact:friendship",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.local-dispute",
+      "stakes": "notable",
+      "companion": "other-household",
+      "withheld": true,
+      "options": [
+        {
+          "key": "speak-at-the-meeting",
+          "nudges": [
+            {
+              "dimension": "civic-order",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.55
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "conflict:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "talk-to-them",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "let-it-run",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "experience:community",
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.community-meeting",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "go",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.2
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "read-it-after",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "skip-it",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.volunteer-ask",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "sign-up",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": {
+            "kind": "join-community-organization",
+            "organizationLabel": "Local volunteer group",
+            "participationKind": "membership:volunteer",
+            "roleKind": "member:volunteer"
+          },
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "once",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.25
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "no",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.community-building",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "keep-the-charge",
+          "nudges": [
+            {
+              "dimension": "econ-distribution",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "econ.redistributive-conviction",
+              "support": 0.55
+            },
+            {
+              "hypothesisKey": "culture.continuity-matters",
+              "support": 0.6
+            }
+          ],
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "move-it",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "econ-distribution",
+              "magnitude": -0.2
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "cut-something-else",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.2
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "find-the-money",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.35
+            },
+            {
+              "dimension": "econ-distribution",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.local-issue-position",
+      "stakes": "notable",
+      "companion": null,
+      "withheld": false,
+      "options": [
+        {
+          "key": "settle-on-it",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "civic-order",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "leave-it-open",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "risk-appetite",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "against-your-side",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.2
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "trust.record-must-be-true",
+              "support": 0.6
+            }
+          ],
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.petition-ask",
+      "stakes": "notable",
+      "companion": "community-member",
+      "withheld": true,
+      "options": [
+        {
+          "key": "sign",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "commitment:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "help-quietly",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "image.manage-exposure",
+              "support": 0.6
+            },
+            {
+              "hypothesisKey": "style.avoids-confrontation",
+              "support": 0.5
+            }
+          ],
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "support:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "refuse",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "experience:community",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.candidacy-approach",
+      "stakes": "pressing",
+      "companion": "community-member",
+      "withheld": false,
+      "options": [
+        {
+          "key": "say-maybe",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "ambition.advancement-first",
+              "support": 0.7
+            },
+            {
+              "hypothesisKey": "duty.civic-obligation",
+              "support": 0.5
+            }
+          ],
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "commitment:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "say-no",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": -0.5
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.5
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "experience:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "ask-what-for",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.25
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:community",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.incident-aftermath",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "sort-your-own",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "help-clear-up",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "push-for-answers",
+          "nudges": [
+            {
+              "dimension": "institutional-trust",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "civic-order",
+              "magnitude": -0.2
+            }
+          ],
+          "hypotheses": [
+            {
+              "hypothesisKey": "trust.government-competence-doubt",
+              "support": 0.7
+            },
+            {
+              "hypothesisKey": "style.public-pressure-works",
+              "support": 0.55
+            }
+          ],
+          "aftermath": "standing",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.incident-neighbour-help",
+      "stakes": "notable",
+      "companion": "other-household",
+      "withheld": true,
+      "options": [
+        {
+          "key": "help",
+          "nudges": [
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:community",
+          "hasWitnessed": true
+        },
+        {
+          "key": "keep-yours",
+          "nudges": [
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.4
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": -0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": "maintained",
+          "interactionKind": "experience:community",
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.promise-comes-due",
+      "stakes": "pressing",
+      "companion": null,
+      "withheld": true,
+      "options": [
+        {
+          "key": "keep-it",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "decision-style",
+              "magnitude": -0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "renegotiate",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.5
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "drop-it",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "withdrawn",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.old-favour-returns",
+      "stakes": "notable",
+      "companion": "community-member",
+      "withheld": true,
+      "options": [
+        {
+          "key": "help-again",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.55
+            },
+            {
+              "dimension": "care-obligation",
+              "magnitude": 0.4
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "support:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "name-the-difference",
+          "nudges": [
+            {
+              "dimension": "decision-style",
+              "magnitude": 0.45
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "obligation",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "exchange:friendship",
+          "hasWitnessed": true
+        },
+        {
+          "key": "no",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": -0.4
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.3
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "grievance",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strained",
+          "interactionKind": "conflict:friendship",
+          "hasWitnessed": true
+        }
+      ]
+    },
+    {
+      "key": "adult.ordinary-good-day",
+      "stakes": "ordinary",
+      "companion": null,
+      "withheld": false,
+      "options": [
+        {
+          "key": "go-out",
+          "nudges": [
+            {
+              "dimension": "risk-appetite",
+              "magnitude": 0.15
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "get-things-done",
+          "nudges": [
+            {
+              "dimension": "achievement-ambition",
+              "magnitude": 0.25
+            },
+            {
+              "dimension": "security-stability",
+              "magnitude": 0.2
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        },
+        {
+          "key": "do-nothing",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": null,
+          "interactionKind": null,
+          "hasWitnessed": false
+        }
+      ]
+    },
+    {
+      "key": "adult.weekend-invitation",
+      "stakes": "ordinary",
+      "companion": "other-household",
+      "withheld": false,
+      "options": [
+        {
+          "key": "say-yes",
+          "nudges": [
+            {
+              "dimension": "personal-ties",
+              "magnitude": 0.3
+            },
+            {
+              "dimension": "privacy-preference",
+              "magnitude": -0.25
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": "goodwill",
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "strengthened",
+          "interactionKind": "contact:neighbourhood",
+          "hasWitnessed": true
+        },
+        {
+          "key": "stay-in",
+          "nudges": [
+            {
+              "dimension": "privacy-preference",
+              "magnitude": 0.35
+            }
+          ],
+          "hypotheses": null,
+          "aftermath": null,
+          "writes": null,
+          "stance": "engaged",
+          "relationalChange": "maintained",
+          "interactionKind": "contact:neighbourhood",
+          "hasWitnessed": true
+        }
+      ]
+    }
+  ]
+}
