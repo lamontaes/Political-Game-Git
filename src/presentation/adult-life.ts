@@ -1,5 +1,5 @@
 import {
-  LIFE_TRANSITION_HANDLERS,
+  createCampaignElectionTransitionRegistry,
   adaptiveSelectionSeed,
   applyCharacterHistoryPlan,
   addDays,
@@ -379,7 +379,7 @@ export function chooseAdultOption(
   return advanceWorld(
     withAftermath,
     STEP_DAYS[situation.stakes],
-    LIFE_TRANSITION_HANDLERS,
+    createCampaignElectionTransitionRegistry(),
   );
 }
 
@@ -388,7 +388,7 @@ export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
   return advanceWorld(
     world,
     Math.max(1, Math.trunc(days)),
-    LIFE_TRANSITION_HANDLERS,
+    createCampaignElectionTransitionRegistry(),
   );
 }
 

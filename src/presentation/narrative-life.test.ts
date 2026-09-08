@@ -185,12 +185,22 @@ describe("There is enough authored content to play with", () => {
 
   it("never leaves an unfilled slot in any authored line", () => {
     // Composition throws on a slot a beat did not bind, so this walks every
-    // family's copy and checks that each role it names is one the family
-    // declares. An authoring slip fails here rather than reaching a player as
-    // a literal `{role:familiar}`.
+    // family's copy and checks that each role it names is either part of the
+    // family's continuing cast or an explicit requirement of that stage. An
+    // authoring slip fails here rather than reaching a player as a literal
+    // `{role:familiar}`.
     for (const family of EPISODE_FAMILIES) {
       const declared = new Set<string>(family.roles);
       for (const stage of family.stages) {
+        const required = new Set(
+          stage.requires.flatMap((requirement) =>
+            requirement.kind === "role" ||
+            requirement.kind === "role-age-at-least" ||
+            requirement.kind === "role-age-below"
+              ? [requirement.role]
+              : [],
+          ),
+        );
         const text = [
           ...stage.lines,
           ...stage.options.flatMap((option) => [
@@ -206,8 +216,8 @@ describe("There is enough authored content to play with", () => {
           /\{(?:role|who|they|them|their|theirs|themselves|s|es|is|has|was|does):([a-z-]+)\}/g,
         )) {
           expect(
-            declared.has(match[1]!),
-            `${family.key}/${stage.key} names the role ${match[1]} which the family does not declare`,
+            declared.has(match[1]!) || required.has(match[1]!),
+            `${family.key}/${stage.key} names the role ${match[1]} without declaring or requiring it`,
           ).toBe(true);
         }
         for (const match of text.matchAll(/\{([a-z]+)(?::[a-z-]+)?\}/g)) {
@@ -915,10 +925,18 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     // comes from what has happened to each of them, so it needs enough of a
     // life for something to have happened in.
     const left = playedShape("shape-a", 12);
-    const right = playedShape("shape-b", 12);
+    // The added 92C family-work thread makes the old `shape-b` witness take
+    // the same first twelve structural steps as `shape-a`. `shape-c` remains
+    // the deterministic counterexample: its different record produces a
+    // different played shape without relying on names or random prose.
+    const right = playedShape("shape-c", 12);
 
-    const sameThreadFamilies =
-      left.threads.families.join("|") === right.threads.families.join("|");
+    const sameThreadShape =
+      left.threads.families.join("|") === right.threads.families.join("|") &&
+      left.threads.live === right.threads.live &&
+      left.threads.pressing === right.threads.pressing &&
+      left.threads.dormant === right.threads.dormant &&
+      left.threads.settled === right.threads.settled;
     const sameBeats =
       left.eligibleBeats.join("|") === right.eligibleBeats.join("|");
     const sameEpisodes =
@@ -936,7 +954,7 @@ describe("Two lives differ for causal reasons, not in their names", () => {
         .join("|");
 
     expect(
-      !sameThreadFamilies || !sameBeats || !sameEpisodes,
+      !sameThreadShape || !sameBeats || !sameEpisodes,
       `two played lives stayed structurally identical: ${JSON.stringify({ left, right }, null, 2)}`,
     ).toBe(true);
   });

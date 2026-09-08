@@ -50,3 +50,56 @@ Final acquisition review corrected ASCII conversion to byte-preserving Latin-1
 selection. Non-ASCII publisher drift now survives extraction and is rejected by
 the parser; two adversarial ZIP tests protect this boundary. Existing locked
 QA bytes and corpus digests are unchanged.
+
+## LANDING-Q2 — current-main reconciliation
+
+Authority: LANDING-Q2, Google Doc `1TKe-QXBThprCTHwbGoaLTXjrnocjHlK4jAM30GmZ4dc`.
+Start: `bdb55738f8dd1e9246e0592e2b3fa55edcc41c7e`.
+Main: `b61abf26118e50be351c09db5b3d0823333fc9ec`.
+Worktree: `/private/tmp/pg-landing-q2-124`, existing branch `codex/src-cap2`.
+Preflight passed with duplicate-branch warning; the previous worktree is read-only.
+
+1. Merge current main normally; preserve all accepted source and identity semantics.
+2. Run focused source tests and source validation/replay. Regenerate only artifacts
+   that the combined tree requires, from locked real inputs. Reuse available archive
+   caches read-only; report absent cache-dependent recut tests separately.
+3. Run full validation and all art commands, commit, re-fetch, verify, push the
+   existing branch, inspect exact-head CI, and leave the PR unmerged.
+
+The merge is conflict-free. No Census interpretation or identity migration is reopened.
+
+The merge preserves all accepted finance/employment implementation, tests,
+artifact locks, raw files, corpora, and manifest blobs. All 188 changed paths
+versus the accepted head before this completion update come from current main.
+No domain or shared manifest regeneration is required: source replay is clean.
+
+The 204 focused tests pass across census-cap2-production, government-finances,
+public-employment, and capability-boundary. Both full archive caches were
+available in the previous workspace and copied into this worktree's ignored
+cache; no downloads or original-cache writes occurred. Both archive hashes,
+member hashes, and byte-identical QA recuts pass with no cache-dependent skips.
+The bounded compilations still produce 886 finance and 298 employment records;
+25-government scope and incomplete-universe declarations remain unchanged.
+
+Source validation passes for 15 domains with zero errors. Existing warnings for
+LAUS incomplete components, FEC linkage coverage, and finance no-missingness
+remain visible; no source value, flag, identity, date, or completeness claim was
+changed to silence a warning. Art validation, 322-item inventory, and QA pass
+without tracked changes. Logs: `/private/tmp/landing124-focused.log`,
+`/private/tmp/landing124-source.log`, `/private/tmp/landing124-replay.log`,
+`/private/tmp/landing124-art.log`, `/private/tmp/landing124-validate.log`.
+
+Architecture compatibility: this is a normal merge, with no source contract,
+simulation, identity migration, or new behavior. Accepted fiscal dates, payroll
+and headcount dates, UNKNOWN FTE, fail-closed identifiers, rights, and publisher
+byte preservation remain under the existing regression tests.
+LEARN: use clean source replay to establish whether regeneration is necessary;
+reuse hash-checked cached archives for bounded recut evidence rather than
+reacquiring accepted inputs or estimating generated counts.
+
+Full `npm run validate` passes with localhost access: formatting, lint, TypeScript,
+all repository tests, source validation/replay, production build, deterministic
+demo, and art validation. `git diff --check origin/main` passes. The merge-parent
+diff includes main's existing trailing blank line in the prose transcript;
+this landing does not edit it. No known local landing defect remains. Exact-head
+CI and narrow landing acceptance remain separate gates.
