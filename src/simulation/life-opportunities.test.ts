@@ -92,19 +92,20 @@ describe("a life is given something to do", () => {
     const world = createDemoWorld();
     const child = world.personOrder.find(
       (candidate) =>
-        (world.people[candidate]?.birthDate ?? "0000-01-01") >
-        "2010-01-01",
+        (world.people[candidate]?.birthDate ?? "0000-01-01") > "2010-01-01",
     );
     if (!child) return;
-    expect(
-      serializeWorld(refreshLifeOpportunities(world, child)),
-    ).toBe(serializeWorld(world));
+    expect(serializeWorld(refreshLifeOpportunities(world, child))).toBe(
+      serializeWorld(world),
+    );
   });
 
   it("writes nothing for somebody who is not in the world", () => {
     const world = createDemoWorld();
     expect(
-      serializeWorld(refreshLifeOpportunities(world, "person_nobody" as EntityId)),
+      serializeWorld(
+        refreshLifeOpportunities(world, "person_nobody" as EntityId),
+      ),
     ).toBe(serializeWorld(world));
   });
 });

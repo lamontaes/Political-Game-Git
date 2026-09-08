@@ -15,7 +15,11 @@ import {
 import type { EntityId, World } from "../simulation";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 import { fileForOffice } from "./campaign-projection";
-import { chooseStoryOption, letStoryTimePass, projectStoryMoment } from "./life-story";
+import {
+  chooseStoryOption,
+  letStoryTimePass,
+  projectStoryMoment,
+} from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
@@ -78,7 +82,11 @@ function playThrough(
     }
     const option = scene.options[0];
     if (!option) break;
-    world = chooseStoryOption(world, { personId, scene, optionKey: option.key });
+    world = chooseStoryOption(world, {
+      personId,
+      scene,
+      optionKey: option.key,
+    });
   }
   return { world, scenes, quiet };
 }
@@ -128,15 +136,15 @@ describe("the week runs out, and the life does not", () => {
   it("gives the household its next week back once a week has gone by", () => {
     const { world, personId } = audited();
     const finished = advanceWorldMinutes(world, 151);
-    expect(
-      buildAdultLifeContext(finished, personId).hasHouseholdWorkItem,
-    ).toBe(false);
+    expect(buildAdultLifeContext(finished, personId).hasHouseholdWorkItem).toBe(
+      false,
+    );
     // Not immediately — the shopping is not done twice on the same day — and
     // not never, which is what the audit found.
     const sameDay = refreshLifeOpportunities(finished, personId);
-    expect(
-      buildAdultLifeContext(sameDay, personId).hasHouseholdWorkItem,
-    ).toBe(false);
+    expect(buildAdultLifeContext(sameDay, personId).hasHouseholdWorkItem).toBe(
+      false,
+    );
     // The audited fixture is an observer world, so the transition has to be
     // named rather than inferred from who is playing. A played world reaches
     // the same call through `letAdultTimePass`, which the routes below use.
@@ -148,9 +156,9 @@ describe("the week runs out, and the life does not", () => {
     expect(buildAdultLifeContext(laterOn, personId).hasHouseholdWorkItem).toBe(
       true,
     );
-    expect(projectOrdinaryDay(laterOn, personId).pending.length).toBeGreaterThan(
-      0,
-    );
+    expect(
+      projectOrdinaryDay(laterOn, personId).pending.length,
+    ).toBeGreaterThan(0);
     const offered = availableAdultSituations(
       buildAdultLifeContext(laterOn, personId),
     ).map((s) => s.key);
@@ -253,9 +261,9 @@ describe("a normal route stays a normal route", () => {
     });
     assertWorldIntegrity(answered);
     expect(
-      availableAdultSituations(
-        buildAdultLifeContext(answered, personId),
-      ).map((situation) => situation.key),
+      availableAdultSituations(buildAdultLifeContext(answered, personId)).map(
+        (situation) => situation.key,
+      ),
     ).not.toContain(offered.key);
     // The world recorded the answer, and it recorded it once.
     const written = answered.history.events.filter((event) =>

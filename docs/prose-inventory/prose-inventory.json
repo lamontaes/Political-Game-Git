@@ -1,12 +1,12 @@
 {
-  "digest": "a7b5049d591c52c8",
+  "digest": "383f2cf860f25746",
   "counts": {
-    "total": 1880,
+    "total": 1882,
     "byDomain": {
       "campaign": 23,
       "conversation": 165,
       "legislative": 93,
-      "life": 1166,
+      "life": 1168,
       "narration": 75,
       "ordinary": 4,
       "setup": 354
@@ -19,7 +19,7 @@
       "option-description": 301,
       "option-label": 301,
       "option-memory": 301,
-      "option-witnessed": 52,
+      "option-witnessed": 54,
       "prompt": 74,
       "scene-line": 162,
       "status": 185,
@@ -28,11 +28,11 @@
     "byReachability": {
       "DEV_FIXTURE_ONLY": 76,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1250,
-      "WITHHELD_BY_GROUNDING": 464
+      "PLAYER_REACHABLE": 1325,
+      "WITHHELD_BY_GROUNDING": 391
     },
     "byRealization": {
-      "static": 1579,
+      "static": 1581,
       "templated": 301
     }
   },
@@ -10005,8 +10005,8 @@
       "text": "Find out whose idea this is before answering.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10017,11 +10017,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10030,7 +10025,7 @@
         "companion:community-member"
       ],
       "textRevision": "9ef1269decaf",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:ask-what-for:label",
@@ -10044,8 +10039,8 @@
       "text": "Ask what they actually want",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10056,11 +10051,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10069,7 +10059,7 @@
         "companion:community-member"
       ],
       "textRevision": "c7b87c9ed544",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:ask-what-for:memory",
@@ -10083,8 +10073,8 @@
       "text": "You asked whose idea it actually was before you answered.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10095,11 +10085,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10108,7 +10093,7 @@
         "companion:community-member"
       ],
       "textRevision": "f4ece7f03e90",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:ask-what-for:witnessed",
@@ -10122,8 +10107,8 @@
       "text": "They asked who wanted this.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10134,11 +10119,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10147,7 +10127,7 @@
         "companion:community-member"
       ],
       "textRevision": "b00514ded1ad",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-maybe:description",
@@ -10161,8 +10141,8 @@
       "text": "Do not close it off.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10173,11 +10153,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10186,7 +10161,7 @@
         "companion:community-member"
       ],
       "textRevision": "b24cb8598859",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-maybe:label",
@@ -10200,8 +10175,8 @@
       "text": "Say you would think about it",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10212,11 +10187,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10225,7 +10195,7 @@
         "companion:community-member"
       ],
       "textRevision": "eb9661c876f4",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-maybe:memory",
@@ -10239,8 +10209,8 @@
       "text": "You said you would think about running for office.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10251,11 +10221,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10264,7 +10229,7 @@
         "companion:community-member"
       ],
       "textRevision": "3675dfa07520",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-maybe:witnessed",
@@ -10278,8 +10243,8 @@
       "text": "They said they would think about it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10290,11 +10255,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10303,7 +10263,7 @@
         "companion:community-member"
       ],
       "textRevision": "0f0499999de5",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-no:description",
@@ -10317,8 +10277,8 @@
       "text": "Close it off, plainly.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10329,11 +10289,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10342,7 +10297,7 @@
         "companion:community-member"
       ],
       "textRevision": "0883de99d39d",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-no:label",
@@ -10356,8 +10311,8 @@
       "text": "Rule it out now",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10368,11 +10323,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10381,7 +10331,7 @@
         "companion:community-member"
       ],
       "textRevision": "bd2c4b35714b",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-no:memory",
@@ -10395,8 +10345,8 @@
       "text": "You said no, plainly.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10407,11 +10357,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10420,7 +10365,7 @@
         "companion:community-member"
       ],
       "textRevision": "2232f8f6b606",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#option:say-no:witnessed",
@@ -10434,8 +10379,8 @@
       "text": "They said no.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10446,11 +10391,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10459,7 +10399,7 @@
         "companion:community-member"
       ],
       "textRevision": "f35dd8fbc012",
-      "contextRevision": "4709fa1f93e4"
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.candidacy-approach#prose",
@@ -10470,11 +10410,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.candidacy-approach",
-      "text": "Somebody has asked, in as many words, whether you would ever stand for anything.",
+      "text": "Somebody has asked you outright whether you would ever run for public office.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -10485,11 +10425,6 @@
           "key": "role:community-member",
           "description": "A canonical community-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -10497,8 +10432,8 @@
         "stakes:pressing",
         "companion:community-member"
       ],
-      "textRevision": "c9737a8d2337",
-      "contextRevision": "4709fa1f93e4"
+      "textRevision": "36919fa45762",
+      "contextRevision": "470f24803bd9"
     },
     {
       "id": "prose:life:adult:adult.care-request#option:name-the-limit:description",
@@ -11589,7 +11524,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.community-meeting",
-      "text": "You chose to read the meeting minutes afterwards.",
+      "text": "You read the minutes afterwards instead of going.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -11611,7 +11546,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "d4f3e2e47562",
+      "textRevision": "148b037b09fe",
       "contextRevision": "07f59c1a51cd"
     },
     {
@@ -11827,7 +11762,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.debt-call",
-      "text": "You chose to borrow the amount you needed from someone.",
+      "text": "You borrowed the amount from somebody.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -11849,7 +11784,7 @@
         "stakes:pressing",
         "companion:none"
       ],
-      "textRevision": "bf677638b2cc",
+      "textRevision": "f8a72dcd486a",
       "contextRevision": "21fadaac520d"
     },
     {
@@ -12031,7 +11966,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.debt-call",
-      "text": "You chose to pay what you could toward the debt.",
+      "text": "You paid what you could towards the debt.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -12053,7 +11988,7 @@
         "stakes:pressing",
         "companion:none"
       ],
-      "textRevision": "84700d10c86b",
+      "textRevision": "6cf12153dd33",
       "contextRevision": "21fadaac520d"
     },
     {
@@ -12765,8 +12700,8 @@
       "text": "Yes, and be clear about where it stops.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12774,23 +12709,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "c7ad75e28ad4",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:conditions:label",
@@ -12804,8 +12734,8 @@
       "text": "Do it, with conditions",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12813,23 +12743,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "5109085ef58c",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:conditions:memory",
@@ -12843,8 +12768,8 @@
       "text": "You said yes, and said where it stopped.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12852,23 +12777,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "dab6af157455",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:conditions:witnessed",
@@ -12882,8 +12802,8 @@
       "text": "They agreed, and said what they would not do.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12891,23 +12811,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "f03a5f22e0d9",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:decline:description",
@@ -12921,8 +12836,8 @@
       "text": "Not this one.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12930,23 +12845,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "c7f9b44904e9",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:decline:label",
@@ -12960,8 +12870,8 @@
       "text": "Tell them you cannot",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -12969,23 +12879,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "3f31db446e5e",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:decline:memory",
@@ -12999,8 +12904,8 @@
       "text": "You declined the favour.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13008,23 +12913,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "a73007dc1b7f",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:decline:witnessed",
@@ -13038,8 +12938,8 @@
       "text": "They said no.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13047,23 +12947,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "f35dd8fbc012",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:do-it:description",
@@ -13077,8 +12972,8 @@
       "text": "Say yes and get on with it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13086,23 +12981,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "73fd16e59f35",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:do-it:label",
@@ -13116,8 +13006,8 @@
       "text": "Say yes and do it",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13125,23 +13015,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "396695b419a5",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:do-it:memory",
@@ -13155,8 +13040,8 @@
       "text": "You agreed to do the requested favour.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13164,23 +13049,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "09da6cc43706",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#option:do-it:witnessed",
@@ -13194,8 +13074,8 @@
       "text": "They said yes straight away.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13203,23 +13083,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "77df3f484d9a",
-      "contextRevision": "5164f6d6790a"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-favour#prose",
@@ -13230,11 +13105,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.friend-favour",
-      "text": "Somebody you know has asked for something that is easy for you and would matter quite a lot to them.",
+      "text": "Somebody you know has asked you for a hand with one thing, and said it matters to them.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13242,23 +13117,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:notable",
-        "companion:community-member"
+        "companion:other-household"
       ],
-      "textRevision": "dc8a86c35478",
-      "contextRevision": "5164f6d6790a"
+      "textRevision": "0a4f4495d06a",
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-good-news#option:go:description",
@@ -13623,8 +13493,8 @@
       "text": "They told you, and that is where it stops.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13632,23 +13502,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "6a7d392d4a47",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:keep-it:label",
@@ -13662,8 +13527,8 @@
       "text": "Tell nobody else",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13671,23 +13536,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "1001b7429338",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:keep-it:memory",
@@ -13701,8 +13561,8 @@
       "text": "You kept the personal matter private.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13710,23 +13570,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "e681116bd8e2",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:push-them:description",
@@ -13740,8 +13595,8 @@
       "text": "Say you will not carry it for them.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13749,23 +13604,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "d0d1461f703d",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:push-them:label",
@@ -13779,8 +13629,8 @@
       "text": "Push them to sort it",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13788,23 +13638,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "7eacc27d5139",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:push-them:memory",
@@ -13818,8 +13663,8 @@
       "text": "You told them you would not carry it for them, and to go and deal with it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13827,23 +13672,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "b9299a12c4d7",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:push-them:witnessed",
@@ -13857,8 +13697,8 @@
       "text": "They told them to go and deal with it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13866,23 +13706,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "17bb9f606fbf",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:step-back:description",
@@ -13896,8 +13731,8 @@
       "text": "This is not somewhere you can be.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13905,23 +13740,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "0220142ad07d",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:step-back:label",
@@ -13935,8 +13765,8 @@
       "text": "Keep your distance",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13944,23 +13774,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "b69112d241e3",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:step-back:memory",
@@ -13974,8 +13799,8 @@
       "text": "You told them this was not somewhere you could be, and stepped back.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -13983,23 +13808,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "fb2e2287546a",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#option:step-back:witnessed",
@@ -14013,8 +13833,8 @@
       "text": "They stepped back from it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -14022,23 +13842,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "bad83919bcce",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.friend-in-difficulty#prose",
@@ -14052,8 +13867,8 @@
       "text": "Somebody you know has got themselves into something, and they have told you rather than anybody else.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -14061,23 +13876,18 @@
           "kind": "requirement"
         },
         {
-          "key": "role:community-member",
-          "description": "A canonical community-member is bound before the scene composes.",
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:pressing",
-        "companion:community-member"
+        "companion:other-household"
       ],
       "textRevision": "5348aa083ff9",
-      "contextRevision": "760475127df2"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.help-with-strings#option:decline:description",
@@ -14663,7 +14473,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-money-shortfall",
-      "text": "You chose to cut back on your personal spending without discussing it.",
+      "text": "You cut back on your own spending and said nothing about it.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -14685,7 +14495,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "4808936c5367",
+      "textRevision": "b222316f9710",
       "contextRevision": "ec7d2c09cda0"
     },
     {
@@ -14867,7 +14677,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-money-shortfall",
-      "text": "You chose to look for extra work to cover the shortfall.",
+      "text": "You went looking for extra work to cover the shortfall.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -14889,7 +14699,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "5c74769130a2",
+      "textRevision": "e91b8cb87d3b",
       "contextRevision": "ec7d2c09cda0"
     },
     {
@@ -14938,8 +14748,8 @@
       "text": "Take the evening back for your own.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -14950,11 +14760,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -14963,7 +14768,7 @@
         "companion:household-member"
       ],
       "textRevision": "2ab50a4fc85e",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:keep-it-yours:label",
@@ -14977,8 +14782,8 @@
       "text": "Keep the evening",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -14989,11 +14794,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15002,7 +14802,7 @@
         "companion:household-member"
       ],
       "textRevision": "d6f2a5314b6e",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:keep-it-yours:memory",
@@ -15016,8 +14816,8 @@
       "text": "You spent the evening on your own.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15028,11 +14828,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15041,7 +14836,7 @@
         "companion:household-member"
       ],
       "textRevision": "7a5c381b7de6",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:spend-it-together:description",
@@ -15055,8 +14850,8 @@
       "text": "Nothing in particular, with company.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15067,11 +14862,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15080,7 +14870,7 @@
         "companion:household-member"
       ],
       "textRevision": "1de2f39d58d9",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:spend-it-together:label",
@@ -15094,8 +14884,8 @@
       "text": "Spend it together",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15106,11 +14896,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15119,7 +14904,7 @@
         "companion:household-member"
       ],
       "textRevision": "2a2dd7eeec37",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:spend-it-together:memory",
@@ -15133,8 +14918,8 @@
       "text": "You spent the evening at home with company.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15145,11 +14930,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15158,7 +14938,7 @@
         "companion:household-member"
       ],
       "textRevision": "c66193eb3e74",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#option:spend-it-together:witnessed",
@@ -15172,8 +14952,8 @@
       "text": "They stayed in, and the evening was an easy one.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15184,11 +14964,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15197,7 +14972,7 @@
         "companion:household-member"
       ],
       "textRevision": "352d03fd98c6",
-      "contextRevision": "3aa46e9563d6"
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-quiet-evening#prose",
@@ -15208,11 +14983,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-quiet-evening",
-      "text": "Nothing is owed to anybody this evening, and the other person is in.",
+      "text": "The evening is free, and the person you live with said they would be in for it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -15223,11 +14998,6 @@
           "key": "role:household-member",
           "description": "A canonical household-member is bound before the scene composes.",
           "kind": "role"
-        },
-        {
-          "key": "withheld",
-          "description": "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -15235,8 +15005,8 @@
         "stakes:ordinary",
         "companion:household-member"
       ],
-      "textRevision": "ac23590ca529",
-      "contextRevision": "3aa46e9563d6"
+      "textRevision": "81518c1220c8",
+      "contextRevision": "9881c4e11947"
     },
     {
       "id": "prose:life:adult:adult.household-repair#option:ask-for-help:description",
@@ -15791,7 +15561,7 @@
       "surface": "option-witnessed",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-standing",
-      "text": "They brought up the shopping and two appointments.",
+      "text": "They raised who was covering the week.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -15813,7 +15583,7 @@
         "stakes:notable",
         "companion:household-member"
       ],
-      "textRevision": "9dee3198bb6a",
+      "textRevision": "ceb19ade6d17",
       "contextRevision": "9881c4e11947"
     },
     {
@@ -15927,7 +15697,7 @@
       "surface": "option-witnessed",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.household-standing",
-      "text": "They proposed sharing the shopping and appointments.",
+      "text": "They suggested splitting the week between you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -15949,7 +15719,7 @@
         "stakes:notable",
         "companion:household-member"
       ],
-      "textRevision": "5402a0cb92ef",
+      "textRevision": "3e2960f01d95",
       "contextRevision": "9881c4e11947"
     },
     {
@@ -16403,7 +16173,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.housing-repair-standoff",
-      "text": "You chose to handle the repair yourself.",
+      "text": "You did the repair yourself.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -16425,7 +16195,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "0fa38f5d41d9",
+      "textRevision": "fff0dd16ac07",
       "contextRevision": "c02f34d7f72d"
     },
     {
@@ -16607,7 +16377,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.housing-repair-standoff",
-      "text": "You chose to withhold payment pending the repair.",
+      "text": "You stopped paying until the repair is done.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -16629,7 +16399,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "58d770e384b6",
+      "textRevision": "a9221eea748e",
       "contextRevision": "c02f34d7f72d"
     },
     {
@@ -16743,7 +16513,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.incident-aftermath",
-      "text": "You prioritized helping other households clear up.",
+      "text": "You put helping the other households first.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -16765,7 +16535,7 @@
         "stakes:pressing",
         "companion:none"
       ],
-      "textRevision": "93069482245f",
+      "textRevision": "2b22c1468eb3",
       "contextRevision": "a1a5c2ca381b"
     },
     {
@@ -17798,18 +17568,13 @@
       "text": "Work out that the people you agree with are wrong here.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17818,7 +17583,7 @@
         "companion:none"
       ],
       "textRevision": "5c48083c8b54",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:against-your-side:label",
@@ -17832,18 +17597,13 @@
       "text": "Admit you disagree with your own side",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17852,7 +17612,7 @@
         "companion:none"
       ],
       "textRevision": "7a1a9c94fa22",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:against-your-side:memory",
@@ -17866,18 +17626,13 @@
       "text": "You worked out that the people you usually agree with had this one wrong, and kept that to yourself as well.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17886,7 +17641,7 @@
         "companion:none"
       ],
       "textRevision": "9708d1210198",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:leave-it-open:description",
@@ -17900,18 +17655,13 @@
       "text": "Decide it when it matters.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17920,7 +17670,7 @@
         "companion:none"
       ],
       "textRevision": "086d4f7af1ef",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:leave-it-open:label",
@@ -17934,18 +17684,13 @@
       "text": "Leave it open",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17954,7 +17699,7 @@
         "companion:none"
       ],
       "textRevision": "076ad41b627a",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:leave-it-open:memory",
@@ -17968,18 +17713,13 @@
       "text": "You left your position on the issue undecided.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -17988,7 +17728,7 @@
         "companion:none"
       ],
       "textRevision": "2de0f5a66e81",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:settle-on-it:description",
@@ -18002,18 +17742,13 @@
       "text": "Decide what you actually think, for yourself.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -18022,7 +17757,7 @@
         "companion:none"
       ],
       "textRevision": "587b7879da9d",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:settle-on-it:label",
@@ -18036,18 +17771,13 @@
       "text": "Make your mind up about it",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -18056,7 +17786,7 @@
         "companion:none"
       ],
       "textRevision": "643c9ce2e8d8",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#option:settle-on-it:memory",
@@ -18070,18 +17800,13 @@
       "text": "You worked out what you actually thought about it, on your own, and told nobody.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -18090,7 +17815,7 @@
         "companion:none"
       ],
       "textRevision": "a644e6630574",
-      "contextRevision": "871e99991c36"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.local-issue-position#prose",
@@ -18101,21 +17826,16 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.local-issue-position",
-      "text": "You have read the agenda properly, and you have a view about it. Nobody has asked for it.",
+      "text": "You have read the agenda item in full. Nobody has asked what you make of it.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -18123,8 +17843,8 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "d0a6bd4bb500",
-      "contextRevision": "871e99991c36"
+      "textRevision": "91c8fbcdf3de",
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.old-favour-returns#option:help-again:description",
@@ -18787,7 +18507,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.ordinary-good-day",
-      "text": "You chose to work on the shopping and appointments.",
+      "text": "You spent the day on the shopping and the appointments.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -18804,7 +18524,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "61d8b2cab9a7",
+      "textRevision": "2b624cff188b",
       "contextRevision": "82db573bc6c3"
     },
     {
@@ -18874,7 +18594,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.ordinary-good-day",
-      "text": "You chose to spend time outside.",
+      "text": "You spent the day outside.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -18891,7 +18611,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "7ec3e52372d8",
+      "textRevision": "692f4211d123",
       "contextRevision": "82db573bc6c3"
     },
     {
@@ -18903,7 +18623,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.ordinary-good-day",
-      "text": "The shopping and two appointments still need someone to handle them. How do you want to spend the day?",
+      "text": "The week's errands are still yours to fit in somewhere. How do you want to spend the day?",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -18920,7 +18640,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "afb0430d269a",
+      "textRevision": "89fe503c5d39",
       "contextRevision": "82db573bc6c3"
     },
     {
@@ -20354,7 +20074,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.small-windfall",
-      "text": "You chose to give the money to someone who needed help.",
+      "text": "You gave the money to somebody who needed it.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -20376,7 +20096,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "64390dd5692a",
+      "textRevision": "1320531efc02",
       "contextRevision": "7ec106db52ad"
     },
     {
@@ -20456,7 +20176,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.small-windfall",
-      "text": "You chose to save the money for later.",
+      "text": "You put the money away for later.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -20478,7 +20198,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "06e2bd4ee3da",
+      "textRevision": "28cbcf072e7a",
       "contextRevision": "7ec106db52ad"
     },
     {
@@ -20558,7 +20278,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.small-windfall",
-      "text": "You chose to spend the money on something you would enjoy.",
+      "text": "You spent the money on something you wanted.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -20580,7 +20300,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "75509815afa9",
+      "textRevision": "48d38cd588df",
       "contextRevision": "7ec106db52ad"
     },
     {
@@ -20694,7 +20414,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.unexpected-expense",
-      "text": "You chose to replace the broken item.",
+      "text": "You replaced the broken item.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -20716,7 +20436,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "deda8103cd8d",
+      "textRevision": "20cb1a7fc0b7",
       "contextRevision": "903e36266f66"
     },
     {
@@ -20796,7 +20516,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.unexpected-expense",
-      "text": "You chose to go without the item.",
+      "text": "You went without it.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -20818,7 +20538,7 @@
         "stakes:notable",
         "companion:none"
       ],
-      "textRevision": "69cbb9f1b30d",
+      "textRevision": "030cff8eca43",
       "contextRevision": "903e36266f66"
     },
     {
@@ -21207,8 +20927,8 @@
       "text": "Go, and see who is there.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21216,18 +20936,18 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
       "textRevision": "32e023e38b66",
-      "contextRevision": "8cedef5b1830"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#option:say-yes:label",
@@ -21241,8 +20961,8 @@
       "text": "Say you will come",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21250,18 +20970,18 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
       "textRevision": "6d424e8262af",
-      "contextRevision": "8cedef5b1830"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#option:say-yes:memory",
@@ -21272,11 +20992,11 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.weekend-invitation",
-      "text": "You said you would attend the event.",
+      "text": "You told them you would come on Saturday.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21284,18 +21004,52 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
-      "textRevision": "967232b235b5",
-      "contextRevision": "8cedef5b1830"
+      "textRevision": "c156a0ca57c6",
+      "contextRevision": "6a535a714479"
+    },
+    {
+      "id": "prose:life:adult:adult.weekend-invitation#option:say-yes:witnessed",
+      "domain": "life",
+      "bank": "adult",
+      "stableKey": "adult.weekend-invitation",
+      "field": "option:say-yes:witnessed",
+      "surface": "option-witnessed",
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "sourceSymbol": "adultSituationBank/adult.weekend-invitation",
+      "text": "They said they would come.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
+      "grounding": [
+        {
+          "key": "available",
+          "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
+        }
+      ],
+      "provenance": null,
+      "tags": [
+        "stakes:ordinary",
+        "companion:other-household"
+      ],
+      "textRevision": "86dabaa659ae",
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#option:stay-in:description",
@@ -21309,8 +21063,8 @@
       "text": "Keep the weekend as it is.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21318,18 +21072,18 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
       "textRevision": "aff5fadc57f1",
-      "contextRevision": "8cedef5b1830"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#option:stay-in:label",
@@ -21343,8 +21097,8 @@
       "text": "Keep the weekend",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21352,18 +21106,18 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
       "textRevision": "e62044a294fe",
-      "contextRevision": "8cedef5b1830"
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#option:stay-in:memory",
@@ -21374,11 +21128,11 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.weekend-invitation",
-      "text": "You chose to stay in.",
+      "text": "You told them you would not be coming on Saturday.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21386,18 +21140,52 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
-      "textRevision": "fd967566be15",
-      "contextRevision": "8cedef5b1830"
+      "textRevision": "b4b8aa40e370",
+      "contextRevision": "6a535a714479"
+    },
+    {
+      "id": "prose:life:adult:adult.weekend-invitation#option:stay-in:witnessed",
+      "domain": "life",
+      "bank": "adult",
+      "stableKey": "adult.weekend-invitation",
+      "field": "option:stay-in:witnessed",
+      "surface": "option-witnessed",
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "sourceSymbol": "adultSituationBank/adult.weekend-invitation",
+      "text": "They said they would not be coming.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
+      "grounding": [
+        {
+          "key": "available",
+          "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
+          "kind": "requirement"
+        },
+        {
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
+        }
+      ],
+      "provenance": null,
+      "tags": [
+        "stakes:ordinary",
+        "companion:other-household"
+      ],
+      "textRevision": "096acd5f581c",
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.weekend-invitation#prose",
@@ -21408,11 +21196,11 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.weekend-invitation",
-      "text": "There is something on this Saturday that you would probably enjoy, and nobody needs you there.",
+      "text": "Somebody local asked you to something on Saturday. Nobody needs you there.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
@@ -21420,18 +21208,18 @@
           "kind": "requirement"
         },
         {
-          "key": "withheld",
-          "description": "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-          "kind": "withheld"
+          "key": "role:other-household",
+          "description": "A canonical other-household is bound before the scene composes.",
+          "kind": "role"
         }
       ],
       "provenance": null,
       "tags": [
         "stakes:ordinary",
-        "companion:none"
+        "companion:other-household"
       ],
-      "textRevision": "a7f80522a36b",
-      "contextRevision": "8cedef5b1830"
+      "textRevision": "6faa83a11d20",
+      "contextRevision": "6a535a714479"
     },
     {
       "id": "prose:life:adult:adult.work-colleague-struggling#option:ask-them:description",
@@ -22381,18 +22169,13 @@
       "text": "Keep the week you have.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22401,7 +22184,7 @@
         "companion:none"
       ],
       "textRevision": "5b0e8df45a51",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:decline:label",
@@ -22415,18 +22198,13 @@
       "text": "Keep your week",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22435,7 +22213,7 @@
         "companion:none"
       ],
       "textRevision": "7eea061d90f9",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:decline:memory",
@@ -22449,18 +22227,13 @@
       "text": "You declined the requested extra hours.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22469,7 +22242,7 @@
         "companion:none"
       ],
       "textRevision": "122488a3e5ed",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:take-them:description",
@@ -22483,18 +22256,13 @@
       "text": "Absorb the difference.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22503,7 +22271,7 @@
         "companion:none"
       ],
       "textRevision": "96f21a85a259",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:take-them:label",
@@ -22517,18 +22285,13 @@
       "text": "Take the hours",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22537,7 +22300,7 @@
         "companion:none"
       ],
       "textRevision": "bd6deadb2072",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:take-them:memory",
@@ -22551,18 +22314,13 @@
       "text": "You agreed to work the extra hours.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22571,7 +22329,7 @@
         "companion:none"
       ],
       "textRevision": "e1dfb81be0d9",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:trade:description",
@@ -22585,18 +22343,13 @@
       "text": "Give what you can and hand back what you cannot.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22605,7 +22358,7 @@
         "companion:none"
       ],
       "textRevision": "1d689043b571",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:trade:label",
@@ -22619,18 +22372,13 @@
       "text": "Take some, trade the rest",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22639,7 +22387,7 @@
         "companion:none"
       ],
       "textRevision": "6bf9cdb3d050",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#option:trade:memory",
@@ -22653,18 +22401,13 @@
       "text": "You offered to take some of the extra hours and declined the rest.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22673,7 +22416,7 @@
         "companion:none"
       ],
       "textRevision": "f466e6f78b7a",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-extra-hours#prose",
@@ -22687,18 +22430,13 @@
       "text": "Work has asked you to take on more hours, and they would have to come out of everything that is not work.",
       "realization": "static",
       "slots": [],
-      "reachability": "WITHHELD_BY_GROUNDING",
-      "reachabilityReason": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The adult bank offers this situation when its availability predicate holds.",
       "grounding": [
         {
           "key": "available",
           "description": "The situation declares an `available` predicate over world state; the corpus reports the gate exists without evaluating it.",
           "kind": "requirement"
-        },
-        {
-          "key": "withheld",
-          "description": "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
-          "kind": "withheld"
         }
       ],
       "provenance": null,
@@ -22707,7 +22445,7 @@
         "companion:none"
       ],
       "textRevision": "7033a511be38",
-      "contextRevision": "ee8ee260a3c6"
+      "contextRevision": "82db573bc6c3"
     },
     {
       "id": "prose:life:adult:adult.work-good-week#option:enjoy-it:description",
@@ -22888,7 +22626,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/adult-situations.ts",
       "sourceSymbol": "adultSituationBank/adult.work-good-week",
-      "text": "You chose to keep working after the good week.",
+      "text": "You kept working through the good week.",
       "realization": "static",
       "slots": [],
       "reachability": "WITHHELD_BY_GROUNDING",
@@ -22910,7 +22648,7 @@
         "stakes:ordinary",
         "companion:none"
       ],
-      "textRevision": "5abb667c55a0",
+      "textRevision": "4e8940f021d1",
       "contextRevision": "d775f420136a"
     },
     {
@@ -23905,7 +23643,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "GENERIC_RETURN",
-      "text": "An earlier choice came back up.",
+      "text": "Something from a while back came up again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -23925,7 +23663,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "18ec731376b1",
+      "textRevision": "05a14e8db969",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -23937,7 +23675,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the evening came up again.",
+      "text": "That evening came up between you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -23957,7 +23695,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6ecce913f741",
+      "textRevision": "53e6679db687",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -23969,7 +23707,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the earlier favour came up again.",
+      "text": "The old favour got a mention.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -23989,7 +23727,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6cb97f6f98ac",
+      "textRevision": "12e4eea2c9d2",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24001,7 +23739,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the local dispute came back up.",
+      "text": "The dispute was put back in front of you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24021,7 +23759,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "d6e12ac6736c",
+      "textRevision": "22fec1e434f1",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24033,7 +23771,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the neighbourhood meeting came up again.",
+      "text": "The neighbourhood meeting came up again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24053,7 +23791,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "3ae538c07fb8",
+      "textRevision": "1e3c17a10a8f",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24065,7 +23803,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the favour came up again.",
+      "text": "The favour was put to you once more.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24085,7 +23823,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2c8c32fdd07a",
+      "textRevision": "aa9a72d6fd47",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24097,7 +23835,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the school project came up again.",
+      "text": "The school project was brought up with you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24117,7 +23855,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "0a14e5011db6",
+      "textRevision": "4d5c020fbb8a",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24129,7 +23867,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the extra hours came back up.",
+      "text": "The extra hours were put to you once more.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24149,7 +23887,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "43d114feb76e",
+      "textRevision": "d10ed3ed6dc3",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24161,7 +23899,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the rule at work came up again.",
+      "text": "The rule at work is being argued over again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24181,7 +23919,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2fa4c6fd94ba",
+      "textRevision": "9caa3c7fccea",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24193,7 +23931,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the plans came back up.",
+      "text": "The plans were put in front of you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24213,7 +23951,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "7167f8d96ae9",
+      "textRevision": "0afaf0ac2e90",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24225,7 +23963,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The question of running for office came back up.",
+      "text": "Somebody asked you about running for office again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24245,7 +23983,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "4d0d376df36d",
+      "textRevision": "ec06edfc7e99",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24257,7 +23995,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about responsibilities at home came back up.",
+      "text": "Who covers what at home is being asked again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24277,7 +24015,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "963f84732bbc",
+      "textRevision": "2b58acaadc37",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24289,7 +24027,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The question of whose work it was came up again.",
+      "text": "Whose work it had been came up at work again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24309,7 +24047,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "4543cb772e2b",
+      "textRevision": "da49926b81ca",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24321,7 +24059,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your response when the promise came due came up again.",
+      "text": "The promise came back round to you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24341,7 +24079,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "95778eb12bc6",
+      "textRevision": "471b2e5f9cd5",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24353,7 +24091,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about helping your family came up again.",
+      "text": "Your family raised the fortnight they had asked you for.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24373,7 +24111,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "da77d0967cf6",
+      "textRevision": "989974cf3c23",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24385,7 +24123,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The earlier household decision came up again.",
+      "text": "What was said at home about it was raised again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24405,7 +24143,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "fa3af0691fbe",
+      "textRevision": "84c0d17a6f00",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24417,7 +24155,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the community building came up again.",
+      "text": "The building came up for discussion again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24437,7 +24175,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "0b6a186c67bc",
+      "textRevision": "026243ad24a8",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24449,7 +24187,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the other job offer came up again.",
+      "text": "The other job is on the table again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24469,7 +24207,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "701ef38e8dd0",
+      "textRevision": "54f3f70357eb",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24481,7 +24219,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about what to do after the incident came up again.",
+      "text": "What you did after the incident was brought up with you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24501,7 +24239,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "1e1c9c00bac8",
+      "textRevision": "5aa8a08d12a0",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24513,7 +24251,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about helping a neighbour came back up.",
+      "text": "Helping the neighbours came back to you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24533,7 +24271,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "4833c07a1b23",
+      "textRevision": "e3df1ac49c68",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24545,7 +24283,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The question of helping with the care came back up.",
+      "text": "The help that was asked of you was raised again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24565,7 +24303,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "b013e99a03af",
+      "textRevision": "b27f816d166a",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24577,7 +24315,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "You recall your decision about your friend’s difficulty.",
+      "text": "They came back to you about what they had told you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24597,7 +24335,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "bb3c8b51fd76",
+      "textRevision": "c26ef2747927",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24609,7 +24347,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the petition came up again.",
+      "text": "You were asked to sign it after all.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24629,7 +24367,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "b74b29cbca30",
+      "textRevision": "93639d1a1cac",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24641,7 +24379,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about volunteering came up again.",
+      "text": "You were asked to help out again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24661,7 +24399,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "e63de81576e8",
+      "textRevision": "4694c7e35183",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24673,7 +24411,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The business about what it costs to stay came back around.",
+      "text": "What it costs to stay came round again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24693,7 +24431,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "9110b6f46ee9",
+      "textRevision": "d800a3222b96",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24705,7 +24443,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "The business with the repairs and the rent came back around.",
+      "text": "The repairs and the rent are still between you.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24725,7 +24463,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "19b49839be80",
+      "textRevision": "6ffbc959e1ea",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24737,7 +24475,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the shortfall came up again.",
+      "text": "The shortfall was put in front of you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24757,7 +24495,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "e203e2a70c63",
+      "textRevision": "5adc10808420",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24769,7 +24507,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the household repair came back up.",
+      "text": "The repair at home is still being asked about.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24789,7 +24527,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6b850371126f",
+      "textRevision": "d182781f116a",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24801,7 +24539,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "You were reminded of your decision about the extra money.",
+      "text": "What happened to the money got mentioned.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24821,7 +24559,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "78dee06e274a",
+      "textRevision": "5a2a58ae5b52",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24833,7 +24571,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "You recall your decision about whether to accept help.",
+      "text": "The offer of help was put to you once more.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24853,7 +24591,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "6c488fd32ca1",
+      "textRevision": "467e6e5ae4e5",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24865,7 +24603,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "You were reminded of your decision about your colleague’s difficulty.",
+      "text": "Your colleague’s difficulty came up in conversation again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24885,7 +24623,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "676b33b4733b",
+      "textRevision": "95e7eda367b5",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24897,7 +24635,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your earlier choice about repayment came up again.",
+      "text": "Repayment came up between you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24917,7 +24655,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "4c5f47fb7658",
+      "textRevision": "d042bd1fa6b2",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24929,7 +24667,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "Your decision about the invitation came up again.",
+      "text": "You were asked along again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24949,7 +24687,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "b035616e16fb",
+      "textRevision": "ac387e19d151",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24961,7 +24699,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "RETURN_SUMMARY",
-      "text": "You were reminded of how you responded to the good news.",
+      "text": "Their good news was mentioned to you again.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -24981,7 +24719,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "ab83cebd63da",
+      "textRevision": "d6b9f53d7541",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -24993,7 +24731,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "An earlier choice became relevant again.",
+      "text": "An earlier choice was raised again by somebody who was there.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25013,7 +24751,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "2cff1b0f1600",
+      "textRevision": "41146630f3e6",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -25057,7 +24795,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "The person or earlier event is missing from the record.",
+      "text": "Diagnostic: the subject person or the originating event is absent from history.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25077,7 +24815,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "b5396dc0d3ed",
+      "textRevision": "504bde2089b4",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -25089,7 +24827,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "The other person’s record is missing.",
+      "text": "Diagnostic: the counterpart person record is absent.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25109,7 +24847,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "32a1f5a85922",
+      "textRevision": "cfade577df28",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -25121,7 +24859,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "Your record is missing, or it records your death.",
+      "text": "Diagnostic: the subject person record is absent, or a death is recorded for them.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25141,7 +24879,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "a63265fca159",
+      "textRevision": "7985fc1bf600",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -25153,7 +24891,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "The household, kinship, work or group connection needed for this follow-up is not on record.",
+      "text": "Diagnostic: no household, kinship, employer or organization link between the two people is on record.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25173,7 +24911,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "e1cdcdbafa9d",
+      "textRevision": "3d7971f1733e",
       "contextRevision": "609477ccd6c0"
     },
     {
@@ -25185,7 +24923,7 @@
       "surface": "callback",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "sourceSymbol": "lifeCallbackTransitionHandler",
-      "text": "There is no active commitment to follow up on.",
+      "text": "Diagnostic: no active life commitment remains for this follow-up.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -25205,7 +24943,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "707bb9543679",
+      "textRevision": "ec2671cf0bcf",
       "contextRevision": "609477ccd6c0"
     },
     {

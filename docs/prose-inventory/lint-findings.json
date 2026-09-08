@@ -234,8 +234,8 @@
     "id": "prose:life:adult:adult.debt-call#option:borrow:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
-    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "someone"
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
   },
   {
     "id": "prose:life:adult:adult.debt-call#option:negotiate:description",
@@ -292,13 +292,6 @@
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "Somebody"
-  },
-  {
-    "id": "prose:life:adult:adult.friend-favour#prose",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
   },
   {
     "id": "prose:life:adult:adult.friend-favour#prose",
@@ -490,13 +483,6 @@
     "evidence": "Somebody"
   },
   {
-    "id": "prose:life:adult:adult.ordinary-good-day#prose",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "someone"
-  },
-  {
     "id": "prose:life:adult:adult.partner-plan#prose",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -563,8 +549,8 @@
     "id": "prose:life:adult:adult.small-windfall#option:give-it:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
-    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "someone"
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
   },
   {
     "id": "prose:life:adult:adult.small-windfall#option:put-it-away:description",
@@ -614,6 +600,13 @@
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
+  },
+  {
+    "id": "prose:life:adult:adult.weekend-invitation#prose",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "Somebody"
   },
   {
     "id": "prose:life:adult:adult.work-colleague-struggling#option:cover:description",
@@ -687,6 +680,27 @@
   },
   {
     "id": "prose:life:adult:adult.work-rule-pressure#prose",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
+  },
+  {
+    "id": "prose:life:callback:GENERIC_RETURN-0001#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "Something"
+  },
+  {
+    "id": "prose:life:callback:RETURN_SUMMARY-0010#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "Somebody"
+  },
+  {
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0001#text",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",

@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1910 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4624 |
-| DIAGNOSTIC_OR_TEST | 3450 |
-| **NEEDS_CLASSIFICATION** | **2981** |
+| INVENTORIED | 1912 |
+| INTENTIONALLY_NON_PLAYER_FACING | 4627 |
+| DIAGNOSTIC_OR_TEST | 3479 |
+| **NEEDS_CLASSIFICATION** | **3002** |
 
-Scanned 323 files holding 49522 string
+Scanned 326 files holding 49738 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -33,7 +33,7 @@ literals in total; the table counts only those that read like a sentence.
 | 87 | `src/simulation/policy.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 66 | `src/player/PlayerGame.tsx` |
-| 66 | `src/simulation/adult-situations.ts` |
+| 59 | `src/simulation/adult-situations.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/simulation/life.ts` |
@@ -54,6 +54,7 @@ literals in total; the table counts only those that read like a sentence.
 | 35 | `src/ui/PoliticalProfile.tsx` |
 | 34 | `src/presentation/scene-consumers.ts` |
 | 34 | `src/simulation/life-episodes.ts` |
+| 34 | `src/simulation/life-opportunities.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 33 | `src/presentation/life-diagnostics.ts` |
 | 32 | `src/content/adapters/legislative-blueprints.ts` |
@@ -90,7 +91,6 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
-| 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/simulation/incidents.ts` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
@@ -117,6 +117,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/surface-binding.ts` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
+| 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |

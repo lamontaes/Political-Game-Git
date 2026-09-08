@@ -312,7 +312,10 @@ export function hasActiveHouseholdWeek(
  * people's shopping. Whether the week is a decision or merely work is the one
  * thing that varies, and it varies with who is playing.
  */
-export function openOrdinaryLifeRecords(world: World, personId: EntityId): World {
+export function openOrdinaryLifeRecords(
+  world: World,
+  personId: EntityId,
+): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   if (formativeIntervalAt(world, personId) !== null) return world;
@@ -627,10 +630,7 @@ function eligibleOpportunities(
     householdCompanionIds(world, personId, cutoff),
   );
   const localId = firstOf(world, localNeighbourIds(world, personId, cutoff));
-  const familiarId = firstOf(
-    world,
-    familiarPersonIds(world, personId, cutoff),
-  );
+  const familiarId = firstOf(world, familiarPersonIds(world, personId, cutoff));
   const colleagueId = firstOf(world, colleagueIds(world, personId, cutoff));
   const communityMemberId = firstOf(
     world,
@@ -840,7 +840,9 @@ function chooseOpportunity(
   const scored = candidates.map((candidate) => ({
     candidate,
     seen: lastOffered.get(candidate.kind) ?? -1,
-    tie: hash(`${world.seed}:${personId}:${world.currentDate}:${candidate.kind}`),
+    tie: hash(
+      `${world.seed}:${personId}:${world.currentDate}:${candidate.kind}`,
+    ),
   }));
   scored.sort((left, right) =>
     left.seen !== right.seen ? left.seen - right.seen : left.tie - right.tie,
@@ -921,7 +923,11 @@ function writeAsk(world: World, input: AskInput): World {
     summary: input.summary,
     context: {
       location: input.jurisdictionId
-        ? { jurisdictionId: input.jurisdictionId, label: "Nearby", setting: null }
+        ? {
+            jurisdictionId: input.jurisdictionId,
+            label: "Nearby",
+            setting: null,
+          }
         : null,
       socialContext: null,
       pressure: null,
@@ -947,7 +953,8 @@ function writeAsk(world: World, input: AskInput): World {
         locationKey: `life-opportunity:${input.kind}`,
         label: input.occasion.label,
         jurisdictionId:
-          input.jurisdictionId ?? world.people[input.personId]!.homeJurisdictionId,
+          input.jurisdictionId ??
+          world.people[input.personId]!.homeJurisdictionId,
       },
       sourceEntityIds: [asking.id],
       flexibility: { kind: "fixed" },
@@ -963,7 +970,11 @@ function writeAsk(world: World, input: AskInput): World {
     believedSummary: input.believed,
     accuracy: "accurate",
     confidence: "high",
-    source: { kind: "told-by", sourcePersonId: input.askerPersonId, claimId: null },
+    source: {
+      kind: "told-by",
+      sourcePersonId: input.askerPersonId,
+      claimId: null,
+    },
   });
 }
 
@@ -1110,7 +1121,10 @@ function localNeighbourIds(
   );
   const myJurisdictions = new Set(
     [...mine]
-      .map((householdId) => householdLocationAt(world, householdId, cutoff)?.jurisdictionId)
+      .map(
+        (householdId) =>
+          householdLocationAt(world, householdId, cutoff)?.jurisdictionId,
+      )
       .filter((value): value is EntityId => value !== undefined),
   );
   return world.personOrder.filter((candidateId) => {
@@ -1218,8 +1232,8 @@ function communityMemberIds(
   return world.personOrder.filter(
     (candidate) =>
       candidate !== personId &&
-      activeOrganizationParticipationsAt(world, candidate, cutoff).some((entry) =>
-        organizationIds.has(entry.participation.organizationId),
+      activeOrganizationParticipationsAt(world, candidate, cutoff).some(
+        (entry) => organizationIds.has(entry.participation.organizationId),
       ),
   );
 }
@@ -1246,7 +1260,7 @@ function ageOn(birthDate: IsoDate, on: IsoDate): number {
 /** The next Saturday strictly after today, so an invitation is never for the past. */
 function nextSaturday(from: IsoDate): IsoDate {
   const day = new Date(`${from}T00:00:00Z`).getUTCDay();
-  return addDays(from, ((6 - day + 7) % 7) || 7);
+  return addDays(from, (6 - day + 7) % 7 || 7);
 }
 
 function momentAt(world: World, hour: number, minute: number) {

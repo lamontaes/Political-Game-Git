@@ -546,7 +546,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         description:
           "Talk about who will handle the shopping and two appointments.",
         memory: "You brought up the shopping and two appointments.",
-        witnessed: "They brought up the shopping and two appointments.",
+        witnessed: "They raised who was covering the week.",
         stance: "engaged",
         relationalChange: "maintained",
         interactionKind: "conflict:household",
@@ -583,7 +583,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Propose a split",
         description: "Suggest dividing the shopping and two appointments.",
         memory: "You proposed sharing the shopping and appointments.",
-        witnessed: "They proposed sharing the shopping and appointments.",
+        witnessed: "They suggested splitting the week between you.",
         stance: "engaged",
         relationalChange: "strengthened",
         interactionKind: "exchange:household",
@@ -673,8 +673,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "cut-back",
         label: "Cut back quietly",
         description: "Take it out of what only you would miss.",
-        memory:
-          "You chose to cut back on your personal spending without discussing it.",
+        memory: "You cut back on your own spending and said nothing about it.",
         stance: "withdrawn",
         nudges: [
           nudge("privacy-preference", 0.5),
@@ -699,7 +698,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "take-the-work",
         label: "Find the difference",
         description: "Pick up whatever makes up the shortfall.",
-        memory: "You chose to look for extra work to cover the shortfall.",
+        memory: "You went looking for extra work to cover the shortfall.",
         stance: "engaged",
         nudges: [
           nudge("achievement-ambition", 0.35),
@@ -1392,7 +1391,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "press-on",
         label: "Push while it is going well",
         description: "Use the run rather than enjoy it.",
-        memory: "You chose to keep working after the good week.",
+        memory: "You kept working through the good week.",
         stance: "engaged",
         nudges: [
           nudge("achievement-ambition", 0.4),
@@ -1501,7 +1500,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "fix-it-yourself",
         label: "Just fix it",
         description: "Sort it and stop thinking about it.",
-        memory: "You chose to handle the repair yourself.",
+        memory: "You did the repair yourself.",
         stance: "engaged",
         nudges: [
           nudge("institutional-trust", -0.4),
@@ -1513,7 +1512,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "withhold",
         label: "Stop paying until it is done",
         description: "Make the silence expensive.",
-        memory: "You chose to withhold payment pending the repair.",
+        memory: "You stopped paying until the repair is done.",
         stance: "engaged",
         nudges: [
           nudge("risk-appetite", 0.5),
@@ -1548,7 +1547,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "pay-it",
         label: "Pay what you can now",
         description: "Take the hit and clear it.",
-        memory: "You chose to pay what you could toward the debt.",
+        memory: "You paid what you could towards the debt.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.4),
@@ -1572,7 +1571,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "borrow",
         label: "Borrow it from someone",
         description: "Move the problem, and owe a person instead.",
-        memory: "You chose to borrow the amount you needed from someone.",
+        memory: "You borrowed the amount from somebody.",
         stance: "engaged",
         nudges: [
           nudge("personal-ties", 0.3),
@@ -1598,7 +1597,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "handle-it",
         label: "Replace it now",
         description: "Replace it and move on.",
-        memory: "You chose to replace the broken item.",
+        memory: "You replaced the broken item.",
         stance: "engaged",
         nudges: [nudge("security-stability", 0.3)],
         aftermath: null,
@@ -1607,7 +1606,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "make-do",
         label: "Go without it",
         description: "Go without and see how long it lasts.",
-        memory: "You chose to go without the item.",
+        memory: "You went without it.",
         stance: "engaged",
         nudges: [
           nudge("risk-appetite", 0.25),
@@ -1632,7 +1631,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "put-it-away",
         label: "Put it away",
         description: "Keep it for something later.",
-        memory: "You chose to save the money for later.",
+        memory: "You put the money away for later.",
         stance: "engaged",
         nudges: [
           nudge("security-stability", 0.35),
@@ -1644,7 +1643,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "spend-it",
         label: "Spend it on something good",
         description: "Enjoy it while it is here.",
-        memory: "You chose to spend the money on something you would enjoy.",
+        memory: "You spent the money on something you wanted.",
         stance: "engaged",
         nudges: [
           nudge("risk-appetite", 0.2),
@@ -1656,7 +1655,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "give-it",
         label: "Give it to somebody who needs it",
         description: "Pass it on.",
-        memory: "You chose to give the money to someone who needed help.",
+        memory: "You gave the money to somebody who needed it.",
         stance: "engaged",
         nudges: [
           nudge("care-obligation", 0.4),
@@ -2030,7 +2029,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "read-it-after",
         label: "Read the minutes afterwards",
         description: "Know what happened without spending the evening.",
-        memory: "You chose to read the meeting minutes afterwards.",
+        memory: "You read the minutes afterwards instead of going.",
         stance: "engaged",
         nudges: [
           nudge("privacy-preference", 0.3),
@@ -2452,7 +2451,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "help-clear-up",
         label: "Help with the clearing up",
         description: "Yours can wait a day.",
-        memory: "You prioritized helping other households clear up.",
+        memory: "You put helping the other households first.",
         stance: "engaged",
         nudges: [nudge("care-obligation", 0.55), nudge("personal-ties", 0.3)],
         aftermath: "goodwill",
@@ -2660,7 +2659,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     companion: null,
     stakes: "ordinary",
     prose:
-      "The shopping and two appointments still need someone to handle them. How do you want to spend the day?",
+      "The week's errands are still yours to fit in somewhere. How do you want to spend the day?",
     tensions: [],
     available: (context) => context.hasHouseholdWorkItem,
     options: [
@@ -2668,7 +2667,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "go-out",
         label: "Spend time outside",
         description: "Spend the day outside.",
-        memory: "You chose to spend time outside.",
+        memory: "You spent the day outside.",
         stance: "engaged",
         nudges: [nudge("risk-appetite", 0.15)],
         aftermath: null,
@@ -2677,7 +2676,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "get-things-done",
         label: "Get things done",
         description: "Work on your shopping and appointments.",
-        memory: "You chose to work on the shopping and appointments.",
+        memory: "You spent the day on the shopping and the appointments.",
         stance: "engaged",
         nudges: [
           nudge("achievement-ambition", 0.25),
