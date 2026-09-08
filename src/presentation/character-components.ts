@@ -1291,7 +1291,33 @@ export interface CharacterRecipeRequest {
   readonly poseFamily: string;
   /** Catalog generation to resolve against; defaults to the library's current. */
   readonly catalogGeneration?: number;
+  /**
+   * CANDIDATE REVIEW ONLY. What to do when a REQUIRED slot has no family
+   * compatible with the resolved body at all.
+   *
+   * `throw` — the default, and the only behaviour any runtime path uses. A
+   * library that cannot dress its own bodies is a broken catalog, and a player
+   * must never meet a person the library cannot finish.
+   *
+   * `diagnose` — resolve the identity anyway, leaving the slot's family null
+   * and emitting `required-family-unavailable`. This exists so BANKED EVIDENCE
+   * can be composed and looked at: an admitted candidate body legitimately has
+   * no head or garment authored for it yet, and "you cannot see it until
+   * somebody draws the clothes" is how art stops being reviewable. It changes
+   * nothing about eligibility — the render plan still reports `complete: false`
+   * and names every empty slot — and no production caller passes it.
+   */
+  readonly unresolvableRequiredSlots?: "throw" | "diagnose";
 }
+
+/**
+ * The family name a review resolution carries when nothing compatible exists.
+ *
+ * Deliberately unusable as a real family: it contains characters no manifest
+ * family uses, so it can never collide with one, and it reads as the gap it is
+ * wherever an identity is printed.
+ */
+export const CHARACTER_UNRESOLVED_FAMILY = "(none compatible)";
 
 /**
  * Pose-independent identity. Same seed, recipe version, and pinned catalog
@@ -1325,7 +1351,13 @@ export type CharacterRecipeDiagnosticCode =
   /** W8: another worn component forbids this slot. */
   | "slot-conflict"
   /** No body in the chosen family carries the identity's complexion. */
-  | "body-complexion-unavailable";
+  | "body-complexion-unavailable"
+  /**
+   * Candidate review only: a required slot has no compatible family at all, so
+   * the identity itself is incomplete rather than merely unposed. Reachable
+   * only through `unresolvableRequiredSlots: "diagnose"`.
+   */
+  | "required-family-unavailable";
 
 export interface CharacterRecipeDiagnostic {
   readonly code: CharacterRecipeDiagnosticCode;
@@ -1696,16 +1728,31 @@ export function resolveCharacterRecipe(
         .map((component) => component.definition.family),
     ),
   ];
+  const identityDiagnostics: CharacterRecipeDiagnostic[] = [];
+  const diagnoseUnresolvable = request.unresolvableRequiredSlots === "diagnose";
+  let headFamily: string;
   if (headFamilies.length === 0) {
-    throw new Error(
-      `No head family is compatible with body family '${bodyFamily}' at generation ${generation}.`,
+    if (!diagnoseUnresolvable) {
+      throw new Error(
+        `No head family is compatible with body family '${bodyFamily}' at generation ${generation}.`,
+      );
+    }
+    headFamily = CHARACTER_UNRESOLVED_FAMILY;
+    identityDiagnostics.push({
+      code: "required-family-unavailable",
+      slotId:
+        library.slots.find((slot) => slot.kind === "head")?.slot_id ?? "head",
+      kind: "head",
+      family: bodyFamily,
+      message: `No head component declares body family '${bodyFamily}' as compatible at generation ${generation}, so this identity has no face. The body can be reviewed; a person cannot be put in it.`,
+    });
+  } else {
+    headFamily = pickFamily(
+      rng,
+      `character-identity:${version}:head-family`,
+      headFamilies,
     );
   }
-  const headFamily = pickFamily(
-    rng,
-    `character-identity:${version}:head-family`,
-    headFamilies,
-  );
 
   const slots: Record<string, string | null> = {};
   for (const slot of library.slots) {
@@ -1734,9 +1781,18 @@ export function resolveCharacterRecipe(
     ];
     if (families.length === 0) {
       if (slot.required) {
-        throw new Error(
-          `Required character slot '${slot.slot_id}' has no ${slot.kind} family compatible with body '${bodyFamily}' and head '${headFamily}' at generation ${generation}.`,
-        );
+        if (!diagnoseUnresolvable) {
+          throw new Error(
+            `Required character slot '${slot.slot_id}' has no ${slot.kind} family compatible with body '${bodyFamily}' and head '${headFamily}' at generation ${generation}.`,
+          );
+        }
+        identityDiagnostics.push({
+          code: "required-family-unavailable",
+          slotId: slot.slot_id,
+          kind: slot.kind,
+          family: bodyFamily,
+          message: `No ${slot.kind} component declares body family '${bodyFamily}' as compatible at generation ${generation}. The garment has never been authored for this morphology; nothing is stretched onto it.`,
+        });
       }
       slots[slot.slot_id] = null;
       continue;
@@ -1774,7 +1830,7 @@ export function resolveCharacterRecipe(
     slots,
   };
 
-  const diagnostics: CharacterRecipeDiagnostic[] = [];
+  const diagnostics: CharacterRecipeDiagnostic[] = [...identityDiagnostics];
   const bodySlotId =
     library.slots.find((slot) => slot.kind === "body")?.slot_id ?? "body";
 

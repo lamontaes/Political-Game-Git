@@ -173,6 +173,11 @@ export interface CharacterRenderPlanRequest {
   readonly plate: SceneSize;
   readonly library: CharacterComponentLibrary;
   readonly visualLibrary: RuntimeVisualLibrary;
+  /**
+   * CANDIDATE REVIEW ONLY; see `CharacterRecipeRequest`. Omitted everywhere a
+   * player can reach, so a person the library cannot finish still throws.
+   */
+  readonly unresolvableRequiredSlots?: "throw" | "diagnose";
 }
 
 function stableIdentityKey(identity: CharacterRecipeIdentity): string {
@@ -201,12 +206,14 @@ export function resolvePersonCharacterRecipe(
   appearance: PersonAppearance,
   poseFamily: string,
   library: CharacterComponentLibrary,
+  unresolvableRequiredSlots?: "throw" | "diagnose",
 ): CharacterRecipe {
   return resolveCharacterRecipe(
     {
       appearance,
       poseFamily,
       catalogGeneration: resolvePersonCatalogGeneration(appearance, library),
+      ...(unresolvableRequiredSlots ? { unresolvableRequiredSlots } : {}),
     },
     library,
   );
@@ -215,8 +222,15 @@ export function resolvePersonCharacterRecipe(
 export function buildCharacterRenderPlan(
   request: CharacterRenderPlanRequest,
 ): CharacterRenderPlan {
-  const { personId, appearance, anchor, plate, library, visualLibrary } =
-    request;
+  const {
+    personId,
+    appearance,
+    anchor,
+    plate,
+    library,
+    visualLibrary,
+    unresolvableRequiredSlots,
+  } = request;
   if (!(anchor.bodyWidthPercent > 0) || !(anchor.scale > 0)) {
     throw new Error(
       `Scene anchor '${anchor.id}' must declare positive bodyWidthPercent and scale.`,
@@ -226,6 +240,7 @@ export function buildCharacterRenderPlan(
     appearance,
     anchor.poseFamily,
     library,
+    unresolvableRequiredSlots,
   );
   const projected = projectCharacterLayers(recipe, library);
   const recipeKey = `${appearance.seed}@${recipe.recipeVersion}#g${recipe.catalogGeneration}:${stableIdentityKey(recipe.identity)}`;

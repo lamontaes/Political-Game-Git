@@ -220,9 +220,47 @@ Development warnings are allowed to be technical. **Player-facing fallback copy
 is not**: it says what is actually being shown, names the person, and never
 mentions slots, assets, anchors, tiers or contracts.
 
+## Candidate admission
+
+A candidate is banked art that has files, hashes and a definition, and that
+nobody has agreed to put on a person yet. It lives outside every catalog
+generation, and `liftCandidatesForReview` composes it into a throwaway library
+so a reviewer can look at it. Promotion is a separate authorized act.
+
+Evidence bodies measured from existing source sheets are registered in
+`art/manifest/character_candidate_registry.json` — a **separate file** from
+`asset_manifest.json`, so the production library cannot reach one by accident —
+and are read only by `src/presentation/candidate-review.ts`. `npm run
+admit:wave-a-candidates` regenerates the registry and its evidence report;
+both are deterministic and checked in.
+
+Three rules make an admission evidence rather than a claim:
+
+- **A filename is not a pose.** Each crop carries a reviewed observation
+  authored from the pixels — posture, facing, baked prop, figure extent,
+  confidence — with the reviewer and method named. The prior filename claim is
+  recorded beside it and the disagreements are reported, not resolved silently.
+- **The registry declares only what the silhouette carries.** Anchors come from
+  the accepted `measureBodyRig`. A landmark the raster cannot show — a `brow` on
+  a blank face, the interior hip joint centre — stays unresolved, and the
+  candidate is correctly rejected by `validateProductionBodyAnchors`.
+- **A facing or posture with no registered pose family is a missing contract**,
+  not a body to be filed under the nearest family that exists.
+
+Composing a candidate that no head or garment has been drawn for needs one
+narrow escape: `resolveCharacterRecipe` accepts
+`unresolvableRequiredSlots: "diagnose"`, which turns "no family is compatible
+with this body" from a throw into a `required-family-unavailable` diagnostic. It
+defaults to the throw, no runtime path passes it, and the render plan still
+reports the person incomplete. It exists so unfinished art can be looked at,
+never so an unfinished person can be shipped.
+
 ## Development surfaces
 
 - `?view=character-proof` — the modular component compositor.
+- `?view=character-proof&set=wave-a` — candidate admission review: one banked
+  body at gameplay scale, its measured contact placed on a drawn floor line, and
+  every required slot it cannot fill with the contract reason why.
 - `?view=scene-proof` — the scene and person presentation proof: the same
   generated people placed in two rooms by contact metadata alone, with the
   overlay drawing every declared plane, contact, footprint, occluder, surface

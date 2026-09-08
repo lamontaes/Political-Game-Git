@@ -537,10 +537,20 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // This pins the reported numbers to what the scanner actually returns.
     // Measured by corpus:prose on the FINAL-LANDING-Q4 Step B tree: P1
     // narration, accepted current main and unchanged executive modules.
+    //
+    // Re-measured on the PEOPLE1 candidate-admission branch. The scanner walks
+    // the whole tree, so ANY branch that adds a source file moves these two
+    // numbers; 319 -> 322 files and 49,311 -> 49,556 literals is exactly the
+    // three files that branch adds (`src/presentation/candidate-review.ts`,
+    // its test, and `src/ui/CandidateAdmissionReview.tsx`). Re-pinning them is
+    // what the test asks for — it exists so the reported counts are a live
+    // measurement rather than a stale one. INVENTORIED is deliberately NOT
+    // re-pinned and has not moved: the branch adds no prose, and that is the
+    // assertion actually worth defending here.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49311);
+    expect(coverage.totalLiterals).toBe(49556);
     expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(319);
+    expect(coverage.scannedFiles).toBe(322);
   });
 });
 

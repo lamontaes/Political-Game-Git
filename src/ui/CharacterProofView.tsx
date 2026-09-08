@@ -24,6 +24,7 @@ import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
+import { CandidateAdmissionReview } from "./CandidateAdmissionReview";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
 import type { EntityId, World } from "../simulation/types";
@@ -45,6 +46,28 @@ function proofSetFromUrl(): CharacterProofSetId {
   const value = new URLSearchParams(window.location.search).get("set");
   return value === "dev" ? "dev" : "real";
 }
+
+/**
+ * `?set=wave-a` is a THIRD review surface, not a third proof set.
+ *
+ * The two proof sets each compose four generated people, which needs a library
+ * that can finish a person. The admitted Wave A bodies deliberately cannot: no
+ * face and no wardrobe has been drawn for them yet. Giving them their own
+ * surface keeps that distinction visible instead of showing four broken people
+ * and calling it a set.
+ */
+function waveAReviewRequested(): boolean {
+  return new URLSearchParams(window.location.search).get("set") === "wave-a";
+}
+
+const SET_LINKS = (
+  <p>
+    Sets:{" "}
+    <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
+    <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
+    <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
+  </p>
+);
 
 /**
  * Which library a proof set composes from.
@@ -281,6 +304,30 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
+  if (waveAReviewRequested()) {
+    return (
+      <main
+        className="character-proof"
+        data-testid="character-proof"
+        data-proof-set="wave-a"
+      >
+        <header className="character-proof-header">
+          <div>
+            <p className="character-proof-eyebrow">
+              Developer proof · Wave A candidate admission — NOT IN ANY CATALOG
+            </p>
+            <h1>Modular character runtime proof</h1>
+            {SET_LINKS}
+          </div>
+        </header>
+        <CandidateAdmissionReview />
+      </main>
+    );
+  }
+  return <CharacterProofWorldView />;
+}
+
+function CharacterProofWorldView() {
   const [setId] = useState<CharacterProofSetId>(proofSetFromUrl);
   const set = CHARACTER_PROOF_SETS[setId];
   const [{ world, source }, setWorldState] = useState(() =>
@@ -338,13 +385,7 @@ export function CharacterProofView() {
             {libraries.characters.catalogGeneration}; people pinned to{" "}
             {set.catalogGeneration ?? libraries.characters.catalogGeneration}.
           </p>
-          <p>
-            Sets:{" "}
-            <a href="?view=character-proof&set=real">
-              real production candidates
-            </a>{" "}
-            · <a href="?view=character-proof&set=dev">DEV fixtures</a>
-          </p>
+          {SET_LINKS}
         </div>
         <div className="character-proof-controls">
           <label>
