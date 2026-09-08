@@ -30,6 +30,10 @@ import type {
  */
 
 export interface RecordDraftLineageInput {
+  /** A standing authority's key, where the bill was written against one. */
+  readonly authorityKey?: string;
+  /** A measure on the same docket, where the bill was written against one. */
+  readonly authorityMeasureId?: EntityId;
   readonly stableKey: string;
   readonly measureId: EntityId;
   readonly familyKey: string;
@@ -126,6 +130,12 @@ export function recordDraftLineage(
     compiledAt: input.compiledAt,
     recordedAt: world.currentDate,
     parameters: toParameterRecords(input.parameterValues),
+    ...(input.authorityKey !== undefined
+      ? { authorityKey: input.authorityKey }
+      : {}),
+    ...(input.authorityMeasureId !== undefined
+      ? { authorityMeasureId: input.authorityMeasureId }
+      : {}),
     provenanceNote: input.provenanceNote,
   };
 

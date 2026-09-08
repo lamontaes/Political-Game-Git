@@ -18,7 +18,12 @@ import { applyLegislativeStep } from "./legislation-session";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
 import { offerNegotiatedAmendment } from "./legislative-bargaining-actions";
 import { fileDraft, readDocket } from "./legislation-docket";
-import { programConfigurations } from "../simulation/legislation-program-families";
+import {
+  legalInstrumentRule,
+  programConfigurations,
+  programVariant,
+  standingAuthorities,
+} from "../simulation/legislation-program-families";
 import { compileBillDraft } from "../simulation/legislation-drafting";
 import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
 import {
@@ -244,17 +249,41 @@ describe("an adopted amendment revises the bill it belongs to", () => {
 });
 
 describe("every configuration produces a sitting about itself", () => {
-  it("gives each of the eight configurations its own requested section", () => {
+  /**
+   * Compiles any configuration, supplying an authority where its instrument
+   * needs one — as the docket does in play.
+   */
+  function compileAny(familyKey: string, variantKey: string) {
+    const { variant } = programVariant(familyKey, variantKey);
+    const rule = legalInstrumentRule(variant.instrument);
+    const authority = rule.requiresPredicateAuthority
+      ? standingAuthorities().find((candidate) =>
+          rule.predicateMustAuthorizeSpending
+            ? candidate.authorizesSpending
+            : true,
+        )
+      : undefined;
+    return compileBillDraft({
+      familyKey,
+      variantKey,
+      scenarioKey: "kentucky",
+      jurisdictionId: "jurisdiction_test" as never,
+      rulePackId: "us-ky-general-assembly",
+      designation: "HB 401",
+      filedOn: "2026-01-14" as never,
+      ...(authority ? { predicateAuthority: authority } : {}),
+    });
+  }
+
+  it("gives every configuration in the bank its own requested section", () => {
+    // No count is asserted. The claim is that no two configurations are
+    // bargained over the same section, which is what would happen if the
+    // amendment producer reached past its own facts again.
     const keys = programConfigurations().map((configuration) => {
-      const draft = compileBillDraft({
-        familyKey: configuration.familyKey,
-        variantKey: configuration.variantKey,
-        scenarioKey: "kentucky",
-        jurisdictionId: "jurisdiction_test" as never,
-        rulePackId: "us-ky-general-assembly",
-        designation: "HB 401",
-        filedOn: "2026-01-14" as never,
-      });
+      const draft = compileAny(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
       const facts = bargainingSubjectFactsForDraft({
         draft,
         measureId: "legislative-measure_test" as never,
@@ -266,9 +295,27 @@ describe("every configuration produces a sitting about itself", () => {
         advocatePersonId: "person_b" as never,
         guardianPersonId: "person_c" as never,
       });
-      return facts.requestedProvisionKey;
+      return `${facts.requestedProvisionKey}:${facts.requestedSegmentKey ?? ""}`;
     });
-    expect(new Set(keys).size).toBe(8);
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it("argues over the section the instrument actually turns on", () => {
+    // An appropriation's politics are about the amount; a repeal's are about
+    // the date and the saving clause; a reporting duty's are about what must be
+    // said. The section under argument follows the act, and this asserts it
+    // rather than trusting it.
+    const appropriation = compileAny("appropriations", "single-programme");
+    expect(appropriation.amendmentInvitation.provisionKey).toBe(
+      "district-set-aside",
+    );
+    const repeal = compileAny("program-sunset", "repeal-outright");
+    expect(repeal.amendmentInvitation.provisionKey).toBe(
+      "transition-assistance",
+    );
+    expect(repeal.amendmentInvitation.requestedMinorUnits).toBe(0);
+    const charge = compileAny("service-charges", "flat-permit-fee");
+    expect(charge.amendmentInvitation.provisionKey).toBe("fee-remission");
   });
 
   it("says a mandate commits nothing rather than showing it as zero", () => {

@@ -10,11 +10,15 @@ import {
   type CompiledBillDraft,
 } from "./legislation-drafting";
 import {
+  legalInstrumentRule,
+  legalInstrumentRules,
   programConfigurations,
   programFamilies,
   programFamily,
   programVariant,
+  standingAuthorities,
   type ClauseDimension,
+  type PredicateAuthority,
   type ProgramParameterValue,
 } from "./legislation-program-families";
 import { createStableId } from "./ids";
@@ -41,6 +45,7 @@ function compile(
     readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
     readonly scenarioKey?: string;
     readonly jurisdictionId?: string;
+    readonly predicateAuthority?: PredicateAuthority;
   },
 ): CompiledBillDraft {
   return compileBillDraft({
@@ -52,13 +57,53 @@ function compile(
     rulePackId: "us-ky-general-assembly",
     designation: "HB 900",
     filedOn: FILED_ON,
+    ...(overrides?.predicateAuthority !== undefined
+      ? { predicateAuthority: overrides.predicateAuthority }
+      : {}),
   });
 }
 
-describe("the programme bank offers four genuinely different families", () => {
-  it("declares four families and eight configurations", () => {
-    expect(programFamilies()).toHaveLength(4);
-    expect(programConfigurations()).toHaveLength(8);
+/**
+ * Compiles a configuration whatever its instrument, supplying an authority
+ * where one is required.
+ *
+ * The sweeps below run over the whole bank, and half the bank acts on something
+ * that already exists. Picking a standing authority that satisfies the rule is
+ * the test harness doing what the docket does in play, not the test relaxing a
+ * requirement: an instrument that needs an authority and is given none is
+ * asserted to fail, separately and on purpose.
+ */
+function compileAnywhere(
+  familyKey: string,
+  variantKey: string,
+): CompiledBillDraft {
+  const { variant } = programVariant(familyKey, variantKey);
+  const rule = legalInstrumentRule(variant.instrument);
+  if (!rule.requiresPredicateAuthority) return compile(familyKey, variantKey);
+  const authority = standingAuthorities().find((candidate) =>
+    rule.predicateMustAuthorizeSpending ? candidate.authorizesSpending : true,
+  );
+  expect(authority).toBeDefined();
+  return compile(familyKey, variantKey, {
+    predicateAuthority: authority as PredicateAuthority,
+  });
+}
+
+describe("the programme bank offers genuinely different families", () => {
+  /**
+   * No configuration count is asserted anywhere in this file.
+   *
+   * An earlier tranche pinned four families and eight configurations, and that
+   * number became a ceiling: a test that says "eight" fails when the bank grows
+   * and passes when somebody adds a ninth rename. Every check below asserts a
+   * property that a rename breaks and an honest addition does not, so the bank
+   * can grow without editing an expectation, and cannot grow by duplication.
+   */
+  it("has more than one family and more than one configuration in each", () => {
+    expect(programFamilies().length).toBeGreaterThan(1);
+    expect(programConfigurations().length).toBeGreaterThan(
+      programFamilies().length,
+    );
   });
 
   it("gives every family a mechanism no other family shares", () => {
@@ -66,39 +111,63 @@ describe("the programme bank offers four genuinely different families", () => {
     expect(new Set(mechanisms).size).toBe(mechanisms.length);
   });
 
-  it("compiles all eight configurations against a supported legislature", () => {
-    const compiled = programConfigurations().map((configuration) =>
-      compile(configuration.familyKey, configuration.variantKey),
+  it("gives every family and configuration a key no other one shares", () => {
+    const familyKeys = programFamilies().map((family) => family.familyKey);
+    expect(new Set(familyKeys).size).toBe(familyKeys.length);
+    const configurationKeys = programConfigurations().map(
+      (configuration) =>
+        `${configuration.familyKey}/${configuration.variantKey}`,
     );
-    expect(compiled).toHaveLength(8);
-    for (const draft of compiled) {
+    expect(new Set(configurationKeys).size).toBe(configurationKeys.length);
+  });
+
+  it("compiles every configuration in the bank", () => {
+    for (const configuration of programConfigurations()) {
+      const draft = compileAnywhere(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
       expect(draft.clauses.length).toBeGreaterThanOrEqual(3);
     }
   });
 
-  it("gives the eight configurations eight distinct operative texts", () => {
-    // The failure this guards against is four renamed bus bills. Comparing the
+  it("gives every configuration an operative text no other one has", () => {
+    // The failure this guards against is renamed bus bills. Comparing the
     // operative sections — not the titles — is what makes the check mean
     // something: two configurations that differ only in their label produce the
     // same body here and collapse the set.
     const bodies = programConfigurations().map((configuration) =>
-      compile(configuration.familyKey, configuration.variantKey)
+      compileAnywhere(configuration.familyKey, configuration.variantKey)
         .clauses.map((clause) => clause.text)
         .join("\n"),
     );
-    expect(new Set(bodies).size).toBe(8);
+    expect(new Set(bodies).size).toBe(bodies.length);
+  });
+
+  it("gives every configuration a synopsis no other one has", () => {
+    const synopses = programFamilies().flatMap((family) =>
+      family.variants.map((variant) => variant.synopsis),
+    );
+    expect(new Set(synopses).size).toBe(synopses.length);
   });
 
   it("does not reuse one family's operative clause keys in another", () => {
-    // Purpose sections are legitimately shared boilerplate; the operative
-    // sections are what has to differ.
+    // Two clause roles are structural rather than operative and are legitimately
+    // shared: the purpose section, and the section naming what the Act acts
+    // upon. Both are the same role in every family that has one, and their
+    // texts are asserted to differ separately, below. Everything else is the
+    // programme's own mechanism and has to be its own.
     const operativeKeysByFamily = programFamilies().map(
       (family) =>
         new Set(
           family.variants.flatMap((variant) =>
             variant.clauses
-              .map((clause) => clause.provisionKey)
-              .filter((key) => key !== "purpose"),
+              .filter(
+                (clause) =>
+                  clause.provisionKey !== "purpose" &&
+                  clause.dimension !== "authority-reference",
+              )
+              .map((clause) => clause.provisionKey),
           ),
         ),
     );
@@ -116,11 +185,39 @@ describe("the programme bank offers four genuinely different families", () => {
     }
   });
 
-  it("covers the three required clause dimensions across the tranche", () => {
+  it("writes a different authority clause in every family that has one", () => {
+    // The shared key is a shared role, not shared content. Each family says
+    // something different about what its Act does to the thing it names, and a
+    // family that copied another's sentence would collapse this set.
+    const texts = new Set<string>();
+    let seen = 0;
+    for (const configuration of programConfigurations()) {
+      const draft = compileAnywhere(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      for (const clause of draft.clauses) {
+        if (clause.dimension !== "authority-reference") continue;
+        texts.add(clause.text);
+        seen += 1;
+      }
+    }
+    expect(seen).toBeGreaterThan(0);
+    expect(texts.size).toBe(seen);
+  });
+
+  it("gives every amendment invitation a segment key no other one has", () => {
+    const segments = programFamilies().flatMap((family) =>
+      family.variants.map((variant) => variant.amendmentInvitation.segmentKey),
+    );
+    expect(new Set(segments).size).toBe(segments.length);
+  });
+
+  it("covers every clause dimension the bank declares", () => {
     const dimensions = new Set<ClauseDimension>();
     for (const configuration of programConfigurations()) {
       for (const dimension of draftClauseDimensions(
-        compile(configuration.familyKey, configuration.variantKey),
+        compileAnywhere(configuration.familyKey, configuration.variantKey),
       )) {
         dimensions.add(dimension);
       }
@@ -129,11 +226,16 @@ describe("the programme bank offers four genuinely different families", () => {
     expect(dimensions.has("eligibility-scope")).toBe(true);
     expect(dimensions.has("timing")).toBe(true);
     expect(dimensions.has("oversight")).toBe(true);
+    expect(dimensions.has("revenue")).toBe(true);
+    expect(dimensions.has("authority-reference")).toBe(true);
   });
 
   it("labels every authored number and every source example", () => {
     for (const configuration of programConfigurations()) {
-      const draft = compile(configuration.familyKey, configuration.variantKey);
+      const draft = compileAnywhere(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
       expect(draft.evidence.length).toBeGreaterThan(0);
       for (const evidence of draft.evidence) {
         expect([
@@ -146,10 +248,184 @@ describe("the programme bank offers four genuinely different families", () => {
           expect(evidence.establishes.length).toBeGreaterThan(0);
         }
       }
-      // Every parameter a player can move is authored fiction, and says so.
+      // A parameter a player can move is either authored fiction or a source
+      // example that establishes the *shape* of the choice. Nothing driving a
+      // clause is ever an unlabelled assertion.
       for (const spec of draft.parameters) {
-        expect(spec.evidence.kind).toBe("authored-parameter");
+        expect(["authored-parameter", "source-example"]).toContain(
+          spec.evidence.kind,
+        );
       }
+    }
+  });
+
+  it("names a distinct missing series for every family's intended outcome", () => {
+    const metricKeys = programFamilies().map(
+      (family) => family.intendedOutcome.metricStableKey,
+    );
+    expect(new Set(metricKeys).size).toBe(metricKeys.length);
+    const seriesKeys = programFamilies().map(
+      (family) => family.intendedOutcome.baselineSeriesKey,
+    );
+    expect(new Set(seriesKeys).size).toBe(seriesKeys.length);
+  });
+});
+
+describe("the bank writes more than one kind of legal act", () => {
+  /**
+   * The failure this guards against is subtler than a rename and was the
+   * actual state of the first tranche: eight configurations across four
+   * subjects, every one of them the same kind of act. A bank that can only
+   * authorize programmes is a funding slider with several titles, whatever the
+   * subjects are called.
+   */
+  it("puts at least one configuration behind every declared instrument", () => {
+    const used = new Set(
+      programFamilies().flatMap((family) =>
+        family.variants.map((variant) => variant.instrument),
+      ),
+    );
+    for (const rule of legalInstrumentRules()) {
+      expect(used.has(rule.instrument)).toBe(true);
+    }
+  });
+
+  it("does not let one instrument account for most of the bank", () => {
+    const counts = new Map<string, number>();
+    for (const family of programFamilies()) {
+      for (const variant of family.variants) {
+        counts.set(
+          variant.instrument,
+          (counts.get(variant.instrument) ?? 0) + 1,
+        );
+      }
+    }
+    const total = programConfigurations().length;
+    for (const count of counts.values()) {
+      expect(count).toBeLessThan(total / 2);
+    }
+  });
+
+  it("keeps a ceiling, an appropriation and a charge in three fields", () => {
+    const authorization = compile("transit-access", "enrollment-fare-relief");
+    expect(authorization.authorizedCeilingMinorUnits).not.toBeNull();
+    expect(authorization.appropriatedMinorUnits).toBeNull();
+    expect(authorization.revenueMinorUnits).toBeNull();
+
+    const appropriation = compileAnywhere("appropriations", "single-programme");
+    expect(appropriation.appropriatedMinorUnits).not.toBeNull();
+    expect(appropriation.authorizedCeilingMinorUnits).toBeNull();
+    expect(appropriation.revenueMinorUnits).toBeNull();
+
+    const charge = compile("service-charges", "flat-permit-fee");
+    expect(charge.revenueMinorUnits).not.toBeNull();
+    expect(charge.authorizedCeilingMinorUnits).toBeNull();
+    expect(charge.appropriatedMinorUnits).toBeNull();
+  });
+
+  it("states no amount at all on an instrument that provides none", () => {
+    for (const configuration of programConfigurations()) {
+      const { variant } = programVariant(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      const rule = legalInstrumentRule(variant.instrument);
+      if (rule.mayAuthorizeAppropriation) continue;
+      const draft = compileAnywhere(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      expect(draft.authorizedCeilingMinorUnits).toBeNull();
+      expect(draft.appropriatedMinorUnits).toBeNull();
+      // A revenue measure states a charge, which is not an amount it spends.
+      for (const clause of draft.clauses) {
+        if (clause.dimension === "revenue") continue;
+        expect(clause.fiscalExposureMinorUnits).toBeNull();
+      }
+    }
+  });
+});
+
+describe("acting on something that already exists is refused when it does not", () => {
+  const spendingAuthority = standingAuthorities().find(
+    (authority) => authority.authorizesSpending,
+  ) as PredicateAuthority;
+  const nonSpendingAuthority = standingAuthorities().find(
+    (authority) => !authority.authorizesSpending,
+  ) as PredicateAuthority;
+
+  it("refuses an appropriation with nothing to appropriate for", () => {
+    expect(() => compile("appropriations", "single-programme")).toThrow(
+      BillConfigurationError,
+    );
+    expect(() => compile("appropriations", "single-programme")).toThrow(
+      /was given no authority to act on/,
+    );
+  });
+
+  it("refuses an appropriation against an authority that spends nothing", () => {
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: nonSpendingAuthority,
+      }),
+    ).toThrow(/authorizes no spending/);
+  });
+
+  it("refuses an appropriation larger than the authority allows", () => {
+    const ceiling = spendingAuthority.authorizedCeilingMinorUnits;
+    expect(ceiling).not.toBeNull();
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: spendingAuthority,
+        parameterValues: {
+          appropriation: {
+            kind: "money",
+            minorUnits: (ceiling as number) + 100,
+            currency: "USD",
+          },
+        },
+      }),
+    ).toThrow(/which authorizes/);
+  });
+
+  it("allows an appropriation exactly at the ceiling", () => {
+    const ceiling = spendingAuthority.authorizedCeilingMinorUnits as number;
+    const draft = compile("appropriations", "single-programme", {
+      predicateAuthority: spendingAuthority,
+      parameterValues: {
+        appropriation: { kind: "money", minorUnits: ceiling, currency: "USD" },
+      },
+    });
+    expect(draft.appropriatedMinorUnits).toBe(ceiling);
+  });
+
+  it("refuses to write an authorization against an authority", () => {
+    expect(() =>
+      compile("transit-access", "enrollment-fare-relief", {
+        predicateAuthority: spendingAuthority,
+      }),
+    ).toThrow(/creates rather than amends/);
+  });
+
+  it("names the authority in the operative text of every act that takes one", () => {
+    for (const configuration of programConfigurations()) {
+      const { variant } = programVariant(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      const rule = legalInstrumentRule(variant.instrument);
+      if (!rule.requiresPredicateAuthority) continue;
+      const draft = compileAnywhere(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      const referenceClause = draft.clauses.find(
+        (clause) => clause.dimension === "authority-reference",
+      );
+      expect(referenceClause).toBeDefined();
+      expect(referenceClause?.text).toContain(
+        (draft.predicateAuthority as PredicateAuthority).citationLabel,
+      );
     }
   });
 });

@@ -1485,7 +1485,7 @@ const PUBLIC_WORKFORCE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "standard",
+          provisionKey: "classification-standard",
           dimension: "oversight",
           heading: "The standard",
           parameterKey: "standard-kind",
@@ -1504,7 +1504,7 @@ const PUBLIC_WORKFORCE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "compliance-deadline",
+          provisionKey: "classification-compliance",
           dimension: "timing",
           heading: "Compliance",
           parameterKey: "compliance-term",

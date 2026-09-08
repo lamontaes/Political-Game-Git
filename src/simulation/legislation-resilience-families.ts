@@ -625,7 +625,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "programme-term",
+          provisionKey: "hardening-term",
           dimension: "timing",
           heading: "Period of the programme",
           parameterKey: "programme-term",
@@ -773,7 +773,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "standard",
+          provisionKey: "restoration-standard",
           dimension: "oversight",
           heading: "The standard",
           parameterKey: "standard-contents",
@@ -791,7 +791,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "compliance-deadline",
+          provisionKey: "restoration-compliance",
           dimension: "timing",
           heading: "Compliance",
           parameterKey: "compliance-term",
@@ -1008,7 +1008,7 @@ const CRITICAL_INFRASTRUCTURE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "programme-term",
+          provisionKey: "assistance-term",
           dimension: "timing",
           heading: "Period of the programme",
           parameterKey: "programme-term",
@@ -1173,7 +1173,7 @@ const CRITICAL_INFRASTRUCTURE: ProgramFamily = {
           },
         },
         {
-          provisionKey: "compliance-deadline",
+          provisionKey: "continuity-compliance",
           dimension: "timing",
           heading: "Compliance",
           parameterKey: "compliance-term",

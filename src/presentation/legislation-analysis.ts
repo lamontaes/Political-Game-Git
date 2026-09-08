@@ -7,9 +7,11 @@ import {
 import type { EntityId, World } from "../simulation";
 import {
   formatMinorUnits,
+  legalInstrumentRule,
   programFamily,
+  type LegalInstrumentRule,
 } from "../simulation/legislation-program-families";
-import type { DocketBill } from "./legislation-docket";
+import { resolveAuthority, type DocketBill } from "./legislation-docket";
 
 /**
  * What the game can honestly say about what a bill costs and what it would do.
@@ -49,6 +51,21 @@ export interface BillSectionReading {
   readonly addedByAmendment: boolean;
 }
 
+/**
+ * What a bill does with money, named by the act it is.
+ *
+ * The same arithmetic means three different things depending on the
+ * instrument, and this type is the refusal to flatten them. "Authorizes up to
+ * $8,000,000" and "appropriates $8,000,000" are not the same sentence, and a
+ * surface that renders both as a total is telling a player that a ceiling
+ * nobody funded is money that exists.
+ */
+export type BillMoneyEffect =
+  | { readonly kind: "authorizes-ceiling"; readonly label: string }
+  | { readonly kind: "provides-money"; readonly label: string }
+  | { readonly kind: "collects-charge"; readonly label: string }
+  | { readonly kind: "states-no-amount"; readonly label: string };
+
 export interface BillFiscalReading {
   readonly designation: string;
   readonly sections: readonly BillSectionReading[];
@@ -62,6 +79,22 @@ export interface BillFiscalReading {
   readonly statedCeilingLabel: string;
   /** Where the number came from, said so a player is not guessing. */
   readonly basis: string;
+  /** What kind of act this is, where the bank still carries it. */
+  readonly instrumentLabel: string | null;
+  /** What the number means for this kind of act. */
+  readonly effect: BillMoneyEffect;
+  /**
+   * The authority this Act acts on, and what it allows.
+   *
+   * Present only where the bill named one. It is the fact that makes an
+   * appropriation readable as an appropriation rather than as a second
+   * ceiling: this much, against that much, under that Act.
+   */
+  readonly headroom: {
+    readonly citationLabel: string;
+    readonly allowedLabel: string | null;
+    readonly remainingLabel: string | null;
+  } | null;
 }
 
 export function billFiscalReading(
@@ -88,6 +121,19 @@ export function billFiscalReading(
     .map((section) => section.exposureMinorUnits)
     .filter((amount): amount is number => amount !== null);
 
+  // The instrument decides what the arithmetic means. A bill drafted from a
+  // configuration the bank no longer carries keeps its numbers and loses only
+  // the name of the act, which is the honest degradation.
+  let rule: LegalInstrumentRule | null = null;
+  if (bill.instrument !== null) {
+    try {
+      rule = legalInstrumentRule(bill.instrument);
+    } catch {
+      rule = null;
+    }
+  }
+  const headroom = readHeadroom(world, bill);
+
   if (exposures.length === 0) {
     return {
       designation: measure.designation,
@@ -96,17 +142,88 @@ export function billFiscalReading(
       statedCeilingLabel: "This Act states no amount.",
       basis:
         "Read from the bill's sections as they currently stand. No section of this Act states an amount.",
+      instrumentLabel: rule?.label ?? null,
+      effect: {
+        kind: "states-no-amount",
+        label: "This Act states no amount.",
+      },
+      headroom,
     };
   }
 
   const total = exposures.reduce((sum, amount) => sum + amount, 0);
+  const label = formatMinorUnits(total, "USD");
   return {
     designation: measure.designation,
     sections,
     statedCeilingMinorUnits: total,
-    statedCeilingLabel: formatMinorUnits(total, "USD"),
-    basis:
-      "Added up from the ceilings the bill's own sections state, as they currently stand. It is what the text commits, not a forecast of what would be spent.",
+    statedCeilingLabel: label,
+    basis: rule?.makesMoneyAvailable
+      ? "Added up from what the bill's own sections provide, as they currently stand. It is money this Act makes available, which is not the same as money that has been spent."
+      : "Added up from the ceilings the bill's own sections state, as they currently stand. It is what the text commits, not a forecast of what would be spent.",
+    instrumentLabel: rule?.label ?? null,
+    effect: moneyEffect(rule, sections, label),
+    headroom,
+  };
+}
+
+function moneyEffect(
+  rule: LegalInstrumentRule | null,
+  sections: readonly BillSectionReading[],
+  label: string,
+): BillMoneyEffect {
+  if (rule?.makesMoneyAvailable) {
+    return { kind: "provides-money", label: `${label} provided` };
+  }
+  // A charge is money coming in. It is never described with a verb that means
+  // spending, however the arithmetic happens to be stored.
+  const chargeOnly =
+    sections.length > 0 &&
+    sections.every(
+      (section) =>
+        section.exposureMinorUnits === null ||
+        (section.exposureLabel ?? "").includes("per "),
+    );
+  if (rule !== null && !rule.mayAuthorizeAppropriation && chargeOnly) {
+    return { kind: "collects-charge", label: `${label} charged` };
+  }
+  return { kind: "authorizes-ceiling", label: `up to ${label} authorized` };
+}
+
+/**
+ * How much room the authority this bill names leaves it.
+ *
+ * Read from the bill's own recorded authority, and only where it recorded one.
+ * The remaining figure is arithmetic on two stated numbers, not a forecast:
+ * what that Act allows, less what this one provides.
+ */
+function readHeadroom(
+  world: World,
+  bill: DocketBill,
+): BillFiscalReading["headroom"] {
+  if (bill.authorityKey === null) return null;
+  const authority = resolveAuthority(
+    world,
+    {
+      scenarioKey: bill.scenarioKey,
+      playerPersonId: bill.sponsorPersonId ?? bill.measureId,
+    },
+    bill.authorityKey,
+  );
+  if (authority === null) return null;
+  const allowed = authority.authorizedCeilingMinorUnits;
+  const provided = currentMeasureProvisions(world, bill.measureId)
+    .map((record) => record.fiscalExposureMinorUnits)
+    .filter((amount): amount is number => amount !== null)
+    .reduce((total, amount) => total + amount, 0);
+  return {
+    citationLabel: authority.citationLabel,
+    allowedLabel:
+      allowed === null ? null : formatMinorUnits(allowed, authority.currency),
+    remainingLabel:
+      allowed === null
+        ? null
+        : formatMinorUnits(Math.max(0, allowed - provided), authority.currency),
   };
 }
 

@@ -1,5 +1,6 @@
 import {
   applyCharacterHistoryPlan,
+  currentMeasureProvisions,
   characterHistoryContextPersonId,
   createStableId,
   createWorkItem,
@@ -11,7 +12,12 @@ import {
   recordFiledProvision,
   SeededRng,
 } from "../simulation";
-import type { EntityId, IsoDate, World } from "../simulation";
+import type {
+  EntityId,
+  IsoDate,
+  LegislativeDraftLineageRecord,
+  World,
+} from "../simulation";
 import {
   compileBillDraft,
   BillConfigurationError,
@@ -19,15 +25,20 @@ import {
   draftingSupportsScenario,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
+import { formatMinorUnits } from "../simulation/legislation-program-families";
 import {
   draftLineageForMeasure,
   draftParameterValues,
   recordDraftLineage,
 } from "../simulation/legislation-draft-lineage";
 import {
+  legalInstrumentRule,
   programConfigurations,
   programFamily,
   programVariant,
+  standingAuthorities,
+  type LegalInstrument,
+  type PredicateAuthority,
   type ProgramParameterValue,
 } from "../simulation/legislation-program-families";
 
@@ -81,6 +92,18 @@ export interface DocketBill {
   readonly familyVersion: string;
   readonly variantKey: string;
   readonly variantLabel: string;
+  /**
+   * What kind of legal act this bill is.
+   *
+   * Read from the configuration it was filed at, so a bill drafted from a
+   * configuration the bank has since retired still says what it is. Null only
+   * where the bank no longer carries that configuration at all.
+   */
+  readonly instrument: LegalInstrument | null;
+  readonly instrumentLabel: string | null;
+  /** The authority it was written against, where its instrument took one. */
+  readonly authorityKey: string | null;
+  readonly authorityMeasureId: EntityId | null;
   readonly parameterValues: Readonly<Record<string, ProgramParameterValue>>;
   readonly sponsorPersonId: EntityId | null;
   /** Whose bill this is, said exactly. */
@@ -206,6 +229,15 @@ export function readDocket(
   },
 ): readonly DocketBill[] {
   const measures = world.history.legislativeMeasures ?? [];
+  // Indexed once rather than scanned per measure. A docket of forty bills over
+  // forty lineages is sixteen hundred comparisons the other way round, and the
+  // docket is read on every render.
+  const lineagesByMeasure = new Map<EntityId, LegislativeDraftLineageRecord>();
+  for (const lineage of world.history.legislativeDraftLineages ?? []) {
+    if (!lineagesByMeasure.has(lineage.measureId)) {
+      lineagesByMeasure.set(lineage.measureId, lineage);
+    }
+  }
   const bills: DocketBill[] = [];
   for (const measure of measures) {
     const sequence = parseDocketSequence(measure.stableKey);
@@ -217,11 +249,13 @@ export function readDocket(
     ) {
       continue;
     }
-    const lineage = draftLineageForMeasure(world, measure.id);
+    const lineage = lineagesByMeasure.get(measure.id);
     if (!lineage) continue;
 
     let familyTitle = lineage.familyKey;
     let variantLabel = lineage.variantKey;
+    let instrument: LegalInstrument | null = null;
+    let instrumentLabel: string | null = null;
     try {
       const { family, variant } = programVariant(
         lineage.familyKey,
@@ -229,6 +263,8 @@ export function readDocket(
       );
       familyTitle = family.title;
       variantLabel = variant.label;
+      instrument = variant.instrument;
+      instrumentLabel = legalInstrumentRule(variant.instrument).label;
     } catch {
       // A bill filed from a configuration the bank no longer offers keeps its
       // saved identity and reads by its recorded keys. It is not rewritten and
@@ -254,6 +290,10 @@ export function readDocket(
       familyVersion: lineage.familyVersion,
       variantKey: lineage.variantKey,
       variantLabel,
+      instrument,
+      instrumentLabel,
+      authorityKey: lineage.authorityKey ?? null,
+      authorityMeasureId: lineage.authorityMeasureId ?? null,
       parameterValues: draftParameterValues(lineage),
       sponsorPersonId: measure.sponsorPersonId,
       playerRole:
@@ -301,6 +341,292 @@ function nextDocketSequence(world: World, scenarioKey: string): number {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Filtering a docket that has grown                                           */
+/* -------------------------------------------------------------------------- */
+
+export interface DocketQuery {
+  /** Restrict to one programme family. */
+  readonly familyKey?: string;
+  /** Restrict to one kind of legal act. */
+  readonly instrument?: LegalInstrument;
+  /** Open bills, concluded ones, or both. Defaults to both. */
+  readonly status?: "open" | "concluded" | "all";
+  /** Matched against designation and short title, case-insensitively. */
+  readonly search?: string;
+  readonly offset?: number;
+  readonly limit?: number;
+}
+
+export interface DocketFacetCount {
+  readonly key: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface DocketPage {
+  readonly bills: readonly DocketBill[];
+  /** How many bills matched before the page was taken. */
+  readonly matching: number;
+  /** How many bills are on the docket in total, matched or not. */
+  readonly total: number;
+  readonly offset: number;
+  readonly limit: number;
+  readonly hasMore: boolean;
+  /**
+   * What is actually on this docket to filter by.
+   *
+   * Counted from the docket rather than listed from the bank, so a filter is
+   * never offered for a family the player has no bill in — and the counts are
+   * of the whole docket, not of the page.
+   */
+  readonly families: readonly DocketFacetCount[];
+  readonly instruments: readonly DocketFacetCount[];
+  readonly openCount: number;
+  readonly concludedCount: number;
+}
+
+const DEFAULT_PAGE_SIZE = 12;
+
+/**
+ * A page of the docket, filtered.
+ *
+ * Pure: it reads the docket and takes a slice of it. Paging exists because a
+ * member with thirty bills on the docket should not be handed thirty bills,
+ * and filtering exists because "the appropriations" and "the ones that are
+ * finished" are the two questions somebody actually asks of a list like this.
+ * Newest first, because the bill you filed this morning is the one you came
+ * back for.
+ */
+export function queryDocket(
+  world: World,
+  input: {
+    readonly scenarioKey: string;
+    readonly playerPersonId: EntityId;
+  },
+  query: DocketQuery = {},
+): DocketPage {
+  const all = readDocket(world, input);
+  const newestFirst = [...all].reverse();
+
+  const families = countFacets(
+    newestFirst.map((bill) => ({
+      key: bill.familyKey,
+      label: bill.familyTitle,
+    })),
+  );
+  const instruments = countFacets(
+    newestFirst
+      .filter((bill) => bill.instrument !== null)
+      .map((bill) => ({
+        key: bill.instrument as string,
+        label: bill.instrumentLabel ?? (bill.instrument as string),
+      })),
+  );
+
+  const needle = query.search?.trim().toLowerCase() ?? "";
+  const status = query.status ?? "all";
+  const matched = newestFirst.filter((bill) => {
+    if (query.familyKey !== undefined && bill.familyKey !== query.familyKey) {
+      return false;
+    }
+    if (
+      query.instrument !== undefined &&
+      bill.instrument !== query.instrument
+    ) {
+      return false;
+    }
+    if (status === "open" && bill.concluded) return false;
+    if (status === "concluded" && !bill.concluded) return false;
+    if (needle.length > 0) {
+      const haystack = `${bill.designation} ${bill.shortTitle}`.toLowerCase();
+      if (!haystack.includes(needle)) return false;
+    }
+    return true;
+  });
+
+  const limit =
+    query.limit !== undefined && query.limit > 0
+      ? query.limit
+      : DEFAULT_PAGE_SIZE;
+  const offset =
+    query.offset !== undefined && query.offset > 0 ? query.offset : 0;
+  const page = matched.slice(offset, offset + limit);
+
+  return {
+    bills: page,
+    matching: matched.length,
+    total: all.length,
+    offset,
+    limit,
+    hasMore: offset + page.length < matched.length,
+    families,
+    instruments,
+    openCount: newestFirst.filter((bill) => !bill.concluded).length,
+    concludedCount: newestFirst.filter((bill) => bill.concluded).length,
+  };
+}
+
+function countFacets(
+  entries: readonly { readonly key: string; readonly label: string }[],
+): readonly DocketFacetCount[] {
+  const counts = new Map<string, DocketFacetCount>();
+  for (const entry of entries) {
+    const existing = counts.get(entry.key);
+    counts.set(entry.key, {
+      key: entry.key,
+      label: entry.label,
+      count: (existing?.count ?? 0) + 1,
+    });
+  }
+  return [...counts.values()].sort((left, right) =>
+    left.label.localeCompare(right.label),
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* What a bill can be written against                                          */
+/* -------------------------------------------------------------------------- */
+
+export interface DraftAuthorityOption {
+  /** Stable across saves. A standing key, or `docket:<docketKey>`. */
+  readonly authorityKey: string;
+  readonly kind: "standing-statute" | "docket-measure";
+  readonly citationLabel: string;
+  readonly programmeLabel: string;
+  /** Whether an appropriation can be written against it at all. */
+  readonly authorizesSpending: boolean;
+  readonly authorizedCeilingMinorUnits: number | null;
+  readonly authorizedCeilingLabel: string | null;
+  /** Where this authority came from, said rather than implied. */
+  readonly note: string;
+}
+
+const DOCKET_AUTHORITY_PREFIX = "docket:";
+
+/**
+ * Everything a bill in this legislature could be written against.
+ *
+ * Two sources, kept visibly apart. The standing statutes are authored
+ * background — the programmes this state is assumed already to run — and they
+ * exist so an appropriation is playable before the player has authorized
+ * anything. The docket measures are the player's own earlier bills, and they
+ * are the point of the whole arrangement: a second bill that funds, narrows or
+ * repeals the first one is continuation rather than another item on a list.
+ *
+ * A docket bill's ceiling is read from its *current* provisions, so a bill
+ * whose ceiling was raised by an adopted amendment can be appropriated against
+ * up to the amended figure. That is not a special case; it is what reading the
+ * text instead of the configuration means.
+ */
+export function availableAuthorities(
+  world: World,
+  input: {
+    readonly scenarioKey: string;
+    readonly playerPersonId: EntityId;
+  },
+): readonly DraftAuthorityOption[] {
+  const standing = standingAuthorities().map((authority) => ({
+    authorityKey: authority.authorityKey,
+    kind: "standing-statute" as const,
+    citationLabel: authority.citationLabel,
+    programmeLabel: authority.programmeLabel,
+    authorizesSpending: authority.authorizesSpending,
+    authorizedCeilingMinorUnits: authority.authorizedCeilingMinorUnits,
+    authorizedCeilingLabel:
+      authority.authorizedCeilingMinorUnits === null
+        ? null
+        : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
+    note: "A programme this state already runs.",
+  }));
+
+  const fromDocket: DraftAuthorityOption[] = [];
+  for (const bill of readDocket(world, input)) {
+    if (bill.instrument === null) continue;
+    const rule = legalInstrumentRule(bill.instrument);
+    // A bill that itself acts on something else is not an authority. An
+    // appropriation against an appropriation, or a repeal of a repeal, is a
+    // sentence that does not resolve.
+    if (rule.requiresPredicateAuthority) continue;
+    const reading = measureStatedCeiling(world, bill.measureId);
+    fromDocket.push({
+      authorityKey: `${DOCKET_AUTHORITY_PREFIX}${bill.docketKey}`,
+      kind: "docket-measure",
+      citationLabel: `${bill.designation} (${bill.shortTitle})`,
+      programmeLabel: `the programme ${bill.designation} establishes`,
+      authorizesSpending:
+        rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
+      authorizedCeilingMinorUnits: reading,
+      authorizedCeilingLabel:
+        reading === null ? null : formatMinorUnits(reading, "USD"),
+      note: bill.concluded
+        ? `Your own bill, filed ${bill.filedOn}. It is no longer moving.`
+        : `Your own bill, filed ${bill.filedOn}.`,
+    });
+  }
+  return [...standing, ...fromDocket];
+}
+
+/**
+ * What the bill's current sections add up to.
+ *
+ * Read from provisions rather than recompiled from the configuration, so an
+ * adopted amendment that changes a ceiling changes what can be appropriated
+ * against it. Revenue sections are not included: a charge is not a ceiling.
+ */
+function measureStatedCeiling(
+  world: World,
+  measureId: EntityId,
+): number | null {
+  const amounts = currentMeasureProvisions(world, measureId)
+    .map((record) => record.fiscalExposureMinorUnits)
+    .filter((amount): amount is number => amount !== null);
+  if (amounts.length === 0) return null;
+  return amounts.reduce((total, amount) => total + amount, 0);
+}
+
+/**
+ * Turns a chosen authority key into the typed fact the compiler requires.
+ *
+ * Returns null rather than throwing when the key names nothing, because the
+ * caller's next move is a refusal with a sentence in it, and the compiler
+ * writes a better one than this function could.
+ */
+export function resolveAuthority(
+  world: World,
+  input: {
+    readonly scenarioKey: string;
+    readonly playerPersonId: EntityId;
+  },
+  authorityKey: string,
+): PredicateAuthority | null {
+  if (!authorityKey.startsWith(DOCKET_AUTHORITY_PREFIX)) {
+    return (
+      standingAuthorities().find(
+        (authority) => authority.authorityKey === authorityKey,
+      ) ?? null
+    );
+  }
+  const docketKey = authorityKey.slice(DOCKET_AUTHORITY_PREFIX.length);
+  const bill = docketBill(world, { ...input, docketKey });
+  if (!bill || bill.instrument === null) return null;
+  const rule = legalInstrumentRule(bill.instrument);
+  if (rule.requiresPredicateAuthority) return null;
+  const ceiling = measureStatedCeiling(world, bill.measureId);
+  return {
+    kind: "docket-measure",
+    authorityKey,
+    citationLabel: `${bill.designation} (${bill.shortTitle})`,
+    programmeLabel: `the programme ${bill.designation} establishes`,
+    authorizesSpending:
+      rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
+    authorizedCeilingMinorUnits: ceiling,
+    currency: "USD",
+    measureId: bill.measureId,
+    docketKey: bill.docketKey,
+  };
+}
+
+/* -------------------------------------------------------------------------- */
 /* Previewing a draft — pure, writes nothing                                   */
 /* -------------------------------------------------------------------------- */
 
@@ -313,6 +639,15 @@ export interface DraftPreviewInput {
   readonly filedOn: IsoDate;
   /** Supplied by the caller so a preview is not numbered by writing anything. */
   readonly provisionalSequence: number;
+  /**
+   * The authority the draft is written against.
+   *
+   * Resolved by the caller, because resolving it needs a World and this
+   * function deliberately has none. A preview of an instrument that requires
+   * one and is given none is refused by the compiler, which is the correct
+   * answer rather than a defaulted bill.
+   */
+  readonly predicateAuthority?: PredicateAuthority;
 }
 
 /**
@@ -335,6 +670,9 @@ export function previewDraft(input: DraftPreviewInput): CompiledBillDraft {
     rulePackId: blueprint.pack.packId,
     designation: `${designationPrefix(chamberKey)} ${400 + input.provisionalSequence}`,
     filedOn: input.filedOn,
+    ...(input.predicateAuthority !== undefined
+      ? { predicateAuthority: input.predicateAuthority }
+      : {}),
   });
 }
 
@@ -347,6 +685,20 @@ export interface DraftOption {
   readonly variantLabel: string;
   readonly synopsis: string;
   readonly declaredLimits: readonly string[];
+  /** What kind of legal act choosing this would write. */
+  readonly instrument: LegalInstrument;
+  readonly instrumentLabel: string;
+  readonly instrumentDescription: string;
+  /**
+   * Whether choosing this requires naming something that already exists.
+   *
+   * The surface reads it to know whether to ask, and the compiler enforces it
+   * either way. A configuration is not hidden when nothing is available to act
+   * on; it is offered and refused with a reason, because "there is nothing to
+   * appropriate for yet" is a thing worth telling somebody.
+   */
+  readonly requiresAuthority: boolean;
+  readonly requiresSpendingAuthority: boolean;
 }
 
 export function availableDraftOptions(
@@ -358,6 +710,7 @@ export function availableDraftOptions(
       configuration.familyKey,
       configuration.variantKey,
     );
+    const rule = legalInstrumentRule(variant.instrument);
     return {
       familyKey: family.familyKey,
       familyTitle: family.title,
@@ -366,6 +719,11 @@ export function availableDraftOptions(
       variantLabel: variant.label,
       synopsis: variant.synopsis,
       declaredLimits: variant.declaredLimits,
+      instrument: variant.instrument,
+      instrumentLabel: rule.label,
+      instrumentDescription: rule.description,
+      requiresAuthority: rule.requiresPredicateAuthority,
+      requiresSpendingAuthority: rule.predicateMustAuthorizeSpending,
     };
   });
 }
@@ -381,6 +739,14 @@ export interface FileDraftInput {
   readonly familyKey: string;
   readonly variantKey: string;
   readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  /**
+   * The authority key the player chose, where the configuration takes one.
+   *
+   * A key rather than a resolved authority, so filing resolves it against the
+   * world it is about to write to. Resolving it earlier would let a bill be
+   * filed against a docket measure that had moved, or vanished, in between.
+   */
+  readonly authorityKey?: string;
 }
 
 export interface FileDraftResult {
@@ -420,6 +786,25 @@ export function fileDraft(
     );
   }
 
+  // Resolved here, against the world being written to. An instrument that
+  // needs one and cannot get one is refused before anything is written.
+  let authority: PredicateAuthority | null = null;
+  if (input.authorityKey !== undefined) {
+    authority = resolveAuthority(
+      world,
+      {
+        scenarioKey: input.scenarioKey,
+        playerPersonId: input.playerPersonId,
+      },
+      input.authorityKey,
+    );
+    if (authority === null) {
+      throw new BillConfigurationError(
+        `Nothing on this docket or in the statute book answers to '${input.authorityKey}', so a bill cannot be written against it.`,
+      );
+    }
+  }
+
   const sequence = nextDocketSequence(world, input.scenarioKey);
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
   const chamberKey = blueprint.pack.chambers[0]?.chamberKey ?? "house";
@@ -432,6 +817,7 @@ export function fileDraft(
     rulePackId: blueprint.pack.packId,
     designation: `${designationPrefix(chamberKey)} ${400 + sequence}`,
     filedOn: world.currentDate,
+    ...(authority !== null ? { predicateAuthority: authority } : {}),
   });
 
   // The member the office serves. Reused from the accepted route rather than
@@ -515,6 +901,10 @@ export function fileDraft(
     variantKey: draft.variantKey,
     compiledAt: draft.filedOn,
     parameterValues: draft.parameterValues,
+    ...(authority !== null ? { authorityKey: authority.authorityKey } : {}),
+    ...(authority !== null && authority.kind === "docket-measure"
+      ? { authorityMeasureId: authority.measureId as EntityId }
+      : {}),
     provenanceNote:
       "Authored programme parameters chosen in play. Not a statute, not a measurement, and not a claim about any real programme.",
   });
@@ -564,6 +954,7 @@ export function fileDraft(
 export function recompileSavedBill(
   world: World,
   bill: DocketBill,
+  playerPersonId?: EntityId,
 ): CompiledBillDraft | { readonly unavailable: string } {
   const lineage = draftLineageForMeasure(world, bill.measureId);
   if (!lineage) {
@@ -582,6 +973,27 @@ export function recompileSavedBill(
       unavailable: `This bill was drafted at ${lineage.familyKey} ${lineage.familyVersion} and the bank now carries ${family.familyVersion}. Its filed text stands as filed.`,
     };
   }
+  // A saved bill written against an authority is re-read against the same
+  // authority. Where that authority has since gone — a retired standing
+  // statute — the reading is reported unavailable rather than recompiled
+  // against something else, on the same ground as a moved family version.
+  let authority: PredicateAuthority | null = null;
+  if (lineage.authorityKey !== undefined) {
+    authority = resolveAuthority(
+      world,
+      {
+        scenarioKey: bill.scenarioKey,
+        playerPersonId:
+          playerPersonId ?? bill.sponsorPersonId ?? bill.measureId,
+      },
+      lineage.authorityKey,
+    );
+    if (authority === null) {
+      return {
+        unavailable: `This bill was written against ${lineage.authorityKey}, which is no longer available to read. Its filed text stands as filed.`,
+      };
+    }
+  }
   try {
     const blueprint = legislativeBlueprint(bill.scenarioKey);
     return compileBillDraft({
@@ -593,6 +1005,7 @@ export function recompileSavedBill(
       rulePackId: blueprint.pack.packId,
       designation: bill.designation,
       filedOn: lineage.compiledAt,
+      ...(authority !== null ? { predicateAuthority: authority } : {}),
     });
   } catch (caught) {
     return { unavailable: (caught as Error).message };

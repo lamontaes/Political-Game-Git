@@ -546,17 +546,19 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual LEG-CONTENT1 combined tree:
-    // current main (FINAL-LANDING-Q4 Step C, P1 narration, the accepted
-    // executive modules and the R3J Kentucky Sec. 88 source notes) merged with
-    // the pinned accepted PR79 head, whose bargaining dialogue, subjects, floor
-    // surface, member-seat resolver and prior-work evidence classifier all add
-    // prose sites the scanner measures. Neither side's pin describes this tree,
-    // so both were discarded and the number below is a live measurement.
+    // Re-measured by corpus:prose on the actual LEG-CONTENT1 tree after the
+    // instrument expansion: accepted main including the #79 merge, plus this
+    // branch's four content banks, the compiler's instrument refusals and the
+    // docket. The nine new families are prose-heavy by construction - clause
+    // templates are sentences - so the literal count moves a long way and the
+    // inventoried template count does not, which is what it should do: the new
+    // strings are statutory text the scanner sees and classifies, not new
+    // narration templates. No pin was carried forward; this is a live
+    // measurement on this tree.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(53364);
+    expect(coverage.totalLiterals).toBe(55542);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(350);
+    expect(coverage.scannedFiles).toBe(355);
   });
 });
 

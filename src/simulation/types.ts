@@ -2384,6 +2384,18 @@ export interface LegislativeDraftLineageRecord {
   readonly compiledAt: IsoDate;
   readonly recordedAt: IsoDate;
   readonly parameters: readonly LegislativeDraftParameterRecord[];
+  /**
+   * The authority this bill was written against, where its instrument takes
+   * one.
+   *
+   * Optional, so every lineage written before instruments existed reads back
+   * unchanged. `authorityKey` identifies a standing statute declared in the
+   * content bank; `authorityMeasureId` is present instead when the bill was
+   * written against another measure on the same docket, which is what lets a
+   * saved appropriation still say which of the player's own bills it funds.
+   */
+  readonly authorityKey?: string;
+  readonly authorityMeasureId?: EntityId;
   /** Said plainly in the save: this configuration is authored fiction. */
   readonly provenanceNote: string;
 }

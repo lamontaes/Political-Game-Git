@@ -7,6 +7,7 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { BillConfigurationError } from "../simulation/legislation-drafting";
+import { programConfigurations } from "../simulation/legislation-program-families";
 import {
   availableDraftOptions,
   docketBill,
@@ -280,10 +281,42 @@ describe("previewing a draft writes nothing", () => {
     expect(serializeWorld(fixture.world)).toEqual(before);
   });
 
-  it("offers the eight configurations to a supported legislature and none to another", () => {
-    expect(availableDraftOptions("kentucky")).toHaveLength(8);
-    expect(availableDraftOptions("nebraska")).toHaveLength(8);
+  it("offers the whole bank to a supported legislature and none of it to another", () => {
+    // No count is asserted. What matters is that a supported legislature is
+    // offered everything the bank carries, that a second supported legislature
+    // is offered the same set rather than a Kentucky-shaped subset, and that an
+    // unsupported one is offered nothing at all rather than a default.
+    const kentucky = availableDraftOptions("kentucky");
+    const nebraska = availableDraftOptions("nebraska");
+    expect(kentucky.length).toBe(programConfigurations().length);
+    expect(
+      nebraska.map((option) => `${option.familyKey}/${option.variantKey}`),
+    ).toEqual(
+      kentucky.map((option) => `${option.familyKey}/${option.variantKey}`),
+    );
     expect(availableDraftOptions("lexington")).toEqual([]);
+  });
+
+  it("says what kind of act each option would write, and whether it needs one to act on", () => {
+    const options = availableDraftOptions("kentucky");
+    const appropriation = options.find(
+      (option) => option.variantKey === "single-programme",
+    );
+    expect(appropriation?.instrument).toBe("appropriation");
+    expect(appropriation?.requiresAuthority).toBe(true);
+    expect(appropriation?.requiresSpendingAuthority).toBe(true);
+
+    const authorization = options.find(
+      (option) => option.variantKey === "enrollment-fare-relief",
+    );
+    expect(authorization?.instrument).toBe("programme-authorization");
+    expect(authorization?.requiresAuthority).toBe(false);
+
+    // Every option says what kind of act it is, in words a player reads.
+    for (const option of options) {
+      expect(option.instrumentLabel.length).toBeGreaterThan(0);
+      expect(option.instrumentDescription.length).toBeGreaterThan(0);
+    }
   });
 });
 
