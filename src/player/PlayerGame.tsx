@@ -85,8 +85,38 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
 import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
-import { PlayerConversations } from "./PlayerConversation";
-import { PersonPortrait } from "./PersonPortrait";
+import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
+import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
+import { openConversationWith } from "../presentation/person-conversation-entry";
+import {
+  projectPersonDossier,
+  type PersonDossier,
+} from "../presentation/person-dossier";
+import { CANONICAL_VERSION } from "../presentation/release-identity";
+import {
+  activeView,
+  canGoBack,
+  isPinned,
+  type ShellAction,
+  type ShellRef,
+  type ShellState,
+} from "../presentation/shell-navigation";
+import { useShell } from "./useShell";
+import { ShellNav, type ShellDestination } from "./ShellNav";
+import { ShellPinRail } from "./ShellPinRail";
+import { FullDossier, QuickDossier } from "./ShellDossier";
+import {
+  CalendarWorkspaceSurface,
+  CommitmentSurface,
+  JournalWorkspace,
+  MeasureSurface,
+  OptionsWorkspace,
+  PatchNotesWorkspace,
+  PeopleWorkspace,
+  PersonalWorkspace,
+  WorkWorkspace,
+  WorkspaceFrame,
+} from "./ShellWorkspaces";
 
 /**
  * The game.
@@ -1405,6 +1435,14 @@ function PlayingScreen({
     () => resolvePlayerCapabilities(session.world),
     [session.world],
   );
+
+  /*
+   * One shell for the whole life: what is open, how the player got there, and
+   * which references they have kept. It owns navigation and nothing else — the
+   * gameplay writers below are still the only things that change the world.
+   */
+  const [shell, dispatch] = useShell(session.world, session.saveId);
+
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
   );
@@ -1412,26 +1450,25 @@ function PlayingScreen({
     null,
   );
   const [floorNote, setFloorNote] = useState<string | null>(null);
-
   /**
-   * Which secondary surface is open, and none to begin with.
+   * The conversation the player asked for, and who they asked to speak to.
    *
-   * The default matters more than the mechanism: a life opens on its current
-   * moment and nothing else, and everything the playtest saw stacked beside it
-   * is one press away rather than already on the page.
+   * Held beside the shell rather than inside it because it is not a place — it
+   * is a thing happening with a person whose record is already open. The
+   * addressee travels with it, which is the whole repair: the recorded defect
+   * was a selected person being dropped on the way to a generic surface.
    */
-  const [open, setOpen] = useState<"day" | "people" | "work" | null>(null);
+  const [conversation, setConversation] = useState<{
+    readonly personId: EntityId;
+    readonly subject: ConversationSubjectKey;
+  } | null>(null);
 
   /**
    * The generated family, explained before the first beat.
    *
    * A normal start writes the parents and the household rather than letting
    * the player author them, so the game owes an answer to "who are these
-   * people" before it puts them in a scene — which is exactly what the first
-   * playtest asked about Maya Pittman and never got.
-   *
-   * It shows on a life that has not been saved yet, which is a life that was
-   * just created. A loaded save has been introduced already.
+   * people" before it puts them in a scene.
    */
   const introduction = useMemo(
     () => buildLifeIntroduction(session.world, session.personId),
@@ -1444,15 +1481,6 @@ function PlayingScreen({
     [session.world, session.personId],
   );
 
-  /**
-   * What this world can honestly put on the room's surfaces.
-   *
-   * Assembled from the same two things the workspace above it runs on — the
-   * legislature this character works in, and the bill they actually have open
-   * — and from nothing else. When there is no bill, the argument is null and
-   * the room's screens and papers stay as they were painted rather than
-   * finding something to say.
-   */
   const surfaceProjection = useMemo(
     () =>
       projectDynamicSurfaces(session.world, {
@@ -1462,10 +1490,6 @@ function PlayingScreen({
     [session.world, capabilities.legislativeJurisdictionId, assignment],
   );
 
-  // The current moment, resolved here as well as inside the moment panel, so
-  // the people it says are present can be stood in the room and listed on the
-  // rail. It is a pure, memoized projection, so computing it twice costs
-  // nothing and keeps the panel self-contained.
   const moment = useMemo(
     () => projectStoryMoment(session.world, session.personId),
     [session.world, session.personId],
@@ -1477,21 +1501,102 @@ function PlayingScreen({
     [session.world, moment.scene.presentPeople, sceneId],
   );
 
-  const elsewhere = useMemo(() => {
-    const entries: { key: "day" | "people" | "work"; label: string }[] = [];
+  const view = activeView(shell);
+  const openSurface = view.surface;
+
+  const destinations = useMemo<readonly ShellDestination[]>(() => {
+    const entries: ShellDestination[] = [];
     if (!capabilities.formativeYears) {
-      entries.push({ key: "day", label: "The day" });
+      entries.push({
+        surface: "day",
+        label: "The day",
+        hint: "What is in front of you today",
+        testid: "elsewhere-day",
+        open: openSurface === "day",
+      });
     }
-    entries.push({ key: "people", label: "People" });
+    entries.push({
+      surface: "people",
+      label: "People / Friends",
+      hint: "Family, friends, work, politics",
+      testid: "elsewhere-people",
+      open: openSurface === "people",
+    });
+    entries.push({
+      surface: "calendar",
+      label: "Calendar",
+      hint: "Your commitments, and the chamber's",
+      testid: "nav-calendar",
+      open: openSurface === "calendar",
+    });
     if (capabilities.legislation && capabilities.legislativeScenarioKey) {
-      entries.push({ key: "work", label: "Work" });
+      entries.push({
+        surface: "work",
+        label: "Offices / Work",
+        hint: "Your seat and what needs you",
+        testid: "elsewhere-work",
+        open: openSurface === "work",
+      });
     }
+    entries.push({
+      surface: "personal",
+      label: "Personal",
+      hint: "You, the household, money",
+      testid: "nav-personal-entry",
+      open: openSurface === "personal",
+    });
+    entries.push({
+      surface: "journal",
+      label: "Life history",
+      hint: "Chapters, and what is still open",
+      testid: "nav-journal-entry",
+      open: openSurface === "journal",
+    });
+    entries.push({
+      surface: "options",
+      label: "Options",
+      hint: "Settings this game actually reads",
+      testid: "nav-options",
+      open: openSurface === "options",
+    });
+    entries.push({
+      surface: "patch-notes",
+      label: "Patch notes",
+      hint: "What has changed, read from this build",
+      testid: "nav-patch-notes",
+      open: openSurface === "patch-notes",
+    });
     return entries;
   }, [
     capabilities.formativeYears,
     capabilities.legislation,
     capabilities.legislativeScenarioKey,
+    openSurface,
   ]);
+
+  const openEntity = useCallback(
+    (ref: ShellRef) => {
+      setConversation(null);
+      dispatch({ type: "open-entity", ref });
+    },
+    [dispatch],
+  );
+
+  const dossierFor = useCallback(
+    (personId: EntityId) =>
+      projectPersonDossier(session.world, session.personId, personId, {
+        presentNow: moment.scene.presentPeople.some(
+          (person) => person.personId === personId,
+        ),
+        rightNow:
+          moment.scene.presentPeople.find(
+            (person) => person.personId === personId,
+          ) === undefined
+            ? null
+            : "Here in the room with you.",
+      }),
+    [session.world, session.personId, moment.scene.presentPeople],
+  );
 
   /**
    * Opening the bill puts it in this world, and the world comes back changed.
@@ -1520,8 +1625,7 @@ function PlayingScreen({
    *
    * The entry asks the adapter one question — does this player currently have
    * a truthful bargaining context in their own world? — and either walks in or
-   * says plainly why not. Nothing here can reach the developer floor fixture,
-   * and losing the election never gets past the adapter's first gate.
+   * says plainly why not.
    */
   function goToTheFloor() {
     if (!assignment) return;
@@ -1535,8 +1639,49 @@ function PlayingScreen({
     setFloorNote(null);
     if (entry.world !== session.world) onWorldChange(entry.world);
     setFloorSeat(entry.seat);
-    setOpen(null);
+    dispatch({ type: "go-to-scene" });
   }
+
+  const selectedDossier =
+    shell.quickDossierPersonId === null
+      ? null
+      : dossierFor(shell.quickDossierPersonId);
+  const actionPerson =
+    shell.actionMenuPersonId === null
+      ? null
+      : dossierFor(shell.actionMenuPersonId);
+
+  /** Starts the real conversation with exactly the person who was chosen. */
+  const talkTo = useCallback(
+    (personId: EntityId) => {
+      const entry = openConversationWith(
+        session.world,
+        session.personId,
+        personId,
+      );
+      if (entry.kind === "unavailable") return;
+      setConversation({ personId, subject: entry.subject });
+    },
+    [session.world, session.personId],
+  );
+
+  const workspace = renderWorkspace({
+    view,
+    session,
+    shell,
+    dispatch,
+    capabilities,
+    assignment,
+    floorNote,
+    conversation,
+    onWorldChange,
+    openEntity,
+    dossierFor,
+    talkTo,
+    openTheBill,
+    goToTheFloor,
+    setConversation,
+  });
 
   return (
     <main
@@ -1547,12 +1692,10 @@ function PlayingScreen({
       {/*
         THE ROOM IS THE SURFACE.
 
-        The fourth playtest reported being handed a large white card over
-        wallpaper, with no family in the room and People reduced to a button.
-        The repair is structural: the scene — with the generated household
-        standing on its own anchors — is the whole surface, the current moment
-        is a compact panel over it, the household is a persistent rail on the
-        right, and everything else is a small HUD in the corner.
+        The scene — with the generated household standing on its own anchors —
+        is the whole surface, the current moment is a compact panel over it, the
+        people this life has are a rail on the right, and everything else is a
+        quiet cluster in the corner that grows as you reach for it.
       */}
       <SceneBackdrop
         sceneId={sceneId}
@@ -1567,11 +1710,6 @@ function PlayingScreen({
                 {sentence}
               </p>
             ))}
-            {/*
-              The life the generator already wrote, before the first thing the
-              player has to decide about it. Absent when the records hold
-              nothing, which is a real outcome and not a blank to be filled.
-            */}
             {introduction.grounding.length > 0 ? (
               <div
                 className="life-exposition-grounding"
@@ -1605,112 +1743,157 @@ function PlayingScreen({
       <LifePeopleRail
         moment={moment}
         household={introduction?.household ?? []}
-        onOpenPerson={() => setOpen("people")}
+        shell={shell}
+        dispatch={dispatch}
       />
 
-      <LifeHud
-        world={session.world}
-        personId={session.personId}
-        age={moment.age}
-        dateLabel={moment.dateLabel}
-        placeName={moment.placeName}
-        elsewhere={elsewhere}
-        open={open}
-        onToggle={(key) => setOpen((current) => (current === key ? null : key))}
-        canSave={session.saveId === null && !savesUnavailable}
-        onKeep={onKeep}
-        onLeave={onLeave}
-        unsaved={session.unsavedSeed !== null}
-        notice={notice}
-        problem={problem}
-      />
-
-      {open === "day" ? (
-        <LifeOverlay
-          title="The day"
-          testid="day-overlay"
-          onClose={() => setOpen(null)}
+      {/*
+        The anchored action menu. One click on somebody opens it, and every
+        entry on it carries that person's id — there is no route from here to a
+        surface that has forgotten who was chosen.
+      */}
+      {actionPerson ? (
+        <div
+          className="pg-action-menu civic-glass"
+          role="menu"
+          aria-label={`${actionPerson.name} actions`}
+          data-testid="person-action-menu"
+          data-person-id={actionPerson.personId}
         >
-          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-          {/*
-            Politics is a thing an ordinary life can turn into, so this sits
-            below the ordinary day rather than replacing it. A character who
-            never files never loses the rest of the day, and one who files and
-            loses gets it all back the next morning.
-          */}
-          {capabilities.campaign ? (
-            <CampaignWorkspace
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-          ) : capabilities.formativeYears ? null : (
-            <p className="game-note" data-testid="no-campaign">
-              {capabilities.withheld.find(
-                (entry) => entry.surface === "campaign",
-              )?.reason ?? ""}
-            </p>
-          )}
-        </LifeOverlay>
-      ) : null}
-
-      {open === "people" ? (
-        <LifeOverlay
-          title="People"
-          testid="people-overlay"
-          onClose={() => setOpen(null)}
-        >
-          <PlayerConversations
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-        </LifeOverlay>
-      ) : null}
-
-      {open === "work" &&
-      capabilities.legislation &&
-      capabilities.legislativeScenarioKey ? (
-        <LifeOverlay
-          title="The office"
-          testid="office-section"
-          onClose={() => setOpen(null)}
-        >
-          <p>
-            {capabilities.person.givenName} works for the{" "}
-            {capabilities.workPlace?.displayName} legislature, so what is in
-            front of the chamber is in front of them too.
-          </p>
+          <p className="pg-action-menu-name">{actionPerson.name}</p>
           <button
             type="button"
-            className="ui-action"
-            data-testid="open-legislation"
-            onClick={openTheBill}
+            role="menuitem"
+            data-testid="action-inspect"
+            onClick={() =>
+              dispatch({
+                type: "open-quick-dossier",
+                personId: actionPerson.personId,
+              })
+            }
           >
-            {assignment ? "Close the bill" : "Look at what is moving"}
+            Inspect
+            <small>What you make of them</small>
           </button>
-          {assignment ? (
-            <>
-              <button
-                type="button"
-                className="ui-action"
-                data-testid="open-floor"
-                onClick={goToTheFloor}
-              >
-                Go to the members&rsquo; room
-              </button>
-              {floorNote ? (
-                <p data-testid="floor-withheld">{floorNote}</p>
-              ) : null}
-              <LegislationWorkspace
-                world={session.world}
-                assignment={assignment}
-                onWorldChange={onWorldChange}
-              />
-            </>
-          ) : null}
-        </LifeOverlay>
+          <button
+            type="button"
+            role="menuitem"
+            data-testid="action-talk"
+            disabled={
+              openConversationWith(
+                session.world,
+                session.personId,
+                actionPerson.personId,
+              ).kind === "unavailable"
+            }
+            onClick={() => {
+              openEntity({ kind: "person", id: actionPerson.personId });
+              talkTo(actionPerson.personId);
+            }}
+          >
+            Talk
+            <small>Say something to them</small>
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            data-testid="action-pin"
+            onClick={() =>
+              dispatch({
+                type: "toggle-pin",
+                ref: { kind: "person", id: actionPerson.personId },
+              })
+            }
+          >
+            {isPinned(shell, { kind: "person", id: actionPerson.personId })
+              ? "Unpin"
+              : "Pin"}
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            data-testid="action-record"
+            onClick={() =>
+              openEntity({ kind: "person", id: actionPerson.personId })
+            }
+          >
+            Full record
+          </button>
+        </div>
       ) : null}
+
+      {selectedDossier ? (
+        <QuickDossier
+          world={session.world}
+          dossier={selectedDossier}
+          pinned={isPinned(shell, {
+            kind: "person",
+            id: selectedDossier.personId,
+          })}
+          onClose={() => dispatch({ type: "close-quick-dossier" })}
+          onOpenFull={() =>
+            openEntity({ kind: "person", id: selectedDossier.personId })
+          }
+          onTogglePin={() =>
+            dispatch({
+              type: "toggle-pin",
+              ref: { kind: "person", id: selectedDossier.personId },
+            })
+          }
+          onOpenLink={openEntity}
+        />
+      ) : null}
+
+      {workspace}
+
+      <div className="life-hud" data-testid="life-hud">
+        {notice ? (
+          <p className="life-hud-note" role="status">
+            {notice}
+          </p>
+        ) : null}
+        {problem ? (
+          <p className="life-hud-note life-hud-note--problem" role="status">
+            {problem}
+          </p>
+        ) : null}
+        {session.unsavedSeed !== null ? (
+          <p className="life-hud-note" data-testid="unsaved-note">
+            This life has not been saved yet.
+          </p>
+        ) : null}
+        <p className="sr-only" role="status">
+          {shell.announcement}
+        </p>
+      </div>
+
+      <ShellNav
+        state={shell}
+        dispatch={dispatch}
+        playerName={moment.personName}
+        dateLabel={moment.dateLabel}
+        placeName={moment.placeName}
+        destinations={destinations}
+        canSave={session.saveId === null && !savesUnavailable}
+        unsaved={session.unsavedSeed !== null}
+        onSave={onKeep}
+        onLeave={onLeave}
+      />
+
+      <ShellPinRail
+        world={session.world}
+        state={shell}
+        dispatch={dispatch}
+        onOpen={openEntity}
+      />
+
+      {/*
+        The build's own version, quiet in the corner and read from the checkout
+        rather than restated. Nothing on this route can change it.
+      */}
+      <p className="pg-version" data-testid="shell-version">
+        v{CANONICAL_VERSION}
+      </p>
 
       {floorSeat ? (
         <div className="production-floor-layer" data-testid="production-floor">
@@ -1736,26 +1919,360 @@ function PlayingScreen({
 /* -------------------------------------------------------------------------- */
 
 /**
+ * Which workspace the history stack says is open, drawn in the one frame.
+ *
+ * Every destination shares this frame, so Back and the close X behave the same
+ * everywhere and no screen keeps a navigation stack of its own. The frame is
+ * absent entirely when the room is the current view, which is the default a
+ * life opens on.
+ */
+function renderWorkspace({
+  view,
+  session,
+  shell,
+  dispatch,
+  capabilities,
+  assignment,
+  floorNote,
+  conversation,
+  onWorldChange,
+  openEntity,
+  dossierFor,
+  talkTo,
+  openTheBill,
+  goToTheFloor,
+  setConversation,
+}: {
+  readonly view: ReturnType<typeof activeView>;
+  readonly session: Session;
+  readonly shell: ShellState;
+  readonly dispatch: (action: ShellAction) => void;
+  readonly capabilities: ReturnType<typeof resolvePlayerCapabilities>;
+  readonly assignment: LegislativeAssignment | null;
+  readonly floorNote: string | null;
+  readonly conversation: {
+    readonly personId: EntityId;
+    readonly subject: ConversationSubjectKey;
+  } | null;
+  readonly onWorldChange: (world: World) => void;
+  readonly openEntity: (ref: ShellRef) => void;
+  readonly dossierFor: (personId: EntityId) => PersonDossier | null;
+  readonly talkTo: (personId: EntityId) => void;
+  readonly openTheBill: () => void;
+  readonly goToTheFloor: () => void;
+  readonly setConversation: (value: null) => void;
+}): ReactNode {
+  if (view.surface === "scene") return null;
+
+  const back = () => dispatch({ type: "back" });
+  const close = () => dispatch({ type: "go-to-scene" });
+  const backable = canGoBack(shell);
+  const openPerson = (personId: EntityId) =>
+    openEntity({ kind: "person", id: personId });
+  const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
+  const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
+
+  const frame = (
+    title: string,
+    testid: string,
+    body: ReactNode,
+    kicker?: string,
+  ) => (
+    <WorkspaceFrame
+      title={title}
+      {...(kicker === undefined ? {} : { kicker })}
+      testid={testid}
+      canGoBack={backable}
+      onBack={back}
+      onClose={close}
+    >
+      {body}
+    </WorkspaceFrame>
+  );
+
+  if (view.surface === "entity") {
+    if (view.ref.kind === "person") {
+      const dossier = dossierFor(view.ref.id);
+      if (!dossier) {
+        return frame(
+          "Unavailable",
+          "person-workspace",
+          <p className="game-note" data-testid="person-missing">
+            This world has no record of that person.
+          </p>,
+        );
+      }
+      const entry = openConversationWith(
+        session.world,
+        session.personId,
+        dossier.personId,
+      );
+      return frame(
+        dossier.name,
+        "person-workspace",
+        <>
+          <FullDossier
+            world={session.world}
+            dossier={dossier}
+            pinned={pinnedRef({ kind: "person", id: dossier.personId })}
+            onTogglePin={() =>
+              togglePin({ kind: "person", id: dossier.personId })
+            }
+            onTalk={() => talkTo(dossier.personId)}
+            talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
+            onOpenLink={openEntity}
+          />
+          {/*
+            The conversation opens against the person whose record this is, with
+            them already the addressee. Reading a dossier and speaking to
+            somebody stay different acts: this appears only once the player asks
+            for it.
+          */}
+          {conversation && conversation.personId === dossier.personId ? (
+            <div data-testid="dossier-conversation">
+              <button
+                type="button"
+                className="ui-action ui-action--subtle"
+                data-testid="dossier-conversation-close"
+                onClick={() => setConversation(null)}
+              >
+                Stop talking
+              </button>
+              <PlayerConversation
+                world={session.world}
+                personId={session.personId}
+                subject={conversation.subject}
+                initialAddressee={dossier.personId}
+                onWorldChange={onWorldChange}
+              />
+            </div>
+          ) : null}
+        </>,
+        "Record",
+      );
+    }
+    if (view.ref.kind === "commitment") {
+      return frame(
+        "Commitment",
+        "commitment-workspace",
+        <CommitmentSurface
+          world={session.world}
+          personId={session.personId}
+          activityId={view.ref.id}
+        />,
+        "Calendar",
+      );
+    }
+    return frame(
+      "Measure",
+      "measure-workspace",
+      <MeasureSurface
+        world={session.world}
+        personId={session.personId}
+        measureId={view.ref.id}
+      />,
+      "Legislation",
+    );
+  }
+
+  switch (view.surface) {
+    case "day":
+      return frame(
+        "The day",
+        "day-overlay",
+        <>
+          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+          {/*
+            Politics is a thing an ordinary life can turn into, so this sits
+            below the ordinary day rather than replacing it.
+          */}
+          {capabilities.campaign ? (
+            <CampaignWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : capabilities.formativeYears ? null : (
+            <p className="game-note" data-testid="no-campaign">
+              {capabilities.withheld.find(
+                (entry) => entry.surface === "campaign",
+              )?.reason ?? ""}
+            </p>
+          )}
+        </>,
+      );
+
+    case "people":
+      return frame(
+        "People",
+        "people-overlay",
+        <>
+          <PeopleWorkspace
+            world={session.world}
+            personId={session.personId}
+            state={shell}
+            dispatch={dispatch}
+            onOpenPerson={openPerson}
+          />
+          {/*
+            What this life can actually talk about, in the room it is in. Kept
+            here beside the directory because both answer "who is in this life",
+            and opening one person's record is a click away above.
+          */}
+          <PlayerConversations
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
+        </>,
+      );
+
+    case "calendar":
+      return frame(
+        "Calendar",
+        "calendar-workspace",
+        <CalendarWorkspaceSurface
+          world={session.world}
+          personId={session.personId}
+          isPinnedRef={pinnedRef}
+          onOpen={openEntity}
+          onTogglePin={togglePin}
+        />,
+      );
+
+    case "personal":
+      return frame(
+        "Personal",
+        "personal-workspace",
+        <PersonalWorkspace
+          world={session.world}
+          personId={session.personId}
+          onOpenPerson={openPerson}
+        />,
+      );
+
+    case "journal":
+      return frame(
+        "Life history",
+        "journal",
+        <JournalWorkspace
+          world={session.world}
+          personId={session.personId}
+          onOpenPerson={openPerson}
+        />,
+      );
+
+    case "patch-notes":
+      return frame(
+        "Patch notes",
+        "patch-notes-workspace",
+        <PatchNotesWorkspace />,
+      );
+
+    case "options":
+      return frame(
+        "Options",
+        "options-workspace",
+        <OptionsWorkspace state={shell} dispatch={dispatch} />,
+      );
+
+    case "work": {
+      if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
+        return frame(
+          "The office",
+          "office-section",
+          <p className="game-note" data-testid="no-office">
+            {capabilities.withheld.find(
+              (entry) => entry.surface === "legislation",
+            )?.reason ?? "This life has no office."}
+          </p>,
+        );
+      }
+      return frame(
+        "The office",
+        "office-section",
+        <WorkWorkspace world={session.world} personId={session.personId}>
+          <p>
+            {capabilities.person.givenName} works for the{" "}
+            {capabilities.workPlace?.displayName} legislature, so what is in
+            front of the chamber is in front of them too.
+          </p>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="open-legislation"
+            onClick={openTheBill}
+          >
+            {assignment ? "Close the bill" : "Look at what is moving"}
+          </button>
+          {assignment ? (
+            <>
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="open-floor"
+                onClick={goToTheFloor}
+              >
+                Go to the members&rsquo; room
+              </button>
+              <button
+                type="button"
+                className="ui-action ui-action--rail"
+                aria-pressed={pinnedRef({
+                  kind: "measure",
+                  id: assignment.measureId,
+                })}
+                data-testid="pin-measure"
+                onClick={() =>
+                  togglePin({ kind: "measure", id: assignment.measureId })
+                }
+              >
+                {pinnedRef({ kind: "measure", id: assignment.measureId })
+                  ? "Unpin this bill"
+                  : "Pin this bill"}
+              </button>
+              {floorNote ? (
+                <p data-testid="floor-withheld">{floorNote}</p>
+              ) : null}
+              <LegislationWorkspace
+                world={session.world}
+                assignment={assignment}
+                onWorldChange={onWorldChange}
+              />
+            </>
+          ) : null}
+        </WorkWorkspace>,
+      );
+    }
+
+    default:
+      return null;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+
+/**
  * The persistent People rail.
  *
  * Who is in this moment and who has been through the life recently, kept on the
- * right of the room rather than hidden behind a button. Present people are
- * pinned by default and cannot be removed while they are in the room; recurring
- * people can be pinned to keep them, or left to fall off as the life moves on.
- * Selecting anybody opens the conversation surface, which is where a
- * relationship is actually acted on.
+ * right of the room rather than hidden behind a button. Selecting anybody opens
+ * the anchored action menu FOR THAT PERSON — the id travels, which is the
+ * defect this rail was at the centre of, and the pin beside them is the shell's
+ * real saved reference rather than a star that only changes its own colour.
  */
 function LifePeopleRail({
   moment,
   household,
-  onOpenPerson,
+  shell,
+  dispatch,
 }: {
   readonly moment: StoryMoment;
   readonly household: readonly IntroducedPerson[];
-  readonly onOpenPerson: (personId: EntityId) => void;
+  readonly shell: ShellState;
+  readonly dispatch: (action: ShellAction) => void;
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  const [pinned, setPinned] = useState<readonly EntityId[]>([]);
 
   type RailPerson = {
     readonly personId: EntityId;
@@ -1765,7 +2282,7 @@ function LifePeopleRail({
   };
   const people: RailPerson[] = [];
   const seen = new Set<EntityId>();
-  // Who is literally in the room this moment comes first and is pinned.
+  // Who is literally in the room this moment comes first.
   for (const person of moment.scene.presentPeople) {
     seen.add(person.personId);
     people.push({
@@ -1776,8 +2293,7 @@ function LifePeopleRail({
     });
   }
   // The generated household is the life's standing cast, so it is always here
-  // even when nobody is in the current scene — the family the fourth play said
-  // it never saw.
+  // even when nobody is in the current scene.
   for (const member of household) {
     if (seen.has(member.personId)) continue;
     seen.add(member.personId);
@@ -1821,7 +2337,8 @@ function LifePeopleRail({
       {!collapsed ? (
         <ul className="life-rail-list">
           {people.map((person) => {
-            const isPinned = person.present || pinned.includes(person.personId);
+            const ref: ShellRef = { kind: "person", id: person.personId };
+            const pinned = isPinned(shell, ref);
             return (
               <li key={person.personId} className="life-rail-item">
                 <button
@@ -1829,7 +2346,14 @@ function LifePeopleRail({
                   className="life-pin"
                   data-testid={`rail-person-${person.personId}`}
                   data-present={person.present ? "true" : "false"}
-                  onClick={() => onOpenPerson(person.personId)}
+                  aria-haspopup="menu"
+                  aria-expanded={shell.actionMenuPersonId === person.personId}
+                  onClick={() =>
+                    dispatch({
+                      type: "select-person",
+                      personId: person.personId,
+                    })
+                  }
                 >
                   <span className="life-pin-mark" aria-hidden="true">
                     {railInitials(person.name)}
@@ -1843,24 +2367,23 @@ function LifePeopleRail({
                     ) : null}
                   </span>
                 </button>
-                {!person.present ? (
-                  <button
-                    type="button"
-                    className="life-pin-hold"
-                    data-testid={`rail-pin-${person.personId}`}
-                    aria-pressed={isPinned}
-                    aria-label={isPinned ? "Unpin" : "Pin"}
-                    onClick={() =>
-                      setPinned((current) =>
-                        current.includes(person.personId)
-                          ? current.filter((id) => id !== person.personId)
-                          : [...current, person.personId],
-                      )
-                    }
-                  >
-                    {isPinned ? "★" : "☆"}
-                  </button>
-                ) : null}
+                {/*
+                  A real pin, not a star that toggles its own colour. Pinning
+                  keeps the reference on the rail across every navigation and
+                  across a reload, and it says nothing about where they are.
+                */}
+                <button
+                  type="button"
+                  className="life-pin-hold"
+                  data-testid={`rail-pin-${person.personId}`}
+                  aria-pressed={pinned}
+                  aria-label={
+                    pinned ? `Unpin ${person.name}` : `Pin ${person.name}`
+                  }
+                  onClick={() => dispatch({ type: "toggle-pin", ref })}
+                >
+                  {pinned ? "★" : "☆"}
+                </button>
               </li>
             );
           })}
@@ -1878,173 +2401,6 @@ function railInitials(name: string): string {
 }
 
 /* -------------------------------------------------------------------------- */
-
-/**
- * The compact HUD: where and when the life is, and the way to everything else.
- *
- * A small translucent plaque in the corner rather than a header across the top,
- * so the room keeps the frame. It carries the date and place, the player's own
- * name, and the row of secondary surfaces — the day, the people, the office —
- * plus saving and leaving, none of them competing with the moment.
- */
-function LifeHud({
-  world,
-  personId,
-  age,
-  dateLabel,
-  placeName,
-  elsewhere,
-  open,
-  onToggle,
-  canSave,
-  onKeep,
-  onLeave,
-  unsaved,
-  notice,
-  problem,
-}: {
-  readonly world: World;
-  readonly personId: EntityId;
-  readonly age: number;
-  readonly dateLabel: string;
-  readonly placeName: string | null;
-  readonly elsewhere: readonly {
-    key: "day" | "people" | "work";
-    label: string;
-  }[];
-  readonly open: "day" | "people" | "work" | null;
-  readonly onToggle: (key: "day" | "people" | "work") => void;
-  readonly canSave: boolean;
-  readonly onKeep: () => void;
-  readonly onLeave: () => void;
-  readonly unsaved: boolean;
-  readonly notice: string | null;
-  readonly problem: string | null;
-}) {
-  return (
-    <div className="life-hud" data-testid="life-hud">
-      {notice ? (
-        <p className="life-hud-note" role="status">
-          {notice}
-        </p>
-      ) : null}
-      {problem ? (
-        <p className="life-hud-note life-hud-note--problem" role="status">
-          {problem}
-        </p>
-      ) : null}
-      <div className="life-hud-plaque civic-glass">
-        <PersonPortrait
-          world={world}
-          personId={personId}
-          size="small"
-          note={`${age}${placeName ? ` · ${placeName}` : ""}`}
-        />
-        <div className="life-hud-clock">
-          <strong>{dateLabel}</strong>
-        </div>
-      </div>
-      <nav className="life-hud-nav" aria-label="Elsewhere in this life">
-        {elsewhere.map((entry) => (
-          <button
-            key={entry.key}
-            type="button"
-            className="ui-action ui-action--rail"
-            data-testid={`elsewhere-${entry.key}`}
-            aria-pressed={open === entry.key}
-            onClick={() => onToggle(entry.key)}
-          >
-            {entry.label}
-          </button>
-        ))}
-        {canSave ? (
-          <button
-            type="button"
-            className="ui-action ui-action--rail"
-            data-testid="keep-world"
-            onClick={onKeep}
-          >
-            Save this life
-          </button>
-        ) : null}
-        <button
-          type="button"
-          className="ui-action ui-action--subtle"
-          data-testid="leave-game"
-          onClick={onLeave}
-        >
-          Main menu
-        </button>
-      </nav>
-      {unsaved ? (
-        <p className="life-hud-note" data-testid="unsaved-note">
-          This life has not been saved yet.
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
- * A secondary surface opened over the room — the day, the people, the office.
- *
- * The fourth and fifth plays reported these as white takeovers with no obvious
- * way out. This frames them as a game panel over a dimmed room, with a titled
- * header and a clear close: an X, the Escape key, and a click on the room
- * behind. Closing returns to exactly the moment underneath; nothing is rebuilt.
- */
-function LifeOverlay({
-  title,
-  testid,
-  onClose,
-  children,
-}: {
-  readonly title: string;
-  readonly testid: string;
-  readonly onClose: () => void;
-  readonly children: ReactNode;
-}) {
-  useEffect(() => {
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
-    }
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
-  return (
-    <div
-      className="life-overlay-scrim"
-      data-testid={`${testid}-scrim`}
-      onClick={onClose}
-    >
-      <section
-        className="life-overlay"
-        data-testid={testid}
-        role="dialog"
-        aria-label={title}
-        aria-modal="true"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <header className="life-overlay-head">
-          <h2>{title}</h2>
-          <button
-            type="button"
-            className="ui-icon-button"
-            data-testid={`${testid}-close`}
-            aria-label="Close"
-            onClick={onClose}
-          >
-            <span aria-hidden="true">✕</span>
-          </button>
-        </header>
-        <div className="life-overlay-body">{children}</div>
-      </section>
-    </div>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 

@@ -35,15 +35,25 @@ export function PlayerConversation({
   world,
   personId,
   subject,
+  initialAddressee,
   onWorldChange,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly subject: ConversationSubjectKey;
+  /**
+   * Who the player chose to speak to, when they chose somebody.
+   *
+   * A request rather than an instruction: the projection corrects an addressee
+   * this room cannot offer and says what it settled on. Passing it is what
+   * makes "talk to her" open a conversation with her instead of with whoever
+   * the projection would otherwise have picked.
+   */
+  readonly initialAddressee?: ConversationAddressee | undefined;
   readonly onWorldChange: (world: World) => void;
 }) {
   const [addressee, setAddressee] = useState<ConversationAddressee | null>(
-    null,
+    initialAddressee ?? null,
   );
   const [audibility, setAudibility] =
     useState<ConversationAudibility>("normal");

@@ -90,9 +90,21 @@ export {
  * unavailable".
  */
 
-const DEFAULT_DATABASE_NAME = "political-life-worlds";
-const DATABASE_VERSION = 1;
+export const DEFAULT_DATABASE_NAME = "political-life-worlds";
+/**
+ * Version 2 adds the interface store beside the worlds.
+ *
+ * The shell's saved references and preferences are not world content — pinning
+ * somebody is not a fact about the life — so they cannot go inside a saved
+ * world without making the save record mean two different things. They are also
+ * not a second save store: they live in this database, under this store's
+ * version, opened by this module, and the upgrade is additive, so every world
+ * written by version 1 is still exactly where it was and still readable.
+ */
+const DATABASE_VERSION = 2;
 const STORE_NAME = "worlds";
+/** Per-slot interface state: pins and preferences, keyed by save id. */
+export const INTERFACE_STORE_NAME = "interface";
 const WRITE_FAILED = "This game could not be saved just now.";
 
 export interface BrowserWorldResidenceSummary {
@@ -1387,9 +1399,17 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-function openDatabase(
+/**
+ * Opens the game's own database, creating or upgrading its stores.
+ *
+ * Exported so the shell's interface store opens the same database at the same
+ * version rather than standing up one of its own. A second database would be a
+ * second store of player state with its own lifetime, its own clearing and its
+ * own bugs; one database with two stores is one thing to reason about.
+ */
+export function openDatabase(
   factory: IDBFactory,
-  databaseName: string,
+  databaseName: string = DEFAULT_DATABASE_NAME,
 ): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = factory.open(databaseName, DATABASE_VERSION);
@@ -1397,6 +1417,9 @@ function openDatabase(
       const database = request.result;
       if (!database.objectStoreNames.contains(STORE_NAME)) {
         database.createObjectStore(STORE_NAME, { keyPath: "saveId" });
+      }
+      if (!database.objectStoreNames.contains(INTERFACE_STORE_NAME)) {
+        database.createObjectStore(INTERFACE_STORE_NAME, { keyPath: "saveId" });
       }
     };
     request.onsuccess = () => {
