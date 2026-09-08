@@ -18,7 +18,7 @@ import { resolve } from "node:path";
 import {
   QUALIFICATION_COLUMNS,
   RECOVERED_31D_QUALIFICATION_COLUMNS,
-  QUALIFICATIONS_PRODUCTION_GATE,
+  QUALIFICATIONS_SOURCE_BOUNDARY,
   REJECTED_PLACEHOLDER_CITATIONS,
   compileQualificationFixture,
   compileQualificationResearchTransport,
@@ -130,7 +130,7 @@ describe("the matrix reader refuses a shape it cannot transcribe", () => {
       "bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473",
     );
     const table = parseQualificationMatrix(bytes);
-    expect(table.schema).toBe("31D-recovered");
+    expect(table.schema.schemaId).toBe("31D-export-14");
     expect(table.header).toEqual([...RECOVERED_31D_QUALIFICATION_COLUMNS]);
     expect(table.rows).toHaveLength(601);
     for (const row of table.rows) expect(row.fields).toHaveLength(14);
@@ -291,13 +291,13 @@ describe("PR #72's failures are permanent validation errors", () => {
   });
 });
 
-describe("the production gate", () => {
-  it("refuses to compile production records, and says why", () => {
+describe("the production source boundary", () => {
+  it("compiles only its own locked authorities", () => {
     expect(() =>
       sourceDomain.compileProduction({ domain: "x", artifacts: [] }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(QUALIFICATIONS_PRODUCTION_GATE);
-    expect(QUALIFICATIONS_PRODUCTION_GATE).toMatch(/31F section 8/);
+    ).toThrow(/was handed the lock for/);
+    expect(sourceDomain.productionGate).toBeUndefined();
+    expect(QUALIFICATIONS_SOURCE_BOUNDARY).toMatch(/31F section 8/);
   });
 
   it("keeps the compiler-ready matrix as real TSV, with its delimiters intact", () => {

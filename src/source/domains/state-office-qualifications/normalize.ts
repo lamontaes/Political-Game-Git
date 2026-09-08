@@ -25,7 +25,8 @@ import {
   unknown,
 } from "../../core/index";
 import type { Claim, Evidence, ParseDefect, Sourced } from "../../core/index";
-import { QUALIFICATION_COLUMNS, matrixField } from "./parse";
+import { matrixField } from "./parse";
+import type { QualificationMatrixSchema } from "./parse";
 import type { DelimitedRow } from "../../core/index";
 import type {
   CitedAuthority,
@@ -36,23 +37,24 @@ import type {
   QualificationRecord,
 } from "./types";
 
-const OFFICE_FAMILIES: readonly OfficeFamily[] = [
-  "GOVERNOR",
-  "LIEUTENANT_GOVERNOR",
-  "ATTORNEY_GENERAL",
-  "SECRETARY_OF_STATE",
-  "UPPER_CHAMBER",
-  "LOWER_CHAMBER",
-  "UNICAMERAL_CHAMBER",
-];
-
-const RECOVERED_OFFICE_FAMILY: Readonly<Record<string, OfficeFamily>> = {
+/**
+ * The office names the two batches use, mapped onto this domain's vocabulary.
+ *
+ * Declared rather than derived. 31C writes `LOWER_CHAMBER` and 31D writes
+ * `lower_legislator` for the same institution, and upper-casing one into the
+ * other would silently accept any name a future batch happened to invent.
+ */
+const OFFICE_FAMILY_BY_MATRIX_NAME: Readonly<Record<string, OfficeFamily>> = {
   GOVERNOR: "GOVERNOR",
+  LIEUTENANT_GOVERNOR: "LIEUTENANT_GOVERNOR",
   LT_GOVERNOR: "LIEUTENANT_GOVERNOR",
   ATTORNEY_GENERAL: "ATTORNEY_GENERAL",
   SECRETARY_OF_STATE: "SECRETARY_OF_STATE",
+  UPPER_CHAMBER: "UPPER_CHAMBER",
   UPPER_LEGISLATOR: "UPPER_CHAMBER",
+  LOWER_CHAMBER: "LOWER_CHAMBER",
   LOWER_LEGISLATOR: "LOWER_CHAMBER",
+  UNICAMERAL_CHAMBER: "UNICAMERAL_CHAMBER",
   NEBRASKA_UNICAMERAL: "UNICAMERAL_CHAMBER",
 };
 
@@ -94,22 +96,22 @@ function requirementValue(raw: string): string | number {
 
 function authorityFrom(
   row: DelimitedRow,
-  header: readonly string[],
+  schema: QualificationMatrixSchema,
 ): CitedAuthority {
-  const rawDerivation = matrixField(row, "direct_derived", header);
+  const rawDerivation = matrixField(row, "direct_derived", schema);
   const derivation =
     rawDerivation === "DERIVED" || rawDerivation === "HISTORICAL"
       ? rawDerivation
       : "DIRECT";
   return {
-    authorityType: matrixField(row, "authority_type", header),
-    legalLocator: matrixField(row, "legal_locator", header),
-    authorityUrl: matrixField(row, "authority_url", header),
-    effectiveDate: matrixField(row, "effective_date", header),
+    authorityType: matrixField(row, "authority_type", schema),
+    legalLocator: matrixField(row, "legal_locator", schema),
+    authorityUrl: matrixField(row, "authority_url", schema),
+    effectiveDate: matrixField(row, "effective_date", schema),
     derivation,
-    derivationChain: matrixField(row, "derivation_chain", header) || null,
-    paraphrase: matrixField(row, "paraphrase", header),
-    notes: matrixField(row, "notes", header) || null,
+    derivationChain: matrixField(row, "derivation_chain", schema) || null,
+    paraphrase: matrixField(row, "paraphrase", schema),
+    notes: matrixField(row, "notes", schema) || null,
   };
 }
 
@@ -203,14 +205,14 @@ export function normalizeQualifications(
   rows: readonly DelimitedRow[],
   artifactId: string,
   corpusAsOf: string,
-  header: readonly string[] = QUALIFICATION_COLUMNS,
+  schema: QualificationMatrixSchema,
 ): QualificationNormalizeResult {
   const records: QualificationRecord[] = [];
   const defects: ParseDefect[] = [];
 
   for (const row of rows) {
     const read = (name: Parameters<typeof matrixField>[1]) =>
-      matrixField(row, name, header);
+      matrixField(row, name, schema);
     const stateUsps = read("state").toUpperCase();
     const officeRaw = read("office_family").toUpperCase();
     const fieldName = read("fact_field");
@@ -226,9 +228,7 @@ export function normalizeQualifications(
       });
       continue;
     }
-    const officeFamily =
-      OFFICE_FAMILIES.find((family) => family === officeRaw) ??
-      RECOVERED_OFFICE_FAMILY[officeRaw];
+    const officeFamily = OFFICE_FAMILY_BY_MATRIX_NAME[officeRaw];
     if (!officeFamily) {
       defects.push({
         kind: "unparsable-record",
@@ -238,7 +238,7 @@ export function normalizeQualifications(
       continue;
     }
 
-    const authority = authorityFrom(row, header);
+    const authority = authorityFrom(row, schema);
     const evidence: Evidence = {
       artifactId,
       locator: {

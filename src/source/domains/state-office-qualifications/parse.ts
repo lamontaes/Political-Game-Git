@@ -1,16 +1,9 @@
 /**
- * Reading a qualifications matrix.
+ * Read one of the two declared qualification-matrix transports.
  *
- * The shape is 31F's: one tab-separated row per fact, with its own status,
- * value, authority, locator, effective date, derivation flag and review flag.
- * That is the only shape this compiler accepts, and the reason is 31F's own
- * central finding — three of the five research batches state a fact's citation
- * inside a sentence, and extracting it would mean pattern-matching legal
- * citations out of prose, which is inference rather than transcription.
- *
- * Tabs specifically, and a width check, because 31F finding 31F-01 is that the
- * richest batch of the five lost its tab characters in transport and nobody
- * noticed until a compiler tried to read it.
+ * 31F carries twelve tab-separated columns. The recovered 31D source carries
+ * fourteen, including its derivation chain and notes. Selection is by exact
+ * header identity, never by guessed delimiters or field count alone.
  */
 
 import { SourceParseError, parseDelimited } from "../../core/index";
@@ -31,7 +24,6 @@ export const QUALIFICATION_COLUMNS = [
   "paraphrase",
 ] as const;
 
-/** The original 31D artifact's exact, recovered 14-column transport. */
 export const RECOVERED_31D_QUALIFICATION_COLUMNS = [
   "state",
   "office_family",
@@ -49,17 +41,43 @@ export const RECOVERED_31D_QUALIFICATION_COLUMNS = [
   "notes",
 ] as const;
 
+/** Compatibility name used by the production compiler recovered from Claude. */
+export const QUALIFICATION_COLUMNS_31D = RECOVERED_31D_QUALIFICATION_COLUMNS;
+
 export type QualificationColumn =
   | (typeof QUALIFICATION_COLUMNS)[number]
   | (typeof RECOVERED_31D_QUALIFICATION_COLUMNS)[number];
 
-export interface QualificationTable {
-  readonly rows: readonly DelimitedRow[];
-  readonly header: readonly string[];
-  readonly schema: "31F-compiler-ready" | "31D-recovered";
+export interface QualificationMatrixSchema {
+  readonly schemaId: "31F-reconciled-12" | "31D-export-14";
+  readonly columns: readonly QualificationColumn[];
 }
 
-/** Parse a qualifications matrix, refusing anything that is not the shape. */
+export const QUALIFICATION_MATRIX_SCHEMAS: readonly QualificationMatrixSchema[] =
+  [
+    { schemaId: "31F-reconciled-12", columns: QUALIFICATION_COLUMNS },
+    {
+      schemaId: "31D-export-14",
+      columns: RECOVERED_31D_QUALIFICATION_COLUMNS,
+    },
+  ];
+
+export interface QualificationTable {
+  readonly schema: QualificationMatrixSchema;
+  readonly rows: readonly DelimitedRow[];
+  readonly header: readonly string[];
+}
+
+function schemaForHeader(
+  header: readonly string[],
+): QualificationMatrixSchema | undefined {
+  return QUALIFICATION_MATRIX_SCHEMAS.find(
+    (schema) =>
+      schema.columns.length === header.length &&
+      schema.columns.every((column, index) => header[index] === column),
+  );
+}
+
 export function parseQualificationMatrix(
   bytes: Uint8Array,
 ): QualificationTable {
@@ -68,56 +86,45 @@ export function parseQualificationMatrix(
       .toString("utf-8")
       .replace(/^\uFEFF/, "")
       .split(/\r?\n/, 1)[0] ?? "";
-  const transportedHeader = headerLine
-    .split("\t")
-    .map((field) => field.trim());
-  const columns =
-    transportedHeader.length === QUALIFICATION_COLUMNS.length
-      ? QUALIFICATION_COLUMNS
-      : transportedHeader.length === RECOVERED_31D_QUALIFICATION_COLUMNS.length
-        ? RECOVERED_31D_QUALIFICATION_COLUMNS
-        : null;
-  if (columns === null) {
+  const headerFields = headerLine.split("\t").map((field) => field.trim());
+  const schema = schemaForHeader(headerFields);
+  if (!schema) {
+    if (headerFields.length === 1) {
+      throw new SourceParseError(
+        "A qualifications matrix is tab-separated; its tab characters did not survive transport. Read the structured source bytes rather than a rendered document.",
+      );
+    }
     throw new SourceParseError(
-      `A qualifications matrix has either ${QUALIFICATION_COLUMNS.length} (31F) or ${RECOVERED_31D_QUALIFICATION_COLUMNS.length} (recovered 31D) tab-separated columns; this one has ${transportedHeader.length}. If it reads as one column, its tab characters did not survive transport — see 31F finding 31F-01.`,
+      `A qualifications matrix must carry one of the declared exact headers; this one has ${headerFields.length} columns.`,
     );
   }
+
   const parsed = parseDelimited(bytes, {
     delimiter: "\t",
     hasHeaderRow: true,
-    expectedFieldCount: columns.length,
+    expectedFieldCount: schema.columns.length,
     trimFields: true,
   });
-
-  const header = parsed.header ?? [];
-  for (const [index, expected] of columns.entries()) {
-    if (header[index] !== expected) {
-      throw new SourceParseError(
-        `Column ${index + 1} of the qualifications matrix is "${header[index]}"; the schema declares "${expected}".`,
-      );
-    }
-  }
   if (parsed.defects.length > 0) {
     throw new SourceParseError(
       `The qualifications matrix produced ${parsed.defects.length} defects, the first being: ${parsed.defects[0]?.message}`,
     );
   }
 
-  return {
-    rows: parsed.rows,
-    header,
-    schema:
-      columns === QUALIFICATION_COLUMNS
-        ? "31F-compiler-ready"
-        : "31D-recovered",
-  };
+  const header = parsed.header ?? headerFields;
+  if (!schema.columns.every((column, index) => header[index] === column)) {
+    throw new SourceParseError(
+      "The qualifications matrix header changed during parsing.",
+    );
+  }
+  return { schema, rows: parsed.rows, header };
 }
 
-/** Read a named column out of a matrix row. */
 export function matrixField(
   row: DelimitedRow,
   column: QualificationColumn,
-  header: readonly string[] = QUALIFICATION_COLUMNS,
+  schema: QualificationMatrixSchema,
 ): string {
-  return row.fields[header.indexOf(column)] ?? "";
+  const index = schema.columns.indexOf(column);
+  return index < 0 ? "" : (row.fields[index] ?? "");
 }

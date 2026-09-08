@@ -47,6 +47,9 @@ import { createAcsPums2024StateShardAcquisition } from "../../src/source/domains
 const USER_AGENT =
   "Mozilla/5.0 (compatible; PoliticalGameSourceSubstrateBot/1.0)";
 
+/** How long to wait before asking one publisher for a second document. */
+const PER_HOST_PAUSE_MS = 2000;
+
 /** Fetch bytes, reporting the status and instant of the retrieval that happened. */
 async function retrieve(url: string): Promise<{
   bytes: Buffer;
@@ -190,7 +193,24 @@ async function acquirePlan(
   const acquired = new Map<string, { artifact: RawArtifact; bytes: Buffer }>();
   const artifacts: RawArtifact[] = [];
 
+  let requestedFrom: string | null = null;
   for (const request of plan.requests) {
+    /*
+     * Space out repeat visits to one publisher.
+     *
+     * A plan that reads twenty-odd provisions from one state's site is a
+     * burst, and a burst is what a rate limiter is for: the Nebraska
+     * Legislature answered the fourth request in as many seconds with 429.
+     * Waiting between consecutive requests to the same host is politeness
+     * toward a public service rather than evasion of a limit, and it changes
+     * nothing about what is retrieved. A slice is cut from bytes already in
+     * hand and reaches no network, so it never waits.
+     */
+    const host = request.sliceOf ? null : new URL(request.url).host;
+    if (host !== null && host === requestedFrom) {
+      await new Promise((wake) => setTimeout(wake, PER_HOST_PAUSE_MS));
+    }
+    if (host !== null) requestedFrom = host;
     process.stdout.write(`  ${request.artifactId} ... `);
     const result = await acquireOne(request, acquired);
     acquired.set(request.artifactId, result);
