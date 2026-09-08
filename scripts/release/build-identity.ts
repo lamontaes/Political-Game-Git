@@ -41,17 +41,21 @@ export function readPackageVersion(root: string): string {
 /**
  * Which revision this tree is.
  *
- * A CI checkout is detached at a known SHA and exports it, so the environment
- * is consulted first; otherwise git is asked directly. A tree with no git at
- * all reports `unknown` rather than inventing a plausible hash.
+ * The checkout is asked first, and the environment only when there is no git to
+ * ask. That order is load-bearing: on a pull request, `GITHUB_SHA` names a
+ * synthetic merge commit that is not the tree the job checked out, so trusting
+ * it would stamp a build with a revision nobody built. A tree with no git at all
+ * reports `unknown` rather than inventing a plausible hash.
  */
 export function resolveBuildIdentity(root: string): BuildIdentity {
   const version = readPackageVersion(root);
   const fromEnvironment = process.env.GITHUB_SHA;
   const revision =
+    git(root, ["rev-parse", "HEAD"]) ??
     (fromEnvironment && /^[0-9a-f]{40}$/.test(fromEnvironment)
       ? fromEnvironment
-      : git(root, ["rev-parse", "HEAD"])) ?? "unknown";
+      : null) ??
+    "unknown";
   const status = git(root, ["status", "--porcelain"]);
   return {
     version,

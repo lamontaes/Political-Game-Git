@@ -181,6 +181,17 @@ function describe(plan: ReleasePlan): string {
 }
 
 export function main(argv: readonly string[], root: string): number {
+  try {
+    return run(argv, root);
+  } catch (error) {
+    // A malformed declaration or an unreadable tree is a message, not a stack
+    // trace: the person reading it is usually an agent that has to fix the file.
+    console.error(`release — ${(error as Error).message}`);
+    return 1;
+  }
+}
+
+function run(argv: readonly string[], root: string): number {
   const [command, ...rest] = argv;
   switch (command) {
     case "check": {
@@ -200,10 +211,13 @@ export function main(argv: readonly string[], root: string): number {
     case "preview": {
       const plan = currentPlan(root, revisionDate(root));
       if (rest.includes("--json")) {
+        // A machine reading the plan wants the plan, including a blocked one.
+        // Failing here would deny the release event the very reason it needs
+        // in order to report the block, so --json is a data dump and exits 0.
         console.log(JSON.stringify(plan, null, 2));
-      } else {
-        console.log(describe(plan));
+        return 0;
       }
+      console.log(describe(plan));
       return plan.outcome === "blocked" ? 1 : 0;
     }
     case "apply": {

@@ -16,7 +16,7 @@ import { releaseTree } from "../../scripts/release/apply";
 import { loadDeclarations } from "../../scripts/release/declarations";
 import { loadLedger, consumedIds } from "../../scripts/release/ledger";
 import { parseNotes } from "../../scripts/release/notes";
-import { check } from "../../scripts/release/cli";
+import { check, main } from "../../scripts/release/cli";
 
 const REVISION = "0123456789abcdef0123456789abcdef01234567";
 const DATE = "2026-09-08";
@@ -412,6 +412,61 @@ describe("reverts", () => {
       expect(text.indexOf("taken back out")).toBeLessThan(
         text.indexOf("A fix."),
       );
+    } finally {
+      fixture.dispose();
+    }
+  });
+});
+
+describe("the command the release event actually runs", () => {
+  it("dates the release from the revision, applies once, and is a no-op on replay", () => {
+    const fixture = makeFixture({
+      asRepository: true,
+      declarations: { "a-fix": bugfix("a-fix", "A fix.") },
+    });
+    try {
+      expect(main(["apply", "--dry-run"], fixture.root)).toBe(0);
+      expect(version(fixture)).toBe("0.2.0");
+
+      expect(main(["apply"], fixture.root)).toBe(0);
+      expect(version(fixture)).toBe("0.2.1");
+      // The date came from the fixture's own commit, not from today.
+      expect(notes(fixture)).toContain("_Released 8 September 2026._");
+
+      const after = notes(fixture);
+      expect(main(["apply"], fixture.root)).toBe(0);
+      expect(notes(fixture)).toBe(after);
+      expect(version(fixture)).toBe("0.2.1");
+      expect(check(fixture.root)).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
+  it("refuses to apply a blocked release and leaves the tree alone", () => {
+    const fixture = makeFixture({
+      asRepository: true,
+      declarations: { "b-feature": feature("b-feature", "A feature.") },
+    });
+    try {
+      const before = notes(fixture);
+      expect(main(["apply"], fixture.root)).toBe(1);
+      expect(notes(fixture)).toBe(before);
+      expect(version(fixture)).toBe("0.2.0");
+    } finally {
+      fixture.dispose();
+    }
+  });
+
+  it("writes a declaration template that its own parser accepts", () => {
+    const fixture = makeFixture({ asRepository: true });
+    try {
+      expect(main(["declare", "a-new-change"], fixture.root)).toBe(0);
+      const declarations = loadDeclarations(fixture.root);
+      expect(declarations).toHaveLength(1);
+      expect(declarations[0]?.id).toBe("a-new-change");
+      expect(declarations[0]?.impact).toBe("none");
+      expect(main(["declare", "a-new-change"], fixture.root)).toBe(1);
     } finally {
       fixture.dispose();
     }

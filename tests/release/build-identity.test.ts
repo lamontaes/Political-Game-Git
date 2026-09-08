@@ -84,3 +84,20 @@ describe("no second version literal", () => {
     expect(hits).toBe("");
   });
 });
+
+describe("which revision gets stamped", () => {
+  it("is the checked-out tree, not a synthetic merge commit the environment names", () => {
+    // On a pull request GITHUB_SHA names a merge commit that is not the tree the
+    // job checked out. Stamping it would name a revision nobody built.
+    const previous = process.env.GITHUB_SHA;
+    process.env.GITHUB_SHA = "f".repeat(40);
+    try {
+      expect(resolveBuildIdentity(process.cwd()).revision).toBe(
+        execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+      );
+    } finally {
+      if (previous === undefined) delete process.env.GITHUB_SHA;
+      else process.env.GITHUB_SHA = previous;
+    }
+  });
+});

@@ -6,6 +6,7 @@
  * replayed event doing nothing — are properties of files.
  */
 
+import { execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -40,6 +41,13 @@ export interface FixtureOptions {
   readonly ledger?: string;
   /** Omit `docs/release/changes/` entirely, as a pre-convention branch would. */
   readonly withoutChangesDir?: boolean;
+  /**
+   * Make the fixture a real repository with one commit.
+   *
+   * The CLI dates a release from the revision it describes rather than from the
+   * wall clock, so anything driving the CLI end to end needs a revision to read.
+   */
+  readonly asRepository?: boolean;
 }
 
 export interface Fixture {
@@ -79,6 +87,24 @@ export function makeFixture(options: FixtureOptions = {}): Fixture {
     for (const [stem, text] of Object.entries(options.declarations ?? {})) {
       writeFileSync(join(dir, `${stem}.md`), text);
     }
+  }
+  if (options.asRepository) {
+    const run = (...args: string[]): void => {
+      execFileSync("git", args, { cwd: root, stdio: "ignore" });
+    };
+    run("init", "-q", "-b", "main");
+    run("config", "user.email", "fixture@example.invalid");
+    run("config", "user.name", "Fixture");
+    run("add", "-A");
+    run(
+      "-c",
+      "commit.gpgsign=false",
+      "commit",
+      "-q",
+      "-m",
+      "Fixture tree",
+      "--date=2026-09-08T00:00:00Z",
+    );
   }
   return {
     root,

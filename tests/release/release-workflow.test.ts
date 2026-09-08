@@ -9,7 +9,8 @@
 
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { check } from "../../scripts/release/cli";
+import { check, main } from "../../scripts/release/cli";
+import { declarationText, makeFixture } from "./fixtures";
 
 const workflow = readFileSync(".github/workflows/release.yml", "utf8");
 const validate = readFileSync(".github/workflows/validate.yml", "utf8");
@@ -92,5 +93,30 @@ describe("what the version describes is what was validated", () => {
 describe("this repository's own release truth", () => {
   it("passes the check that npm run validate runs", () => {
     expect(check(process.cwd())).toEqual([]);
+  });
+});
+
+describe("the plan the event reads", () => {
+  it("returns a blocked plan as data rather than as a failure", () => {
+    // The workflow reads this JSON and then reports the block itself. If the
+    // read failed, the run would stop before it could say why.
+    const fixture = makeFixture({
+      asRepository: true,
+      declarations: {
+        "b-feature": declarationText({
+          id: "b-feature",
+          impact: "minor",
+          section: "Added",
+          title: "A feature.",
+          body: "Something new.",
+        }),
+      },
+    });
+    try {
+      expect(main(["preview", "--json"], fixture.root)).toBe(0);
+      expect(main(["preview"], fixture.root)).toBe(1);
+    } finally {
+      fixture.dispose();
+    }
   });
 });
