@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1910,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4513,
-    "DIAGNOSTIC_OR_TEST": 3223,
-    "NEEDS_CLASSIFICATION": 2791
+    "INTENTIONALLY_NON_PLAYER_FACING": 4623,
+    "DIAGNOSTIC_OR_TEST": 3431,
+    "NEEDS_CLASSIFICATION": 2953
   },
   "needsClassification": [
     {
@@ -3895,6 +3895,222 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "inRange",
+      "line": 323,
+      "text": "Fit bank bound '{key}' is {value}; it must lie in {lowInclusive?\"[\":\"(\"}{low}, {high}].",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "describeValue",
+      "line": 356,
+      "text": "the string {JSON.stringify(value)}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "describeValue",
+      "line": 357,
+      "text": "a {Array.isArray(value)?\"array\":typeofvalue}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "resolveGarmentFit",
+      "line": 683,
+      "text": "The fit bank's declared bounds are unusable, so no garment can be shown to be bounded: {bank.boundsErrors.join(\"\")||\"boundsfailedvalidation.\"}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "resolveGarmentFit",
+      "line": 692,
+      "text": "Garment family '{request.componentFamily}' ({request.componentAssetId}) is not declared in the fit bank, so nothing is known about whether it fits body family '{request.targetBodyFamily}'.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "resolveGarmentFit",
+      "line": 720,
+      "text": "Garment family '{request.componentFamily}' is classified morphology-specific and was authored for body family '{garment.authored_for_body_family??\"(none)\"}'. It may not be fitted onto '{request.targetBodyFamily}'; that morphology needs its own source art.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "resolveGarmentFit",
+      "line": 735,
+      "text": "Garment family '{request.componentFamily}' declares class '{garment.classification}' but has no fit profile for body family '{request.targetBodyFamily}' in pose '{request.poseFamily}'. A fit is never borrowed from another family or another pose.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "resolveGarmentFit",
+      "line": 744,
+      "text": "Fit profile for '{request.componentFamily}' on '{request.targetBodyFamily}' in pose '{request.poseFamily}' is outside the declared bounds: {violations.join(\"\")}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 782,
+      "text": "Transform must be an object.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 788,
+      "text": "Transform kind '{String(kind)}' is not one of direct, affine, bounded-warp.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 796,
+      "text": "Transform kind '{kind}' does not carry a '{key}' field. Rotation, shear and any other freedom are refused, not ignored.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 803,
+      "text": "Transform kind '{kind}' is missing '{key}'.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 808,
+      "text": "Control point {index} is not an object.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 813,
+      "text": "Control point {index} carries unknown field '{key}'.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "transformShapeErrors",
+      "line": 818,
+      "text": "Control point {index} is missing '{key}'.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 843,
+      "text": "Cannot check this transform: {error}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 887,
+      "text": "A bounded warp needs at least two control points.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 892,
+      "text": "A bounded warp may declare at most 8 control points; this one declares {points.length}. More points is a mesh, and a mesh is the arbitrary runtime deformation this contract refuses.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 897,
+      "text": "A bounded warp's control points must start at 0 and end at 1 so every row of the component is covered by an authored value rather than by an assumption.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 903,
+      "text": "Control point {index} has 'at' outside 0..1.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 907,
+      "text": "Control point {index} is at {point.at}, not strictly below the one before it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 910,
+      "text": "control point {index} scaleX",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 913,
+      "text": "control point {index} offsetX",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 924,
+      "text": "Compiled bands span {spread.toFixed(4)}x from narrowest to widest, beyond the permitted {bounds.maxWarpScaleSpread}x. A garment that needs more than this is a different garment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "boundsViolations",
+      "line": 933,
+      "text": "Bands {index-1} and {index} step by {step.toFixed(4)}x, beyond the permitted {bounds.maxWarpBandStep}x; that seam would be visible in the artwork.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "label",
+      "line": 1016,
+      "text": "Fit bank entry '{String(garment.component_family)}'",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "enclosingSymbol": "profileLabel",
+      "line": 1094,
+      "text": "{label} profile for '{String(profile.target_body_family)}' in pose '{String(profile.pose_family)}'",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/presentation/legislation-projection.ts",
       "enclosingSymbol": "whatJustHappened",
       "line": 446,
@@ -4913,7 +5129,7 @@
     {
       "sourcePath": "src/presentation/production-office.ts",
       "enclosingSymbol": "characters",
-      "line": 124,
+      "line": 128,
       "text": "Anchor '{anchor.id}' permits no pose family, so no body can be asked for.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4921,7 +5137,7 @@
     {
       "sourcePath": "src/presentation/production-office.ts",
       "enclosingSymbol": "characters",
-      "line": 161,
+      "line": 165,
       "text": "Production character resolution failed closed for anchor '{anchor.id}': {(causeasError).message}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4929,7 +5145,7 @@
     {
       "sourcePath": "src/presentation/production-office.ts",
       "enclosingSymbol": "characters",
-      "line": 184,
+      "line": 188,
       "text": "No released production component resolves pose '{poseFamily}' for anchor '{anchor.id}'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11227,6 +11443,1086 @@
       "enclosingSymbol": "evidenceDiscoverySummary",
       "line": 88,
       "text": "Discovered evidence: {artifact.description}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_CONST_TITLE",
+      "line": 139,
+      "text": "The Constitution of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "federalArticleII",
+      "line": 161,
+      "text": "Operative text: \"{operativeText}\"",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S1_C1",
+      "line": 166,
+      "text": "U.S. Const. Art. II, Sec. 1, cl. 1",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S1_C1",
+      "line": 167,
+      "text": "The executive Power shall be vested in a President of the United States of America.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S2_C1",
+      "line": 170,
+      "text": "U.S. Const. Art. II, Sec. 2, cl. 1",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S2_C1",
+      "line": 171,
+      "text": "The President shall be Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States, when called into the actual Service of the United States; ... and he shall have Power to grant Reprieves and Pardons for Offences against the United States, except in Cases of Impeachment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S2_C2",
+      "line": 174,
+      "text": "U.S. Const. Art. II, Sec. 2, cl. 2",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S2_C2",
+      "line": 175,
+      "text": "he shall nominate, and by and with the Advice and Consent of the Senate, shall appoint Ambassadors, other public Ministers and Consuls, Judges of the supreme Court, and all other Officers of the United States.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S3",
+      "line": 178,
+      "text": "U.S. Const. Art. II, Sec. 3",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_ART2_S3",
+      "line": 179,
+      "text": "he may, on extraordinary Occasions, convene both Houses, or either of them ... he shall take Care that the Laws be faithfully executed, and shall Commission all the Officers of the United States.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 185,
+      "text": "President of the United States",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 202,
+      "text": "No federal legislative rule pack has been compiled; presentment and the veto (U.S. Const. Art. I, Sec. 7) are not yet represented as a pack this reference can resolve.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 208,
+      "text": "the Senate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 213,
+      "text": "Presidential removal authority rests on judicial doctrine (the line running through Myers and Humphrey's Executor), not on any Article II text, and no exact operative authority for it was read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 220,
+      "text": "Art. II, Sec. 3 lets the President convene both Houses on extraordinary occasions and says nothing about what Congress may then consider. That silence is not a positive rule either way, so the agenda limit stays unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 230,
+      "text": "Article II contains no express executive-order or directive clause. Directive authority is a doctrinal and statutory question that no exact operative authority read for this pack resolves; it is not inferred from the vesting clause or the take-care duty.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 233,
+      "text": "With no express directive clause in the operative Article II text, the basis for federal directive authority is unresolved for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 239,
+      "text": "Federal executive reorganization authority is statutory (the lapsed Reorganization Act line), not constitutional, and no exact operative statute was read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 242,
+      "text": "Whether a federal reorganization takes effect subject to congressional disapproval turns on the reorganization statute in force, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 245,
+      "text": "Whether federal reorganization authority sunsets turns on the reorganization statute in force, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 251,
+      "text": "Federal emergency-declaration authority is statutory (the National Emergencies Act regime), not Article II, and no exact operative statute was read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 254,
+      "text": "The duration of a federal emergency declaration turns on the governing statute, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 257,
+      "text": "How a federal emergency declaration is extended turns on the governing statute, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 260,
+      "text": "How Congress may terminate a federal emergency declaration turns on the governing statute, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 269,
+      "text": "Reprieves and pardons for offences against the United States, except in cases of impeachment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 276,
+      "text": "The President's budget-submission duty is statutory (the Budget and Accounting Act line), not Article II, and no exact operative statute was read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 279,
+      "text": "The federal budget-submission deadline turns on the governing statute, which was not read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 290,
+      "text": "Article II grants no general supervisory clause. The Opinions Clause (Art. II, Sec. 2, cl. 1) reaches only the President's power to require written opinions from principal officers on the duties of their own offices, which does not establish general supervisory authority over the branch; the field stays unknown rather than being widened to fit.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 298,
+      "text": "Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States when called into the actual Service of the United States.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 305,
+      "text": "Presentment and the veto (Art. I, Sec. 7) belong to a federal legislative pack that has not been compiled.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 306,
+      "text": "Presidential removal doctrine is unresolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 307,
+      "text": "Whether the convening power limits Congress's agenda is unresolved; Article II is silent, and silence is not a rule.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 308,
+      "text": "Federal directive/executive-order authority and general supervisory authority are unresolved: Article II has no express clause for either, and neither is inferred from the vesting clause.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "US_FEDERAL_EXECUTIVE_PACK",
+      "line": 309,
+      "text": "Statutory reorganization, emergency-powers, and budget-submission regimes are unresolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "RESEARCH_92A",
+      "line": 321,
+      "text": "92A jurisdiction-authority research wave",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "stateConst",
+      "line": 337,
+      "text": "{paraphrase} Resolved by the {RESEARCH_92A}; the section is the one the research identified, and its operative text was not re-read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "stateStatute",
+      "line": 354,
+      "text": "{paraphrase} Resolved by the {RESEARCH_92A}; the citation is the one the research identified, and its operative text was not re-read for this pack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "notResearchedBy92A",
+      "line": 364,
+      "text": "{dimension} was not part of the {RESEARCH_92A} and no completed research resolves it for this jurisdiction.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 385,
+      "text": "Removal authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 391,
+      "text": "Special-session authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 394,
+      "text": "Special-session agenda scope",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 400,
+      "text": "Executive-order/directive authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 403,
+      "text": "The basis for executive-order authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 409,
+      "text": "Reorganization authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 412,
+      "text": "Reorganization disapproval",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 414,
+      "text": "Reorganization sunset",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 419,
+      "text": "Emergency-declaration authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 422,
+      "text": "Emergency-declaration duration",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 425,
+      "text": "Emergency-declaration extension",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 428,
+      "text": "Legislative termination of an emergency",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 434,
+      "text": "Clemency authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 436,
+      "text": "Clemency scope",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 441,
+      "text": "Budget-submission duty",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 444,
+      "text": "Budget-submission deadline",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 450,
+      "text": "The administrative/faithful-execution duty",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 453,
+      "text": "General supervisory authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 459,
+      "text": "Militia/Guard command",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "unresearchedStateDimensions",
+      "line": 462,
+      "text": "Militia/Guard command scope",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_CONST_TITLE",
+      "line": 472,
+      "text": "The Constitution of the Commonwealth of Kentucky",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_91",
+      "line": 475,
+      "text": "Ky. Const. Sec. 91",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_91",
+      "line": 478,
+      "text": "Separately elected statewide constitutional officers — Attorney General, Secretary of State, Auditor of Public Accounts, Treasurer and Commissioner of Agriculture.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_118",
+      "line": 481,
+      "text": "Ky. Const. Sec. 118",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_118",
+      "line": 484,
+      "text": "The Governor fills a judicial vacancy by appointment from a list of three nominees submitted by the Judicial Nominating Commission.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_145",
+      "line": 487,
+      "text": "Ky. Const. Sec. 145",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_SEC_145",
+      "line": 490,
+      "text": "A person's civil rights, including the vote, may be restored by executive pardon — mentioned only incidentally; the pardon power itself was not resolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_ELECTION_BOARD",
+      "line": 494,
+      "text": "Kentucky Revised Statutes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KY_ELECTION_BOARD",
+      "line": 495,
+      "text": "The Governor appoints the eight voting members of the State Board of Elections, four from each major party.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 501,
+      "text": "Governor of Kentucky",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 520,
+      "text": "No general appointment clause was read for Kentucky. Ky. Const. Sec. 118 establishes only appointment to a judicial vacancy from a nominating commission's list, and KRS 117.015(2) only the State Board of Elections; neither establishes a general power to appoint principal officers of the executive branch.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 523,
+      "text": "No general appointment-and-confirmation clause was read for Kentucky; the specific appointments the record captures (judicial vacancies, the State Board of Elections) are not senate-confirmed on that record, which is not a general rule either way.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 526,
+      "text": "Whether and which body confirms Kentucky executive appointments was not resolved by the 92A research.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 536,
+      "text": "Kentucky's clemency power was not resolved by the 92A research; Sec. 145 mentions an executive pardon only incidentally, as a thing that restores civil rights, and does not establish the power or any board constraint.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 539,
+      "text": "The scope of Kentucky's clemency power was not resolved by the 92A research.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 544,
+      "text": "Attorney General",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 545,
+      "text": "Secretary of State",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 546,
+      "text": "Auditor of Public Accounts",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 548,
+      "text": "Commissioner of Agriculture",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 552,
+      "text": "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "KENTUCKY_EXECUTIVE_PACK",
+      "line": 553,
+      "text": "Kentucky's general appointment power, and whether appointments require legislative confirmation, are both unresolved: only specific appointments were read.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NE_CONST_TITLE",
+      "line": 567,
+      "text": "The Constitution of the State of Nebraska",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NE_ART4_S1",
+      "line": 570,
+      "text": "Neb. Const. Art. IV, Sec. 1",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NE_ART4_S1",
+      "line": 573,
+      "text": "Separately elected partisan statewide officers — Attorney General, Secretary of State, Auditor of Public Accounts and Treasurer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NE_ART5_S21",
+      "line": 576,
+      "text": "Neb. Const. Art. V, Sec. 21",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NE_ART5_S21",
+      "line": 579,
+      "text": "Judicial merit selection — the Judicial Nominating Commission submits at least two nominees and the Governor must appoint from the list within sixty days, or the Chief Justice appoints if the Governor fails to.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 585,
+      "text": "Governor of Nebraska",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 604,
+      "text": "No general Nebraska appointment clause was read for this pack. Neb. Const. Art. V, Sec. 21 establishes only judicial merit selection from a nominating commission's list; the general appointment provision (Art. IV, Sec. 10) was not read at the precision this field requires.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 607,
+      "text": "Whether Nebraska executive appointments require legislative confirmation was not read at exact operative precision; judicial merit selection is not a confirmation and does not answer it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 610,
+      "text": "Whether and which body confirms Nebraska executive appointments was not resolved by the 92A research.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 616,
+      "text": "Attorney General",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 617,
+      "text": "Secretary of State",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 618,
+      "text": "Auditor of Public Accounts",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 623,
+      "text": "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "NEBRASKA_EXECUTIVE_PACK",
+      "line": 624,
+      "text": "Nebraska's general appointment and confirmation regime (Art. IV, Sec. 10) was not read and stays unresolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "AK_CONST_TITLE",
+      "line": 646,
+      "text": "The Constitution of the State of Alaska",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "AK_ART3_S25",
+      "line": 649,
+      "text": "Alaska Const. Art. III, Sec. 25",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "AK_ART3_S25",
+      "line": 652,
+      "text": "The Attorney General and the heads of the principal departments are appointed by the Governor and confirmed by a majority of the Legislature in joint session; Alaska is the sole state whose Attorney General is filled this way.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "AK_ART4_S5",
+      "line": 655,
+      "text": "Alaska Const. Art. IV, Sec. 5",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "AK_ART4_S5",
+      "line": 658,
+      "text": "The Alaska Judicial Council nominates at least two candidates and the Governor must appoint one within forty-five days.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ALASKA_EXECUTIVE_PACK",
+      "line": 663,
+      "text": "Governor of Alaska",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ALASKA_EXECUTIVE_PACK",
+      "line": 680,
+      "text": "the Legislature in joint session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ALASKA_EXECUTIVE_PACK",
+      "line": 692,
+      "text": "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ALASKA_EXECUTIVE_PACK",
+      "line": 693,
+      "text": "Alaska's Attorney General is appointed and confirmed by the Legislature in joint session (Art. III, Sec. 25) rather than elected, which is what makes the branch unitary here. The separate history by which the office of Secretary of State ceased to exist was not read to a pinpoint provision and is not cited as authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_CONST_TITLE",
+      "line": 699,
+      "text": "The Constitution of the State of Minnesota",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_ART5_S1",
+      "line": 702,
+      "text": "Minn. Const. Art. V, Sec. 1",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_ART5_S1",
+      "line": 705,
+      "text": "Separately elected statewide constitutional officers — Attorney General, Secretary of State and State Auditor.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_ART6_S8",
+      "line": 708,
+      "text": "Minn. Const. Art. VI, Sec. 8",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_ART6_S8",
+      "line": 711,
+      "text": "Most judges first take office by gubernatorial appointment to interim vacancies.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_CH_10A",
+      "line": 714,
+      "text": "Minn. Stat. ch. 10A",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_CH_10A",
+      "line": 715,
+      "text": "Minnesota Statutes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MN_CH_10A",
+      "line": 716,
+      "text": "The Campaign Finance and Public Disclosure Board's six members are appointed by the Governor and confirmed by both houses — a specific board, not a general appointment clause.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 722,
+      "text": "Governor of Minnesota",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 740,
+      "text": "The read Minnesota sources cover only specific officer classes — judges filling interim vacancies (Minn. Const. Art. VI, Sec. 8) and one named board (Minn. Stat. ch. 10A) — not a general power to appoint the principal officers of the executive branch.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 743,
+      "text": "No general Minnesota confirmation requirement was read; the one captured instance (the Campaign Finance and Public Disclosure Board, Minn. Stat. ch. 10A, confirmed by both houses) is a specific board, not a general rule.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 746,
+      "text": "Whether and which body confirms Minnesota executive appointments generally was not read at exact operative precision.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 752,
+      "text": "Attorney General",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 753,
+      "text": "Secretary of State",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 754,
+      "text": "State Auditor",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 758,
+      "text": "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 759,
+      "text": "Minnesota's general appointment power and confirmation requirement are both unresolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "MINNESOTA_EXECUTIVE_PACK",
+      "line": 760,
+      "text": "Minnesota clemency is unresolved. No clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_CONST_TITLE",
+      "line": 774,
+      "text": "The Constitution of the State of Illinois",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ART5_S1",
+      "line": 777,
+      "text": "Ill. Const. Art. V, Sec. 1",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ART5_S1",
+      "line": 780,
+      "text": "Separately elected statewide constitutional officers — Attorney General, Secretary of State, Comptroller and Treasurer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ART3_S5",
+      "line": 783,
+      "text": "Ill. Const. Art. III, Sec. 5",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ART3_S5",
+      "line": 786,
+      "text": "The eight members of the State Board of Elections are appointed by the Governor with the advice and consent of the Senate.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ELECTION_CODE",
+      "line": 790,
+      "text": "Illinois Compiled Statutes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "IL_ELECTION_CODE",
+      "line": 791,
+      "text": "The State Board of Elections is constituted as the Election Code provides, its members appointed by the Governor with Senate advice and consent.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 797,
+      "text": "Governor of Illinois",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 817,
+      "text": "No general Illinois appointment clause was read. Ill. Const. Art. III, Sec. 5 and 10 ILCS 5/1A-1 establish only how the State Board of Elections is constituted, which does not establish a general power to appoint the principal officers of the executive branch.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 820,
+      "text": "Illinois's general confirmation requirement was not read at exact operative precision. The captured advice-and-consent fact is specific to the State Board of Elections, and no supermajority confirmation rule is carried: the three-fifths figure that appeared in rejected national research is not supported by any source read here.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 823,
+      "text": "Which body confirms Illinois executive appointments generally, and on what vote, was not read at exact operative precision.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 829,
+      "text": "Attorney General",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 830,
+      "text": "Secretary of State",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 836,
+      "text": "Removal, special sessions, executive orders, reorganization, emergency declarations, clemency, budget submission, the administrative duty, and militia command are all outside the verified record and stay unknown.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "enclosingSymbol": "ILLINOIS_EXECUTIVE_PACK",
+      "line": 837,
+      "text": "The only captured confirmation fact is the State Board of Elections (Senate advice and consent). Illinois's general confirmation clause and its vote requirement are unresolved; no three-fifths rule is carried.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -22337,22 +23633,22 @@
   ],
   "excludedSummary": [
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
+      "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateOperationSemantics. Play fails closed rather than showing it.",
-      "count": 3
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateEventContext. Play fails closed rather than showing it.",
-      "count": 3
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
+      "sourcePath": "src/ui/CausalTraceView.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyBaseline. Play fails closed rather than showing it.",
-      "count": 5
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/world.ts",
@@ -22409,16 +23705,16 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/world-metrics.ts",
+      "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateStateRecord. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in validateEventContext. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateScope. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in assertWorldMetricIntegrity. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/world-metrics.ts",
@@ -22443,6 +23739,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 29
+    },
+    {
+      "sourcePath": "src/simulation/vitality-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
@@ -22493,9 +23795,15 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/vitality-integrity.ts",
+      "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateStateRecord. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateScope. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -22517,24 +23825,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/CausalTraceView.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/time-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -22544,12 +23834,6 @@
       "sourcePath": "src/simulation/taxonomy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The dotted content-key vocabulary itself.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/world-metrics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertWorldMetricIntegrity. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -22619,18 +23903,6 @@
       "count": 84
     },
     {
-      "sourcePath": "src/simulation/setup-questionnaire.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -22652,6 +23924,12 @@
       "sourcePath": "src/simulation/setup-opening-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -22691,6 +23969,24 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-questionnaire.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/resources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -22712,6 +24008,12 @@
       "sourcePath": "src/simulation/resource-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -22742,18 +24044,6 @@
       "sourcePath": "src/simulation/records.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -22871,12 +24161,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
@@ -22891,26 +24175,26 @@
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateOperationSemantics. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyEstimate. Play fails closed rather than showing it.",
       "count": 3
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyBaseline. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
       "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyImplementationProfile. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -22967,12 +24251,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/people.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/person-appearance.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -22988,6 +24266,12 @@
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyOperation. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyImplementationProfile. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -23033,22 +24317,16 @@
       "count": 92
     },
     {
-      "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 54
-    },
-    {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/mind.ts",
@@ -23063,16 +24341,16 @@
       "count": 54
     },
     {
+      "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 54
+    },
+    {
       "sourcePath": "src/simulation/mind-queries.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 33
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -23083,13 +24361,25 @@
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
-      "count": 5
+      "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -23123,15 +24413,15 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
-      "count": 2
+      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -23237,10 +24527,16 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/life-queries.ts",
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateImplementationFactor. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/life-places.ts",
@@ -23270,6 +24566,12 @@
       "sourcePath": "src/simulation/life-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateLoadResolution. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/life-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -23351,30 +24653,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 52
-    },
-    {
       "sourcePath": "src/simulation/legislature-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Compiled legal instrument text: chamber rule titles, constitutional section citations and their summaries, each carrying its own citation and retrieval date. This is sourced evidence about a real legislature, not authored prose. What a player reads about procedure is composed by the measure briefing, which is inventoried separately.",
@@ -23391,18 +24669,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 46
-    },
-    {
-      "sourcePath": "src/simulation/legislation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislation.test.ts",
@@ -23429,7 +24695,37 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/legislation-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 52
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 52
@@ -23473,6 +24769,18 @@
     {
       "sourcePath": "src/simulation/incident-catalog.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateRule. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertIncidentIntegrity. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/incident-catalog.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertIncidentCatalogIntegrity. Play fails closed rather than showing it.",
       "count": 9
     },
@@ -23483,21 +24791,33 @@
       "count": 20
     },
     {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateEffectActivation. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/ids.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
     },
     {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -23507,15 +24827,21 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/incident-integrity.ts",
+      "sourcePath": "src/presentation/run-b-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateEvaluation. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -23537,12 +24863,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -23559,6 +24879,30 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The 92H executive-governing workflow inventory. Nothing under src/player or src/presentation imports it in current main, so no player surface renders these workflow and kernel names.",
       "count": 474
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 121
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertExecutiveAuthorityPackIntegrity. Play fails closed rather than showing it.",
+      "count": 39
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 26
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/evidence.ts",
@@ -23591,9 +24935,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/incident-integrity.ts",
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateConsequencePlan. Play fails closed rather than showing it.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -23615,18 +24959,6 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/incident-catalog.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateRule. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/incident-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertIncidentIntegrity. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/simulation/episode-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -23636,12 +24968,6 @@
       "sourcePath": "src/simulation/episode-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -23749,6 +25075,12 @@
     {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateEffectActivation. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateCausalProcess. Play fails closed rather than showing it.",
       "count": 4
     },
@@ -23795,34 +25127,22 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/campaigns.ts",
+      "sourcePath": "src/simulation/candidacy-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 8
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 32
-    },
-    {
-      "sourcePath": "src/simulation/campaigns.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMetricScope. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/campaigns.test.ts",
@@ -23845,12 +25165,6 @@
     {
       "sourcePath": "src/simulation/campaign-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCampaignIntegrity. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/campaign-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 34
     },
@@ -23861,21 +25175,21 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/campaigns.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 8
+    },
+    {
       "sourcePath": "src/simulation/adult-situations.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/candidacy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -23948,6 +25262,12 @@
       "sourcePath": "src/presentation/scene-transform.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/campaign-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertCampaignIntegrity. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -24035,12 +25355,6 @@
       "count": 7
     },
     {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -24065,18 +25379,6 @@
       "count": 27
     },
     {
-      "sourcePath": "src/presentation/run-a-projection.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/run-a-layout.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateRunASceneLayout. Play fails closed rather than showing it.",
@@ -24089,16 +25391,34 @@
       "count": 5
     },
     {
-      "sourcePath": "src/presentation/raster-tiers.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 8
-    },
-    {
       "sourcePath": "src/presentation/raster-tiers.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 38
+    },
+    {
+      "sourcePath": "src/presentation/conversation-consequences.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-a-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/production-world.test.ts",
@@ -24111,18 +25431,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 27
-    },
-    {
-      "sourcePath": "src/presentation/production-office.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/production-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/presentation/pose-families.ts",
@@ -24143,9 +25451,15 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/run-a-fixture.ts",
+      "sourcePath": "src/presentation/production-office.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-a-projection.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -24161,16 +25475,16 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/production-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/player-capabilities.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 11
+    },
+    {
+      "sourcePath": "src/presentation/ordinary-life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/presentation/new-game-identity.test.ts",
@@ -24191,16 +25505,16 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/run-b-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/life-scene.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 12
-    },
-    {
-      "sourcePath": "src/presentation/life-record.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
     },
     {
       "sourcePath": "src/presentation/life-narration.test.ts",
@@ -24215,21 +25529,15 @@
       "count": 19
     },
     {
-      "sourcePath": "src/presentation/legislation-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/presentation/life-scene.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/presentation/legislation-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 8
+    },
+    {
+      "sourcePath": "src/presentation/raster-tiers.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
     },
     {
@@ -24239,15 +25547,27 @@
       "count": 5
     },
     {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/presentation/legislation-session.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislation-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/life-record.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/life-scene.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
     },
     {
@@ -24267,6 +25587,42 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 35
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateGarmentFitBank. Play fails closed rather than showing it.",
+      "count": 26
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in checkScale. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in checkTranslate. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateGarmentFitBounds. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/garment-fit.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 87
     },
     {
       "sourcePath": "src/presentation/formative-play.ts",
@@ -24291,12 +25647,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
-    },
-    {
-      "sourcePath": "src/presentation/conversation-consequences.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/presentation/conversation-commit.test.ts",
@@ -24338,7 +25688,7 @@
       "sourcePath": "src/presentation/character-components.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Character component assembly for the art pipeline; layer and slot vocabulary.",
-      "count": 112
+      "count": 113
     },
     {
       "sourcePath": "src/presentation/character-components.test.ts",
@@ -24578,6 +25928,18 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateEvaluation. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/incident-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateConsequencePlan. Play fails closed rather than showing it.",
       "count": 1
     },
     {

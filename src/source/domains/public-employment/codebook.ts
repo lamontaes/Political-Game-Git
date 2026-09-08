@@ -1,0 +1,41 @@
+/** Verbatim 2025 ASPEP Technical Documentation section 2.3; locked PDF accompanies data. */
+export const FUNCTION_LABELS: Readonly<Record<string, string>> = {
+  "000": "Total - All Government Employment Functions",
+  "023": "Financial Administration",
+  "029": "Other Government Administration",
+  "025": "Judicial and Legal",
+  "062": "Police Protection - Persons with Power of Arrest",
+  "162": "Police Protection - Other",
+  "024": "Fire Protection - Firefighters",
+  "124": "Fire Protection - Other",
+  "005": "Corrections",
+  "044": "Highways",
+  "001": "Air Transportation",
+  "087": "Sea and Inland Port Facilities",
+  "079": "Public Welfare",
+  "032": "Health",
+  "040": "Hospitals",
+  "022": "Social Insurance Administration",
+  "081": "Solid Waste Management",
+  "080": "Sewerage",
+  "061": "Parks and Recreation",
+  "050": "Housing and Community Development",
+  "059": "Natural Resources",
+  "091": "Water Supply",
+  "092": "Electric Power",
+  "093": "Gas Supply",
+  "094": "Transit",
+  "012": "Education - Elementary and Secondary Instructional",
+  "112": "Education - Elementary and Secondary Other",
+  "018": "Education - Higher Education Instructional",
+  "016": "Education - Higher Education Other",
+  "021": "Education - Other",
+  "052": "Libraries",
+  "090": "State liquor stores",
+  "089": "All other and unallocable",
+};
+/** Section 2.1 Census state codes, NOT FIPS codes. */
+export const STATE_USPS =
+  "US AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(
+    " ",
+  );

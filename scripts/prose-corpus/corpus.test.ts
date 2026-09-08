@@ -535,16 +535,15 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-pinned after the P1 narration/thread migration
-    // (docs/plans/active/p1-prose-migration.md) reshaped the life-narration
-    // banks and added its regression test file to the scanned tree, and again
-    // after the P2 ordinary/adult scene and consequence migration
-    // (docs/plans/active/p2-prose-migration.md) reworded the adult and
-    // callback banks and added their regression test file.
+    // Re-pinned after the P1 narration/thread migration, the FINAL-LANDING-Q4
+    // Step B landing, and the P2 ordinary/adult scene and consequence
+    // migration (docs/plans/active/p2-prose-migration.md), each of which
+    // reshaped the scanned tree; values are the live measurement on the
+    // merged tree.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48170);
+    expect(coverage.totalLiterals).toBe(49364);
     expect(coverage.counts.INVENTORIED).toBe(1910);
-    expect(coverage.scannedFiles).toBe(315);
+    expect(coverage.scannedFiles).toBe(320);
   });
 });
 
