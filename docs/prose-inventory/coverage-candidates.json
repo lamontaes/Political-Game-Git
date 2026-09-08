@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1914,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4735,
-    "DIAGNOSTIC_OR_TEST": 3639,
-    "NEEDS_CLASSIFICATION": 3262
+    "INTENTIONALLY_NON_PLAYER_FACING": 4779,
+    "DIAGNOSTIC_OR_TEST": 3709,
+    "NEEDS_CLASSIFICATION": 3558
   },
   "needsClassification": [
     {
@@ -4403,6 +4403,62 @@
       "enclosingSymbol": "profileLabel",
       "line": 1094,
       "text": "{label} profile for '{String(profile.target_body_family)}' in pose '{String(profile.pose_family)}'",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "previewDraft",
+      "line": 293,
+      "text": "{designationPrefix(chamberKey)} {400+input.provisionalSequence}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "draft",
+      "line": 390,
+      "text": "{designationPrefix(chamberKey)} {400+sequence}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "fileDraft",
+      "line": 476,
+      "text": "Authored programme parameters chosen in play. Not a statute, not a measurement, and not a claim about any real programme.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "fileDraft",
+      "line": 484,
+      "text": "{draft.designation} — {draft.shortTitle}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "recompileSavedBill",
+      "line": 527,
+      "text": "This bill records no drafting configuration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "recompileSavedBill",
+      "line": 534,
+      "text": "The '{lineage.familyKey}' family is no longer in the content bank, so this bill's configuration cannot be re-read. Its filed text is unaffected.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "enclosingSymbol": "recompileSavedBill",
+      "line": 539,
+      "text": "This bill was drafted at {lineage.familyKey} {lineage.familyVersion} and the bank now carries {family.familyVersion}. Its filed text stands as filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -14983,6 +15039,2318 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/legislation-drafting.ts",
+      "enclosingSymbol": "describeValue",
+      "line": 163,
+      "text": "{value.currency} {value.minorUnits}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-drafting.ts",
+      "enclosingSymbol": "describeValue",
+      "line": 167,
+      "text": "{value.years} years",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "IIJA_HEARING_RECORD",
+      "line": 313,
+      "text": "Infrastructure argument in a real hearing record recurs around maintenance backlog, rural access, broadband, water and named local projects, and members ask for locally important provisions inside a larger package.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "IIJA_FISCAL_TREATMENT",
+      "line": 321,
+      "text": "An official estimate distinguishes authorizing legislation from appropriation treatment and states which effects it did not model, rather than presenting one confident total.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TARGETED_SECTION_SOURCE",
+      "line": 329,
+      "text": "A narrow targeted section can be drafted, sponsored and laid on the table without ever entering the enacted text, so proposed text and adopted text are different records.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "yearsPhrase",
+      "line": 366,
+      "text": "one year",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "yearsPhrase",
+      "line": 366,
+      "text": "{numberWord(years)} years",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 417,
+      "text": "Transit access",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 419,
+      "text": "Reduces what riders pay, or extends an existing assistance formula to places a provider does not serve.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 425,
+      "text": "Fare relief for assistance enrollees",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 427,
+      "text": "Riders already enrolled in a state assistance programme ride without paying a fare, and participating providers are reimbursed in proportion to those boardings.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 428,
+      "text": "Transit Access Pilot",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 432,
+      "text": "It creates no entitlement to service, and does not require any provider to add a route.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 433,
+      "text": "It reimburses boardings; it does not fund vehicles, staff or maintenance.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 448,
+      "text": "Pilot support limit",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 453,
+      "text": "An authored ceiling for a fictional state pilot. It is not drawn from any real transit budget and is not a measured cost.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 460,
+      "text": "Who rides without paying",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 464,
+      "text": "Riders enrolled in state assistance",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 466,
+      "text": "enrolled in a state assistance programme at the time of boarding",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 470,
+      "text": "Assistance enrollees and secondary students",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 472,
+      "text": "enrolled in a state assistance programme at the time of boarding, or enrolled in a public secondary school",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 476,
+      "text": "Assistance enrollees and riders over sixty-five",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 478,
+      "text": "enrolled in a state assistance programme at the time of boarding, or sixty-five years of age or older",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 482,
+      "text": "Authored eligibility classes for a fictional programme. No real state's assistance rules are asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 489,
+      "text": "Pilot term",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 493,
+      "text": "An authored pilot length. It is a design choice, not a finding about how long such a pilot needs to run.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 501,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 504,
+      "text": "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 507,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 516,
+      "text": "Eligible riders",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 521,
+      "text": "A rider is eligible under this Act if the rider is {choice.clausePhrase}. A participating provider shall not require a separate application.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 524,
+      "text": "every rider {choice.clausePhrase}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 534,
+      "text": "Pilot support limit",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "termPhrase",
+      "line": 541,
+      "text": "the {yearsAttributive(term.years)} pilot",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "termPhrase",
+      "line": 542,
+      "text": "the pilot",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 545,
+      "text": "There is appropriated for {termPhrase} a sum not to exceed {amount}, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 549,
+      "text": "every participating provider, in proportion to eligible boardings",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 551,
+      "text": "{amount} over {termPhrase}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 561,
+      "text": "Local project match",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 562,
+      "text": "the Ashland–Boyd County Transit Authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 565,
+      "text": "The authority cannot raise the local match that pilot participation requires, and without it the county's riders get nothing from a statewide programme.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 570,
+      "text": "Of the amounts appropriated by Section 3 of this Act, not more than {amountLabel} may be awarded to the Ashland–Boyd County Transit Authority as the local match required for pilot participation, and an award under this section shall not reduce the amount available to any other participating provider.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 572,
+      "text": "An authored request from a fictional member on behalf of a fictional authority. No real transit authority has asked for anything.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 578,
+      "text": "Formula access for unserved counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 580,
+      "text": "Counties with no fixed-route provider become eligible for the existing transit assistance formula, which today reaches only counties that already have service.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 581,
+      "text": "Unserved County Transit Access",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 585,
+      "text": "It changes who the formula reaches. It does not change the formula's rate, and it does not create service where no provider applies.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 586,
+      "text": "It sets no fare policy for any rider.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 597,
+      "text": "Addition to the assistance formula",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 602,
+      "text": "An authored addition to a fictional formula. No real state formula amount is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 609,
+      "text": "Which counties become eligible",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 613,
+      "text": "Counties with no fixed-route provider",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 615,
+      "text": "in which no fixed-route provider operated during the preceding fiscal year",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 619,
+      "text": "Counties with neither fixed-route nor demand-response service",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 621,
+      "text": "in which neither a fixed-route provider nor a demand-response provider operated during the preceding fiscal year",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 625,
+      "text": "Authored service tests for a fictional formula. No county is identified and no service inventory is claimed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 633,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 636,
+      "text": "It is the purpose of this Act to extend the transit assistance formula to counties the formula does not currently reach. Nothing in this Act obliges a county to establish service or a provider to apply.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 639,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 648,
+      "text": "Eligible counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 653,
+      "text": "A county is eligible for distribution under the transit assistance formula if it is a county {choice.clausePhrase}. Eligibility under this section does not displace a county already receiving a distribution.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 656,
+      "text": "every county {choice.clausePhrase}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 666,
+      "text": "Addition to the formula",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 672,
+      "text": "There is appropriated to the transit assistance formula a sum not to exceed {amount} for distribution to counties made eligible by this Act, distributed on the same basis as to any other eligible county.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 676,
+      "text": "every county made eligible by this Act, on the formula's existing basis",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 678,
+      "text": "{amount} added to the formula",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 688,
+      "text": "Hold-harmless for currently served counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 689,
+      "text": "counties already drawing a formula distribution",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 690,
+      "text": "the counties now served",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 692,
+      "text": "Counties that built service on the formula should not lose ground because the formula was widened, and members from those counties will not vote to widen it otherwise.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 697,
+      "text": "Of the amounts appropriated by Section 3 of this Act, not more than {amountLabel} may be used to hold harmless a county whose distribution would otherwise fall below its distribution for the preceding fiscal year.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "TRANSIT_ACCESS",
+      "line": 699,
+      "text": "An authored counter-ask from fictional members. No county has made this request.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 724,
+      "text": "Bridge and culvert maintenance",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 726,
+      "text": "Makes an inspection condition rating the operative test for which structures a maintenance programme may reach.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 732,
+      "text": "Worst-first repair",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 734,
+      "text": "Only structures an inspection has already rated at or below a stated condition are eligible, and the programme reports each year on what it reached and what it did not.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 735,
+      "text": "Structure Condition Repair",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 739,
+      "text": "It reaches structures by rating alone. A structure nobody has inspected is not eligible, because there is no rating to test.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 740,
+      "text": "It funds repair, not replacement, and requires no new inspection programme.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 752,
+      "text": "Repair authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 757,
+      "text": "An authored authorization ceiling for a fictional state programme. No real maintenance backlog cost is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 764,
+      "text": "Eligible at or below condition rating",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 767,
+      "text": "condition rating",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 769,
+      "text": "An authored rating scale for this game. It is not the National Bridge Inventory scale and no real structure's rating is claimed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 776,
+      "text": "What the annual report must contain",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 780,
+      "text": "Structures reached and structures still eligible",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 782,
+      "text": "the structures repaired under this Act and the structures that remained eligible at the close of the year",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 786,
+      "text": "Reached, remaining, and what was deferred and why",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 788,
+      "text": "the structures repaired under this Act, the structures that remained eligible at the close of the year, and each structure whose repair was deferred together with the reason for the deferral",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 792,
+      "text": "An authored reporting duty. No real reporting statute is reproduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 800,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 803,
+      "text": "It is the purpose of this Act to direct repair funds to the structures an inspection has already found to be in the worst condition. Nothing in this Act requires an inspection to be carried out.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 806,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 815,
+      "text": "Eligible structures",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 820,
+      "text": "A bridge or culvert on the state-maintained system is eligible for repair under this Act if its most recent recorded inspection assigned it a condition rating of {rating} or below. A structure with no recorded inspection is not eligible under this section.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 823,
+      "text": "every state-maintained structure rated {rating} or below at its most recent inspection",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 833,
+      "text": "Repair authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 839,
+      "text": "There is authorized for repair of eligible structures a sum not to exceed {amount}. An amount authorized by this section is available only for repair, and confers no obligation until it is appropriated.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 842,
+      "text": "every eligible structure, without preference",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 844,
+      "text": "{amount} authorized, not appropriated",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 853,
+      "text": "Annual report",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 858,
+      "text": "The department shall report annually to the legislature {choice.clausePhrase}. The report shall be public.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 861,
+      "text": "the legislature and the public",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 872,
+      "text": "Set-aside for locally maintained structures",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 873,
+      "text": "county-maintained bridges in the eastern counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 874,
+      "text": "the eastern counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 876,
+      "text": "The worst structures in these counties are county-maintained and therefore fall outside a state-system programme entirely, which is the reason their ratings are the lowest.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 881,
+      "text": "Of the amounts authorized by Section 3 of this Act, not more than {amountLabel} may be made available for repair of county-maintained structures in counties whose average recorded condition rating is below the statewide average.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 883,
+      "text": "An authored request from a fictional member. No county's structures or ratings are real.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 889,
+      "text": "Preventive treatment cycle",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 891,
+      "text": "Structures still in fair or better condition are treated on a fixed cycle to keep them from failing, and a structure that has already failed is handled elsewhere.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 892,
+      "text": "Preventive Structure Treatment",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 896,
+      "text": "It deliberately does not reach the worst structures. A structure at or below the threshold leaves this programme rather than entering it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 897,
+      "text": "It sets a treatment cycle; it does not guarantee any structure is treated in a given year.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 909,
+      "text": "Treatment authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 914,
+      "text": "An authored authorization ceiling for a fictional programme. It is not a measured preventive-maintenance cost.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 921,
+      "text": "Eligible above condition rating",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 924,
+      "text": "condition rating",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 926,
+      "text": "An authored rating scale for this game, on the same fictional scale as the repair variant.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 933,
+      "text": "Treatment cycle",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 937,
+      "text": "An authored cycle length. It is a design choice, not an engineering finding.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 945,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 948,
+      "text": "It is the purpose of this Act to treat structures before they fail, on the premise that deferred treatment becomes replacement. Nothing in this Act reaches a structure that has already fallen below the condition this Act requires.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 951,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 960,
+      "text": "Eligible structures",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 965,
+      "text": "A bridge or culvert on the state-maintained system is eligible for preventive treatment under this Act if its most recent recorded inspection assigned it a condition rating above {rating}. A structure whose rating falls to {rating} or below ceases to be eligible under this Act.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 968,
+      "text": "every state-maintained structure rated above {rating} at its most recent inspection",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 978,
+      "text": "Treatment cycle",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 989,
+      "text": "The department shall establish a preventive treatment cycle for eligible structures and shall publish the cycle it adopts.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 990,
+      "text": "The department shall establish a preventive treatment cycle under which each eligible structure is considered for treatment at least once every {yearsPhrase(years)}. Consideration under this section does not oblige treatment in a given year.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 993,
+      "text": "every eligible structure, on the adopted cycle",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1003,
+      "text": "Treatment authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1009,
+      "text": "There is authorized for preventive treatment of eligible structures a sum not to exceed {amount}. An amount authorized by this section confers no obligation until it is appropriated.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1012,
+      "text": "every eligible structure, without preference",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1014,
+      "text": "{amount} authorized, not appropriated",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1024,
+      "text": "Deferred treatment on low-volume routes",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1025,
+      "text": "low-volume routes in the western counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1026,
+      "text": "the western counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1028,
+      "text": "A uniform cycle spends the same on a structure carrying forty vehicles a day as on one carrying four thousand, and the counties with the low-volume routes are the ones with the least other road money.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1033,
+      "text": "Of the amounts authorized by Section 4 of this Act, not more than {amountLabel} may be made available to extend the treatment cycle on routes carrying fewer vehicles than the statewide median, without reducing the amount available on any other route.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BRIDGE_MAINTENANCE",
+      "line": 1035,
+      "text": "An authored request from a fictional member. No traffic counts or routes are real.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1058,
+      "text": "Broadband access",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1060,
+      "text": "Attaches a minimum service standard and a reporting duty to public support for internet service.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1066,
+      "text": "Buildout to unserved areas",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1068,
+      "text": "Public support goes to construction in areas below a stated service level, and anything built with it must meet a minimum standard and report against it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1069,
+      "text": "Unserved Area Buildout",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1073,
+      "text": "It supports construction. It does not reduce what any household pays.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1074,
+      "text": "It sets a standard the recipient must meet; it does not regulate any provider that takes no money under this Act.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1086,
+      "text": "Buildout authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1091,
+      "text": "An authored authorization ceiling for a fictional programme. No real buildout cost is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1098,
+      "text": "Unserved below download speed",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1101,
+      "text": "megabits per second",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1103,
+      "text": "An authored service threshold for this game. It is not any regulator's definition of unserved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1110,
+      "text": "Standard the recipient must meet",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1114,
+      "text": "A download and upload speed",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1116,
+      "text": "deliver the download and upload speeds stated in its award agreement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1120,
+      "text": "Speed and a latency ceiling",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1122,
+      "text": "deliver the download and upload speeds stated in its award agreement and keep round-trip latency below the ceiling stated in that agreement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1126,
+      "text": "Speed, latency, and a published price",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1128,
+      "text": "deliver the download and upload speeds stated in its award agreement, keep round-trip latency below the ceiling stated in that agreement, and publish and honour the price stated in that agreement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1132,
+      "text": "Authored obligations for a fictional award agreement. No real award terms are reproduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1140,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1143,
+      "text": "It is the purpose of this Act to support construction of internet service in areas that do not have it, on terms that survive the construction. Nothing in this Act obliges a provider to seek an award.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1146,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1155,
+      "text": "Eligible areas",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1160,
+      "text": "An area is eligible for an award under this Act if no provider offers service in that area at a download speed of {speed} megabits per second or greater. An area's eligibility is determined as of the date the award is made.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1163,
+      "text": "every area without service at {speed} megabits per second or greater",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1173,
+      "text": "Service standard and reporting",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1178,
+      "text": "A recipient of an award under this Act shall {choice.clausePhrase}, and shall report annually on its performance against that obligation. Failure to report is itself a breach of the award agreement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1182,
+      "text": "every household in an area built with an award under this Act",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1192,
+      "text": "Buildout authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1198,
+      "text": "There is authorized for awards under this Act a sum not to exceed {amount}. An award may not exceed the cost of construction stated in the application it is made on.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1201,
+      "text": "every eligible area, by application",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1203,
+      "text": "{amount} authorized for awards",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1213,
+      "text": "Preference for cooperative applicants",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1214,
+      "text": "the rural electric cooperatives",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1215,
+      "text": "the unserved counties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1217,
+      "text": "The cooperatives are the only applicants that have ever built in these counties, and a scoring system written for large carriers will not reach them.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1222,
+      "text": "Of the amounts authorized by Section 4 of this Act, not more than {amountLabel} may be reserved for awards to applicants organized as cooperatives, and a reservation under this section shall not reduce the amount available to any other eligible applicant.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1224,
+      "text": "An authored request from a fictional member. No cooperative has applied for anything.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1230,
+      "text": "Household adoption support",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1232,
+      "text": "Eligible households get help paying for service that already reaches them, and providers report take-up rather than construction.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1233,
+      "text": "Household Adoption Support",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1237,
+      "text": "It builds nothing. A household in an area with no service at all gets nothing from this Act.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1238,
+      "text": "It supports subscriptions; it sets no speed a provider must deliver.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1250,
+      "text": "Adoption support authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1255,
+      "text": "An authored authorization ceiling for a fictional programme. No real subsidy total is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1262,
+      "text": "Which households qualify",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1266,
+      "text": "Households enrolled in state assistance",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1268,
+      "text": "in which a member is enrolled in a state assistance programme",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1272,
+      "text": "Assistance households and school-meal households",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1274,
+      "text": "in which a member is enrolled in a state assistance programme, or in which a child qualifies for a free or reduced-price school meal",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1278,
+      "text": "Authored eligibility classes for a fictional programme. No real assistance rules are asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1285,
+      "text": "What providers must report",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1289,
+      "text": "How many eligible households enrolled",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1291,
+      "text": "the number of eligible households enrolled in each county",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1295,
+      "text": "Enrolments and disconnections",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1297,
+      "text": "the number of eligible households enrolled in each county and the number disconnected for non-payment during the year",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1301,
+      "text": "An authored reporting duty. No real provider reporting is reproduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1309,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1312,
+      "text": "It is the purpose of this Act to help households pay for internet service that already reaches them, on the premise that service nobody subscribes to is not access. Nothing in this Act supports construction.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1315,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1324,
+      "text": "Eligible households",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1329,
+      "text": "A household is eligible for support under this Act if it is a household {choice.clausePhrase} and service is available at its address. A provider shall not require a separate application from a household the department certifies.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1332,
+      "text": "every household {choice.clausePhrase} at an address service reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1342,
+      "text": "Take-up reporting",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1347,
+      "text": "A provider receiving support under this Act shall report annually {choice.clausePhrase}. The report shall be public in aggregate and shall not identify a household.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1350,
+      "text": "the legislature and the public, in aggregate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1360,
+      "text": "Support authorization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1366,
+      "text": "There is appropriated for support under this Act a sum not to exceed {amount}, applied to the subscription of an eligible household and paid to the provider serving it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1369,
+      "text": "every eligible household that enrols",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1371,
+      "text": "{amount} for household support",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1381,
+      "text": "Outreach in structurally unserved communities",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1382,
+      "text": "households in communities the certification never reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1383,
+      "text": "the communities without a county certification office",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1385,
+      "text": "Certification is done at county offices, and the households furthest from one are exactly the households this Act is supposed to reach.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1390,
+      "text": "Of the amounts appropriated by Section 4 of this Act, not more than {amountLabel} may be used for certification outreach in communities without a county certification office, and outreach under this section shall not reduce support available to any eligible household.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "BROADBAND_ACCESS",
+      "line": 1392,
+      "text": "An authored request from a fictional member. No community or office is real.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1416,
+      "text": "Water service lines",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1418,
+      "text": "Imposes a dated compliance duty on water systems, with or without money attached to discharging it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1424,
+      "text": "Inventory and replacement plan",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1426,
+      "text": "Water systems above a stated size must inventory their service lines and file a replacement plan by a deadline. The Act appropriates nothing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1427,
+      "text": "Service Line Inventory",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1431,
+      "text": "It appropriates nothing and reimburses nothing. The cost of complying falls on the system.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1432,
+      "text": "It requires a plan to be filed. It does not require a single line to be replaced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1446,
+      "text": "Systems serving at least",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1451,
+      "text": "An authored size threshold for a fictional programme. No real system's size is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1458,
+      "text": "Time to comply",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1462,
+      "text": "An authored compliance window. It is a design choice, not a finding about how long an inventory takes.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1469,
+      "text": "What the plan must contain",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1473,
+      "text": "A material inventory",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1475,
+      "text": "an inventory identifying the material of each service line in the system",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1479,
+      "text": "Inventory and a replacement sequence",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1481,
+      "text": "an inventory identifying the material of each service line in the system and the sequence in which the system would replace them",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1485,
+      "text": "Inventory, sequence, and the system's own cost estimate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1487,
+      "text": "an inventory identifying the material of each service line in the system, the sequence in which the system would replace them, and the system's own estimate of the cost of doing so",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1491,
+      "text": "An authored filing duty. No real inventory rule is reproduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1499,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1502,
+      "text": "It is the purpose of this Act to establish what the state's water systems are actually made of before deciding what replacing it would cost. Nothing in this Act appropriates money or obliges a system to replace a service line.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1505,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1514,
+      "text": "Covered systems",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1519,
+      "text": "A community water system serving {connections.toLocaleString(\"en-US\")} or more connections is subject to this Act. A system below that size may file under this Act voluntarily and is not subject to its deadline.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1522,
+      "text": "every community water system serving {connections.toLocaleString(\"en-US\")} or more connections",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1532,
+      "text": "Filing deadline",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1539,
+      "text": "A covered system shall file the plan required by this Act, and the department shall publish the date by which it must be filed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1540,
+      "text": "A covered system shall file the plan required by this Act not later than {endsOn}. A system that has not filed by that date shall report the reason to the department.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1543,
+      "text": "every covered system, on the same date",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1553,
+      "text": "Contents of the plan",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1558,
+      "text": "The plan required by this Act shall contain {choice.clausePhrase}. The department shall publish each filed plan.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1562,
+      "text": "every household served by a covered system, through the published plan",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1573,
+      "text": "Assistance for the smallest covered systems",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1574,
+      "text": "the smallest systems this Act newly covers",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1575,
+      "text": "the small towns just over the threshold",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1577,
+      "text": "A town just over the threshold has the same filing duty as a city and no engineer on staff to discharge it, and the duty is unfunded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1582,
+      "text": "Notwithstanding the absence of an appropriation elsewhere in this Act, not more than {amountLabel} may be appropriated to assist covered systems in the smallest quartile by connections with the cost of preparing the plan this Act requires.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1584,
+      "text": "An authored request from a fictional member. It is the ask that would turn an unfunded mandate into a funded one, and nothing in the world says it was granted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1590,
+      "text": "Funded replacement programme",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1592,
+      "text": "Covered systems may draw on a replacement fund, with priority written into the statute rather than left to the department.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1593,
+      "text": "Service Line Replacement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1597,
+      "text": "It funds replacement for covered systems. A system below the size threshold draws nothing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1598,
+      "text": "It sets a priority order; it does not guarantee any system is reached.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1610,
+      "text": "Replacement fund",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1615,
+      "text": "An authored fund ceiling for a fictional programme. No real replacement cost is asserted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1622,
+      "text": "Systems serving at least",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1627,
+      "text": "An authored size threshold, on the same fictional basis as the inventory variant.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1634,
+      "text": "Priority written into the statute",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1638,
+      "text": "Systems with the highest share of covered lines",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1640,
+      "text": "to the systems with the highest share of service lines identified as requiring replacement",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1644,
+      "text": "Systems with the least ability to pay",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1646,
+      "text": "to the systems whose residential rates would rise the most if the replacement were funded from rates alone",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1650,
+      "text": "An authored priority rule. No real allocation rule is reproduced.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1658,
+      "text": "Purpose and construction",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1661,
+      "text": "It is the purpose of this Act to fund replacement of the service lines a filed plan has identified, in an order the statute itself states. Nothing in this Act obliges a system to replace a line the fund does not reach.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1664,
+      "text": "everyone the Act reaches",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1673,
+      "text": "Covered systems",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1678,
+      "text": "A community water system serving {connections.toLocaleString(\"en-US\")} or more connections that has filed a replacement plan may draw on the fund established by this Act.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1681,
+      "text": "every community water system serving {connections.toLocaleString(\"en-US\")} or more connections that has filed a plan",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1691,
+      "text": "Replacement fund",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1697,
+      "text": "There is appropriated to a service line replacement fund a sum not to exceed {amount}, available to covered systems that have filed a replacement plan.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1700,
+      "text": "every covered system that has filed a plan",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1702,
+      "text": "{amount} to the replacement fund",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1711,
+      "text": "Order of distribution",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1716,
+      "text": "The department shall distribute from the fund {choice.clausePhrase}, and shall publish the order it applies each year. A system's place in the order is not a guarantee of a distribution.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1719,
+      "text": "every covered system, in the stated order",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1730,
+      "text": "Priority for schools and childcare premises",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1731,
+      "text": "school and licensed childcare premises",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1734,
+      "text": "A priority order written around whole systems can leave a school at the back of its own system's queue, and members will not defend that to a parent.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1739,
+      "text": "Of the amounts appropriated by Section 3 of this Act, not more than {amountLabel} may be reserved for replacement of service lines serving school and licensed childcare premises, ahead of the order stated in Section 4.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "enclosingSymbol": "WATER_SERVICE_LINES",
+      "line": 1741,
+      "text": "An authored request from a fictional member. No school or premises is real.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/legislation-scenarios.ts",
       "enclosingSymbol": "AUTHORED_MEASURE_NOTICE",
       "line": 62,
@@ -23105,7 +25473,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 265,
+      "line": 269,
       "text": "Scheduled activity stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23113,7 +25481,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 266,
+      "line": 270,
       "text": "Scheduled activity title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23121,7 +25489,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 267,
+      "line": 271,
       "text": "Scheduled activity summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23129,7 +25497,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 268,
+      "line": 272,
       "text": "Scheduled activity location key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23137,7 +25505,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 269,
+      "line": 273,
       "text": "Scheduled activity location label",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23145,7 +25513,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "participantPersonIds",
-      "line": 280,
+      "line": 284,
       "text": "Scheduled activity participants",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23153,7 +25521,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 306,
+      "line": 310,
       "text": "Scheduled activity sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23161,7 +25529,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 440,
+      "line": 444,
       "text": "Moved {activity.title} to a valid interval",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23169,7 +25537,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 447,
+      "line": 451,
       "text": "{activity.title} was moved to another valid working interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23177,7 +25545,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 452,
+      "line": 456,
       "text": "Scheduled activity planning",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23185,7 +25553,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 454,
+      "line": 458,
       "text": "An explicit schedule change.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23193,7 +25561,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 456,
+      "line": 460,
       "text": "Move a flexible work block.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23201,7 +25569,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 457,
+      "line": 461,
       "text": "Resolve the office agenda without moving fixed commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23209,7 +25577,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 459,
+      "line": 463,
       "text": "The flexible block now occupies the selected interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23217,7 +25585,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 496,
+      "line": 500,
       "text": "Work item stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23225,7 +25593,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 497,
+      "line": 501,
       "text": "Work item title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23233,7 +25601,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 498,
+      "line": 502,
       "text": "Work item summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23241,7 +25609,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 507,
+      "line": 511,
       "text": "Work item sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23249,7 +25617,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "assignedPersonIds",
-      "line": 514,
+      "line": 518,
       "text": "Work item assignees",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23257,7 +25625,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "waitingOnPersonIds",
-      "line": 518,
+      "line": 522,
       "text": "Work item dependencies",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23265,7 +25633,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 639,
+      "line": 643,
       "text": "Assigned {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23273,7 +25641,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 644,
+      "line": 648,
       "text": "Accepted responsibility for {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23281,7 +25649,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 650,
+      "line": 654,
       "text": "{item.title} was assigned to staff.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23289,7 +25657,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 655,
+      "line": 659,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23297,7 +25665,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 656,
+      "line": 660,
       "text": "Office work assignment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23305,7 +25673,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 659,
+      "line": 663,
       "text": "An explicit office delegation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23313,7 +25681,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 661,
+      "line": 665,
       "text": "Delegate the bounded work item.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23321,7 +25689,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 663,
+      "line": 667,
       "text": "Allow office work to proceed while the player handles other commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23329,7 +25697,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 665,
+      "line": 669,
       "text": "The assigned staff member can now work independently.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23337,7 +25705,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1056,
+      "line": 1060,
       "text": "Simulation time advanced {minutes} minutes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23345,7 +25713,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1061,
+      "line": 1065,
       "text": "Primary simulation jurisdiction",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23353,7 +25721,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1065,
+      "line": 1069,
       "text": "Deterministic canonical minute-level time transition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23361,7 +25729,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1178,
+      "line": 1182,
       "text": "Completed {item.title} for review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23369,7 +25737,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1183,
+      "line": 1187,
       "text": "{item.title} is ready for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23377,7 +25745,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1188,
+      "line": 1192,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23385,7 +25753,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1189,
+      "line": 1193,
       "text": "Parallel staff work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23393,7 +25761,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1193,
+      "line": 1197,
       "text": "Staff work progressed while the controlled person was occupied elsewhere.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23401,7 +25769,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1196,
+      "line": 1200,
       "text": "Complete an explicitly assigned office task.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23409,7 +25777,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1198,
+      "line": 1202,
       "text": "The result is available to the controlled office for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23417,7 +25785,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1270,
+      "line": 1274,
       "text": "Participated in {activity.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23425,7 +25793,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1275,
+      "line": 1279,
       "text": "{activity.title} concluded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23433,7 +25801,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1280,
+      "line": 1284,
       "text": "Scheduled activity",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23441,7 +25809,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1284,
+      "line": 1288,
       "text": "Commit the scheduled activity interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23449,7 +25817,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1285,
+      "line": 1289,
       "text": "Carry out a meaningful in-world commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23457,7 +25825,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1286,
+      "line": 1290,
       "text": "The scheduled interval is complete.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24241,7 +26609,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 537,
+      "line": 541,
       "text": "Historical event stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24249,7 +26617,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 538,
+      "line": 542,
       "text": "Historical event type",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24257,7 +26625,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 539,
+      "line": 543,
       "text": "Historical event summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24265,7 +26633,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 545,
+      "line": 549,
       "text": "Historical event",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24273,7 +26641,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 775,
+      "line": 779,
       "text": "Historical event participant role",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24281,7 +26649,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "recordWorldEvent",
-      "line": 778,
+      "line": 782,
       "text": "Event participant detail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24289,7 +26657,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
-      "line": 876,
+      "line": 880,
       "text": "Simulation time advanced {days} days to {nextDate}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24297,7 +26665,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
-      "line": 881,
+      "line": 885,
       "text": "Primary simulation jurisdiction",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24305,7 +26673,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "advanceWorld",
-      "line": 885,
+      "line": 889,
       "text": "Deterministic simulation clock transition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24313,7 +26681,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 968,
+      "line": 972,
       "text": "Causal process {causalProcess.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24321,7 +26689,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 973,
+      "line": 977,
       "text": "{world.metricCatalog.definitions[effectActivation.targetMetricId]?.name??\"Metric\"} effect",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24329,7 +26697,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 979,
+      "line": 983,
       "text": "{metricObservation.sourceLabel} observation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24337,7 +26705,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 985,
+      "line": 989,
       "text": "{world.metricCatalog.definitions[metricState.metricId]?.name??\"Metric\"} state",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24345,7 +26713,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 990,
+      "line": 994,
       "text": "Due transition {dueItem.transitionKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24353,7 +26721,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 998,
+      "line": 1002,
       "text": "Policy baseline {policyBaseline.seriesKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24361,7 +26729,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 1003,
+      "line": 1007,
       "text": "Policy operation {policyOperation.operation.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24369,7 +26737,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 1007,
+      "line": 1011,
       "text": "Policy implementation profile",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24377,7 +26745,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 1011,
+      "line": 1015,
       "text": "Policy estimate {policyEstimate.seriesKey}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24385,7 +26753,7 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "enclosingSymbol": "resolveEntityLabel",
-      "line": 1016,
+      "line": 1020,
       "text": "Policy realization {policyRealization.status}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26138,7 +28506,7 @@
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateHistoryIntegrity. Play fails closed rather than showing it.",
-      "count": 66
+      "count": 68
     },
     {
       "sourcePath": "src/simulation/world.ts",
@@ -26411,18 +28779,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/serialization.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -26456,6 +28812,18 @@
       "sourcePath": "src/simulation/resources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in requireWorkCompensationFlow. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -26699,22 +29067,16 @@
       "count": 113
     },
     {
-      "sourcePath": "src/simulation/person-stress-harness.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 6
-    },
-    {
-      "sourcePath": "src/simulation/person-stress-harness.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 8
-    },
-    {
       "sourcePath": "src/simulation/policy-decision.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/person-stress-harness.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 6
     },
     {
       "sourcePath": "src/simulation/person-foundation.test.ts",
@@ -26729,16 +29091,34 @@
       "count": 9
     },
     {
-      "sourcePath": "src/simulation/life-sources.ts",
+      "sourcePath": "src/simulation/perception.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/perception.ts",
+      "sourcePath": "src/simulation/people.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/person-appearance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/person-identity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/people.ts",
@@ -26785,6 +29165,24 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
       "count": 10
     },
@@ -26809,26 +29207,8 @@
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
       "count": 17
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -26837,9 +29217,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -26851,67 +29231,13 @@
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/people.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/people.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/person-appearance.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/person-identity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/municipal-election-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateAppraisalHistory. Play fails closed rather than showing it.",
+      "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/person-stress-harness.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
     },
     {
@@ -26945,6 +29271,24 @@
       "count": 5
     },
     {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/mind-catalog.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -26961,24 +29305,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateLifeProvenance. Play fails closed rather than showing it.",
       "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMembership. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/life.ts",
@@ -27005,9 +29331,45 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMembership. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27017,16 +29379,16 @@
       "count": 81
     },
     {
+      "sourcePath": "src/simulation/life-sources.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
       "sourcePath": "src/simulation/life-queries.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/life-places.ts",
@@ -27095,6 +29457,18 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 17
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/life-content-92c.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27116,24 +29490,6 @@
       "sourcePath": "src/simulation/legislature-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -27173,6 +29529,36 @@
       "count": 46
     },
     {
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/legislation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27185,6 +29571,18 @@
       "count": 7
     },
     {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/legislation-program-families.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27193,25 +29591,31 @@
     {
       "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislation-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 52
+    },
+    {
+      "sourcePath": "src/simulation/legislation-drafting.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 22
+    },
+    {
+      "sourcePath": "src/simulation/legislation-drafting.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 50
+    },
+    {
+      "sourcePath": "src/simulation/legislation-draft-lineage.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 9
     },
     {
       "sourcePath": "src/simulation/jurisdiction-hierarchy.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 17
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 17
     },
     {
@@ -27251,15 +29655,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislation.ts",
+      "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislative-member-decisions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27416,6 +29814,12 @@
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27591,24 +29995,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 64
-    },
-    {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/canonical-json.test.ts",
@@ -27923,16 +30309,28 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/production-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 21
-    },
-    {
-      "sourcePath": "src/presentation/formative-context.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 27
     },
     {
       "sourcePath": "src/presentation/production-release-boundary.test.ts",
@@ -28169,12 +30567,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 10
-    },
-    {
       "sourcePath": "src/presentation/legislation-routes.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28191,6 +30583,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 35
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
     },
     {
       "sourcePath": "src/presentation/garment-fit.ts",
@@ -28239,6 +30643,18 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
+    },
+    {
+      "sourcePath": "src/presentation/formative-context.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 27
+    },
+    {
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/conversation-consequences.ts",
@@ -28526,12 +30942,6 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {

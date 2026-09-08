@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4735 |
-| DIAGNOSTIC_OR_TEST | 3639 |
-| **NEEDS_CLASSIFICATION** | **3262** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4779 |
+| DIAGNOSTIC_OR_TEST | 3709 |
+| **NEEDS_CLASSIFICATION** | **3558** |
 
-Scanned 340 files holding 51732 string
+Scanned 346 files holding 52924 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -27,6 +27,7 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
+| 287 | `src/simulation/legislation-program-families.ts` |
 | 221 | `src/presentation/run-b-conversation.ts` |
 | 135 | `src/simulation/executive-authority-rule-packs.ts` |
 | 124 | `src/simulation/legislation.ts` |
@@ -133,6 +134,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
+| 7 | `src/presentation/legislation-docket.ts` |
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
@@ -181,6 +183,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
+| 2 | `src/simulation/legislation-drafting.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
