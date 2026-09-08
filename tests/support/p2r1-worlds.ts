@@ -58,7 +58,9 @@ export function fixture() {
   return { world, personId };
 }
 export function housingFixture() {
-  let { world, personId } = fixture();
+  const base = fixture();
+  let world = base.world;
+  const { personId } = base;
   world = createDwelling(world, {
     stableKey: "p2r1:dwelling",
     establishedAt: world.currentDate,
