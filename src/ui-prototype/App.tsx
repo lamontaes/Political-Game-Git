@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 
-import { PROTOTYPE_CONTENT_NOTICE, type EntityRef } from "./data";
+import { resolveBackdrop } from "./art";
+import {
+  DeveloperInspector,
+  PreviewDisclosure,
+  PrototypeMark,
+  VersionStamp,
+} from "./chrome";
+import { findRoom, type EntityRef } from "./data";
 import { SceneShell } from "./SceneShell";
 import { TitleScreen, type TitleAction } from "./TitleScreen";
 import {
@@ -15,6 +22,7 @@ import {
   JournalWorkspace,
   OfficesWorkspace,
   OptionsWorkspace,
+  PatchNotesWorkspace,
   PeopleWorkspace,
   PersonalWorkspace,
   SavedGamesWorkspace,
@@ -106,6 +114,9 @@ export function PrototypeApp() {
   ];
 
   const view = activeView(state);
+  const currentRoom = findRoom(state.roomId);
+  const titleBackdrop = resolveBackdrop(TITLE_SCENE_ID);
+  const sceneBackdrop = resolveBackdrop(currentRoom?.sceneId ?? "");
 
   const workspace = (() => {
     if (state.screen !== "shell") return null;
@@ -122,6 +133,8 @@ export function PrototypeApp() {
         return <OfficesWorkspace context={context} />;
       case "journal":
         return <JournalWorkspace context={context} />;
+      case "patch-notes":
+        return <PatchNotesWorkspace context={context} />;
       case "entity":
         return <EntityWorkspace context={context} entityRef={view.ref} />;
     }
@@ -134,21 +147,24 @@ export function PrototypeApp() {
       data-screen={state.screen}
       data-surface={view.surface}
     >
-      <div className="p-devbar">
-        <strong>UI-PROTOTYPE-01</strong>
-        <span>Development only · not the production route</span>
-        <span className="p-devbar-note">{PROTOTYPE_CONTENT_NOTICE}</span>
-        {state.screen === "shell" ? (
-          <button
-            type="button"
-            className="p-button"
-            data-testid="devbar-title"
-            onClick={() => dispatch({ type: "return-to-title" })}
-          >
-            Title screen
-          </button>
-        ) : null}
-      </div>
+      <PrototypeMark
+        inspectorOpen={state.inspectorOpen}
+        onToggleInspector={() => dispatch({ type: "toggle-inspector" })}
+        onReturnToTitle={
+          state.screen === "shell"
+            ? () => dispatch({ type: "return-to-title" })
+            : null
+        }
+      />
+
+      {state.inspectorOpen ? (
+        <DeveloperInspector
+          titleAssetId={titleBackdrop.assetId}
+          sceneAssetId={sceneBackdrop.assetId}
+          sceneLabel={currentRoom?.label ?? "None"}
+          onClose={() => dispatch({ type: "toggle-inspector" })}
+        />
+      ) : null}
 
       {state.screen === "title" ? (
         <>
@@ -163,6 +179,14 @@ export function PrototypeApp() {
           {state.titleOverlay === "options" ? (
             <div className="p-title-overlay">
               <OptionsWorkspace
+                context={context}
+                onClose={() => dispatch({ type: "close-title-overlay" })}
+              />
+            </div>
+          ) : null}
+          {state.titleOverlay === "patch-notes" ? (
+            <div className="p-title-overlay">
+              <PatchNotesWorkspace
                 context={context}
                 onClose={() => dispatch({ type: "close-title-overlay" })}
               />
@@ -187,7 +211,27 @@ export function PrototypeApp() {
               />
             </div>
           ) : null}
+          {state.titleOverlay === "patch-notes" ? (
+            <div className="p-title-overlay">
+              <PatchNotesWorkspace
+                context={context}
+                onClose={() => dispatch({ type: "close-title-overlay" })}
+              />
+            </div>
+          ) : null}
         </SceneShell>
+      )}
+
+      <VersionStamp
+        onOpenPatchNotes={() =>
+          dispatch({ type: "open-title-overlay", overlay: "patch-notes" })
+        }
+      />
+
+      {state.previewDismissed ? null : (
+        <PreviewDisclosure
+          onDismiss={() => dispatch({ type: "dismiss-preview" })}
+        />
       )}
 
       <p className="p-sr-only" role="status" aria-live="polite">

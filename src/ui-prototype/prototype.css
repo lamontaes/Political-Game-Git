@@ -98,37 +98,186 @@ button {
 }
 
 /*
- * The development banner.
+ * The persistent prototype mark, and what sits behind it.
  *
- * It is deliberately always present and deliberately plain. The owner must
- * never be able to mistake this surface for the production route, and a marker
- * that can be dismissed is a marker that will be.
+ * U03-07 replaced a wide always-on banner with two separate things. The mark is
+ * small, in the corner, and never claims a share of the composition; the
+ * inspector holds the technical identity — asset ids, plate state, the fixed
+ * clock, the version — that used to be printed under the title menu. The mark
+ * cannot be dismissed, because a marker that can be dismissed is a marker that
+ * will be, and nobody should be able to mistake this for the shipping game.
  */
-.p-devbar {
+.p-mark {
   position: fixed;
-  inset: 0 0 auto 0;
+  top: 0.55rem;
+  right: 0.75rem;
   z-index: 90;
   display: flex;
-  gap: 0.75rem;
   align-items: center;
-  padding: 0.3rem 0.9rem;
-  background: rgba(7, 9, 13, 0.82);
-  border-bottom: 1px solid var(--p-hairline);
-  font-size: 0.68rem;
-  letter-spacing: 0.09em;
+  gap: 0.4rem;
+  padding: 0.2rem 0.3rem 0.2rem 0.55rem;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius);
+  background: rgba(7, 9, 13, 0.62);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--p-ivory-faint);
 }
 
-.p-devbar strong {
+.p-mark-label {
   color: var(--p-brass);
-  font-weight: 600;
 }
 
-.p-devbar .p-devbar-note {
-  text-transform: none;
-  letter-spacing: 0.02em;
+.p-mark-button {
+  padding: 0.16rem 0.42rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: none;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--p-ivory-dim);
+  cursor: pointer;
+}
+
+.p-mark-button:hover,
+.p-mark-button:focus-visible {
+  border-color: var(--p-brass-dim);
+  color: var(--p-ivory);
+}
+
+.p-inspector {
+  position: fixed;
+  top: 2.4rem;
+  right: 0.75rem;
+  z-index: 95;
+  width: min(24rem, 90vw);
+  padding: 0.9rem 1rem 1rem;
+  border: 1px solid var(--p-hairline);
+  border-radius: var(--p-radius);
+  background: var(--p-navy-solid);
+  box-shadow: var(--p-shadow);
+}
+
+.p-inspector header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.p-inspector-list {
+  margin: 0.5rem 0 0.7rem;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+}
+
+.p-inspector-list > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.p-inspector-list dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
   color: var(--p-ivory-faint);
+}
+
+.p-inspector-list dd {
+  margin: 0;
+  color: var(--p-ivory);
+  overflow-wrap: anywhere;
+}
+
+/* The first-entry explanation. Dismissed once, per session. */
+.p-preview-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(5, 7, 11, 0.78);
+}
+
+.p-preview {
+  width: min(38rem, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid var(--p-hairline);
+  border-top: 2px solid var(--p-brass);
+  border-radius: var(--p-radius);
+  background: var(--p-navy-solid);
+  box-shadow: var(--p-shadow);
+}
+
+.p-preview h2 {
+  margin: 0.25rem 0 0.7rem;
+  font-family: var(--p-sans);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.p-preview > p {
+  margin: 0 0 0.9rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-preview-list {
+  margin: 0 0 1.2rem;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.86rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-preview-list strong {
+  color: var(--p-ivory);
+  font-weight: 500;
+}
+
+/* The quiet canonical version display, bottom right. */
+.p-version {
+  position: fixed;
+  right: 0.85rem;
+  bottom: 0.5rem;
+  z-index: 60;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: none;
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--p-ivory-faint);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+
+.p-version-more {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.p-version:hover,
+.p-version:focus-visible {
+  border-color: var(--p-brass-dim);
+  color: var(--p-ivory-dim);
+}
+
+.p-version:hover .p-version-more,
+.p-version:focus-visible .p-version-more {
+  opacity: 1;
 }
 
 /* ------------------------------------------------------------ the backdrop */
@@ -167,13 +316,20 @@ button {
 
 /* -------------------------------------------------------------- the title */
 
+/*
+ * U03-01. The grouping moved up and left and became much smaller — as one
+ * block. Scaling the wordmark alone would have left the menu holding the
+ * original footprint, and the two would have stopped reading as one thing. The
+ * right and lower thirds of the plate, where the lectern staging is, are now
+ * clear.
+ */
 .p-title {
   position: relative;
   height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  align-content: center;
-  padding: 0 clamp(2.5rem, 7vw, 8rem);
+  align-content: start;
+  padding: clamp(2.4rem, 6vh, 4rem) clamp(2rem, 5vw, 4.5rem);
 }
 
 /*
@@ -201,11 +357,11 @@ button {
    * be useful; this one cannot, whatever its strength.
    */
   background: radial-gradient(
-    ellipse 72% 88% at 17% 52%,
-    rgba(5, 8, 13, 0.86) 0%,
-    rgba(5, 8, 13, 0.68) 34%,
-    rgba(5, 8, 13, 0.32) 64%,
-    rgba(5, 8, 13, 0.08) 84%,
+    ellipse 46% 56% at 13% 26%,
+    rgba(5, 8, 13, 0.82) 0%,
+    rgba(5, 8, 13, 0.62) 34%,
+    rgba(5, 8, 13, 0.28) 64%,
+    rgba(5, 8, 13, 0.07) 84%,
     rgba(5, 8, 13, 0) 100%
   );
   /* Above the plate. Without this the whole wash paints underneath it. */
@@ -216,12 +372,12 @@ button {
 .p-title-inner {
   position: relative;
   z-index: 2;
-  max-width: 34rem;
+  max-width: 21rem;
 }
 
 /* The working wordmark: transparent type with one restrained line ornament. */
 .p-wordmark {
-  margin: 0 0 clamp(2rem, 5vh, 3.4rem);
+  margin: 0 0 clamp(1.1rem, 2.4vh, 1.7rem);
 }
 
 .p-wordmark-line {
@@ -232,37 +388,29 @@ button {
 }
 
 .p-wordmark-our {
-  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
-  letter-spacing: 0.42em;
+  font-size: clamp(0.8rem, 1.1vw, 1rem);
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   color: var(--p-ivory-dim);
 }
 
 .p-wordmark-civic {
-  font-size: clamp(3.1rem, 6.4vw, 5.4rem);
-  line-height: 1.02;
+  font-size: clamp(1.95rem, 3vw, 2.7rem);
+  line-height: 1.04;
   letter-spacing: 0.02em;
 }
 
 .p-wordmark-rule {
   display: block;
-  width: 8.5rem;
+  width: 4.4rem;
   height: 1px;
-  margin: 0.85rem 0 0;
+  margin: 0.55rem 0 0;
   background: linear-gradient(
     90deg,
     var(--p-brass) 0%,
     var(--p-brass-dim) 62%,
     transparent 100%
   );
-}
-
-.p-wordmark-sub {
-  margin: 0.7rem 0 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--p-ivory-faint);
 }
 
 .p-title-menu {
@@ -284,13 +432,13 @@ button {
   position: relative;
   display: flex;
   align-items: baseline;
-  gap: 0.85rem;
-  padding: 0.42rem 0.2rem 0.42rem 0;
+  gap: 0.45rem;
+  padding: 0.24rem 0.2rem 0.24rem 0;
   border: 0;
   background: none;
   font-family: var(--p-sans);
-  font-size: clamp(1.18rem, 1.9vw, 1.6rem);
-  letter-spacing: 0.15em;
+  font-size: clamp(0.88rem, 1.05vw, 1.02rem);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--p-ivory-dim);
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.72);
@@ -300,9 +448,15 @@ button {
     transform 160ms ease;
 }
 
+/*
+ * U03-01. The selected line was long and stood well away from the word, which
+ * read as a detached rule rather than as a cue attached to the item. It is now
+ * short and close: enough to mark the selection, not enough to become the
+ * loudest thing on the screen.
+ */
 .p-title-action-marker {
   display: inline-block;
-  width: 2.4rem;
+  width: 0.7rem;
   height: 1px;
   background: transparent;
   transition:
@@ -314,23 +468,23 @@ button {
 .p-title-action:focus-visible:not(:disabled),
 .p-title-action[data-selected="true"] {
   color: var(--p-ivory);
-  transform: translateX(0.4rem);
+  transform: translateX(0.25rem);
 }
 
 .p-title-action:hover:not(:disabled) .p-title-action-marker,
 .p-title-action:focus-visible:not(:disabled) .p-title-action-marker,
 .p-title-action[data-selected="true"] .p-title-action-marker {
   background: var(--p-brass);
-  width: 3.4rem;
+  width: 1.15rem;
 }
 
 .p-title-action[data-selected="true"]::after {
   content: "";
   position: absolute;
-  left: -0.55rem;
+  left: -0.4rem;
   top: 50%;
   width: 2px;
-  height: 1.05em;
+  height: 0.95em;
   transform: translateY(-50%);
   background: var(--p-brass);
 }
@@ -346,14 +500,6 @@ button {
   font-size: 0.7rem;
   letter-spacing: 0.02em;
   text-transform: none;
-  color: var(--p-ivory-faint);
-}
-
-.p-title-room {
-  margin: clamp(2rem, 5vh, 3rem) 0 0;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
   color: var(--p-ivory-faint);
 }
 
@@ -554,17 +700,61 @@ button {
   gap: 0.5rem;
 }
 
+/*
+ * U03-03 — the recovered proximity behaviour.
+ *
+ * At rest the cluster is small and somewhat translucent so the room is the
+ * thing you are looking at. As the pointer comes within its approach radius —
+ * or as keyboard focus lands on it, or as it opens — it becomes larger and more
+ * solid.
+ *
+ * Two properties make this safe rather than fidgety. The button's own box never
+ * changes size, so the click target is stable and the approach cannot move the
+ * thing you are aiming at; and only this element transforms, so nothing about
+ * the scene, the backdrop or the layout reflows.
+ */
 .p-nav-cluster {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
   padding: 0.45rem 0.85rem 0.45rem 0.5rem;
   border-radius: var(--p-radius);
-  border: 1px solid var(--p-hairline);
-  background: var(--p-navy);
-  box-shadow: var(--p-shadow);
+  border: 1px solid transparent;
+  background: rgba(15, 21, 30, 0.42);
   cursor: pointer;
   text-align: left;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.p-nav-cluster-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transform-origin: left center;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.p-nav[data-state="rest"] .p-nav-cluster-inner {
+  transform: scale(0.82);
+  opacity: 0.66;
+}
+
+.p-nav[data-state="near"] .p-nav-cluster,
+.p-nav[data-state="open"] .p-nav-cluster {
+  background: var(--p-navy);
+  border-color: var(--p-hairline);
+  box-shadow: var(--p-shadow);
+}
+
+/* The identity line: who you are, ahead of when and where you are. */
+.p-nav-identity {
+  font-family: var(--p-sans);
+  font-size: 0.86rem;
+  color: var(--p-ivory);
 }
 
 .p-nav-emblem {
@@ -586,8 +776,8 @@ button {
 }
 
 .p-nav-time {
-  font-size: 0.94rem;
-  color: var(--p-ivory);
+  font-size: 0.8rem;
+  color: var(--p-ivory-dim);
 }
 
 .p-nav-date,
@@ -898,13 +1088,17 @@ button {
 }
 
 /*
- * Access is conveyed by more than colour.
+ * U03-05. Attribution in words, and only where it changes the claim.
  *
- * Every access class carries a written prefix as well as its own tint, so a
- * player who cannot distinguish the tints still reads what kind of claim this
- * is. Knowledge states must never be a colour-only signal.
+ * Every line used to carry an uppercase badge, including the ordinary ones, so
+ * a dossier read like a database dump and "You know" appeared above sentences
+ * that were plainly the character's own. What the character simply knows now
+ * has no badge at all. Public record, second-hand report and an outright gap
+ * still say so, in words rather than in colour alone — the distinctions are
+ * intact, nothing became more certain than it was, and no hidden fact was
+ * exposed to tidy the layout.
  */
-.p-facts li::before {
+.p-attribution {
   display: block;
   font-size: 0.62rem;
   letter-spacing: 0.13em;
@@ -912,26 +1106,94 @@ button {
   color: var(--p-ivory-faint);
 }
 
-.p-facts li[data-access="known"]::before {
-  content: "You know";
-}
-
-.p-facts li[data-access="public"]::before {
-  content: "Public record";
+.p-facts li[data-access="public"] .p-attribution {
   color: var(--p-brass);
-}
-
-.p-facts li[data-access="inferred"]::before {
-  content: "You think";
-}
-
-.p-facts li[data-access="unknown"]::before {
-  content: "Not known to you";
 }
 
 .p-facts li[data-access="unknown"] {
   color: var(--p-ivory-faint);
   font-style: italic;
+}
+
+/* Current activity: adjacent to identity, quieter than it, and marked. */
+.p-right-now {
+  margin: 0 0 0.7rem;
+  font-size: 0.84rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-right-now-label {
+  margin-right: 0.5rem;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--p-brass-dim);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--p-brass);
+}
+
+.p-identity {
+  margin: 0 0 0.4rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.p-identity strong {
+  font-family: var(--p-sans);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.p-identity span {
+  font-size: 0.82rem;
+  color: var(--p-ivory-dim);
+}
+
+.p-workspace[data-surface="paper"] .p-identity span {
+  color: var(--p-ink-dim);
+}
+
+/* Patch notes, one section per release entry. */
+.p-patch-note {
+  margin: 0 0 1.4rem;
+  padding: 0 0 1.1rem;
+  border-bottom: 1px solid var(--p-paper-edge);
+}
+
+.p-patch-note h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--p-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.p-patch-note[data-released="false"] .p-tag {
+  color: var(--p-important);
+  border-color: var(--p-important);
+}
+
+.p-patch-note p {
+  margin: 0 0 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------- pin drag state */
+
+.p-pin-slot[data-dragging="true"] {
+  opacity: 0.55;
+}
+
+.p-pin-slot[data-drop-target="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.28rem;
+  height: 2px;
+  background: var(--p-brass);
 }
 
 .p-dossier-section h3 {
@@ -1375,7 +1637,7 @@ button {
 
 @media (max-width: 1060px) {
   .p-title {
-    padding: 0 clamp(1.5rem, 5vw, 3rem);
+    padding: clamp(1.8rem, 5vh, 3rem) clamp(1.5rem, 5vw, 3rem);
   }
 
   .p-workspace-scrim {
@@ -1435,4 +1697,22 @@ button {
 .p-app[data-motion="reduce"] *::after {
   animation-duration: 0.001ms !important;
   transition-duration: 0.001ms !important;
+}
+
+/*
+ * With motion reduced, the cluster does not shrink and grow at all.
+ *
+ * Suppressing only the transition would leave the same size change happening
+ * instantly, which is a harsher movement than the animation it replaced. So the
+ * scale is held at full and the approach is carried entirely by opacity and by
+ * the surface becoming solid — the behaviour still reads, without the motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .p-nav[data-state="rest"] .p-nav-cluster-inner {
+    transform: none;
+  }
+}
+
+.p-app[data-motion="reduce"] .p-nav[data-state="rest"] .p-nav-cluster-inner {
+  transform: none;
 }

@@ -21,8 +21,9 @@ import {
   type PersonCategory,
   type PrototypePerson,
 } from "./data";
-import { RefLink, Row, Section, Workspace } from "./parts";
+import { FactList, RefLink, Row, Section, Workspace } from "./parts";
 import { isPinned, type PrototypeAction, type PrototypeState } from "./state";
+import { CANONICAL_VERSION, PATCH_NOTE_SECTIONS } from "./version";
 
 /**
  * The prototype's information destinations.
@@ -327,9 +328,24 @@ export function PersonalWorkspace({
       onBack={context.back}
       onClose={context.close}
     >
+      {/*
+        U03-06. The owner could not find who they were playing. The name and
+        the age are now stated once, plainly, at the top of the screen instead
+        of being a sentence fragment inside a paragraph. The broader Personal
+        layout is deliberately left alone: the owner reserved that.
+      */}
       <Section title="Who you are">
-        <p className="p-muted">
-          Age {PROTOTYPE_PLAYER.age}. {PROTOTYPE_PLAYER.biography}
+        <p className="p-identity" data-testid="personal-identity">
+          <strong data-testid="personal-name">{PROTOTYPE_PLAYER.name}</strong>
+          <span data-testid="personal-age">
+            {PROTOTYPE_PLAYER.age} years old
+          </span>
+        </p>
+        <p className="p-muted">{PROTOTYPE_PLAYER.biography}</p>
+        <p className="p-faint">
+          A fixed prototype character. Nothing here was generated from a save,
+          and in the real game the age would come from the person and the date
+          the World already holds.
         </p>
       </Section>
 
@@ -486,7 +502,7 @@ export function OfficesWorkspace({
       </p>
       <p className="p-muted">{office.summary}</p>
 
-      <Section title="What needs you">
+      <Section title="Waiting on you">
         {office.pending.map((item) => (
           <Row
             key={item.id}
@@ -693,6 +709,69 @@ export function OptionsWorkspace({
   );
 }
 
+/* ---------------------------------------------------------- Patch notes */
+
+/**
+ * Patch notes, read straight out of the checked-out `PATCH_NOTES.md`.
+ *
+ * DEVELOPMENT-ONLY, and READ-ONLY in the strongest sense: this screen has no
+ * copy of the notes and no copy of the version. It renders what the file says,
+ * in the file's order, with the file's own headings. A section the file marks
+ * UNRELEASED is labelled unreleased here, because deciding otherwise would be
+ * this prototype claiming a release it did not make.
+ *
+ * Release automation, the version bump and the notes themselves belong to
+ * VERSION-AUTO1. R1 owns the wiring that displays them and nothing else.
+ */
+export function PatchNotesWorkspace({
+  context,
+  onClose,
+}: {
+  readonly context: WorkspaceContext;
+  readonly onClose?: () => void;
+}) {
+  const close = onClose ?? context.close;
+  return (
+    <Workspace
+      kicker={`Version ${CANONICAL_VERSION}`}
+      title="Patch notes"
+      surface="paper"
+      testId="patch-notes-workspace"
+      canGoBack={onClose ? false : context.canGoBack}
+      onBack={onClose ?? context.back}
+      onClose={close}
+    >
+      <p className="p-muted" data-testid="patch-notes-version">
+        This build is version {CANONICAL_VERSION}, read from the checked-out
+        package. Newest first.
+      </p>
+
+      {PATCH_NOTE_SECTIONS.map((section) => (
+        <article
+          key={section.id}
+          className="p-patch-note"
+          data-released={section.released ? "true" : "false"}
+          data-testid={`patch-note-${section.id}`}
+        >
+          <h2>{section.heading}</h2>
+          <p className="p-tag" data-testid={`patch-status-${section.id}`}>
+            {section.released ? "Released" : "Not released"}
+          </p>
+          {section.paragraphs.map((paragraph, index) => (
+            <p key={`${section.id}-p${index}`}>{paragraph}</p>
+          ))}
+        </article>
+      ))}
+
+      <p className="p-faint">
+        Shown exactly as PATCH_NOTES.md has it in this checkout. Nothing on this
+        screen edits the notes, bumps the version, or accepts a candidate
+        section.
+      </p>
+    </Workspace>
+  );
+}
+
 /* ----------------------------------------------------------- Saved games */
 
 export function SavedGamesWorkspace({
@@ -789,18 +868,22 @@ export function EntityWorkspace({
         "dark",
         <>
           <p className="p-role">{person.role}</p>
+          {/*
+            U03-05. What someone is doing this minute is not what they are.
+            "Reading a printout" sat inside the same block as a lasting read of
+            the relationship, so it looked like a permanent trait with no
+            explanation. It is now a separate, quieter line next to the
+            identity, marked as the passing thing it is.
+          */}
+          <p className="p-right-now" data-testid="person-right-now">
+            <span className="p-right-now-label">Right now</span>
+            {person.read}
+          </p>
           <div className="p-impression">
             <strong>{person.relationship}</strong>
-            <p>{person.read}</p>
           </div>
-          <Section title="What you know">
-            <ul className="p-facts">
-              {person.facts.map((fact) => (
-                <li key={fact.id} data-access={fact.access}>
-                  {fact.text}
-                </li>
-              ))}
-            </ul>
+          <Section title="Details">
+            <FactList facts={person.facts} testId="full-facts" />
           </Section>
           <Section title="Last interaction">
             <p className="p-muted">{person.lastInteraction}</p>
@@ -928,7 +1011,7 @@ export function EntityWorkspace({
             {office.body} · {office.termNote}
           </p>
           <p>{office.summary}</p>
-          <Section title="What needs you">
+          <Section title="Waiting on you">
             {office.pending.map((item) => (
               <Row
                 key={item.id}

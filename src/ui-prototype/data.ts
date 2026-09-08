@@ -323,7 +323,7 @@ export const PROTOTYPE_PEOPLE: readonly PrototypePerson[] = [
       {
         id: "fact-aide-home",
         access: "unknown",
-        text: "You do not know where she grew up.",
+        text: "Where she grew up.",
       },
     ],
     links: [
@@ -358,7 +358,7 @@ export const PROTOTYPE_PEOPLE: readonly PrototypePerson[] = [
       {
         id: "fact-colleague-family",
         access: "unknown",
-        text: "You do not know much about his family.",
+        text: "Much about his family.",
       },
     ],
     links: [
@@ -432,7 +432,7 @@ export const PROTOTYPE_PEOPLE: readonly PrototypePerson[] = [
       {
         id: "fact-friend-politics",
         access: "unknown",
-        text: "You have never asked how she votes.",
+        text: "How she votes — you have never asked.",
       },
     ],
     links: [],

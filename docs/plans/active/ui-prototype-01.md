@@ -102,6 +102,34 @@ registry — rather than on coordinates guessed by eye. Because released modular
 character art is not in scope for this prototype, a person is drawn as an honest
 labelled hitbox marker at its anchor, not as a fake portrait.
 
+## Pre-ship art correction gate — U03-02
+
+**Status: OPEN. Not R1 work. No image was generated, altered, or re-flagged.**
+
+| Field                   | Value                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| Source plate            | `title_bg_civic_community_meeting_hero_slot_5504x3072_v1`                     |
+| Scene                   | `civic-community-meeting-title`                                               |
+| Subject                 | The seated audience figure in the grey polo, near the lectern                 |
+| Raised by               | Owner click-through, PLAYTEST-03, 2026-09-08                                  |
+| Verdict                 | The face reads as too realistic for the game's illustrated style              |
+| Required before release | The owner must see the corrected face **at actual title scale** and accept it |
+
+This is a style correction against that one figure in that one title plate. It
+is **not** evidence of a defective modular PEOPLE1 character — the figure is
+painted into the background, not assembled from the character system — and it is
+**not** a rejection of the composition, which the owner approved.
+
+Handling when the gate is worked:
+
+- prefer a focused correction to the face over regenerating the plate;
+- preserve the existing composition, file identity and lineage;
+- regenerate only if a focused correction cannot hold the style;
+- do not promote, re-manifest, or re-lineage anything to carry the fix.
+
+This gate does not block menu or shell engineering, and R1 deliberately did not
+touch it: R1 generated no art and changed no release flag.
+
 ## Prototype state
 
 Session-local only. One reducer in `src/ui-prototype/state.ts` holds:
@@ -167,3 +195,54 @@ None were hit. Containment was achieved without touching a production player
 file, without routing normal play through a fixture, without promoting an art
 candidate, and without a new World/save/history/time system. Every required Drive
 authority was read through the authorized connector.
+
+## R1 — owner-feedback corrections (PLAYTEST-03)
+
+The owner approved the **direction** after the first click-through — not the
+final design, and not merge. R1 is the finite correction pass that followed. It
+stayed inside `src/ui-prototype/**`, its own e2e specs and this documentation.
+
+| Item                              | Status                      | What changed                                                                                                                                                                                                                                                                                                                                                 |
+| --------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| U03-01 title composition          | Implemented                 | The wordmark, rule and menu scale and move together: the whole grouping is smaller and sits in the upper left, clear of the lectern staging. The selected cue is a short brass line beside the word instead of a long detached rule. The slogan and the asset caption are gone from the composition; the asset identity moved to the developer inspector.    |
+| U03-02 title audience face        | Pre-ship gate recorded      | See the gate above. No generation, no flag change.                                                                                                                                                                                                                                                                                                           |
+| U03-03 bottom-left proximity      | Implemented                 | The cluster rests small and translucent, and rises — larger, opaque, on a solid surface — on pointer approach within a forgiving radius, on keyboard focus, or when opened. The button's box never changes size, so the click target is stable and nothing reflows. Reduced motion holds the cluster at full size and carries the change with opacity alone. |
+| U03-04 pin direct manipulation    | Implemented                 | Drag-to-reorder across mixed pin kinds, with a movement threshold so an ordinary click still opens the record, Escape cancelling a drag without disturbing the order, Move up/down retained as the keyboard route with their menu deliberately left open, and size selection restored to dismissing its own menu.                                            |
+| U03-05 dossier hierarchy and copy | Implemented                 | Current activity is a separate, marked "Right now" line beside the identity rather than an unexplained trait. "What you know" became **Details**; Last interaction stayed. Ordinary known facts carry no badge, while public record, second-hand report and outright gaps say so in words. "What needs you" became "Waiting on you".                         |
+| U03-06 who am I / Personal        | Minimum clarity implemented | Personal states the name and the age plainly at the top, says it is a fixed prototype character, and the shell's cluster carries the player's name as the quiet identity route. The broader Personal redesign is deferred, as the owner reserved it.                                                                                                         |
+| U03-07 preview disclosure         | Implemented                 | A first-entry card names the honest boundaries — New Game does not create a character, Talk is off, the clock does not run, pins last as long as the tab. What remains afterwards is a small corner mark with the inspector behind it, replacing the wide banner.                                                                                            |
+| U03-08 patch notes and version    | Implemented (display only)  | A Patch notes destination and a quiet bottom-right version display, both read at build time from this checkout's `package.json` and `PATCH_NOTES.md`. No version literal exists in the prototype. Sections the file marks UNRELEASED are labelled **Not released**. VERSION-AUTO1 keeps release automation.                                                  |
+
+One defect found during the pass and fixed: Escape did not close a title-level
+overlay opened from inside the shell. It does now, wherever the overlay came
+from.
+
+### Reusable production integration points
+
+These are the parts of R1 that production UI convergence can take, rather than
+re-derive:
+
+- **`useProximity(ref, radius)`** in `src/ui-prototype/SceneShell.tsx` — the
+  approach-radius hook, pure DOM, no prototype state. The accompanying
+  fixed-box / scaled-inner CSS pattern is what keeps the hit target stable.
+- **The pin gesture model** — pointer threshold, `reorder-pin` by key rather
+  than by index, click suppression after a drag, capture-phase Escape cancel.
+  The reducer case is state-shape independent.
+- **`FactList` and `attributionFor`** in `src/ui-prototype/parts.tsx` — the
+  no-badge-for-plain-knowledge attribution rule, which maps directly onto a real
+  epistemic model.
+- **`src/ui-prototype/version.ts`** — reading version and notes from the
+  checkout with no literal, so a display cannot drift from its source.
+- **The overlay/Escape layering order** in `src/ui-prototype/state.ts` — the
+  ordering that makes Escape close exactly one layer.
+
+### Remaining handoffs
+
+- **U03-02** — the title face correction, gated above, owned by visual review.
+- **U03-06** — the full Personal layout, deferred by the owner.
+- **Production convergence** — the real creator, life and conversation routes,
+  persistent pins and correct entity targeting.
+- **FLOW-PLACE1** — real travel and presence. The prototype's room changes are
+  `roomId` changes and nothing more.
+- **PEOPLE1** — complete deterministic people. Scene figures here stay markers.
+- **VERSION-AUTO1** — release automation, scripts and workflows, untouched here.

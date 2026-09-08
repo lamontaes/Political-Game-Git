@@ -1,8 +1,16 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { resolveBackdrop, sceneAnchors } from "./art";
+import { FactList } from "./parts";
 import {
   PROTOTYPE_NOW,
+  PROTOTYPE_PLAYER,
   PROTOTYPE_ROOMS,
   findRoom,
   formatMinute,
@@ -90,6 +98,72 @@ function initials(name: string): string {
     .slice(0, 2);
 }
 
+/* --------------------------------------------------------------- proximity */
+
+/**
+ * How close the pointer is to an element, as a state rather than as a number.
+ *
+ * U03-03 is a recovered requirement, in the owner's own words: the cluster is
+ * "small and somewhat translucent ... there is a radius as your cursor
+ * approaches that makes it get bigger and more solid". A plain `:hover` cannot
+ * do that — hover begins at the edge, so the control is still small at the
+ * moment you are aiming at it, which is exactly when being small hurts. The
+ * approach zone reaches past the element so it has already grown by the time
+ * the pointer arrives.
+ *
+ * Distance is measured to the RECTANGLE, not to its centre, so a wide control
+ * responds evenly along its whole length instead of only in the middle. The
+ * listener is passive and coalesces into one animation frame: a pointermove
+ * handler that does layout work on every event is a stutter, and a stuttering
+ * proximity effect is worse than none.
+ */
+function useProximity(
+  ref: React.RefObject<HTMLElement | null>,
+  radius: number,
+): boolean {
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (!window.matchMedia("(hover: hover)").matches) return;
+
+    let frame = 0;
+    let pending: { x: number; y: number } | null = null;
+
+    const evaluate = () => {
+      frame = 0;
+      const point = pending;
+      pending = null;
+      if (!point) return;
+      const rect = node.getBoundingClientRect();
+      const dx = Math.max(rect.left - point.x, 0, point.x - rect.right);
+      const dy = Math.max(rect.top - point.y, 0, point.y - rect.bottom);
+      setNear(Math.hypot(dx, dy) <= radius);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      pending = { x: event.clientX, y: event.clientY };
+      if (frame === 0) frame = window.requestAnimationFrame(evaluate);
+    };
+
+    /* A pointer that has left the window is not approaching anything. */
+    const onLeave = () => setNear(false);
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onMove, { passive: true });
+    document.addEventListener("pointerleave", onLeave);
+    return () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      document.removeEventListener("pointerleave", onLeave);
+    };
+  }, [ref, radius]);
+
+  return near;
+}
+
 /* ------------------------------------------------------------ navigation */
 
 interface NavProps {
@@ -97,7 +171,13 @@ interface NavProps {
   readonly dispatch: (action: PrototypeAction) => void;
   readonly locationLabel: string;
   readonly onGo: (
-    surface: "people" | "calendar" | "personal" | "offices" | "journal",
+    surface:
+      | "people"
+      | "calendar"
+      | "personal"
+      | "offices"
+      | "journal"
+      | "patch-notes",
   ) => void;
   readonly onOptions: () => void;
 }
@@ -118,29 +198,60 @@ function NavCluster({
   onOptions,
 }: NavProps) {
   const open = state.navigation !== "closed";
+  const navRef = useRef<HTMLElement>(null);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const near = useProximity(navRef, 190);
+
+  /*
+   * Three ways in, one state. Pointer approach, keyboard focus and the menu
+   * being open all raise the cluster identically, so nothing here is reachable
+   * only by hovering it — which is the accessibility rule and also just the
+   * behaviour a keyboard player expects.
+   */
+  const raised = open || near || focusWithin;
 
   return (
-    <nav className="p-nav" aria-label="Time, location and navigation">
+    <nav
+      className="p-nav"
+      ref={navRef}
+      aria-label="Time, location and navigation"
+      data-state={open ? "open" : raised ? "near" : "rest"}
+      data-testid="nav-region"
+      onFocus={() => setFocusWithin(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setFocusWithin(false);
+        }
+      }}
+    >
       <button
         type="button"
         className="p-nav-cluster"
         data-testid="nav-cluster"
         aria-expanded={open}
         aria-controls={open ? "p-nav-flyout" : undefined}
-        aria-label={`${formatMinute(PROTOTYPE_NOW.minuteOfDay)}. ${
-          PROTOTYPE_NOW.fullDateLabel
-        }. ${locationLabel}. Open navigation.`}
+        aria-label={`${PROTOTYPE_PLAYER.name}. ${formatMinute(
+          PROTOTYPE_NOW.minuteOfDay,
+        )}. ${PROTOTYPE_NOW.fullDateLabel}. ${locationLabel}. Open navigation.`}
         onClick={() => dispatch({ type: "toggle-navigation" })}
       >
-        <span className="p-nav-emblem" aria-hidden="true">
-          ✦
-        </span>
-        <span className="p-nav-copy">
-          <span className="p-nav-time">
-            {formatMinute(PROTOTYPE_NOW.minuteOfDay)}
+        {/*
+          The button's own box stays at its full size at every proximity state
+          and only the surface inside it scales. That is what keeps the click
+          target stable: the thing under the cursor never shrinks out from
+          under a press, and nothing in the scene reflows.
+        */}
+        <span className="p-nav-cluster-inner" aria-hidden="true">
+          <span className="p-nav-emblem">✦</span>
+          <span className="p-nav-copy">
+            {/* U03-06: the quiet identity route. Who, then when, then where. */}
+            <span className="p-nav-identity">{PROTOTYPE_PLAYER.name}</span>
+            <span className="p-nav-time">
+              {formatMinute(PROTOTYPE_NOW.minuteOfDay)}
+            </span>
+            <span className="p-nav-date">{PROTOTYPE_NOW.fullDateLabel}</span>
+            <span className="p-nav-place">{locationLabel}</span>
           </span>
-          <span className="p-nav-date">{PROTOTYPE_NOW.fullDateLabel}</span>
-          <span className="p-nav-place">{locationLabel}</span>
         </span>
       </button>
 
@@ -235,6 +346,15 @@ function NavCluster({
                 onClick={onOptions}
               >
                 Options
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                data-testid="nav-patch-notes"
+                onClick={() => onGo("patch-notes")}
+              >
+                Patch notes
+                <small>What has changed, read from the repository</small>
               </button>
               <button
                 type="button"
@@ -344,6 +464,67 @@ interface PinRailProps {
  * is in the room, and nothing about the rail is a shared backing panel.
  */
 function PinRail({ state, dispatch, onOpen }: PinRailProps) {
+  const slotRefs = useRef(new Map<string, HTMLDivElement>());
+  /**
+   * The gesture in progress.
+   *
+   * `moved` is what separates a drag from a click. A press that never travels
+   * past the threshold stays a click and opens the record, which is the
+   * ordinary interaction and must not become harder to perform because
+   * reordering exists.
+   */
+  const gesture = useRef<{
+    key: string;
+    pointerId: number;
+    startY: number;
+    moved: boolean;
+  } | null>(null);
+  const [dragKey, setDragKey] = useState<string | null>(null);
+  const [dropIndex, setDropIndex] = useState<number | null>(null);
+  /* Set on pointerup so the click that follows the drag does not also open. */
+  const suppressClick = useRef(false);
+
+  const endGesture = useCallback(() => {
+    gesture.current = null;
+    setDragKey(null);
+    setDropIndex(null);
+  }, []);
+
+  /** Which slot the pointer is currently over, by slot midpoints. */
+  const indexForPoint = useCallback(
+    (clientY: number): number => {
+      let index = 0;
+      state.pins.forEach((pin, position) => {
+        const node = slotRefs.current.get(pin.key);
+        if (!node) return;
+        const rect = node.getBoundingClientRect();
+        if (clientY > rect.top + rect.height / 2) index = position + 1;
+      });
+      return Math.min(index, Math.max(state.pins.length - 1, 0));
+    },
+    [state.pins],
+  );
+
+  /*
+   * Escape cancels the drag and leaves the order exactly as it was.
+   *
+   * It listens in the capture phase and stops the event, because the app-level
+   * Escape handler would otherwise also fire and close a pin menu the player
+   * never asked to close. During a drag, Escape means "undo this gesture" and
+   * nothing else.
+   */
+  useEffect(() => {
+    if (!dragKey) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.stopImmediatePropagation();
+      suppressClick.current = true;
+      endGesture();
+    };
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
+  }, [dragKey, endGesture]);
+
   if (state.pins.length === 0) return null;
 
   return (
@@ -351,22 +532,35 @@ function PinRail({ state, dispatch, onOpen }: PinRailProps) {
       {state.pins.map((pin, index) => {
         const label = labelForRef(pin.ref);
         const menuOpen = state.activePinMenuKey === pin.key;
+        const manageButton = (
+          <button
+            type="button"
+            className="p-pin-manage"
+            aria-label={`Manage the ${label ?? "unavailable"} pin`}
+            aria-expanded={menuOpen}
+            data-testid={`pin-manage-${pin.key}`}
+            onClick={() => dispatch({ type: "toggle-pin-menu", key: pin.key })}
+          >
+            <span aria-hidden="true">⋯</span>
+          </button>
+        );
+
         return (
-          <div className="p-pin-slot" key={pin.key}>
-            {pin.size !== "tiny" ? (
-              <button
-                type="button"
-                className="p-pin-manage"
-                aria-label={`Manage the ${label ?? "unavailable"} pin`}
-                aria-expanded={menuOpen}
-                data-testid={`pin-manage-${pin.key}`}
-                onClick={() =>
-                  dispatch({ type: "toggle-pin-menu", key: pin.key })
-                }
-              >
-                <span aria-hidden="true">⋯</span>
-              </button>
-            ) : null}
+          <div
+            className="p-pin-slot"
+            key={pin.key}
+            ref={(node) => {
+              if (node) slotRefs.current.set(pin.key, node);
+              else slotRefs.current.delete(pin.key);
+            }}
+            data-dragging={dragKey === pin.key ? "true" : "false"}
+            data-drop-target={
+              dragKey && dragKey !== pin.key && dropIndex === index
+                ? "true"
+                : "false"
+            }
+          >
+            {pin.size !== "tiny" ? manageButton : null}
             <button
               type="button"
               className="p-pin"
@@ -374,8 +568,53 @@ function PinRail({ state, dispatch, onOpen }: PinRailProps) {
               data-testid={`pin-${pin.key}`}
               aria-label={`${label ?? "Unavailable reference"}. ${kindLabel(
                 pin.ref.kind,
-              )}. Open it.`}
-              onClick={() => onOpen(pin.ref)}
+              )}. Open it. Use the pin menu to move or unpin it.`}
+              onPointerDown={(event) => {
+                if (event.button !== 0) return;
+                gesture.current = {
+                  key: pin.key,
+                  pointerId: event.pointerId,
+                  startY: event.clientY,
+                  moved: false,
+                };
+              }}
+              onPointerMove={(event) => {
+                const active = gesture.current;
+                if (!active || active.pointerId !== event.pointerId) return;
+                if (!active.moved) {
+                  if (Math.abs(event.clientY - active.startY) < 6) return;
+                  active.moved = true;
+                  setDragKey(active.key);
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }
+                setDropIndex(indexForPoint(event.clientY));
+              }}
+              onPointerUp={(event) => {
+                const active = gesture.current;
+                if (!active || active.pointerId !== event.pointerId) return;
+                if (active.moved) {
+                  suppressClick.current = true;
+                  const target = indexForPoint(event.clientY);
+                  dispatch({
+                    type: "reorder-pin",
+                    key: active.key,
+                    toIndex: target,
+                  });
+                }
+                endGesture();
+              }}
+              onPointerCancel={() => {
+                if (gesture.current?.moved) suppressClick.current = true;
+                endGesture();
+              }}
+              onClick={() => {
+                /* A completed drag is not also an open. */
+                if (suppressClick.current) {
+                  suppressClick.current = false;
+                  return;
+                }
+                onOpen(pin.ref);
+              }}
             >
               <span className="p-pin-monogram" aria-hidden="true">
                 {label ? initials(label) : "?"}
@@ -395,20 +634,7 @@ function PinRail({ state, dispatch, onOpen }: PinRailProps) {
               ) : null}
             </button>
 
-            {pin.size === "tiny" ? (
-              <button
-                type="button"
-                className="p-pin-manage"
-                aria-label={`Manage the ${label ?? "unavailable"} pin`}
-                aria-expanded={menuOpen}
-                data-testid={`pin-manage-${pin.key}`}
-                onClick={() =>
-                  dispatch({ type: "toggle-pin-menu", key: pin.key })
-                }
-              >
-                <span aria-hidden="true">⋯</span>
-              </button>
-            ) : null}
+            {pin.size === "tiny" ? manageButton : null}
 
             {menuOpen ? (
               <div
@@ -437,6 +663,13 @@ function PinRail({ state, dispatch, onOpen }: PinRailProps) {
                     {sizeLabel}
                   </button>
                 ))}
+                {/*
+                  Move up and down stay, and deliberately leave this menu open:
+                  they are the keyboard route to the same reordering the pointer
+                  does by dragging, and reordering is repeated, so closing the
+                  menu after each step would make the keyboard path much worse
+                  than the pointer one.
+                */}
                 <button
                   type="button"
                   role="menuitem"
@@ -554,18 +787,20 @@ function QuickDossier({
       </header>
       <p className="p-role">{person.role}</p>
 
+      {/* Current activity, kept separate from the lasting read of them. */}
+      <p className="p-right-now" data-testid="quick-right-now">
+        <span className="p-right-now-label">Right now</span>
+        {person.read}
+      </p>
+
       <div className="p-impression">
         <strong>{person.relationship}</strong>
-        <p>{person.read}</p>
       </div>
 
-      <ul className="p-facts">
-        {person.facts.slice(0, 3).map((fact) => (
-          <li key={fact.id} data-access={fact.access}>
-            {fact.text}
-          </li>
-        ))}
-      </ul>
+      <div className="p-dossier-section">
+        <h3>Details</h3>
+        <FactList facts={person.facts.slice(0, 3)} testId="quick-facts" />
+      </div>
 
       <div className="p-dossier-section">
         <h3>Last interaction</h3>

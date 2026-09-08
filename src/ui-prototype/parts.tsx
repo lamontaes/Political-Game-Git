@@ -1,6 +1,11 @@
 import type { ReactNode } from "react";
 
-import { labelForRef, type EntityRef } from "./data";
+import {
+  labelForRef,
+  type Access,
+  type EntityRef,
+  type KnownFact,
+} from "./data";
 
 /**
  * Shared prototype primitives.
@@ -156,5 +161,55 @@ export function Section({
       <h2>{title}</h2>
       {children}
     </section>
+  );
+}
+
+/**
+ * How sure the player is of something, said in words rather than in colour.
+ *
+ * U03-05. The old list prefixed every line with a coloured marker, which made
+ * an ordinary sentence look like a database row and carried the distinction
+ * only in colour. Now what the character simply knows reads as plain prose with
+ * no badge at all, and an attribution appears exactly where it changes the
+ * meaning of the sentence: this is on the public record, this is only reported,
+ * this is a gap.
+ *
+ * The distinctions themselves are untouched. Nothing became certain to make the
+ * layout calmer, and no hidden fact was revealed to fill a row.
+ */
+function attributionFor(access: Access): string | null {
+  switch (access) {
+    case "known":
+      return null;
+    case "public":
+      return "Public record";
+    case "inferred":
+      return "Reported, not confirmed";
+    case "unknown":
+      return "You do not know";
+  }
+}
+
+export function FactList({
+  facts,
+  testId,
+}: {
+  readonly facts: readonly KnownFact[];
+  readonly testId?: string;
+}) {
+  return (
+    <ul className="p-facts" data-testid={testId}>
+      {facts.map((fact) => {
+        const attribution = attributionFor(fact.access);
+        return (
+          <li key={fact.id} data-access={fact.access}>
+            {attribution ? (
+              <span className="p-attribution">{attribution}</span>
+            ) : null}
+            <span>{fact.text}</span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

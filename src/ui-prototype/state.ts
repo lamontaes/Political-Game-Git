@@ -34,6 +34,7 @@ export type PrototypeView =
   | { readonly surface: "personal" }
   | { readonly surface: "offices" }
   | { readonly surface: "journal" }
+  | { readonly surface: "patch-notes" }
   | { readonly surface: "entity"; readonly ref: EntityRef };
 
 export interface Pin {
@@ -46,7 +47,7 @@ export interface Pin {
 export interface PrototypeState {
   readonly screen: "title" | "shell";
   /** Title-level surfaces, which are a different system from in-game menus. */
-  readonly titleOverlay: "none" | "saved-games" | "options";
+  readonly titleOverlay: "none" | "saved-games" | "options" | "patch-notes";
   /** Last element is the current view. The base is always the scene. */
   readonly history: readonly PrototypeView[];
   readonly roomId: string;
@@ -62,6 +63,23 @@ export interface PrototypeState {
   readonly peopleQuery: string;
   readonly defaultPinSize: PinSize;
   readonly motion: MotionPreference;
+  /**
+   * The first-entry preview explanation, shown until it is dismissed.
+   *
+   * U03-07: the owner missed the thin banner and reasonably expected New Game
+   * to make a character and Talk to work. A quiet strip cannot carry that; a
+   * card the player has to dismiss can, and once dismissed the persistent
+   * marker goes back to being discreet.
+   */
+  readonly previewDismissed: boolean;
+  /**
+   * The developer inspector.
+   *
+   * Asset ids, plate state and prototype identity live here rather than in the
+   * ordinary composition. They are still true and still one click away — they
+   * are simply not part of a screen the owner is judging as a game screen.
+   */
+  readonly inspectorOpen: boolean;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
 }
@@ -81,13 +99,18 @@ export const INITIAL_STATE: PrototypeState = {
   peopleQuery: "",
   defaultPinSize: "normal",
   motion: "system",
+  previewDismissed: false,
+  inspectorOpen: false,
   announcement: "",
 };
 
 export type PrototypeAction =
   | { type: "enter-shell" }
   | { type: "return-to-title" }
-  | { type: "open-title-overlay"; overlay: "saved-games" | "options" }
+  | {
+      type: "open-title-overlay";
+      overlay: "saved-games" | "options" | "patch-notes";
+    }
   | { type: "close-title-overlay" }
   | { type: "toggle-navigation" }
   | { type: "open-nav-submenu"; submenu: "places" | "personal" }
@@ -106,12 +129,15 @@ export type PrototypeAction =
   | { type: "unpin"; key: string }
   | { type: "set-pin-size"; key: string; size: PinSize }
   | { type: "move-pin"; key: string; direction: "up" | "down" }
+  | { type: "reorder-pin"; key: string; toIndex: number }
   | { type: "toggle-pin-menu"; key: string }
   | { type: "set-people-view"; view: PeopleView }
   | { type: "set-people-category"; category: PersonCategory | "all" }
   | { type: "set-people-query"; query: string }
   | { type: "set-default-pin-size"; size: PinSize }
   | { type: "set-motion"; motion: MotionPreference }
+  | { type: "dismiss-preview" }
+  | { type: "toggle-inspector" }
   | { type: "escape" };
 
 function currentView(state: PrototypeState): PrototypeView {
@@ -302,12 +328,23 @@ export function prototypeReducer(
         announcement: "Unpinned.",
       };
 
+    /*
+     * Choosing a size closes that pin's menu, and only that pin's menu.
+     *
+     * This restores the older accepted rule. A size is a one-shot choice, so
+     * leaving the menu standing after it made the rail feel unresponsive —
+     * whereas Move up / Move down are repeated, so those deliberately leave the
+     * menu open below.
+     */
     case "set-pin-size":
       return {
         ...state,
         pins: state.pins.map((pin) =>
           pin.key === action.key ? { ...pin, size: action.size } : pin,
         ),
+        activePinMenuKey:
+          state.activePinMenuKey === action.key ? null : state.activePinMenuKey,
+        announcement: `Pin size set to ${action.size}.`,
       };
 
     case "move-pin": {
@@ -321,6 +358,29 @@ export function prototypeReducer(
       if (!moving || !displaced) return state;
       pins[target] = moving;
       pins[index] = displaced;
+      return { ...state, pins, announcement: "Reordered pins." };
+    }
+
+    /*
+     * Drag-to-reorder lands here.
+     *
+     * The pin is identified by key rather than by its old index, because the
+     * drag started before this dispatch and the list must not depend on the
+     * caller having tracked indices correctly across a pointer gesture. A key
+     * that no longer exists is a no-op rather than a reorder of the wrong pin.
+     */
+    case "reorder-pin": {
+      const index = state.pins.findIndex((pin) => pin.key === action.key);
+      if (index < 0) return state;
+      const target = Math.max(
+        0,
+        Math.min(state.pins.length - 1, action.toIndex),
+      );
+      if (target === index) return state;
+      const pins = [...state.pins];
+      const [moving] = pins.splice(index, 1);
+      if (!moving) return state;
+      pins.splice(target, 0, moving);
       return { ...state, pins, announcement: "Reordered pins." };
     }
 
@@ -346,6 +406,12 @@ export function prototypeReducer(
     case "set-motion":
       return { ...state, motion: action.motion };
 
+    case "dismiss-preview":
+      return { ...state, previewDismissed: true };
+
+    case "toggle-inspector":
+      return { ...state, inspectorOpen: !state.inspectorOpen };
+
     /**
      * Escape closes the highest active transient layer, and only that one.
      *
@@ -355,6 +421,12 @@ export function prototypeReducer(
      * is no layer left to close, and closing the game would be a surprise.
      */
     case "escape": {
+      if (!state.previewDismissed) {
+        return { ...state, previewDismissed: true };
+      }
+      if (state.inspectorOpen) {
+        return { ...state, inspectorOpen: false };
+      }
       if (state.activePinMenuKey) {
         return { ...state, activePinMenuKey: null };
       }
@@ -367,7 +439,13 @@ export function prototypeReducer(
       if (state.navigation !== "closed") {
         return { ...state, navigation: "closed" };
       }
-      if (state.screen === "title" && state.titleOverlay !== "none") {
+      /*
+       * A title-level overlay is closed by Escape wherever it was opened from.
+       * Options and Patch notes are both reachable from inside the shell, and
+       * scoping this to the title screen left them stranded there — Escape did
+       * nothing, or worse, walked the workspace history behind the overlay.
+       */
+      if (state.titleOverlay !== "none") {
         return { ...state, titleOverlay: "none" };
       }
       if (state.screen === "shell" && canGoBack(state)) {

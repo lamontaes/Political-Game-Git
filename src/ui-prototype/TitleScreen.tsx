@@ -16,6 +16,14 @@ import { resolveBackdrop } from "./art";
  * not a seal-shaped badge, carries no dome or other federal symbol — this game
  * is not primarily about Washington — and does not use "OCD" as a monogram. The
  * final logo is not locked and this is not a proposal for one.
+ *
+ * U03-01 moved the whole grouping up and to the left and made it smaller, as
+ * one unit: the wordmark, the rule and the menu scale together, because scaling
+ * only the wordmark leaves the original menu footprint behind and the block
+ * stops reading as a block. The lectern staging area on the right of the plate
+ * is left clear. The slogan and the asset caption are gone from the composition
+ * — the asset id is still true and still readable, in the developer inspector,
+ * which is where a technical identity belongs.
  */
 
 export interface TitleAction {
@@ -73,7 +81,6 @@ export function TitleScreen({ sceneId, actions }: TitleScreenProps) {
           <span className="p-wordmark-line p-wordmark-our">Our</span>
           <span className="p-wordmark-line p-wordmark-civic">Civic Duty</span>
           <span className="p-wordmark-rule" aria-hidden="true" />
-          <span className="p-wordmark-sub">A civic-life simulation</span>
         </h1>
 
         <div
@@ -114,11 +121,6 @@ export function TitleScreen({ sceneId, actions }: TitleScreenProps) {
             </button>
           ))}
         </div>
-
-        <p className="p-title-room">
-          {backdrop.label}
-          {backdrop.assetId ? ` · ${backdrop.assetId}` : ""}
-        </p>
       </div>
     </div>
   );

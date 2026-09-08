@@ -36,8 +36,14 @@ async function shot(page: Page, name: string) {
   });
 }
 
-async function enterShell(page: Page) {
+async function openTitle(page: Page) {
   await page.goto(PROTOTYPE_URL);
+  await page.getByTestId("preview-dismiss").click();
+  await expect(page.getByTestId("preview-disclosure")).toHaveCount(0);
+}
+
+async function enterShell(page: Page) {
+  await openTitle(page);
   await page.getByTestId("title-new-game").click();
   await expect(page.getByTestId("scene-shell")).toBeVisible();
 }
@@ -50,6 +56,8 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
     await page.setViewportSize({ width: 1600, height: 900 });
 
     await page.goto(PROTOTYPE_URL);
+    await shot(page, "00-first-entry-preview");
+    await page.getByTestId("preview-dismiss").click();
     await shot(page, "01-title-rest");
     await page.getByTestId("title-continue").hover();
     await shot(page, "02-title-selected");
@@ -65,6 +73,21 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
     await page.getByTestId("title-new-game").click();
     await expect(page.getByTestId("scene-shell")).toBeVisible();
     await shot(page, "05-scene-shell");
+
+    /* U03-03: the two resting and raised states, side by side in the set. */
+    await page.mouse.move(1400, 200);
+    await page.waitForTimeout(320);
+    await shot(page, "05b-shell-cluster-resting");
+    const clusterBox = await page.getByTestId("nav-cluster").boundingBox();
+    if (clusterBox) {
+      await page.mouse.move(
+        clusterBox.x + clusterBox.width + 60,
+        clusterBox.y - 40,
+        { steps: 8 },
+      );
+    }
+    await page.waitForTimeout(320);
+    await shot(page, "05c-shell-cluster-expanded");
 
     await page.getByTestId("nav-cluster").click();
     await shot(page, "06-nav-open");
@@ -95,6 +118,11 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
     await page.getByTestId("workspace-close").click();
     await shot(page, "11-mixed-pins");
 
+    /* U03-04: a pin's management menu, and the drag affordance in context. */
+    await page.getByTestId("pin-manage-measure:measure-transit-pilot").click();
+    await shot(page, "11b-pin-menu");
+    await page.keyboard.press("Escape");
+
     await page.getByTestId("nav-cluster").click();
     await page.getByTestId("nav-people").click();
     await shot(page, "12-people-categories");
@@ -115,6 +143,13 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
     await shot(page, "16-personal-finances");
     await page.getByTestId("workspace-close").click();
 
+    /* U03-05: the Details grouping and the separated current-activity line. */
+    await page.getByTestId("scene-person-person-aide").click();
+    await page.getByTestId("action-inspect").click();
+    await page.getByTestId("quick-dossier-full").click();
+    await shot(page, "16b-dossier-details");
+    await page.getByTestId("workspace-close").click();
+
     await page.getByTestId("nav-cluster").click();
     await page.getByTestId("nav-offices").click();
     await shot(page, "17-offices");
@@ -126,6 +161,17 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
     await page.getByTestId("journal-chapter-chapter-council").click();
     await shot(page, "19-journal-chapter");
     await page.getByTestId("workspace-close").click();
+
+    /* U03-08: patch notes and the quiet version display. */
+    await page.getByTestId("nav-cluster").click();
+    await page.getByTestId("nav-patch-notes").click();
+    await shot(page, "19b-patch-notes");
+    await page.keyboard.press("Escape");
+
+    /* U03-01: the technical identity, in the place it now lives. */
+    await page.getByTestId("inspector-toggle").click();
+    await shot(page, "19c-developer-inspector");
+    await page.getByTestId("inspector-close").click();
 
     await page.getByTestId("nav-cluster").click();
     await page.getByTestId("nav-places").click();
@@ -146,7 +192,7 @@ test.describe("UI-PROTOTYPE-01 review screens", () => {
         height: viewport.height,
       });
 
-      await page.goto(PROTOTYPE_URL);
+      await openTitle(page);
       await shot(page, `w-${viewport.name}-title`);
 
       await enterShell(page);

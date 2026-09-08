@@ -15,8 +15,19 @@ import { expect, test, type Page } from "@playwright/test";
 
 const PROTOTYPE_URL = "/ui-prototype.html";
 
-async function enterShell(page: Page) {
+/**
+ * The first-entry preview card stands in front of the title until it is
+ * dismissed, so every path through the prototype starts by dismissing it. That
+ * is the point of it: the owner could not miss it, and neither can a test.
+ */
+async function openTitle(page: Page) {
   await page.goto(PROTOTYPE_URL);
+  await page.getByTestId("preview-dismiss").click();
+  await expect(page.getByTestId("preview-disclosure")).toHaveCount(0);
+}
+
+async function enterShell(page: Page) {
+  await openTitle(page);
   await expect(page.getByTestId("title-screen")).toBeVisible();
   await page.getByTestId("title-new-game").click();
   await expect(page.getByTestId("scene-shell")).toBeVisible();
@@ -26,7 +37,7 @@ test.describe("UI-PROTOTYPE-01", () => {
   test("title paints a released illustrated plate with a transparent menu", async ({
     page,
   }) => {
-    await page.goto(PROTOTYPE_URL);
+    await openTitle(page);
 
     const backdrop = page.getByTestId("title-backdrop");
     await expect(backdrop).toHaveAttribute("data-plate", "released");
@@ -81,7 +92,7 @@ test.describe("UI-PROTOTYPE-01", () => {
   test("2. the Options People-view preference decides how People opens", async ({
     page,
   }) => {
-    await page.goto(PROTOTYPE_URL);
+    await openTitle(page);
 
     await page.getByTestId("title-options").click();
     await expect(page.getByTestId("options-workspace")).toBeVisible();
@@ -129,7 +140,16 @@ test.describe("UI-PROTOTYPE-01", () => {
     await page.getByTestId("pin-size-expanded-person:person-aide").click();
     await expect(personPin).toHaveAttribute("data-size", "expanded");
 
-    /* Reorder it. */
+    /*
+     * Reorder it. The menu has to be reopened first, because choosing a size
+     * now dismisses that pin's menu — the older accepted rule, restored in
+     * R1/U03-04. Move up and down still leave the menu standing, since those
+     * are repeated commands.
+     */
+    await expect(page.getByTestId("pin-menu-person:person-aide")).toHaveCount(
+      0,
+    );
+    await page.getByTestId("pin-manage-person:person-aide").click();
     await page.getByTestId("pin-down-person:person-aide").click();
     const order = await page
       .locator(".p-pin-slot .p-pin")
@@ -349,7 +369,8 @@ test.describe("UI-PROTOTYPE-01", () => {
     await page.goto("/");
 
     /* No prototype chrome, and no prototype root, on the production entry. */
-    await expect(page.locator(".p-devbar")).toHaveCount(0);
+    await expect(page.locator(".p-mark")).toHaveCount(0);
+    await expect(page.locator(".p-version")).toHaveCount(0);
     await expect(page.locator("#ui-prototype-root")).toHaveCount(0);
     await expect(page.locator("#root")).toHaveCount(1);
 
