@@ -1,8 +1,8 @@
 {
   "counts": {
     "INVENTORIED": 1899,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4623,
-    "DIAGNOSTIC_OR_TEST": 3420,
+    "INTENTIONALLY_NON_PLAYER_FACING": 4622,
+    "DIAGNOSTIC_OR_TEST": 3425,
     "NEEDS_CLASSIFICATION": 2948
   },
   "needsClassification": [
@@ -24634,13 +24634,13 @@
       "sourcePath": "src/simulation/legislature-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Compiled legal instrument text: chamber rule titles, constitutional section citations and their summaries, each carrying its own citation and retrieval date. This is sourced evidence about a real legislature, not authored prose. What a player reads about procedure is composed by the measure briefing, which is inventoried separately.",
-      "count": 465
+      "count": 464
     },
     {
       "sourcePath": "src/simulation/legislature-rule-packs-matrix.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 84
+      "count": 87
     },
     {
       "sourcePath": "src/simulation/legislation.ts",
@@ -24826,7 +24826,7 @@
       "sourcePath": "src/simulation/executive-governing-kernels.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 49
+      "count": 50
     },
     {
       "sourcePath": "src/simulation/executive-governing-kernel-bank.ts",
@@ -25540,7 +25540,7 @@
       "sourcePath": "src/presentation/legislation-projection.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 23
+      "count": 24
     },
     {
       "sourcePath": "src/presentation/legislation-integrity.test.ts",

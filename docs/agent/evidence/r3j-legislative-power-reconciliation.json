@@ -1,0 +1,634 @@
+{
+  "metadata": {
+    "task": "R3J bounded reconciliation of accepted R3H legislative-power facts into LegislativeRulePacks",
+    "task_packet_drive_id": "1lU80WSZ5K8Y3aKyc46F3ZsnNFF7eRpfR9JZV6Ju_-7g",
+    "certified_subset": "92K-V4-R3G-CERTIFIED-RUNTIME-SUBSET (Drive ID: 15k2LRR5rw02cElZiwJVb_6wU4oQLyVDN)",
+    "reconciled_against_main": "e9f9b2918c184c1e031cd9af8f6175568c601716",
+    "reconciled_at": "2026-09-07",
+    "total_certified_legislative_power_nodes": 36,
+    "outcome_counts": {
+      "federal_consumer_absent": 5,
+      "newly_compiled": 1,
+      "already_represented": 19,
+      "no_exact_schema_consumer": 11
+    },
+    "conflicts_requiring_stop": 0,
+    "notes": [
+      "Only Kentucky required a code change: the post-adjournment action window and the in-session inaction outcome were unknown in the pack and are certified in the accepted subset; both are compiled with the accepted operative-text receipt for Ky. Const. Sec. 88.",
+      "No jurisdiction was added, no second legislative engine was created, no special-session or other-presentment schema field was invented, and no fact was flattened to fit an existing field.",
+      "The five federal nodes are recorded as accepted research lacking a runtime consumer: main has no federal congressional LegislativeRulePack and none was fabricated."
+    ]
+  },
+  "nodes": [
+    {
+      "jurisdiction": "US",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 10,
+        "pocket_veto": true,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "U.S. Const. art. I, § 7, cl. 2",
+        "sourceUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+        "sourceHash": "2bc77560d50a04bc03ebc01fa2f2986c3f944f1698773924d65c267530fe5f63",
+        "excerptHash": "f824855218f7cbf673abf2eab093b9c1d70d515d300a0437170925df67127d40"
+      },
+      "outcome": "federal_consumer_absent",
+      "detail": "Main has no federal congressional LegislativeRulePack. Recorded as accepted research lacking a runtime consumer; no partial Congress pack was created."
+    },
+    {
+      "jurisdiction": "US",
+      "node": "item_partial_veto",
+      "accepted_status": "NOT_APPLICABLE",
+      "accepted_value": null,
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_NOT_APPLICABLE",
+        "citation": "524 U.S. 417, 438 (1998)",
+        "sourceUrl": "https://tile.loc.gov/storage-services/service/ll/usrep/usrep524/usrep524417/usrep524417.pdf",
+        "sourceHash": "e900b27cb462244cf1fc29f5c5a850293b067eac2c0545ce6ffddc0976fe1324",
+        "excerptHash": "2f57e1d6055a4797d3f26013797b06dc319d35ada7079ec7a91c717e950db7a1"
+      },
+      "outcome": "federal_consumer_absent",
+      "detail": "Main has no federal congressional LegislativeRulePack. Recorded as accepted research lacking a runtime consumer; no partial Congress pack was created."
+    },
+    {
+      "jurisdiction": "US",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "two_thirds_each_house",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "U.S. Const. art. I, § 7, cl. 2",
+        "sourceUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+        "sourceHash": "2bc77560d50a04bc03ebc01fa2f2986c3f944f1698773924d65c267530fe5f63",
+        "excerptHash": "032ce595cf004198cfbaf94c134ac6de17a887cd2a5c2dcf333e9de51d3cd42e"
+      },
+      "outcome": "federal_consumer_absent",
+      "detail": "Main has no federal congressional LegislativeRulePack. Recorded as accepted research lacking a runtime consumer; no partial Congress pack was created."
+    },
+    {
+      "jurisdiction": "US",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "presidential_convening_both_or_either_house",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "U.S. Const. art. II, § 3",
+        "sourceUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+        "sourceHash": "2bc77560d50a04bc03ebc01fa2f2986c3f944f1698773924d65c267530fe5f63",
+        "excerptHash": "335acd9602fd02daff849b9fd406ceb704e6123a963fbc3a75e72e760dc49088"
+      },
+      "outcome": "federal_consumer_absent",
+      "detail": "Main has no federal congressional LegislativeRulePack. Recorded as accepted research lacking a runtime consumer; no partial Congress pack was created."
+    },
+    {
+      "jurisdiction": "US",
+      "node": "other_presentment_powers",
+      "accepted_status": "NOT_APPLICABLE",
+      "accepted_value": null,
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_NOT_APPLICABLE",
+        "citation": "462 U.S. 919, 957-958 (1983)",
+        "sourceUrl": "https://tile.loc.gov/storage-services/service/ll/usrep/usrep462/usrep462919/usrep462919.pdf",
+        "sourceHash": "4586bb56368f4af10bc0338ac77ec277ffe3dd3d38aed994188d400b1683a1aa",
+        "excerptHash": "dd24f3fea31a039fcdb78aa345253135def99b52fac0f7f779d5edda7037bc48"
+      },
+      "outcome": "federal_consumer_absent",
+      "detail": "Main has no federal congressional LegislativeRulePack. Recorded as accepted research lacking a runtime consumer; no partial Congress pack was created."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 10,
+        "pocket_veto": false,
+        "post_adjournment_days": 10,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ky. Const. § 88",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=96",
+        "sourceHash": "4764b4179daab2aef157f26c66304813b84bc4fb7801dad9b9a5f5d8586f73db",
+        "excerptHash": "ca36eb076492659b4aa2add56fb4c074abe703f407065c267fe9f8918ce3ddf1"
+      },
+      "outcome": "newly_compiled",
+      "detail": "The ten-day in-session window was already represented (Ky. Const. Sec. 88). The ten-day post-adjournment window and the becomes-law-without-signature inaction outcome were unknown in the pack and are newly compiled as executive.actionWindowDaysAfterAdjournment and executive.inactionOutcomeInSession, citing the accepted operative-text retrieval."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "item_partial_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": "appropriation_items",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ky. Const. § 88",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=96",
+        "sourceHash": "4764b4179daab2aef157f26c66304813b84bc4fb7801dad9b9a5f5d8586f73db",
+        "excerptHash": "1137786251c23236bd98136ca32eb9db37ee7652a4b9bc77bd74539dabf985e8"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.lineItemVeto is known true (Ky. Const. Sec. 88). The schema records a line-item veto as a flag; the appropriation-items scope matches at that granularity."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "majority_of_elected_members",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ky. Const. § 88",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=96",
+        "sourceHash": "4764b4179daab2aef157f26c66304813b84bc4fb7801dad9b9a5f5d8586f73db",
+        "excerptHash": "48e5606c8658c49f8e51af1d7fb387a9678495349752a1aeec3dd97670d1d368"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.override is each-chamber, a majority of all the members elected (Ky. Const. Sec. 88)."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "gubernatorial_call_only",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ky. Const. § 80",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=88",
+        "sourceHash": "70a27a1d9c2eb79afa77328d1c8e84bf50f6bd21104731f905cfe2b501bb77a1",
+        "excerptHash": "4604663aaca001d8bf9afbd2eb824e65dfde160776d97e604df1cfd48da13b2f"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session field; the fact is not flattened into an existing field."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "special_session_agenda_restriction",
+      "accepted_status": "KNOWN",
+      "accepted_value": "STRICT_GUBERNATORIAL_AGENDA",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ky. Const. § 80",
+        "sourceUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=88",
+        "sourceHash": "70a27a1d9c2eb79afa77328d1c8e84bf50f6bd21104731f905cfe2b501bb77a1",
+        "excerptHash": "aa59b5ec2682400432980837c3ee000d754c5b3f41e511ebd965f177f5416c23"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session agenda field; the strict gubernatorial-agenda fact is not flattened into an existing field."
+    },
+    {
+      "jurisdiction": "US-KY",
+      "node": "legislative_rule_pack_cross_reference",
+      "accepted_status": "KNOWN",
+      "accepted_value": "us-ky-general-assembly-v1",
+      "receipt": {
+        "evidenceClass": "B",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "src/simulation/legislature-rule-packs.ts#us-ky-general-assembly-v1",
+        "sourceUrl": "https://github.com/lamontae/Political-Game-Git/blob/982f613a9737e25e506dc430e4f6e121dd72b3ca/src/simulation/legislature-rule-packs.ts",
+        "sourceHash": "fb89f7c6992d85156dba9272539c9a53f22787bbb89384f042041919c7dc65c0",
+        "excerptHash": "448af5c388b48613265c6aeeb30d7cb4bc2ffb4e721843c71f64743ccb1d09a2"
+      },
+      "outcome": "already_represented",
+      "detail": "Pack us-ky-general-assembly-v1 exists on main with that packId."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 5,
+        "pocket_veto": false,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Neb. Const. art. IV § 15",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-15",
+        "sourceHash": "7089723cbf518cb8c69dc09b8fbd53d6186ab57f292601b9b4e8603347d79133",
+        "excerptHash": "bacc72e1fb91d9d7fd1e1200c2ffa9e57c9069944df690fead9c67256ebd5df6"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.actionWindowDaysInSession is known 5 and inactionOutcomeInSession is known becomes-law-without-signature. The accepted node asserts no post-adjournment window, and the pack's unknown for that field is preserved rather than guessed."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "item_partial_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": "appropriation_items_or_reduction",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Neb. Const. art. IV § 15",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-15",
+        "sourceHash": "7089723cbf518cb8c69dc09b8fbd53d6186ab57f292601b9b4e8603347d79133",
+        "excerptHash": "f3a0535173cc2a8fd19d3ca67e37b74561ed5ec8d22a44c5ea7657b5b30c3610"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.lineItemVeto is known true (Neb. Const. art. IV § 15); the strike-or-reduce scope matches at the schema's flag granularity."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "three_fifths_of_legislature",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Neb. Const. art. IV § 15",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-15",
+        "sourceHash": "7089723cbf518cb8c69dc09b8fbd53d6186ab57f292601b9b4e8603347d79133",
+        "excerptHash": "5007e88bf49fa86f8790cd7a5b2d0cce0db3ecc940888c743e99abdf25a5063e"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.override is three-fifths of all the senators elected (Neb. Const. art. IV § 15)."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "gubernatorial_call_or_two_thirds_legislature",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Neb. Const. art. IV § 8",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-8",
+        "sourceHash": "e67391bce11a516647a99cf2b2a9d4a3efd29949876e571fc86955f5001d9185",
+        "excerptHash": "ef027efb11f686406d8c04c06ed8988ed27538f7be3479dcbd73bf44e0c9820e"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session field."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "special_session_agenda_restriction",
+      "accepted_status": "KNOWN",
+      "accepted_value": "STRICT_GUBERNATORIAL_AGENDA",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Neb. Const. art. IV § 8",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-8",
+        "sourceHash": "e67391bce11a516647a99cf2b2a9d4a3efd29949876e571fc86955f5001d9185",
+        "excerptHash": "69639bb1fa99d614cec5ceb2bcb7cfb288833292f0d2894ac62d75b654630f1b"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session agenda field."
+    },
+    {
+      "jurisdiction": "US-NE",
+      "node": "legislative_rule_pack_cross_reference",
+      "accepted_status": "KNOWN",
+      "accepted_value": "us-ne-legislature-v1",
+      "receipt": {
+        "evidenceClass": "B",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "src/simulation/legislature-rule-packs.ts#us-ne-legislature-v1",
+        "sourceUrl": "https://github.com/lamontae/Political-Game-Git/blob/982f613a9737e25e506dc430e4f6e121dd72b3ca/src/simulation/legislature-rule-packs.ts",
+        "sourceHash": "fb89f7c6992d85156dba9272539c9a53f22787bbb89384f042041919c7dc65c0",
+        "excerptHash": "558bcda4c383d8a1d57d8aa3ebd02926d3b35dd9513306fa97a75ac1a8fd805c"
+      },
+      "outcome": "already_represented",
+      "detail": "Pack us-ne-legislature-v1 exists on main with that packId."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 15,
+        "pocket_veto": false,
+        "post_adjournment_days": 20,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 17",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "9afdacc54a55e87bf28933022097f0637c1514a31d81c33c0133d619437819ff",
+        "excerptHash": "0eed1ac54f2865e03bbc1513b3b22ad528b39672a69cc2b084882f81b45d6a3d"
+      },
+      "outcome": "already_represented",
+      "detail": "executive windows are known 15 in session and 20 after adjournment, inaction becomes law without signature (Alaska Const. art. II § 17)."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "item_partial_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": "strike_or_reduce_appropriation_items",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 15",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "9afdacc54a55e87bf28933022097f0637c1514a31d81c33c0133d619437819ff",
+        "excerptHash": "39c19e0dbbae6603a12ae81c521fa9f84962a3e73ee91f9bae6f1751fc7e80ae"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.lineItemVeto is known true (Alaska Const. art. II § 15); strike-or-reduce scope matches at the schema's flag granularity."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "three_fourths_revenue_and_appropriation_bills_or_items_two_thirds_other",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 16",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "a88f28b8e35d1ef209a8b2b5c794e9a063e4f0cfb5055c1353d86257b160ea4b",
+        "excerptHash": "38189066646e839437a0a592cac54c567b62921ed53c4d2b29acdf19ee333802"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.override is a joint session of 60 with two-thirds generally and a three-fourths appropriationsThreshold for revenue and appropriation bills (Alaska Const. art. II § 16). The distinct money-bill threshold is preserved."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "gubernatorial_or_two_thirds_legislature",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 9",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "9afdacc54a55e87bf28933022097f0637c1514a31d81c33c0133d619437819ff",
+        "excerptHash": "6dd1690ee18cb292c7cc0627e5e02db3a558a835073b0a07a51cd40401265657"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session field."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "special_session_agenda_restriction",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "applies_to": "governor_called_special_sessions",
+        "allowed_subjects": [
+          "subjects_designated_in_governor_proclamation",
+          "subjects_presented_by_governor",
+          "reconsideration_of_bills_vetoed_after_adjournment_of_last_regular_session"
+        ]
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 9",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "a88f28b8e35d1ef209a8b2b5c794e9a063e4f0cfb5055c1353d86257b160ea4b",
+        "excerptHash": "d2ecec04338ba6596545b22b2dd0bf075b055ccf71d92610eff6d2b1a8a3b25d"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session agenda field. The accepted restriction applies to governor-called sessions only and is deliberately NOT globalized or flattened into any existing field."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "other_presentment_powers",
+      "accepted_status": "KNOWN",
+      "accepted_value": "strike_or_reduce_appropriation_items",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Alaska Const. art. II § 15",
+        "sourceUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "sourceHash": "9afdacc54a55e87bf28933022097f0637c1514a31d81c33c0133d619437819ff",
+        "excerptHash": "39c19e0dbbae6603a12ae81c521fa9f84962a3e73ee91f9bae6f1751fc7e80ae"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "The strike-or-reduce appropriation power beyond the lineItemVeto flag has no exact schema field; it is not squeezed into ordinary-veto fields."
+    },
+    {
+      "jurisdiction": "US-AK",
+      "node": "legislative_rule_pack_cross_reference",
+      "accepted_status": "KNOWN",
+      "accepted_value": "us-ak-legislature-v1",
+      "receipt": {
+        "evidenceClass": "B",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "src/simulation/legislature-rule-packs.ts#us-ak-legislature-v1",
+        "sourceUrl": "https://github.com/lamontae/Political-Game-Git/blob/982f613a9737e25e506dc430e4f6e121dd72b3ca/src/simulation/legislature-rule-packs.ts",
+        "sourceHash": "fb89f7c6992d85156dba9272539c9a53f22787bbb89384f042041919c7dc65c0",
+        "excerptHash": "630fc69753a3fd88924f5c5901b6f578206014b01c2397e10406887424ae2777"
+      },
+      "outcome": "already_represented",
+      "detail": "Pack us-ak-legislature-v1 exists on main with that packId."
+    },
+    {
+      "jurisdiction": "US-MN",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 3,
+        "pocket_veto": false,
+        "post_adjournment_days": 14,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Minn. Const. art. IV § 23",
+        "sourceUrl": "https://www.revisor.mn.gov/constitution/",
+        "sourceHash": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+        "excerptHash": "10cf7621eeae5da97b8d23995c2c704ebf58974e872e080520a8f9225f56bb8e"
+      },
+      "outcome": "already_represented",
+      "detail": "executive windows are known 3 in session and 14 after adjournment, inaction becomes law without signature (Minn. Const. art. IV § 23)."
+    },
+    {
+      "jurisdiction": "US-MN",
+      "node": "item_partial_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": "appropriation_items",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Minn. Const. art. IV § 23",
+        "sourceUrl": "https://www.revisor.mn.gov/constitution/",
+        "sourceHash": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+        "excerptHash": "ee3d4833f37afb5bd9cdcbe92dbc6298fb6547cca149e81c1bec5758cb5b265b"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.lineItemVeto is known true (Minn. Const. art. IV § 23)."
+    },
+    {
+      "jurisdiction": "US-MN",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "two_thirds_each_house",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Minn. Const. art. IV § 23",
+        "sourceUrl": "https://www.revisor.mn.gov/constitution/",
+        "sourceHash": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+        "excerptHash": "cc634b853a903c556692ab071e6cf4aa7a3028d6c9e46dfa9a51b43d3f961f85"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.override is two-thirds of the members elected to each house (Minn. Const. art. IV § 23)."
+    },
+    {
+      "jurisdiction": "US-MN",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "gubernatorial_call_only",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Minn. Const. art. IV § 12",
+        "sourceUrl": "https://www.revisor.mn.gov/constitution/",
+        "sourceHash": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+        "excerptHash": "139500ab0b47f1d71151055e099d10962408b390b87e6951c6cbaa855a2f83ed"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session field."
+    },
+    {
+      "jurisdiction": "US-MN",
+      "node": "legislative_rule_pack_cross_reference",
+      "accepted_status": "KNOWN",
+      "accepted_value": "us-mn-legislature-v1",
+      "receipt": {
+        "evidenceClass": "B",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "src/simulation/legislature-rule-packs.ts#us-mn-legislature-v1",
+        "sourceUrl": "https://github.com/lamontae/Political-Game-Git/blob/982f613a9737e25e506dc430e4f6e121dd72b3ca/src/simulation/legislature-rule-packs.ts",
+        "sourceHash": "fb89f7c6992d85156dba9272539c9a53f22787bbb89384f042041919c7dc65c0",
+        "excerptHash": "c358518399f7e0437aef54051effa613b2cd1cc1cfec0d9ae6acd8d49095cf9f"
+      },
+      "outcome": "already_represented",
+      "detail": "Pack us-mn-legislature-v1 exists on main with that packId."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "regular_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": {
+        "days_to_act_session": 60,
+        "pocket_veto": false,
+        "inaction_result": "becomes_law"
+      },
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 9(b)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "02198fdeb8c09d9d979e1d3f1f4cf8a3a4801da47bf54aa7b663fba95c6755f5"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.actionWindowDaysInSession is known 60 and inaction becomes law without signature (Ill. Const. art. IV § 9). The accepted node asserts no separate post-adjournment window, consistent with the pack's not-applicable single flat window."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "item_partial_veto",
+      "accepted_status": "KNOWN",
+      "accepted_value": "item_and_reduction_veto",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 9(d)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "c05e65dd07a1235102f74e48439a59b26f440fc23d65a2461ce8db534407b8f7"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.lineItemVeto is known true; the reduction veto's distinct restore majority is carried in the pack's § 9 unresolved-gap note, matching the accepted item_and_reduction_veto proposition at schema granularity."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "override_threshold",
+      "accepted_status": "KNOWN",
+      "accepted_value": "three_fifths_of_elected_members",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 9(c)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "63735bc4ff359f5b3f03673b5267476bd9d976a0582da1e0cf5bac5e4c7f44dc"
+      },
+      "outcome": "already_represented",
+      "detail": "executive.override is three-fifths of the members elected to each house (Ill. Const. art. IV § 9(c))."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "special_session_call",
+      "accepted_status": "KNOWN",
+      "accepted_value": "gubernatorial_or_presiding_officers_joint_proclamation",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 5(b)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "d74ba0daf3bba8d3ac19c14f3c491bd934aa5ee4c57c2de807f22dbc23251133"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session field."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "special_session_agenda_restriction",
+      "accepted_status": "KNOWN",
+      "accepted_value": "STRICT_PROCLAMATION_AGENDA",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 5(b)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "7aba0c666509abed31d31ec57d041111f70b2e8846be7198ec401a9d3d8eca13"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "LegislativeRulePack has no special-session agenda field; the strict proclamation-agenda fact is not flattened into an existing field."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "other_presentment_powers",
+      "accepted_status": "KNOWN",
+      "accepted_value": "amendatory_veto_with_specific_recommendations",
+      "receipt": {
+        "evidenceClass": "A",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "Ill. Const. art. IV § 9(e)",
+        "sourceUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "sourceHash": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198",
+        "excerptHash": "aba9041bd6819b952b8416c3de3aab23134b542a0d7747ff90c2a265593a78b4"
+      },
+      "outcome": "no_exact_schema_consumer",
+      "detail": "The amendatory veto (Ill. Const. art. IV § 9(e)) has no exact schema field and is not squeezed into ordinary-veto fields."
+    },
+    {
+      "jurisdiction": "US-IL",
+      "node": "legislative_rule_pack_cross_reference",
+      "accepted_status": "KNOWN",
+      "accepted_value": "us-il-general-assembly-v1",
+      "receipt": {
+        "evidenceClass": "B",
+        "certificationStatus": "CERTIFIED_KNOWN",
+        "citation": "src/simulation/legislature-rule-packs.ts#us-il-general-assembly-v1",
+        "sourceUrl": "https://github.com/lamontae/Political-Game-Git/blob/982f613a9737e25e506dc430e4f6e121dd72b3ca/src/simulation/legislature-rule-packs.ts",
+        "sourceHash": "fb89f7c6992d85156dba9272539c9a53f22787bbb89384f042041919c7dc65c0",
+        "excerptHash": "04150bd20a9c9a88570e3444b59943c675171d3c1269faab901011ae8a6f99ed"
+      },
+      "outcome": "already_represented",
+      "detail": "Pack us-il-general-assembly-v1 exists on main with that packId."
+    }
+  ]
+}

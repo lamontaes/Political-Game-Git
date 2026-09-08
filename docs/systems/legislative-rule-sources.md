@@ -50,6 +50,19 @@ Read in full (`verified`):
 Checked by heading only (`partial`): House Rule 48, Senate Rules 37, 58 and 60,
 and Ky. Const. Secs. 42, 47 and 88.
 
+Sec. 88 was later read in operative text through the R3H-accepted
+legislative-power research (certified subset `92K-V4-R3G`, retrieved
+2026-09-06 from
+`https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=96`).
+That reading resolved two values the 2026-09-02 pass left unknown — the
+Governor's ten-day post-adjournment filing window and the in-session inaction
+outcome (the bill becomes law without signature; Kentucky has no in-session
+pocket veto) — and those two fields cite the operative-text retrieval as a
+separate `verified` source. The fields the original table-of-sections check
+already carried (the ten-day in-session window, the appropriation-item veto and
+the majority-of-elected override) match the accepted research and keep their
+existing citation.
+
 Corrected from the previous pack:
 
 - House Rules 39 and 41 were being applied to the Senate as well as the House.
