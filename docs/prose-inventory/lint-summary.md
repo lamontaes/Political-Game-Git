@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 258 review warnings.**
+**0 hard errors. 259 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -14,7 +14,7 @@ defect than the one it was aimed at.
 | Family | Count |
 | --- | --- |
 | vague-referent | 164 |
-| and-it-scaffold | 38 |
+| and-it-scaffold | 39 |
 | rather-than-scaffold | 27 |
 | slot-agreement | 12 |
 | label-restated-in-description | 9 |
@@ -22,9 +22,9 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 1882 templates, 1860 distinct texts.
-- 18 exact duplicate groups.
-- 23 normalized duplicate groups.
+- 1897 templates, 1874 distinct texts.
+- 19 exact duplicate groups.
+- 24 normalized duplicate groups.
 - 8 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
@@ -34,21 +34,22 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `in front of` | 22 | 8 |
+| `in front of` | 23 | 8 |
 | `there is a` | 19 | 5 |
 | `it is not` | 16 | 3 |
 | `asked you to` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `and it is` | 13 | 5 |
-| `out of the` | 12 | 4 |
+| `out of the` | 13 | 5 |
 | `proof of income` | 12 | 2 |
 | `the two of` | 12 | 3 |
 | `has asked you` | 11 | 4 |
+| `is on the` | 11 | 6 |
 | `of income form` | 11 | 2 |
 | `proof of income form` | 11 | 2 |
-| `is on the` | 10 | 5 |
-| `the bill is` | 10 | 1 |
+| `the bill is` | 11 | 2 |
 | `the end of` | 10 | 4 |
+| `the player asked` | 10 | 1 |
 | `the two of you` | 10 | 3 |
 | `two of you` | 10 | 3 |
 | `you did not` | 10 | 4 |
@@ -58,7 +59,6 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the proof of` | 9 | 2 |
 | `the proof of income` | 9 | 2 |
 | `the proof of income form` | 9 | 2 |
-| `the shopping and` | 9 | 2 |
 
 ### Most repeated sentence openings
 
@@ -66,9 +66,9 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | --- | --- |
 | `there is a` | 12 |
 | `the bill is` | 10 |
+| `the player asked` | 10 |
 | `you took the` | 9 |
 | `say you will` | 8 |
-| `the player asked` | 7 |
 | `you told them` | 7 |
 | `it is not` | 6 |
 | `the bill has` | 6 |
