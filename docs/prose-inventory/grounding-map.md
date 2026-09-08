@@ -22,8 +22,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/episode` | 558 | 104 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 8 | 0 | 0 | — |
-| `narration/connective` | 49 | 0 | 0 | elapsed-time |
-| `narration/thread-recap` | 29 | 0 | 0 | — |
+| `narration/connective` | 43 | 0 | 0 | elapsed-time |
+| `narration/thread-recap` | 32 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
 | `setup/questionnaire` | 354 | 0 | 0 | — |
 

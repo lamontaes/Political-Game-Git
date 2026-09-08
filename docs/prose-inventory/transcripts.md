@@ -14,7 +14,7 @@ quietly passing.
 **Intent.** Early childhood: the 92C age-five-to-seven kernels and their household and school context.
 
 Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
-14 beats, 81 realized lines, 48 linked back to a template.
+14 beats, 59 realized lines, 43 linked back to a template.
 
 **Actually demonstrated:** age-band:childhood, connective-narration, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, thread-recap
 
@@ -25,8 +25,8 @@ Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
 #### Beat 0 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
 > You're 6, and you live in Lexington, Kentucky.
-> Most weeks were built around school.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+> You live with Thomas Lawrence and Douglas Lawrence.
+> You're enrolled at Lexington, Kentucky public school.
 
 Thomas Lawrence is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
 
@@ -40,8 +40,7 @@ _Grounded by: household.shared: Somebody else is on the household record.; guard
 
 #### Beat 1 — 2026-03-17, age 7 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
-> By the spring, and you're 7 now.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+> A couple of months on, and you're 7 now.
 
 Douglas Lawrence has just pulled what you were playing with right out of your hands. It's yours, and no adult is in the room.
 
@@ -55,8 +54,7 @@ _Grounded by: household.shared: Somebody else is on the household record.; house
 
 #### Beat 2 — 2026-04-20, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
 
-> A month later.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+
 
 The class is being put into pairs for a piece of work, and you've been put with the kid nobody else asked for. You can tell the other kids noticed who you got.
 
@@ -68,8 +66,7 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 #### Beat 3 — 2026-05-24, age 7 (episode, school.the-thing-you-got-blamed-for/recess-race)
 
-> A month later.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+
 
 You lose the race across the yard. Nobody was watching the start except the two of you, and you know it was fair.
 
@@ -81,8 +78,7 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 #### Beat 4 — 2026-06-27, age 7 (episode, school.the-thing-you-got-blamed-for/blamed)
 
-> A month later.
-> Most weeks were built around school.
+
 
 Something got broken in the corridor at your school and your name is the one that came up. You were there. You did not do it. The person who did is standing four feet away saying nothing.
 
@@ -94,8 +90,7 @@ _Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to 
 
 #### Beat 5 — 2026-09-06, age 7 (episode, school.the-thing-you-got-blamed-for/tattle-boundary)
 
-> By the autumn.
-> Most weeks were built around school.
+
 
 During quiet work you're supposed to stay at your table, and while the adult was out of the room another kid got up and went to the window. The adult is back.
 
@@ -107,8 +102,7 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 #### Beat 6 — 2026-10-10, age 7 (formative)
 
-> A month later.
-> Most weeks were built around school.
+
 
 A room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.
 
@@ -118,7 +112,6 @@ A room of children you do not know, a coat hook with your name on it, and an adu
 #### Beat 7 — 2027-03-02, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
 > Half a year on, and you're 8 now.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
 
 The person you named has not spoken to you since, and has told other people their own version. One of them asks you, straight out, what actually happened.
 
@@ -129,8 +122,7 @@ _Grounded by: At blamed they chose name-them, on 2026-06-27.; 248 day(s) since b
 
 #### Beat 8 — 2027-04-05, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
 
-> A month later.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 It's quiet work, and a kid is at the window again. You remember what you did the first time.
 
@@ -141,8 +133,7 @@ _Grounded by: Stage tattle-boundary was played on 2026-09-06.; 211 day(s) since 
 
 #### Beat 9 — 2027-05-09, age 8 (formative)
 
-> A month later.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+
 
 The house needs you on the same afternoons the thing you signed up for does.
 
@@ -152,8 +143,7 @@ The house needs you on the same afternoons the thing you signed up for does.
 
 #### Beat 10 — 2027-11-18, age 8 (formative)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 The school is changing a rule, and for once it is asking the people the rule is about.
 
@@ -163,8 +153,7 @@ The school is changing a rule, and for once it is asking the people the rule is 
 
 #### Beat 11 — 2028-08-05, age 9 (formative)
 
-> A year on, and into another summer, and you're 9 now.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+> A year on, and you're 9 now.
 
 A teacher keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.
 
@@ -175,8 +164,7 @@ _Present: Amara Leonard_
 
 #### Beat 12 — 2029-04-23, age 10 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
-> A year on, and into another spring, and you're 10 now.
-> Lexington, Kentucky went on the way it does, and so did you.
+> A year on, and you're 10 now.
 
 You and Amara Leonard have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
 
@@ -190,8 +178,7 @@ _Grounded by: familiar is Amara Leonard: 2 record(s) name the two of them, none 
 
 #### Beat 13 — 2029-05-27, age 10 (formative)
 
-> A month later.
-> You spent most evenings at home with Thomas Lawrence and Douglas Lawrence, and most of them were quiet.
+
 
 The table is full except for one gap, and someone is standing at the end of it holding a tray.
 
@@ -209,7 +196,7 @@ _Present: Megan Hodges, who is in your class_
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 92 realized lines, 56 linked back to a template.
+16 beats, 66 realized lines, 51 linked back to a template.
 
 **Actually demonstrated:** age-band:adolescence, age-band:adult, connective-narration, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, thread-recap
 
@@ -220,8 +207,8 @@ Seed `corpus-adolescence`, start age 15, Dawn Merritt.
 #### Beat 0 — 2026-01-05, age 15 (episode, school.the-thing-you-got-blamed-for/blamed)
 
 > You're 15, and you live in Lexington, Kentucky.
-> Most weeks were built around school.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+> You live with Raymond Merritt and Caleb Merritt.
+> You're enrolled at Lexington, Kentucky public school.
 
 Something got broken in the corridor at your school and your name is the one that came up. You were there. You did not do it. The person who did is standing four feet away saying nothing.
 
@@ -233,8 +220,7 @@ _Grounded by: school.enrolled: An active education enrollment.; Age 15; needs to
 
 #### Beat 1 — 2026-03-17, age 15 (formative)
 
-> By the spring.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 Someone you respect says something you think is wrong, and says it as though it settles the matter.
 
@@ -245,8 +231,7 @@ _Present: Maria Nielsen_
 
 #### Beat 2 — 2026-06-18, age 15 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
-> By the summer.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 You and Maria Nielsen have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
 
@@ -260,8 +245,7 @@ _Grounded by: familiar is Maria Nielsen: 2 record(s) name the two of them, none 
 
 #### Beat 3 — 2026-07-22, age 15 (formative)
 
-> A month later.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 Something at school is wrong enough that people are talking about doing something, and the talking has reached you.
 
@@ -271,7 +255,6 @@ Something at school is wrong enough that people are talking about doing somethin
 #### Beat 4 — 2026-11-05, age 16 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
 > Half a year on, and you're 16 now.
-> Lexington, Kentucky went on the way it does, and so did you.
 
 The person you named has not spoken to you since, and has told other people their own version. One of them asks you, straight out, what actually happened.
 
@@ -282,8 +265,7 @@ _Grounded by: At blamed they chose name-them, on 2026-01-05.; 304 day(s) since b
 
 #### Beat 5 — 2026-12-09, age 16 (episode, home.someone-is-not-all-right/noticing)
 
-> A month later.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 Raymond Merritt, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.
 
@@ -298,8 +280,7 @@ _Grounded by: household-peer is Raymond Merritt: Resident on the same household 
 
 #### Beat 6 — 2027-01-12, age 16 (formative)
 
-> A month later.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 Something local needs hands on a Saturday, and someone has asked whether you are one of them.
 
@@ -309,8 +290,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 
 #### Beat 7 — 2027-03-26, age 16 (episode, home.someone-is-not-all-right/asked-directly)
 
-> By the spring.
-> Most weeks were built around school.
+
 
 Raymond Merritt has not brought up the conversation again, and neither have you. Tonight she asks you for money, and does not say what for.
 
@@ -324,8 +304,7 @@ _Grounded by: household-peer is Raymond Merritt: Resident on the same household 
 
 #### Beat 8 — 2027-06-05, age 16 (formative)
 
-> By the summer.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 Somebody at home needs more looking after than the household can spread around, and you are old enough now for that to mean you.
 
@@ -335,8 +314,7 @@ Somebody at home needs more looking after than the household can spread around, 
 
 #### Beat 9 — 2027-08-13, age 16 (formative)
 
-> By the summer.
-> Most weeks were built around school.
+
 
 There is a sign-up sheet, a practice schedule, and only so many afternoons in a week.
 
@@ -346,7 +324,7 @@ There is a sign-up sheet, a practice schedule, and only so many afternoons in a 
 
 #### Beat 10 — 2027-08-14, age 16 (formative)
 
-> The next day.
+
 
 There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
 
@@ -356,7 +334,6 @@ There is a job going. The hours are real, and the law has something to say about
 #### Beat 11 — 2028-01-01, age 17 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
 
 > Half a year on, and you're 17 now.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
 
 You and Maria Nielsen are down to running into each other. Neither of you did anything. There is a version of this where you call them, and a version where the year goes past.
 
@@ -369,8 +346,7 @@ _Grounded by: familiar is Maria Nielsen: 4 record(s) name the two of them, none 
 
 #### Beat 12 — 2028-02-04, age 17 (episode, home.someone-is-not-all-right/it-got-worse)
 
-> A month later.
-> You spent most evenings at home with Raymond Merritt and Caleb Merritt, and most of them were quiet.
+
 
 There is a phone call at an hour when phone calls are never good, and it is about Raymond Merritt. By the time anybody explains it to you properly, the part where you could have said something has been over for a year.
 
@@ -384,8 +360,7 @@ _Grounded by: household-peer is Raymond Merritt: Resident on the same household 
 
 #### Beat 13 — 2028-06-11, age 17 (formative)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
 
@@ -396,7 +371,6 @@ There is a rule at work that nobody follows, and today somebody older is telling
 #### Beat 14 — 2028-10-08, age 18 (adult)
 
 > Half a year on, and you're 18 now.
-> Lexington, Kentucky went on the way it does, and so did you.
 
 There is more work than week, and somebody has decided the difference is yours.
 
@@ -406,8 +380,7 @@ There is more work than week, and somebody has decided the difference is yours.
 
 #### Beat 15 — 2028-11-03, age 18 (adult)
 
-> A month later.
-> Most weeks were built around school.
+
 
 The looking-after that has been shared out is about to stop being shared out, and everyone is waiting to see who says something first.
 
@@ -425,7 +398,7 @@ _Present: Caleb Merritt, your mom_
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 111 realized lines, 72 linked back to a template.
+20 beats, 90 realized lines, 70 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -436,8 +409,8 @@ Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
 #### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
 > You're 34, and you live in Kentucky.
-> You spent most evenings at home with Kayla Terrell, and most of them were quiet.
-> The meetings kept on, about once a month, and mostly dull.
+> You live with Kayla Terrell.
+> You belong to Community Service Club.
 
 Kayla Terrell says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -452,8 +425,7 @@ _Grounded by: household-peer is Kayla Terrell: Resident on the same household re
 
 #### Beat 1 — 2026-02-08, age 34 (adult)
 
-> A month later.
-> You spent most evenings at home with Kayla Terrell, and most of them were quiet.
+
 
 The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
 
@@ -464,8 +436,7 @@ The place the group meets in is going to close. Keeping it open means keeping a 
 
 #### Beat 2 — 2026-03-21, age 34 (adult)
 
-> A month later.
-> Kentucky went on the way it does, and so did you.
+
 
 Nothing is owed to anybody this evening, and the other person is in.
 
@@ -476,7 +447,7 @@ _Present: Kayla Terrell, who you live with_
 
 #### Beat 3 — 2026-04-02, age 34 (adult)
 
-> A couple of weeks on.
+
 
 Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
 
@@ -490,7 +461,6 @@ _Present: Edward Todd, your dad_
 #### Beat 4 — 2026-05-13, age 35 (adult)
 
 > A month later, and you're 35 now.
-> You spent most evenings at home with Kayla Terrell, and most of them were quiet.
 
 A small amount of money has arrived that nothing is already claiming.
 
@@ -500,7 +470,7 @@ A small amount of money has arrived that nothing is already claiming.
 
 #### Beat 5 — 2026-05-25, age 35 (adult)
 
-> A couple of weeks on.
+
 
 The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
 
@@ -510,8 +480,7 @@ The month does not add up the way it did. Nothing has gone wrong; the numbers ha
 
 #### Beat 6 — 2026-06-20, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
 
-> A month later.
-> You spent most evenings at home with Kayla Terrell, and most of them were quiet.
+
 
 Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Kayla Terrell asks whether you would rather swap two of them.
 
@@ -524,8 +493,7 @@ _Grounded by: household-peer is Kayla Terrell: Resident on the same household re
 
 #### Beat 7 — 2026-07-24, age 35 (adult)
 
-> A month later.
-> Kentucky went on the way it does, and so did you.
+
 
 Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
 
@@ -535,7 +503,7 @@ Something in the place has stopped working properly. It is not urgent, and it wi
 
 #### Beat 8 — 2026-08-05, age 35 (adult)
 
-> A couple of weeks on.
+
 
 There is a thing on at the weekend that you would probably enjoy and have no obligation to attend.
 
@@ -544,7 +512,7 @@ There is a thing on at the weekend that you would probably enjoy and have no obl
 
 #### Beat 9 — 2026-08-17, age 35 (adult)
 
-> A couple of weeks on.
+
 
 The same thing has gone undone three weeks running, and it is not going to be mentioned again unless you mention it.
 
@@ -556,8 +524,7 @@ _Present: Kayla Terrell, who you live with_
 
 #### Beat 10 — 2026-09-12, age 35 (adult)
 
-> A month later.
-> The meetings kept on, about once a month, and mostly dull.
+
 
 The looking-after that has been shared out is about to stop being shared out, and everyone is waiting to see who says something first.
 
@@ -569,8 +536,7 @@ _Present: Edward Todd, your dad_
 
 #### Beat 11 — 2026-10-23, age 35 (adult)
 
-> A month later.
-> Looking after somebody at home went on taking its hours out of the week.
+
 
 Something you said you would do has arrived, and it is less convenient than it was when you said it.
 
@@ -581,7 +547,7 @@ Something you said you would do has arrived, and it is less convenient than it w
 #### Beat 12 — 2026-12-03, age 35 (adult)
 
 > A month later.
-> What you said you would do about Kayla Terrell came back around.
+> What you said you'd do about Kayla Terrell came up.
 
 A day with nothing owed on it, and weather that makes staying indoors feel like a waste.
 
@@ -592,7 +558,7 @@ A day with nothing owed on it, and weather that makes staying indoors feel like 
 #### Beat 13 — 2026-12-15, age 35 (adult)
 
 > A couple of weeks on.
-> What you said you would do about Edward Todd came back around.
+> What you said you'd do about Edward Todd came up.
 
 Something has broken that has to be replaced, and it was not in the month's arithmetic.
 
@@ -602,8 +568,7 @@ Something has broken that has to be replaced, and it was not in the month's arit
 #### Beat 14 — 2027-01-10, age 35 (adult)
 
 > A month later.
-> What you said you would do about Something decided earlier came back around.
-> What you said you would do about Looking after somebody at home came back around.
+> What you said you'd do about Looking after somebody at home came up.
 
 Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
 
@@ -613,7 +578,7 @@ Something in the place has stopped working properly. It is not urgent, and it wi
 
 #### Beat 15 — 2027-01-22, age 35 (adult)
 
-> A couple of weeks on.
+
 
 A small amount of money has arrived that nothing is already claiming.
 
@@ -623,7 +588,7 @@ A small amount of money has arrived that nothing is already claiming.
 
 #### Beat 16 — 2027-02-03, age 35 (adult)
 
-> A couple of weeks on.
+
 
 There is a thing on at the weekend that you would probably enjoy and have no obligation to attend.
 
@@ -632,7 +597,7 @@ There is a thing on at the weekend that you would probably enjoy and have no obl
 
 #### Beat 17 — 2027-02-15, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
-> A couple of weeks on.
+
 
 There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
 
@@ -645,7 +610,7 @@ _Grounded by: Age 35; needs at least 18._
 #### Beat 18 — 2027-03-21, age 35 (ordinary-stretch)
 
 > A month later.
-> What you said you would do about Kayla Terrell came back around.
+> What you said you'd do about Kayla Terrell came up.
 
 
 
@@ -654,7 +619,7 @@ _Grounded by: Age 35; needs at least 18._
 #### Beat 19 — 2027-07-23, age 36 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 > Half a year on, and you're 36 now.
-> What you said you would do about Kayla Terrell came back around.
+> What you said you'd do about Kayla Terrell came up.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
@@ -672,7 +637,7 @@ _Grounded by: At the-meeting they chose go, on 2027-02-15.; civic.participation:
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 210 realized lines, 114 linked back to a template.
+40 beats, 150 realized lines, 96 linked back to a template.
 
 **Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-cast-across-years, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
@@ -683,8 +648,8 @@ Seed `corpus-long-tail`, start age 7, Peter Fleming.
 #### Beat 0 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
 > You're 7, and you live in Lexington, Kentucky.
-> Most weeks were built around school.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+> You live with Caleb Fleming and Aisha Fleming.
+> You're enrolled at Lexington, Kentucky public school.
 
 Caleb Fleming has just pulled what you were playing with right out of your hands. It's yours, and no adult is in the room.
 
@@ -698,8 +663,7 @@ _Grounded by: household.shared: Somebody else is on the household record.; house
 
 #### Beat 1 — 2026-02-08, age 7 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
-> A month later.
-> Most weeks were built around school.
+
 
 Aisha Fleming is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
 
@@ -713,8 +677,7 @@ _Grounded by: household.shared: Somebody else is on the household record.; guard
 
 #### Beat 2 — 2026-04-20, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
 
-> By the spring.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 The class is being put into pairs for a piece of work, and you've been put with the kid nobody else asked for. You can tell the other kids noticed who you got.
 
@@ -726,8 +689,7 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 #### Beat 3 — 2026-05-24, age 7 (episode, school.the-thing-you-got-blamed-for/recess-race)
 
-> A month later.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 You lose the race across the yard. Nobody was watching the start except the two of you, and you know it was fair.
 
@@ -739,8 +701,7 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 
 #### Beat 4 — 2026-06-27, age 7 (episode, school.the-thing-you-got-blamed-for/blamed)
 
-> A month later.
-> Most weeks were built around school.
+
 
 Something got broken in the corridor at your school and your name is the one that came up. You were there. You did not do it. The person who did is standing four feet away saying nothing.
 
@@ -752,8 +713,7 @@ _Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to 
 
 #### Beat 5 — 2026-09-06, age 7 (episode, school.the-thing-you-got-blamed-for/tattle-boundary)
 
-> By the autumn.
-> Most weeks were built around school.
+
 
 During quiet work you're supposed to stay at your table, and while the adult was out of the room another kid got up and went to the window. The adult is back.
 
@@ -766,7 +726,6 @@ _Grounded by: school.enrolled: An active education enrollment.; answers-for-them
 #### Beat 6 — 2026-10-10, age 8 (formative)
 
 > A month later, and you're 8 now.
-> Most weeks were built around school.
 
 The house needs you on the same afternoons the thing you signed up for does.
 
@@ -776,8 +735,7 @@ The house needs you on the same afternoons the thing you signed up for does.
 
 #### Beat 7 — 2027-04-26, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
 
-> Half a year on.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 It's quiet work, and a kid is at the window again. You remember what you did the first time.
 
@@ -788,8 +746,7 @@ _Grounded by: Stage tattle-boundary was played on 2026-09-06.; 232 day(s) since 
 
 #### Beat 8 — 2027-05-30, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
-> A month later.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 The person you named has not spoken to you since, and has told other people their own version. One of them asks you, straight out, what actually happened.
 
@@ -800,8 +757,7 @@ _Grounded by: At blamed they chose name-them, on 2026-06-27.; 337 day(s) since b
 
 #### Beat 9 — 2027-07-03, age 8 (formative)
 
-> A month later.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 A teacher keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.
 
@@ -813,7 +769,6 @@ _Present: Felix Price_
 #### Beat 10 — 2027-12-11, age 9 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
 > Half a year on, and you're 9 now.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
 
 You and Felix Price have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
 
@@ -827,8 +782,7 @@ _Grounded by: familiar is Felix Price: 2 record(s) name the two of them, none of
 
 #### Beat 11 — 2028-01-14, age 9 (formative)
 
-> A month later.
-> Lexington, Kentucky went on the way it does, and so did you.
+
 
 The thing that was planned for this month is not happening any more. The reason given is short, and the subject gets changed.
 
@@ -837,8 +791,7 @@ The thing that was planned for this month is not happening any more. The reason 
 
 #### Beat 12 — 2028-07-26, age 9 (formative)
 
-> Half a year on.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 Something got said that should not have been, and now the two of you are being careful with each other.
 
@@ -850,8 +803,7 @@ _Present: DeAndre Hunter, who is in your class_
 
 #### Beat 13 — 2029-03-11, age 10 (formative)
 
-> A year on, and into another spring, and you're 10 now.
-> Lexington, Kentucky went on the way it does, and so did you.
+> A year on, and you're 10 now.
 
 The table is full except for one gap, and someone is standing at the end of it holding a tray.
 
@@ -863,8 +815,7 @@ _Present: DeAndre Hunter, who is in your class_
 
 #### Beat 14 — 2029-10-25, age 11 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
 
-> A year on, and into another autumn, and you're 11 now.
-> Lexington, Kentucky went on the way it does, and so did you.
+> A year on, and you're 11 now.
 
 You and Felix Price are down to running into each other. Neither of you did anything. There is a version of this where you call them, and a version where the year goes past.
 
@@ -877,8 +828,7 @@ _Grounded by: familiar is Felix Price: 4 record(s) name the two of them, none of
 
 #### Beat 15 — 2029-11-28, age 11 (formative)
 
-> A month later.
-> Most weeks were built around school.
+
 
 The school is changing a rule, and for once it is asking the people the rule is about.
 
@@ -888,8 +838,7 @@ The school is changing a rule, and for once it is asking the people the rule is 
 
 #### Beat 16 — 2030-06-11, age 11 (ordinary-stretch)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 
 
@@ -898,7 +847,6 @@ The school is changing a rule, and for once it is asking the people the rule is 
 #### Beat 17 — 2031-01-25, age 12 (ordinary-stretch)
 
 > The better part of two years later, and you're 12 now.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
 
 
 
@@ -907,7 +855,6 @@ The school is changing a rule, and for once it is asking the people the rule is 
 #### Beat 18 — 2031-09-10, age 13 (formative)
 
 > The better part of two years later, and you're 13 now.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
 
 Somebody at home needs more looking after than the household can spread around, and you are old enough now for that to mean you.
 
@@ -917,8 +864,7 @@ Somebody at home needs more looking after than the household can spread around, 
 
 #### Beat 19 — 2032-02-23, age 13 (formative)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 There is a sign-up sheet, a practice schedule, and only so many afternoons in a week.
 
@@ -928,7 +874,7 @@ There is a sign-up sheet, a practice schedule, and only so many afternoons in a 
 
 #### Beat 20 — 2032-02-24, age 13 (formative)
 
-> The next day.
+
 
 Something at school is wrong enough that people are talking about doing something, and the talking has reached you.
 
@@ -937,8 +883,7 @@ Something at school is wrong enough that people are talking about doing somethin
 
 #### Beat 21 — 2032-08-07, age 13 (formative)
 
-> Half a year on.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 Something local needs hands on a Saturday, and someone has asked whether you are one of them.
 
@@ -948,7 +893,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 
 #### Beat 22 — 2032-08-08, age 13 (formative)
 
-> The next day.
+
 
 Someone you respect says something you think is wrong, and says it as though it settles the matter.
 
@@ -960,7 +905,6 @@ _Present: Felix Price_
 #### Beat 23 — 2033-01-20, age 14 (formative)
 
 > Half a year on, and you're 14 now.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
 
 There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
 
@@ -969,7 +913,7 @@ There is a job going. The hours are real, and the law has something to say about
 
 #### Beat 24 — 2033-01-21, age 14 (formative)
 
-> The next day.
+
 
 There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
 
@@ -979,8 +923,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 
 #### Beat 25 — 2033-07-05, age 14 (formative)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 The year is running out, and people keep asking what comes after it.
 
@@ -990,7 +933,7 @@ The year is running out, and people keep asking what comes after it.
 
 #### Beat 26 — 2033-07-06, age 14 (ordinary-stretch)
 
-> The next day.
+
 
 
 
@@ -999,7 +942,6 @@ The year is running out, and people keep asking what comes after it.
 #### Beat 27 — 2033-12-18, age 15 (ordinary-stretch)
 
 > Half a year on, and you're 15 now.
-> Most weeks were built around school.
 
 
 
@@ -1008,7 +950,6 @@ The year is running out, and people keep asking what comes after it.
 #### Beat 28 — 2033-12-19, age 15 (ordinary-stretch)
 
 > Half a year on, and you're 15 now.
-> Work stayed work — the same shifts, the same people, the same drive there.
 
 
 
@@ -1016,8 +957,7 @@ The year is running out, and people keep asking what comes after it.
 
 #### Beat 29 — 2034-06-03, age 15 (ordinary-stretch)
 
-> A year on, and into another summer, and you're 15 now.
-> Most weeks were built around school.
+> A year on, and you're 15 now.
 
 
 
@@ -1026,7 +966,6 @@ The year is running out, and people keep asking what comes after it.
 #### Beat 30 — 2034-11-16, age 16 (ordinary-stretch)
 
 > The better part of two years later, and you're 16 now.
-> Most weeks were built around school.
 
 
 
@@ -1035,7 +974,6 @@ The year is running out, and people keep asking what comes after it.
 #### Beat 31 — 2035-05-01, age 16 (ordinary-stretch)
 
 > The better part of two years later, and you're 16 now.
-> Most weeks were built around school.
 
 
 
@@ -1044,7 +982,6 @@ The year is running out, and people keep asking what comes after it.
 #### Beat 32 — 2035-10-14, age 17 (episode, home.someone-is-not-all-right/noticing)
 
 > 2 years later, and you're 17 now.
-> Most weeks were built around school.
 
 Caleb Fleming, your younger sister has come in after everyone else three nights this week, and said a different place each time. Nobody has said anything about it at breakfast, and you have started waiting to see whether they will.
 
@@ -1059,8 +996,7 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 
 #### Beat 33 — 2035-11-17, age 17 (ordinary-stretch)
 
-> A month later.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 
 
@@ -1068,8 +1004,7 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 
 #### Beat 34 — 2036-03-28, age 17 (episode, home.someone-is-not-all-right/asked-directly)
 
-> Half a year on.
-> Most weeks were built around school.
+
 
 Caleb Fleming has not brought up the conversation again, and neither have you. Tonight she asks you for money, and does not say what for.
 
@@ -1083,8 +1018,7 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 
 #### Beat 35 — 2036-06-07, age 17 (ordinary-stretch)
 
-> By the summer.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 
 
@@ -1093,7 +1027,6 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 #### Beat 36 — 2036-09-10, age 18 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
 > Half a year on, and you're 18 now.
-> Lexington, Kentucky went on the way it does, and so did you.
 
 There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
 
@@ -1105,8 +1038,7 @@ _Grounded by: Age 18; needs at least 18._
 
 #### Beat 37 — 2036-10-14, age 18 (adult)
 
-> A month later.
-> Work stayed work — the same shifts, the same people, the same drive there.
+
 
 There is more work than week, and somebody has decided the difference is yours.
 
@@ -1116,8 +1048,7 @@ There is more work than week, and somebody has decided the difference is yours.
 
 #### Beat 38 — 2036-11-09, age 18 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
-> A month later.
-> You spent most evenings at home with Caleb Fleming and Aisha Fleming, and most of them were quiet.
+
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
@@ -1129,8 +1060,7 @@ _Grounded by: At the-meeting they chose go, on 2036-09-10.; civic.participation:
 
 #### Beat 39 — 2037-01-19, age 18 (episode, home.someone-is-not-all-right/it-got-worse)
 
-> By the winter.
-> The meetings kept on, about once a month, and mostly dull.
+
 
 There is a phone call at an hour when phone calls are never good, and it is about Caleb Fleming. By the time anybody explains it to you properly, the part where you could have said something has been over for a year.
 
@@ -1150,7 +1080,7 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
-6 beats, 37 realized lines, 27 linked back to a template.
+6 beats, 30 realized lines, 25 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, legislative-measure-briefing, person-introduction, scene:adult, scene:episode, thread-recap
 
@@ -1178,8 +1108,8 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 #### Beat 0 — 2026-01-05, age 34 (adult)
 
 > You're 34, and you live in Lexington, Kentucky.
-> You spent most evenings at home with Malik Mullins, and most of them were quiet.
-> The meetings kept on, about once a month, and mostly dull.
+> You live with Malik Mullins.
+> You belong to Community Service Club.
 
 The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
 
@@ -1190,8 +1120,7 @@ The place the group meets in is going to close. Keeping it open means keeping a 
 
 #### Beat 1 — 2026-02-15, age 34 (adult)
 
-> A month later.
-> The meetings kept on, about once a month, and mostly dull.
+
 
 Nothing is owed to anybody this evening, and the other person is in.
 
@@ -1202,7 +1131,7 @@ _Present: Malik Mullins, who you live with_
 
 #### Beat 2 — 2026-02-27, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
-> A couple of weeks on.
+
 
 Malik Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -1218,7 +1147,6 @@ _Grounded by: household-peer is Malik Mullins: Resident on the same household re
 #### Beat 3 — 2026-04-02, age 35 (adult)
 
 > A month later, and you're 35 now.
-> You spent most evenings at home with Malik Mullins, and most of them were quiet.
 
 Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
 
@@ -1231,8 +1159,7 @@ _Present: Emily Vance, your mom_
 
 #### Beat 4 — 2026-05-13, age 35 (adult)
 
-> A month later.
-> You spent most evenings at home with Malik Mullins, and most of them were quiet.
+
 
 Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
 
@@ -1242,7 +1169,7 @@ Something in the place has stopped working properly. It is not urgent, and it wi
 
 #### Beat 5 — 2026-05-25, age 35 (adult)
 
-> A couple of weeks on.
+
 
 The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
 
@@ -1258,7 +1185,7 @@ The month does not add up the way it did. Nothing has gone wrong; the numbers ha
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 36 realized lines, 30 linked back to a template.
+6 beats, 29 realized lines, 26 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, person-introduction, scene:adult, thread-recap
 
@@ -1277,7 +1204,7 @@ _No legislative surface: the capability layer did not open one for this run._
 #### Beat 0 — 2026-01-05, age 41 (adult)
 
 > You're 41, and you live in Lexington, Kentucky.
-> The meetings kept on, about once a month, and mostly dull.
+> You belong to Community Service Club.
 
 The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
 
@@ -1288,8 +1215,7 @@ The place the group meets in is going to close. Keeping it open means keeping a 
 
 #### Beat 1 — 2026-02-15, age 41 (adult)
 
-> A month later.
-> The meetings kept on, about once a month, and mostly dull.
+
 
 A day with nothing owed on it, and weather that makes staying indoors feel like a waste.
 
@@ -1299,7 +1225,7 @@ A day with nothing owed on it, and weather that makes staying indoors feel like 
 
 #### Beat 2 — 2026-02-27, age 41 (adult)
 
-> A couple of weeks on.
+
 
 Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
 
@@ -1313,7 +1239,6 @@ _Present: Kelly Tillman, your dad_
 #### Beat 3 — 2026-04-09, age 42 (adult)
 
 > A month later, and you're 42 now.
-> The meetings kept on, about once a month, and mostly dull.
 
 A small amount of money has arrived that nothing is already claiming.
 
@@ -1323,7 +1248,7 @@ A small amount of money has arrived that nothing is already claiming.
 
 #### Beat 4 — 2026-04-21, age 42 (adult)
 
-> A couple of weeks on.
+
 
 The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
 
@@ -1333,8 +1258,7 @@ The month does not add up the way it did. Nothing has gone wrong; the numbers ha
 
 #### Beat 5 — 2026-05-17, age 42 (adult)
 
-> A month later.
-> The meetings kept on, about once a month, and mostly dull.
+
 
 Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
 
