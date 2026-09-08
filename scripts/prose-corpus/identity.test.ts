@@ -2,6 +2,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 
 import {
+  allocationHistory,
+  baselineOf,
+  ledgerOf,
+  type AllocationHistory,
+} from "./anchor-history";
+import {
   mintAnchors,
   resolveAnchors,
   revisionOf,
@@ -41,8 +47,20 @@ const SURFACE: ComputedSurface = {
   grounding: [{ key: "none", description: "synthetic fixture" }],
 };
 
+/**
+ * Allocation history stated explicitly, the way the CLI states it.
+ *
+ * `mintAnchors` no longer defaults its history argument. These cases are about
+ * text-to-anchor matching rather than allocation, so they carry the history
+ * their own fixture implies and nothing more.
+ */
+function historyOf(anchors: readonly ComputedAnchor[]): AllocationHistory {
+  const ledger = ledgerOf(anchors.map((anchor) => anchor.anchor));
+  return allocationHistory(ledger, baselineOf(ledger.issued));
+}
+
 function mintFresh(): readonly ComputedAnchor[] {
-  return mintAnchors(computedLiterals([SURFACE]), []).anchors;
+  return mintAnchors(computedLiterals([SURFACE]), [], historyOf([])).anchors;
 }
 
 function recordsWith(anchors: readonly ComputedAnchor[]) {
@@ -135,7 +153,11 @@ describe("an edit past the eighth word cannot ride a stale approval", () => {
     )!;
 
     edit("again after work.", "again after a long shift.");
-    const remint = mintAnchors(computedLiterals([SURFACE]), anchors);
+    const remint = mintAnchors(
+      computedLiterals([SURFACE]),
+      anchors,
+      historyOf(anchors),
+    );
     expect(remint.refused).toStrictEqual([]);
     expect(remint.minted).toStrictEqual([]);
     expect(remint.rebound).toHaveLength(1);
@@ -158,7 +180,11 @@ describe("ambiguity fails closed", () => {
         "again after the lecture.",
       ),
     );
-    const remint = mintAnchors(computedLiterals([SURFACE]), anchors);
+    const remint = mintAnchors(
+      computedLiterals([SURFACE]),
+      anchors,
+      historyOf(anchors),
+    );
     expect(remint.refused.length).toBeGreaterThan(0);
     expect(remint.rebound).toStrictEqual([]);
     // Nothing was invented for the ambiguous group.
@@ -239,7 +265,11 @@ describe("slot and context changes are versioned, not ignored", () => {
       "{self} kept the same routine all through the spring.",
       "{player} kept the same routine all through the spring.",
     );
-    const remint = mintAnchors(computedLiterals([SURFACE]), anchors);
+    const remint = mintAnchors(
+      computedLiterals([SURFACE]),
+      anchors,
+      historyOf(anchors),
+    );
     const after = recordsWith(remint.anchors).records.find((record) =>
       record.text.includes("{player}"),
     )!;

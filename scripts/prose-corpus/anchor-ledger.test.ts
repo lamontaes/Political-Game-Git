@@ -4,16 +4,16 @@ import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 
 import {
-  emptyLedger,
+  allocationHistory,
+  baselineOf,
+  ledgerOf,
   loadAnchorLedger,
   LEDGER_NOTE,
   LEDGER_SCHEMA,
-  mintAnchors,
-  reservedIds,
-  revisionOf,
   writeAnchorLedger,
-  type ComputedAnchor,
-} from "./anchors";
+  type AllocationHistory,
+} from "./anchor-history";
+import { mintAnchors, revisionOf, type ComputedAnchor } from "./anchors";
 import type { ScannedLiteral } from "./scan";
 
 /**
@@ -75,6 +75,19 @@ function idOf(anchors: readonly ComputedAnchor[], text: string): string {
   return anchor.anchor;
 }
 
+/**
+ * Verified history built from an issued list, the way the CLI builds it.
+ *
+ * `mintAnchors` takes history rather than a bare list and has no default for
+ * it, so these cases state the allocator's memory explicitly. That is the
+ * point: the removed default was itself the defect, and a test that could omit
+ * the argument would be testing a path production can no longer reach.
+ */
+function historyOf(issued: readonly string[]): AllocationHistory {
+  const ledger = ledgerOf(issued);
+  return allocationHistory(ledger, baselineOf(ledger.issued));
+}
+
 const tempDirs: string[] = [];
 
 function tempLedgerPath(): string {
@@ -91,7 +104,7 @@ afterEach(() => {
 
 describe("a retired id is burned, not recycled", () => {
   it("gives a genuinely new site 0003 after 0002 was retired", () => {
-    const first = mintAnchors(sites(FIRST, SECOND), [], []);
+    const first = mintAnchors(sites(FIRST, SECOND), [], historyOf([]));
     expect([...first.minted].sort()).toStrictEqual([
       `${SYMBOL}-0001`,
       `${SYMBOL}-0002`,
@@ -100,7 +113,11 @@ describe("a retired id is burned, not recycled", () => {
     const doomed = idOf(first.anchors, SECOND);
 
     // The second sentence is deleted outright. Its anchor retires.
-    const retired = mintAnchors(sites(FIRST), first.anchors, first.issued);
+    const retired = mintAnchors(
+      sites(FIRST),
+      first.anchors,
+      historyOf(first.issued),
+    );
     expect(retired.removed).toStrictEqual([doomed]);
     expect(retired.anchors.map((anchor) => anchor.anchor)).toStrictEqual([
       kept,
@@ -114,7 +131,7 @@ describe("a retired id is burned, not recycled", () => {
     const added = mintAnchors(
       sites(FIRST, THIRD),
       retired.anchors,
-      retired.issued,
+      historyOf(retired.issued),
     );
     expect(added.minted).toStrictEqual([`${SYMBOL}-0003`]);
     expect(added.minted).not.toContain(doomed);
@@ -122,20 +139,32 @@ describe("a retired id is burned, not recycled", () => {
     expect(idOf(added.anchors, FIRST)).toBe(kept);
   });
 
-  it("reproduces the reuse when no ledger is carried, and only then", () => {
-    const first = mintAnchors(sites(FIRST, SECOND), [], []);
+  // The original defect, kept as a pin. Passing empty history is now the only
+  // way to reach it: the parameter is required, and every CLI path builds it
+  // from verified files, so this case cannot masquerade as the production
+  // path it once was the default for.
+  it("reproduces the reuse only when history is deliberately empty", () => {
+    const first = mintAnchors(sites(FIRST, SECOND), [], historyOf([]));
     const doomed = idOf(first.anchors, SECOND);
-    const retired = mintAnchors(sites(FIRST), first.anchors, first.issued);
+    const retired = mintAnchors(
+      sites(FIRST),
+      first.anchors,
+      historyOf(first.issued),
+    );
 
-    // Exactly current main's behaviour: reserve the live sidecar alone. The
+    // Exactly the pre-ledger behaviour: reserve the live sidecar alone. The
     // new sentence is handed the retired sentence's number.
-    const withoutLedger = mintAnchors(sites(FIRST, THIRD), retired.anchors, []);
+    const withoutLedger = mintAnchors(
+      sites(FIRST, THIRD),
+      retired.anchors,
+      historyOf([]),
+    );
     expect(idOf(withoutLedger.anchors, THIRD)).toBe(doomed);
 
     const withLedger = mintAnchors(
       sites(FIRST, THIRD),
       retired.anchors,
-      retired.issued,
+      historyOf(retired.issued),
     );
     expect(idOf(withLedger.anchors, THIRD)).not.toBe(doomed);
     expect(withLedger.minted).toStrictEqual([`${SYMBOL}-0003`]);
@@ -144,7 +173,11 @@ describe("a retired id is burned, not recycled", () => {
   it("blocks an issued id the live sidecar has never held", () => {
     // A ledger from a lineage whose 0001 was retired before this sidecar
     // existed. The number stays closed even with nothing live to compare to.
-    const stranded = mintAnchors(sites(FIRST), [], [`${SYMBOL}-0001`]);
+    const stranded = mintAnchors(
+      sites(FIRST),
+      [],
+      historyOf([`${SYMBOL}-0001`]),
+    );
     expect(stranded.minted).toStrictEqual([`${SYMBOL}-0002`]);
     expect(stranded.burned).toStrictEqual([`${SYMBOL}-0001`]);
   });
@@ -164,7 +197,7 @@ describe("a retired id is burned, not recycled", () => {
     ];
     for (const round of rounds) {
       const previous = issued;
-      const outcome = mintAnchors(round, anchors, issued);
+      const outcome = mintAnchors(round, anchors, historyOf(issued));
       anchors = outcome.anchors;
       issued = outcome.issued;
       for (const id of previous) expect(issued).toContain(id);
@@ -183,11 +216,11 @@ describe("a retired id is burned, not recycled", () => {
 
 describe("the ledger does not change settled behaviour", () => {
   it("keeps a reworded site's id and issues nothing new", () => {
-    const first = mintAnchors(sites(FIRST, SECOND), [], []);
+    const first = mintAnchors(sites(FIRST, SECOND), [], historyOf([]));
     const reworded = mintAnchors(
       sites(FIRST, "You left just before the vote."),
       first.anchors,
-      first.issued,
+      historyOf(first.issued),
     );
     expect(reworded.refused).toStrictEqual([]);
     expect(reworded.minted).toStrictEqual([]);
@@ -199,11 +232,11 @@ describe("the ledger does not change settled behaviour", () => {
   });
 
   it("still refuses two simultaneous ambiguous edits and issues nothing", () => {
-    const first = mintAnchors(sites(FIRST, SECOND), [], []);
+    const first = mintAnchors(sites(FIRST, SECOND), [], historyOf([]));
     const ambiguous = mintAnchors(
       sites("You went to the hearing.", "You left after the vote."),
       first.anchors,
-      first.issued,
+      historyOf(first.issued),
     );
     expect(ambiguous.refused.length).toBeGreaterThan(0);
     expect(ambiguous.minted).toStrictEqual([]);
@@ -212,7 +245,7 @@ describe("the ledger does not change settled behaviour", () => {
   });
 
   it("leaves repeated exact text and occurrence handling alone", () => {
-    const repeated = mintAnchors(sites(FIRST, FIRST), [], []);
+    const repeated = mintAnchors(sites(FIRST, FIRST), [], historyOf([]));
     expect(repeated.minted).toHaveLength(2);
     expect(
       repeated.anchors.map((anchor) => anchor.occurrence).sort(),
@@ -222,14 +255,18 @@ describe("the ledger does not change settled behaviour", () => {
     const again = mintAnchors(
       sites(FIRST, FIRST),
       repeated.anchors,
-      repeated.issued,
+      historyOf(repeated.issued),
     );
     expect(again.minted).toStrictEqual([]);
     expect(again.removed).toStrictEqual([]);
     expect(again.issued).toStrictEqual(repeated.issued);
 
     // A changed repeat count is still ambiguous, not paired up by position.
-    const fewer = mintAnchors(sites(FIRST), repeated.anchors, repeated.issued);
+    const fewer = mintAnchors(
+      sites(FIRST),
+      repeated.anchors,
+      historyOf(repeated.issued),
+    );
     expect(
       fewer.refused.some((problem) => problem.kind === "ambiguous-occurrence"),
     ).toBe(true);
@@ -253,7 +290,8 @@ describe("the ledger file round-trips deterministically", () => {
       path,
     );
     const loaded = loadAnchorLedger(path);
-    expect(loaded.issued).toStrictEqual([
+    expect(loaded).not.toBeNull();
+    expect(loaded!.issued).toStrictEqual([
       "quietSentence-0001",
       `${SYMBOL}-0001`,
       `${SYMBOL}-0002`,
@@ -261,13 +299,16 @@ describe("the ledger file round-trips deterministically", () => {
 
     // Writing what was read reproduces the file byte for byte.
     const second = tempLedgerPath();
-    writeAnchorLedger(loaded, second);
+    writeAnchorLedger(loaded!, second);
     expect(loadAnchorLedger(second)).toStrictEqual(loaded);
   });
 
-  it("treats a missing ledger as empty rather than failing", () => {
+  it("reports a missing ledger as absent, never as an empty history", () => {
+    // `null` means "there is no file"; it is not an empty issued list a mint
+    // could allocate against. Returning an empty ledger here was how a deleted
+    // file passed for a lineage that had never issued anything.
     const path = join(tempLedgerPath(), "..", "absent.json");
-    expect(loadAnchorLedger(path)).toStrictEqual(emptyLedger());
+    expect(loadAnchorLedger(path)).toBeNull();
   });
 
   it("refuses a ledger written by a schema it does not understand", () => {
@@ -277,10 +318,11 @@ describe("the ledger file round-trips deterministically", () => {
   });
 });
 
-describe("reservation seeds from the live sidecar", () => {
-  it("absorbs anchors the ledger has not recorded yet", () => {
+describe("live anchors are reconciled against history, not seeded from it", () => {
+  it("reserves a live id the ledger already knows and mints above the mark", () => {
     // The post-merge case: another branch's minted anchors arrive in the
-    // sidecar while this ledger still predates them.
+    // sidecar. The CLI absorbs them through `-- ledger` first; by the time a
+    // mint runs, history knows them.
     const live: ComputedAnchor[] = [
       {
         anchor: `${SYMBOL}-0007`,
@@ -291,18 +333,36 @@ describe("reservation seeds from the live sidecar", () => {
         textRevision: revisionOf(FIRST),
       },
     ];
-    expect([...reservedIds([`${SYMBOL}-0001`], live)].sort()).toStrictEqual([
+    const history = historyOf([`${SYMBOL}-0001`, `${SYMBOL}-0007`]);
+    expect([...history.issued].sort()).toStrictEqual([
       `${SYMBOL}-0001`,
       `${SYMBOL}-0007`,
     ]);
 
-    // And a mint over that state neither reissues 0007 nor 0001.
-    const outcome = mintAnchors(sites(FIRST, SECOND), live, [`${SYMBOL}-0001`]);
-    expect(outcome.minted).toStrictEqual([`${SYMBOL}-0002`]);
+    // 0007 is the high-water mark, so the new site takes 0008. The gap at
+    // 0002-0006 is burned rather than backfilled: a number at or below a mark
+    // that was reached may have been issued and retired, and handing one back
+    // is the whole defect.
+    const outcome = mintAnchors(sites(FIRST, SECOND), live, history);
+    expect(outcome.minted).toStrictEqual([`${SYMBOL}-0008`]);
     expect(outcome.issued).toStrictEqual([
       `${SYMBOL}-0001`,
-      `${SYMBOL}-0002`,
       `${SYMBOL}-0007`,
+      `${SYMBOL}-0008`,
     ]);
+  });
+
+  it("mints above the checkpoint's mark even when the ledger lost the entry", () => {
+    // A ledger quietly shortened by one retired id. Detection reports it, and
+    // independently of detection the floor keeps the number closed.
+    const intact = ledgerOf([`${SYMBOL}-0001`, `${SYMBOL}-0002`]);
+    const checkpoint = baselineOf(intact.issued);
+    const shortened = ledgerOf([`${SYMBOL}-0001`]);
+    const history = allocationHistory(shortened, checkpoint);
+    expect(history.highWater[SYMBOL]).toBe(2);
+
+    const outcome = mintAnchors(sites(FIRST), [], history);
+    expect(outcome.minted).toStrictEqual([`${SYMBOL}-0003`]);
+    expect(outcome.minted).not.toContain(`${SYMBOL}-0002`);
   });
 });

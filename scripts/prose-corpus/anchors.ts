@@ -1,5 +1,10 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import {
+  atomicWriteFile,
+  sortIssued,
+  type AllocationHistory,
+} from "./anchor-history";
 import type { ScannedLiteral } from "./scan";
 
 /**
@@ -32,11 +37,10 @@ import type { ScannedLiteral } from "./scan";
  *   3. rendered realization — not here; a transcript records those.
  */
 
-export const ANCHOR_FILE = "scripts/prose-corpus/computed-anchors.json";
+/** Overridable for disposable CLI probes; see `anchor-history.ts`. */
+export const ANCHOR_FILE =
+  process.env.PROSE_ANCHOR_FILE ?? "scripts/prose-corpus/computed-anchors.json";
 export const ANCHOR_SCHEMA = 1;
-
-export const LEDGER_FILE = "scripts/prose-corpus/computed-anchor-ledger.json";
-export const LEDGER_SCHEMA = 1;
 
 export interface ComputedAnchor {
   /** Minted once, never recomputed. Survives rewording. */
@@ -108,100 +112,10 @@ export function writeAnchorFile(
   const ordered = [...file.anchors].sort((left, right) =>
     left.anchor < right.anchor ? -1 : left.anchor > right.anchor ? 1 : 0,
   );
-  writeFileSync(
+  atomicWriteFile(
     path,
     `${JSON.stringify({ ...file, anchors: ordered }, null, 2)}\n`,
   );
-}
-
-/* -------------------------------------------------------------------------- */
-/* Allocation ledger                                                           */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Every anchor ID this lineage has ever issued, including retired ones.
- *
- * The sidecar records which IDs are ALIVE. That is not the same question as
- * which IDs have been USED, and conflating the two is a real defect: minting
- * used to reserve only the IDs present in the current sidecar, so retiring
- * `threadMovementSentence-0002` put that number back in the pool, and the next
- * unrelated sentence in that symbol was handed it. An owner's recorded judgement
- * on the retired line then reads as judgement on prose they never saw.
- *
- * So issuance is tracked separately and monotonically. Retirement removes a
- * binding from the live set; it never returns the number. Nothing in this file
- * removes an entry from the ledger.
- *
- * The ledger is a plain sorted list on purpose. It is reconstructible from
- * itself plus the live sidecar alone — never from git history, branch order, or
- * the order sites happen to be encountered — so two branches that both mint
- * converge by union rather than by whoever ran last.
- */
-export interface AnchorLedger {
-  readonly schema: number;
-  readonly note: string;
-  /** Sorted, de-duplicated. Append-only across the sidecar's lifetime. */
-  readonly issued: readonly string[];
-}
-
-export const LEDGER_NOTE =
-  "Every computed-anchor ID ever issued, including retired ones. Append-only: an ID here is burned forever and is never re-issued to another site. Maintained by `npm run corpus:prose -- anchors`; never hand-edit or prune.";
-
-export function emptyLedger(): AnchorLedger {
-  return { schema: LEDGER_SCHEMA, note: LEDGER_NOTE, issued: [] };
-}
-
-export function loadAnchorLedger(path: string = LEDGER_FILE): AnchorLedger {
-  if (!existsSync(path)) return emptyLedger();
-  const parsed = JSON.parse(readFileSync(path, "utf8")) as AnchorLedger;
-  if (parsed.schema !== LEDGER_SCHEMA) {
-    throw new Error(
-      `${path} declares schema ${parsed.schema}; this build understands ${LEDGER_SCHEMA}.`,
-    );
-  }
-  return { ...parsed, issued: sortIssued(parsed.issued ?? []) };
-}
-
-function sortIssued(issued: Iterable<string>): string[] {
-  return [...new Set(issued)].sort((left, right) =>
-    left < right ? -1 : left > right ? 1 : 0,
-  );
-}
-
-export function writeAnchorLedger(
-  ledger: AnchorLedger,
-  path: string = LEDGER_FILE,
-): void {
-  writeFileSync(
-    path,
-    `${JSON.stringify(
-      {
-        schema: ledger.schema,
-        note: ledger.note,
-        issued: sortIssued(ledger.issued),
-      },
-      null,
-      2,
-    )}\n`,
-  );
-}
-
-/**
- * The full reservation set a mint must avoid: everything ever issued, plus
- * every ID alive in the sidecar right now.
- *
- * Seeding from the live sidecar on every run is what makes an empty or
- * lagging ledger safe. A branch that mints while another branch's new anchors
- * are still unmerged absorbs those IDs the moment that sidecar arrives, so
- * merging one into the other cannot resurrect a number.
- */
-export function reservedIds(
-  everIssued: Iterable<string>,
-  anchors: readonly ComputedAnchor[],
-): Set<string> {
-  const reserved = new Set(everIssued);
-  for (const anchor of anchors) reserved.add(anchor.anchor);
-  return reserved;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -386,13 +300,26 @@ export interface MintOutcome {
   readonly burned: readonly string[];
 }
 
-function nextAnchorId(symbol: string, reserved: ReadonlySet<string>): string {
-  for (let index = 1; index < 100000; index += 1) {
+/**
+ * The next id for a symbol: above every reservation, and above the floor.
+ *
+ * Two independent guards, on purpose. `reserved` is the ledger's account of
+ * what has been issued; `floor` is the checkpoint's high-water mark for this
+ * symbol. Starting at `floor + 1` means that even a ledger which has quietly
+ * lost entries cannot offer a number back, because the mark survives in the
+ * other file. A gap left by a lost reservation is burned, never recycled.
+ */
+function nextAnchorId(
+  symbol: string,
+  reserved: ReadonlySet<string>,
+  floor: number,
+): string {
+  for (let index = Math.max(1, floor + 1); index < 100000; index += 1) {
     const candidate = `${symbol}-${String(index).padStart(4, "0")}`;
     if (!reserved.has(candidate)) return candidate;
   }
   throw new Error(
-    `Cannot mint another anchor for ${symbol}: every id from ${symbol}-0001 to ${symbol}-99999 has already been issued.`,
+    `Cannot mint another anchor for ${symbol}: every id from ${symbol}-${String(Math.max(1, floor + 1)).padStart(4, "0")} to ${symbol}-99999 has already been issued.`,
   );
 }
 
@@ -406,17 +333,46 @@ function nextAnchorId(symbol: string, reserved: ReadonlySet<string>): string {
  * a changed repeat count — is refused and left for a person, because a wrong
  * rebind silently moves an owner's approval onto text they never read.
  *
- * `everIssued` carries the allocation ledger in. A new site is given an ID that
- * is in neither the live sidecar nor that ledger, so a retired number is never
- * offered again. Passing nothing reserves the live sidecar alone, which is only
- * correct for a lineage that has never retired anything — the CLI always passes
- * the persisted ledger.
+ * `history` carries verified allocation history in: every id ever issued, and
+ * the per-symbol floor the allocator may not go below. It is REQUIRED and has
+ * no default. The earlier signature defaulted it to "reserve the live sidecar
+ * alone", which is the original defect written as a parameter — any caller
+ * that forgot the argument silently got an allocator with no memory of
+ * retirement. There is no longer a way to call this without history.
+ *
+ * Duplicate live ids are refused before anything is computed. Two bindings
+ * carrying one id is what a hand-unioned sidecar produces, and it used to be
+ * absorbed silently: the anchors were collected into a map keyed by id, so the
+ * second binding overwrote the first and simply vanished from the sidecar,
+ * reported as neither retired nor changed.
  */
 export function mintAnchors(
   literals: readonly ScannedLiteral[],
   existing: readonly ComputedAnchor[],
-  everIssued: Iterable<string> = [],
+  history: AllocationHistory,
 ): MintOutcome {
+  const duplicates = existing
+    .map((anchor) => anchor.anchor)
+    .filter((id, index, all) => all.indexOf(id) !== index);
+  if (duplicates.length > 0) {
+    const detail = [...new Set(duplicates)]
+      .sort()
+      .map((id) => {
+        const bindings = existing
+          .filter((anchor) => anchor.anchor === id)
+          .map(
+            (anchor) =>
+              `      ${anchor.sourcePath} ${anchor.symbol} #${anchor.occurrence} ${JSON.stringify(anchor.text)}`,
+          )
+          .join("\n");
+        return `  ${id} is bound to ${existing.filter((anchor) => anchor.anchor === id).length} live sites:\n${bindings}`;
+      })
+      .join("\n");
+    throw new Error(
+      `Refusing to mint: ${new Set(duplicates).size} anchor id(s) are bound to more than one live site. Two branches minted the same number independently, or a sidecar was union-merged by hand. Nothing was written.\n${detail}\n  Reconcile deliberately — re-mint one of the sites. The owner review recorded against an id stays with whichever binding keeps it and does not transfer to the replacement.`,
+    );
+  }
+
   const resolution = resolveAnchors(literals, existing);
   const kept = new Map<string, ComputedAnchor>();
   for (const match of resolution.matches) {
@@ -427,7 +383,8 @@ export function mintAnchors(
     });
   }
 
-  const reserved = reservedIds(everIssued, existing);
+  const reserved = new Set(history.issued);
+  for (const anchor of existing) reserved.add(anchor.anchor);
   const minted: string[] = [];
   const rebound: { anchor: string; from: string; to: string }[] = [];
   const removed: string[] = [];
@@ -489,7 +446,7 @@ export function mintAnchors(
       continue;
     }
     for (const site of unmapped) {
-      const id = nextAnchorId(symbol, reserved);
+      const id = nextAnchorId(symbol, reserved, history.highWater[symbol] ?? 0);
       reserved.add(id);
       const literal = literals.find(
         (entry) =>

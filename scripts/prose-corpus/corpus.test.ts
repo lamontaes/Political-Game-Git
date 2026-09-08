@@ -1,7 +1,13 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-import { contextRevisionOf, revisionOf } from "./anchors";
+import {
+  describeHistoryProblems,
+  loadAnchorBaseline,
+  loadAnchorLedger,
+  verifyAllocationHistory,
+} from "./anchor-history";
+import { contextRevisionOf, loadAnchorFile, revisionOf } from "./anchors";
 import { buildCoverageReport } from "./coverage";
 import { runDiagnostics } from "./diagnostics";
 import { findIdCollisions, parseProseId, proseId, templateSlots } from "./ids";
@@ -567,6 +573,38 @@ describe("the corpus stays out of production runtime", () => {
     const literals = scanLiterals("scripts/prose-corpus/sources/episodes.ts");
     expect(literals.length).toBeGreaterThan(0);
     expect(records.some((record) => record.bank === "episode")).toBe(true);
+  });
+});
+
+/**
+ * The one gate that has to run in CI, over the repository's own files.
+ *
+ * 128R1 integration test. Claims only itself: it pins no count and touches no
+ * other case in this file.
+ *
+ * `npm run corpus:prose -- check` verifies allocation history too, but nothing
+ * in CI runs that command — `npm run validate` runs format, lint, typecheck,
+ * `npm run test`, the source and build steps, and `validate:art`. So a check
+ * that lives only in the CLI is a check that never runs on a pull request, and
+ * an emptied ledger reached `main` green. This case is how the integrity
+ * contract gets onto the path CI actually executes.
+ *
+ * Read-only by construction: it loads the three files and reports. It cannot
+ * repair them, which is the point — a validator that rewrites what it is
+ * validating cannot be trusted to have found anything.
+ */
+describe("computed-anchor allocation history is intact", () => {
+  it("verifies the committed ledger against its independent checkpoint", () => {
+    const problems = verifyAllocationHistory({
+      ledger: loadAnchorLedger(),
+      baseline: loadAnchorBaseline(),
+      liveIds: loadAnchorFile().anchors.map((anchor) => anchor.anchor),
+    });
+    // A failure here means a retired id could be re-issued to unrelated prose,
+    // carrying an owner's recorded judgement onto text nobody reviewed.
+    expect(problems.length === 0 ? "" : describeHistoryProblems(problems)).toBe(
+      "",
+    );
   });
 });
 

@@ -4,16 +4,25 @@ import { join } from "node:path";
 import {
   ANCHOR_FILE,
   ANCHOR_SCHEMA,
-  LEDGER_FILE,
-  LEDGER_NOTE,
-  LEDGER_SCHEMA,
   loadAnchorFile,
-  loadAnchorLedger,
   mintAnchors,
-  reservedIds,
   writeAnchorFile,
-  writeAnchorLedger,
 } from "./anchors";
+import {
+  allocationHistory,
+  baselineOf,
+  BASELINE_FILE,
+  describeHistoryProblems,
+  LEDGER_FILE,
+  ledgerOf,
+  loadAnchorBaseline,
+  loadAnchorLedger,
+  verifyAllocationHistory,
+  writeAnchorBaseline,
+  writeAnchorLedger,
+  type AnchorBaseline,
+  type AnchorLedger,
+} from "./anchor-history";
 import { buildCoverageReport, type CoverageReport } from "./coverage";
 import { runDiagnostics, type DiagnosticReport } from "./diagnostics";
 import { buildGroundingMap, groundingMarkdown } from "./grounding-map";
@@ -41,6 +50,10 @@ import type { ProseInventory } from "./inventory";
  *   npm run corpus:prose -- anchors mint/refresh identities for computed sites
  *   npm run corpus:prose -- ledger  absorb live anchor ids into the allocation
  *                                   ledger without minting or writing anchors
+ *   npm run corpus:prose -- bootstrap  seed allocation history for a project
+ *                                   that has none; refuses if any exists
+ *   npm run corpus:prose -- recover  re-derive the missing half of the ledger
+ *                                   and its checkpoint, in the safe direction
  *
  * Nothing here writes to `src/`, and nothing under `src/` may import it.
  */
@@ -381,26 +394,68 @@ Confirming pagination needs a real browser print, which is an owner check.
 }
 
 /**
+ * Load both history files and refuse to go on if anything is wrong with them.
+ *
+ * Every write path starts here, and it throws rather than repairing, because
+ * an operation that quietly fixes its own inputs cannot also be the thing that
+ * detects they were broken. `bootstrap` is the single exception and says so
+ * explicitly.
+ */
+function verifiedHistory(liveIds: readonly string[]): {
+  ledger: AnchorLedger;
+  baseline: AnchorBaseline;
+} {
+  const ledger = loadAnchorLedger();
+  const baseline = loadAnchorBaseline();
+  const problems = verifyAllocationHistory({ ledger, baseline, liveIds });
+  if (problems.length > 0) {
+    throw new Error(
+      `Allocation history is not usable, so nothing was written.\n${describeHistoryProblems(problems)}`,
+    );
+  }
+  // `verifyAllocationHistory` returns a problem for either file being absent,
+  // so reaching here means both loaded.
+  return { ledger: ledger!, baseline: baseline! };
+}
+
+/**
+ * Persist the reservation superset, then mutate the sidecar. Never the reverse.
+ *
+ * The old order wrote the sidecar first and the ledger second, and an injected
+ * ledger-write failure during a retirement was reproduced losing an id's last
+ * reservation: the sidecar had already dropped the binding, so a retry handed
+ * that number to new text. Ordering is the fix. The union persisted here
+ * includes every id the sidecar is about to stop carrying, so an interruption
+ * at any point leaves history ahead of the live set — ids burned, never
+ * recycled.
+ *
+ * The two history files cannot be replaced in one filesystem step, so the
+ * window between them is made DETECTABLE instead of impossible: each file is
+ * replaced atomically, and a run interrupted between them leaves a ledger and
+ * a checkpoint that disagree, which every later run refuses on until
+ * `-- recover` is run deliberately. A failed operation may burn an unused id.
+ * It may not recycle one, and it may not report success on partial state.
+ */
+function persistHistory(issued: Iterable<string>): void {
+  const ledger = ledgerOf(issued);
+  writeAnchorLedger(ledger);
+  writeAnchorBaseline(baselineOf(ledger.issued));
+}
+
+/**
  * Bring the computed-site anchor sidecar up to date.
  *
  * Separate from `build` on purpose. Minting changes identity, and identity
  * changes are the thing an owner's review record is pinned to, so they happen
  * because somebody asked rather than as a side effect of regenerating a report.
- *
- * Two files move together here. The sidecar records which identities are alive;
- * the ledger records which have ever been issued, so a retired number is burned
- * rather than returned to the pool. The ledger is seeded from the live sidecar
- * on every run, which is how it absorbs anchors minted on a branch that had not
- * merged when it was last written.
  */
 function mint(): void {
   const before = loadAnchorFile();
-  const ledgerBefore = loadAnchorLedger();
-  const outcome = mintAnchors(
-    computedLiterals(),
-    before.anchors,
-    ledgerBefore.issued,
-  );
+  const liveIds = before.anchors.map((anchor) => anchor.anchor);
+  const { ledger, baseline } = verifiedHistory(liveIds);
+  const history = allocationHistory(ledger, baseline, liveIds);
+
+  const outcome = mintAnchors(computedLiterals(), before.anchors, history);
 
   if (outcome.refused.length > 0) {
     const detail = outcome.refused
@@ -414,15 +469,12 @@ function mint(): void {
     );
   }
 
+  // Reserve first. Only then may a binding be removed or rebound.
+  persistHistory(outcome.issued);
   writeAnchorFile({
     schema: ANCHOR_SCHEMA,
     note: "Immutable identities for prose that a function composes. Minted by `npm run corpus:prose -- anchors`; never hand-number these.",
     anchors: outcome.anchors,
-  });
-  writeAnchorLedger({
-    schema: LEDGER_SCHEMA,
-    note: LEDGER_NOTE,
-    issued: outcome.issued,
   });
 
   process.stdout.write(
@@ -437,10 +489,13 @@ function mint(): void {
   // Enough allocation detail to prove no retired id was handed to new text:
   // the ledger only grew, every minted id is outside the pre-run ledger, and
   // the burned set is what the ledger keeps closed.
-  const previouslyIssued = new Set(ledgerBefore.issued);
+  const previouslyIssued = new Set(ledger.issued);
   const absorbed = outcome.issued.filter((id) => !previouslyIssued.has(id));
   process.stdout.write(
     `${LEDGER_FILE}: ${outcome.issued.length} ids ever issued (+${absorbed.length} newly reserved, ${outcome.burned.length} retired and permanently burned).\n`,
+  );
+  process.stdout.write(
+    `${BASELINE_FILE}: checkpoint rewritten for ${outcome.issued.length} ids.\n`,
   );
   for (const id of outcome.minted) {
     process.stdout.write(
@@ -453,36 +508,206 @@ function mint(): void {
 }
 
 /**
- * Absorb every live anchor into the allocation ledger, minting nothing.
+ * Absorb every live anchor into allocation history, minting nothing.
  *
  * The case this exists for: a branch that minted anchors merges in, so the
- * sidecar now holds IDs the ledger never saw. Union them before anyone mints
- * again, or the next mint could offer one of those numbers to a new site. It
- * reads the sidecar and never writes it, so it is safe to run while another
- * writer owns that file.
+ * sidecar holds ids the ledger never saw. A mint refuses in that state rather
+ * than seeding itself from the live sidecar, because "seed history from the
+ * ids that happen to be alive" is exactly what makes a destroyed ledger look
+ * survivable — the retired ids are the ones the sidecar does not contain. So
+ * absorbing is a deliberate, separate, auditable step. It reads the sidecar
+ * and never writes it, so it is safe to run while another writer owns it.
  */
 function syncLedger(): void {
-  const before = loadAnchorLedger();
-  const issued = reservedIds(before.issued, loadAnchorFile().anchors);
-  writeAnchorLedger({
-    schema: LEDGER_SCHEMA,
-    note: LEDGER_NOTE,
-    issued: [...issued],
-  });
-  const absorbed = issued.size - new Set(before.issued).size;
+  const ledger = loadAnchorLedger();
+  const baseline = loadAnchorBaseline();
+  if (ledger === null || baseline === null) {
+    throw new Error(
+      `Allocation history is incomplete, so nothing was written.\n${describeHistoryProblems(
+        verifyAllocationHistory({ ledger, baseline, liveIds: [] }),
+      )}`,
+    );
+  }
+  const liveIds = loadAnchorFile().anchors.map((anchor) => anchor.anchor);
+  const issued = new Set(ledger.issued);
+  const absorbed = liveIds.filter((id) => !issued.has(id));
+  for (const id of absorbed) issued.add(id);
+  persistHistory(issued);
   process.stdout.write(
-    `${LEDGER_FILE}: ${issued.size} ids ever issued (+${absorbed} absorbed from ${ANCHOR_FILE}).\n`,
+    `${LEDGER_FILE}: ${issued.size} ids ever issued (+${new Set(absorbed).size} absorbed from ${ANCHOR_FILE}).\n`,
+  );
+  for (const id of [...new Set(absorbed)].sort()) {
+    process.stdout.write(
+      `  absorbed ${id} (live in the sidecar, now burned)\n`,
+    );
+  }
+}
+
+/**
+ * Seed allocation history for a project that has none. Explicit, and bounded.
+ *
+ * This is the only operation allowed to create history out of the live
+ * sidecar, and it refuses the moment either file already exists. Making first
+ * installation its own named command is the point: normal mint, absorb and
+ * check paths can then treat missing history as lost history, which is what
+ * they could not do while every run silently bootstrapped itself.
+ */
+function bootstrapHistory(): void {
+  const ledger = loadAnchorLedger();
+  const baseline = loadAnchorBaseline();
+  if (ledger !== null || baseline !== null) {
+    throw new Error(
+      `Refusing to bootstrap: this project already has allocation history (${ledger !== null ? LEDGER_FILE : BASELINE_FILE} exists). Bootstrap seeds a new lineage and would erase what is recorded. Nothing was written.`,
+    );
+  }
+  const anchors = loadAnchorFile().anchors;
+  const seed = anchors.map((anchor) => anchor.anchor);
+  persistHistory(seed);
+  process.stdout.write(
+    `Seeded allocation history from ${ANCHOR_FILE}.\n${LEDGER_FILE}: ${new Set(seed).size} ids.\n${BASELINE_FILE}: checkpoint written.\n`,
+  );
+  process.stdout.write(
+    "  This seed records only ids that are ALIVE. Any id retired before this point is unknown to it and could still be reissued; if this lineage has retired anything, restore the real ledger instead of trusting this seed.\n",
+  );
+}
+
+/**
+ * Re-derive the missing half of a pair whose other half is intact.
+ *
+ * The bounded recovery rule, and its limit. A checkpoint can always be
+ * re-derived from an intact ledger. A ledger cannot be re-derived from a
+ * checkpoint, because the checkpoint holds marks and a digest rather than the
+ * list; what it can do is reserve every index up to each recorded high-water
+ * mark, which is a superset of what was issued and therefore safe. Either way
+ * recovery only ever moves history forward: it cannot bless a ledger that lost
+ * entries, because the high-water marks it rebuilds from are the marks that
+ * were already reached.
+ */
+function recoverHistory(): void {
+  const ledger = loadAnchorLedger();
+  const baseline = loadAnchorBaseline();
+  if (ledger === null && baseline === null) {
+    throw new Error(
+      `Nothing to recover from: both ${LEDGER_FILE} and ${BASELINE_FILE} are missing. Restore them from version control. If this project has genuinely never allocated an anchor, run \`npm run corpus:prose -- bootstrap\`.`,
+    );
+  }
+  if (ledger !== null && baseline === null) {
+    writeAnchorBaseline(baselineOf(ledger.issued));
+    process.stdout.write(
+      `${BASELINE_FILE}: re-derived from ${LEDGER_FILE} (${ledger.issued.length} ids).\n`,
+    );
+    return;
+  }
+  if (ledger === null && baseline !== null) {
+    const rebuilt = new Set<string>();
+    for (const [symbol, mark] of Object.entries(baseline.highWater)) {
+      for (let index = 1; index <= mark; index += 1) {
+        rebuilt.add(`${symbol}-${String(index).padStart(4, "0")}`);
+      }
+    }
+    for (const anchor of loadAnchorFile().anchors) rebuilt.add(anchor.anchor);
+    persistHistory(rebuilt);
+    process.stdout.write(
+      `${LEDGER_FILE}: rebuilt conservatively from ${BASELINE_FILE} — every index up to each recorded high-water mark is reserved (${rebuilt.size} ids). This is a superset of what was issued: some of these numbers were never used and are now burned unused, which is the safe direction.\n`,
+    );
+    return;
+  }
+  // Both present. The pair either agrees, or it disagrees in a direction that
+  // says which failure produced it.
+  const present = { ledger: ledger!, baseline: baseline! };
+  const problems = verifyAllocationHistory({
+    ledger: present.ledger,
+    baseline: present.baseline,
+    liveIds: loadAnchorFile().anchors.map((anchor) => anchor.anchor),
+  });
+  const mismatch = problems.filter(
+    (problem) =>
+      problem.kind === "history-mismatch" ||
+      problem.kind === "history-regressed",
+  );
+  if (mismatch.length === 0) {
+    process.stdout.write(
+      "Allocation history is already consistent; nothing to recover.\n",
+    );
+    return;
+  }
+
+  // The one repairable disagreement: a run that committed the ledger and was
+  // interrupted before its checkpoint. History only ever grew, and no symbol's
+  // reach went backwards, so re-deriving the checkpoint records what the
+  // ledger already durably says. Nothing that was issued stops being issued.
+  const grew = present.ledger.issued.length > present.baseline.count;
+  const regressed = mismatch.some(
+    (problem) => problem.kind === "history-regressed",
+  );
+  if (grew && !regressed) {
+    writeAnchorBaseline(baselineOf(present.ledger.issued));
+    process.stdout.write(
+      `${BASELINE_FILE}: re-derived from ${LEDGER_FILE}, which had grown from ${present.baseline.count} to ${present.ledger.issued.length} ids with no symbol going backwards — a mint interrupted between its two history writes. Every id the old checkpoint attested is still issued.\n`,
+    );
+    return;
+  }
+
+  throw new Error(
+    `Refusing to recover: ${LEDGER_FILE} holds ${present.ledger.issued.length} ids against a checkpoint attesting ${present.baseline.count}, so history has SHRUNK or gone backwards rather than been half-written. This command cannot tell which file is true.\n${describeHistoryProblems(mismatch)}\n  Restore the pair from version control. Re-deriving the checkpoint from a shortened ledger would launder a truncation into a new baseline. Note that ids at or below the checkpoint's recorded marks stay closed regardless: the floor is what stops a lost entry being handed out, and it does not depend on this command succeeding.`,
+  );
+}
+
+/**
+ * Read-only integrity report over the two history files and the live sidecar.
+ *
+ * Used by `check` and by the corpus test that runs under `npm run validate`.
+ * It writes nothing, by construction: an emptied ledger used to pass
+ * `corpus:prose check` with exit 0 because nothing on that path looked at
+ * permanence at all.
+ */
+export function anchorHistoryProblems(): string[] {
+  const liveIds = loadAnchorFile().anchors.map((anchor) => anchor.anchor);
+  return verifyAllocationHistory({
+    ledger: loadAnchorLedger(),
+    baseline: loadAnchorBaseline(),
+    liveIds,
+  }).map((problem) => `[${problem.kind}] ${problem.detail}`);
+}
+
+const DEFAULT_ANCHOR_PATHS = {
+  anchors: "scripts/prose-corpus/computed-anchors.json",
+  ledger: "scripts/prose-corpus/computed-anchor-ledger.json",
+  baseline: "scripts/prose-corpus/computed-anchor-baseline.json",
+};
+
+/** Say so, loudly, when a run is not reading the repository's own files. */
+function reportRelocatedPaths(): void {
+  const relocated = [
+    [ANCHOR_FILE, DEFAULT_ANCHOR_PATHS.anchors],
+    [LEDGER_FILE, DEFAULT_ANCHOR_PATHS.ledger],
+    [BASELINE_FILE, DEFAULT_ANCHOR_PATHS.baseline],
+  ].filter(([used, standard]) => used !== standard);
+  if (relocated.length === 0) return;
+  process.stdout.write(
+    `NOTE: anchor paths are overridden by environment; this run does not read the repository's own files.\n${relocated
+      .map(([used]) => `  using ${used}\n`)
+      .join("")}`,
   );
 }
 
 function main(): void {
   const mode = process.argv[2] ?? "build";
+  reportRelocatedPaths();
   if (mode === "anchors") {
     mint();
     return;
   }
   if (mode === "ledger") {
     syncLedger();
+    return;
+  }
+  if (mode === "bootstrap") {
+    bootstrapHistory();
+    return;
+  }
+  if (mode === "recover") {
+    recoverHistory();
     return;
   }
   const inventory = buildProseInventory();
@@ -521,6 +746,18 @@ function main(): void {
   }
 
   if (mode === "check") {
+    // Allocation history first. Green artifacts prove the corpus regenerates;
+    // they say nothing about whether an id can be handed out twice, and an
+    // emptied ledger used to pass this command with exit 0.
+    const historyProblems = anchorHistoryProblems();
+    if (historyProblems.length > 0) {
+      throw new Error(
+        `Computed-anchor allocation history is not intact. This is a hard error: without it a retired id can be re-issued to unrelated prose, carrying an owner's recorded judgement onto text nobody reviewed.\n${historyProblems
+          .map((problem) => `  ${problem}`)
+          .join("\n")}`,
+      );
+    }
+
     const again = buildProseInventory();
     if (again.digest !== inventory.digest) {
       throw new Error("The inventory is not deterministic across two builds.");
