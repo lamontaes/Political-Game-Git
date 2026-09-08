@@ -1,8 +1,12 @@
 # P2R2 evidence
 
 Start / P2R1 head: `2660796ca67e96494158d7f6835aa4572e0268fb`.
-Accepted main: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, already an ancestor
-of this branch at activation and at return.
+Accepted main at activation: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, already
+an ancestor of this branch.
+Accepted main at return: `da939329fcc3ae0a2eb9db8016665738b40733d4`, merged in
+normally at the end of the repair — it landed PR127 and PR128 while this work was
+in progress. No rebase and no force-push. The composition is described under
+[Composing accepted main](#composing-accepted-main).
 
 - [Owner review](../../active/p2r2-owner-review.md) — what was built, what is playable, and the acceptance limits.
 - [Restored and withheld families](restored-families.md) — the nine offered families with the record that grounds each, and the 26 exclusions with the exact record each still needs.
@@ -10,7 +14,7 @@ of this branch at activation and at return.
 - [The callback surface](callback-surface.md) — all 41 rows, with the two measured register failures and the third that the repair introduced and then removed.
 - [Owner transcript](owner-transcript.md) — twelve distinct scenes read off the browser over thirty beats.
 - `screenshots/` — the first beat and the thirty-first, at a normal viewport.
-- `logs/full-validate.log` — the whole green run. `logs/start-head-unit-failures.log` — the eleven failures reproduced at the start head before anything was changed. `logs/browser-p2r2.log` — the four browser proofs.
+- `logs/full-validate.log` — the whole green run on the composed tree. `logs/start-head-unit-failures.log` — the eleven failures reproduced at the start head before anything was changed. `logs/browser-p2r2.log` — the four browser proofs.
 
 ## The start-head reproduction
 
@@ -52,7 +56,10 @@ and Acceptance 12 pass with their original keys, options and assertions.
 `npm run validate` — **green, exit 0**, all nine stages: format, lint,
 typecheck, test, `source:validate`, `source:replay`, build, demo, `validate:art`.
 
-- Unit: **3,197 pass / 0 fail / 2 pre-existing skips of 3,199** across 169 files.
+- Unit: **3,307 pass / 0 fail / 2 pre-existing skips of 3,309** across 173 files
+  on the composed tree. Before the main merge, on this branch alone, it was
+  3,197 / 0 / 2 of 3,199 across 169 files; the four extra files and 110 extra
+  tests are PR128's anchor-history suites arriving with main.
 - Browser: **281 pass / 0 fail** (`npm run test:e2e`, Chromium 1234 — the pinned
   build, correctly installed here; the 1194 mismatch the P2A2 browser auditor
   disclosed was their environment and does not apply).
@@ -92,6 +99,29 @@ npm run validate
 
 Binding a localhost port needs permission in this environment; the browser runs
 above used ports 4211–4233.
+
+## Composing accepted main
+
+Main moved from `89b2f76` to `da93932` during the repair, landing PR127 (R3J
+legislative power) and PR128 (the anchor allocation ledger). It was merged
+normally at the end, and four files conflicted:
+
+- `scripts/prose-corpus/corpus.test.ts` — both sides pinned measured coverage
+  counts. Neither pin was carried across; the composed tree was measured and the
+  test now pins **49,759 literals / 1,912 inventoried / 326 files**, with a
+  comment saying what each side contributed to that number.
+- `docs/prose-inventory/coverage-candidates.json`, `coverage-report.md` and
+  `review-packet.html` — generated outputs. Regenerated from the composed tree
+  by `npm run corpus:prose` rather than hand-merged.
+
+PR128's allocator is now accepted main rather than an unmerged branch, so it was
+consumed as main and not cherry-picked. Its ledger refused the merge until this
+branch's eleven RETURN_SUMMARY ids were absorbed explicitly, which is the
+behaviour it was built for; `npm run corpus:prose -- ledger` absorbed them and
+reported **430 ids ever issued (+11 absorbed)**. A following `anchors` run
+reports **405 anchors, 0 minted, 0 reworded, 0 retired** and 25 retired-and-burned
+ids, all of which predate this branch. No allocator internals were edited and no
+id was hand-numbered.
 
 ## Identity and boundaries
 

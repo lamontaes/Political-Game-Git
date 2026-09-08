@@ -9,7 +9,8 @@ this branch and retained as the record of that repair.
 ## Exact tree
 
 - Start / P2R1 head: `2660796ca67e96494158d7f6835aa4572e0268fb`.
-- Accepted main at activation and at return: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, already an ancestor of this branch. No merge, rebase or force-push was needed or performed.
+- Accepted main at activation: `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, already an ancestor of this branch.
+- Accepted main at return: `da939329fcc3ae0a2eb9db8016665738b40733d4`. It moved during the repair, landing PR127 and PR128, and was merged in normally at the end. Four files conflicted — the corpus coverage pin and three generated inventory outputs — and all four were resolved by measuring or regenerating the composed tree rather than by taking a side. No rebase and no force-push.
 - Branch: `claude/p2-prose-01-wave-yz0ft4`, PR #129, sole production writer.
 - Worktree: `/Users/lamontae/Documents/Political-Game-P2R2`, created from the shared repository and owned by this session alone. No other agent's checkout was touched, stashed, reset or cleaned.
 
@@ -111,6 +112,22 @@ All four owner calibration controls were re-read:
 - **Care** no longer says "the care" anywhere. The three rows that did now name a share of looking after a relative.
 - **Privacy** claims a disclosure that is a real private two-person record, and does not claim nobody has heard since.
 - **Priority** records putting something first rather than a completed result.
+
+## Validation
+
+`npm run validate` is **green** on the composed tree: format, lint, typecheck,
+**3,307 unit tests passing with 0 failures and 2 pre-existing skips of 3,309**,
+`source:validate`, `source:replay`, build, demo and `validate:art`. The browser
+suite is **281 passing, 0 failing**, on the pinned Chromium 1234.
+
+P2R1 returned with eleven unit failures and one browser failure. All twelve are
+green, and the two the packet identified as stale authored-key choices kept
+their original keys, options and assertions — the families they name are
+genuinely available again, so no waiver was needed. Every disposition is in
+[the evidence README](../evidence/p2r2/README.md).
+
+Nothing was weakened: no assertion relaxed, no control seed substituted, no skip
+added, no browser timeout raised, no committed browser overlay.
 
 ## Anchors
 
