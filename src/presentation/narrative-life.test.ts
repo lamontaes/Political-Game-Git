@@ -35,6 +35,7 @@ import {
 } from "./life-story";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { buildSeedFor, worldSeedFor } from "./new-game-identity";
+import { openOrdinaryLife } from "./ordinary-life";
 import {
   answerQuestionnaire,
   questionnaireScreenFor,
@@ -107,8 +108,15 @@ function play(
   chooser: (moment: StoryMoment, index: number) => string,
 ): PlayedLife {
   const created = createNewGameWorld(game);
-  let world = created.world;
   const personId = created.playerPersonId;
+  // The life a player actually gets. `PlayerGame` opens the ordinary week the
+  // moment a new game starts, and a world without it has no household week, no
+  // posted meeting and none of the opportunities those two make possible — so
+  // playing the bare constructor was playing a life the product never hands
+  // anybody. P2R2 restored the offering; this restores the fixture to the
+  // route, and it is what lets the original `shape-c` control below diverge
+  // again on its own record rather than on a substituted seed.
+  let world = openOrdinaryLife(created.world, personId);
   const beats: PlayedBeat[] = [];
   for (let index = 0; index < steps; index += 1) {
     const moment = projectStoryMoment(world, personId);
@@ -926,13 +934,17 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     // life for something to have happened in.
     const left = playedShape("shape-a", 12);
     // The added 92C family-work thread makes the old `shape-b` witness take
-    // the same first twelve structural steps as `shape-a`; the P2 prose wave's
-    // withholding of five under-grounded ordinary scenes then narrowed the
-    // early adult offering enough that `shape-c` converged with `shape-a` too.
-    // `shape-d` is the current deterministic counterexample: its different
-    // record produces a different played shape without relying on names or
-    // random prose.
-    const right = playedShape("shape-d", 12);
+    // the same first twelve structural steps as `shape-a`, so `shape-c` is the
+    // deterministic counterexample: its different record produces a different
+    // played shape without relying on names or random prose.
+    //
+    // P2R1 moved this to `shape-d` because its withholding had narrowed the
+    // early adult offering until `shape-c` converged with `shape-a` as well.
+    // Renaming the control is not a repair, so P2R2 puts `shape-c` back. It
+    // diverges again, and the reproduction is in `play` above: on the bare
+    // constructor these two lives are identical beat for beat and date for
+    // date, and on the life the product actually hands a player they are not.
+    const right = playedShape("shape-c", 12);
 
     const sameThreadShape =
       left.threads.families.join("|") === right.threads.families.join("|") &&
@@ -964,7 +976,7 @@ describe("Two lives differ for causal reasons, not in their names", () => {
 
   it("gives the two of them different numbers of live threads", () => {
     const left = playedShape("shape-a", 10);
-    const right = playedShape("shape-d", 10);
+    const right = playedShape("shape-c", 10);
     // Not a claim that any two lives must differ on this axis — only that
     // these two do, for reasons the records carry rather than by construction.
     const different =

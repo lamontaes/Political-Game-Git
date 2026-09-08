@@ -1,4 +1,9 @@
-import { workPendingEntriesFor } from "./time-work";
+import {
+  hasActiveHouseholdWeek,
+  lifeOpportunitiesFor,
+  PUBLIC_MEETING_KEY,
+  type LifeOpportunityKind,
+} from "./life-opportunities";
 import { ageOnDate, makeIsoDate } from "./dates";
 import { activeIncidentsAt } from "./incidents";
 import {
@@ -155,6 +160,17 @@ export interface AdultSituation {
    * does not contain is withheld rather than rewritten into prettier vagueness.
    */
   readonly withheld?: string;
+  /**
+   * The canonical opportunity this scene is an answer to, when it is one.
+   *
+   * Named here rather than folded into `available`, because two different
+   * readers need it: the provider, which will not offer a scene whose request
+   * is not open, and the companion resolver, which takes the other person from
+   * the request itself so the scene is with whoever actually asked. Inferring
+   * either from a pool would let the person in the prose and the person in the
+   * record drift apart, which is the class of defect this wave is repairing.
+   */
+  readonly opportunity?: LifeOpportunityKind;
   /** Whether the world currently contains the thing this is about. */
   readonly available: (context: AdultLifeContext) => boolean;
   /**
@@ -219,15 +235,25 @@ export interface AdultLifeContext {
   readonly hasHousingTenure: boolean;
   readonly hasPostedMeeting: boolean;
   readonly hasHouseholdWorkItem: boolean;
+  /**
+   * The requests, invitations and notices this life is currently carrying an
+   * answer for, read from `life-opportunities.ts`.
+   *
+   * A scene that needs somebody to have asked something reads this and nothing
+   * else. It is the difference between "you have a job and a colleague" and
+   * "somebody asked you to work extra hours on these terms", and the second is
+   * the only one that grounds a scene about the second.
+   */
+  readonly openOpportunityKinds: ReadonlySet<LifeOpportunityKind>;
+  /** Who asked, per open kind, taken from the request rather than a pool. */
+  readonly opportunityCounterparts: Readonly<
+    Partial<Record<LifeOpportunityKind, EntityId | null>>
+  >;
   readonly activeIncidentCount: number;
   readonly playedKeys: ReadonlySet<string>;
   /** Ordinary things already on the record that a later moment can call back. */
   readonly recallableKeys: ReadonlySet<string>;
 }
-
-/** Work items and notices `openOrdinaryLife` writes, read rather than assumed. */
-const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
-const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 
 export function buildAdultLifeContext(
   world: World,
@@ -391,6 +417,8 @@ export function buildAdultLifeContext(
       .flatMap((memory) => memory.relevanceTags),
   );
 
+  const opportunities = lifeOpportunitiesFor(world, personId, asOfDate);
+
   const recallableKeys = new Set(
     world.history.events
       .filter((event) => event.involvedEntityIds.includes(personId))
@@ -429,13 +457,10 @@ export function buildAdultLifeContext(
     hasPostedMeeting: world.history.workItems.some(
       (item) => item.stableKey === PUBLIC_MEETING_KEY,
     ),
-    hasHouseholdWorkItem: workPendingEntriesFor(world, personId).some(
-      ({ item, state }) =>
-        item.stableKey === HOUSEHOLD_ERRANDS_KEY &&
-        item.focus.kind === "person" &&
-        item.focus.personId === personId &&
-        state.assignedPersonIds.includes(personId) &&
-        state.status === "active",
+    hasHouseholdWorkItem: hasActiveHouseholdWeek(world, personId),
+    openOpportunityKinds: new Set(opportunities.map((entry) => entry.kind)),
+    opportunityCounterparts: Object.fromEntries(
+      opportunities.map((entry) => [entry.kind, entry.counterpartPersonId]),
     ),
     activeIncidentCount: activeIncidentsAt(world, lifeCutoff).length,
     playedKeys,
@@ -687,12 +712,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.household-quiet-evening",
-    withheld:
-      "A shared household does not establish a free evening, the other person being present, or their willingness to spend it together.",
+    // The free evening, the other person being in, and their being willing to
+    // spend it are three separate claims, and all three now come from the same
+    // canonical record: the household-evening opportunity is written by the
+    // person who lives here saying they will be in for it.
+    opportunity: "household-evening",
     companion: "household-member",
     stakes: "ordinary",
     prose:
-      "Nothing is owed to anybody this evening, and the other person is in.",
+      "The evening is free, and the person you live with said they would be in for it.",
     tensions: [],
     available: (context) => context.householdCompanionIds.length > 0,
     options: [
@@ -1043,8 +1071,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.work-extra-hours",
-    withheld:
-      "A work relationship does not establish a request for extra hours. The request and its terms are missing.",
+    // The ask and its terms are the extra-hours opportunity, written by
+    // somebody the player actually works with. Employment alone still
+    // establishes neither, which is why the gate reads both.
+    opportunity: "extra-hours-request",
     companion: null,
     stakes: "notable",
     prose:
@@ -1640,12 +1670,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   /* ------------------------------------------------ friends and the area -- */
   {
     key: "adult.friend-favour",
-    withheld:
-      "Prior interaction does not establish a favour request, its terms or its importance to the other person. The actual request is missing.",
-    companion: "community-member",
+    // The request and the one thing it is for come from the record. What the
+    // scene will not claim is that it is easy: nothing establishes what this
+    // would cost the player, and a scene that told them it was nothing would
+    // be making their decision for them.
+    opportunity: "favour-request",
+    companion: "other-household",
     stakes: "notable",
     prose:
-      "Somebody you know has asked for something that is easy for you and would matter quite a lot to them.",
+      "Somebody you know has asked you for a hand with one thing, and said it matters to them.",
     tensions: [
       tension(
         "personal-ties",
@@ -1790,9 +1823,12 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.friend-in-difficulty",
-    withheld:
-      "Prior interaction does not establish a disclosure, a difficulty or exclusive player knowledge. The disclosure and its scope are missing.",
-    companion: "community-member",
+    // All three of the missing facts are now one record: the disclosure is a
+    // private event with two people in it, and the player's knowledge of it is
+    // written separately. "Rather than anybody else" is read off that — nobody
+    // else is a participant and nobody else was told — rather than asserted.
+    opportunity: "confidence-disclosed",
+    companion: "other-household",
     stakes: "pressing",
     prose:
       "Somebody you know has got themselves into something, and they have told you rather than anybody else.",
@@ -2160,12 +2196,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   /* --------------------------------------------------------- and beyond -- */
   {
     key: "adult.local-issue-position",
-    withheld:
-      "A posted meeting does not establish an agenda item the player has read or an opinion they hold about it. The issue and acquired knowledge are missing.",
+    // A posted meeting is not a read agenda item. The opportunity writes the
+    // published item and the player's knowledge of it separately, and only the
+    // second is what this scene stands on. What the player makes of it is the
+    // choice below, so the prose stops short of telling them they have a view.
+    opportunity: "meeting-agenda-item",
     companion: null,
     stakes: "notable",
     prose:
-      "You have read the agenda properly, and you have a view about it. Nobody has asked for it.",
+      "You have read the agenda item in full. Nobody has asked what you make of it.",
     tensions: [
       tension(
         "privacy-preference",
@@ -2294,12 +2333,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.candidacy-approach",
-    withheld:
-      "Age and group participation do not establish an approach about running for office. The actual approach and role are missing.",
+    // The approach is a record now, made by somebody the player takes part in
+    // something with. It says running for public office in those words: "stand
+    // for anything" was the flagged control, and a player deciding whether to
+    // put their name on a ballot has to be told that is what this is.
+    opportunity: "candidacy-approach",
     companion: "community-member",
     stakes: "pressing",
     prose:
-      "Somebody has asked, in as many words, whether you would ever stand for anything.",
+      "Somebody has asked you outright whether you would ever run for public office.",
     tensions: [
       tension(
         "achievement-ambition",
@@ -2317,9 +2359,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       ),
     ],
     available: (context) =>
-      context.age >= 21 &&
-      context.civicParticipationCount > 0 &&
-      context.communityMemberIds.length > 0,
+      context.age >= 21 && context.civicParticipationCount > 0,
     options: [
       {
         key: "say-maybe",
@@ -2658,12 +2698,18 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.weekend-invitation",
-    withheld:
-      "An always-true gate establishes no Saturday event, invitation or absence of obligations. The actual invitation and its time are missing.",
-    companion: null,
+    // The invitation, the day it is for and the fact that nobody is required
+    // there are the social-occasion opportunity's own three facts. It expires
+    // when the Saturday it names goes past, which the provider reads from the
+    // occasion rather than from a countdown kept here.
+    opportunity: "social-occasion",
+    // The person who asked. They were anonymous here while the scene had no
+    // record behind it; now there is one, and a goodwill that nobody is
+    // recorded as holding is a goodwill that quietly goes nowhere.
+    companion: "other-household",
     stakes: "ordinary",
     prose:
-      "There is something on this Saturday that you would probably enjoy, and nobody needs you there.",
+      "Somebody local asked you to something on Saturday. Nobody needs you there.",
     tensions: [],
     available: always,
     options: [
@@ -2671,7 +2717,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "say-yes",
         label: "Say you will come",
         description: "Go, and see who is there.",
-        memory: "You said you would attend the event.",
+        memory: "You told them you would come on Saturday.",
+        witnessed: "They said they would come.",
+        relationalChange: "strengthened",
+        interactionKind: "contact:neighbourhood",
         stance: "engaged",
         nudges: [
           nudge("personal-ties", 0.3),
@@ -2683,7 +2732,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "stay-in",
         label: "Keep the weekend",
         description: "Keep the weekend as it is.",
-        memory: "You chose to stay in.",
+        memory: "You told them you would not be coming on Saturday.",
+        witnessed: "They said they would not be coming.",
+        relationalChange: "maintained",
+        interactionKind: "contact:neighbourhood",
         stance: "engaged",
         nudges: [nudge("privacy-preference", 0.35)],
         aftermath: null,
@@ -2730,10 +2782,39 @@ export function availableAdultSituations(
     // Withheld content is never offered. The rows stay authored so saves and
     // scheduled callbacks that already name them remain readable.
     if (situation.withheld !== undefined) return false;
+    // A scene that answers a request is offered while the request is open and
+    // not otherwise. Expiry, and the fact that answering it closes it, are the
+    // opportunity record's own business and are read there.
+    if (
+      situation.opportunity !== undefined &&
+      !context.openOpportunityKinds.has(situation.opportunity)
+    ) {
+      return false;
+    }
     if (!situation.available(context)) return false;
     if (situation.companion === null) return true;
-    return resolveAdultCompanion(context, situation.companion) !== null;
+    return resolveAdultSituationCompanion(context, situation) !== null;
   });
+}
+
+/**
+ * Who this scene is with.
+ *
+ * The person named on the request when the scene answers one, and otherwise
+ * the pool the role names. Reaching for the pool first would let the world put
+ * one person in the record and a different one on the screen, which is exactly
+ * the kind of quiet substitution the grounding rules exist to prevent.
+ */
+export function resolveAdultSituationCompanion(
+  context: AdultLifeContext,
+  situation: AdultSituation,
+): EntityId | null {
+  if (situation.companion === null) return null;
+  if (situation.opportunity !== undefined) {
+    const asked = context.opportunityCounterparts[situation.opportunity];
+    if (asked) return asked;
+  }
+  return resolveAdultCompanion(context, situation.companion);
 }
 
 /** The engine-facing shape, for the generic situation reader and writer. */

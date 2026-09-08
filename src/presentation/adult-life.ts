@@ -13,7 +13,8 @@ import {
   lifePlaceByJurisdictionId,
   personName,
   playerModelFor,
-  resolveAdultCompanion,
+  refreshLifeOpportunities,
+  resolveAdultSituationCompanion,
   resolveLifeSituation,
   scheduleAftermath,
   selectSituation,
@@ -26,6 +27,7 @@ import type {
   CharacterHistoryTransition,
   EntityId,
   LifeSituationKey,
+  IsoDate,
   LifeStakesTier,
   SituationCandidate,
   SituationSelectionReason,
@@ -96,6 +98,24 @@ const STEP_DAYS: Readonly<Record<LifeStakesTier, number>> = {
   pressing: 41,
 };
 
+/**
+ * How far the clock may be carried to reach something the world already owes.
+ *
+ * The authored steps above decide how much of a life passes between the moments
+ * the player is shown. They are a pacing choice, and on their own they can park
+ * a life two days short of its own election and then show it a scene about the
+ * shopping — which is what the audit reproduced on the story-choice route,
+ * while the longer quiet step reached the same election without trouble.
+ *
+ * So an adult step will not stop short of the world's next due item when that
+ * item falls inside the widest step this surface already takes. Nothing is
+ * resolved here and no outcome is decided here: the advance runs with the same
+ * handler registry it always ran with, and all this does is decline to stop
+ * just before a date the world had already written down for itself. It is the
+ * rule time already follows — a due item is never stepped over — read forwards.
+ */
+const STEP_REACH_DAYS = 41;
+
 /** A quiet stretch, when the player asks for one. */
 export const QUIET_STEP_DAYS = 21;
 
@@ -107,6 +127,22 @@ export const QUIET_STEP_DAYS = 21;
  * does not read as the record stuttering.
  */
 const ORDINARY_REPEAT_GAP = 9;
+
+/**
+ * The other way an ordinary situation comes round again: enough life passed.
+ *
+ * The gap above is counted in beats the player actually played, and on its own
+ * it deadlocks. A player who reaches quiet time plays no beats, so the counter
+ * never moves, so the ordinary situation never returns, so there is nothing to
+ * play — which is precisely the dead end the audit walked into and could not
+ * walk out of with six hundred or five thousand extra minutes.
+ *
+ * Time is the second way out, and it is the honest one: an ordinary week is
+ * allowed to look like an ordinary week again once most of a year has gone by.
+ * Authored presentation pacing, like the gap and the step lengths beside it,
+ * and not a claim about how often anything happens to anybody.
+ */
+const ORDINARY_REPEAT_DAYS = 45;
 
 const PROVENANCE = {
   kind: "generated" as const,
@@ -143,7 +179,7 @@ export function projectAdultLife(world: World, personId: EntityId): AdultLife {
   const context = buildAdultLifeContext(world, personId);
   const situation = adultSituation(selected.key);
   const companionId = situation
-    ? resolveAdultCompanion(context, situation.companion)
+    ? resolveAdultSituationCompanion(context, situation)
     : null;
   const companion = companionId ? world.people[companionId] : undefined;
 
@@ -193,7 +229,11 @@ export function selectAdultSituation(
 ): AdultSelectionTrace | null {
   const context = buildAdultLifeContext(world, personId);
   const history = playedAdultKeys(world, personId);
-  const candidates = eligibleCandidates(context, history);
+  const candidates = eligibleCandidates(
+    context,
+    history,
+    playedAdultDates(world, personId),
+  );
   if (candidates.length === 0) return null;
 
   const selection = selectSituation({
@@ -227,6 +267,7 @@ export function selectAdultSituation(
 function eligibleCandidates(
   context: AdultLifeContext,
   history: readonly LifeSituationKey[],
+  playedOn: ReadonlyMap<LifeSituationKey, IsoDate>,
 ): readonly SituationCandidate[] {
   const lastIndex = new Map<LifeSituationKey, number>();
   history.forEach((key, index) => lastIndex.set(key, index));
@@ -238,7 +279,15 @@ function eligibleCandidates(
       // eventually, because ordinary life is repetitive and pretending
       // otherwise is what leaves an adult with nothing to do after a month.
       if (situation.stakes !== "ordinary") return false;
-      return history.length - seenAt >= ORDINARY_REPEAT_GAP;
+      if (history.length - seenAt >= ORDINARY_REPEAT_GAP) return true;
+      // Or because enough of the life has gone past. Beats and days are both
+      // ways of saying "a while ago", and a player who waits rather than
+      // chooses is still letting a while go by.
+      const last = playedOn.get(situation.key);
+      return (
+        last !== undefined &&
+        addDays(last, ORDINARY_REPEAT_DAYS) <= context.asOfDate
+      );
     })
     .map((situation) => ({
       key: situation.key,
@@ -280,6 +329,22 @@ function playedAdultKeys(
       const key = event.tags.find((tag) => tag.startsWith("adult."));
       return key ? [key as LifeSituationKey] : [];
     });
+}
+
+/** The last date each adult key was played on, for the time-based repeat gap. */
+function playedAdultDates(
+  world: World,
+  personId: EntityId,
+): ReadonlyMap<LifeSituationKey, IsoDate> {
+  const played = new Map<LifeSituationKey, IsoDate>();
+  for (const event of [...world.history.events].sort(
+    (left, right) => left.sequence - right.sequence,
+  )) {
+    if (!event.involvedEntityIds.includes(personId)) continue;
+    const key = event.tags.find((tag) => tag.startsWith("adult."));
+    if (key) played.set(key as LifeSituationKey, event.occurredAt);
+  }
+  return played;
 }
 
 function adultMoments(
@@ -354,7 +419,7 @@ export function chooseAdultOption(
       "This adult situation is not available in the current world.",
     );
   }
-  const companionId = resolveAdultCompanion(context, situation.companion);
+  const companionId = resolveAdultSituationCompanion(context, situation);
   const played = playedAdultKeys(world, input.personId).length;
   const stableKey = `adult-life:${input.personId}:${played}:${input.situationKey}`;
 
@@ -387,20 +452,64 @@ export function chooseAdultOption(
     stableKey,
   });
 
-  return advanceWorld(
-    withAftermath,
-    STEP_DAYS[situation.stakes],
-    createCampaignElectionTransitionRegistry(),
+  // Time first, then whatever the world has come to owe this life. The order
+  // is the point: the opportunity write happens after the clock has moved, so
+  // it is a consequence of a transition the player took rather than something
+  // the choice screen conjured for itself.
+  return refreshLifeOpportunities(
+    advanceWorld(
+      withAftermath,
+      stepReaching(withAftermath, STEP_DAYS[situation.stakes]),
+      createCampaignElectionTransitionRegistry(),
+    ),
+    input.personId,
   );
 }
 
-/** Lets a stretch of ordinary time go by without manufacturing an event for it. */
+/**
+ * Lets a stretch of ordinary time go by without manufacturing an event for it.
+ *
+ * Nothing is invented to fill the gap, and that has not changed. What has
+ * changed is that a quiet stretch is also a legitimate transition, so when the
+ * caller says whose stretch it is, the world may write down what has come to be
+ * true for them by the end of it — another week's errands, or one request that
+ * somebody made. Without this a player who chose to wait was choosing to end
+ * their own game, which is what the audit reproduced.
+ */
 export function letAdultTimePass(world: World, days = QUIET_STEP_DAYS): World {
-  return advanceWorld(
+  const advanced = advanceWorld(
     world,
-    Math.max(1, Math.trunc(days)),
+    stepReaching(world, Math.max(1, Math.trunc(days))),
     createCampaignElectionTransitionRegistry(),
   );
+  // Whose stretch it was is a fact about the world, not an argument the caller
+  // has to remember to pass. An observer world has nobody waiting on anything,
+  // so nothing is written for one.
+  return advanced.control.kind === "person"
+    ? refreshLifeOpportunities(advanced, advanced.control.personId)
+    : advanced;
+}
+
+/**
+ * The authored step, or the day the world's next obligation falls due.
+ *
+ * Only forwards, only within `STEP_REACH_DAYS`, and only to a date the world
+ * had already scheduled for itself. A world with nothing due takes the authored
+ * step unchanged, which is almost every step.
+ */
+function stepReaching(world: World, authored: number): number {
+  let reach = authored;
+  for (const item of world.history.futureDueItems) {
+    const days = daysBetween(world.currentDate, item.dueAt);
+    if (days > reach && days <= STEP_REACH_DAYS) reach = days;
+  }
+  return reach;
+}
+
+function daysBetween(from: string, to: string): number {
+  const start = Date.parse(`${from}T00:00:00Z`);
+  const end = Date.parse(`${to}T00:00:00Z`);
+  return Math.round((end - start) / 86_400_000);
 }
 
 /**

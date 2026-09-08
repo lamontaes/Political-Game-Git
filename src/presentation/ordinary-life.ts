@@ -5,16 +5,19 @@ import {
   advanceWorld,
   createCampaignElectionTransitionRegistry,
   ageOnDate,
-  createScheduledActivity,
-  createWorkItem,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
-  makeSimulationMoment,
+  openOrdinaryLifeRecords,
   personName,
-  recordWorldEvent,
+  refreshLifeOpportunities,
   workPendingEntriesFor,
+  ORDINARY_LIFE_WORK_ITEMS,
 } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type {
+  EntityId,
+  OrdinaryLifeWorkItemDefinition,
+  World,
+} from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
 
@@ -33,43 +36,13 @@ export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 /**
  * The two things an ordinary week actually puts in front of somebody.
  *
- * These sentences used to live inside `openOrdinaryLife`, which is where they
- * are used and the wrong place for them to be read. Naming them here changes
- * nothing about the week — the same two work items are written with the same
- * two titles and the same two summaries — and it means a review surface can
- * quote the authored line rather than retyping it somewhere else and letting
- * the two copies drift.
+ * Authored in `src/simulation/life-opportunities.ts`, beside the writer that
+ * creates them, and re-exported here because that is where the content bank
+ * and the review surfaces already look for them. One copy of the sentence, in
+ * the module that writes it.
  */
-export interface OrdinaryLifeWorkItemDefinition {
-  readonly key: string;
-  readonly title: string;
-  readonly summary: string;
-}
-
-export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[] =
-  [
-    {
-      key: HOUSEHOLD_ERRANDS_KEY,
-      title: "The week's errands",
-      summary:
-        "The shopping and the two appointments after it still have to be covered by somebody.",
-    },
-    {
-      key: PUBLIC_MEETING_KEY,
-      title: "Whether to go to the meeting",
-      summary: "The agenda is posted. Decide whether to attend.",
-    },
-  ];
-
-function ordinaryLifeWorkItem(key: string): OrdinaryLifeWorkItemDefinition {
-  const definition = ORDINARY_LIFE_WORK_ITEMS.find(
-    (candidate) => candidate.key === key,
-  );
-  if (!definition) {
-    throw new Error(`No ordinary-life work item is authored as '${key}'.`);
-  }
-  return definition;
-}
+export { ORDINARY_LIFE_WORK_ITEMS };
+export type { OrdinaryLifeWorkItemDefinition };
 
 export interface PendingThing {
   readonly key: string;
@@ -111,120 +84,28 @@ export function ordinaryLifeAvailableFor(
 }
 
 /**
- * Writes the two ordinary contexts this life starts with, once.
+ * Opens an ordinary life, and keeps it open.
  *
- * Both are deliberately unglamorous and neither is legislative: a household
- * week that has to be covered by somebody, and a public meeting that is posted
- * whether or not anyone goes. They exist so the normal content sample is not
- * one transit bill.
+ * Two jobs now, where there used to be one. The first is unchanged: the
+ * household week and the posted meeting are written once, for somebody the
+ * formative interval has finished with, and never for a five-year-old.
  *
- * Nothing is written for a character these are not yet true of. The audit
- * reproduced a production five-year-old carrying "The week's errands", a
- * decision about a meeting and an evening on their calendar with themselves as
- * the responsible person — invisible on screen, because a child renders the
- * formative surface, and permanent in the save. The gate lives here, at the
- * write, rather than in the one caller that happened to exist: a canonical
- * record is not made pure by the screen that hides it.
+ * The second is the repair this wave exists for. Opening an ordinary life is a
+ * legitimate transition, so it is also a moment at which the world may write
+ * whatever this life has come to be owed next — another week's errands once the
+ * last week's are done, or one new opportunity from the bounded set in
+ * `life-opportunities.ts`. Before this, a life had exactly two work items in it
+ * for the rest of its existence, and the reachable scenes disappeared with the
+ * first of them.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   if (!ordinaryLifeAvailableFor(world, personId)) return world;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId = place?.context.jurisdiction.id ?? null;
-  const alreadyOpen = world.history.workItems.some(
-    (item) => item.stableKey === HOUSEHOLD_ERRANDS_KEY,
+  return refreshLifeOpportunities(
+    openOrdinaryLifeRecords(world, personId),
+    personId,
   );
-  if (alreadyOpen) return world;
-
-  // The meeting is on the calendar because a notice was posted. Recording the
-  // notice first gives the activity something canonical to have come from.
-  let next = recordWorldEvent(world, {
-    stableKey: `${PUBLIC_MEETING_KEY}:notice`,
-    type: "civic.meeting-notice",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId,
-    involvedEntityIds: [personId],
-    participants: [
-      {
-        personId,
-        role: "observation:reader",
-        detail: "Saw the posted agenda",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: ["civic.public-meeting"],
-    summary:
-      "A public meeting was posted on the local calendar with its agenda attached.",
-    context: {
-      location: jurisdictionId
-        ? { jurisdictionId, label: "Public meeting room", setting: null }
-        : null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const notice = next.history.events.at(-1);
-  if (!notice) throw new Error("The meeting notice was not recorded.");
-
-  next = createScheduledActivity(next, {
-    stableKey: `${PUBLIC_MEETING_KEY}:activity`,
-    title: "Posted public meeting",
-    summary:
-      "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
-    kind: "tentative",
-    start: momentAt(world, 18, 30),
-    end: momentAt(world, 19, 45),
-    participantPersonIds: [personId],
-    responsiblePersonId: personId,
-    location: {
-      locationKey: "ordinary-life:meeting-room",
-      label: "Public meeting room",
-      jurisdictionId: jurisdictionId ?? person.homeJurisdictionId,
-    },
-    sourceEntityIds: [notice.id],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [personId] },
-  });
-  const meeting = next.history.scheduledActivities.at(-1);
-  if (!meeting) throw new Error("The public meeting was not recorded.");
-
-  next = createWorkItem(next, {
-    stableKey: HOUSEHOLD_ERRANDS_KEY,
-    title: ordinaryLifeWorkItem(HOUSEHOLD_ERRANDS_KEY).title,
-    summary: ordinaryLifeWorkItem(HOUSEHOLD_ERRANDS_KEY).summary,
-    jurisdictionId,
-    sourceEntityIds: [notice.id],
-    focus: { kind: "person", personId },
-    effort: { kind: "authored-duration", requiredMinutes: 150 },
-    access: { kind: "private", personIds: [personId] },
-    assignedPersonIds: [personId],
-    playerRequirement: "decision",
-    waitingOnPersonIds: [],
-    blocker: null,
-    scheduledActivityId: null,
-  });
-
-  return createWorkItem(next, {
-    stableKey: PUBLIC_MEETING_KEY,
-    title: ordinaryLifeWorkItem(PUBLIC_MEETING_KEY).title,
-    summary: ordinaryLifeWorkItem(PUBLIC_MEETING_KEY).summary,
-    jurisdictionId,
-    sourceEntityIds: [meeting.id],
-    focus: { kind: "calendar-item", scheduledActivityId: meeting.id },
-    effort: { kind: "authored-duration", requiredMinutes: 75 },
-    access: { kind: "private", personIds: [personId] },
-    assignedPersonIds: [personId],
-    playerRequirement: "decision",
-    waitingOnPersonIds: [],
-    blocker: null,
-    scheduledActivityId: meeting.id,
-  });
 }
 
 export function projectOrdinaryDay(
@@ -306,15 +187,6 @@ function openingLine(
     return `A day${where} with nothing on it that anyone is waiting for.${who}`;
   }
   return `A day${where}, and a short list of things nobody else is going to do.${who}`;
-}
-
-function momentAt(world: World, hour: number, minute: number) {
-  return makeSimulationMoment({
-    date: world.currentDate,
-    minuteOfDay: hour * 60 + minute,
-    timeZone: world.currentMoment.timeZone,
-    utcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
-  });
 }
 
 function longDate(date: string): string {

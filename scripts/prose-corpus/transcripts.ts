@@ -149,13 +149,14 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     key: "campaign-alternate",
     intent:
       "A second candidacy on a different seed, so a contest outcome is not read from one run.",
-    // Re-seeded from `corpus-campaign-b` after the P2 prose wave: withholding
-    // five under-grounded ordinary scenes changed the deterministic pre-filing
-    // beats enough that the old seed's contest resolved as a second win, and
-    // this lane exists to show a loss. `corpus-campaign-c` loses on the same
-    // seams.
+    // `corpus-campaign-b`, the original control. P2R1 re-seeded this lane to
+    // `corpus-campaign-c` because its withholding had changed the pre-filing
+    // beats enough that the old seed resolved as a second win and the matrix
+    // lost its loss. Renaming the control to obtain the outcome is not a
+    // repair, so P2R2 puts the seed back and lets the restored offering decide
+    // the contest.
     setup: setup({
-      seed: "corpus-campaign-c",
+      seed: "corpus-campaign-b",
       startAge: 41,
       placeKey: "lexington-fayette",
       depth: "summarize-earlier-life",
