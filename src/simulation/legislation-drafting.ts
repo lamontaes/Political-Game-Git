@@ -291,7 +291,9 @@ export function compileBillDraft(
   }
 
   const supplied = input.parameterValues ?? {};
-  const specsByKey = new Map(variant.parameters.map((spec) => [spec.key, spec]));
+  const specsByKey = new Map(
+    variant.parameters.map((spec) => [spec.key, spec]),
+  );
 
   // A value for something this configuration does not have is refused rather
   // than ignored. Ignoring it would let a caller believe they had set a cap on
@@ -469,7 +471,9 @@ function resolveParameters(
   startsOn: IsoDate,
   endsOn: IsoDate | null,
 ): ResolvedParameters {
-  const specsByKey = new Map(variant.parameters.map((spec) => [spec.key, spec]));
+  const specsByKey = new Map(
+    variant.parameters.map((spec) => [spec.key, spec]),
+  );
   return {
     values,
     filedOn,

@@ -196,10 +196,7 @@ export function draftLineageHistoryRecords(
   return world.history.legislativeDraftLineages ?? [];
 }
 
-export function draftLineageEntityExists(
-  world: World,
-  id: EntityId,
-): boolean {
+export function draftLineageEntityExists(world: World, id: EntityId): boolean {
   return (world.history.legislativeDraftLineages ?? []).some(
     (record) => record.id === id,
   );
@@ -235,12 +232,18 @@ export function assertDraftLineageIntegrity(world: World): void {
       );
     }
     for (const parameter of record.parameters) {
-      if (parameter.kind === "money" && !Number.isSafeInteger(parameter.minorUnits)) {
+      if (
+        parameter.kind === "money" &&
+        !Number.isSafeInteger(parameter.minorUnits)
+      ) {
         throw new Error(
           `Draft lineage ${record.stableKey} records a non-integer amount for '${parameter.parameterKey}'.`,
         );
       }
-      if (parameter.kind === "integer" && !Number.isSafeInteger(parameter.value)) {
+      if (
+        parameter.kind === "integer" &&
+        !Number.isSafeInteger(parameter.value)
+      ) {
         throw new Error(
           `Draft lineage ${record.stableKey} records a non-integer value for '${parameter.parameterKey}'.`,
         );

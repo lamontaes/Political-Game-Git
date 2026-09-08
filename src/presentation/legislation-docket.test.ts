@@ -81,11 +81,26 @@ describe("a life can follow more than one bill", () => {
   it("carries three distinct bills without overwriting or cross-wiring them", () => {
     const fixture = kentucky();
     let world = fixture.world;
-    const first = file(fixture, world, "transit-access", "enrollment-fare-relief");
+    const first = file(
+      fixture,
+      world,
+      "transit-access",
+      "enrollment-fare-relief",
+    );
     world = first.world;
-    const second = file(fixture, world, "broadband-access", "unserved-buildout");
+    const second = file(
+      fixture,
+      world,
+      "broadband-access",
+      "unserved-buildout",
+    );
     world = second.world;
-    const third = file(fixture, world, "water-service-lines", "inventory-and-plan");
+    const third = file(
+      fixture,
+      world,
+      "water-service-lines",
+      "inventory-and-plan",
+    );
     world = third.world;
 
     const docket = readDocket(world, {
@@ -122,9 +137,19 @@ describe("a life can follow more than one bill", () => {
   it("reopens an earlier bill by its own key", () => {
     const fixture = kentucky();
     let world = fixture.world;
-    const first = file(fixture, world, "transit-access", "enrollment-fare-relief");
+    const first = file(
+      fixture,
+      world,
+      "transit-access",
+      "enrollment-fare-relief",
+    );
     world = first.world;
-    world = file(fixture, world, "bridge-maintenance", "worst-first-condition").world;
+    world = file(
+      fixture,
+      world,
+      "bridge-maintenance",
+      "worst-first-condition",
+    ).world;
 
     const reopened = docketBill(world, {
       scenarioKey: fixture.scenarioKey,
@@ -174,7 +199,12 @@ describe("a bill survives a save and a reload as itself", () => {
   it("finds each bill, version and configuration where it was left", () => {
     const fixture = kentucky();
     let world = fixture.world;
-    world = file(fixture, world, "transit-access", "enrollment-fare-relief").world;
+    world = file(
+      fixture,
+      world,
+      "transit-access",
+      "enrollment-fare-relief",
+    ).world;
     world = file(fixture, world, "bridge-maintenance", "preventive-cycle", {
       "condition-floor": { kind: "integer", value: 6 },
     }).world;
@@ -202,22 +232,34 @@ describe("a bill survives a save and a reload as itself", () => {
 
   it("serializes identically regardless of the order parameters were set", () => {
     const fixture = kentucky();
-    const left = file(fixture, fixture.world, "bridge-maintenance", "worst-first-condition", {
-      "condition-threshold": { kind: "integer", value: 3 },
-      "repair-authorization": {
-        kind: "money",
-        minorUnits: 1_000_000_000,
-        currency: "USD",
+    const left = file(
+      fixture,
+      fixture.world,
+      "bridge-maintenance",
+      "worst-first-condition",
+      {
+        "condition-threshold": { kind: "integer", value: 3 },
+        "repair-authorization": {
+          kind: "money",
+          minorUnits: 1_000_000_000,
+          currency: "USD",
+        },
       },
-    });
-    const right = file(fixture, fixture.world, "bridge-maintenance", "worst-first-condition", {
-      "repair-authorization": {
-        kind: "money",
-        minorUnits: 1_000_000_000,
-        currency: "USD",
+    );
+    const right = file(
+      fixture,
+      fixture.world,
+      "bridge-maintenance",
+      "worst-first-condition",
+      {
+        "repair-authorization": {
+          kind: "money",
+          minorUnits: 1_000_000_000,
+          currency: "USD",
+        },
+        "condition-threshold": { kind: "integer", value: 3 },
       },
-      "condition-threshold": { kind: "integer", value: 3 },
-    });
+    );
     expect(serializeWorld(right.world)).toEqual(serializeWorld(left.world));
   });
 });
@@ -311,7 +353,9 @@ describe("a second legislature is not Kentucky with the labels changed", () => {
     );
     expect(provisions.length).toBeGreaterThan(0);
     for (const record of provisions) {
-      expect(record.applicationScope.jurisdictionId).toBe(fixture.jurisdictionId);
+      expect(record.applicationScope.jurisdictionId).toBe(
+        fixture.jurisdictionId,
+      );
     }
   });
 });

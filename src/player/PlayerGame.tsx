@@ -85,6 +85,8 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
 import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { DocketWorkspace } from "./DocketWorkspace";
+import type { DocketBill } from "../presentation/legislation-docket";
 import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
 
@@ -1538,6 +1540,29 @@ function PlayingScreen({
     setOpen(null);
   }
 
+  /**
+   * The members' room for one bill on the docket.
+   *
+   * The same adapter, asked about a named bill rather than about the office's
+   * single standing assignment. Every refusal it can give is still its own; a
+   * bill that is not on the floor, or not before this member's chamber, is
+   * refused here exactly as it is there.
+   */
+  function goToTheFloorFor(bill: DocketBill) {
+    const entry = openLegislativeBargaining(session.world, {
+      playerPersonId: session.personId,
+      docketKey: bill.docketKey,
+    });
+    if (entry.kind === "unavailable") {
+      setFloorNote(entry.reason);
+      return;
+    }
+    setFloorNote(null);
+    if (entry.world !== session.world) onWorldChange(entry.world);
+    setFloorSeat(entry.seat);
+    setOpen(null);
+  }
+
   return (
     <main
       className="life-shell"
@@ -1689,6 +1714,17 @@ function PlayingScreen({
           >
             {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
+          {capabilities.legislativeJurisdictionId ? (
+            <DocketWorkspace
+              world={session.world}
+              playerPersonId={session.personId}
+              scenarioKey={capabilities.legislativeScenarioKey}
+              jurisdictionId={capabilities.legislativeJurisdictionId}
+              onWorldChange={onWorldChange}
+              onGoToFloor={goToTheFloorFor}
+              floorNote={floorNote}
+            />
+          ) : null}
           {assignment ? (
             <>
               <button

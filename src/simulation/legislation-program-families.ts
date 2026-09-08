@@ -158,7 +158,11 @@ export interface ProgramParameterOption {
 
 /** A parameter value as chosen for one draft. */
 export type ProgramParameterValue =
-  | { readonly kind: "money"; readonly minorUnits: number; readonly currency: string }
+  | {
+      readonly kind: "money";
+      readonly minorUnits: number;
+      readonly currency: string;
+    }
   | { readonly kind: "enumerated"; readonly value: string }
   | { readonly kind: "duration-years"; readonly years: number | null }
   | { readonly kind: "integer"; readonly value: number };
@@ -381,7 +385,37 @@ export function formatMinorUnits(minorUnits: number, currency: string): string {
   const major = Math.trunc(minorUnits / 100);
   const cents = minorUnits % 100;
   const body = major.toLocaleString("en-US");
-  return cents === 0 ? `$${body}` : `$${body}.${String(cents).padStart(2, "0")}`;
+  return cents === 0
+    ? `$${body}`
+    : `$${body}.${String(cents).padStart(2, "0")}`;
+}
+
+/**
+ * A date the way a bill writes one.
+ *
+ * Statutes do not carry ISO strings, and a player reading "not later than
+ * 2029-01-05" is reading a database field rather than a deadline. The input is
+ * still the canonical IsoDate; only the rendering changes.
+ */
+export function formatStatutoryDate(date: IsoDate): string {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const year = date.slice(0, 4);
+  const month = months[Number(date.slice(5, 7)) - 1] ?? date.slice(5, 7);
+  const day = Number(date.slice(8, 10));
+  return `${month} ${day}, ${year}`;
 }
 
 function yearsPhrase(years: number): string {
@@ -450,7 +484,7 @@ const TRANSIT_ACCESS: ProgramFamily = {
       kind: "forecast-claim",
       note: "Any figure for additional boardings under this Act would be a projection, not a count.",
       unavailableReason:
-        "No boardings series has been measured in this world, so there is nothing for a projection to move.",
+        "Nobody has counted boardings here, so a projection would have nothing to move.",
     },
   },
   variants: [
@@ -470,8 +504,15 @@ const TRANSIT_ACCESS: ProgramFamily = {
         // Held identical to the accepted bargaining content: an $8,000,000
         // two-year pilot for assistance enrollees. The sitting that already
         // exists must be unchanged by this bank describing it.
-        "support-limit": { kind: "money", minorUnits: 800_000_000, currency: "USD" },
-        "rider-eligibility": { kind: "enumerated", value: "assistance-enrollees" },
+        "support-limit": {
+          kind: "money",
+          minorUnits: 800_000_000,
+          currency: "USD",
+        },
+        "rider-eligibility": {
+          kind: "enumerated",
+          value: "assistance-enrollees",
+        },
         "pilot-term": { kind: "duration-years", years: 2 },
       },
       parameters: [
@@ -620,7 +661,11 @@ const TRANSIT_ACCESS: ProgramFamily = {
         "It sets no fare policy for any rider.",
       ],
       defaults: {
-        "formula-addition": { kind: "money", minorUnits: 450_000_000, currency: "USD" },
+        "formula-addition": {
+          kind: "money",
+          minorUnits: 450_000_000,
+          currency: "USD",
+        },
         "county-test": { kind: "enumerated", value: "no-fixed-route" },
       },
       parameters: [
@@ -650,7 +695,8 @@ const TRANSIT_ACCESS: ProgramFamily = {
             },
             {
               value: "no-fixed-route-or-demand-response",
-              label: "Counties with neither fixed-route nor demand-response service",
+              label:
+                "Counties with neither fixed-route nor demand-response service",
               clausePhrase:
                 "in which neither a fixed-route provider nor a demand-response provider operated during the preceding fiscal year",
             },
@@ -758,7 +804,12 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
   title: "Bridge and culvert maintenance",
   mechanism:
     "Makes an inspection condition rating the operative test for which structures a maintenance programme may reach.",
-  acceptedDimensions: ["funding-cap", "eligibility-scope", "oversight", "timing"],
+  acceptedDimensions: [
+    "funding-cap",
+    "eligibility-scope",
+    "oversight",
+    "timing",
+  ],
   structuralProvenance: [IIJA_HEARING_RECORD, IIJA_FISCAL_TREATMENT],
   intendedOutcome: {
     metricStableKey: "structures.condition-rating-mean",
@@ -769,7 +820,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
       kind: "forecast-claim",
       note: "Any figure for structures kept out of the worst rating band would be a projection.",
       unavailableReason:
-        "No structure condition series has been measured in this world, and no department has been asked to report one.",
+        "No department has been asked to report structure condition here, so there is nothing to project from.",
     },
   },
   variants: [
@@ -786,7 +837,11 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
         "It funds repair, not replacement, and requires no new inspection programme.",
       ],
       defaults: {
-        "repair-authorization": { kind: "money", minorUnits: 2_400_000_000, currency: "USD" },
+        "repair-authorization": {
+          kind: "money",
+          minorUnits: 2_400_000_000,
+          currency: "USD",
+        },
         "condition-threshold": { kind: "integer", value: 4 },
         "annual-report": { kind: "enumerated", value: "reached-and-remaining" },
       },
@@ -943,7 +998,11 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
         "It sets a treatment cycle; it does not guarantee any structure is treated in a given year.",
       ],
       defaults: {
-        "treatment-authorization": { kind: "money", minorUnits: 1_100_000_000, currency: "USD" },
+        "treatment-authorization": {
+          kind: "money",
+          minorUnits: 1_100_000_000,
+          currency: "USD",
+        },
         "condition-floor": { kind: "integer", value: 4 },
         "cycle-years": { kind: "duration-years", years: 4 },
       },
@@ -1036,7 +1095,8 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
                   : `The department shall establish a preventive treatment cycle under which each eligible structure is considered for treatment at least once every ${yearsPhrase(years)}. Consideration under this section does not oblige treatment in a given year.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: "every eligible structure, on the adopted cycle",
+                appliesToLabel:
+                  "every eligible structure, on the adopted cycle",
               },
               fiscalExposureLabel: null,
               fiscalExposureMinorUnits: null,
@@ -1104,7 +1164,12 @@ const BROADBAND_ACCESS: ProgramFamily = {
   title: "Broadband access",
   mechanism:
     "Attaches a minimum service standard and a reporting duty to public support for internet service.",
-  acceptedDimensions: ["funding-cap", "eligibility-scope", "oversight", "timing"],
+  acceptedDimensions: [
+    "funding-cap",
+    "eligibility-scope",
+    "oversight",
+    "timing",
+  ],
   structuralProvenance: [IIJA_HEARING_RECORD, IIJA_FISCAL_TREATMENT],
   intendedOutcome: {
     metricStableKey: "broadband.served-household-share",
@@ -1115,7 +1180,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
       kind: "forecast-claim",
       note: "Any figure for households newly served or newly subscribing would be a projection.",
       unavailableReason:
-        "No service or take-up series has been measured in this world, so a projection would have no baseline.",
+        "Nobody has measured who can get service here, or who takes it, so a projection would have nothing to start from.",
     },
   },
   variants: [
@@ -1132,7 +1197,11 @@ const BROADBAND_ACCESS: ProgramFamily = {
         "It sets a standard the recipient must meet; it does not regulate any provider that takes no money under this Act.",
       ],
       defaults: {
-        "buildout-authorization": { kind: "money", minorUnits: 1_800_000_000, currency: "USD" },
+        "buildout-authorization": {
+          kind: "money",
+          minorUnits: 1_800_000_000,
+          currency: "USD",
+        },
         "unserved-threshold": { kind: "integer", value: 25 },
         "service-standard": { kind: "enumerated", value: "speed-and-latency" },
       },
@@ -1296,7 +1365,11 @@ const BROADBAND_ACCESS: ProgramFamily = {
         "It supports subscriptions; it sets no speed a provider must deliver.",
       ],
       defaults: {
-        "adoption-authorization": { kind: "money", minorUnits: 600_000_000, currency: "USD" },
+        "adoption-authorization": {
+          kind: "money",
+          minorUnits: 600_000_000,
+          currency: "USD",
+        },
         "household-test": { kind: "enumerated", value: "assistance-enrolled" },
         "take-up-report": { kind: "enumerated", value: "enrolled-count" },
       },
@@ -1437,7 +1510,8 @@ const BROADBAND_ACCESS: ProgramFamily = {
         provisionKey: "tribal-household-outreach",
         sectionNumber: 5,
         heading: "Outreach in structurally unserved communities",
-        beneficiaryLabel: "households in communities the certification never reaches",
+        beneficiaryLabel:
+          "households in communities the certification never reaches",
         placeLabel: "the communities without a county certification office",
         statedGround:
           "Certification is done at county offices, and the households furthest from one are exactly the households this Act is supposed to reach.",
@@ -1474,7 +1548,12 @@ const WATER_SERVICE_LINES: ProgramFamily = {
   title: "Water service lines",
   mechanism:
     "Imposes a dated compliance duty on water systems, with or without money attached to discharging it.",
-  acceptedDimensions: ["eligibility-scope", "timing", "oversight", "funding-cap"],
+  acceptedDimensions: [
+    "eligibility-scope",
+    "timing",
+    "oversight",
+    "funding-cap",
+  ],
   structuralProvenance: [IIJA_HEARING_RECORD, TARGETED_SECTION_SOURCE],
   intendedOutcome: {
     metricStableKey: "water.identified-service-lines",
@@ -1485,7 +1564,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
       kind: "forecast-claim",
       note: "The inventory this Act requires is the thing that would produce the number; the number does not exist before it.",
       unavailableReason:
-        "No system has filed an inventory in this world, which is precisely what the Act is for.",
+        "No system has filed an inventory yet, which is what this Act is for.",
     },
   },
   variants: [
@@ -1506,7 +1585,10 @@ const WATER_SERVICE_LINES: ProgramFamily = {
         // and the compiler refuses a funding cap on it.
         "system-size": { kind: "integer", value: 3_300 },
         "compliance-term": { kind: "duration-years", years: 3 },
-        "plan-contents": { kind: "enumerated", value: "inventory-and-sequence" },
+        "plan-contents": {
+          kind: "enumerated",
+          value: "inventory-and-sequence",
+        },
       },
       parameters: [
         {
@@ -1569,7 +1651,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
           heading: "Purpose and construction",
           parameterKey: null,
           render: () => ({
-            text: "It is the purpose of this Act to establish what the state's water systems are actually made of before deciding what replacing it would cost. Nothing in this Act appropriates money or obliges a system to replace a service line.",
+            text: "It is the purpose of this Act to establish what the state's water systems are made of before deciding what replacing them would cost. Nothing in this Act appropriates money or obliges a system to replace a service line.",
             beneficiary: {
               kind: "general-application",
               appliesToLabel: "everyone the Act reaches",
@@ -1607,7 +1689,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
               text:
                 endsOn === null
                   ? "A covered system shall file the plan required by this Act, and the department shall publish the date by which it must be filed."
-                  : `A covered system shall file the plan required by this Act not later than ${endsOn}. A system that has not filed by that date shall report the reason to the department.`,
+                  : `A covered system shall file the plan required by this Act not later than ${formatStatutoryDate(endsOn)}. A system that has not filed by that date shall report the reason to the department.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: "every covered system, on the same date",
@@ -1668,7 +1750,11 @@ const WATER_SERVICE_LINES: ProgramFamily = {
         "It sets a priority order; it does not guarantee any system is reached.",
       ],
       defaults: {
-        "replacement-fund": { kind: "money", minorUnits: 2_900_000_000, currency: "USD" },
+        "replacement-fund": {
+          kind: "money",
+          minorUnits: 2_900_000_000,
+          currency: "USD",
+        },
         "system-size": { kind: "integer", value: 3_300 },
         "priority-order": { kind: "enumerated", value: "highest-share-first" },
       },

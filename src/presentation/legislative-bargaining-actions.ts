@@ -19,9 +19,7 @@ import {
   type SeatedMember,
   type World,
 } from "../simulation";
-import {
-  type LegislativeBargainingSeat,
-} from "./legislative-bargaining-brief";
+import { type LegislativeBargainingSeat } from "./legislative-bargaining-brief";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 

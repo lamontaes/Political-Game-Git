@@ -7,7 +7,10 @@ import {
   recordPolicyBaseline,
   serializeWorld,
 } from "../simulation";
-import { createWorldMetricCatalog, createWorldMetricDefinition } from "../simulation/world-metrics";
+import {
+  createWorldMetricCatalog,
+  createWorldMetricDefinition,
+} from "../simulation/world-metrics";
 import type { EntityId, World } from "../simulation";
 import { fileDraft } from "./legislation-docket";
 import type { DocketBill } from "./legislation-docket";
@@ -28,7 +31,11 @@ function kentuckyDocket(
   familyKey: string,
   variantKey: string,
   parameterValues?: Parameters<typeof fileDraft>[1]["parameterValues"],
-): { readonly world: World; readonly bill: DocketBill; readonly jurisdictionId: EntityId } {
+): {
+  readonly world: World;
+  readonly bill: DocketBill;
+  readonly jurisdictionId: EntityId;
+} {
   const scenario = createLegislativeScenario("kentucky");
   const jurisdictionId = (scenario.world.history.legislativeMeasures ?? [])[0]!
     .jurisdictionId;
@@ -85,7 +92,9 @@ describe("what the bill commits is read from the bill", () => {
     );
     const analysis = billAnalysis(world, bill);
     expect(analysis.fiscal.statedCeilingMinorUnits).toBeNull();
-    expect(analysis.fiscal.statedCeilingLabel).toBe("This Act states no amount.");
+    expect(analysis.fiscal.statedCeilingLabel).toBe(
+      "This Act states no amount.",
+    );
     expect(analysis.fiscal.statedCeilingLabel).not.toContain("$0");
     // The sections are still listed; a bill without money still has text.
     expect(analysis.fiscal.sections.length).toBeGreaterThanOrEqual(4);
@@ -113,7 +122,11 @@ describe("a forecast is refused when nobody has measured anything", () => {
     if (estimate.kind !== "unavailable") return;
     expect(estimate.missing).toBe("metric-definition");
     expect(estimate.metricStableKey).toBe("broadband.served-household-share");
-    expect(estimate.reason).toContain("no baseline");
+    expect(estimate.reason).toContain("nothing to start from");
+    // The reason is said in plain words: no metric keys, no talk of baselines
+    // or records, nothing that reads as a database field.
+    expect(estimate.reason).not.toMatch(/baseline|metric|series|record|world/i);
+    expect(estimate.reason).not.toContain(estimate.metricStableKey);
     // What it would have measured is still said, so the gap is legible.
     expect(estimate.statement).toContain("households");
   });

@@ -442,7 +442,10 @@ export function bargainingSubjectFactsForDraft(input: {
     invitation.requestedMinorUnits,
     "USD",
   );
-  const cappedAmountLabel = formatMinorUnits(invitation.cappedMinorUnits, "USD");
+  const cappedAmountLabel = formatMinorUnits(
+    invitation.cappedMinorUnits,
+    "USD",
+  );
 
   return {
     measureId: input.measureId,

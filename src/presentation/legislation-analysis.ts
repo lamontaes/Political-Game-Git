@@ -153,13 +153,15 @@ export function billEstimateAvailability(
       metricStableKey: "",
       statement: "",
       reason:
-        "This bill was drafted from a configuration the content bank no longer describes, so what it was meant to change is not recorded here.",
+        "The programme this bill was drafted from is no longer on file, so what it was meant to change cannot be said.",
     };
   }
   const outcome = family.intendedOutcome;
 
   const metricId = world.metricCatalog.definitionOrder.find(
-    (id) => world.metricCatalog.definitions[id]?.stableKey === outcome.metricStableKey,
+    (id) =>
+      world.metricCatalog.definitions[id]?.stableKey ===
+      outcome.metricStableKey,
   );
   if (!metricId) {
     return {
@@ -170,7 +172,7 @@ export function billEstimateAvailability(
       reason:
         outcome.evidence.kind === "forecast-claim"
           ? outcome.evidence.unavailableReason
-          : `Nothing in this world defines '${outcome.metricStableKey}'.`,
+          : "Nothing here measures what this Act is meant to change.",
     };
   }
 
@@ -188,7 +190,8 @@ export function billEstimateAvailability(
       missing: "baseline",
       metricStableKey: outcome.metricStableKey,
       statement: outcome.statement,
-      reason: `This world defines ${outcome.metricStableKey} but has never recorded a baseline for it in this jurisdiction, so there is nothing for an estimate to move from.`,
+      reason:
+        "Nobody has established where this stands today, so there is nothing for an estimate to move from.",
     };
   }
 

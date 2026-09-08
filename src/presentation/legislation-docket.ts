@@ -82,7 +82,7 @@ export interface DocketBill {
   readonly variantKey: string;
   readonly variantLabel: string;
   readonly parameterValues: Readonly<Record<string, ProgramParameterValue>>;
-  readonly sponsorPersonId: EntityId;
+  readonly sponsorPersonId: EntityId | null;
   /** Whose bill this is, said exactly. */
   readonly playerRole: DocketPlayerRole;
   readonly filedOn: IsoDate;
@@ -100,7 +100,12 @@ export interface DocketBill {
  */
 export type DocketPlayerRole =
   | { readonly kind: "sponsor-of-record" }
-  | { readonly kind: "office-of-the-sponsor"; readonly memberPersonId: EntityId };
+  | {
+      readonly kind: "office-of-the-sponsor";
+      readonly memberPersonId: EntityId;
+    }
+  /** The measure records no sponsor. Said, rather than guessed at. */
+  | { readonly kind: "no-sponsor-recorded" };
 
 const DOCKET_KEY_PREFIX = "legislative-docket";
 
@@ -125,7 +130,35 @@ function parseDocketSequence(measureStableKey: string): number | null {
   return Number.isSafeInteger(sequence) ? sequence : null;
 }
 
-function stageOf(world: World, measureId: EntityId): {
+/**
+ * What the chamber is called, rather than what it is keyed as.
+ *
+ * `measurePosition` reports a chamber key, which is an identifier; putting it
+ * on screen shows a player the word "house". The rule pack holds the name the
+ * chamber actually goes by, and an unknown key stays null rather than being
+ * title-cased into a guess.
+ */
+function chamberDisplayName(
+  scenarioKey: string,
+  chamberKey: string | null,
+): string | null {
+  if (chamberKey === null) return null;
+  try {
+    const blueprint = legislativeBlueprint(scenarioKey);
+    return (
+      blueprint.pack.chambers.find(
+        (chamber) => chamber.chamberKey === chamberKey,
+      )?.name ?? null
+    );
+  } catch {
+    return null;
+  }
+}
+
+function stageOf(
+  world: World,
+  measureId: EntityId,
+): {
   readonly stage: DocketBillStage;
   readonly chamberName: string | null;
   readonly concluded: boolean;
@@ -177,7 +210,11 @@ export function readDocket(
   for (const measure of measures) {
     const sequence = parseDocketSequence(measure.stableKey);
     if (sequence === null) continue;
-    if (!measure.stableKey.startsWith(`${DOCKET_KEY_PREFIX}:${input.scenarioKey}:`)) {
+    if (
+      !measure.stableKey.startsWith(
+        `${DOCKET_KEY_PREFIX}:${input.scenarioKey}:`,
+      )
+    ) {
       continue;
     }
     const lineage = draftLineageForMeasure(world, measure.id);
@@ -199,6 +236,10 @@ export function readDocket(
     }
 
     const position = stageOf(world, measure.id);
+    const chamberName = chamberDisplayName(
+      input.scenarioKey,
+      position.chamberName,
+    );
     bills.push({
       docketKey: docketKeyOf(input.scenarioKey, sequence),
       measureId: measure.id,
@@ -216,15 +257,17 @@ export function readDocket(
       parameterValues: draftParameterValues(lineage),
       sponsorPersonId: measure.sponsorPersonId,
       playerRole:
-        measure.sponsorPersonId === input.playerPersonId
-          ? { kind: "sponsor-of-record" }
-          : {
-              kind: "office-of-the-sponsor",
-              memberPersonId: measure.sponsorPersonId,
-            },
+        measure.sponsorPersonId === null
+          ? { kind: "no-sponsor-recorded" }
+          : measure.sponsorPersonId === input.playerPersonId
+            ? { kind: "sponsor-of-record" }
+            : {
+                kind: "office-of-the-sponsor",
+                memberPersonId: measure.sponsorPersonId,
+              },
       filedOn: lineage.compiledAt,
       stage: position.stage,
-      chamberName: position.chamberName,
+      chamberName,
       concluded: position.concluded,
     });
   }

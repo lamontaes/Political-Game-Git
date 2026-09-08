@@ -234,10 +234,12 @@ describe("an adopted amendment revises the bill it belongs to", () => {
         (record) => record.stableKey,
       ),
     );
-    expect(readDocket(reloaded, {
-      scenarioKey: staged.scenarioKey,
-      playerPersonId: staged.personId,
-    })).toHaveLength(1);
+    expect(
+      readDocket(reloaded, {
+        scenarioKey: staged.scenarioKey,
+        playerPersonId: staged.personId,
+      }),
+    ).toHaveLength(1);
   });
 });
 
@@ -301,7 +303,10 @@ describe("every configuration produces a sitting about itself", () => {
 
 describe("the docket bill's sitting keeps the accepted write boundary", () => {
   it("never seeds the authored transit text onto a docket bill", () => {
-    const staged = billOnTheFloor("bridge-maintenance", "worst-first-condition");
+    const staged = billOnTheFloor(
+      "bridge-maintenance",
+      "worst-first-condition",
+    );
     const entry = openLegislativeBargaining(staged.world, {
       playerPersonId: staged.personId,
       docketKey: staged.bill.docketKey,
@@ -313,7 +318,9 @@ describe("the docket bill's sitting keeps the accepted write boundary", () => {
       staged.bill.measureId,
     );
     expect(
-      provisions.some((record) => record.provisionKey === "pilot-support-limit"),
+      provisions.some(
+        (record) => record.provisionKey === "pilot-support-limit",
+      ),
     ).toBe(false);
     expect(
       provisions.some(

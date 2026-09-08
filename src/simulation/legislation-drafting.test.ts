@@ -103,7 +103,11 @@ describe("the programme bank offers four genuinely different families", () => {
         ),
     );
     for (let left = 0; left < operativeKeysByFamily.length; left += 1) {
-      for (let right = left + 1; right < operativeKeysByFamily.length; right += 1) {
+      for (
+        let right = left + 1;
+        right < operativeKeysByFamily.length;
+        right += 1
+      ) {
         const shared = [...operativeKeysByFamily[left]!].filter((key) =>
           operativeKeysByFamily[right]!.has(key),
         );
@@ -132,9 +136,11 @@ describe("the programme bank offers four genuinely different families", () => {
       const draft = compile(configuration.familyKey, configuration.variantKey);
       expect(draft.evidence.length).toBeGreaterThan(0);
       for (const evidence of draft.evidence) {
-        expect(["source-example", "authored-parameter", "forecast-claim"]).toContain(
-          evidence.kind,
-        );
+        expect([
+          "source-example",
+          "authored-parameter",
+          "forecast-claim",
+        ]).toContain(evidence.kind);
         if (evidence.kind === "source-example") {
           expect(evidence.reference.length).toBeGreaterThan(0);
           expect(evidence.establishes.length).toBeGreaterThan(0);
@@ -210,7 +216,9 @@ describe("moving a parameter changes typed state and the clause text", () => {
     });
     expect(strict.clauses[1]!.text).toContain("condition rating of 2 or below");
     expect(wide.clauses[1]!.text).toContain("condition rating of 6 or below");
-    expect(strict.clauses[1]!.beneficiary).not.toEqual(wide.clauses[1]!.beneficiary);
+    expect(strict.clauses[1]!.beneficiary).not.toEqual(
+      wide.clauses[1]!.beneficiary,
+    );
     // The money is untouched, so this is a scope change and not a funding one.
     expect(strict.authorizedCeilingMinorUnits).toBe(
       wide.authorizedCeilingMinorUnits,
@@ -275,7 +283,10 @@ describe("a family refuses combinations it cannot carry", () => {
     // refusal comes from the configuration not having one rather than from a
     // downstream check. That is the honest boundary: there is no cap to set,
     // and the caller is told which configuration they are looking at.
-    const { variant } = programVariant("water-service-lines", "inventory-and-plan");
+    const { variant } = programVariant(
+      "water-service-lines",
+      "inventory-and-plan",
+    );
     expect(variant.authorizesAppropriation).toBe(false);
     expect(
       variant.parameters.filter((spec) => spec.dimension === "funding-cap"),
@@ -297,7 +308,10 @@ describe("a family refuses combinations it cannot carry", () => {
     expect(() =>
       compile("water-service-lines", "inventory-and-plan", {
         parameterValues: {
-          "priority-order": { kind: "enumerated", value: "highest-share-first" },
+          "priority-order": {
+            kind: "enumerated",
+            value: "highest-share-first",
+          },
         },
       }),
     ).toThrow(/has no 'priority-order' to set/);
@@ -320,7 +334,9 @@ describe("a family refuses combinations it cannot carry", () => {
   it("refuses an ongoing term where the configuration requires one", () => {
     expect(() =>
       compile("transit-access", "enrollment-fare-relief", {
-        parameterValues: { "pilot-term": { kind: "duration-years", years: null } },
+        parameterValues: {
+          "pilot-term": { kind: "duration-years", years: null },
+        },
       }),
     ).toThrow(/must state a term/);
   });
@@ -352,9 +368,9 @@ describe("a configuration that appropriates nothing is still a bill", () => {
     expect(draft.authorizedCeilingMinorUnits).toBeNull();
     expect(draft.authorizedCeilingLabel).toBeNull();
     expect(nonMoneyClauses(draft)).toHaveLength(draft.clauses.length);
-    expect(draft.clauses.some((clause) => clause.dimension === "oversight")).toBe(
-      true,
-    );
+    expect(
+      draft.clauses.some((clause) => clause.dimension === "oversight"),
+    ).toBe(true);
   });
 
   it("gives the non-money oversight clause a structured consumer", () => {
@@ -388,16 +404,17 @@ describe("a configuration that appropriates nothing is still a bill", () => {
     const deadline = draft.clauses.find(
       (clause) => clause.provisionKey === "filing-deadline",
     )!;
-    expect(deadline.text).toContain("2029-01-14");
+    expect(deadline.text).toContain("January 14, 2029");
     const shorter = compile("water-service-lines", "inventory-and-plan", {
       parameterValues: {
         "compliance-term": { kind: "duration-years", years: 1 },
       },
     });
     expect(
-      shorter.clauses.find((clause) => clause.provisionKey === "filing-deadline")!
-        .text,
-    ).toContain("2027-01-14");
+      shorter.clauses.find(
+        (clause) => clause.provisionKey === "filing-deadline",
+      )!.text,
+    ).toContain("January 14, 2027");
   });
 });
 

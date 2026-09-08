@@ -2620,3 +2620,61 @@ Federal presentment remains `unknown`; no federal authority is invented. The
 bounded six-jurisdiction substrate, all six shipped executive packs, every
 jurisdiction fact, and every accepted sourced row are unchanged by this
 documentation reconciliation.
+
+## D-085 — A bill records the configuration that wrote it, and that record pins the version
+
+- Date: 2026-09-08
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: numbered D-085 rather than D-084, which the current packet
+  reserves for PR #90. Main's D-079/D-080/D-083 and PR79's D-081/D-082 are
+  preserved unchanged.
+
+Bills in this game were authored one at a time. Three legislative scenarios
+existed and all three were the same mechanism — a transit subsidy — with the
+state, the bill number and the beneficiary changed, so a player choosing among
+them was choosing a label. Making bills composable means a bill's text is
+produced from a declared programme family and a set of parameter values rather
+than written out by hand.
+
+That creates a fact nothing in the store could express.
+
+A measure record says what a bill is called, which jurisdiction and rule pack
+it belongs to, and who sponsored it. Provision records say what its operative
+text currently reads and what it used to read, append-only, with amendment
+authority behind every revision. Between them they describe the bill
+completely — and neither of them can say that the text was compiled from a
+named family, at a named version of that family, from a named set of parameter
+values. Without that, reopening a saved bill cannot say which programme it
+belongs to, which amendment its politics are about, or whether the content
+bank has moved underneath it since.
+
+So one canonical shape is added: `legislativeDraftLineages`, an optional
+append-only `HistoryStore` family, wired into world integrity and history
+aggregation exactly as provisions are. Three things about it are the decision.
+
+It is written once, when the bill is filed, and never rewritten. An amended
+bill's text moves through the accepted provision writers; its lineage still
+records where it started. One measure may carry only one lineage, because two
+would mean two answers to "which configuration wrote this" and the later one
+would win by accident.
+
+It pins `familyVersion`, and that is the point of the record rather than a
+detail of it. The filed text is authoritative and lives in provisions, so
+editing a family in the bank — widening a bound, rewording a clause, retiring a
+configuration — changes what a _new_ bill would say and cannot restate a bill a
+player already filed. A saved bill whose family version no longer matches the
+bank is read back as what it is: its filed text stands, and the re-reading is
+reported unavailable with the reason, rather than silently recompiled into
+something else.
+
+Parameter values are stored as typed discriminated records, sorted by key, not
+as a JSON blob or an encoded identifier. A serialized world stays inspectable,
+two saves of the same configuration are byte-identical regardless of the order
+the player moved the controls in, and no value can arrive as a string that
+something downstream parses back into a number.
+
+Consequence: a docket can hold three unrelated bills in one life, each one
+still knowing what it is; and the content bank can grow, change or retire
+configurations without any of it reaching backwards into bills that are already
+filed.
