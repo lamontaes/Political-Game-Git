@@ -550,9 +550,10 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // side of the merge. Current main brings the accepted R3J Kentucky Sec. 88
     // source notes and the PR128 allocator; P2R2 brings `life-opportunities.ts`
     // and its two proof suites. The number below is what the scanner returns
-    // with both of those present.
+    // with both of those present, plus the CAMPAIGN-PORK1 day-advance repair's
+    // own regression suite, whose strings the scanner classifies as test.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49759);
+    expect(coverage.totalLiterals).toBe(49781);
     expect(coverage.counts.INVENTORIED).toBe(1912);
     expect(coverage.scannedFiles).toBe(326);
   });

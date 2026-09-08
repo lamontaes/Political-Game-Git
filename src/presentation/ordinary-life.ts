@@ -2,7 +2,9 @@ import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
   householdMembershipsAt,
+  addDays,
   advanceWorld,
+  advanceWorldMinutes,
   createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
@@ -10,6 +12,8 @@ import {
   openOrdinaryLifeRecords,
   personName,
   refreshLifeOpportunities,
+  simulationMinutesBetween,
+  simulationMomentAtLocalTime,
   workPendingEntriesFor,
   ORDINARY_LIFE_WORK_ITEMS,
 } from "../simulation";
@@ -153,6 +157,15 @@ export function projectOrdinaryDay(
 }
 
 /**
+ * When an ordinary day begins.
+ *
+ * A day that has been passed has also been started, and a life starts its day
+ * in the morning. This is the hour the surface hands the player back at, and
+ * it is early enough to leave the whole of the day in front of them.
+ */
+export const ORDINARY_DAY_START_MINUTE = 7 * 60;
+
+/**
  * Moves an ordinary day forward. Nothing dramatic is manufactured to fill it.
  *
  * The handlers are the campaign-aware ones, which is how election day arrives:
@@ -160,6 +173,23 @@ export function projectOrdinaryDay(
  * a screen offered a button marked "hold the election". A contest nobody filed
  * for falls through to the substrate's own handler, so this changes nothing for
  * a life with no campaign in it.
+ *
+ * The first day is crossed on the canonical sub-day path rather than the
+ * date-level one, and that is the whole of this repair. `advanceWorld` keeps
+ * the local minute by its own accepted contract, which is right for a date
+ * primitive and wrong for the one control a player has: a character who spent
+ * their evening and then moved to tomorrow arrived at tomorrow still standing
+ * at a quarter past eight at night, and the day after that, and the one after
+ * that. Anything with an hour in its rules — the campaign afternoon, which
+ * books nothing that would run past nine — then had no reachable time left in
+ * any day for the rest of the life, and the button that said "move to
+ * tomorrow" could not make tomorrow any different. Crossing the first
+ * midnight by minutes lands the character in the morning, and the remaining
+ * whole days keep that morning by the same contract.
+ *
+ * A commitment the character has not answered yet is still a hard boundary:
+ * the sub-day path refuses to step over one, and when it does the day moves as
+ * it did before rather than not at all.
  */
 export function passOrdinaryDays(world: World, days = 1): World {
   // The handler registry travels with every advance an adult life can make.
@@ -169,11 +199,26 @@ export function passOrdinaryDays(world: World, days = 1): World {
   // behaviour that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
-  return advanceWorld(
+  const handlers = createCampaignElectionTransitionRegistry();
+  const wholeDays = Math.max(1, Math.trunc(days));
+  const morning = simulationMomentAtLocalTime({
+    date: addDays(world.currentDate, 1),
+    minuteOfDay: ORDINARY_DAY_START_MINUTE,
+    timeZone: world.currentMoment.timeZone,
+    preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+  });
+  const stepped = advanceWorldMinutes(
     world,
-    Math.max(1, Math.trunc(days)),
-    createCampaignElectionTransitionRegistry(),
+    simulationMinutesBetween(world.currentMoment, morning),
+    handlers,
   );
+  // An unanswered commitment stands between here and the morning, so the
+  // sub-day boundary handed the world straight back. The day still has to
+  // move, and it moves the way it always did.
+  const tomorrow =
+    stepped === world ? advanceWorld(world, 1, handlers) : stepped;
+  if (wholeDays === 1) return tomorrow;
+  return advanceWorld(tomorrow, wholeDays - 1, handlers);
 }
 
 function openingLine(

@@ -2,6 +2,22 @@
 
 Newest release first.
 
+## UNRELEASED — Tomorrow is actually a new day
+
+Getting on with the day used to move the date and leave the clock alone. If you
+had spent your evening, tomorrow opened at a quarter past eight at night, and so
+did the day after that. Campaign work never books anything that would run past
+nine, so after five or six afternoons on the phones or the doors every campaign
+button went grey and stayed grey — and pressing on through a week, or twenty
+days, could not bring one back, because every one of those days opened at the
+same late hour.
+
+Moving to tomorrow now starts tomorrow, in the morning. The campaign is there
+again when you get up. Nothing else was loosened to do it: an appointment you
+have not kept yet still stops the day being skipped over, the money still has to
+be raised before it can be spent, election day still arrives when it arrives,
+and a session still will not be booked to run past nine.
+
 ## UNRELEASED — It reads like your life now
 
 The game talks to you. "You're ten, and you live in Lexington. Most weeks were
