@@ -535,13 +535,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-pinned after the P1 narration/thread migration
-    // (docs/plans/active/p1-prose-migration.md) reshaped the life-narration
-    // Reconciled with accepted main; regenerated from the combined P2 tree.
+    // Reconciled with accepted PR101 main and P2R1; these values are
+    // measured from the actual combined tree, not a reachability target.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48873);
+    expect(coverage.totalLiterals).toBe(49522);
     expect(coverage.counts.INVENTORIED).toBe(1910);
-    expect(coverage.scannedFiles).toBe(320);
+    expect(coverage.scannedFiles).toBe(323);
   });
 });
 
