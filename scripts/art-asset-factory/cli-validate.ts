@@ -22,10 +22,12 @@ const provenance = loadJson("art/manifest/provenance.json");
 const characterCatalog = loadJson("art/manifest/character_catalog.json");
 const poseFamilies = loadJson("art/manifest/pose_families.json");
 const cargoDisposition = loadJson("art/manifest/cargo_disposition.json");
+const garmentFitProfiles = loadJson("art/manifest/garment_fit_profiles.json");
 
 const result = validateArtAssets(manifest, families, deltas, provenance, {
   repositoryRoot: REPO_ROOT,
   characterCatalog,
+  garmentFitProfiles,
   poseFamilies,
   cargoDisposition,
 });

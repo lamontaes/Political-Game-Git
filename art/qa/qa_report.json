@@ -130,6 +130,76 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "fixtures/garment-fit/fit_accessory_badge_v1.png",
+    "metadata": {
+      "width": 80,
+      "height": 120,
+      "aspectRatio": "2:3",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_body_adult_average_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_body_adult_heavy_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_body_adult_lean_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 840,
+      "aspectRatio": "1:2",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_bottom_trousers_average_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 380,
+      "aspectRatio": "21:19",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_footwear_derby_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 64,
+      "aspectRatio": "105:16",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "fixtures/garment-fit/fit_top_knit_average_standing_v1.png",
+    "metadata": {
+      "width": 420,
+      "height": 340,
+      "aspectRatio": "21:17",
+      "hasTransparency": "confirmed"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png",
     "metadata": {
       "width": 80,

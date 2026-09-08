@@ -1,0 +1,25 @@
+010000226085ALABAMA                                                                                                   507429624             093024
+011001100001AUTAUGA COUNTY                                                  Autauga                            99001    5975924             093024
+011003160514BALDWIN COUNTY                                                  Baldwin                            99003   24643524             093024
+011005189541BARBOUR COUNTY                                                  Barbour                            99005    2470624             093024
+011013100002BUTLER COUNTY                                                   Butler                             99013    1865024             093024
+011015122485CALHOUN COUNTY                                                  Calhoun                            99015   11578824             093024
+011019122486CHEROKEE COUNTY                                                 Cherokee                           99019    2530224             093024
+011021100004CHILTON COUNTY                                                  Chilton                            99021    4588424             093024
+011025122488CLARKE COUNTY                                                   Clarke                             99025    2251524             093024
+011027160517CLAY COUNTY                                                     Clay                               99027    1419824             093024
+011031160518COFFEE COUNTY                                                   Coffee                             99031    5480524             093024
+011033211968COLBERT COUNTY                                                  Colbert                            99033    5803324             093024
+011043122490CULLMAN COUNTY                                                  Cullman                            99043    9066524             093024
+011047160521DALLAS COUNTY                                                   Dallas                             99047    3676724             093024
+011049207499DE KALB COUNTY                                                  DeKalb                             99049    7199824             093024
+011051160522ELMORE COUNTY                                                   Elmore                             99051    8956324             093024
+011055122491ETOWAH COUNTY                                                   Etowah                             99055   10308824             093024
+011057194424FAYETTE COUNTY                                                  Fayette                            99057    1611824             093024
+011061183670GENEVA COUNTY                                                   Geneva                             99061    2678324             093024
+011065160525HALE COUNTY                                                     Hale                               99065    1459524             093024
+011069122492HOUSTON COUNTY                                                  Houston                            99069   10807924             093024
+011073160527JEFFERSON COUNTY                                                Jefferson                          99073   66540924             093024
+011077122493LAUDERDALE COUNTY                                               Lauderdale                         99077    9587824             093024
+011081160528LEE COUNTY                                                      Lee                                99081   18077324             093024
+011087122494MACON COUNTY                                                    Macon                              99087    1851624             093024

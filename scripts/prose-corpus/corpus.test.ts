@@ -535,12 +535,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Measured by corpus:prose on the 101L combined tree: accepted P1
-    // narration plus the unchanged executive-authority modules.
+    // Measured by corpus:prose on the FINAL-LANDING-Q4 Step B tree: P1
+    // narration, accepted current main and unchanged executive modules.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48766);
+    expect(coverage.totalLiterals).toBe(49311);
     expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(317);
+    expect(coverage.scannedFiles).toBe(319);
   });
 });
 

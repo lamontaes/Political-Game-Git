@@ -1,0 +1,2599 @@
+{
+  "__fixture": true,
+  "fixtureId": "municipal-governance/kentucky-pilot",
+  "artifacts": {
+    "packs": [
+      {
+        "sourceGovernmentKey": "us-ky-lexington-fayette-ucg",
+        "state": "KY",
+        "jurisdictionDisplayName": "Lexington-Fayette Urban County Government",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; the reconciliation is a later step and no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "URBAN_COUNTY_CONSOLIDATED",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "Urban-county government (merged city and county)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67A (Urban-County Government)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "1974-01-01",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "Merger of the City of Lexington and Fayette County"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Urban County Council",
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Separately elected Mayor, elected at-large countywide",
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 15,
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "HYBRID_DISTRICT_AT_LARGE",
+              "districtSeats": 12,
+              "atLargeSeats": 3,
+              "wardSeats": null,
+              "note": "12 single-member district councilmembers plus 3 countywide at-large members; the at-large member with the most votes serves as Vice Mayor."
+            },
+            "sourceKey": "lfucg-council",
+            "effectiveDate": "1974-01-01"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Mayor at regular and special meetings; Vice Mayor in the Mayor's absence and at work sessions.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter §§ 4.03–4.04"
+          },
+          "terms": [
+            {
+              "seatClass": "District Council Member",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 2,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "No term limit",
+                "sourceKey": "research-92i",
+                "effectiveDate": "2026-09-05",
+                "legalLocator": "LFUCG Charter § 4.02"
+              }
+            },
+            {
+              "seatClass": "At-Large Council Member (incl. Vice Mayor)",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "Three consecutive four-year terms",
+                "sourceKey": "research-92i",
+                "effectiveDate": "1998-01-01",
+                "legalLocator": "LFUCG Charter amendment (1998)"
+              }
+            },
+            {
+              "seatClass": "Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "lfucg-council",
+                "effectiveDate": "1974-01-01"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "Three consecutive four-year terms",
+                "sourceKey": "research-92i",
+                "effectiveDate": "1998-01-01",
+                "legalLocator": "LFUCG Charter amendment (1998)"
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "KNOWN",
+            "value": "Council fills a council or mayoral vacancy by majority vote within 30 days; otherwise the Governor appoints, subject to the successor-election rule.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter §§ 4.07, 5.04; Ky. Const. § 152"
+          },
+          "presidingRules": [
+            {
+              "rule": {
+                "status": "KNOWN",
+                "value": {
+                  "context": "REGULAR_MEETING",
+                  "presidingRole": "MAYOR",
+                  "legislativeVoteRole": "TIE_BREAKER_ONLY",
+                  "conditions": [
+                    "Votes only to break a tie."
+                  ]
+                },
+                "sourceKey": "research-92i",
+                "effectiveDate": "1974-01-01",
+                "legalLocator": "LFUCG Charter §§ 4.04, 5.05"
+              }
+            },
+            {
+              "rule": {
+                "status": "KNOWN",
+                "value": {
+                  "context": "WORK_SESSION",
+                  "presidingRole": "VICE_MAYOR",
+                  "legislativeVoteRole": "FULL_VOTE",
+                  "conditions": [
+                    "Vice Mayor is an at-large councilmember."
+                  ]
+                },
+                "sourceKey": "research-92i",
+                "effectiveDate": "1974-01-01",
+                "legalLocator": "LFUCG Charter § 4.03"
+              }
+            }
+          ],
+          "partisanshipHistory": [
+            {
+              "status": "KNOWN",
+              "value": "NONPARTISAN",
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 4.02, 5.02"
+            }
+          ],
+          "electionCalendar": {
+            "status": "KNOWN",
+            "value": {
+              "primaryHeld": true,
+              "primaryTiming": "May in even-numbered years",
+              "generalTiming": "November in even-numbered years",
+              "electionYears": "District seats every two years; mayor and at-large seats every four years"
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter §§ 4.02, 5.02; KRS 83A.045"
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "SEPARATE_EXECUTIVE_AND_LEGISLATIVE",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+            },
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "professionalManager": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Chief Administrative Officer",
+              "appointedByRole": "MAYOR",
+              "removableByRole": "MAYOR",
+              "confirmationRequired": true,
+              "removalConditions": [
+                "Serves at the Mayor's pleasure."
+              ],
+              "statedRole": "Chief administrative officer under the Mayor; department leadership reports through this office."
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter § 5.06"
+          },
+          "departmentHeadAuthority": {
+            "status": "KNOWN",
+            "value": "Mayor appoints department commissioners subject to Council confirmation and may remove them at pleasure.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter §§ 5.07–5.08"
+          },
+          "reportingRelationships": {
+            "status": "KNOWN",
+            "value": "Department commissioners and directors report to the Chief Administrative Officer, who reports to the Mayor.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter §§ 5.06–5.07"
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 5.05"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Council ordinances and resolutions",
+                "conditions": [
+                  "Written return within 10 days."
+                ],
+                "threshold": null,
+                "exceptions": [
+                  "Zoning map amendments",
+                  "Charter-exempt internal matters"
+                ]
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1991-05-09",
+              "legalLocator": "LFUCG Charter § 5.05; Hacker v. Baesler"
+            }
+          },
+          {
+            "power": "LINE_ITEM_VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.05, 6.07"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Appropriation items",
+                "conditions": [],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.05, 6.07"
+            }
+          },
+          {
+            "power": "OVERRIDE",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 5.05"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Mayoral veto",
+                "conditions": [],
+                "threshold": {
+                  "numerator": 3,
+                  "denominator": 5,
+                  "denominatorBasis": "TOTAL_MEMBERSHIP",
+                  "fixedVotesRequired": 9
+                },
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 5.05"
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.06–5.07"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Chief Administrative Officer and department commissioners",
+                "conditions": [
+                  "Council majority confirmation."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.06–5.07"
+            }
+          },
+          {
+            "power": "REMOVAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.06–5.07"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Chief Administrative Officer and unclassified commissioners",
+                "conditions": [
+                  "At pleasure."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 5.06–5.07"
+            }
+          },
+          {
+            "power": "BUDGET_PROPOSAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 6.02–6.03"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Annual operating and capital budget",
+                "conditions": [
+                  "At least 60 days before the fiscal year."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter §§ 6.02–6.03"
+            }
+          },
+          {
+            "power": "BUDGET_ADOPTION",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 6.04"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Annual appropriation ordinance",
+                "conditions": [
+                  "Before July 1.",
+                  "Balanced budget."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "MEMBERS_PRESENT_AND_VOTING",
+                  "fixedVotesRequired": null
+                },
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 6.04"
+            }
+          },
+          {
+            "power": "LEGISLATIVE_VOTE",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 4.04"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Tied Council vote",
+                "conditions": [
+                  "Tie-break only."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 4.04"
+            }
+          },
+          {
+            "power": "EMERGENCY_POWERS",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 39A.100"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Local emergency declaration and orders",
+                "conditions": [
+                  "Under KRS 39A.100."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 39A.100"
+            }
+          },
+          {
+            "power": "INQUIRY_SUBPOENA",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 4.10"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Government officers and records",
+                "conditions": [
+                  "Council resolution."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "1974-01-01",
+              "legalLocator": "LFUCG Charter § 4.10"
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance",
+              "resolution"
+            ],
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "introductionSponsorship": {
+            "status": "KNOWN",
+            "value": "Councilmember, or Mayor through the Chief Administrative Officer and docket.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter § 4.08"
+          },
+          "readings": {
+            "status": "KNOWN",
+            "value": 2,
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter § 4.08; KRS 83A.060(4)"
+          },
+          "committeeReferral": {
+            "status": "KNOWN",
+            "value": true,
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Council Rules § 3"
+          },
+          "publicHearing": {
+            "status": "KNOWN",
+            "value": "Required for specified zoning, budget, and property-tax matters.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 100.211; KRS 132.027; Charter § 6.04"
+          },
+          "quorum": {
+            "status": "KNOWN",
+            "value": "Eight of fifteen councilmembers.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter § 4.05"
+          },
+          "passageThreshold": {
+            "status": "KNOWN",
+            "value": "Majority present and voting unless law requires more.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "LFUCG Charter § 4.08"
+          },
+          "amendment": {
+            "status": "KNOWN",
+            "value": "May be proposed in committee, work session, or on the floor; a character-changing amendment requires another reading.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Council Rules § 4"
+          },
+          "mayoralAction": {
+            "status": "KNOWN",
+            "value": "Sign, veto with message, or allow effectiveness without signature within 10 days.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter § 5.05"
+          },
+          "override": {
+            "status": "KNOWN",
+            "value": "Three-fifths of total membership: nine votes.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter § 5.05"
+          },
+          "effectivePublication": {
+            "status": "KNOWN",
+            "value": "Effectiveness follows applicable publication law; emergency treatment must be stated.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.060(9); KRS ch. 424"
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "URBAN_COUNTY",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "enablingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67A (Urban-County Government)",
+            "sourceKey": "krs-67a",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "KRS ch. 67A"
+          },
+          "consolidationEffectiveDate": {
+            "status": "KNOWN",
+            "value": "1974-01-01",
+            "sourceKey": "research-44",
+            "effectiveDate": "1974-01-01"
+          },
+          "predecessorUnits": [
+            {
+              "name": "City of Lexington",
+              "unitKind": "city",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "name": "Fayette County",
+              "unitKind": "county",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ],
+          "retainedNestedGovernments": [],
+          "retainedCountyEquivalentOffices": [
+            {
+              "office": "Fayette County Sheriff",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "office": "Fayette County Clerk",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            },
+            {
+              "office": "Property Valuation Administrator",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ],
+          "serviceDistricts": [
+            {
+              "name": "Full Urban Services District",
+              "note": {
+                "status": "KNOWN",
+                "value": "Additional urban services and distinct tax treatment.",
+                "sourceKey": "research-92i",
+                "effectiveDate": "1974-01-01",
+                "legalLocator": "Charter art. 2; KRS 67A.150"
+              }
+            },
+            {
+              "name": "General Services District",
+              "note": {
+                "status": "KNOWN",
+                "value": "General-service county balance.",
+                "sourceKey": "research-92i",
+                "effectiveDate": "1974-01-01",
+                "legalLocator": "Charter art. 2; KRS 67A.150"
+              }
+            }
+          ],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Fayette County Public Schools",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1974-01-01"
+              }
+            }
+          ],
+          "nestedGovernmentCount": {
+            "status": "KNOWN",
+            "value": 0,
+            "sourceKey": "research-92i",
+            "effectiveDate": "1974-01-01",
+            "legalLocator": "LFUCG Charter § 1.01"
+          },
+          "parallelGeneralGovernment": {
+            "status": "NOT_APPLICABLE",
+            "reason": "City and county general governments were merged.",
+            "sourceKey": "research-92i"
+          }
+        },
+        "unresolved": [
+          "Canonical Census government-unit linkage remains UNKNOWN pending a locked cross-domain artifact.",
+          "Repeated school/special-district identifiers in the cargo are not carried.",
+          "All KNOWN rules remain audit-fixture evidence pending independent first-party acquisition and proposition verification."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "lfucg-council",
+            "authorityType": "Municipal Official Website",
+            "title": "Office of the Urban County Council — City of Lexington, Kentucky",
+            "issuingAuthority": "Lexington-Fayette Urban County Government",
+            "url": "https://www.lexingtonky.gov/government/office-urban-county-council",
+            "effectiveDate": "1974-01-01",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Urban County Council of 12 district members (2-year terms) plus 3 at-large members (4-year terms), the top-polling at-large member serving as Vice Mayor."
+          },
+          {
+            "sourceKey": "krs-67a",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 67A — Urban-County Government",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=37378",
+            "effectiveDate": "1974-01-01",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework authorizing urban-county government, the form under which Lexington and Fayette County merged."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          },
+          {
+            "sourceKey": "ky-const-county-offices",
+            "authorityType": "Kentucky Constitution",
+            "title": "Kentucky Constitution — constitutional county offices (e.g. §§ 99, 104)",
+            "issuingAuthority": "Commonwealth of Kentucky",
+            "url": "https://apps.legislature.ky.gov/law/constitution",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Elected county constitutional offices (Sheriff, County Clerk, Property Valuation Administrator, County Attorney) continue as separately elected offices within a consolidated Kentucky government."
+          },
+          {
+            "sourceKey": "research-92i",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "92I Antigravity Kentucky Municipal Governance Implementation Cargo — 2026-09-05",
+            "issuingAuthority": "Antigravity research lane",
+            "url": "https://drive.google.com/file/d/1K1cZdA-cPvp-G3lF6-Iatd6xT7hjBgOb",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-06",
+            "retrievable": false,
+            "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          }
+        ],
+        "budgetProcedure": {
+          "fiscalYear": {
+            "status": "KNOWN",
+            "value": {
+              "beginsMonthDay": "07-01",
+              "endsMonthDay": "06-30"
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.01"
+          },
+          "prepares": {
+            "status": "KNOWN",
+            "value": [
+              "MAYOR",
+              "CHIEF_ADMINISTRATIVE_OFFICER"
+            ],
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.02"
+          },
+          "proposes": {
+            "status": "KNOWN",
+            "value": "MAYOR",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.03"
+          },
+          "amends": {
+            "status": "KNOWN",
+            "value": "COUNCIL",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.04"
+          },
+          "adopts": {
+            "status": "KNOWN",
+            "value": "COUNCIL",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.04"
+          },
+          "submissionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "05-01",
+              "minimumDaysBeforeFiscalYear": 60
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.03"
+          },
+          "adoptionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "06-30",
+              "minimumDaysBeforeFiscalYear": null
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.04"
+          },
+          "balancedBudgetConstraint": {
+            "status": "KNOWN",
+            "value": "Expenditures may not exceed estimated revenues plus unencumbered surplus.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Charter § 6.04; KRS 91A.030"
+          }
+        },
+        "meetingPlaces": [
+          {
+            "kind": "REGULAR_MEETING",
+            "location": {
+              "status": "KNOWN",
+              "value": "Lexington Government Center, 200 E. Main Street, 2nd Floor Council Chambers, Lexington, Kentucky 40507",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "LFUCG official directory and Council records"
+            }
+          },
+          {
+            "kind": "WORK_SESSION",
+            "location": {
+              "status": "KNOWN",
+              "value": "Lexington Government Center, 200 E. Main Street, 2nd Floor Council Chambers, Lexington, Kentucky 40507",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "LFUCG official directory and Council records"
+            }
+          },
+          {
+            "kind": "MAYOR_OFFICE",
+            "location": {
+              "status": "KNOWN",
+              "value": "Lexington Government Center, 200 E. Main Street, 12th Floor, Lexington, Kentucky 40507",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "LFUCG official directory and Council records"
+            }
+          },
+          {
+            "kind": "MANAGER_OFFICE",
+            "location": {
+              "status": "KNOWN",
+              "value": "Lexington Government Center, 200 E. Main Street, 12th Floor, Lexington, Kentucky 40507",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "LFUCG official directory and Council records"
+            }
+          }
+        ]
+      },
+      {
+        "sourceGovernmentKey": "us-ky-louisville-jefferson-metro",
+        "state": "KY",
+        "jurisdictionDisplayName": "Louisville-Jefferson County Metro Government",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "METRO_CONSOLIDATED",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "Consolidated local government (city-county merger)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67C (Consolidated Local Governments)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "2003-01-06",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "Merger of the City of Louisville and Jefferson County"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Louisville Metro Council",
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Separately elected Metro Mayor, elected at-large countywide",
+            "sourceKey": "louisville-mayor",
+            "effectiveDate": "2003-01-06"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 26,
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "SINGLE_MEMBER_DISTRICT",
+              "districtSeats": 26,
+              "atLargeSeats": 0,
+              "wardSeats": null,
+              "note": "26 single-member geographic districts apportioned by population across Jefferson County; no at-large seats."
+            },
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Metro Council President, elected by and from the Council membership; the Mayor is a separate executive.",
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "terms": [
+            {
+              "seatClass": "Metro Council Member",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "louisville-metro",
+                "effectiveDate": "2003-01-06"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "No council term-limit rule established from a first-party source here."
+              }
+            },
+            {
+              "seatClass": "Metro Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "louisville-mayor",
+                "effectiveDate": "2003-01-06"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "Two consecutive terms after January 1, 2023, then at least four years out.",
+                "sourceKey": "krs-67c",
+                "effectiveDate": "2023-01-01",
+                "legalLocator": "KRS 67C.105(2)(c)"
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "KNOWN",
+            "value": "Council fills within 30 days; otherwise the Governor appoints, subject to successor-election law.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103(6), 67C.105; Ky. Const. § 152"
+          },
+          "presidingRules": [
+            {
+              "rule": {
+                "status": "KNOWN",
+                "value": {
+                  "context": "REGULAR_MEETING",
+                  "presidingRole": "COUNCIL_PRESIDENT",
+                  "legislativeVoteRole": "FULL_VOTE",
+                  "conditions": [
+                    "Elected annually from Council membership.",
+                    "Mayor neither presides nor votes."
+                  ]
+                },
+                "sourceKey": "krs-67c",
+                "effectiveDate": "2026-09-05",
+                "legalLocator": "KRS 67C.103(6), 67C.105(5)"
+              }
+            }
+          ],
+          "partisanshipHistory": [
+            {
+              "status": "HISTORICAL",
+              "value": "PARTISAN",
+              "sourceKey": "research-92i",
+              "start": "2003-01-06",
+              "end": "2024-12-31",
+              "legalLocator": "Prior KRS 67C.103 and 67C.105"
+            },
+            {
+              "status": "KNOWN",
+              "value": "NONPARTISAN",
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2025-01-01",
+              "legalLocator": "KRS 67C.103(1), 67C.105(2)"
+            }
+          ],
+          "electionCalendar": {
+            "status": "KNOWN",
+            "value": {
+              "primaryHeld": true,
+              "primaryTiming": "May",
+              "generalTiming": "November",
+              "electionYears": "Thirteen staggered council seats every two years; mayor every four years"
+            },
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2025-01-01",
+            "legalLocator": "KRS 67C.103, 67C.105"
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "SEPARATE_EXECUTIVE_AND_LEGISLATIVE",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+            },
+            "sourceKey": "louisville-mayor",
+            "effectiveDate": "2003-01-06"
+          },
+          "professionalManager": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Louisville Metro is a mayor-council form under KRS 67C with the elected Mayor as chief executive; there is no appointed city manager as general chief executive.",
+            "sourceKey": "research-44"
+          },
+          "departmentHeadAuthority": {
+            "status": "KNOWN",
+            "value": "Mayor appoints and removes department and agency directors; approval applies where an appointment statute requires it.",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5), 67C.139"
+          },
+          "reportingRelationships": {
+            "status": "KNOWN",
+            "value": "Department directors are under the Mayor's executive supervision; deputy-mayor or operating-officer layers are executive staff, not a statutory city manager.",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)"
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Council ordinances and resolutions",
+                "conditions": [
+                  "Written objections within 21 days."
+                ],
+                "threshold": null,
+                "exceptions": [
+                  "Actions expressly excluded by current law"
+                ]
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5)"
+            }
+          },
+          {
+            "power": "LINE_ITEM_VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Appropriation items or parts",
+                "conditions": [],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5)"
+            }
+          },
+          {
+            "power": "OVERRIDE",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Mayoral veto",
+                "conditions": [],
+                "threshold": {
+                  "numerator": 2,
+                  "denominator": 3,
+                  "denominatorBasis": "TOTAL_MEMBERSHIP",
+                  "fixedVotesRequired": 18
+                },
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5)"
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Department and agency directors",
+                "conditions": [
+                  "Council approval where required by the appointment statute."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5), 67C.139"
+            }
+          },
+          {
+            "power": "REMOVAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Department and agency directors",
+                "conditions": [
+                  "Serve at pleasure."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5)"
+            }
+          },
+          {
+            "power": "BUDGET_PROPOSAL",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.105(5)(b)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Annual budget",
+                "conditions": [
+                  "At least 60 days before fiscal-year end."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.105(5)(b)"
+            }
+          },
+          {
+            "power": "BUDGET_ADOPTION",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.103"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Annual appropriation ordinance",
+                "conditions": [
+                  "Before July 1.",
+                  "Balanced budget."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "MEMBERS_PRESENT_AND_VOTING",
+                  "fixedVotesRequired": null
+                },
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.103; KRS 91A.030"
+            }
+          },
+          {
+            "power": "PRESIDE",
+            "heldByRole": "COUNCIL_PRESIDENT",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2003-01-06",
+              "legalLocator": "KRS 67C.103(6)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Council meetings",
+                "conditions": [
+                  "President elected annually from Council."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.103(6)"
+            }
+          },
+          {
+            "power": "EMERGENCY_POWERS",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 39A.100"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Local emergency orders",
+                "conditions": [
+                  "Under KRS 39A.100."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 39A.100"
+            }
+          },
+          {
+            "power": "INQUIRY_SUBPOENA",
+            "heldByRole": "COUNCIL",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.103(13)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Government operations",
+                "conditions": [
+                  "Within statutory limits."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-67c",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 67C.103(13)"
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance",
+              "resolution"
+            ],
+            "sourceKey": "louisville-metro",
+            "effectiveDate": "2003-01-06"
+          },
+          "introductionSponsorship": {
+            "status": "KNOWN",
+            "value": "Councilmember sponsor or co-sponsor.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Metro Council Rule 4.01"
+          },
+          "readings": {
+            "status": "KNOWN",
+            "value": 2,
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Metro Council Rule 4.02; KRS 83A.060"
+          },
+          "committeeReferral": {
+            "status": "KNOWN",
+            "value": true,
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Metro Council Rule 3"
+          },
+          "publicHearing": {
+            "status": "KNOWN",
+            "value": "Required for specified zoning, budget, and property-tax matters.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 100.211; KRS 132.027"
+          },
+          "quorum": {
+            "status": "KNOWN",
+            "value": "Fourteen of twenty-six councilmembers.",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103"
+          },
+          "passageThreshold": {
+            "status": "KNOWN",
+            "value": "Majority present and voting unless law requires more.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103; Council Rules"
+          },
+          "amendment": {
+            "status": "KNOWN",
+            "value": "Committee or floor amendment under Council rules.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Metro Council Rule 4.04"
+          },
+          "mayoralAction": {
+            "status": "KNOWN",
+            "value": "Approve or veto within 21 days; inaction allows the measure to become law.",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)"
+          },
+          "override": {
+            "status": "KNOWN",
+            "value": "Two-thirds of total membership: eighteen votes.",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)"
+          },
+          "effectivePublication": {
+            "status": "KNOWN",
+            "value": "Effectiveness follows signature, override, or statutory inaction and applicable publication law.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103; KRS ch. 424"
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "METRO_CONSOLIDATED",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "enablingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 67C (Consolidated Local Governments)",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2003-01-06",
+            "legalLocator": "KRS ch. 67C"
+          },
+          "consolidationEffectiveDate": {
+            "status": "KNOWN",
+            "value": "2003-01-06",
+            "sourceKey": "research-44",
+            "effectiveDate": "2003-01-06"
+          },
+          "predecessorUnits": [
+            {
+              "name": "City of Louisville",
+              "unitKind": "city",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Jefferson County (Fiscal Court)",
+              "unitKind": "county",
+              "attested": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "retainedNestedGovernments": [
+            {
+              "name": "St. Matthews",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Shively",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Anchorage",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Prospect",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "name": "Jeffersontown",
+              "governmentClass": "home-rule-class city",
+              "survivesConsolidation": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "retainedCountyEquivalentOffices": [
+            {
+              "office": "Jefferson County Sheriff",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "office": "Jefferson County Clerk",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            },
+            {
+              "office": "Property Valuation Administrator",
+              "retainedBy": {
+                "status": "KNOWN",
+                "value": "Separately elected Kentucky constitutional county office",
+                "sourceKey": "ky-const-county-offices",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "serviceDistricts": [
+            {
+              "name": "Urban Services District",
+              "note": {
+                "status": "KNOWN",
+                "value": "Former City of Louisville territory with designated urban services and tax treatment.",
+                "sourceKey": "research-92i",
+                "effectiveDate": "2003-01-06",
+                "legalLocator": "KRS 67C.147"
+              }
+            },
+            {
+              "name": "General Services District",
+              "note": {
+                "status": "KNOWN",
+                "value": "Countywide general-service balance.",
+                "sourceKey": "research-92i",
+                "effectiveDate": "2003-01-06",
+                "legalLocator": "KRS 67C.111, 67C.147"
+              }
+            }
+          ],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Jefferson County Public Schools",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "2003-01-06"
+              }
+            }
+          ],
+          "nestedGovernmentCount": {
+            "status": "UNKNOWN",
+            "reason": "Cargo reports 83, but exact current count awaits the locked Government Units listing.",
+            "investigatedSourceKeys": [
+              "krs-67c",
+              "research-92i"
+            ]
+          },
+          "parallelGeneralGovernment": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Former city and county general governments were consolidated; retained cities are nested records.",
+            "sourceKey": "krs-67c"
+          }
+        },
+        "unresolved": [
+          "Government-unit linkage and exact retained-city count/list remain UNKNOWN pending a locked cross-domain artifact.",
+          "Nonpartisan law is represented as current from 2025; independent audit must verify enactment history and election-cycle application.",
+          "Current KRS two-term mayoral limit replaces the cargo's stale three-term value.",
+          "All KNOWN rules remain audit-fixture evidence pending independent first-party acquisition and proposition verification."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "louisville-metro",
+            "authorityType": "Municipal Official Website",
+            "title": "Metro Council — Louisville Metro Government",
+            "issuingAuthority": "Louisville-Jefferson County Metro Government",
+            "url": "https://louisvilleky.gov/government/metro-council",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Metro Council of 26 single-member geographic districts; standing committees; ordinances and resolutions as measure types."
+          },
+          {
+            "sourceKey": "louisville-mayor",
+            "authorityType": "Municipal Official Website",
+            "title": "Office of the Mayor — Louisville Metro Government",
+            "issuingAuthority": "Louisville-Jefferson County Metro Government",
+            "url": "https://louisvilleky.gov/government/mayor",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Separately elected Metro Mayor as chief executive, physically and institutionally separate from the legislative Metro Council."
+          },
+          {
+            "sourceKey": "krs-67c",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 67C — Consolidated Local Governments",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=37388",
+            "effectiveDate": "2003-01-06",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework authorizing the consolidated local government under which Louisville and Jefferson County merged effective January 6, 2003."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          },
+          {
+            "sourceKey": "ky-const-county-offices",
+            "authorityType": "Kentucky Constitution",
+            "title": "Kentucky Constitution — constitutional county offices (e.g. §§ 99, 104)",
+            "issuingAuthority": "Commonwealth of Kentucky",
+            "url": "https://apps.legislature.ky.gov/law/constitution",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Elected county constitutional offices (Sheriff, County Clerk, Property Valuation Administrator, County Attorney) continue as separately elected offices within a consolidated Kentucky government."
+          },
+          {
+            "sourceKey": "research-92i",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "92I Antigravity Kentucky Municipal Governance Implementation Cargo — 2026-09-05",
+            "issuingAuthority": "Antigravity research lane",
+            "url": "https://drive.google.com/file/d/1K1cZdA-cPvp-G3lF6-Iatd6xT7hjBgOb",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-06",
+            "retrievable": false,
+            "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          }
+        ],
+        "budgetProcedure": {
+          "fiscalYear": {
+            "status": "KNOWN",
+            "value": {
+              "beginsMonthDay": "07-01",
+              "endsMonthDay": "06-30"
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 91A.030"
+          },
+          "prepares": {
+            "status": "KNOWN",
+            "value": [
+              "MAYOR"
+            ],
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)(b)"
+          },
+          "proposes": {
+            "status": "KNOWN",
+            "value": "MAYOR",
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)(b)"
+          },
+          "amends": {
+            "status": "KNOWN",
+            "value": "COUNCIL",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103"
+          },
+          "adopts": {
+            "status": "KNOWN",
+            "value": "COUNCIL",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.103; KRS 91A.030"
+          },
+          "submissionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "05-01",
+              "minimumDaysBeforeFiscalYear": 60
+            },
+            "sourceKey": "krs-67c",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105(5)(b)"
+          },
+          "adoptionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "06-30",
+              "minimumDaysBeforeFiscalYear": null
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 91A.030"
+          },
+          "balancedBudgetConstraint": {
+            "status": "KNOWN",
+            "value": "Estimated revenues and available resources must at least equal proposed expenditures.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 67C.105; Ky. Const. § 157"
+          }
+        },
+        "meetingPlaces": [
+          {
+            "kind": "REGULAR_MEETING",
+            "location": {
+              "status": "KNOWN",
+              "value": "Historic Louisville City Hall, 601 W. Jefferson Street, 3rd Floor Council Chambers, Louisville, Kentucky 40202",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "Louisville Metro directory"
+            }
+          },
+          {
+            "kind": "WORK_SESSION",
+            "location": {
+              "status": "KNOWN",
+              "value": "Historic Louisville City Hall, 601 W. Jefferson Street, 3rd Floor committee rooms or Chambers, Louisville, Kentucky 40202",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "Metro Council schedule"
+            }
+          },
+          {
+            "kind": "MAYOR_OFFICE",
+            "location": {
+              "status": "KNOWN",
+              "value": "Louisville Metro Hall, 527 W. Jefferson Street, 2nd Floor, Louisville, Kentucky 40202",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "Louisville Metro directory"
+            }
+          },
+          {
+            "kind": "MANAGER_OFFICE",
+            "location": {
+              "status": "NOT_APPLICABLE",
+              "reason": "No statutory city-manager office.",
+              "sourceKey": "krs-67c"
+            }
+          }
+        ]
+      },
+      {
+        "sourceGovernmentKey": "us-ky-bowling-green",
+        "state": "KY",
+        "jurisdictionDisplayName": "City of Bowling Green",
+        "censusGovernmentUnitReference": {
+          "status": "UNKNOWN",
+          "reason": "Not yet reconciled to a canonical government-unit / Census key; no place code is asserted here."
+        },
+        "legalBasis": {
+          "form": {
+            "status": "KNOWN",
+            "value": "COMMISSION_MANAGER",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "basisType": {
+            "status": "KNOWN",
+            "value": "City manager plan: Board of Commissioners plus an appointed City Manager (KRS 83A.150)",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "controllingAuthority": {
+            "status": "KNOWN",
+            "value": "Kentucky Revised Statutes Chapter 83A, esp. 83A.150 (city manager plan)",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "effectiveDate": {
+            "status": "KNOWN",
+            "value": "1980-07-15",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "Effective date of the current KRS Chapter 83A city-government framework"
+          }
+        },
+        "electedStructure": {
+          "bodyName": {
+            "status": "KNOWN",
+            "value": "Board of Commissioners",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "executiveSelection": {
+            "status": "KNOWN",
+            "value": "Mayor elected at-large; the Mayor is a member of and presides over the Board of Commissioners rather than a separate executive.",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "bodySize": {
+            "status": "KNOWN",
+            "value": 5,
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "composition": {
+            "status": "KNOWN",
+            "value": {
+              "pattern": "AT_LARGE",
+              "districtSeats": 0,
+              "atLargeSeats": 5,
+              "wardSeats": null,
+              "note": "The Mayor plus four Commissioners, all elected at-large citywide with no geographic wards; the top four vote-getters in the nonpartisan commission race are elected."
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "presidingOffice": {
+            "status": "KNOWN",
+            "value": "Mayor presides over the Board of Commissioners.",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "terms": [
+            {
+              "seatClass": "Commissioner",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 2,
+                "sourceKey": "bgky-gov",
+                "effectiveDate": "1980-07-15"
+              },
+              "termLimit": {
+                "status": "UNKNOWN",
+                "reason": "Commissioner term-limit rule not established from a first-party source here.",
+                "investigatedSourceKeys": [
+                  "krs-83a"
+                ]
+              }
+            },
+            {
+              "seatClass": "Mayor",
+              "termYears": {
+                "status": "KNOWN",
+                "value": 4,
+                "sourceKey": "bgky-gov",
+                "effectiveDate": "1980-07-15"
+              },
+              "termLimit": {
+                "status": "KNOWN",
+                "value": "No more than three consecutive terms (KRS 83A.024/83A.040; Ky. Const. § 160)",
+                "sourceKey": "krs-83a",
+                "effectiveDate": "1980-07-15",
+                "legalLocator": "KRS 83A.040"
+              }
+            }
+          ],
+          "vacancyMechanism": {
+            "status": "KNOWN",
+            "value": "Remaining Board members fill within 30 days; otherwise the Governor appoints.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.040(5); Bowling Green Code § 2-2.03"
+          },
+          "presidingRules": [
+            {
+              "rule": {
+                "status": "KNOWN",
+                "value": {
+                  "context": "REGULAR_MEETING",
+                  "presidingRole": "MAYOR",
+                  "legislativeVoteRole": "FULL_VOTE",
+                  "conditions": [
+                    "Mayor is a Board member."
+                  ]
+                },
+                "sourceKey": "krs-83a",
+                "effectiveDate": "2026-09-05",
+                "legalLocator": "KRS 83A.150(3)"
+              }
+            },
+            {
+              "rule": {
+                "status": "KNOWN",
+                "value": {
+                  "context": "WORK_SESSION",
+                  "presidingRole": "MAYOR",
+                  "legislativeVoteRole": "FULL_VOTE",
+                  "conditions": [
+                    "Cargo reports the same presiding arrangement."
+                  ]
+                },
+                "sourceKey": "research-92i",
+                "effectiveDate": "2026-09-05",
+                "legalLocator": "Bowling Green Code § 2-2.04"
+              }
+            }
+          ],
+          "partisanshipHistory": [
+            {
+              "status": "KNOWN",
+              "value": "NONPARTISAN",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.050; Bowling Green Code"
+            }
+          ],
+          "electionCalendar": {
+            "status": "KNOWN",
+            "value": {
+              "primaryHeld": false,
+              "primaryTiming": null,
+              "generalTiming": "November in even-numbered years",
+              "electionYears": "Four commissioner seats every two years; mayor every four years"
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2020-03-03",
+            "legalLocator": "Ordinance BG2020-3; KRS 83A.045"
+          }
+        },
+        "administrativeStructure": {
+          "executiveLegislativeSeparation": {
+            "status": "KNOWN",
+            "value": "EXECUTIVE_AND_LEGISLATIVE_FUSED_IN_BODY",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "mayor": {
+            "status": "KNOWN",
+            "value": {
+              "title": "Mayor",
+              "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "professionalManager": {
+            "status": "KNOWN",
+            "value": {
+              "title": "City Manager",
+              "appointedByRole": "COMMISSION",
+              "removableByRole": "COMMISSION",
+              "statedRole": "Chief administrative officer appointed by the Board of Commissioners; carries out the Board's decisions and manages the day-to-day operations of the city.",
+              "confirmationRequired": false,
+              "removalConditions": [
+                "Board majority vote.",
+                "Written reasons and public-hearing rights before final removal."
+              ]
+            },
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15",
+            "legalLocator": "KRS 83A.150"
+          },
+          "departmentHeadAuthority": {
+            "status": "KNOWN",
+            "value": "Board appoints or removes department heads only on the City Manager's recommendation; Mayor has no independent power.",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(7)(a)"
+          },
+          "reportingRelationships": {
+            "status": "KNOWN",
+            "value": "Department heads report to the City Manager; City Manager reports to the Board collectively.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(7); Bowling Green Code ch. 2"
+          }
+        },
+        "enumeratedPowers": [
+          {
+            "power": "PRESIDE",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Board meetings",
+                "conditions": [],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            }
+          },
+          {
+            "power": "LEGISLATIVE_VOTE",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "All Board proceedings",
+                "conditions": [
+                  "Full vote, not tie-break only."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            }
+          },
+          {
+            "power": "VETO",
+            "heldByRole": "MAYOR",
+            "capability": {
+              "status": "KNOWN",
+              "value": false,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": false,
+                "target": "Board measures",
+                "conditions": [
+                  "Statute expressly gives no veto."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(3)"
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "City Manager",
+                "conditions": [
+                  "Board majority."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "TOTAL_MEMBERSHIP",
+                  "fixedVotesRequired": 3
+                },
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)"
+            }
+          },
+          {
+            "power": "REMOVAL",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(8)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "City Manager",
+                "conditions": [
+                  "Preliminary reasons and hearing rights."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "TOTAL_MEMBERSHIP",
+                  "fixedVotesRequired": 3
+                },
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(8)"
+            }
+          },
+          {
+            "power": "DEPARTMENT_SUPERVISION",
+            "heldByRole": "CITY_MANAGER",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Municipal administration",
+                "conditions": [],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)"
+            }
+          },
+          {
+            "power": "APPOINTMENT",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)(a)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Department heads",
+                "conditions": [
+                  "Only on manager recommendation."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "TOTAL_MEMBERSHIP",
+                  "fixedVotesRequired": 3
+                },
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)(a)"
+            }
+          },
+          {
+            "power": "BUDGET_PROPOSAL",
+            "heldByRole": "CITY_MANAGER",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)(c)"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Annual budget",
+                "conditions": [
+                  "At least 30 days before fiscal year."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "krs-83a",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(7)(c)"
+            }
+          },
+          {
+            "power": "BUDGET_ADOPTION",
+            "heldByRole": "COMMISSION",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(4); KRS 91A.030"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Budget ordinance and tax rates",
+                "conditions": [
+                  "Before July 1.",
+                  "Balanced budget."
+                ],
+                "threshold": {
+                  "numerator": 1,
+                  "denominator": 2,
+                  "denominatorBasis": "MEMBERS_PRESENT",
+                  "fixedVotesRequired": null
+                },
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "KRS 83A.150(4); KRS 91A.030"
+            }
+          },
+          {
+            "power": "AGENDA_CONTROL",
+            "heldByRole": "CITY_MANAGER",
+            "capability": {
+              "status": "KNOWN",
+              "value": true,
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "Bowling Green Code § 2-2.19"
+            },
+            "details": {
+              "status": "KNOWN",
+              "value": {
+                "allowed": true,
+                "target": "Board docket",
+                "conditions": [
+                  "Consult Mayor and City Clerk."
+                ],
+                "threshold": null,
+                "exceptions": []
+              },
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "Bowling Green Code § 2-2.19"
+            }
+          }
+        ],
+        "legislativeProcedure": {
+          "measureTypes": {
+            "status": "KNOWN",
+            "value": [
+              "ordinance",
+              "municipal order",
+              "resolution"
+            ],
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.060; Bowling Green Code"
+          },
+          "introductionSponsorship": {
+            "status": "KNOWN",
+            "value": "City Manager, Mayor, or Commissioner.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Bowling Green Code § 2-2.19"
+          },
+          "readings": {
+            "status": "KNOWN",
+            "value": 2,
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.060(4)"
+          },
+          "committeeReferral": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Five-member Board considers items as a whole; no standing legislative committee system is established.",
+            "sourceKey": "research-92i"
+          },
+          "publicHearing": {
+            "status": "KNOWN",
+            "value": "Required for specified zoning, budget, and property-tax matters.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 100.211; KRS 132.027"
+          },
+          "quorum": {
+            "status": "KNOWN",
+            "value": "Three of five Board members.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(4); Bowling Green Code § 2-2.04"
+          },
+          "passageThreshold": {
+            "status": "KNOWN",
+            "value": "Majority present unless law requires more.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(4)"
+          },
+          "amendment": {
+            "status": "KNOWN",
+            "value": "Board may amend; material change must be read before final adoption.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.060; Bowling Green Code § 2-2.19"
+          },
+          "mayoralAction": {
+            "status": "KNOWN",
+            "value": "Mayor signs as presiding officer but cannot veto or delay.",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(3)"
+          },
+          "override": {
+            "status": "NOT_APPLICABLE",
+            "reason": "No veto exists, so no override exists.",
+            "sourceKey": "krs-83a"
+          },
+          "effectivePublication": {
+            "status": "KNOWN",
+            "value": "Ordinances follow publication law; municipal orders take effect on passage.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.060(9); KRS ch. 424"
+          }
+        },
+        "consolidation": {
+          "consolidationType": {
+            "status": "KNOWN",
+            "value": "NONE",
+            "sourceKey": "bgky-gov",
+            "effectiveDate": "1980-07-15"
+          },
+          "enablingAuthority": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Bowling Green is a home-rule-class city, not a consolidated government.",
+            "sourceKey": "bgky-gov"
+          },
+          "consolidationEffectiveDate": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Not a consolidated government; there is no consolidation effective date.",
+            "sourceKey": "bgky-gov"
+          },
+          "predecessorUnits": [],
+          "retainedNestedGovernments": [],
+          "retainedCountyEquivalentOffices": [],
+          "serviceDistricts": [],
+          "separateSchoolOrSpecialDistricts": [
+            {
+              "name": "Bowling Green Independent School District",
+              "districtKind": "independent school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1980-07-15"
+              }
+            },
+            {
+              "name": "Warren County Public Schools",
+              "districtKind": "county school district",
+              "separateFromGeneralGovernment": {
+                "status": "KNOWN",
+                "value": true,
+                "sourceKey": "research-44",
+                "effectiveDate": "1980-07-15"
+              }
+            }
+          ],
+          "nestedGovernmentCount": {
+            "status": "NOT_APPLICABLE",
+            "reason": "Applies to retained municipalities of a consolidated government; Bowling Green is not consolidated.",
+            "sourceKey": "bgky-gov"
+          },
+          "parallelGeneralGovernment": {
+            "status": "KNOWN",
+            "value": "Warren County Fiscal Court remains a separate county government.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "Ky. Const. § 144; KRS 67.083"
+          }
+        },
+        "unresolved": [
+          "Government-unit linkage remains UNKNOWN pending a locked cross-domain artifact.",
+          "City-specific adoption date of the city-manager plan remains UNKNOWN; 1980 statute date is not proof of local adoption.",
+          "Cargo no-term-limit candidate is rejected; current official city page states three consecutive mayoral terms.",
+          "All KNOWN rules remain audit-fixture evidence pending independent first-party acquisition and proposition verification."
+        ],
+        "asOf": "2026-09-05",
+        "citedSources": [
+          {
+            "sourceKey": "bgky-gov",
+            "authorityType": "Municipal Official Website",
+            "title": "How Government Works — City of Bowling Green, Kentucky",
+            "issuingAuthority": "City of Bowling Green",
+            "url": "https://www.bgky.org/government/how-government-works",
+            "effectiveDate": "1980-07-15",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "City manager form under KRS 83A.150; Board of Commissioners of four Commissioners (2-year terms) plus a Mayor (4-year term, max three consecutive); all executive and legislative power vested in the Board, which appoints a City Manager as chief administrative officer."
+          },
+          {
+            "sourceKey": "krs-83a",
+            "authorityType": "Kentucky Revised Statutes",
+            "title": "KRS Chapter 83A — City Government (incl. 83A.150 city manager plan, 83A.040 terms, 83A.060 ordinances)",
+            "issuingAuthority": "Kentucky General Assembly / Legislative Research Commission",
+            "url": "https://apps.legislature.ky.gov/law/statutes/chapter.aspx?id=37461",
+            "effectiveDate": "1980-07-15",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Statutory framework for Kentucky city government forms, including the city manager plan, term lengths and term limits, and ordinance procedure."
+          },
+          {
+            "sourceKey": "research-44",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX (Kentucky tranche)",
+            "issuingAuthority": "Project canonical Drive research corpus",
+            "url": "https://drive.google.com/file/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk",
+            "effectiveDate": "2026-08-25",
+            "retrievedDate": "2026-09-05",
+            "retrievable": false,
+            "claimSupported": "Kentucky pilot structural summary: LFUCG 12 district + 3 at-large council; Louisville Metro 26 districts with retained home-rule cities; Bowling Green at-large commission + city manager."
+          },
+          {
+            "sourceKey": "research-92i",
+            "authorityType": "Secondary Research Synthesis",
+            "title": "92I Antigravity Kentucky Municipal Governance Implementation Cargo — 2026-09-05",
+            "issuingAuthority": "Antigravity research lane",
+            "url": "https://drive.google.com/file/d/1K1cZdA-cPvp-G3lF6-Iatd6xT7hjBgOb",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-06",
+            "retrievable": false,
+            "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          }
+        ],
+        "budgetProcedure": {
+          "fiscalYear": {
+            "status": "KNOWN",
+            "value": {
+              "beginsMonthDay": "07-01",
+              "endsMonthDay": "06-30"
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 91A.030"
+          },
+          "prepares": {
+            "status": "KNOWN",
+            "value": [
+              "CITY_MANAGER"
+            ],
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(7)(c)"
+          },
+          "proposes": {
+            "status": "KNOWN",
+            "value": "CITY_MANAGER",
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(7)(c)"
+          },
+          "amends": {
+            "status": "KNOWN",
+            "value": "COMMISSION",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(4)"
+          },
+          "adopts": {
+            "status": "KNOWN",
+            "value": "COMMISSION",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(4); KRS 91A.030"
+          },
+          "submissionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "06-01",
+              "minimumDaysBeforeFiscalYear": 30
+            },
+            "sourceKey": "krs-83a",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 83A.150(7)(c)"
+          },
+          "adoptionDeadline": {
+            "status": "KNOWN",
+            "value": {
+              "monthDay": "06-30",
+              "minimumDaysBeforeFiscalYear": null
+            },
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 91A.030"
+          },
+          "balancedBudgetConstraint": {
+            "status": "KNOWN",
+            "value": "Expenditures may not exceed estimated revenues plus available unencumbered balances.",
+            "sourceKey": "research-92i",
+            "effectiveDate": "2026-09-05",
+            "legalLocator": "KRS 91A.030(2); Ky. Const. § 157"
+          }
+        },
+        "meetingPlaces": [
+          {
+            "kind": "REGULAR_MEETING",
+            "location": {
+              "status": "KNOWN",
+              "value": "Bowling Green City Hall, 1001 College Street, Bowling Green, Kentucky 42101",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "City directory and meeting notices"
+            }
+          },
+          {
+            "kind": "WORK_SESSION",
+            "location": {
+              "status": "KNOWN",
+              "value": "Bowling Green City Hall, 1001 College Street, Commission Chamber or Executive Conference Room, Bowling Green, Kentucky 42101",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "City directory and meeting notices"
+            }
+          },
+          {
+            "kind": "MAYOR_OFFICE",
+            "location": {
+              "status": "KNOWN",
+              "value": "Bowling Green City Hall, 1001 College Street, Bowling Green, Kentucky 42101",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "City directory and meeting notices"
+            }
+          },
+          {
+            "kind": "MANAGER_OFFICE",
+            "location": {
+              "status": "KNOWN",
+              "value": "Bowling Green City Hall, 1001 College Street, Bowling Green, Kentucky 42101",
+              "sourceKey": "research-92i",
+              "effectiveDate": "2026-09-05",
+              "legalLocator": "City directory and meeting notices"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

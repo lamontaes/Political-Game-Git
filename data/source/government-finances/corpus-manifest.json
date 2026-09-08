@@ -1,0 +1,50 @@
+{
+  "asOf": "2024-09-30",
+  "canonicalSha256": "d24581818239ed84442fa44db09f358aa1eded72c38f96358c92d804587cce4c",
+  "compiler": {
+    "name": "government-finances",
+    "version": "2.0.0"
+  },
+  "corpusId": "government-finances",
+  "coverage": {
+    "boundedSampleReason": "First 25 sorted publisher IDs and their published item rows. Annual survey sample, not complete universe. The Census Bureau has not reviewed individual units as time series or sanctioned downstream analyses; nonsampling errors and imputation may affect values. See locked publisher disclaimer.",
+    "isCompleteUniverse": false,
+    "universeDescription": "2024 Census finance sample inputs, not reviewed individual-unit time series."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "government-finances-2024-individual-units-data",
+      "sha256": "3f2fc567f3f860e45b2ceec9262357cf9d8d5873b069288b13375b1e989d21f4"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-identity",
+      "sha256": "caaca638e09bb3bbf5a6d3d47c32fe531643c9a2a02c39fca2668a3225907e27"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-codebook",
+      "sha256": "2c7ab34a520a99a1ca0d6eb627607948f8d3410c95b771e11263cc0ec5d86fe6"
+    },
+    {
+      "artifactId": "government-finances-2024-individual-units-disclaimer",
+      "sha256": "4e930a828e2c61ace0a55e20370e4cbc6472c8223ed72d4a8491e9a24e3a1914"
+    },
+    {
+      "artifactId": "census-pid-gid-crosswalk",
+      "sha256": "a29438ae699bb92c5f1c8f58a126d58fa73f280f4c51de8cfb7bfebe00fdc991"
+    },
+    {
+      "artifactId": "census-finance-local-methodology-2024",
+      "sha256": "6a8d82a94335bf6d03130ba047f68df037a555761d9d82bde15ead86f9a9b6f9"
+    },
+    {
+      "artifactId": "census-finance-state-technical-2024",
+      "sha256": "7817af29132782c6c2d8c4c18deb026c4d69f949a1269da6f1056b1daf3202c0"
+    }
+  ],
+  "parser": {
+    "name": "finance-2024-fixed-width",
+    "version": "1.0.0"
+  },
+  "recordCount": 886
+}

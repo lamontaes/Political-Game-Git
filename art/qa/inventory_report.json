@@ -1,5 +1,5 @@
 {
-  "totalItems": 322,
+  "totalItems": 329,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -52,6 +52,34 @@
     {
       "filePath": "families/shared-workroom-office/env_shared_workroom_office_v1.png",
       "hash": "51f6a94c151815bdcbf296096b94232b24a67c31a21744af40b84742ba5e6c12"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_accessory_badge_v1.png",
+      "hash": "e49c4435bfa40d49d757247499a3598b5ea22e72a900ef3261336e7f356d1b1f"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_body_adult_average_standing_v1.png",
+      "hash": "a2417dab75c7868fa6265a09639552daa7fc0521690910bd32d12ffc6330f5d5"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_body_adult_heavy_standing_v1.png",
+      "hash": "f7a2f7c9bb4697141a81d6bb3d8d8439d1f36e2fa01dc31ce48507bdd28e4724"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_body_adult_lean_standing_v1.png",
+      "hash": "6b8f6e3969de76c04f0504d7cefd0dfbd5f45c42189266b4ce0f0e10310eec69"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_bottom_trousers_average_standing_v1.png",
+      "hash": "c21686cc9cb78d4efb4704e791f6006d3ef83a76adf5b806a55d32182044066e"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_footwear_derby_standing_v1.png",
+      "hash": "77e6adce3a25f8944a6a9dddab36a71008ad00603fffbb024ab1d8f9224ab24c"
+    },
+    {
+      "filePath": "fixtures/garment-fit/fit_top_knit_average_standing_v1.png",
+      "hash": "ad185b4b37fcd105482117d9ee942f12e3ba338b046d50eaff0586c29bf5d6ca"
     },
     {
       "filePath": "generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png",
