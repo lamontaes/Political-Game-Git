@@ -483,9 +483,14 @@ function replenishHouseholdWeek(world: World, personId: EntityId): World {
   const stableKey = `${HOUSEHOLD_ERRANDS_KEY}:${world.currentDate}`;
   if (existing.some((item) => item.stableKey === stableKey)) return world;
 
+  // A week, since the last one was written. The date comes off the work item's
+  // own creation moment rather than off its key, because the first week in a
+  // world is written under the fixed key a save already carries and has no date
+  // in it — and reading the key would have made that first week replenishable
+  // the instant it was finished.
   const latest = existing.at(-1)!;
-  const openedOn = weekDateOf(latest.stableKey);
-  if (openedOn !== null && addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) {
+  const openedOn = makeIsoDate(latest.createdAt.date);
+  if (addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) {
     return world;
   }
 
@@ -509,19 +514,6 @@ function replenishHouseholdWeek(world: World, personId: EntityId): World {
     blocker: null,
     scheduledActivityId: null,
   });
-}
-
-/**
- * The date a household week's stable key names, or null for the first one.
- *
- * Read back from the key rather than kept beside it, because the key is what a
- * save carries and a second copy of the same fact is a second thing to get
- * wrong.
- */
-function weekDateOf(stableKey: string): IsoDate | null {
-  if (stableKey === HOUSEHOLD_ERRANDS_KEY) return null;
-  const suffix = stableKey.slice(HOUSEHOLD_ERRANDS_KEY.length + 1);
-  return /^\d{4}-\d{2}-\d{2}$/.test(suffix) ? makeIsoDate(suffix) : null;
 }
 
 /* -------------------------------------------------------------------------- */
