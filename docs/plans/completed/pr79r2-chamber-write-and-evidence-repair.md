@@ -150,7 +150,13 @@ boundaries and save/reload identity all stand.
 - Browser, against this container's Chromium: the production-floor proof
   (`pr79f-production-floor.spec.ts`) and the banked floor specs
   (`pr79-integration`, `legislative-bargaining`, `legislation`, `run-b`) —
-  21/21 focused specs pass.
+  21/21 focused specs pass. The **full Playwright suite is 283/283 green**,
+  including the six viewport/pointer-layout specs 79R1 reported failing in its
+  container. Those six were a browser-environment artifact, not a defect and not
+  something this change repaired: this container's installed Playwright expects
+  browser build 1234 while the image ships 1194, so the suite was run against
+  the image's own Chromium through an overlay config. No repository config,
+  assertion, timeout, skip or layout code was touched.
 - `npm run prose:eval -- hygiene` OK (33 files, no holdout material);
   `-- probes` 21/21 behaved as specified.
 - Grounding reviewer: PASS on all three wording classes against their exact
