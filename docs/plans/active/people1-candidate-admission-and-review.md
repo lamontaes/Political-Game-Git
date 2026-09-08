@@ -2,7 +2,11 @@
 
 Status: **complete, awaiting independent acceptance and owner style review**
 Branch: `claude/people1-existing-art-assembly`
-Base: accepted `main` at `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`
+Base: accepted `main` at `89b2f7649f4db6225f8b16fdc1d2e762013ad62f`, composed with
+current `main` at `da939329fcc3ae0a2eb9db8016665738b40733d4` (PRs #127 and #128)
+by ordinary merge. The only conflict was the corpus literal count, which both
+sides had moved; it was re-measured on the composed tree rather than taking
+either side's pin, and `npm run corpus:prose` was re-run.
 
 ## Open this in ninety seconds
 
