@@ -537,10 +537,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // This pins the reported numbers to what the scanner actually returns.
     // Reconciled with accepted PR101 main and P2R1; these values are
     // measured from the actual combined tree, not a reachability target.
+    // Re-measured for P2R2: one new source file, `life-opportunities.ts`,
+    // carries the summaries and believed lines the generated opportunities are
+    // written with, which is where the file count and most of the literal
+    // movement come from. 49,522 → 49,663 / 1,910 → 1,912 / 323 → 324.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49522);
-    expect(coverage.counts.INVENTORIED).toBe(1910);
-    expect(coverage.scannedFiles).toBe(323);
+    expect(coverage.totalLiterals).toBe(49663);
+    expect(coverage.counts.INVENTORIED).toBe(1912);
+    expect(coverage.scannedFiles).toBe(324);
   });
 });
 

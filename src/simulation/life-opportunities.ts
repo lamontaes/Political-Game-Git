@@ -14,7 +14,6 @@ import { recordEventKnowledge } from "./records";
 import {
   createScheduledActivity,
   createWorkItem,
-  scheduledActivityState,
   workPendingEntriesFor,
 } from "./time-work";
 import { recordWorldEvent } from "./world";
@@ -199,7 +198,13 @@ export function lifeOpportunitiesFor(
   personId: EntityId,
   asOfDate: IsoDate = world.currentDate,
 ): readonly LifeOpportunityRecord[] {
-  const opened: LifeOpportunityRecord[] = [];
+  // One pass. This is read on every context build, which is read on every
+  // projection, so it walks the event log exactly once and collects both the
+  // requests and the answers as it goes.
+  const written: {
+    readonly kind: LifeOpportunityKind;
+    readonly event: (typeof world.history.events)[number];
+  }[] = [];
   const answeredAfter = new Map<string, number>();
 
   for (const event of world.history.events) {
@@ -210,38 +215,35 @@ export function lifeOpportunitiesFor(
         if (previous === undefined || event.sequence > previous) {
           answeredAfter.set(tag, event.sequence);
         }
+        continue;
       }
+      if (!tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)) continue;
+      const kind = tag.slice(LIFE_OPPORTUNITY_TAG_PREFIX.length);
+      if (isLifeOpportunityKind(kind)) written.push({ kind, event });
     }
   }
+  if (written.length === 0) return [];
 
-  for (const event of world.history.events) {
-    if (!event.involvedEntityIds.includes(personId)) continue;
-    const tag = event.tags.find((candidate) =>
-      candidate.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX),
-    );
-    if (!tag) continue;
-    const kind = tag.slice(LIFE_OPPORTUNITY_TAG_PREFIX.length);
-    if (!isLifeOpportunityKind(kind)) continue;
-
+  const occasions = occasionDatesBySource(world);
+  const opened: LifeOpportunityRecord[] = [];
+  for (const { kind, event } of written) {
     const answeredAt = answeredAfter.get(LIFE_OPPORTUNITY_ANSWERING_KEY[kind]);
     if (answeredAt !== undefined && answeredAt > event.sequence) continue;
 
-    const occasionDate = occasionDateOf(world, event.id);
+    const occasionDate = occasions.get(event.id) ?? null;
     if (occasionDate !== null && occasionDate < asOfDate) continue;
-
-    const counterpart =
-      event.participants.find(
-        (participant) =>
-          participant.personId !== personId &&
-          participant.role.startsWith("agency:"),
-      )?.personId ?? null;
 
     opened.push({
       kind,
       eventId: event.id,
       stableKey: event.stableKey,
       openedAt: event.occurredAt,
-      counterpartPersonId: counterpart,
+      counterpartPersonId:
+        event.participants.find(
+          (participant) =>
+            participant.personId !== personId &&
+            participant.role.startsWith("agency:"),
+        )?.personId ?? null,
       occasionDate,
       sequence: event.sequence,
     });
@@ -256,13 +258,24 @@ export function isLifeOpportunityKind(
   return (LIFE_OPPORTUNITY_KINDS as readonly string[]).includes(value);
 }
 
-/** The day the occasion an opportunity was written for falls on, if it has one. */
-function occasionDateOf(world: World, eventId: EntityId): IsoDate | null {
-  const activity = world.history.scheduledActivities.find((candidate) =>
-    candidate.sourceEntityIds.includes(eventId),
-  );
-  if (!activity) return null;
-  return makeIsoDate(scheduledActivityState(world, activity.id).start.date);
+/**
+ * The day each opportunity's occasion falls on, indexed by the event it came
+ * from. Built once per read rather than searched per opportunity.
+ */
+function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
+  const starts = new Map<EntityId, IsoDate>();
+  for (const state of world.history.scheduledActivityStates) {
+    starts.set(state.activityId, makeIsoDate(state.start.date));
+  }
+  const byEvent = new Map<EntityId, IsoDate>();
+  for (const activity of world.history.scheduledActivities) {
+    const start = starts.get(activity.id);
+    if (!start) continue;
+    for (const sourceId of activity.sourceEntityIds) {
+      byEvent.set(sourceId, start);
+    }
+  }
+  return byEvent;
 }
 
 /** Whether this life is currently carrying an active household week. */
@@ -1158,15 +1171,22 @@ function familiarPersonIds(
   // whoever the player has merely interacted with is used when that is all
   // this life has. The household is left out on purpose: what happens between
   // people who live together has its own scenes.
+  // Each pool once, not once per candidate: these are all world-wide scans and
+  // recomputing them inside the filter turned a small preference into an
+  // O(people x history) walk on the hot path.
+  const household = new Set(householdCompanionIds(world, personId, cutoff));
+  const reachable = new Set([
+    ...colleagueIds(world, personId, cutoff),
+    ...communityMemberIds(world, personId, cutoff),
+    ...kinshipRelationshipsAt(world, personId, cutoff).flatMap(
+      (relationship) => relationship.personIds,
+    ),
+  ]);
   const connected = world.personOrder.filter(
     (candidate) =>
       candidate !== personId &&
-      !householdCompanionIds(world, personId, cutoff).includes(candidate) &&
-      (colleagueIds(world, personId, cutoff).includes(candidate) ||
-        communityMemberIds(world, personId, cutoff).includes(candidate) ||
-        kinshipRelationshipsAt(world, personId, cutoff).some((relationship) =>
-          relationship.personIds.includes(candidate),
-        )),
+      !household.has(candidate) &&
+      reachable.has(candidate),
   );
   if (connected.length > 0) return connected;
   return world.personOrder.filter((candidate) => familiar.has(candidate));
