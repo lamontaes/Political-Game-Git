@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/average man.png",
+  "sourceSha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 284,
+      "end": 865
+    },
+    {
+      "start": 1371,
+      "end": 2412
+    },
+    {
+      "start": 2758,
+      "end": 3501
+    },
+    {
+      "start": 4008,
+      "end": 4766
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 81,
+      "end": 1696
+    },
+    {
+      "start": 1796,
+      "end": 3360
+    }
+  ],
+  "noisePixelsCleared": 3781892,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 304,
+        "y": 83,
+        "width": 547,
+        "height": 1612
+      },
+      "centroidNormalized": {
+        "x": 0.114078,
+        "y": 0.251132
+      },
+      "exportWidth": 675,
+      "exportHeight": 1740,
+      "opaquePixels": 523363,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21029,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png",
+      "sha256": "8cfb695665f68bd1306dc40b0bfc77dd8c13a91193f4a2caab5f962b460e0571"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1535,
+        "y": 82,
+        "width": 724,
+        "height": 1615
+      },
+      "centroidNormalized": {
+        "x": 0.35619,
+        "y": 0.250743
+      },
+      "exportWidth": 852,
+      "exportHeight": 1743,
+      "opaquePixels": 477355,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16023,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_conversational_open_hand_v1.png",
+      "sha256": "97cd1b8e57273b83aeb678529957b74276b4f71ed8aebdb5e5c5cbe3fad20184"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2907,
+        "y": 82,
+        "width": 518,
+        "height": 1614
+      },
+      "centroidNormalized": {
+        "x": 0.625449,
+        "y": 0.253956
+      },
+      "exportWidth": 646,
+      "exportHeight": 1742,
+      "opaquePixels": 496693,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16642,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png",
+      "sha256": "71a99fb255bbbb0b2b063b11d9b206d5280c43e85902560e31e355bf1c154cff"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4008,
+        "y": 81,
+        "width": 759,
+        "height": 1616
+      },
+      "centroidNormalized": {
+        "x": 0.888426,
+        "y": 0.251508
+      },
+      "exportWidth": 887,
+      "exportHeight": 1744,
+      "opaquePixels": 506699,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14517,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png",
+      "sha256": "c211d0cf928990cbe48f36ce6f1fa8d4a6eccec94d06ed196c15598eb21f33aa"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 284,
+        "y": 1818,
+        "width": 582,
+        "height": 1525
+      },
+      "centroidNormalized": {
+        "x": 0.113758,
+        "y": 0.761988
+      },
+      "exportWidth": 710,
+      "exportHeight": 1653,
+      "opaquePixels": 556648,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15804,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png",
+      "sha256": "259e1d04238995df7129925fbb026b1408e01267ffb9722a8cc0c24cbc449f65"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1371,
+        "y": 1848,
+        "width": 1042,
+        "height": 1497
+      },
+      "centroidNormalized": {
+        "x": 0.369993,
+        "y": 0.763783
+      },
+      "exportWidth": 1170,
+      "exportHeight": 1625,
+      "opaquePixels": 532524,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19706,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_interaction_surface_v1.png",
+      "sha256": "93835171b500f161bf1824adbd29010d271ac20cd99fd8117e3a2590f322d7ef"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2758,
+        "y": 1848,
+        "width": 744,
+        "height": 1501
+      },
+      "centroidNormalized": {
+        "x": 0.627056,
+        "y": 0.764032
+      },
+      "exportWidth": 872,
+      "exportHeight": 1629,
+      "opaquePixels": 509430,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 15754,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png",
+      "sha256": "a8597768fc03ce7a3ccb97b5bd1162417c2d5a18a58ceb4f6b0398f1d9486fc3"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4288,
+        "y": 1796,
+        "width": 453,
+        "height": 1565
+      },
+      "centroidNormalized": {
+        "x": 0.893342,
+        "y": 0.754596
+      },
+      "exportWidth": 581,
+      "exportHeight": 1693,
+      "opaquePixels": 443590,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 14407,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_three_quarter_v1.png",
+      "sha256": "20b0fe0ee13186194a40fae3ce9e6689d8d179a1c71282859c957b24b4591bb1"
+    }
+  ],
+  "rejectedFragments": []
+}

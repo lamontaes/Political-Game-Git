@@ -1004,6 +1004,9 @@ describe("A player's conversation survives leaving", () => {
     });
 
     const game = createNewGameWorld({
+      // Custom, because this needs a peer at home to hold a household turn; on
+      // a normal start (Task E) the household is generated and may be solo.
+      startKind: "custom",
       placeKey: "kentucky",
       startAge: 34,
       depth: "summarize-earlier-life",

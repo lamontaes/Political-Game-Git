@@ -184,7 +184,7 @@ describe("Stage 5 Run B playable life paths and character history", () => {
     expect(world.history.careResponsibilities).toHaveLength(1);
     expect(world.history.childAuthorities).toHaveLength(1);
     expect(world.history.householdLocations).toHaveLength(2);
-    expect(world.history.educationEnrollments).toHaveLength(3);
+    expect(world.history.educationEnrollments).toHaveLength(4);
     expect(
       world.history.events.filter((item) => item.type.startsWith("life.")),
     ).toHaveLength(6);
@@ -271,7 +271,7 @@ describe("Stage 5 Run B playable life paths and character history", () => {
         (item) => item.status === "transferred",
       ),
     ).toBe(true);
-    expect(world.history.educationEnrollments).toHaveLength(3);
+    expect(world.history.educationEnrollments).toHaveLength(4);
     expect(world.history.events.length).toBeLessThan(30);
   });
 
@@ -323,6 +323,10 @@ describe("Stage 5 Run B playable life paths and character history", () => {
       "organization",
       `${initial.id}:${activityKey}`,
     );
+    // This is intentionally outside the quick generator's elementary-school
+    // band. Authored/imported chronology is canonical input, not material for
+    // the generator's repair heuristic to normalize.
+    const authoredEducationStart = dateAtAge(birthDate, 10);
     const guardianBirth = `${(Number(birthDate.slice(0, 4)) - 35)
       .toString()
       .padStart(4, "0")}${birthDate.slice(4)}` as IsoDate;
@@ -446,7 +450,7 @@ describe("Stage 5 Run B playable life paths and character history", () => {
             stableKey: "manual:education",
             personId: player,
             organizationId: schoolId,
-            startedAt: dateAtAge(birthDate, 5),
+            startedAt: authoredEducationStart,
             programKind: "schooling:project-based",
             contextKind: "track:open-learning",
             provenance: { kind: "authored", note: "Manual education." },
@@ -473,6 +477,7 @@ describe("Stage 5 Run B playable life paths and character history", () => {
     });
     expect(applied.world.history.educationEnrollments[0]).toMatchObject({
       organizationId: schoolId,
+      startedAt: authoredEducationStart,
       provenance: { kind: "authored" },
     });
     expect(applied.world.history.organizationParticipations[0]).toMatchObject({
@@ -482,6 +487,10 @@ describe("Stage 5 Run B playable life paths and character history", () => {
     expect(applied.world.people[player]!.establishedFacts).toStrictEqual(
       beforeFacts,
     );
+    expect(
+      deserializeWorld(serializeWorld(applied.world)).history
+        .educationEnrollments[0]?.startedAt,
+    ).toBe(authoredEducationStart);
   });
 
   it("resolves a lunch-table choice through ordinary subjective and relationship history, with repeat-only development evidence", () => {

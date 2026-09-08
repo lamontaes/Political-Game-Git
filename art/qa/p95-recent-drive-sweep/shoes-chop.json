@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/shoes.png",
+  "sourceSha256": "8a7bf15e8b045edefa31dbd02d8b17a3984f9f6a967cc5eba2cfff4d69d1a402",
+  "sourceWidth": 4336,
+  "sourceHeight": 5804,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 65,
+      "end": 1414
+    },
+    {
+      "start": 1488,
+      "end": 2846
+    },
+    {
+      "start": 2900,
+      "end": 4248
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 345,
+      "end": 1257
+    },
+    {
+      "start": 1531,
+      "end": 2702
+    },
+    {
+      "start": 3042,
+      "end": 4137
+    },
+    {
+      "start": 4312,
+      "end": 5554
+    }
+  ],
+  "noisePixelsCleared": 4002069,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 93,
+        "y": 358,
+        "width": 1297,
+        "height": 889
+      },
+      "centroidNormalized": {
+        "x": 0.170779,
+        "y": 0.147528
+      },
+      "exportWidth": 1425,
+      "exportHeight": 1017,
+      "opaquePixels": 846121,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 1,
+      "softEdgePixels": 17433,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_low_top_sneaker_gray_v1.png",
+      "sha256": "a39e2976896dec5fc6dad89cea170b5c3f0b84b4bfcddf940dbe81abee13df95"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1489,
+        "y": 345,
+        "width": 1358,
+        "height": 897
+      },
+      "centroidNormalized": {
+        "x": 0.499859,
+        "y": 0.147796
+      },
+      "exportWidth": 1486,
+      "exportHeight": 1025,
+      "opaquePixels": 880979,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 14,
+      "softEdgePixels": 20538,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_athletic_sneaker_blue_v1.png",
+      "sha256": "9df37bc4b335b1b8f0fd644ec766e7c2276bfca8fe17c367ebbd1d1c7b625500"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2920,
+        "y": 398,
+        "width": 1291,
+        "height": 860
+      },
+      "centroidNormalized": {
+        "x": 0.822534,
+        "y": 0.150982
+      },
+      "exportWidth": 1419,
+      "exportHeight": 988,
+      "opaquePixels": 809627,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19902,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_canvas_sneaker_navy_v1.png",
+      "sha256": "7f9dd284ffb651910df93b0fa4d6e16cd906854c242ad8e165faafceff4088da"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 67,
+        "y": 1745,
+        "width": 1335,
+        "height": 925
+      },
+      "centroidNormalized": {
+        "x": 0.170785,
+        "y": 0.38995
+      },
+      "exportWidth": 1463,
+      "exportHeight": 1053,
+      "opaquePixels": 905348,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19520,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_loafer_brown_v1.png",
+      "sha256": "e4616babbb248a6b66593a031d56176f267cd61ae91186fbc8789e0c3a0dde15"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1509,
+        "y": 1736,
+        "width": 1325,
+        "height": 957
+      },
+      "centroidNormalized": {
+        "x": 0.500638,
+        "y": 0.390922
+      },
+      "exportWidth": 1453,
+      "exportHeight": 1085,
+      "opaquePixels": 899033,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21699,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_oxford_black_v1.png",
+      "sha256": "f1c8eef0c2010506256375022358757aa98e3ea098872da3b8e2685a98fcf421"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2900,
+        "y": 1531,
+        "width": 1333,
+        "height": 1172
+      },
+      "centroidNormalized": {
+        "x": 0.822918,
+        "y": 0.371371
+      },
+      "exportWidth": 1461,
+      "exportHeight": 1300,
+      "opaquePixels": 1210046,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 64,
+      "softEdgePixels": 23534,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_work_boot_tan_v1.png",
+      "sha256": "6766c145bf7cad65dbb8f9ca1419314109db0393c547e89ab78377f63f56a230"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 65,
+        "y": 3042,
+        "width": 1350,
+        "height": 1079
+      },
+      "centroidNormalized": {
+        "x": 0.171346,
+        "y": 0.625676
+      },
+      "exportWidth": 1478,
+      "exportHeight": 1207,
+      "opaquePixels": 1061179,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 2,
+      "softEdgePixels": 20106,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_chukka_taupe_v1.png",
+      "sha256": "5cf4a9b7a9c6787518655ede9e217ee0c1f53beece3923d1356385c441c049d5"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 1499,
+        "y": 3286,
+        "width": 1345,
+        "height": 852
+      },
+      "centroidNormalized": {
+        "x": 0.499289,
+        "y": 0.648115
+      },
+      "exportWidth": 1473,
+      "exportHeight": 980,
+      "opaquePixels": 783436,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 1309,
+      "softEdgePixels": 17605,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_flat_green_v1.png",
+      "sha256": "d954347af5d2df198c70390d11920ad92703b3e325dc568e259f5d005d348380"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 2928,
+        "y": 3132,
+        "width": 1284,
+        "height": 974
+      },
+      "centroidNormalized": {
+        "x": 0.823266,
+        "y": 0.634668
+      },
+      "exportWidth": 1412,
+      "exportHeight": 1102,
+      "opaquePixels": 876828,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19840,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_gray_v1.png",
+      "sha256": "9b9e21f60783249cf4f886a2566373f18bdf4aa48560a00ede5eb0039ebb36e4"
+    },
+    {
+      "cellId": "R4C1",
+      "row": 4,
+      "column": 1,
+      "sourceBox": {
+        "x": 86,
+        "y": 4513,
+        "width": 1320,
+        "height": 1019
+      },
+      "centroidNormalized": {
+        "x": 0.172222,
+        "y": 0.876194
+      },
+      "exportWidth": 1448,
+      "exportHeight": 1147,
+      "opaquePixels": 934673,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19640,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_burgundy_v1.png",
+      "sha256": "6f580a142802c2fa14cd41295ec0f034e28c9f24dad27a588ea36c0aa6484783"
+    },
+    {
+      "cellId": "R4C2",
+      "row": 4,
+      "column": 2,
+      "sourceBox": {
+        "x": 1488,
+        "y": 4609,
+        "width": 1327,
+        "height": 942
+      },
+      "centroidNormalized": {
+        "x": 0.496291,
+        "y": 0.882654
+      },
+      "exportWidth": 1455,
+      "exportHeight": 1070,
+      "opaquePixels": 917319,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21907,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_sandal_brown_v1.png",
+      "sha256": "c4974b8c589e8753cc832476b34668778617d108716cabff5bf9598eacf9b47e"
+    },
+    {
+      "cellId": "R4C3",
+      "row": 4,
+      "column": 3,
+      "sourceBox": {
+        "x": 2912,
+        "y": 4312,
+        "width": 1337,
+        "height": 1243
+      },
+      "centroidNormalized": {
+        "x": 0.824276,
+        "y": 0.85663
+      },
+      "exportWidth": 1465,
+      "exportHeight": 1371,
+      "opaquePixels": 1279145,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 25159,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_combat_boot_olive_v1.png",
+      "sha256": "cc0c4b5bc41a6d8d03f8e24b7374723e2bf33015a5f7549b1c9378d431a8a23c"
+    }
+  ],
+  "rejectedFragments": []
+}

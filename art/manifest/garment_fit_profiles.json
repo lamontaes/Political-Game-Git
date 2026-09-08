@@ -126,7 +126,7 @@
       "kind": "bottom",
       "classification": "affine-reusable",
       "authored_for_body_family": "dev-g2-broad",
-      "basis": "One axis-aligned scale brings the worst edge error from 17.89px (9.08%) to 2.96px (1.50%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound.",
+      "basis": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound.",
       "profiles": [
         {
           "target_body_family": "dev-g2-slim",
@@ -142,7 +142,7 @@
             "method": "anchor-span-minimax-v1",
             "source_body_family": "dev-g2-broad",
             "anchors": ["hip", "crotch", "knee", "ankle"],
-            "note": "Worst per-side residual 17.89px unfitted, 2.96px fitted, over rows 455-785 (edge-match)."
+            "note": "Worst per-side residual 17.98px unfitted, 3.05px fitted, over rows 455-785 (edge-match)."
           }
         },
         {

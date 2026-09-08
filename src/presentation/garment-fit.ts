@@ -221,6 +221,152 @@ export const GARMENT_FIT_DEFAULT_BOUNDS: GarmentFitBounds = {
 };
 
 /**
+ * The envelope no bank may loosen past, whatever it declares.
+ *
+ * A bank's `bounds` are data, and data can say anything — the independent
+ * audit of the first head set `maxScale` to the string `"unlimited"` and a
+ * profile to a million-fold scale, and nothing objected, because the limits a
+ * transform was compared against were never themselves examined. So every
+ * bound is now checked for type, finiteness, sign, domain and coherence
+ * BEFORE it is allowed to take part in a comparison, and the outer envelope
+ * here is the widest any of them may be. A bank may tighten; it may not
+ * widen past this.
+ */
+export const GARMENT_FIT_BOUNDS_ENVELOPE = {
+  /** minScale must lie in [minScaleFloor, 1); maxScale in (1, maxScaleCeiling]. */
+  minScaleFloor: 0.25,
+  maxScaleCeiling: 4,
+  maxTranslateCeiling: 0.5,
+  maxWarpOffsetCeiling: 0.5,
+  /** maxWarpBandStep in (1, ceiling]; maxWarpScaleSpread in (1, ceiling]. */
+  maxWarpBandStepCeiling: 2,
+  maxWarpScaleSpreadCeiling: 4,
+  /** maxEdgeErrorFraction in (0, ceiling]. */
+  maxEdgeErrorFractionCeiling: 0.5,
+} as const;
+
+const BOUND_KEYS: readonly (keyof GarmentFitBounds)[] = [
+  "minScale",
+  "maxScale",
+  "maxTranslate",
+  "maxWarpOffset",
+  "maxWarpBandStep",
+  "maxWarpScaleSpread",
+  "maxEdgeErrorFraction",
+];
+
+const isFiniteNumber = (value: unknown): value is number =>
+  typeof value === "number" && Number.isFinite(value);
+
+export interface ValidatedGarmentFitBounds {
+  /** The bounds to use, or null when any part of them is unusable. */
+  readonly bounds: GarmentFitBounds | null;
+  readonly errors: readonly string[];
+}
+
+/**
+ * Structural and semantic validation of a bank's declared bounds.
+ *
+ * Every field is required to be a finite number of the right sign, inside
+ * the envelope, and coherent with its partner. A missing field takes the
+ * default; a present-but-wrong field is an error, never silently defaulted,
+ * because a bank that says `"maxScale": null` is telling you something is
+ * wrong with the bank. Unknown keys are refused for the same reason: a
+ * misspelled bound is a bound that does not apply.
+ */
+export function validateGarmentFitBounds(
+  raw: unknown,
+): ValidatedGarmentFitBounds {
+  const errors: string[] = [];
+  if (raw === undefined) {
+    return { bounds: GARMENT_FIT_DEFAULT_BOUNDS, errors };
+  }
+  if (raw === null || typeof raw !== "object" || Array.isArray(raw)) {
+    return {
+      bounds: null,
+      errors: ["Fit bank 'bounds' must be an object when present."],
+    };
+  }
+  const record = raw as Record<string, unknown>;
+  for (const key of Object.keys(record)) {
+    if (!(BOUND_KEYS as readonly string[]).includes(key)) {
+      errors.push(
+        `Fit bank bounds declare unknown limit '${key}'. A limit the contract does not know is a limit that is not applied.`,
+      );
+    }
+  }
+  const merged: Record<string, number> = { ...GARMENT_FIT_DEFAULT_BOUNDS };
+  for (const key of BOUND_KEYS) {
+    if (!(key in record)) continue;
+    const value = record[key];
+    if (!isFiniteNumber(value)) {
+      errors.push(
+        `Fit bank bound '${key}' is ${describeValue(value)}; every bound must be a finite number.`,
+      );
+      continue;
+    }
+    merged[key] = value;
+  }
+  if (errors.length > 0) return { bounds: null, errors };
+
+  const env = GARMENT_FIT_BOUNDS_ENVELOPE;
+  const inRange = (
+    key: keyof GarmentFitBounds,
+    low: number,
+    high: number,
+    lowInclusive: boolean,
+  ): void => {
+    const value = merged[key]!;
+    const aboveLow = lowInclusive ? value >= low : value > low;
+    if (!aboveLow || value > high) {
+      errors.push(
+        `Fit bank bound '${key}' is ${value}; it must lie in ${lowInclusive ? "[" : "("}${low}, ${high}].`,
+      );
+    }
+  };
+  inRange("minScale", env.minScaleFloor, 1, true);
+  if (merged.minScale! >= 1) {
+    errors.push(
+      `Fit bank bound 'minScale' is ${merged.minScale}; it must be below 1 so a garment can be narrowed at all.`,
+    );
+  }
+  inRange("maxScale", 1, env.maxScaleCeiling, false);
+  inRange("maxTranslate", 0, env.maxTranslateCeiling, false);
+  inRange("maxWarpOffset", 0, env.maxWarpOffsetCeiling, false);
+  inRange("maxWarpBandStep", 1, env.maxWarpBandStepCeiling, false);
+  inRange("maxWarpScaleSpread", 1, env.maxWarpScaleSpreadCeiling, false);
+  inRange("maxEdgeErrorFraction", 0, env.maxEdgeErrorFractionCeiling, false);
+  if (merged.minScale! >= merged.maxScale!) {
+    errors.push(
+      `Fit bank bounds are inverted: minScale ${merged.minScale} is not below maxScale ${merged.maxScale}.`,
+    );
+  }
+  if (merged.maxWarpBandStep! > merged.maxWarpScaleSpread!) {
+    errors.push(
+      `Fit bank bounds are incoherent: one band step (${merged.maxWarpBandStep}) may not exceed the whole warp's permitted spread (${merged.maxWarpScaleSpread}).`,
+    );
+  }
+  if (errors.length > 0) return { bounds: null, errors };
+  return { bounds: merged as unknown as GarmentFitBounds, errors };
+}
+
+function describeValue(value: unknown): string {
+  if (value === null) return "null";
+  if (typeof value === "number") return String(value);
+  if (typeof value === "string") return `the string ${JSON.stringify(value)}`;
+  return `a ${Array.isArray(value) ? "array" : typeof value}`;
+}
+
+/**
+ * True only for a bounds object every comparison below can trust. Used at the
+ * runtime edge as well as in validation, so malformed data that somehow
+ * reached a bank without being validated still cannot widen anything.
+ */
+export function boundsAreUsable(bounds: unknown): bounds is GarmentFitBounds {
+  return validateGarmentFitBounds(bounds).bounds !== null;
+}
+
+/**
  * How many uniform bands a warp compiles to.
  *
  * Fixed, so the same control points always produce the same bands on every
@@ -248,9 +394,10 @@ export function roundFit(value: number): number {
  * coordinates, mapping `(x, y)` to `(a·x + c·y + e, b·x + d·y + f)`.
  *
  * Compiled at projection time because `e` and `f` depend on the body anchor the
- * component hangs from, which the authored profile does not know. `b` and `d`
- * are always zero here; they are carried so the form is a real affine matrix a
- * reviewer can multiply out, not a four-number shorthand.
+ * component hangs from, which the authored profile does not know. The two
+ * off-diagonal terms `b` and `c` are always zero here — there is no rotation
+ * and no shear — and they are carried anyway so the form is a real affine
+ * matrix a reviewer can multiply out, not a four-number shorthand.
  */
 export type GarmentFitMatrix = readonly [
   number,
@@ -400,7 +547,14 @@ export interface GarmentFitBankData {
 }
 
 export interface GarmentFitBank {
-  readonly bounds: GarmentFitBounds;
+  /**
+   * The validated bounds, or null when the declared bounds are unusable. A
+   * bank with null bounds refuses every governed garment; see
+   * `resolveGarmentFit`.
+   */
+  readonly bounds: GarmentFitBounds | null;
+  /** Why the bounds are unusable, when they are. */
+  readonly boundsErrors: readonly string[];
   /** component family -> record. */
   readonly garments: ReadonlyMap<string, GarmentFitGarmentData>;
   /** `${componentFamily} ${bodyFamily} ${poseFamily}` -> profile. */
@@ -431,8 +585,10 @@ export function createGarmentFitBank(data: GarmentFitBankData): GarmentFitBank {
       );
     }
   }
+  const checked = validateGarmentFitBounds(data?.bounds);
   return {
-    bounds: { ...GARMENT_FIT_DEFAULT_BOUNDS, ...(data.bounds ?? {}) },
+    bounds: checked.bounds,
+    boundsErrors: checked.errors,
     garments,
     profiles,
   };
@@ -453,17 +609,24 @@ export type GarmentFitRefusalCode =
   /** The authored profile does not satisfy the bank's own bounds. */
   | "fit-profile-out-of-bounds"
   /**
-   * The fit resolved to a bounded warp, and the caller did not declare that its
-   * renderer can draw bands.
-   *
-   * This one is about the consumer, not the art. A warped garment is a set of
-   * horizontal slices; a renderer that only knows how to draw the layer
-   * rectangle would paint the garment at its widest band all the way down,
-   * which is worse than the unfitted placement it replaced. So the capability
-   * is declared by the caller and the layer is refused when it is absent,
-   * rather than drawn wrongly and hoped over.
+   * The bank's own declared bounds are malformed, so nothing in it can be
+   * shown to be bounded. Every governed garment is refused until the bank is
+   * repaired; a limit that is not a number limits nothing.
    */
-  | "fit-bands-unsupported-by-renderer";
+  | "fit-bank-invalid"
+  /**
+   * The fit resolved to a bounded warp, and a bounded warp is NOT RENDERABLE
+   * in this repository.
+   *
+   * A warped garment is a set of horizontal slices. No renderer here draws
+   * slices, and one that only knows the layer rectangle would paint the
+   * garment at its widest band all the way down — worse than the unfitted
+   * placement the fit replaced. So the compositor itself withholds the layer,
+   * for every consumer, and the bands are kept only as derivation evidence
+   * for the measurement harness. The refusal is issued in one place so no
+   * consumer can turn a warp into a rectangle by not knowing about it.
+   */
+  | "fit-warp-not-renderable";
 
 export interface GarmentFitResolved {
   readonly ok: true;
@@ -509,6 +672,17 @@ export function resolveGarmentFit(
   bank: GarmentFitBank,
 ): GarmentFitResolution {
   if (!isGarmentFitGoverned(request.kind)) return DIRECT_RESOLUTION;
+
+  // Fail closed on the bank before anything else. Even a safe-share garment
+  // is refused here: a bank whose limits are malformed is a bank nobody has
+  // read, and its classifications are not evidence of anything.
+  if (bank.bounds === null || !boundsAreUsable(bank.bounds)) {
+    return {
+      ok: false,
+      code: "fit-bank-invalid",
+      message: `The fit bank's declared bounds are unusable, so no garment can be shown to be bounded: ${bank.boundsErrors.join(" ") || "bounds failed validation."}`,
+    };
+  }
 
   const garment = bank.garments.get(request.componentFamily);
   if (!garment) {
@@ -583,8 +757,71 @@ export function resolveGarmentFit(
 /* Bounds checking                                                             */
 /* -------------------------------------------------------------------------- */
 
-const isFiniteNumber = (value: unknown): value is number =>
-  typeof value === "number" && Number.isFinite(value);
+/**
+ * The exact keys each transform kind may carry.
+ *
+ * Closed on purpose. The first head ignored an extra `shearX` on an affine
+ * profile rather than refusing it, which is how an unsupported field ends up
+ * in a bank believing it does something. A transform with a key the kind does
+ * not declare is malformed, not extended.
+ */
+const TRANSFORM_KEYS: Readonly<Record<string, readonly string[]>> = {
+  direct: ["kind"],
+  affine: ["kind", "scaleX", "scaleY", "translateX", "translateY"],
+  "bounded-warp": ["kind", "scaleY", "translateY", "controlPoints"],
+};
+const CONTROL_POINT_KEYS = ["at", "scaleX", "offsetX"] as const;
+
+/**
+ * Structural errors in a transform: wrong kind, missing fields, fields the
+ * kind does not declare. Separate from bounds so a shape defect is reported as
+ * a shape defect rather than as a number being out of range.
+ */
+export function transformShapeErrors(transform: unknown): readonly string[] {
+  if (!transform || typeof transform !== "object" || Array.isArray(transform)) {
+    return ["Transform must be an object."];
+  }
+  const record = transform as Record<string, unknown>;
+  const kind = record.kind;
+  if (typeof kind !== "string" || !(kind in TRANSFORM_KEYS)) {
+    return [
+      `Transform kind '${String(kind)}' is not one of direct, affine, bounded-warp.`,
+    ];
+  }
+  const errors: string[] = [];
+  const allowed = TRANSFORM_KEYS[kind]!;
+  for (const key of Object.keys(record)) {
+    if (!allowed.includes(key)) {
+      errors.push(
+        `Transform kind '${kind}' does not carry a '${key}' field. Rotation, shear and any other freedom are refused, not ignored.`,
+      );
+    }
+  }
+  for (const key of allowed) {
+    if (key === "kind") continue;
+    if (!(key in record))
+      errors.push(`Transform kind '${kind}' is missing '${key}'.`);
+  }
+  if (kind === "bounded-warp" && Array.isArray(record.controlPoints)) {
+    record.controlPoints.forEach((point, index) => {
+      if (!point || typeof point !== "object" || Array.isArray(point)) {
+        errors.push(`Control point ${index} is not an object.`);
+        return;
+      }
+      for (const key of Object.keys(point as object)) {
+        if (!(CONTROL_POINT_KEYS as readonly string[]).includes(key)) {
+          errors.push(`Control point ${index} carries unknown field '${key}'.`);
+        }
+      }
+      for (const key of CONTROL_POINT_KEYS) {
+        if (!(key in (point as object))) {
+          errors.push(`Control point ${index} is missing '${key}'.`);
+        }
+      }
+    });
+  }
+  return errors;
+}
 
 /**
  * Every way a transform can exceed the stated limits, as sentences.
@@ -597,6 +834,19 @@ export function boundsViolations(
   transform: GarmentFitTransform,
   bounds: GarmentFitBounds,
 ): readonly string[] {
+  // The limits are checked before anything is compared against them. A
+  // malformed limit is a violation of every transform, because nothing can be
+  // shown to be inside a bound that is not a number.
+  const checkedBounds = validateGarmentFitBounds(bounds);
+  if (checkedBounds.bounds === null) {
+    return checkedBounds.errors.map(
+      (error) => `Cannot check this transform: ${error}`,
+    );
+  }
+  bounds = checkedBounds.bounds;
+  const shape = transformShapeErrors(transform);
+  if (shape.length > 0) return shape;
+
   const errors: string[] = [];
   const checkScale = (value: number, label: string): void => {
     if (!isFiniteNumber(value)) {
@@ -722,15 +972,15 @@ export function validateGarmentFitBank(
     return errors;
   }
 
-  const bounds: GarmentFitBounds = {
-    ...GARMENT_FIT_DEFAULT_BOUNDS,
-    ...(data.bounds ?? {}),
-  };
-  if (bounds.minScale <= 0 || bounds.minScale >= 1 || bounds.maxScale <= 1) {
+  const checkedBounds = validateGarmentFitBounds(data.bounds);
+  errors.push(...checkedBounds.errors);
+  if (checkedBounds.bounds === null) {
     errors.push(
-      "Garment fit bounds must straddle 1: minScale below it, maxScale above it.",
+      "Garment fit bank bounds are unusable; no profile in this bank can be shown to be bounded, and the runtime will refuse every governed garment until they are repaired.",
     );
+    return errors;
   }
+  const bounds = checkedBounds.bounds;
 
   // What the component library actually offers ---------------------------
   const bodyFamilies = new Set<string>();
@@ -872,19 +1122,15 @@ export function validateGarmentFitBank(
         );
       }
       const transform = profile.transform;
-      if (!transform || typeof transform !== "object") {
-        errors.push(`${profileLabel} declares no transform.`);
+      const shape = transformShapeErrors(transform);
+      if (shape.length > 0) {
+        for (const error of shape) errors.push(`${profileLabel} ${error}`);
         continue;
       }
-      if (
-        transform.kind !== "direct" &&
-        transform.kind !== "affine" &&
-        transform.kind !== "bounded-warp"
-      ) {
+      if (transform.kind === "bounded-warp") {
         errors.push(
-          `${profileLabel} declares transform kind '${String((transform as { kind?: unknown }).kind)}'.`,
+          `${profileLabel} carries a bounded warp, and a bounded warp is NOT RENDERABLE: no renderer in this repository draws bands, and the compositor withholds the layer for every consumer. A production bank may not depend on one. Regenerate the art for this morphology, or withdraw the declared compatibility.`,
         );
-        continue;
       }
       if (
         garment.classification === "affine-reusable" &&

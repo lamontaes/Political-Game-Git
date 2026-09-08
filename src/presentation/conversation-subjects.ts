@@ -21,6 +21,12 @@ import type {
 } from "./run-b-conversation-progress";
 import { conversationRole } from "./run-b-conversation";
 import type {
+  ConversationAftermathSpec,
+  ConversationCommitmentSpec,
+  ConversationOutcome,
+  ConversationRelationshipEffect,
+} from "./conversation-consequences";
+import type {
   ConversationAddressee,
   ConversationDialogueBeat,
   ConversationIntent,
@@ -242,12 +248,15 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
     topicLabel: () => "At home",
     describeBriefing(world, room, progress) {
       const other = shortPersonName(world, room.eligibleAddresseePersonIds[0]!);
-      return `${other} has the same week you do, and ${progress.subjectFacts.obligation} still have to be covered by somebody. Nobody has said out loud who.`;
+      return `The week's ${progress.subjectFacts.obligation} still have to be covered, and it is on you and ${other} both. Neither of you has said who takes what.`;
     },
     availableIntents(_world, room, addressee, progress) {
+      // Any of the people who actually live here, not merely whichever one the
+      // world listed first. A household of three used to have two people in it
+      // the player could look at and not speak to.
       if (
         addressee !== "everyone" &&
-        addressee !== room.eligibleAddresseePersonIds[0]
+        !room.eligibleAddresseePersonIds.includes(addressee)
       ) {
         return [];
       }
@@ -291,7 +300,7 @@ const householdObligationSubject: ConversationSubjectPresentation<HouseholdOblig
           ? settledHouseholdLine(progress, speaker.name)
           : progress.phase === "raised"
             ? `“So it is on both of us,” ${shortPersonName(world, speaker.personId)} says. “Say what you can actually do.”`
-            : `${shortPersonName(world, speaker.personId)} is looking at the same week you are, and has not said anything about it yet.`;
+            : `${shortPersonName(world, speaker.personId)} is in the kitchen too, and hasn't brought up the week yet.`;
       return {
         speakerPersonId: speaker.personId,
         speakerName: speaker.name,
@@ -327,13 +336,14 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
     subject: "school-project-share",
     topicLabel: () => "A shared project",
     describeBriefing(world, room, progress) {
-      const other = shortPersonName(
-        world,
-        conversationRole(room, "the-other-person"),
-      );
+      // Deliberately unnamed while it is still open. The world records who is
+      // in the class and does not record who the partner is, so the briefing
+      // stops where the record stops and the player decides who to go to.
+      void world;
+      void room;
       return progress.phase === "settled"
-        ? `You and ${other} have sorted out ${progress.subjectFacts.work}.`
-        : `${progress.subjectFacts.work} is still not started, and it is due ${progress.subjectFacts.deadline}. ${other} has not mentioned it either.`;
+        ? `The question of who does which part of ${progress.subjectFacts.work} is answered.`
+        : `${progress.subjectFacts.work} is still not started, and it is due ${progress.subjectFacts.deadline}. Nobody has said whose half is whose.`;
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       if (progress.phase === "settled") return [];
@@ -399,7 +409,11 @@ const schoolProjectSubject: ConversationSubjectPresentation<SchoolProjectConvers
 export function advanceSchoolProject(
   progress: SchoolProjectConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): SchoolProjectConversationProgress {
+  if (intent === "ask-to-split" && outcome === "boundary-held") {
+    return { ...progress, phase: "raised", latestProposition: null };
+  }
   switch (intent) {
     case "raise-share":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -482,8 +496,8 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
           progress.phase === "settled"
             ? `“Right,” ${shortPersonName(world, speaker.personId)} says. “That is settled, then.”`
             : selectAuthoredVariant(world, `neighborhood:${speaker.personId}`, [
-                `${shortPersonName(world, speaker.personId)} is at the door with the post, and the notice is still on the board behind them.`,
-                `${shortPersonName(world, speaker.personId)} is bringing the bins back in, and glances at the board on the way past.`,
+                `${shortPersonName(world, speaker.personId)} is at the door with the mail, and the notice is still on the board behind them.`,
+                `${shortPersonName(world, speaker.personId)} is wheeling the trash cans back up, and glances at the board on the way past.`,
                 `${shortPersonName(world, speaker.personId)} is on the step with a bag of shopping, and the notice is right there beside them.`,
               ]),
       };
@@ -494,7 +508,19 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
 export function advanceNeighborhoodMeeting(
   progress: NeighborhoodMeetingConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): NeighborhoodMeetingConversationProgress {
+  // A refusal answers the question. They are not going, and the record says
+  // that rather than saying the player asked and nothing is known.
+  if (intent === "ask-them-to-go" && outcome === "boundary-held") {
+    return {
+      ...progress,
+      phase: "settled",
+      stance: "not-going",
+      latestProposition: "ask-them-to-go",
+      silenceSettled: true,
+    };
+  }
   switch (intent) {
     case "mention-meeting":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -541,13 +567,38 @@ export function conversationSubjectKeys(): readonly ConversationSubjectKey[] {
 }
 
 /**
+ * Subjects where saying it to the room means something.
+ *
+ * A kitchen with two other people in it can be addressed as a room. A doorstep
+ * with one neighbour on it cannot: offering "say it to everyone" there would be
+ * offering to address a group of one, which is a lie about the room told by a
+ * control. Group address is therefore a property of the subject *and* of how
+ * many people the room actually has, and both have to agree.
+ */
+const GROUP_ADDRESS_SUBJECTS: ReadonlySet<string> = new Set([
+  "household-obligation",
+  "shared-intake-checklist",
+]);
+
+export function supportsGroupAddress(subject: ConversationSubjectKey): boolean {
+  return GROUP_ADDRESS_SUBJECTS.has(subject);
+}
+
+/**
  * Moves the household subject along. Bounded, like the other families: it
  * records who said they would carry the week, and stops.
  */
 export function advanceHouseholdObligation(
   progress: HouseholdObligationConversationProgress,
   intent: ConversationIntent,
+  outcome: ConversationOutcome,
 ): HouseholdObligationConversationProgress {
+  // Being refused is not a settlement. Asking somebody to take the week and
+  // being told no leaves the week exactly where it was, and the conversation
+  // open — which is what the player can see, and what the record should say.
+  if (intent === "ask-for-time" && outcome === "boundary-held") {
+    return { ...progress, phase: "raised", latestProposition: null };
+  }
   switch (intent) {
     case "raise-obligation":
       return { ...progress, phase: "raised", latestProposition: null };
@@ -679,6 +730,58 @@ export interface ConversationCommitContract {
    */
   readonly motivation: string;
   pressure(intent: ConversationIntent): string | null;
+  /**
+   * What this exchange did to the two people in it, if anything.
+   *
+   * Takes the resolved outcome as well as the intent, because being agreed
+   * with and being refused are not the same exchange. A subject that returns
+   * null for an intent is saying that saying it changes nothing between them,
+   * which stays the common case: most of what people say to each other leaves
+   * the relationship exactly where it was.
+   */
+  relationship?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationRelationshipEffect | null;
+  /**
+   * What this exchange obliged somebody to, if anything.
+   *
+   * Only where the line explicitly undertakes something. "That helps" is not a
+   * commitment; "I will do it this week" is.
+   */
+  commitment?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationCommitmentSpec | null;
+  /**
+   * What may come back later, if anything.
+   *
+   * Almost always null, and it has to stay almost always null for the same
+   * reason the situation banks do: a game where every promise returns has
+   * promised the player a payoff for every sentence.
+   */
+  aftermath?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+  ): ConversationAftermathSpec | null;
+  /**
+   * How the turn landed, in the subject's own words.
+   *
+   * The engine used to end every summary with `${speaker} ${outcome}` — "Cole
+   * continued", "Cole reassured" — which is the engine's vocabulary for its own
+   * states, written into canonical history and, once conversations reached the
+   * journal, onto a screen. Worse, the words are subject-relative: `deferred`
+   * means the other person put it off in an office and means they took the week
+   * on at home, so no central mapping could be right for both.
+   *
+   * A subject that returns null gets a summary of the action alone, which is
+   * always true.
+   */
+  landed?(
+    intent: ConversationIntent,
+    outcome: ConversationOutcome,
+    names: { readonly speakerName: string },
+  ): string | null;
 }
 
 /** What a choice sentence may name, without reaching for the room itself. */
@@ -746,6 +849,26 @@ const COMMIT_CONTRACTS: Readonly<
         "The player pressed for an answer on the checklist or last case.",
       listen: () => "The player listened for the next relevant contribution.",
     }),
+    // The office pair the engine already had, now said by the subject that
+    // owns them rather than by a table in the middle of the engine.
+    relationship: (intent) =>
+      intent === "reassure"
+        ? {
+            kind: "work:reassurance",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} kept the request narrow, strengthening the working exchange with ${otherName}.`,
+          }
+        : intent === "press"
+          ? {
+              kind: "conflict:pressed-for-answer",
+              change: "strained",
+              significance: "meaningful",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} pressed for an immediate answer, straining the exchange with ${otherName}.`,
+            }
+          : null,
   },
   "transit-access-pilot-provision": {
     subject: "transit-access-pilot-provision",
@@ -800,6 +923,100 @@ const COMMIT_CONTRACTS: Readonly<
       listen: () =>
         "The player left the question of who carries the week unanswered.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "raise-obligation":
+          // Saying a thing out loud is not yet a kindness or an injury. It is
+          // the two of them still being on speaking terms about it.
+          return {
+            kind: "support:shared-load",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} said out loud to ${otherName} what neither of them had been saying about the week.`,
+          };
+        case "offer-to-cover":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} took the week off ${otherName} without being asked to.`,
+          };
+        case "ask-to-share":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} and ${otherName} split the week between them instead of leaving it with one of them.`,
+          };
+        case "ask-for-time":
+          // The one that turns on the answer. Being taken on is a small
+          // friction; being refused is the argument neither of them wanted.
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:household-friction",
+                change: "strained",
+                significance: "meaningful",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} asked ${otherName} to take the week, and was told no.`,
+              }
+            : {
+                kind: "conflict:household-friction",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} put the week onto ${otherName}, who took it and said it was not every week.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent, outcome) => {
+      if (intent === "offer-to-cover") {
+        return {
+          holder: "player",
+          kind: "personal:household-errands",
+          label: "the week's errands at home",
+          weeklyHours: [1, 3],
+        };
+      }
+      if (intent === "ask-for-time" && outcome !== "boundary-held") {
+        // Theirs, not the player's. The player asked; the other person is the
+        // one now carrying it.
+        return {
+          holder: "counterpart",
+          kind: "personal:household-errands",
+          label: "the week's errands at home",
+          weeklyHours: [1, 3],
+        };
+      }
+      return null;
+    },
+    aftermath: (intent, outcome) =>
+      // Handing your week to somebody else is the kind of thing that gets
+      // remembered. Taking theirs is finished when you have done it — which is
+      // why the more generous-looking option is the one that schedules nothing.
+      intent === "ask-for-time" && outcome !== "boundary-held"
+        ? "obligation"
+        : null,
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "raise-obligation":
+          return `${speakerName} said they had been avoiding it too.`;
+        case "offer-to-cover":
+          return `${speakerName} let them take it.`;
+        case "ask-to-share":
+          return `${speakerName} agreed to halve it.`;
+        case "ask-for-time":
+          return outcome === "boundary-held"
+            ? `${speakerName} said no.`
+            : `${speakerName} took it on.`;
+        default:
+          return null;
+      }
+    },
   },
   "school-project-share": {
     subject: "school-project-share",
@@ -829,6 +1046,67 @@ const COMMIT_CONTRACTS: Readonly<
       listen: () =>
         "The player left the question of who does which part unanswered.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "raise-share":
+          return {
+            kind: "work:reassurance",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} put the unstarted work in front of ${otherName} rather than working around it.`,
+          };
+        case "offer-to-do-more":
+          return {
+            kind: "support:shared-load",
+            change: "strengthened",
+            significance: "meaningful",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} took the part nobody had started, and ${otherName} let them.`,
+          };
+        case "ask-to-split":
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:pressed-for-answer",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} asked for an even split and ${otherName} would not agree one.`,
+              }
+            : {
+                kind: "work:reassurance",
+                change: "strengthened",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} and ${otherName} agreed which half each of them was doing.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent) =>
+      intent === "offer-to-do-more"
+        ? {
+            holder: "player",
+            kind: "personal:school-project",
+            label: "the part of the project nobody else started",
+            weeklyHours: [1, 4],
+          }
+        : null,
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "raise-share":
+          return `${speakerName} had thought it was somebody else's.`;
+        case "offer-to-do-more":
+          return `${speakerName} took a section of it instead.`;
+        case "ask-to-split":
+          return outcome === "boundary-held"
+            ? `${speakerName} would not agree a split.`
+            : `${speakerName} agreed which half was whose.`;
+        default:
+          return null;
+      }
+    },
   },
   "neighborhood-meeting-notice": {
     subject: "neighborhood-meeting-notice",
@@ -857,6 +1135,70 @@ const COMMIT_CONTRACTS: Readonly<
         `The player asked ${addresseeName} to go to the meeting instead.`,
       listen: () => "The player said nothing about whether anybody would go.",
     }),
+    relationship: (intent, outcome) => {
+      switch (intent) {
+        case "mention-meeting":
+          return {
+            kind: "contact:neighborly",
+            change: "maintained",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} stopped long enough to mention the notice to ${otherName}.`,
+          };
+        case "say-you-will-go":
+          return {
+            kind: "contact:neighborly",
+            change: "strengthened",
+            significance: "minor",
+            summary: ({ playerName, otherName }) =>
+              `${playerName} told ${otherName} they would be at the meeting.`,
+          };
+        case "ask-them-to-go":
+          return outcome === "boundary-held"
+            ? {
+                kind: "conflict:pressed-for-answer",
+                change: "strained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} tried to hand the evening to ${otherName}, who was not taking it.`,
+              }
+            : {
+                kind: "contact:neighborly",
+                change: "maintained",
+                significance: "minor",
+                summary: ({ playerName, otherName }) =>
+                  `${playerName} put the meeting back to ${otherName} rather than answering it.`,
+              };
+        default:
+          return null;
+      }
+    },
+    commitment: (intent) =>
+      intent === "say-you-will-go"
+        ? {
+            holder: "player",
+            kind: "civic:neighborhood-meeting",
+            label: "the neighborhood meeting you said you would go to",
+            weeklyHours: [1, 2],
+          }
+        : null,
+    // An evening you said out loud you would give is exactly the kind of thing
+    // a neighbor remembers whether or not you turned up.
+    aftermath: (intent) => (intent === "say-you-will-go" ? "obligation" : null),
+    landed: (intent, outcome, { speakerName }) => {
+      switch (intent) {
+        case "mention-meeting":
+          return `${speakerName} had seen the notice.`;
+        case "say-you-will-go":
+          return `${speakerName} asked to be told what came of it.`;
+        case "ask-them-to-go":
+          return outcome === "boundary-held"
+            ? `${speakerName} would not give the evening.`
+            : `${speakerName} said they would go.`;
+        default:
+          return null;
+      }
+    },
   },
 };
 

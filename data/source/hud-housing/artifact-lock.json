@@ -1,0 +1,63 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+      "bytes": {
+        "length": 362523,
+        "sha256": "21217df7d8c5c2bd6633fe8d3deb460d7114712ac809fe1644235980240f2ab5"
+      },
+      "localPath": "data/source/hud-housing/raw/FY25_FMRs.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Department of Housing and Urban Development, HUD User",
+      "publisher": {
+        "documentationUrl": "https://www.huduser.gov/portal/datasets/fmr.html",
+        "releaseDate": null,
+        "schemaVersion": "FY2025 Fair Market Rents, county level",
+        "statedVintage": "FY2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 362523,
+        "retrievedAt": "2026-09-03T04:25:50.389Z",
+        "url": "https://www.huduser.gov/portal/datasets/fmr/fmr2025/FY25_FMRs.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "hud-fy2025-section8-income-limits-xlsx",
+      "bytes": {
+        "length": 777895,
+        "sha256": "6767ff08bae95984d8000e13660b259fe67fabb3d2da7935e349b11d4775615d"
+      },
+      "localPath": "data/source/hud-housing/raw/Section8-FY25.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Department of Housing and Urban Development, HUD User",
+      "publisher": {
+        "documentationUrl": "https://www.huduser.gov/portal/datasets/il.html",
+        "releaseDate": null,
+        "schemaVersion": "FY2025 Section 8 Income Limits, county level",
+        "statedVintage": "FY2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 777895,
+        "retrievedAt": "2026-09-03T04:25:50.740Z",
+        "url": "https://www.huduser.gov/portal/datasets/il/il25/Section8-FY25.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "hud-housing"
+}

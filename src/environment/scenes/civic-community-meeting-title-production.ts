@@ -171,6 +171,7 @@ export const CIVIC_COMMUNITY_MEETING_TITLE_SCENE: EnvironmentSceneSpec = {
         "campaign-name",
         "headline",
       ],
+      information_access: "public-record",
       fallback_decoration: "bare painted wall",
     },
     {
@@ -190,6 +191,7 @@ export const CIVIC_COMMUNITY_MEETING_TITLE_SCENE: EnvironmentSceneSpec = {
         "campaign-name",
       ],
       civic_symbol_policy: "canonical-source-only",
+      information_access: "public-record",
       fallback_decoration: "plain wood, with nothing hung on it",
     },
     {
@@ -204,6 +206,7 @@ export const CIVIC_COMMUNITY_MEETING_TITLE_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 6,
       allowed_content_classes: ["document-body"],
+      information_access: "public-record",
       fallback_decoration: "an empty reading surface",
     },
   ],

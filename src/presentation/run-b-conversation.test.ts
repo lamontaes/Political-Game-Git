@@ -891,8 +891,23 @@ describe("Stage 6.5 Run B conversation semantics", () => {
     expect(settled.semantic.outcome).toBe("silence-held");
     expect(settled.semantic.responseSpeakerPersonId).toBeNull();
     expect(settled.presentation.beat).toBeNull();
-    expect(settled.presentation.roomNarration).toBe(
-      "The room settles. No one adds anything yet.",
+    // A silence now comes from a small authored bank rather than from one
+    // fixed sentence, so the room does not say the identical thing every time
+    // nobody speaks. What it must not do is vary between two runs of the same
+    // world, which is what the repeat below checks.
+    expect(settled.presentation.roomNarration).toMatch(/\S/);
+    expect(settled.presentation.beat).toBeNull();
+    const repeated = commitConversationTurn(second.world, {
+      session,
+      room: fixture.roomContext,
+      progress: second.progress,
+      turnOrdinal: 3,
+      addressee: "everyone",
+      audibility: "normal",
+      intent: "listen",
+    });
+    expect(repeated.presentation.roomNarration).toBe(
+      settled.presentation.roomNarration,
     );
     expect(settled.world.history.claims).toHaveLength(
       claimCountAfterContributions,

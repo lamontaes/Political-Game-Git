@@ -175,6 +175,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
           "election-result",
           "briefing-slide",
         ],
+        information_access: "public-broadcast",
         fallback_decoration: "a dark screen with nothing on it",
       },
       {
@@ -188,6 +189,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         },
         z_order: 0,
         allowed_content_classes: ["neutral-art", "officeholder-portrait"],
+        information_access: "personal-household",
         fallback_decoration: "the abstract print painted into the plate",
       },
       {
@@ -214,6 +216,7 @@ export const RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE: EnvironmentSceneSpec
         },
         z_order: 6,
         allowed_content_classes: ["document-body"],
+        information_access: "personal-household",
         fallback_decoration: "the closed magazines painted on the table",
       },
     ],
@@ -350,6 +353,7 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
           "election-result",
           "briefing-slide",
         ],
+        information_access: "public-broadcast",
         fallback_decoration: "a dark screen with nothing on it",
       },
       {
@@ -363,6 +367,7 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
         },
         z_order: 0,
         allowed_content_classes: ["neutral-art", "officeholder-portrait"],
+        information_access: "personal-household",
         fallback_decoration: "the landscape print painted into the plate",
       },
       {
@@ -389,6 +394,7 @@ export const RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE: EnvironmentSceneSpec 
         },
         z_order: 7,
         allowed_content_classes: ["document-body"],
+        information_access: "personal-household",
         fallback_decoration: "the folded newspaper painted on the table",
       },
     ],

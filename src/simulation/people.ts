@@ -9,6 +9,7 @@ import { createStableId } from "./ids";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
+  GIVEN_NAME_GENERATION_POOLS_V1,
   getNameCorpus,
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
@@ -24,6 +25,8 @@ import type {
   PersonDetails,
   PersonFact,
   PersonGenerationProfile,
+  GenderIdentityKey,
+  PersonIdentity,
 } from "./types";
 
 export const DEFAULT_PERSON_GENERATOR_VERSION = "person-v5";
@@ -527,6 +530,13 @@ export interface StartingPersonInput {
   readonly familyName?: string | null;
   readonly corpusVersion?: string;
   readonly appearanceCatalogGeneration?: number;
+  /**
+   * The gender and pronouns the player chose, when they chose any.
+   *
+   * Absent means they did not say, which is recorded as saying nothing rather
+   * than filled in from the name that was just drawn.
+   */
+  readonly identity?: PersonIdentity;
 }
 
 /**
@@ -543,6 +553,30 @@ export interface StartingPersonInput {
  * seeded generator, the same path every other canonical name takes. A name
  * carries no claim about anybody's background.
  */
+/**
+ * A given name that agrees with the gender the player stated, or null.
+ *
+ * Null for `unstated` and for an absent identity, which is what keeps the
+ * unrestricted corpus draw the default. Nothing here reads a name to decide a
+ * gender; the argument is the player's own answer and the return is a string.
+ */
+function statedGenderGivenName(
+  worldSeed: string,
+  generationKey: string,
+  gender: GenderIdentityKey | undefined,
+): string | null {
+  if (gender === undefined || gender === "unstated") return null;
+  const pool =
+    gender === "male"
+      ? GIVEN_NAME_GENERATION_POOLS_V1.male
+      : gender === "female"
+        ? GIVEN_NAME_GENERATION_POOLS_V1.female
+        : GIVEN_NAME_GENERATION_POOLS_V1.neutral;
+  return new SeededRng(worldSeed)
+    .fork(`${generationKey}:stated-gender-given-name`)
+    .pick(pool);
+}
+
 export function createStartingPerson(input: StartingPersonInput): Person {
   if (!Number.isSafeInteger(input.age) || input.age < 0 || input.age > 130) {
     throw new Error("A starting person needs a plausible age in whole years.");
@@ -557,7 +591,17 @@ export function createStartingPerson(input: StartingPersonInput): Person {
   // one of them does not shift the birthday of the person they are naming.
   const drawnGivenName = rng.pick(corpus.givenNames);
   const drawnFamilyName = rng.pick(corpus.familyNames);
-  const givenName = input.givenName?.trim() || drawnGivenName;
+  // A player who states a gender and leaves the name blank is asking for a name
+  // that goes with what they just said. That draw runs on its own forked
+  // stream, so honouring it cannot move the birthday, the appearance, or any
+  // other person in the world by a single value.
+  const statedGivenName = statedGenderGivenName(
+    input.worldSeed,
+    generationKey,
+    input.identity?.gender,
+  );
+  const givenName =
+    input.givenName?.trim() || statedGivenName || drawnGivenName;
   const familyName = input.familyName?.trim() || drawnFamilyName;
 
   const month = rng.integer(1, 13);
@@ -625,6 +669,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     birthDate,
     homeJurisdictionId: input.homeJurisdictionId,
     appearance,
+    ...(input.identity === undefined ? {} : { identity: input.identity }),
     detailLevel: "lightweight",
     establishedFacts,
   };

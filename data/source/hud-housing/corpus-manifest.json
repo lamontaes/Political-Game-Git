@@ -1,0 +1,30 @@
+{
+  "asOf": "2025-09-30",
+  "canonicalSha256": "4f8205d23b2964ba282db1399cf7b656118241c7e93c80aa84cb16597b9cd55b",
+  "compiler": {
+    "name": "hud-housing",
+    "version": "1.0.0"
+  },
+  "corpusId": "hud-housing",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every area in HUD's FY2025 county-level Fair Market Rent file and every area in its FY2025 Section 8 Income Limits file, held as two separate products. Both are complete as published; HUD also issues Small Area Fair Market Rents by ZIP code, which is a third product and is not part of this corpus."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+      "sha256": "21217df7d8c5c2bd6633fe8d3deb460d7114712ac809fe1644235980240f2ab5"
+    },
+    {
+      "artifactId": "hud-fy2025-section8-income-limits-xlsx",
+      "sha256": "6767ff08bae95984d8000e13660b259fe67fabb3d2da7935e349b11d4775615d"
+    }
+  ],
+  "parser": {
+    "name": "hud-xlsx",
+    "version": "1.0.0"
+  },
+  "recordCount": 9528
+}

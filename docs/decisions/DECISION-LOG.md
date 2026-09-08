@@ -1841,11 +1841,416 @@ Consequence: chopping is measurement. The project can now take a dense sheet
 apart reproducibly, say what each cell is, and say why a good cell is still not
 shippable, without either discarding the sheet or promoting it.
 
-## D-074 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
+## D-074 — Source evidence is a separate substrate, and it is built out of refusals
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: nothing on accepted main, which contained no `src/source` at all
+- Reconciled: renumbered from D-059 on merge of accepted main
+  (PR #87), whose D-057–D-073 already occupied the D-059 slot; the
+  architecture is unchanged, only the identifier.
+
+Real-world data enters this repository through one substrate, and that
+substrate is designed around what it will not represent. The failure that
+produced the rejected provenance architecture was not carelessness about facts.
+It was a design in which a fabricated fact was _representable_: a provenance
+record that took any string as a hash, a value type with a `value` field on
+states that have no value, a compiler that accepted any object, a manifest that
+stamped itself with the clock. What cannot be represented does not have to be
+caught.
+
+Two provenance records, never blended. A `RawArtifact` is evidence of a
+retrieval — a URL, an HTTP status, the instant it happened, and a SHA-256 over
+the bytes that came back. A `NormalizedCorpus` is evidence of a computation —
+which compiler at which version read which locked artifacts to produce how many
+records. A container and the member inside it carry different digests, because
+they are different bytes. `source:verify-artifacts` re-hashes what is on disk,
+so a digest that was of a URL string, of a parsed object, or simply typed by
+hand fails the first time anybody runs it.
+
+One value algebra, with eight states, five of which have no `value` key at all.
+KNOWN, HISTORICAL and NOT_YET_OPERATIVE carry a value; NOT_APPLICABLE,
+NO_REQUIREMENT_FOUND, SUPPRESSED, CONFLICTING and UNKNOWN do not have the
+field, so `?? 0` has nothing to attach to. There is no `valueOr` and no
+overload that takes a fallback: a caller who needs a display default writes it
+at the presentation boundary, where a reader can see it. Only KNOWN is present
+truth — a historical value and a not-yet-operative one both carry numbers and
+neither is the answer to "what is it now". Release status is an orthogonal
+property of a KNOWN value rather than a ninth state, because a preliminary
+number is still a number.
+
+Aggregation returns an aggregate, not a number. A sum over a set containing any
+non-KNOWN member is INCOMPLETE, names every gap and calls its number
+`partialValue`. Reconciliation refuses an incomplete component set outright
+rather than treating an absent part as zero, which is how a corpus with missing
+counts used to reconcile perfectly and wrongly.
+
+Compilers take opaque capability handles. `ProductionInput` and `FixtureInput`
+are branded with `unique symbol` keys that cannot be named outside their
+module, so a caller holding arbitrary JSON has no path to a compiler at all.
+Opening production artifacts reads bytes and compares digests; it does not
+trust filenames. Fixtures resolve only under `fixtures/source/` _and_ must
+declare themselves, because a path check alone falls to a symlink and a marker
+alone falls to a file in the right directory.
+
+Nothing tracked under `data/source/` carries a wall clock. Retrieval time is
+acquisition evidence, recorded by the retrieval that produced it; a corpus's
+`asOf` is the semantic date the publisher declares. A build-time observation is
+not a fact about the world, and it is what makes a generated artifact fail to
+regenerate. `npm run validate` compiles the whole tree into a scratch directory
+and fails on any byte that differs.
+
+Coverage is mandatory and has no default. Every corpus says whether it holds a
+complete universe, and a bounded one says why in a sentence a reader can check.
+Where an artifact is too large to commit, its identity is still pinned and a QA
+slice is cut from it by a stated predicate, with the parent's digest on the
+slice — so anyone holding the parent can re-cut it and compare.
+
+Identity is not authority. A place, county, district, court or committee record
+says what exists, what it is called and where it is. Powers, eligibility,
+selection method and current operative status are separate facts needing
+separate evidence, and each domain's validator refuses a field whose name
+claims otherwise. Nothing in the running game imports the substrate: a fact
+reaches the world through a named one-way adapter, and no adapter exists yet.
+
+## D-075 — Causal tracing is a read-only projection that renders absence as UNKNOWN
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-074 on merge of accepted main (PR #91),
+  whose source-substrate decision already occupied the D-074 slot; the
+  architecture is unchanged, only the identifier.
+
+The project can now read how canonical truth, claims, knowledge, perception,
+belief, decisions, relationships and consequences connect in a save. It reads
+them; it does not record them. `src/devtools/**` projects existing records into
+a graph whose every edge is a field the record already carries —
+`parentCausalIds`, `source.claimId`, `eventId`, a `supersedes` pointer, a mind
+source reference — and holds nothing between inspections. There is no second
+history store and no second causal graph. The downstream direction is derived
+at inspection time by reversing recorded parent edges, because the world
+records parents and not children, and persisting that reversal would turn a
+convenience into a competing source of truth.
+
+Nothing in the tool joins records by matching dates, names or text. That is the
+temptation the whole design resists: such a join produces a graph that looks
+causal and is not, and once it is in an exported trace an invented parent is
+indistinguishable from a recorded one. Where a nullable link field is null, the
+projection emits an unrecorded link naming the field and saying why nothing
+follows. Where a walk stops, it says which of five things stopped it: nothing
+was recorded, the target belongs to no registered source, the depth limit was
+reached, the edge closed a loop, or the edge reached a record another path had
+already reached. A shared ancestor is not a cycle, and reporting it as one
+would invent a loop the world does not have.
+
+Record class and truth origin are separate axes. Class answers what kind of
+record this is — canonical event, spoken claim, knowledge received, perception,
+mind state, private belief, public position, commitment, relationship change,
+decision trace, effect activation, presentation metadata. Origin reads the
+record's own provenance field and distinguishes authored and initialization
+background from simulated truth. A family carrying no provenance is
+`unrecorded`, which is not a synonym for authored, and a record the repository
+cannot justify classifying stays `unknown`.
+
+Which record families are traceable is a registration rather than a hard-coded
+list. A family becomes visible by registering a `TraceSource`; the graph logic
+knows nothing about which families exist. A registered source may not
+manufacture an edge, and may not claim a record id another source already
+produced — shadowing is rejected rather than merged, because a silent
+replacement would change what a trace means without changing anything visible
+about it. Later narrative and Pennywise trace sources register through this
+seam and require no change to the walker, index, export or UI.
+
+Absence of a record is never by itself evidence of absence in the world. The
+observer projection answers "who did not hear this" in two separately labelled
+ways: a person the event record lists as a participant who has no knowledge
+record citing the claim, and a person some caller's presence set names whom the
+event record does not list at all. The caller must state where that presence
+set came from and the trace repeats it. With no presence set supplied, the
+trace says plainly that it can only speak about recorded participants.
+
+Exports carry seed, world id, schema and generator version, history frontier
+and world content id, so a trace pasted into a bug report is something the next
+person can regenerate and diff. Identical replay plus identical request
+produces byte-identical output, through `canonicalJson` rather than a second
+serializer. The devtools boundary forbids ambient entropy for the same reason
+the simulation does.
+
+Consequence: audibility is visibly causal rather than cosmetic. The same two
+conversation turns, run quiet instead of normal, produce a different resolved
+listener set, a different set of knowledge records, a different set of
+perceptions, and a second-turn decision whose recorded chain ends somewhere
+else entirely. The tool did not arrange any of that; it read it back off the
+records. The inspector remains a development route at `?view=causal-trace`
+that ordinary play cannot reach, and opening, filtering, walking, comparing and
+exporting leave the world's canonical serialization, content hash and append
+frontier identical.
+
+## D-076 — Authored content is described by a declarative bank contract, not re-authored
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 on merge of accepted main (PR #84), whose
+  source-substrate decision holds D-074 and whose causal-tracing decision holds
+  D-075; the architecture is unchanged, only the identifier.
+
+The game's authored content lives in the modules that run it: formative
+situations in `character-history.ts`, conversation subjects in
+`conversation-subjects.ts`, the ordinary week in `ordinary-life.ts`, measures in
+`legislation-scenarios.ts`, institutional procedure in
+`legislature-rule-packs.ts`, and the personality, policy, metric, causal,
+incident and mortality definitions in their own catalogs. Each describes itself
+in its own vocabulary, which is correct for the code that runs it and useless
+for reviewing what the game contains.
+
+`src/content/` describes that content and does not re-author it. Adapters read
+banks that already exist; the banks keep their own shapes, their own stable
+keys, and their authority over what they mean. A bank id is a stable dotted
+content key checked with the existing `assertDottedContentKey`; an item id is
+`${bankId}/${itemKey}` where `itemKey` is exactly the key the source bank
+already uses, because renaming existing content to satisfy an index would be
+the index changing the game.
+
+Rejected: migrating the banks into one authored content format. That would
+rewrite content this lane does not own, and would make the index the source of
+truth for content whose truth lives in the modules that run it.
+
+Rejected: a second selection or orchestration engine over the index. Selection
+stays where it already is. The index holds no world, evaluates no eligibility,
+and cannot change anything.
+
+Every dimension is either declared by the bank or explicitly undeclared with
+the reason it is. There is no third state and no default, because an index that
+quietly invents a prerequisite reviews as fact. The test is what the SOURCE
+declares, never what runtime code could compute: a value a function could work
+out from a world is undeclared here, because the bank did not write it down.
+Formative eligibility is a predicate over a world in
+`formativeEligibilityProvider`; a conversation subject's intents come from
+`availableIntents(world, room, addressee, progress, …)`; the ordinary week's
+gate is `ordinaryLifeAvailableFor` asking `formativeIntervalAt`, and everything
+else about an ordinary work item is written by `openOrdinaryLife` from a world
+at creation time. All of those are findings rather than gaps. An episode
+stage's `requires`, by contrast, IS data — every `EpisodeRequirement` names a
+role, an age, a capability, a fact key or an earlier stage — so it is read and
+transcribed under each kind's own vocabulary. Reading a requirement is not
+evaluating one, and nothing here builds a world to do so.
+
+Each field means one thing and is used for only that thing, and a fact the bank
+declares once is reported once. A prerequisite gates; a required canonical fact
+is a record a world must show; an option is a bounded choice offered to
+somebody; a follow-up is somewhere the content leads; a role is a part somebody
+plays. Structure a bank declares about the thing it describes — a legislature's
+chambers and floor stages, its members and its executive office, a measure's
+authored member decisions and the disposition its executive is written to take,
+which rule pack and jurisdiction a measure belongs to, a questionnaire item's
+assumed relationships and settings, a conversation subject's commit vocabulary —
+is none of those, and has its own name rather than being pushed into whichever
+facet had a free slot. Citations are provenance, because that is what a citation
+is. Unresolved research is unresolved research. Life stages are a set, so a bank
+that bands an item into several keeps it declared and keeps it findable under
+each; collapsing a band set to "undeclared" said the bank was silent about the
+one thing it had gone to the trouble of writing down.
+
+The test is whether the SOURCE declares the concept, never whether the concept
+is true or whether runtime code could produce it. A questionnaire's relationship
+and setting assumptions are declared, but the source says outright they "cannot
+be checked against records" — so they are declared structure, not required
+facts, because required facts are records a world must show and the questionnaire
+runs before any world exists. A measure's sponsor is introduced by the scenario
+builder at construction time; the blueprint declares no sponsor field, so no
+sponsor role is reported. A rule pack's members and executive are institutional
+participants the pack defines, not a ContentRole list it authored, so roles is
+undeclared and the institution is declared structure. Which rule pack and
+jurisdiction a measure runs through are intrinsic to what the measure is, not
+gates that must independently become true, so they are structure and not
+prerequisites. And one declaration is reported once: a formative situation's
+band is its life stage and nothing else, while an episode stage's age bound is a
+declared requirement and so a prerequisite and not a life stage, because an
+arbitrary age is not a named band.
+
+Authority and status are read from the repository, not invented. Legislative
+rule packs are `sourced` and carry their citations, retrieval dates and
+verification statuses through into the index. Situations, subjects, the ordinary
+week and the measures are `authored` — the measures keep the notice that says
+the procedure is sourced and the bill is not real. The synthetic catalogs are
+`synthetic-fixture` and `excluded-from-production`, which is what
+`assertProductionCatalogBoundary` already enforces. The production catalogs are
+`unestablished` and appear in the index as an empty bank, because "nothing has
+been established here" is a fact about the game and belongs in a review surface
+rather than being absent from it.
+
+Nothing counts. No test and no surface asserts how much content exists, so
+authoring one more situation is never a failure, and a bank registered later is
+one adapter and one line.
+
+Both exports are deterministic. The JSON goes through `canonicalJson` for the
+same reason a world snapshot does — key order is not content — and both carry a
+content digest so two reports can be compared. An export that changed between
+two identical runs could not be diffed, and a diff is what a reviewer does with
+one.
+
+The Content Browser is a development route at `?view=content`, alongside the
+developer viewer, the character proof, the legislation workspace and the office
+fixture. Nothing player-facing links to it or imports it, and tests assert both
+the route and the one-way dependency.
+
+Consequence: what the game has written down can be read, searched and exported
+without opening the game or building a world, and Packet 60 section O's
+declarative content-bank and Content Browser obligations are discharged here
+rather than rebuilt. Extracting declarative metadata from `run-b-conversation`'s
+dialogue and from the Run-C working document remains deliberately unimplemented:
+both are world- and state-dependent renderings, not banks.
+
+## D-077 — PUMS supplies coherent donor structure, never a synthetic person's identity or biography
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: the D-074 statement that no source adapter exists; all other
+  D-074 capability, provenance, missingness, determinism, and coverage rules
+  remain binding
+
+ACS PUMS enters initialization as one linked housing record and every person
+sharing its `SERIALNO`, never as independently sampled demographic marginals.
+The compiler is dictionary-controlled, carries state/year/PUMA identity and
+both published weights, preserves allocation and unresolved states, and makes
+no claim below PUMA geography. A state shard is three independent artifacts —
+housing archive, person archive, and dictionary — and large raw bytes remain in
+a digest-checked domain cache rather than the runtime or repository.
+
+The 2024 acquisition and compilation path may exist before source bytes do, but
+the gate must say so. No lock, retrieval instant, byte length, or digest may be
+invented to make an interface look acquired. The checked-in fixture is marked
+synthetic and cannot cross the production capability boundary.
+
+Selection is deterministic under world seed, state, corpus identity/version,
+and explicit constraints. It uses exact integer household weights and selects
+an intact donor household before choosing an eligible subject. A different
+seed may vary the donor; unrelated RNG consumption cannot.
+
+The adapter is one-way and orchestration-only. It requires a caller binding for
+every donor person, checks donor age against the supplied fictional birth date,
+and submits supported intents through `CharacterHistoryPlan` and existing
+household, kinship, partnership, dwelling, occupancy, and tenure writers.
+Canonical world provenance describes generated donor-shaped records through an
+opaque donor digest; it does not call the fictional people Census respondents
+and does not retain raw `SERIALNO` in `World`.
+
+Source sex is retained only as source evidence and never writes or infers
+gender identity or pronouns. PUMA never supplies an exact city, address, school,
+or employer. Education and work fields remain auditable but unmapped when the
+source cannot establish the canonical institution or relationship terms.
+Income is not liquid cash. Nothing in the donor creates personality, ideology,
+morality, motive, feeling, belief, a future career, or player-facing prose.
+
+Rejected: manufacturing a synthetic household from independent marginal
+distributions. Correlations and within-household relationships are the reason
+for using microdata at all.
+
+Rejected: writing PUMS sex into canonical identity, or deriving identity from
+names. A source field and a fictional person's self-identity are different
+facts.
+
+Rejected: treating the existing 2023 Wyoming QA slice as national or silently
+relabeling it 2024. It remains accepted QA evidence for its original bounded
+purpose; this bridge adds a separate versioned state-shard interface.
+
+## D-078 — Campaign truth is separate from what the campaign is told, and offices exist only where a source says so
+
+- Date: 2026-09-03
+- Status: ACCEPTED
+- Supersedes: none. This branch originally used D-057; main claimed D-057
+  through D-073 while it was open, and D-074 through D-077 have since been
+  claimed on main by the source-evidence substrate, the causal-trace inspector,
+  the declarative content bank and the PUMS donor bridge. This entry takes the
+  next free number rather than any of them.
+
+A life can now stand for office. Candidacy, a campaign committee, campaign work
+and a first election are canonical state on the accepted architecture rather
+than a screen with buttons on it.
+
+Nothing here builds a second copy of a system that already exists. The contest
+is the accepted election-contest substrate's and fires on the ordinary time
+advance, so election day arrives because the world reached it. The committee is
+an organization; its treasury is a resource position that the organization owns.
+That last point required one contract change: `ResourcePositionOwner` gained an
+`organization` case, because campaign money is the committee's and calling it
+the candidate's would have been a false statement about ownership, while a
+separate campaign wallet would have been a second money system. Making the
+mapping total also tightened an existing rule rather than loosening one —
+organization-sourced transfers were previously exempt from the overdraw check
+and now are not, which is why an advertising buy cannot spend money the
+committee has not raised.
+
+An afternoon of campaign work is a scheduled activity that costs the hours it
+costs, and a commitment the character already made can get in the way of it.
+Three kinds, because three makes the choice real: phones turn time into money,
+doors turn time into support, an advertising buy turns money back into support
+without the candidate in the room. Effect size is computed from how many people
+worked, for how long, and how much was actually spent, with seeded variation on
+top. There is no flat bonus per click and no threshold to beat.
+
+Support truth and the campaign's reading of it are different records, and this
+is enforced rather than intended. Canonical support is a world metric state that
+decides the election and is shown to nobody. The field memo is an observation of
+that state, wrong by a deterministic amount drawn from the seed, carrying a
+stated four-point margin that it can exceed. `src/simulation/index.ts` names its
+campaign exports one by one instead of re-exporting the module, so the reader
+that can see canonical support is unreachable from the presentation and player
+layers, which import from that barrel and nowhere else. A test asserts the
+omission; another asserts that no number on the player's screen equals the
+truth. The memo reaches the player only through the knowledge record, so a memo
+written but not yet read is not something the player knows.
+
+Which offices can be stood for is derived from the accepted legislative rule
+packs and from nothing else. A pack cites the instrument that establishes a
+chamber and the number of members elected to it, which is enough to say the
+office exists and is filled by election. It is not enough to say who may stand,
+when filing closes, how long a term runs, or which district a seat belongs to,
+and all four stay `unknown` rather than being defaulted. "Unknown" must not
+resolve to "anyone", so the game applies one conservative rule of its own — the
+same adult threshold the setup screen already uses — and labels it as its own,
+because "the game will not put anyone under 21 on a ballot" and "the law says
+no" are different sentences and only one of them is true. The pack is read from
+the jurisdiction rather than supplied by the caller. P85B/P85D clarify the
+parent-state boundary: Lexington residents reach Kentucky state offices through
+the declared state key; municipal capabilities remain absent. A winning role
+records the governing state, never replacing the character's residence.
+
+The production catalog boundary was relaxed once, deliberately and by name. It
+forbids a new game carrying catalog content, because none of it is sourced and
+an empty catalog honestly says "nothing has been established here". A world
+metric _definition_ is a different case: it says what a quantity means, not that
+anybody measured anything, and candidate support is a quantity the simulation
+produces itself with `simulated` provenance on every state. So the boundary now
+allows an explicit list of metric keys the simulation establishes for itself,
+containing exactly one, with a test keeping the list and the module that relies
+on it from drifting apart. A fixture corpus describing somewhere real without
+having read anything is still refused.
+
+Consequence: losing an election is a thing that happened to somebody, not an
+ending. A lost campaign closes its committee, ends the work it created, writes
+itself into history, and hands back the same life with the same day screen.
+Winning seats the member through the ordinary work records — an organization, a
+work relationship, a role in a jurisdiction — which is what opens the office and
+legislative surfaces that already existed; nothing was invented to let a winner
+through the door. Across ten seeds one candidate wins having done nothing and
+six win after three afternoons on the doors, so campaigning changes the odds
+without deciding the result. What a term is worth, when it begins, primaries,
+ballot access, campaign finance, districts, an actual electorate, and any office
+outside the accepted pack registry all remain unimplemented, and the elections
+document lists them rather than leaving them to be discovered.
+
+## D-079 — A garment is fitted to a silhouette, and a fit it does not have is a gap rather than a guess
 
 - Date: 2026-09-04
 - Status: ACCEPTED
 - Supersedes: none
+- Reconciled: renumbered from D-074 while merging current main into PR #89,
+  whose accepted decisions already occupied D-074–D-077, and renumbered again
+  from D-078 after main claimed D-078 for the campaign-truth decision; the
+  architecture is unchanged, only the identifier.
 
 Packet 76 found that the proof cross-morphology garment sharing works was
 circular. `dev-g2-broad` and `dev-g2-slim` declare each other on every wearable,
@@ -1914,13 +2319,206 @@ viewpoint; child and adolescent bodies, because a child is not a scaled adult an
 no measured evidence of proportional compatibility exists; and any pairing that
 fails the bounds.
 
-## D-075 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
+## D-080 — The refusal lives where the geometry is made, and a limit is checked before it limits anything
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none (amends D-079)
+- Reconciled: renumbered from D-075 while merging current main into PR #89,
+  whose accepted causal-tracing decision already occupied D-075, and renumbered
+  again from D-079 after main claimed D-078 and this entry moved with its
+  parent; the architecture is unchanged, only the identifier.
+
+An independent audit of the first D-079 head rejected it on three blockers and
+one contract defect, all reproduced before repair.
+
+**A warp could become a rectangle.** The only guard against drawing a bounded
+warp's bounding box lived in the render plan. Scene composition and the pose
+proof read projected layers directly, and a structurally valid sixteen-band warp
+came out of both as a drawable top and a drawable trouser with no bands and no
+refusal. The refusal now lives in `projectCharacterLayers`, the one place every
+consumer passes through: a warped layer is withheld there, keeps its unfitted
+rectangle, and names `fit-warp-not-renderable`. No caller declares band support
+any more, because no renderer has it; the measurement harness alone may admit a
+warp as geometry, to measure it, and a test keeps that option out of `src/`.
+A production bank may not carry a warp profile at all.
+
+**A limit that was not a number limited nothing.** `maxScale: "unlimited"`
+with a million-fold profile produced zero validation errors and resolved
+`ok: true`. Every bound is now validated for type, finiteness, sign, domain,
+envelope and coherence before any transform is compared against it, at runtime
+as well as in validation; a bank whose bounds fail refuses every governed
+garment. The transform schema is closed, so a `shearX` is refused rather than
+ignored.
+
+**No data measured as a perfect fit.** A window with no comparable rows scored
+zero, and a blank footwear raster classified as safe to share. Every measurement
+now carries a status, and only `measured` is evidence; anything else refuses to
+classify. And the residual compared spans, so a garment of the right width
+twelve pixels to one side scored zero while hanging off the body. The residual
+is now per side: each edge is held to where it would sit carrying the garment's
+own ease on the target body, so displacement, one-sided overhang and
+undercoverage all score as the pixels they are, and ease still scores zero.
+
+**The band recipe could not draw the band.** Bands carried a slice plus clip
+percentages against the whole image; drawing the whole image into the slice and
+clipping compresses it. Each band now records where the whole raster would sit
+so its own rows land in the slice, and the recipe is withdrawn.
+
+Consequence: the affine path — the only one the production bank uses — is
+unchanged in behaviour and every measured example still improves. What changed
+is that nothing downstream can draw a fit it cannot draw, nothing can widen a
+bound by misspelling it, and nothing is called a fit for want of pixels.
+
+## D-083 — Executive authority is a referenced rule substrate, populated only to independently verified depth
+
+- Date: 2026-09-06
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-078 on merge of accepted main (9c36b2f).
+  D-078 and D-079 were then the reservation held by the open garment
+  morphology and fit-profile lane; accepted main has since landed D-078 as
+  the campaign-truth decision (PR #85). During 101L convergence, live PR #89
+  owns D-079/D-080 and PR #79 owns D-081/D-082. The executive decision is
+  mechanically renumbered from D-080 to the next free identifier, D-083.
+  The substrate and decision substance are unchanged, only the identifier.
+
+Introduce `src/simulation/executive-authority-rules.ts` (the contract, readers
+and integrity validator) and `src/simulation/executive-authority-rule-packs.ts`
+(the jurisdiction data) as a data-and-readers substrate for executive powers and
+constraints, alongside the legislative rule packs. It composes with the
+legislature contract's shared `RuleValue` algebra but locally narrows that
+algebra through `ExecutiveRuleValue<T>` to `known | unknown`. A `known` value is
+source-bearing; an unresolved value stays `unknown` rather than claiming that a
+concept does not exist. The legislature's own three-state `RuleValue` semantics
+remain unchanged.
+
+The executive-authority substrate categorically rejects `not-applicable` before
+accessing its note. The shared shape carries only free text for that state, so a
+citation-shaped note cannot establish affirmative sourced inapplicability and
+must not be interpreted as evidence. If executive authority later needs a
+`not-applicable` state, it requires a distinct source-bearing representation
+approved as an architecture contract; widening the existing note-only shape is
+not sufficient.
+
+Bill-presentment facts — presentment, action windows, inaction outcome,
+line-item veto and override — are NOT restated. They remain owned by
+`LegislativeRulePack.executive`, and an executive pack references the
+legislative pack by id. That reference is built by `presentmentRef`, which
+resolves the id against the live compiled registry at module load, so a pack
+cannot reference a legislative pack that does not exist and a synthetic
+presentment identifier cannot be written at all. `resolvePresentmentAuthority`
+returns the referenced pack's own `ExecutiveRule` object and fails closed where
+no pack is referenced. No second copy of the veto exists.
+
+Evidence boundary, recorded because it constrains what these packs may claim:
+
+- The `92H` executive-governing research is complete. It is read here as
+  research, and it does NOT convert rows of the national executive-authority
+  matrix into primary legal authority for any field.
+- The national `92K` executive-authority matrix is REJECTED and requires
+  reconstruction. It is candidate/diagnostic evidence only. No row of it is
+  ingested, no field is promoted to `known` on its strength, and none of its
+  synthetic pack identifiers appears anywhere in this substrate.
+- The five state packs (KY, NE, AK, MN, IL) rest on the 92A
+  jurisdiction-authority wave, which resolved office identity, the separately
+  elected officers that make a state a plural executive, and — for Alaska alone
+  — appointment with legislative confirmation at the exact scope of Alaska
+  Const. Art. III, Sec. 25. Everything else stays `unknown`.
+- A clause establishing one specific appointment — a judicial vacancy, a named
+  board — does not establish a general power to appoint the principal officers
+  of the branch. Kentucky, Nebraska, Minnesota and Illinois therefore hold the
+  general appointment field `unknown` rather than widening a specific clause to
+  fit it. Illinois's confirmation requirement and confirming body are `unknown`
+  for the same reason, and no supermajority confirmation rule is carried.
+- The federal pack rests on the operative text of U.S. Constitution Article II,
+  retrieved from the National Archives transcript and cited at clause precision.
+  Article II has no express executive-order clause and no general supervisory
+  clause, so directive authority and supervisory authority stay `unknown` rather
+  than being inferred from the vesting clause. Federal statutory dimensions —
+  removal doctrine, reorganization, emergency powers, budget submission — stay
+  `unknown`.
+- Wisconsin is deliberately not packed; it is carried as an explicit gap in
+  `UNRESEARCHED_JURISDICTIONS`.
+
+Contract correction made by this decision: `assertExecutiveAuthorityPackIntegrity`
+now refuses a `known` value whose citation names an instrument without naming a
+provision inside it. `isGenericCitation` encodes that test — a citation must
+carry a pinpoint ("Art. II, Sec. 3", "KRS 117.015(2)", "10 ILCS 5/1A-1") and
+must not be one of the template shapes ("<State> Const. executive article",
+"<State> Const. veto section", "<State> Const. executive succession clause")
+that read like evidence and are not. Unfalsifiable sourcing is now rejected at
+the seam rather than left to review.
+
+Rejected alternatives: ingesting the rejected national matrix wholesale;
+promoting a field to `known` on secondary synthesis, report prose, a generic
+citation template, or constitutional silence; treating silence as
+`not-applicable`; and adding the product ideas that are not accepted primitives
+— a veto-deterrence, legal-risk, morale, competence, loyalty, confirmability or
+"strong executive" score. None of those are encoded, and a test walks every pack
+to prove no score, ideology or probability field exists.
+
+Consequence: the substrate is reusable across jurisdictions and grows by adding
+independently verified sourced data, never by widening the engine; a later
+verified research pass fills the unknown dimensions and adds Wisconsin without
+any schema change.
+
+Reconciliation after PR #102 merged (main `982f613`, accepted PR head
+`365ec2d`): #102 compiled the Minnesota (`us-mn-legislature-v1`) and Illinois
+(`us-il-general-assembly-v1`) legislative rule packs, so those two presentment
+references were built through `presentmentRef` against the live registry and
+became `known`. Exactly that changed. Nothing was researched, no other field
+moved off `unknown`, and federal presentment remains `unknown` because no
+federal legislative pack exists to resolve. This is the mechanism working as
+decided above — a reference becomes resolvable when, and only when, the
+artifact it names is actually compiled — not a new claim about either state.
+
+Integrity hardening (R2 repair, same PR #101 branch, no new claim): the
+contract's runtime boundary was tightened so it fails closed rather than open,
+without changing any sourced row.
+
+- `assertRuleValue` now holds each locally admitted `RuleValue` to its exact
+  shape. A `known` value must carry a value and a pinpointed source and nothing
+  else, while an `unknown` may carry only its note (an "unknown" smuggling a
+  value is rejected). A `not-applicable` is rejected categorically before its
+  note is accessed: citation-shaped free text is not a source-bearing
+  determination and cannot turn silence into a claim that a concept does not
+  exist. A future executive `not-applicable` representation requires a distinct
+  source-bearing architecture contract. The three enumerated fields (branch
+  structure, removal mode, clemency model) are checked against their closed
+  domains at runtime, so an invalid enum fails at validation, not only at
+  compile time.
+- This narrowing is local to executive authority. The legislature's shared
+  `RuleValue`, `notApplicableRule`, and `requireKnown` semantics remain
+  unchanged.
+- `isGenericCitation` no longer treats a bare year as a pinpoint. A citation
+  such as "US CONSTITUTION 1787" is refused; a genuine locator — an article,
+  section, clause, rule, statutory-code section, or a section-sign form like
+  "§ 1983" — still passes.
+- `resolvePresentmentAuthority` resolves the referenced pack from the live
+  registry (`rulePackById`) and refuses a caller-supplied object that is not the
+  registered instance, so a fabricated pack bearing a correct-looking id cannot
+  stand in for real presentment authority.
+
+Federal presentment remains `unknown`; no federal authority is invented. The
+bounded six-jurisdiction substrate, all six shipped executive packs, every
+jurisdiction fact, and every accepted sourced row are unchanged by this
+documentation reconciliation.
+
+## D-084 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
 
 - Date: 2026-09-04
 - Status: ACCEPTED
 - Supersedes: none
+- Reconciled: renumbered from D-075 while merging current main (89b2f76) into
+  PR #90. Accepted main holds D-075 for causal tracing, and the garment fit
+  contract this decision extends landed as D-079/D-080 rather than the D-074
+  the original branch was written against. D-081 and D-082 are the reservation
+  held by the open PR #79 lane, so the next actually free identifier on main is
+  D-084. The measurement contract is unchanged; only the identifier and the
+  references to the accepted fit decision moved.
 
-D-074 left sleeves open because its fixtures are armless and nothing in the
+D-079/D-080 left sleeves open because their fixtures are armless and nothing in the
 repository had measured an arm. Three arm representations already existed —
 the pose registry's nominal shoulder / elbow / wrist / hand landmarks, derived
 from fixture geometry in a nominal canvas; `measureBodyRig`, which finds rows

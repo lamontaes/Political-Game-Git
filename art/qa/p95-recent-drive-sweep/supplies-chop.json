@@ -1,0 +1,325 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/supplies.png",
+  "sourceSha256": "4377dc8e49ed3d40ee02af7a3360ec2d8373ccea32b85300c9b3cbee6cc445d3",
+  "sourceWidth": 5516,
+  "sourceHeight": 3008,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 101,
+      "end": 854
+    },
+    {
+      "start": 894,
+      "end": 3992
+    },
+    {
+      "start": 4038,
+      "end": 4714
+    },
+    {
+      "start": 4787,
+      "end": 5440
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 103,
+      "end": 759
+    },
+    {
+      "start": 833,
+      "end": 1492
+    },
+    {
+      "start": 1562,
+      "end": 2939
+    }
+  ],
+  "noisePixelsCleared": 3395062,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 126,
+        "y": 142,
+        "width": 719,
+        "height": 526
+      },
+      "centroidNormalized": {
+        "x": 0.087921,
+        "y": 0.133836
+      },
+      "exportWidth": 847,
+      "exportHeight": 654,
+      "opaquePixels": 199050,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 4929,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C1_single_phone_v1.png",
+      "sha256": "94a16ef35b97a3fb099f9e48dbf140abdbd06658ce47cf09bd515e224d661609"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1107,
+        "y": 103,
+        "width": 2810,
+        "height": 657
+      },
+      "centroidNormalized": {
+        "x": 0.43189,
+        "y": 0.138545
+      },
+      "exportWidth": 2938,
+      "exportHeight": 785,
+      "opaquePixels": 746058,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 19755,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1.png",
+      "sha256": "77274692655f3d5a58d34b238b783df0bd38ad73efba1a72ce17bea93bd197c0"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 4150,
+        "y": 245,
+        "width": 416,
+        "height": 327
+      },
+      "centroidNormalized": {
+        "x": 0.790047,
+        "y": 0.135469
+      },
+      "exportWidth": 544,
+      "exportHeight": 455,
+      "opaquePixels": 94392,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 2632,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C3_single_earbud_case_v1.png",
+      "sha256": "082809173329d8af80b197c42181ed266fa2eae634583300b5aa7d38239aaf07"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4787,
+        "y": 125,
+        "width": 624,
+        "height": 587
+      },
+      "centroidNormalized": {
+        "x": 0.936273,
+        "y": 0.139856
+      },
+      "exportWidth": 752,
+      "exportHeight": 715,
+      "opaquePixels": 94128,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 7199,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C4_single_usb_cable_v1.png",
+      "sha256": "38cafec70f5107601a1d3645b4e187d80a15eb29136ad424185e0dd82a78d66c"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 101,
+        "y": 871,
+        "width": 754,
+        "height": 559
+      },
+      "centroidNormalized": {
+        "x": 0.087394,
+        "y": 0.38041
+      },
+      "exportWidth": 882,
+      "exportHeight": 687,
+      "opaquePixels": 224679,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 5026,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C1_single_legal_pad_v1.png",
+      "sha256": "89cac3fc84fcfeef29aa8d85bdef753eebec02fa98390b7374d8634dc69067b4"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1045,
+        "y": 833,
+        "width": 2863,
+        "height": 660
+      },
+      "centroidNormalized": {
+        "x": 0.433246,
+        "y": 0.382921
+      },
+      "exportWidth": 2991,
+      "exportHeight": 788,
+      "opaquePixels": 863744,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 16722,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1.png",
+      "sha256": "a960551a50ce53f525920c246cd095dfa38d654a1e793e1c3e6cfb973114723c"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 4107,
+        "y": 931,
+        "width": 548,
+        "height": 443
+      },
+      "centroidNormalized": {
+        "x": 0.791147,
+        "y": 0.375632
+      },
+      "exportWidth": 676,
+      "exportHeight": 571,
+      "opaquePixels": 142294,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 3971,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C3_single_stapler_v1.png",
+      "sha256": "4de659df6ac5de0c5fbdb9c5d30f5d66e5844baa7acf5f9fb10ec3b7ef21bda9"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4891,
+        "y": 954,
+        "width": 492,
+        "height": 400
+      },
+      "centroidNormalized": {
+        "x": 0.931393,
+        "y": 0.38192
+      },
+      "exportWidth": 620,
+      "exportHeight": 528,
+      "opaquePixels": 123298,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 2805,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C4_single_sticky_notes_v1.png",
+      "sha256": "85aaf995e3914254ae8af26d6c76f33a3804911b4f6a27094b38fc8732b2a5a4"
+    },
+    {
+      "cellId": "R3C1",
+      "row": 3,
+      "column": 1,
+      "sourceBox": {
+        "x": 116,
+        "y": 1562,
+        "width": 689,
+        "height": 1319
+      },
+      "centroidNormalized": {
+        "x": 0.080189,
+        "y": 0.766047
+      },
+      "exportWidth": 817,
+      "exportHeight": 1447,
+      "opaquePixels": 357021,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 10230,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1.png",
+      "sha256": "0a2c1da676bb0b31a53f96752c5343acb95498ace6cf34fc59ed15e8f5da5264"
+    },
+    {
+      "cellId": "R3C2",
+      "row": 3,
+      "column": 2,
+      "sourceBox": {
+        "x": 894,
+        "y": 1602,
+        "width": 3099,
+        "height": 1253
+      },
+      "centroidNormalized": {
+        "x": 0.429266,
+        "y": 0.741632
+      },
+      "exportWidth": 3227,
+      "exportHeight": 1381,
+      "opaquePixels": 1225938,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 44735,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1.png",
+      "sha256": "8c38174e44e7161b9d571856cabe7a4a85b308d0951b9f606bece07e3947cfcc"
+    },
+    {
+      "cellId": "R3C3",
+      "row": 3,
+      "column": 3,
+      "sourceBox": {
+        "x": 4038,
+        "y": 1651,
+        "width": 677,
+        "height": 1289
+      },
+      "centroidNormalized": {
+        "x": 0.796047,
+        "y": 0.786393
+      },
+      "exportWidth": 805,
+      "exportHeight": 1417,
+      "opaquePixels": 482544,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 11789,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1.png",
+      "sha256": "9c5c957689258626684035de585848b9c4e5b402df479174411141cbaca2db6b"
+    },
+    {
+      "cellId": "R3C4",
+      "row": 3,
+      "column": 4,
+      "sourceBox": {
+        "x": 4881,
+        "y": 1620,
+        "width": 560,
+        "height": 1297
+      },
+      "centroidNormalized": {
+        "x": 0.935201,
+        "y": 0.826268
+      },
+      "exportWidth": 688,
+      "exportHeight": 1425,
+      "opaquePixels": 324723,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 8111,
+      "outputPath": "art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C4_multiple_pencil_briefcase_v1.png",
+      "sha256": "8b60fdef19bcd0857daa64df88db519f9c288821164c97eb1c51b2c1f769582d"
+    }
+  ],
+  "rejectedFragments": []
+}

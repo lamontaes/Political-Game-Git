@@ -1,0 +1,30 @@
+{
+  "asOf": "2024-09-28",
+  "canonicalSha256": "cae38f350fb90d02fa278f157df4c74137bd5accd8a09b992f94023a9d717e5d",
+  "compiler": {
+    "name": "fema-disasters",
+    "version": "1.0.0"
+  },
+  "corpusId": "fema-disasters",
+  "coverage": {
+    "boundedSampleReason": "Selection predicate, applied by the provider and recorded in the committed payload's own metadata: \"disasterNumber in (1603,3591,4085,4332,4586,4673,4724,4765,4781,4827,4830,5480,5488)\". Those disaster numbers are every number named either by PR #66's corpus or by the 30C audit that rejected it, so the slice contains the authentic record behind each of that corpus's fabricated declarations. The full entity is far too large to commit and no part of it is claimed here.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Every designated-area row of the OpenFEMA DisasterDeclarationsSummaries v2 entity for the 13 disaster numbers in this domain's selection predicate. The entity held 70272 rows in total when the slice was taken."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "openfema-disaster-declarations-audit-slice",
+      "sha256": "582f8ba14aa994f29b80e8fede328a01f6083030df3d6490ae229a1c52b1c306"
+    },
+    {
+      "artifactId": "openfema-disaster-declarations-universe-count",
+      "sha256": "e547f9b44112dbb6e1522a27a2b4797b1f2c1ac00523387c6d5ca455aa8344dc"
+    }
+  ],
+  "parser": {
+    "name": "openfema-json",
+    "version": "1.0.0"
+  },
+  "recordCount": 721
+}

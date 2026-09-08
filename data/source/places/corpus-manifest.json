@@ -1,0 +1,26 @@
+{
+  "asOf": "2025-01-01",
+  "canonicalSha256": "07835679854804dc6d998f258878646147bb4a498c6a32af1e2d9c6d66eee3c9",
+  "compiler": {
+    "name": "places",
+    "version": "1.0.0"
+  },
+  "corpusId": "places",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every incorporated place and census designated place in the U.S. Census Bureau 2025 Gazetteer national places file, covering the 50 states, the District of Columbia and Puerto Rico."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "census-gazetteer-2025-places-zip",
+      "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29"
+    }
+  ],
+  "parser": {
+    "name": "gazetteer-delimited",
+    "version": "1.0.0"
+  },
+  "recordCount": 32350
+}

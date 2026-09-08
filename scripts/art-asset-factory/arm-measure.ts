@@ -7,7 +7,7 @@ import { hashArtFile } from "./content-hash";
  * Measuring arms from a body raster's alpha, and saying exactly what could not
  * be measured.
  *
- * The garment fit contract (D-074) answers tops, bottoms, footwear and
+ * The garment fit contract (D-079/D-080) answers tops, bottoms, footwear and
  * accessories and leaves sleeves open, because its fixtures are armless and
  * nothing in the repository measured an arm. This is the measurement, and the
  * rule it works under is the one every measurement here works under: a number

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -126,23 +127,20 @@ describe("morphology fixtures", () => {
   });
 
   it("regenerates byte for byte from its own script", async () => {
-    const before = GARMENT_FIT_FIXTURES.map((fixture) =>
-      sha256(fixtureSubject(fixture.assetId).file),
-    );
-    const outputs = await renderGarmentFitFixtures(
-      ROOT,
-      GARMENT_FIT_FIXTURE_DIRECTORY,
-    );
-    expect(outputs.map((output) => output.hash)).toEqual(
-      GARMENT_FIT_FIXTURES.map((fixture) =>
-        sha256(fixtureSubject(fixture.assetId).file),
-      ),
-    );
-    expect(
-      GARMENT_FIT_FIXTURES.map((fixture) =>
-        sha256(fixtureSubject(fixture.assetId).file),
-      ),
-    ).toEqual(before);
+    // Rendered into a scratch directory, not over the committed files: other
+    // test files read those rasters at the same time, and a raster read
+    // mid-write is a truncated PNG.
+    const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "garment-fit-"));
+    try {
+      const outputs = await renderGarmentFitFixtures(ROOT, scratch);
+      expect(outputs.map((output) => output.hash)).toEqual(
+        GARMENT_FIT_FIXTURES.map((fixture) =>
+          sha256(fixtureSubject(fixture.assetId).file),
+        ),
+      );
+    } finally {
+      fs.rmSync(scratch, { recursive: true, force: true });
+    }
   });
 });
 
@@ -427,7 +425,9 @@ describe("the fit report", () => {
         extent: FIT_GARMENT_EXTENTS[garment.family]!,
       });
       expect(fresh.unfitted.worstPx).toBe(entry.unfitted.worstPx);
+      expect(fresh.unfitted.status).toBe("measured");
       expect(fresh.classification).toBe(entry.classification);
+      expect(fresh.evidence).toBe("measured");
     }
   });
 
@@ -611,14 +611,36 @@ describe("the composited result", () => {
     expect(JSON.stringify(second)).toBe(JSON.stringify(first));
   });
 
-  it("draws the warped garment as bounded bands that cover it exactly once", () => {
+  it("withholds the warped garment and keeps its bands only as evidence", () => {
     const fitted = projectCharacterLayers(
       recipeOnHeavy(),
       fixtureLibrary(true),
     )!;
+    const unfitted = projectCharacterLayers(
+      recipeOnHeavy(),
+      fixtureLibrary(false),
+    )!;
     const top = fitted.layers.find(
       (layer) => layer.assetId === "fit_top_knit_average_standing_v1",
     )!;
+    // A bounded warp is NOT RENDERABLE. The projection refuses it in one place
+    // for every consumer: the layer is unreleased, named, and keeps the
+    // UNFITTED rectangle rather than a bounding box somebody could paint.
+    expect(top.released).toBe(false);
+    expect(top.fitRefusal?.code).toBe("fit-warp-not-renderable");
+    expect(fitted.fitRefusals.map((refusal) => refusal.assetId)).toEqual([
+      top.assetId,
+    ]);
+    const before = unfitted.layers.find(
+      (layer) => layer.assetId === top.assetId,
+    )!;
+    expect([top.left, top.top, top.width, top.height]).toEqual([
+      before.left,
+      before.top,
+      before.width,
+      before.height,
+    ]);
+    // The bands ride along as derivation evidence, fully described.
     const bands = top.fit!.bands!;
     expect(bands).toHaveLength(16);
     expect(bands[0]!.sourceTopFraction).toBe(0);
@@ -632,8 +654,35 @@ describe("the composited result", () => {
         10,
       );
     }
-    // The layer rectangle is the union of the bands, so a consumer that only
-    // reads rectangles still gets a correct bounding box.
+    // Each band says where the WHOLE raster would sit so that exactly its own
+    // source rows land in its slice: the slice is that image's row window.
+    for (const band of bands) {
+      expect(band.image.left).toBe(band.left);
+      expect(band.image.width).toBe(band.width);
+      expect(band.top).toBeCloseTo(
+        band.image.top + band.sourceTopFraction * band.image.height,
+        10,
+      );
+      expect(band.height).toBeCloseTo(
+        (band.sourceBottomFraction - band.sourceTopFraction) *
+          band.image.height,
+        10,
+      );
+    }
+  });
+
+  it("lets only the measurement harness see a warp as geometry", () => {
+    const admitted = projectCharacterLayers(
+      recipeOnHeavy(),
+      fixtureLibrary(true),
+      { admitUnrenderableWarps: true },
+    )!;
+    const top = admitted.layers.find(
+      (layer) => layer.assetId === "fit_top_knit_average_standing_v1",
+    )!;
+    expect(top.fitRefusal).toBeNull();
+    expect(top.released).toBe(true);
+    const bands = top.fit!.bands!;
     expect(top.left).toBeCloseTo(
       Math.min(...bands.map((band) => band.left)),
       10,
@@ -643,11 +692,53 @@ describe("the composited result", () => {
       10,
     );
   });
+
+  it("moves the affine garment and withholds the warped one, nothing else", () => {
+    const fitted = projectCharacterLayers(
+      recipeOnHeavy(),
+      fixtureLibrary(true),
+    )!;
+    const byId = new Map(fitted.layers.map((layer) => [layer.assetId, layer]));
+    expect(
+      byId.get("fit_bottom_trousers_average_standing_v1")!.fit?.transformKind,
+    ).toBe("affine");
+    expect(byId.get("fit_bottom_trousers_average_standing_v1")!.released).toBe(
+      true,
+    );
+    expect(byId.get("fit_footwear_derby_standing_v1")!.fit?.transformKind).toBe(
+      "direct",
+    );
+    expect(byId.get("fit_accessory_badge_v1")!.fit?.transformKind).toBe(
+      "direct",
+    );
+  });
 });
 
 /* -------------------------------------------------------------------------- */
 
 describe("what the fit layer refuses", () => {
+  it("never admits an unrenderable warp anywhere that renders", () => {
+    // `admitUnrenderableWarps` exists for the measurement harness alone. If it
+    // appears under src/, some consumer has started drawing a warp's bounding
+    // rectangle, and the audit finding this repairs is back.
+    const walk = (directory: string): string[] =>
+      fs
+        .readdirSync(directory, { withFileTypes: true })
+        .flatMap((entry) =>
+          entry.isDirectory()
+            ? walk(path.join(directory, entry.name))
+            : [path.join(directory, entry.name)],
+        );
+    const offenders = walk(path.join(ROOT, "src")).filter(
+      (file) =>
+        /\.tsx?$/.test(file) &&
+        !/\.test\.tsx?$/.test(file) &&
+        !file.endsWith("character-components.ts") &&
+        fs.readFileSync(file, "utf-8").includes("admitUnrenderableWarps"),
+    );
+    expect(offenders).toEqual([]);
+  });
+
   it("does not read or write any raster", () => {
     // The compositor and the fit module are pure geometry. If either ever
     // reaches for the filesystem, this is where it is noticed.

@@ -1,10 +1,15 @@
 import {
   DYNAMIC_SURFACE_CONTENT_CLASSES,
   isDynamicSurfaceSlot,
+  type SceneSurfaceContentClass,
   type SceneSurfaceSlot,
 } from "../environment/environment-scene-spec";
 import type { World } from "../simulation";
 import type { RegisteredScene } from "./scene-registry";
+import {
+  accessClears,
+  type DynamicSurfaceProjection,
+} from "./surface-projection";
 
 /**
  * WHAT A ROOM IS ALLOWED TO SAY.
@@ -43,6 +48,15 @@ export type SurfaceBindingState =
   | "unowned"
   /** An owner exists but has nothing for this room right now. */
   | "empty"
+  /**
+   * An owner holds it and this surface has no path to it.
+   *
+   * Kept apart from "empty" because they are opposite problems. An empty
+   * surface is a system with nothing in it; a withheld one is the contract
+   * working — the fact exists, the room cannot honestly have come by it, and
+   * the room shows its decoration instead of leaking.
+   */
+  | "withheld"
   /** The slot carries only decoration and was never dynamic. */
   | "decorative";
 
@@ -54,20 +68,46 @@ export interface SurfaceBinding {
   readonly contentClass: string | null;
   /** What is on the surface: the payload, or the scene's own decoration. */
   readonly shows: string;
+  /** How this surface could have come by what it shows, as the scene declared it. */
+  readonly access: string | null;
   /** Why it is in this state, for a reviewer. Never player copy. */
   readonly because: string;
 }
 
 /**
+ * An owner holds this class and this surface may not receive it.
+ *
+ * Returned instead of the text, so a refusal is a decision the provider made
+ * on the record rather than a payload that silently went missing.
+ */
+export interface SurfaceWithheldPayload {
+  readonly withheld: string;
+}
+
+export type SurfacePayload = string | null | undefined | SurfaceWithheldPayload;
+
+function isWithheld(
+  payload: SurfacePayload,
+): payload is SurfaceWithheldPayload {
+  return typeof payload === "object" && payload !== null;
+}
+
+/**
  * A canonical payload source.
  *
- * Returns the text for a content class, or null when the owner has nothing.
- * The distinction between "no owner" and "owner with nothing" is the caller's
- * to make by leaving a class out versus returning null for it.
+ * Returns the text for a content class, null when the owner has nothing, a
+ * withholding when the owner has something this surface may not receive, and
+ * undefined when nothing owns the class at all. Those four are distinct on
+ * purpose: collapsing any pair of them hides a different real condition.
+ *
+ * The slot is passed because access is a fact about the physical surface —
+ * a broadcaster feeds a television and an office feeds a clipboard — and the
+ * provider is the only party that knows what a channel means.
  */
 export type SurfacePayloadProvider = (
   contentClass: string,
-) => string | null | undefined;
+  slot: SceneSurfaceSlot,
+) => SurfacePayload;
 
 const NOTHING_DECLARED = "nothing is drawn on it";
 
@@ -88,6 +128,7 @@ export function bindSceneSurfaces(
   payloads: SurfacePayloadProvider,
 ): readonly SurfaceBinding[] {
   return scene.surfaceSlots.map((slot): SurfaceBinding => {
+    const access = slot.information_access ?? null;
     if (!isDynamicSurfaceSlot(slot)) {
       return {
         slotId: slot.slot_id,
@@ -95,6 +136,7 @@ export function bindSceneSurfaces(
         state: "decorative",
         contentClass: null,
         shows: decorationFor(slot),
+        access,
         because:
           "This surface carries no class that follows simulation state, so there is nothing for an owner to fill.",
       };
@@ -105,10 +147,15 @@ export function bindSceneSurfaces(
     );
 
     let sawOwner = false;
+    const withheldNotes: string[] = [];
     for (const contentClass of dynamicClasses) {
-      const payload = payloads(contentClass);
+      const payload = payloads(contentClass, slot);
       if (payload === undefined) continue;
       sawOwner = true;
+      if (isWithheld(payload)) {
+        withheldNotes.push(`'${contentClass}': ${payload.withheld}`);
+        continue;
+      }
       if (payload === null || payload.length === 0) continue;
       return {
         slotId: slot.slot_id,
@@ -116,7 +163,20 @@ export function bindSceneSurfaces(
         state: "bound",
         contentClass,
         shows: payload,
+        access,
         because: `Canonical state owns '${contentClass}' and had something for it.`,
+      };
+    }
+
+    if (withheldNotes.length > 0) {
+      return {
+        slotId: slot.slot_id,
+        kind: slot.kind,
+        state: "withheld",
+        contentClass: null,
+        shows: decorationFor(slot),
+        access,
+        because: `This surface has no path to what an owner holds — ${withheldNotes.join("; ")}. It shows what it was painted with.`,
       };
     }
 
@@ -126,6 +186,7 @@ export function bindSceneSurfaces(
       state: sawOwner ? "empty" : "unowned",
       contentClass: null,
       shows: decorationFor(slot),
+      access,
       because: sawOwner
         ? `An owner exists for ${dynamicClasses.join(", ")} but has nothing for this room now, so the room shows what it was painted with.`
         : `Nothing in this world owns ${dynamicClasses.join(", ")} yet. The slot is kept so a binder has somewhere to attach; the room shows what it was painted with until then.`,
@@ -149,6 +210,44 @@ export function worldSurfacePayloads(world: World): SurfacePayloadProvider {
   };
 }
 
+/**
+ * The provider this game actually runs on.
+ *
+ * It is the join of the two halves of the contract and it does nothing else.
+ * The projection decided what the player-facing presentation may reveal and
+ * how widely each fact has travelled; the slot declared how this physical
+ * surface comes by information at all. A fact crosses only when both agree,
+ * and a fact the surface cannot clear is WITHHELD rather than dropped, so the
+ * refusal is visible to a reviewer instead of looking like an empty system.
+ *
+ * A dynamic slot that declares no access clears nothing. That is the fail-
+ * closed direction: an unauthored surface stays dark, and the alternative —
+ * treating silence as permission — is how a private draft ends up on a
+ * television because somebody added a slot in a hurry.
+ */
+export function dynamicSurfacePayloads(
+  projection: DynamicSurfaceProjection,
+): SurfacePayloadProvider {
+  return (contentClass, slot) => {
+    // The binder walks a slot's declared classes as strings; the projection is
+    // keyed by the closed vocabulary those strings come from. A class the
+    // vocabulary does not contain simply misses in both lookups.
+    const key = contentClass as SceneSurfaceContentClass;
+    const fact = projection.facts.get(key);
+    if (fact === undefined) {
+      return projection.empty.has(key) ? null : undefined;
+    }
+    if (!accessClears(slot.information_access, fact.channel)) {
+      return {
+        withheld: slot.information_access
+          ? `it travelled no further than '${fact.channel}' and this surface is fed by '${slot.information_access}'`
+          : `it travelled no further than '${fact.channel}' and this surface declares no way of coming by anything`,
+      };
+    }
+    return fact.text;
+  };
+}
+
 /** A provider for a room nobody is standing in. Everything falls back. */
 export const NO_SURFACE_PAYLOADS: SurfacePayloadProvider = () => undefined;
 
@@ -157,6 +256,7 @@ export interface SurfaceBindingSummary {
   readonly bound: number;
   readonly unowned: number;
   readonly empty: number;
+  readonly withheld: number;
   readonly decorative: number;
 }
 
@@ -168,6 +268,7 @@ export function summarizeSurfaceBindings(
     bound: bindings.filter((binding) => binding.state === "bound").length,
     unowned: bindings.filter((binding) => binding.state === "unowned").length,
     empty: bindings.filter((binding) => binding.state === "empty").length,
+    withheld: bindings.filter((binding) => binding.state === "withheld").length,
     decorative: bindings.filter((binding) => binding.state === "decorative")
       .length,
   };

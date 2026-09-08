@@ -11,7 +11,7 @@ transform, and it derives none.
 
 ## Why this exists
 
-D-074 fits tops, bottoms, footwear and accessories to a silhouette by
+D-079/D-080 fit tops, bottoms, footwear and accessories to a silhouette by
 measuring the body's painted span at named rows. Its fixtures are armless on
 purpose — an arm in the row would swamp the torso signal — so sleeves were
 left unanswered, with the note that a sleeve fit "needs a body whose arms were

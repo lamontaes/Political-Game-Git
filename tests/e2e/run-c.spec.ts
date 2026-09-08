@@ -18,7 +18,12 @@ test("opens a readable scene-native legislative working document from the office
   await expect(page.getByTestId("scene-person")).toBeVisible();
   await expect(page.getByTestId("scene-person-b")).toBeVisible();
   await expect(entry).toBeVisible();
-  await expect(entry).toContainText("Transit Access Pilot");
+  await expect(entry).toHaveAccessibleName(
+    "Open Working Draft — Transit Access Pilot",
+  );
+  await expect(
+    page.getByTestId("scene-surface-desk-working-document"),
+  ).toContainText("Transit Access Pilot");
   const normalNavigationBox = await navigation.boundingBox();
   expect(normalNavigationBox).not.toBeNull();
 

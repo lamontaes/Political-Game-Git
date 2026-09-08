@@ -1,0 +1,194 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "fec-2024-candidate-master-zip",
+      "bytes": {
+        "length": 356397,
+        "sha256": "19b2e3354c4b36195b02887a93eb16796de0aeb0ccbcb5bb67b30e8611bff176"
+      },
+      "container": {
+        "memberLength": 952677,
+        "memberPath": "cn.txt",
+        "memberSha256": "a089c056ceb7153411cc8df3e0cd03dc608d0635f7ea8e83828eafdff1dd040f"
+      },
+      "localPath": "data/source/fec/raw/cn24.zip",
+      "mediaType": "application/zip",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/data/browse-data/?tab=bulk-data",
+        "releaseDate": null,
+        "schemaVersion": "Candidate master file",
+        "statedVintage": "2023-2024 election cycle"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 356397,
+        "retrievedAt": "2026-09-03T03:31:31.810Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/2024/cn24.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fec-2024-committee-master-zip",
+      "bytes": {
+        "length": 883457,
+        "sha256": "f20f863c90ca69419a4ca941ab885847b7e076144b7189fbb476d2aaf876e94f"
+      },
+      "container": {
+        "memberLength": 2500798,
+        "memberPath": "cm.txt",
+        "memberSha256": "7f7abd31beaece86617a315b4908b9f7dfe9e839dc1fd8124032c224cea16be3"
+      },
+      "localPath": "data/source/fec/raw/cm24.zip",
+      "mediaType": "application/zip",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/data/browse-data/?tab=bulk-data",
+        "releaseDate": null,
+        "schemaVersion": "Committee master file",
+        "statedVintage": "2023-2024 election cycle"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 883457,
+        "retrievedAt": "2026-09-03T03:31:32.630Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/2024/cm24.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fec-2024-candidate-committee-linkage-zip",
+      "bytes": {
+        "length": 94262,
+        "sha256": "756a700d46ae40bc3d656e34241d3cbd2ee02e42ff0a58cefe7cf469ae82d107"
+      },
+      "container": {
+        "memberLength": 353375,
+        "memberPath": "ccl.txt",
+        "memberSha256": "899bfbd4f3de02d11a105dbe4760771aaea0f16057084c5e169c3fa74981e2b4"
+      },
+      "localPath": "data/source/fec/raw/ccl24.zip",
+      "mediaType": "application/zip",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/data/browse-data/?tab=bulk-data",
+        "releaseDate": null,
+        "schemaVersion": "Candidate-committee linkage file",
+        "statedVintage": "2023-2024 election cycle"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 94262,
+        "retrievedAt": "2026-09-03T03:31:33.618Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/2024/ccl24.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fec-candidate-master-header-csv",
+      "bytes": {
+        "length": 180,
+        "sha256": "86fe00a87b53fb442608ff695a82f321f49e70718bc815a08a070a120412da0c"
+      },
+      "localPath": "data/source/fec/raw/cn_header_file.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/campaign-finance-data/",
+        "releaseDate": null,
+        "schemaVersion": "Candidate master column names",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 180,
+        "retrievedAt": "2026-09-03T03:31:33.824Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/data_dictionaries/cn_header_file.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fec-committee-master-header-csv",
+      "bytes": {
+        "length": 158,
+        "sha256": "9b5bfd7764a5e07871d4b0bf31d05f9589eda262d02956718b5d2c272e76ab83"
+      },
+      "localPath": "data/source/fec/raw/cm_header_file.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/campaign-finance-data/",
+        "releaseDate": null,
+        "schemaVersion": "Committee master column names",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 158,
+        "retrievedAt": "2026-09-03T03:31:34.077Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/data_dictionaries/cm_header_file.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fec-linkage-header-csv",
+      "bytes": {
+        "length": 79,
+        "sha256": "9de902716f8c5086fc91cc7b26b675c49916e43c742693df939278cb7d91c633"
+      },
+      "localPath": "data/source/fec/raw/ccl_header_file.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.fec.gov/campaign-finance-data/",
+        "releaseDate": null,
+        "schemaVersion": "Linkage column names",
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 79,
+        "retrievedAt": "2026-09-03T03:31:34.285Z",
+        "url": "https://www.fec.gov/files/bulk-downloads/data_dictionaries/ccl_header_file.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "fec"
+}

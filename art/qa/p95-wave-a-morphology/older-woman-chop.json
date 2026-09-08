@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/older woman.png",
+  "sourceSha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 205,
+      "end": 956
+    },
+    {
+      "start": 1413,
+      "end": 2365
+    },
+    {
+      "start": 2771,
+      "end": 3490
+    },
+    {
+      "start": 4026,
+      "end": 4787
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 79,
+      "end": 1681
+    },
+    {
+      "start": 1750,
+      "end": 3356
+    }
+  ],
+  "noisePixelsCleared": 3715898,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 205,
+        "y": 81,
+        "width": 752,
+        "height": 1574
+      },
+      "centroidNormalized": {
+        "x": 0.114488,
+        "y": 0.247165
+      },
+      "exportWidth": 880,
+      "exportHeight": 1702,
+      "opaquePixels": 543409,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 30316,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png",
+      "sha256": "a40a709eced52fe5ecd717346eb54d5cefd026c2fb4b0d679df52af01ecb204d"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1493,
+        "y": 81,
+        "width": 737,
+        "height": 1577
+      },
+      "centroidNormalized": {
+        "x": 0.350281,
+        "y": 0.248567
+      },
+      "exportWidth": 865,
+      "exportHeight": 1705,
+      "opaquePixels": 502135,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22622,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_conversational_open_hand_v1.png",
+      "sha256": "5053c4e0f84133f8175f040489912597d6e53c18c29a33d16faf89c2689c5c95"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2854,
+        "y": 79,
+        "width": 626,
+        "height": 1574
+      },
+      "centroidNormalized": {
+        "x": 0.626985,
+        "y": 0.247333
+      },
+      "exportWidth": 754,
+      "exportHeight": 1702,
+      "opaquePixels": 540094,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 30127,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png",
+      "sha256": "c09afb6f56efd5a8b869bd1c5a74e10573cd13f5431583b532145c48a4771bb1"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4026,
+        "y": 81,
+        "width": 712,
+        "height": 1601
+      },
+      "centroidNormalized": {
+        "x": 0.887413,
+        "y": 0.263988
+      },
+      "exportWidth": 840,
+      "exportHeight": 1729,
+      "opaquePixels": 541369,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 28053,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png",
+      "sha256": "6691a2494ead7945435c538210d3e5d90b9d5b42b94ac1fa1028c828f7d50d0b"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 303,
+        "y": 1750,
+        "width": 541,
+        "height": 1592
+      },
+      "centroidNormalized": {
+        "x": 0.113244,
+        "y": 0.758077
+      },
+      "exportWidth": 669,
+      "exportHeight": 1720,
+      "opaquePixels": 597289,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 47558,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png",
+      "sha256": "8cb36a8e40aeda29422f842a3195393897963f29980b719bb7c0c55f1626fd00"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1413,
+        "y": 1829,
+        "width": 953,
+        "height": 1510
+      },
+      "centroidNormalized": {
+        "x": 0.368931,
+        "y": 0.765566
+      },
+      "exportWidth": 1081,
+      "exportHeight": 1638,
+      "opaquePixels": 554588,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 30239,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_interaction_surface_v1.png",
+      "sha256": "076084c6e0d429b9c6126d767548391bf3f571a623849ca2d3bacb979e2a6dc8"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2771,
+        "y": 1837,
+        "width": 720,
+        "height": 1500
+      },
+      "centroidNormalized": {
+        "x": 0.627557,
+        "y": 0.761587
+      },
+      "exportWidth": 848,
+      "exportHeight": 1628,
+      "opaquePixels": 524863,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23242,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png",
+      "sha256": "43facda970a572eaed4d1ebba2ccfd1c923d01881b848627e29044294db86a25"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4266,
+        "y": 1750,
+        "width": 522,
+        "height": 1607
+      },
+      "centroidNormalized": {
+        "x": 0.899451,
+        "y": 0.748062
+      },
+      "exportWidth": 650,
+      "exportHeight": 1735,
+      "opaquePixels": 503994,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23014,
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_three_quarter_v1.png",
+      "sha256": "85fcb902dc95ac002dcdb3fd01104289704661dbdc9f497c38898c5483684286"
+    }
+  ],
+  "rejectedFragments": []
+}

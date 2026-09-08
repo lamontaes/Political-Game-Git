@@ -1,20 +1,27 @@
 import {
-  SeededRng,
+  LIFE_TRANSITION_HANDLERS,
+  activeEducationEnrollmentsAt,
+  adaptiveSelectionSeed,
   advanceWorld,
   ageOnDate,
   availableLifeSituations,
   createOrganization,
+  currentLifeCutoff,
   dateAtAge,
+  didPeopleShareEducationOrganization,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
   personName,
+  playerModelFor,
   resolveLifeSituation,
+  selectSituation,
+  situationProfile,
 } from "../simulation";
 import type {
   AvailableLifeSituation,
   EntityId,
   FormativeInterval,
-  FormativePacingBand,
+  LifeSituationBand,
   LifeSituationKey,
   TeenWorkOpportunity,
   World,
@@ -26,6 +33,7 @@ import {
   formativeStepDays,
   resolveFormativeCompanion,
 } from "./formative-context";
+import type { ConversationRoomContext } from "./run-b-conversation";
 
 /**
  * The growing-up years, played.
@@ -40,10 +48,11 @@ import {
 
 export const FORMATIVE_YEARS_END_AGE = 18;
 
-const BAND_LABELS: Readonly<Record<FormativePacingBand, string>> = {
+const BAND_LABELS: Readonly<Record<LifeSituationBand, string>> = {
   "early-childhood": "Early childhood",
   "middle-childhood": "Childhood",
   adolescence: "Adolescence",
+  adulthood: "Adult life",
 };
 
 export interface FormativeSceneOption {
@@ -61,7 +70,7 @@ export interface FormativeMemory {
 export interface FormativeScene {
   readonly personName: string;
   readonly age: number;
-  readonly band: FormativePacingBand;
+  readonly band: LifeSituationBand;
   readonly bandLabel: string;
   readonly placeName: string | null;
   readonly situationKey: LifeSituationKey;
@@ -157,10 +166,40 @@ function nextScene(
   if (pool.length === 0) return null;
 
   const played = playedSituationCount(world, personId);
-  const rng = new SeededRng(world.seed).fork(
-    `formative-scene-v1:${personId}:${played}:${world.currentDate}`,
-  );
-  const situation = rng.pick(pool) as AvailableLifeSituation;
+  // Ranked rather than drawn. The pool is exactly what it was — hard
+  // eligibility and causal availability have already had their say — and what
+  // is added is the rest of the research's order: current relevance, how hard
+  // the moment pulls in two directions for *this* player, a novelty guard, a
+  // pacing guard, and a deterministic tie-break. Nothing here consumes the
+  // simulation's randomness, which is what makes the sequence reproducible
+  // from the save rather than from the order the browser happened to render in.
+  const history = playedSituationKeys(world, personId);
+  const selection = selectSituation({
+    selectionSeed: adaptiveSelectionSeed(world),
+    personKey: personId,
+    ordinal: played,
+    model: playerModelFor(world, personId),
+    candidates: pool.map((candidate) => {
+      const profile = situationProfile(candidate.key);
+      return {
+        key: candidate.key,
+        band: candidate.band,
+        stakes: profile.stakes,
+        tensions: profile.tensions,
+        // A formative situation is already gated by band and by context;
+        // claiming a finer relevance than that would be a number with nothing
+        // behind it.
+        relevance: 0.5,
+        followsFromHistory: candidate.key === "formative.workplace-rule",
+      };
+    }),
+    recentKeys: history.slice(-6),
+    recentStakes: history.slice(-6).map((key) => situationProfile(key).stakes),
+  });
+  if (!selection) return null;
+  const situation = pool.find(
+    (candidate) => candidate.key === selection.chosen.candidate.key,
+  ) as AvailableLifeSituation;
   const resolved = resolveFormativeCompanion(
     world,
     personId,
@@ -350,7 +389,10 @@ function advanceToNextMoment(
   );
   const untilGrown = Math.max(daysBetween(world.currentDate, grownUpOn), 1);
   const days = Math.min(step, untilBoundary, untilGrown);
-  return advanceWorld(world, days);
+  // With the handler registry, because a life that reaches adulthood may
+  // already be carrying a scheduled callback, and time refuses to step over a
+  // due item it has no handler for rather than silently losing it.
+  return advanceWorld(world, days, LIFE_TRANSITION_HANDLERS);
 }
 
 function daysBetween(from: string, to: string): number {
@@ -376,6 +418,23 @@ function formativeMemories(
       ageAtTime: ageOnDate(person.birthDate, memory.formedAt),
       summary: memory.rememberedSummary,
     }));
+}
+
+function playedSituationKeys(
+  world: World,
+  personId: EntityId,
+): readonly LifeSituationKey[] {
+  return world.history.events
+    .filter(
+      (event) =>
+        event.involvedEntityIds.includes(personId) &&
+        event.tags.some((tag) => tag.startsWith("formative.")),
+    )
+    .sort((left, right) => left.sequence - right.sequence)
+    .flatMap((event) => {
+      const key = event.tags.find((tag) => tag.startsWith("formative."));
+      return key ? [key as LifeSituationKey] : [];
+    });
 }
 
 function playedSituationCount(world: World, personId: EntityId): number {
@@ -413,4 +472,74 @@ function canBePeopled(
   const role = companionRoleFor(situation.key);
   if (role === null) return !situation.needsCompanion;
   return resolveFormativeCompanion(world, personId, role) !== null;
+}
+
+/**
+ * A corridor, and somebody who is in the same class.
+ *
+ * The school subject has existed since it was written and no player has ever
+ * been able to reach it, because nothing built it a room. It needs two facts,
+ * and the world already records both: this character is enrolled somewhere
+ * right now, and so is somebody else, at the same organization, over an
+ * overlapping period.
+ *
+ * Where the world has no such person there is no conversation. A schoolmate
+ * invented for the occasion would be a person the rest of the game had never
+ * heard of.
+ */
+export function schoolConversationRoom(
+  world: World,
+  personId: EntityId,
+): ConversationRoomContext | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const cutoff = currentLifeCutoff(world);
+  const enrollments = activeEducationEnrollmentsAt(world, personId, cutoff);
+  if (enrollments.length === 0) return null;
+
+  const classmateIds = world.personOrder.filter(
+    (candidateId) =>
+      candidateId !== personId &&
+      world.people[candidateId] !== undefined &&
+      activeEducationEnrollmentsAt(world, candidateId, cutoff).length > 0 &&
+      didPeopleShareEducationOrganization(world, personId, candidateId, cutoff),
+  );
+  if (classmateIds.length === 0) return null;
+
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+  const jurisdictionId =
+    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
+  if (!world.jurisdictions[jurisdictionId]) return null;
+
+  const present = [personId, ...classmateIds];
+  const others = classmateIds
+    .slice(1)
+    .map((id) => world.people[id]?.givenName)
+    .filter((name): name is string => name !== undefined);
+  return {
+    sceneKey: "formative:school-corridor",
+    // The part points at somebody so the subject has a name to reach for. Which
+    // of them the player actually speaks to is the player's, below.
+    roles: { "the-other-person": classmateIds[0]! },
+    locationLabel: "School",
+    jurisdictionId,
+    playerPersonId: personId,
+    physicallyPresentPersonIds: present,
+    activeParticipantPersonIds: present,
+    // Everybody in the same class, because the world does not record which of
+    // them the player is working with. Choosing is more faithful than being
+    // assigned a partner the record never named.
+    eligibleAddresseePersonIds: classmateIds,
+    normalHearingPersonIds: present,
+    quietAmbientHearingPersonIds: [],
+    // A corridor with the rest of the class in it is not a private place. With
+    // one other pupil it is, and the reason names whoever is stopping it.
+    privateAvailable: classmateIds.length === 1,
+    privateUnavailableReason:
+      classmateIds.length === 1
+        ? null
+        : `${others.join(" and ")} ${
+            others.length > 1 ? "are" : "is"
+          } right there in the corridor.`,
+  };
 }

@@ -34,18 +34,37 @@ import {
  * them. If the fit layer had a bug, this harness would report the bug rather
  * than the intention, because it never asks the fit what it did.
  *
- * The number a fit is JUDGED on is the PROPORTIONAL RESIDUAL: how far the
- * garment's edge sits from where it would sit if it met the target body in the
- * same proportion it meets the body it was drawn for.
+ * The number a fit is JUDGED on is the PER-SIDE PLACEMENT RESIDUAL against the
+ * garment's own ease, defined row by row as follows.
  *
- * Comparing the garment's edge directly to the body's edge is the obvious
- * metric and it is wrong, because a garment is not skin. A knit carries ease,
- * and ease is not error — it is the garment. Measured against the body's own
- * outline, a perfectly fitted garment can never score zero, and the ease is
- * counted twice: once in the unfitted number and again in the fitted one. So
- * the harness reads what the garment does on its SOURCE body first, keeps that
- * span ratio row by row, and asks whether the fitted garment reproduces it on
- * the target. A perfect fit is zero, whatever the drape.
+ * On the SOURCE body (the one the garment was drawn for), at each row y, read
+ * the body's painted edges `Bs = [bLo, bHi)` and the garment's `Gs = [gLo, gHi)`
+ * and record the two eases, in units of the body span at that row:
+ *
+ *     easeLeft(y)  = (bLo - gLo) / |Bs|        (garment past the body, left)
+ *     easeRight(y) = (gHi - bHi) / |Bs|        (garment past the body, right)
+ *
+ * On the TARGET body, at the same normalized row, read its edges `Bt` and the
+ * fitted garment's `Gt`, and ask where the garment's edges SHOULD be if it
+ * carried the same ease scaled to this body:
+ *
+ *     expectedLo = bLo_t - easeLeft(y)  * |Bt|
+ *     expectedHi = bHi_t + easeRight(y) * |Bt|
+ *     residual(y) = max(|gLo_t - expectedLo|, |gHi_t - expectedHi|)
+ *
+ * The judged number is the largest residual over the category's row window.
+ * It is zero for a perfect fit whatever the drape, so ease is preserved rather
+ * than demanded away; and it is NOT zero for a garment of the right width in
+ * the wrong place, because each edge is held to its own expected position.
+ * That last property is the one the first head lacked: it compared spans, so
+ * a garment shifted twelve pixels sideways scored a perfect zero while hanging
+ * off one side of the body and leaving the other bare.
+ *
+ * No data is not a perfect fit. Every measurement carries a status, and a
+ * window with too few comparable rows — a blank raster, a body with no paint
+ * where the garment sits, a garment that never overlaps the body — is
+ * `insufficient-coverage` or `invalid-geometry`, never a zero. Classification
+ * refuses on either.
  *
  * The raw overhang and undercoverage against the body's own edge are still
  * reported, because they are what 76A section 5.3 quoted and continuity with
@@ -270,7 +289,28 @@ export interface FitMetric {
   readonly anchors: readonly string[];
 }
 
+/**
+ * Whether a measurement is evidence at all.
+ *
+ * - `measured` — enough comparable rows to say something.
+ * - `insufficient-coverage` — rasters are valid, but fewer comparable rows
+ *   than `MINIMUM_COMPARABLE_ROWS` / `MINIMUM_COMPARABLE_FRACTION` of the
+ *   window. Nothing is concluded.
+ * - `invalid-geometry` — a raster carries no paint at all, or the window is
+ *   empty. Nothing is concluded and the input is wrong.
+ */
+export type FitMeasurementStatus =
+  "measured" | "insufficient-coverage" | "invalid-geometry";
+
+/** A window is evidence only when at least this many rows compare... */
+export const MINIMUM_COMPARABLE_ROWS = 4;
+/** ...and at least this share of the rows in the window compare. */
+export const MINIMUM_COMPARABLE_FRACTION = 0.25;
+
 export interface EdgeError {
+  readonly status: FitMeasurementStatus;
+  /** Why the status is not `measured`, when it is not. */
+  readonly statusReason: string | null;
   readonly mode: FitMetricMode;
   readonly fromRow: number;
   readonly toRow: number;
@@ -283,16 +323,21 @@ export interface EdgeError {
   /**
    * The worst error the mode counts, and its share of the body's span there.
    *
-   * For `edge-match` this is the PROPORTIONAL residual — the distance between
-   * the garment's edge and where the same garment sits on the body it was drawn
-   * for, so a garment's own ease is not counted as a fit error. For `coverage`
-   * it is the undercoverage and for `containment` the overhang, because in
-   * neither case is there a proportion to keep.
+   * For `edge-match` this is the per-side PLACEMENT residual against the
+   * garment's own ease (see the file header): each edge held to where it would
+   * sit carrying the same ease on this body, so a garment's drape is not an
+   * error but a garment of the right width in the wrong place is. For
+   * `coverage` it is the undercoverage and for `containment` the overhang,
+   * because in neither case is there an ease to keep.
+   *
+   * Meaningful only when `status` is `measured`; otherwise carried as zero and
+   * must not be read as a fit.
    */
   readonly worstPx: number;
   readonly worstAtRow: number;
   readonly worstFractionOfBodySpan: number;
   readonly rowsCompared: number;
+  readonly rowsInWindow: number;
 }
 
 /**
@@ -364,8 +409,16 @@ export function metricFor(
   };
 }
 
-function emptyEdgeError(metric: FitMetric): EdgeError {
+function emptyEdgeError(
+  metric: FitMetric,
+  status: Exclude<FitMeasurementStatus, "measured">,
+  statusReason: string,
+  rowsCompared = 0,
+  rowsInWindow = 0,
+): EdgeError {
   return {
+    status,
+    statusReason,
     mode: metric.mode,
     fromRow: metric.fromRow,
     toRow: metric.toRow,
@@ -376,7 +429,8 @@ function emptyEdgeError(metric: FitMetric): EdgeError {
     worstPx: 0,
     worstAtRow: -1,
     worstFractionOfBodySpan: 0,
-    rowsCompared: 0,
+    rowsCompared,
+    rowsInWindow,
   };
 }
 
@@ -431,14 +485,20 @@ function garmentSpanAtRow(
   return null;
 }
 
+/** The garment's ease on each side, as a share of the body span at that row. */
+export interface SourceEase {
+  readonly left: number;
+  readonly right: number;
+}
+
 /**
- * The span ratio the garment shows on the body it was drawn for, row by row.
+ * How the garment sits on the body it was drawn for, row by row.
  *
  * Keyed by normalized y so it can be read against a target body of a different
  * canvas height. Rows where either the garment or the source body is unpainted
  * are absent, and a target row with no entry is not judged.
  */
-export type SourceProportion = ReadonlyMap<number, number>;
+export type SourceProportion = ReadonlyMap<number, SourceEase>;
 
 export function measureSourceProportion(
   layerOnSource: ProjectedCharacterLayer,
@@ -446,7 +506,7 @@ export function measureSourceProportion(
   sourceBody: RasterSpans,
   sourceCanvas: { width: number; height: number },
 ): SourceProportion {
-  const proportion = new Map<number, number>();
+  const proportion = new Map<number, SourceEase>();
   for (let y = 0; y < sourceCanvas.height; y += 1) {
     const drawn = garmentSpanAtRow(layerOnSource, garment, sourceCanvas, y);
     if (!drawn) continue;
@@ -454,7 +514,10 @@ export function measureSourceProportion(
     if (!painted) continue;
     const bodySpan = painted.hi + 1 - painted.lo;
     if (bodySpan <= 0) continue;
-    proportion.set(y / sourceCanvas.height, (drawn.hi - drawn.lo) / bodySpan);
+    proportion.set(y / sourceCanvas.height, {
+      left: (painted.lo - drawn.lo) / bodySpan,
+      right: (drawn.hi - (painted.hi + 1)) / bodySpan,
+    });
   }
   return proportion;
 }
@@ -462,8 +525,8 @@ export function measureSourceProportion(
 function proportionAt(
   proportion: SourceProportion,
   normalizedY: number,
-): number | null {
-  let best: number | null = null;
+): SourceEase | null {
+  let best: SourceEase | null = null;
   let bestDistance = Number.POSITIVE_INFINITY;
   for (const [y, value] of proportion) {
     const distance = Math.abs(y - normalizedY);
@@ -474,6 +537,10 @@ function proportionAt(
   }
   // Half a row of tolerance: the nearest source row, or nothing.
   return bestDistance <= 0.002 ? best : null;
+}
+
+function hasAnyPaint(raster: RasterSpans): boolean {
+  return raster.rows.some((row) => row !== null);
 }
 
 export function measureEdgeError(
@@ -494,12 +561,37 @@ export function measureEdgeError(
   let rowsCompared = 0;
   const from = Math.max(0, metric.fromRow);
   const to = Math.min(bodyCanvas.height - 1, metric.toRow);
+  const rowsInWindow = Math.max(0, to - from + 1);
+  if (rowsInWindow === 0) {
+    return emptyEdgeError(
+      metric,
+      "invalid-geometry",
+      "The measurement window is empty: the category's rows do not fall inside this body canvas.",
+    );
+  }
+  if (!hasAnyPaint(garment)) {
+    return emptyEdgeError(
+      metric,
+      "invalid-geometry",
+      "The garment raster carries no paint at all; there is no garment to measure.",
+      0,
+      rowsInWindow,
+    );
+  }
+  if (!hasAnyPaint(body)) {
+    return emptyEdgeError(
+      metric,
+      "invalid-geometry",
+      "The body raster carries no paint at all; there is no silhouette to measure against.",
+      0,
+      rowsInWindow,
+    );
+  }
   for (let y = from; y <= to; y += 1) {
     const drawn = garmentSpanAtRow(layer, garment, bodyCanvas, y);
     if (!drawn) continue;
     const painted = body.rows[y];
     if (!painted) continue;
-    rowsCompared += 1;
     const bodySpan = painted.hi + 1 - painted.lo;
     const over = Math.max(painted.lo - drawn.lo, drawn.hi - (painted.hi + 1));
     const below = Math.max(drawn.lo - painted.lo, painted.hi + 1 - drawn.hi);
@@ -520,21 +612,42 @@ export function measureEdgeError(
       // Nothing proportional about a shoe. It must contain the foot.
       counted = below;
     } else {
-      const expectedRatio = sourceProportion
+      const ease = sourceProportion
         ? proportionAt(sourceProportion, y / bodyCanvas.height)
         : null;
-      if (expectedRatio === null) continue;
-      const expectedSpan = bodySpan * expectedRatio;
-      counted = Math.abs(drawn.hi - drawn.lo - expectedSpan) / 2;
+      if (ease === null) continue;
+      // Each edge is held to where it would sit carrying the source ease on
+      // THIS body. Width alone is not enough: a garment of the right width in
+      // the wrong place is a garment hanging off one side of the body.
+      const expectedLo = painted.lo - ease.left * bodySpan;
+      const expectedHi = painted.hi + 1 + ease.right * bodySpan;
+      counted = Math.max(
+        Math.abs(drawn.lo - expectedLo),
+        Math.abs(drawn.hi - expectedHi),
+      );
     }
+    rowsCompared += 1;
     if (counted > worst) {
       worst = counted;
       worstAt = y;
       worstFraction = counted / bodySpan;
     }
   }
-  if (rowsCompared === 0) return emptyEdgeError(metric);
+  if (
+    rowsCompared < MINIMUM_COMPARABLE_ROWS ||
+    rowsCompared < rowsInWindow * MINIMUM_COMPARABLE_FRACTION
+  ) {
+    return emptyEdgeError(
+      metric,
+      "insufficient-coverage",
+      `Only ${rowsCompared} of ${rowsInWindow} rows in the ${metric.mode} window had both the garment and the body painted; at least ${MINIMUM_COMPARABLE_ROWS} rows and ${Math.round(MINIMUM_COMPARABLE_FRACTION * 100)}% of the window are needed before a number means anything.`,
+      rowsCompared,
+      rowsInWindow,
+    );
+  }
   return {
+    status: "measured",
+    statusReason: null,
     mode: metric.mode,
     fromRow: metric.fromRow,
     toRow: metric.toRow,
@@ -546,6 +659,7 @@ export function measureEdgeError(
     worstAtRow: worstAt,
     worstFractionOfBodySpan: round4(Math.max(0, worstFraction)),
     rowsCompared,
+    rowsInWindow,
   };
 }
 
@@ -579,6 +693,13 @@ export interface FitCaseResult {
     readonly withinBound: boolean;
   } | null;
   readonly classification: GarmentFitClass;
+  /**
+   * Whether the classification rests on measured rows. False when the
+   * unfitted measurement was not `measured`; the classification is then the
+   * fail-closed `morphology-specific` and must not be read as a verdict about
+   * the art, only as a refusal to conclude.
+   */
+  readonly evidence: "measured" | "insufficient";
   readonly reason: string;
 }
 
@@ -614,9 +735,13 @@ function projectOne(
     { catalog_generation: 1, slots: [], generations: [] },
     createGarmentFitBank(bank),
   );
+  // The harness is the one caller allowed to see a warp as drawable geometry:
+  // it measures what the warp WOULD do and records that as evidence. Nothing
+  // that renders passes this option, and a test keeps it out of `src/`.
   const projected = projectCharacterLayers(
     recipeFor(body.definition.family, poseFamily, [body, garment]),
     library,
+    { admitUnrenderableWarps: true },
   );
   if (!projected) {
     throw new Error(
@@ -770,9 +895,26 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     boundedWarp = null;
   }
 
+  const fittedIsEvidence = (
+    entry: { readonly result: EdgeError } | null,
+  ): boolean => entry !== null && entry.result.status === "measured";
+  if (affine && !fittedIsEvidence(affine)) {
+    affine = { ...affine, withinBound: false };
+  }
+  if (boundedWarp && !fittedIsEvidence(boundedWarp)) {
+    boundedWarp = { ...boundedWarp, withinBound: false };
+  }
+
   let classification: GarmentFitClass;
   let reason: string;
-  if (unfitted.worstFractionOfBodySpan <= maxEdgeErrorFraction) {
+  let evidence: FitCaseResult["evidence"] = "measured";
+  if (unfitted.status !== "measured") {
+    // No data is not a perfect fit. Nothing is concluded about the art; the
+    // class is the fail-closed one and the flag says why.
+    classification = "morphology-specific";
+    evidence = "insufficient";
+    reason = `Not measurable (${unfitted.status}): ${unfitted.statusReason ?? "no comparable rows."} No classification is drawn from an absence of evidence; this pairing is refused until it can be measured.`;
+  } else if (unfitted.worstFractionOfBodySpan <= maxEdgeErrorFraction) {
     classification = "safe-direct-reuse";
     reason = `Unfitted placement already sits within ${(maxEdgeErrorFraction * 100).toFixed(1)}% of the target silhouette (worst ${unfitted.worstPx}px, ${(unfitted.worstFractionOfBodySpan * 100).toFixed(2)}%). A transform here would move art that is already where it belongs.`;
   } else if (affine?.withinBound) {
@@ -801,6 +943,7 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     affine,
     boundedWarp,
     classification,
+    evidence,
     reason,
   };
 }

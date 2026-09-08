@@ -660,3 +660,154 @@ is unchanged.
 | Cause-identified repair | Confirmed            | Before evidence shows the chair painted over the woman and the man below his seat. The occluder polygon and the mid-torso roots are the measured causes; both are corrected from raster and plate measurements, and a regression test pins roots to the measured seat lines and the chair to alpha 0. |
 | Pose boundary           | Confirmed not faked  | Real bodies exist only as standing-neutral; the seated proof view fails closed and the office seam produces a placeholder rather than a standing body behind a chair.                                                                                                                                 |
 | Stage 6 and scope gates | Confirmed absent     | No simulation change beyond none; no campaign/election, corpus PR, Slice F, population generation, head-angle, animation, or engine change. The large asset bank was not imported.                                                                                                                    |
+
+## ACS PUMS Coherent-Household Donor Bridge Audit — 2026-09-06
+
+This audit applies D-077 to the source substrate and rechecks D-004, D-023,
+D-025, D-026, D-034, D-035, D-074, the frozen Stage 6 baseline, the accepted
+Stage 6.5 runs, and later-stage gates.
+
+| Concern                              | Disposition                          | Evidence and rationale                                                                                                                                                                                                                                                                                                      |
+| ------------------------------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Primitive reuse                      | Confirmed                            | The one-way adapter submits ordinary `CharacterHistoryPlan` intents and the plan now exposes the already-canonical partnership writer alongside its existing household, kinship, dwelling, occupancy, and tenure writers. No second person, household, relationship, history, RNG, or persistence engine exists.            |
+| Provenance and capability            | Corrected with a contained extension | Cache-only production bytes receive the same opaque capability only after lock, rights, confinement, and digest checks. The 2024 state interface declares no lock or bytes; its production gate remains explicit. The fixture is doubly marked and cannot pass the production writer.                                       |
+| Household coherence                  | Confirmed behavioral                 | The compiler joins every person through `SERIALNO`, validates year, state, PUMA, record type, duplicate/orphan keys, and housing-unit `NP`, and preserves both published weights. Selection draws the intact household by exact positive integer `WGTP`; it never reconstructs a household from marginal distributions.     |
+| Identity and coincident concepts     | Confirmed separated                  | Caller-supplied fictional names, birth dates, identity, and placement stay separate from donor evidence. Age checks consistency; source sex cannot write identity; PUMA cannot become city/address; household, kinship, partnership, dwelling, and tenure remain distinct records. Raw `SERIALNO` does not enter `World`.   |
+| Missingness and unsupported mappings | Confirmed fail-honest                | Dictionary labels control meaning. NIU, unresolved, and allocation states survive projection. Unknown labels retain `canonical: null`. School, attainment, employment, class, occupation, and hours remain in the bridge audit when canonical creation would require an institution or relationship terms the source lacks. |
+| Determinism and persistence          | Confirmed                            | Selection keys include normalized world seed, state, 2024 product, corpus ID/digest, and normalized constraints; exact rejection sampling avoids floating-point weighting and unrelated RNG consumption. Resulting canonical records round-trip through the existing snapshot codec.                                        |
+| Earlier Stage 5/6 behavior           | Confirmed compatible                 | The accepted 2023 Wyoming QA corpus/compiler remain unchanged. The character-history union addition routes only a newly requested transition to an existing validated writer. Focused regression, source replay, and the full validation suite cover earlier behavior.                                                      |
+| Stage and UI scope                   | Confirmed absent                     | No personality, ideology, belief, motive, feeling, money, named employer/school, career, institution/law, campaign/election, player prose, UI, or art behavior was added. No Stage 6 semantic baseline was reopened and Stage 7 remains gated.                                                                              |
+
+## 92I Kentucky Municipal Governance Source Audit — 2026-09-06
+
+This audit applies D-074 to the headless `municipal-governance` source domain
+and rechecks source/simulation separation, truth-state preservation, domain
+ownership, the frozen Stage 6 baseline, and later-stage gates.
+
+| Concern                       | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                |
+| ----------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Institutional shape           | Confirmed non-scalar  | Lexington-Fayette, Louisville-Jefferson Metro, and Bowling Green compile as materially different bodies, administrative structures, presiding/voting arrangements, budget procedures, and consolidation relationships. No strong/weak-mayor scalar exists.            |
+| Actor and power identity      | Confirmed separated   | Mayor, vice mayor, council president, council/commission, manager, and chief administrative officer are separate actor roles. A sourced power row states its holder, capability, target, conditions, exceptions, and exact threshold where known.                     |
+| Time-varying rules            | Confirmed dated       | Louisville's historical partisan and current nonpartisan election rules remain distinct sourced states. Term limits and effective dates are not inferred from titles or candidate JSON.                                                                               |
+| Missingness and conflicts     | Confirmed fail-honest | Census/government-unit joins, unsupported local procedures, and Louisville's exact retained-government count remain `UNKNOWN`. Current first-party checks corrected stale cargo claims without promoting the cargo itself to production evidence.                     |
+| Provenance and production     | Confirmed gated       | The compiler is capability-bound and deterministic, but the three records remain fixtures. Production requires independently acquired, rights-scoped, hash-locked, proposition-checked first-party artifacts; the manifest exposes that gate.                         |
+| Domain and runtime boundaries | Confirmed preserved   | The implementation is confined to `src/source/domains/municipal-governance`, its fixture/tests, generated manifest, and source documentation. It imports no other source domain and has no simulation, player, presentation, persistence, environment, or UI adapter. |
+| Stage scope                   | Confirmed absent      | No municipal law, institution, election, budget, administration, or governing gameplay engine was added. Stage 6 semantics and accepted Stage 6.5 runs remain untouched; Stage 7 remains gated.                                                                       |
+
+## PR85B Post-Main Reconciliation Audit — 2026-09-06
+
+This audit covers the contained post-#99 repair on PR #85 and rechecks the
+canonical-history, scene-presentation, jurisdiction-authority, calendar, People
+rail, determinism, and later-stage boundaries affected by the owner replay.
+
+| Concern                               | Disposition                       | Evidence and rationale                                                                                                                                                                                                                                  |
+| ------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Generated adult-history chronology    | Corrected with a contained patch  | Quick generation now composes elementary, middle, and secondary enrollment in child-appropriate order and keeps work at 16 or later. Multi-age/multi-seed tests include age 34 and reject future-dated output.                                          |
+| Authored/imported canonical history   | Confirmed preserved               | The repair changes only the quick generator. An intentionally off-template authored enrollment date remains exact through the shared writer and JSON import; no heuristic normalizes played, authored, or imported history.                             |
+| History, provenance, and persistence  | Confirmed compatible              | The added organization, enrollment, and state records use the existing stable-keyed `CharacterHistoryPlan`, ordinary canonical writers, generated provenance, append sequence, integrity validation, and unchanged snapshot schema.                     |
+| Scene and camera ownership            | Corrected only where branch-owned | The ambient title tableau now reuses the arriving stage's stable key when it becomes the leaving stage, retaining the same decoded image and camera node through repeated transitions. Per-scene camera policies and cover transforms remain unchanged. |
+| Calendar and campaign action capacity | Confirmed existing behavior       | Same-day exhaustion remains a truthful result of three scheduled sessions before an existing evening commitment; every disabled action explains the conflict, and the next day restores action availability. No campaign arithmetic was rebalanced.     |
+| People rail and pin authority         | Confirmed presentation-only       | A campaign opponent may appear as a recurring relevant person. Only in-room people are automatically held; the opponent's separate Pin control remains unpressed until the player chooses it. Pin state writes no World or history truth.               |
+| Jurisdiction negative control         | Corrected test assumption         | Unsupported-place tests derive a locality by subtracting accepted candidacy-pack jurisdiction keys from the searchable corpus. No named state is treated as permanently unsupported, and the Lexington state-office route remains covered.              |
+| Post-merge ownership guard            | Corrected during reconciliation   | PR #112's inherited boundary test now measures its fixed shipped base-to-head range, following the accepted closed-range pattern. It continues to police that wave without treating later PR85 changes as PR #112 output.                               |
+| Determinism and headless core         | Confirmed                         | Simulation changes remain pure TypeScript with seeded identity and stable keys. Identical histories and campaign outcomes retain their existing replay and persistence tests; React owns only stage continuity and rail interaction.                    |
+| Stage and scope gates                 | Confirmed bounded                 | No Stage 6 semantic baseline, law/institution/electorate engine, campaign-engine rewrite, broad economics rebalance, team/staff mechanic, or new jurisdiction pack was added. Fundraising calibration and team depth remain recorded follow-ups.        |
+
+## P85D Integration Correction — 2026-09-07
+
+P85C found two gaps in the preceding acceptance claims. P85D corrects the
+integration without changing campaign effects or adding systems:
+
+- Adult choices, quiet stretches and episode choices now pass the same composed
+  campaign/life registry as the day panel. No second registry or election-day
+  special case exists; the existing callback handlers remain present.
+- Winner seating resolves the governing state from the accepted pack key and
+  reuses established state identity. A state reference without a playable
+  environment remains a placeholder, with no new place or capability granted.
+  The state joins the save's jurisdiction collection only when absent; no
+  person, household residence, prior record or municipality is rewritten.
+- Regression coverage follows actual advancement entry points and the
+  locality-origin win through canonical seating, reload and Work activation.
+  Chronology, money, observations, pinning, camera code, art/source inputs and
+  bargaining implementations remain unchanged.
+- Current-main reconciliation preserves the entire canonical M1 ownership test.
+
+LEARN: shared substrate correctness needs tests at every caller that advances
+time, and office access needs a locality-origin test where residence differs
+from governing authority. The focused integration and browser regressions are
+the durable mechanism; no broader prompt or new workflow is needed.
+
+## 92C Life-Content First-Wave Audit — 2026-09-06
+
+This audit applies the 92C run packet and rechecks D-004, D-023, D-025, the
+accepted episode/content-bank architecture, the PR #99 development-time prose
+boundary, the frozen Stage 6 baseline, and the active #85/#79 ownership
+exclusions.
+
+| Concern                     | Disposition                          | Evidence and rationale                                                                                                                                                                                                                                                                                           |
+| --------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Primitive reuse             | Confirmed                            | Sixteen kernels use the existing episode, event, memory, relationship-interaction, commitment, organization-participation, incident, work, education, household, and deterministic selection paths. No canonical record family or second history was added.                                                      |
+| Age and context             | Corrected with a contained extension | Every new child stage carries a numeric floor and ceiling plus its required school, household, authority, or relationship context. `role-age-below` mirrors the accepted older-role gate and uses the qualifying binding for both eligibility and composition. Live tests distinguish ages five, seven, and ten. |
+| Child agency                | Confirmed bounded                    | Child options describe only the child's immediate response. They write no commitment and offer no housing, medical, custody, budgeting, employment, or school-selection decision.                                                                                                                                |
+| Adult-path plurality        | Confirmed                            | Work-only, education-only, combined work-and-education, kin, relationship, and neither-work-nor-education contexts are represented without naming a program type or assigning a demographic frequency.                                                                                                           |
+| Causal history              | Confirmed                            | New continuations name the earlier option, elapsed time, and required bound person where the prose claims them. Independent school, household, and incident moments extend accepted same-domain families rather than receiving fabricated causal branches.                                                       |
+| Provenance and player prose | Confirmed fail-closed                | All twenty rendered scenes have a stage-specific fact packet, accepted static writer output, and separate exact `GROUNDING: PASS` verdict. Tests map every rendered line, label, description, and memory to its own output; production code has no model call.                                                   |
+| Determinism and missingness | Confirmed                            | Identical worlds select identically. Different canonical ages change eligibility. Missing enrollment or guardian records withhold the relevant stages, and a missing or wrong-age person is never replaced with invented prose or an invented entity.                                                            |
+| Stable identity and history | Confirmed                            | Existing family and option keys are unchanged. New ids are stable, played stages remain ordinary tagged history, and long-tail identity is carried by the existing episode instance binding.                                                                                                                     |
+| Stage and ownership scope   | Confirmed absent                     | No Stage 6 semantic baseline, Run D-Lite clock/work substrate, player/campaign surface owned by #85, bargaining surface owned by #79, campaign/candidacy file, law/institution engine, runtime AI dependency, or new UI was changed.                                                                             |
+
+## C119B bounded grounding repair
+
+The earlier 92C claims of sufficient grounding are corrected by the
+[C119B scene audit](plans/completed/c119b-grounding-audit.md). The inventory stays
+16 of 62 researched kernels, with 46 outside-wave deferrals and 20 registered
+triplets. Ten of those authored stages are withheld at runtime until their
+actual local incident/activity, work, education, request, knowledge or
+performance evidence can be bound. A prior yes is never completed work.
+
+The childhood pact binds a familiar child in the same birth cohort before
+computing the persistent instance key; its callback recalls only the recorded
+agreement with that exact person. A later school scene asserts no enrollment
+continuity. Immediate retained scene circumstances are preserved in the
+ordinary resolution event, and stale selections are rechecked before writing.
+No canonical records are invented for eligibility. Independent C119C acceptance
+is pending; static review success is not runtime grounding approval.
+
+C119C's independent audit found a persistent-instance identity defect; that
+defect is closed by the C119D repair recorded below, and the "pending" status in
+the preceding paragraph is historical. C119E independently re-audited exact head
+`148ab1f37f36aad9ebbfe0410ace0e351f65ae46` and returned ACCEPT, confirming C119D
+closes the C119C defect and preserves the grounding, withholding, age, callback,
+persistence, research-accounting, campaign-isolation, bargaining-isolation and
+canonical-ownership controls. Landing onto current main is mechanical. Owner
+visual acceptance is still not implied by passing automated browser tests.
+
+## C119D persistent cast identity repair
+
+The shared episode eligibility boundary now rejects a stage whose age-qualified
+cast differs from its persistent instance person. Existing instance-key syntax,
+World/history schema, peer cohort filtering, role-age gates and write-boundary
+revalidation remain unchanged. The rule applies to every persistent family role,
+including the childhood pact and household toy scene, rather than a scene-ID
+exception. No content, runtime frequency, withheld circumstance, campaign or
+bargaining behavior is changed. Synthetic adversarial tests cover both sort
+orders, write rejection and matching-person save/callback behavior.
+
+LEARN: role eligibility, rendered cast and persistent identity must be tested
+together with multiple candidates; a one-candidate proof cannot detect their
+selection rules diverging. This lesson is enforced in the C119D regressions.
+
+## Civil Service / Labor Source Substrate Audit — 2026-09-06
+
+This audit applies the source-substrate contracts to the bounded 92P first
+wave and rechecks D-004, D-023, D-025, D-026, D-034, D-035, D-074, the frozen
+Stage 6 baseline, the accepted Stage 6.5 runs, and later-stage gates.
+
+| Concern                            | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Identity versus coverage           | Confirmed explicit    | The corpus has exactly one federal and fifty state records, each with distinct civil-service and labor profiles. Completeness applies only to this identity universe; unsupported fields have `UNKNOWN` state and no `value` key.                                                                                                |
+| Provenance and legal-text boundary | Confirmed fail-closed | Every `KNOWN` field cites a locked first-party artifact and a legal-section locator. Federal pages are U.S. House Law Revision Counsel publications; state captures carry a structured government-edict determination and the capability layer exposes only digest-pinned enacted text. Literal excerpt drift fails compilation. |
+| Jurisdiction isolation             | Confirmed             | Validation binds each cited artifact to its declared jurisdiction and rejects undeclared or cross-jurisdiction evidence. A federal or state record cannot inherit another jurisdiction's rule because the wording looks similar.                                                                                                 |
+| Retrieval failures                 | Confirmed honest      | Kentucky's returned PDF bytes and Nebraska's rate-limited strike page do not become facts. Illinois and all other unacquired authorities remain `UNKNOWN`; no summary matrix, search result, or Drive packet is production evidence.                                                                                             |
+| Domain size                        | Confirmed bounded     | The closed types cover classification, appointment/removal protection, appeal body, local mandate, bargaining coverage/scope, management rights, impasse, and strike restriction. No CBA terms, grievance state machine, hearing script, remedy calculator, scoring, or ranking exists.                                          |
+| Ownership and stage gates          | Confirmed absent      | The domain imports only source-core contracts. It changes no simulation, World, player, presentation, campaign/election, legislative-bargaining, or executive-authority file and adds no adapter or UI.                                                                                                                          |

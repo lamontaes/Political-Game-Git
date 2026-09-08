@@ -1,0 +1,945 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ak-constitution",
+      "bytes": {
+        "length": 362321,
+        "sha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476"
+      },
+      "localPath": "data/source/state-legislatures/raw/ak-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Lieutenant Governor, State of Alaska",
+      "publisher": {
+        "documentationUrl": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 362321,
+        "retrievedAt": "2026-09-06T18:45:27.267Z",
+        "url": "https://ltgov.alaska.gov/information/alaskas-constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Alaska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Alaska",
+          "jurisdictionKey": "US-AK",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 885,
+              "sha256": "0589da7af91cf79ba8771bbae975e5e795695444a4b7975ce84596ea1192d30c"
+            },
+            "regions": [
+              {
+                "beginsWith": "1. Legislative Power; Membership The legislative power of the State is vested in a legislature",
+                "endsWith": "One-half of the senators shall be elected every two years."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ca-constitution-article-4",
+      "bytes": {
+        "length": 183809,
+        "sha256": "233b020b79d211bdd6e6c465c93389d7b24e7617260f08379aacb9c5b75d1123"
+      },
+      "localPath": "data/source/state-legislatures/raw/ca-constitution-article-4.html",
+      "mediaType": "text/html",
+      "provider": "California Legislative Counsel of California",
+      "publisher": {
+        "documentationUrl": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 183809,
+        "retrievedAt": "2026-09-06T18:45:27.746Z",
+        "url": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&division=&title=&part=&chapter=&article=IV"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of California",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of California, Article IV",
+          "jurisdictionKey": "US-CA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 667,
+              "sha256": "3532f1330dca87753ef89d94e557fd04fa49bc6a79c7005833ec36c515f59954"
+            },
+            "regions": [
+              {
+                "beginsWith": "SEC. 1. The legislative power of this State is vested in the California Legislature",
+                "endsWith": "the powers of initiative and referendum."
+              },
+              {
+                "beginsWith": "SEC. 2. (a) (1) The Senate has a membership of 40 Senators elected for 4-year terms",
+                "endsWith": "in any combination of terms."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "de-constitution-article-2",
+      "bytes": {
+        "length": 62697,
+        "sha256": "f7920b5fbae62dfb17e353d1bc088b044b1d370c5426919c9dff7f88c067dbb6"
+      },
+      "localPath": "data/source/state-legislatures/raw/de-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "Delaware Code, Office of the Delaware Code Revisors",
+      "publisher": {
+        "documentationUrl": "https://delcode.delaware.gov/constitution/constitution-03.shtml",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 62697,
+        "retrievedAt": "2026-09-06T18:45:28.529Z",
+        "url": "https://delcode.delaware.gov/constitution/constitution-03.shtml"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Delaware",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Delaware, Article II",
+          "jurisdictionKey": "US-DE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1194,
+              "sha256": "59789ed0914ef3dcdd80967be6c950de2ab36a3468edbf0d757446997c1c82df"
+            },
+            "regions": [
+              {
+                "beginsWith": "§ 1. General Assembly to hold legislative power; composition.",
+                "endsWith": "which shall consist of a Senate and House of Representatives."
+              },
+              {
+                "beginsWith": "§ 2. Composition of House and Senate; terms of office; districts; election.",
+                "endsWith": "in Sussex County, 7 Senatorial Districts from 1 to 7 inclusive."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fl-constitution",
+      "bytes": {
+        "length": 622854,
+        "sha256": "cd56710740c0ff6e7595384afd7b12745c19ee28f44abbad8a32a20e4f4d82db"
+      },
+      "localPath": "data/source/state-legislatures/raw/fl-constitution.html",
+      "mediaType": "text/html",
+      "provider": "The Florida Senate",
+      "publisher": {
+        "documentationUrl": "https://www.flsenate.gov/Laws/Constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 622854,
+        "retrievedAt": "2026-09-06T18:45:29.862Z",
+        "url": "https://www.flsenate.gov/Laws/Constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Florida",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Florida",
+          "jurisdictionKey": "US-FL",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1128,
+              "sha256": "80342972f9cb55f3ddf198a16500b0c09f7c05bf50926d349f9d71fff83f0dc6"
+            },
+            "regions": [
+              {
+                "beginsWith": "SECTION 1. Composition. — The legislative power of the state shall be vested",
+                "endsWith": "composed of one member elected from each representative district."
+              },
+              {
+                "beginsWith": "SECTION 15. Terms and qualifications of legislators.",
+                "endsWith": "shall have resided in the state for a period of two years prior to election."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "hi-constitution",
+      "bytes": {
+        "length": 236123,
+        "sha256": "d9a7b4af7ae2cc6c0ddb4ccf54e2f5d392d2962a1205dc5076e56cc793cd97e3"
+      },
+      "localPath": "data/source/state-legislatures/raw/hi-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Hawaii Legislative Reference Bureau",
+      "publisher": {
+        "documentationUrl": "https://lrb.hawaii.gov/constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 236123,
+        "retrievedAt": "2026-09-06T18:45:30.799Z",
+        "url": "https://lrb.hawaii.gov/constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Hawaii",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Hawaii",
+          "jurisdictionKey": "US-HI",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1031,
+              "sha256": "8d6020b766fc360ccefaa3ed69e095ad34a18b5ec8be1eddce13ad540b88b5c4"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article III The Legislature LEGISLATIVE POWER Section 1.",
+                "endsWith": "or the Constitution of the United States."
+              },
+              {
+                "beginsWith": "COMPOSITION OF SENATE Section 2. The senate shall be composed of twenty-five members",
+                "endsWith": "shall be as set forth in the Schedule."
+              },
+              {
+                "beginsWith": "COMPOSITION OF HOUSE OF REPRESENTATIVES Section 3.",
+                "endsWith": "shall be as set forth in the Schedule."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "id-constitution-article-3-section-2",
+      "bytes": {
+        "length": 93653,
+        "sha256": "767b379ed8a16fdd2e007bb4d688bce5b855ffcc98006e1ee84c2d84f56fdea2"
+      },
+      "localPath": "data/source/state-legislatures/raw/id-constitution-article-3-section-2.html",
+      "mediaType": "text/html",
+      "provider": "Idaho State Legislature",
+      "publisher": {
+        "documentationUrl": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect2/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 93653,
+        "retrievedAt": "2026-09-06T18:45:31.835Z",
+        "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect2/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Idaho",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Idaho, Article III",
+          "jurisdictionKey": "US-ID",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 491,
+              "sha256": "f2f0c3f15e7d5a822d04cb6c762085d081369aba548fa8bd804ee65212415b0c"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section 2. Membership of house and senate. (1) Following the decennial census of 2020",
+                "endsWith": "be divided by law."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "il-constitution-article-4",
+      "bytes": {
+        "length": 16462,
+        "sha256": "59c10c5dd47c9cec1a85b8793283f2b3d2cf04f4a883bcb6d8dbc16b2eb15198"
+      },
+      "localPath": "data/source/state-legislatures/raw/il-constitution-article-4.html",
+      "mediaType": "text/html",
+      "provider": "Illinois General Assembly, Legislative Reference Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.ilga.gov/commission/lrb/con4.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 16462,
+        "retrievedAt": "2026-09-06T18:45:32.115Z",
+        "url": "https://www.ilga.gov/commission/lrb/con4.htm"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Illinois",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Illinois, Article IV",
+          "jurisdictionKey": "US-IL",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1078,
+              "sha256": "5560dd038c84258a13f29c17d444a1764dcb287f79ce6e0f7558370bf8428fc0"
+            },
+            "regions": [
+              {
+                "beginsWith": "SECTION 1. LEGISLATURE - POWER AND STRUCTURE",
+                "endsWith": "118 Representative Districts."
+              },
+              {
+                "beginsWith": "SECTION 2. LEGISLATIVE COMPOSITION (a) One Senator shall be elected",
+                "endsWith": "for a term of two years."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ma-constitution",
+      "bytes": {
+        "length": 458396,
+        "sha256": "d78569b99a5fb26a60c6291653389df991d9db257925958cc321de71bf8f64e6"
+      },
+      "localPath": "data/source/state-legislatures/raw/ma-constitution.html",
+      "mediaType": "text/html",
+      "provider": "The 194th General Court of the Commonwealth of Massachusetts",
+      "publisher": {
+        "documentationUrl": "https://malegislature.gov/Laws/Constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 458396,
+        "retrievedAt": "2026-09-06T18:45:32.550Z",
+        "url": "https://malegislature.gov/Laws/Constitution"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Massachusetts",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the Commonwealth of Massachusetts, with Articles of Amendment",
+          "jurisdictionKey": "US-MA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1223,
+              "sha256": "00408f75caef0121da4d60bb291b81bf6e3811b0fcb16ff546174b9e2cc26638"
+            },
+            "regions": [
+              {
+                "beginsWith": "The enumeration aforesaid shall determine the apportionment of representatives for the periods between the taking of the census.",
+                "endsWith": "be considered as part of the county of Plymouth"
+              },
+              {
+                "beginsWith": "The enumeration aforesaid shall determine the apportionment of senators for the periods between the taking of the census.",
+                "endsWith": "no town or ward of a city shall be divided therefor"
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-constitution",
+      "bytes": {
+        "length": 150014,
+        "sha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254"
+      },
+      "localPath": "data/source/state-legislatures/raw/mn-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150014,
+        "retrievedAt": "2026-09-06T18:45:33.018Z",
+        "url": "https://www.revisor.mn.gov/constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Minnesota",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Minnesota Constitution",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 428,
+              "sha256": "8c73816e7175eb5540800e96dbe3233455a500e1612b6bdf5af426753f2397e5"
+            },
+            "regions": [
+              {
+                "beginsWith": "ARTICLE IV LEGISLATIVE DEPARTMENT Section 1. Composition of legislature.",
+                "endsWith": "in proportion to the population thereof."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mn-statutes-2-021",
+      "bytes": {
+        "length": 61245,
+        "sha256": "40af850248d0d5cfee25cd4722d850ee29baa2e592a8d9e1bc6f44a0e4c45da4"
+      },
+      "localPath": "data/source/state-legislatures/raw/mn-statutes-2-021.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/statutes/cite/2.021",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 61245,
+        "retrievedAt": "2026-09-06T18:45:33.083Z",
+        "url": "https://www.revisor.mn.gov/statutes/cite/2.021"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Minnesota Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Minnesota Statutes, section 2.021 — Number of senators and representatives",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 192,
+              "sha256": "08e4872393e65f56ec6ddeb321733f1fba78c031a5ae05adc46d0545a7d0f5dc"
+            },
+            "regions": [
+              {
+                "beginsWith": "2.021 NUMBER OF MEMBERS. For each legislature",
+                "endsWith": "the house of representatives is composed of 134 members."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nc-constitution-article-2",
+      "bytes": {
+        "length": 63834,
+        "sha256": "facc48e54c1544892470d18296ed5a2b8b3e74c814d8ad471cec9876ba829bf2"
+      },
+      "localPath": "data/source/state-legislatures/raw/nc-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "North Carolina General Assembly",
+      "publisher": {
+        "documentationUrl": "https://www.ncleg.gov/Laws/Constitution/Article2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 63834,
+        "retrievedAt": "2026-09-06T18:45:33.392Z",
+        "url": "https://www.ncleg.gov/Laws/Constitution/Article2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of North Carolina",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of North Carolina, Article II",
+          "jurisdictionKey": "US-NC",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1553,
+              "sha256": "daffe59aa883f6c9d6f6fb64fb9f9abbc06dae0921b760353f8876a3cbbafe85"
+            },
+            "regions": [
+              {
+                "beginsWith": "ARTICLE II LEGISLATIVE Section 1. Legislative power.",
+                "endsWith": "The Representatives shall be elected from districts."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-1",
+      "bytes": {
+        "length": 30389,
+        "sha256": "4f22c94908b3bad7bde72e9c49466fbdc25092ed13450825889bd2f8fbb211dc"
+      },
+      "localPath": "data/source/state-legislatures/raw/ne-constitution-article-3-section-1.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 30389,
+        "retrievedAt": "2026-09-06T18:45:33.811Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska, Article III",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 408,
+              "sha256": "d959a375583bde1ebd8e9389b43d3315c96e51eac154c78c0810feacf2bcffc7"
+            },
+            "regions": [
+              {
+                "beginsWith": "III-1. Legislative authority; how vested; power of initiative; power of referendum.",
+                "endsWith": "which power shall be called the power of initiative."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-article-3-section-6",
+      "bytes": {
+        "length": 21905,
+        "sha256": "03a182b167c35d66ebae79f1e23a1b38c496aa690c99f99594f68865c67998c3"
+      },
+      "localPath": "data/source/state-legislatures/raw/ne-constitution-article-3-section-6.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-6",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 21905,
+        "retrievedAt": "2026-09-06T18:45:33.878Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-6"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska, Article III",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 288,
+              "sha256": "26aac7f7c92ddd405baadadb97e61fa8a52a6f59fc7bd6065a40cdceb9105be2"
+            },
+            "regions": [
+              {
+                "beginsWith": "III-6. Legislature; number of members; annual sessions.",
+                "endsWith": "as may be otherwise provided by law."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-constitution",
+      "bytes": {
+        "length": 431607,
+        "sha256": "726067b645f47709f00c2cf23ee6a514f7fc64381fd6c1f6eb0b1f48b31c51cc"
+      },
+      "localPath": "data/source/state-legislatures/raw/nv-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/const/nvconst.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 431607,
+        "retrievedAt": "2026-09-06T18:45:34.207Z",
+        "url": "https://www.leg.state.nv.us/const/nvconst.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nevada",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Constitution of the State of Nevada",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 303,
+              "sha256": "b237301bf9a10bf623fe7b69a2958da4d35cf99c9c661655cefd5396a015928e"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section. 1. Legislative power vested in senate and assembly.",
+                "endsWith": "shall be held at the seat of government of the State."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-article-2",
+      "bytes": {
+        "length": 91421,
+        "sha256": "8180d526a21c7c0f68b2bfa5fe049a9e26ee929471e21318595c260d873e9608"
+      },
+      "localPath": "data/source/state-legislatures/raw/oh-constitution-article-2.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/article-2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 91421,
+        "retrievedAt": "2026-09-06T18:45:34.702Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/article-2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Ohio Constitution, Article II",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1520,
+              "sha256": "d5eafabb86a25bbf5b8a6eccfeb0e9030c2dcb61211283e555013982d5cab721"
+            },
+            "regions": [
+              {
+                "beginsWith": "The legislative power of the state shall be vested in a general assembly consisting of a senate and house of representatives",
+                "endsWith": "shall be deemed limitations on the power of the people to enact laws."
+              },
+              {
+                "beginsWith": "Representatives shall be elected biennially by the electors of the respective house of representatives districts",
+                "endsWith": "senators shall be elected to and hold office for terms of four years."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "or-constitution",
+      "bytes": {
+        "length": 643208,
+        "sha256": "25e2dfcc84c3fbd851f6dff028abd7114888607985ea6ea74252e758bc7f3673"
+      },
+      "localPath": "data/source/state-legislatures/raw/or-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Oregon State Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 643208,
+        "retrievedAt": "2026-09-06T18:45:35.554Z",
+        "url": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Oregon",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Oregon, Article IV",
+          "jurisdictionKey": "US-OR",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1156,
+              "sha256": "488ca23d47275ae98f018379cc10c6c1c1b2a4e7af351280875dcbf74315227b"
+            },
+            "regions": [
+              {
+                "beginsWith": "Section 1. Legislative power; initiative and referendum. (1) The legislative power of the state",
+                "endsWith": "consisting of a Senate and a House of Representatives."
+              },
+              {
+                "beginsWith": "Section 4. Term of office of legislators; classification of Senators.",
+                "endsWith": "unless a different commencing day for such terms shall have been appointed by law."
+              },
+              {
+                "beginsWith": "Section 6. Apportionment of Senators and Representatives; operative date.",
+                "endsWith": "A senatorial district shall consist of two representative districts."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-3",
+      "bytes": {
+        "length": 24439,
+        "sha256": "1b8f02691393f9a5459a40f37dfd5c7f1b27b60d7cbb5c869a4c0528544fbd0f"
+      },
+      "localPath": "data/source/state-legislatures/raw/va-constitution-article-4-section-3.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law Portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/constitution/article4/section3/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 24439,
+        "retrievedAt": "2026-09-06T18:45:36.158Z",
+        "url": "https://law.lis.virginia.gov/constitution/article4/section3/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Virginia",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Virginia, Article IV",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 286,
+              "sha256": "079556bf4dfcaabc795295830858839deb9023d5e463d20ec4d960e0c700d2ee"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article IV. Legislature Section 3. House of Delegates The House of Delegates shall consist",
+                "endsWith": "on the Tuesday succeeding the first Monday in November."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-constitution-article-4-section-2",
+      "bytes": {
+        "length": 24377,
+        "sha256": "7290f58d4cc5f74d21cf6d1f326922123901286f7b39cba2bd02239c7625dd34"
+      },
+      "localPath": "data/source/state-legislatures/raw/va-constitution-article-4-section-2.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law Portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/constitution/article4/section2/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 24377,
+        "retrievedAt": "2026-09-06T18:45:36.306Z",
+        "url": "https://law.lis.virginia.gov/constitution/article4/section2/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Virginia",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of Virginia, Article IV",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 270,
+              "sha256": "19d2328e5b7b5ec63ef0c15d92e31de27098e1e6138f813f37a23484422e9b9c"
+            },
+            "regions": [
+              {
+                "beginsWith": "Article IV. Legislature Section 2. Senate The Senate shall consist",
+                "endsWith": "on the Tuesday succeeding the first Monday in November."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-legislatures"
+}

@@ -18,9 +18,10 @@ import {
 } from "../presentation/scene-registry";
 import {
   bindSceneSurfaces,
-  NO_SURFACE_PAYLOADS,
+  dynamicSurfacePayloads,
   summarizeSurfaceBindings,
 } from "../presentation/surface-binding";
+import { reviewSurfaceProjectionDetail } from "../presentation/surface-review";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
 
 /**
@@ -171,18 +172,25 @@ const BINDING_STATE_COPY: Readonly<Record<string, string>> = {
   bound: "showing a real fact",
   empty: "an owner exists and has nothing for this room",
   unowned: "nothing owns this yet",
+  withheld: "an owner has it and this surface cannot honestly have come by it",
   decorative: "decoration only",
 };
 
 /**
  * Every declared surface, and what is actually on it.
  *
- * Bound with no payload provider on purpose: this route is not standing in a
- * world, and a review surface that invented one to make its own table look
- * full would be demonstrating the exact failure the binder prevents.
+ * Bound against ONE fixed review world, named in the copy above the table, and
+ * never against an invented payload. That distinction is the whole value of
+ * this route: a reviewer has to be able to tell "the seal has no owner" from
+ * "the seal is on the wall", and a table filled with plausible strings to look
+ * complete would demonstrate the exact failure the binder exists to prevent.
  */
 function SurfaceBindings({ scene }: { readonly scene: RegisteredScene }) {
-  const bindings = bindSceneSurfaces(scene, NO_SURFACE_PAYLOADS);
+  const review = useMemo(() => reviewSurfaceProjectionDetail(), []);
+  const bindings = bindSceneSurfaces(
+    scene,
+    dynamicSurfacePayloads(review.projection),
+  );
   const summary = summarizeSurfaceBindings(bindings);
   if (summary.total === 0) {
     return (
@@ -193,22 +201,31 @@ function SurfaceBindings({ scene }: { readonly scene: RegisteredScene }) {
     );
   }
   return (
-    <ul data-testid="scene-gallery-surfaces">
-      {bindings.map((binding) => (
-        <li
-          key={binding.slotId}
-          data-testid="scene-gallery-surface"
-          data-slot-id={binding.slotId}
-          data-binding-state={binding.state}
-        >
-          <strong>{binding.slotId}</strong>{" "}
-          <em>{BINDING_STATE_COPY[binding.state]}</em>
-          <span>
-            Shows: {binding.shows}. {binding.because}
-          </span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <p
+        className="scene-gallery-note"
+        data-testid="scene-gallery-surface-world"
+      >
+        Bound against one fixed review world: {review.description}
+      </p>
+      <ul data-testid="scene-gallery-surfaces">
+        {bindings.map((binding) => (
+          <li
+            key={binding.slotId}
+            data-testid="scene-gallery-surface"
+            data-slot-id={binding.slotId}
+            data-binding-state={binding.state}
+          >
+            <strong>{binding.slotId}</strong>{" "}
+            <em>{BINDING_STATE_COPY[binding.state]}</em>
+            <span>
+              Fed by: {binding.access ?? "nothing declared"}. Shows:{" "}
+              {binding.shows}. {binding.because}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 

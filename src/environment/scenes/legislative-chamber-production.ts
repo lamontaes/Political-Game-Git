@@ -163,6 +163,7 @@ export const LEGISLATIVE_CHAMBER_PRODUCTION_SCENE: EnvironmentSceneSpec = {
         "vote-tally",
         "document-body",
       ],
+      information_access: "institutional-working",
       fallback_decoration: "a dark screen with no interface drawn on it",
     },
     {
@@ -176,6 +177,7 @@ export const LEGISLATIVE_CHAMBER_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 7,
       allowed_content_classes: ["document-body", "bill-title"],
+      information_access: "institutional-working",
       fallback_decoration: "two blank sheets lying on the desk",
     },
     {
@@ -189,6 +191,7 @@ export const LEGISLATIVE_CHAMBER_PRODUCTION_SCENE: EnvironmentSceneSpec = {
       },
       z_order: 5,
       allowed_content_classes: ["document-body"],
+      information_access: "institutional-working",
       fallback_decoration: "an empty reading surface",
     },
   ],

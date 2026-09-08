@@ -1,4 +1,19 @@
-import { stableHash } from "../simulation";
+import {
+  canonicalPriorEncoding,
+  createSetupPriorStore,
+  generationInputsFor,
+  decodePriorEncoding,
+  stableHash,
+  GENDER_IDENTITY_KEYS,
+  PRONOUN_SET_KEYS,
+  SETUP_BANK_VERSION,
+} from "../simulation";
+import type {
+  GenderIdentityKey,
+  PronounSetKey,
+  SetupAnswerRecord,
+  SetupQuestionnairePath,
+} from "../simulation";
 import type { NewGameSetup } from "./new-game";
 
 /**
@@ -22,13 +37,44 @@ import type { NewGameSetup } from "./new-game";
  * than a reproduction of somebody's game.
  */
 
-export const SETUP_ENCODING_VERSION = 2;
+export const SETUP_ENCODING_VERSION = 3;
 export const REPLAY_DESCRIPTOR_PARAMETER = "replay";
 
 /**
- * The setup as one canonical string. Field order is fixed here rather than
- * taken from object iteration order, so the encoding cannot drift when the
- * interface is edited.
+ * Version 3 split the setup in two, and the split is still the point.
+ *
+ * A setup has a *world half* — place, age, depth, starting life, household,
+ * names, seed — and a *priors half*, which is what the player answered at the
+ * questionnaire. Only the world half reaches `worldSeedFor`.
+ *
+ * The reason is mechanical rather than philosophical. `worldSeedFor` is read
+ * while the calibration is still running, to decide which question comes next;
+ * a seed that moved with the answers would reshuffle the remaining questions
+ * under the player mid-interview and would not replay. So the world's IDENTITY
+ * stays answer-independent, and that has not changed.
+ *
+ * What changed in Packet 77 is what gets BUILT under that identity. A normal
+ * start generates the parents, the household and the background; the player
+ * does not author them, and the owner asked that the calibration shape that
+ * generation. `buildSeedFor` below is where the two meet: the world half decides
+ * which world this is, and the declared generation leans decide what the
+ * generator draws inside it. The old claim that answers may never change who
+ * your family is has been narrowed to the claim that answers may never AUTHOR
+ * who your family is, which is the one that was actually protecting anything —
+ * see `setup-generation-inputs.ts`, where the whole of the influence is two
+ * integers on [-2, +2].
+ *
+ * Both halves travel in a replay descriptor, because a replay that reproduced
+ * the world but not the calibration would not reproduce the game.
+ */
+
+/**
+ * The world half, as one canonical string.
+ *
+ * Field order is fixed here rather than taken from object iteration order, so
+ * the encoding cannot drift when the interface is edited. The questionnaire is
+ * deliberately absent: this is the input to world generation, and nothing the
+ * player answered belongs in it.
  */
 export function canonicalSetupEncoding(setup: NewGameSetup): string {
   return JSON.stringify({
@@ -43,6 +89,21 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
     // identically, or the same game would get two identities.
     givenName: setup.givenName?.trim() || null,
     familyName: setup.familyName?.trim() || null,
+    // Gender is a fact about the character, so it belongs to the world half
+    // and changes which world this is. It is written only when it was stated,
+    // for the same reason the priors half is: a setup that said nothing must
+    // encode exactly as it did before this field existed, or every world built
+    // before today would quietly become a different world with different
+    // people in it. An absent field means "not stated", which is what every
+    // earlier setup meant.
+    ...(setup.gender === undefined || setup.gender === "unstated"
+      ? {}
+      : { gender: setup.gender, pronouns: setup.pronouns }),
+    // Written only on the custom route, for the same compatibility reason as
+    // gender: a setup that said nothing must encode exactly as it did before
+    // the field existed, or every world built before today becomes a different
+    // world with different people in it. Absent means the ordinary route.
+    ...(setup.startKind === "custom" ? { startKind: "custom" } : {}),
   });
 }
 
@@ -70,6 +131,28 @@ export function worldSeedFor(setup: NewGameSetup): string {
 }
 
 /**
+ * The seed the generator actually runs on.
+ *
+ * `worldSeedFor` answers "which world is this", and must not move while the
+ * player is still answering. This answers "what does the generator draw", and
+ * must move when the answers say something different about the household.
+ *
+ * The suffix is the declared generation encoding and nothing else — not the
+ * answers, not their keys, not a digest of them. When there are no answers
+ * there is no suffix, so a setup that skipped the calibration builds the
+ * byte-identical world it built before this seam existed, which is what keeps
+ * every earlier proof about generated lives true.
+ */
+export function buildSeedFor(setup: NewGameSetup): string {
+  const worldSeed = worldSeedFor(setup);
+  // The custom route asks the game not to shape the family around the
+  // calibration, so on that route there is nothing to add.
+  if (setup.startKind === "custom") return worldSeed;
+  const inputs = generationInputsFor(setupPriorStoreFor(setup));
+  return inputs === null ? worldSeed : `${worldSeed}|${inputs.encoding}`;
+}
+
+/**
  * A save's identity, distinct from the identity of the world inside it.
  *
  * One canonical world can be saved more than once — the same life kept at two
@@ -88,9 +171,43 @@ export function createSaveId(worldId: string, discriminator: string): string {
  * rather than trusting 64 bits of FNV-1a to keep them apart.
  */
 
+/** The setup's answers, in the persisted shape, or an empty set. */
+export function setupPriorStoreFor(setup: NewGameSetup) {
+  return createSetupPriorStore(
+    setup.questionnaire ?? "skipped",
+    SETUP_BANK_VERSION,
+    setup.priors ?? [],
+  );
+}
+
+/**
+ * Both halves, for a link that reproduces the whole game.
+ *
+ * The priors half is written only when there is one, so a setup that answered
+ * nothing encodes exactly as it did before the questionnaire existed and
+ * round-trips back to itself rather than to itself-plus-two-empty-fields.
+ */
+export function canonicalReplayEncoding(setup: NewGameSetup): string {
+  const world = JSON.parse(canonicalSetupEncoding(setup)) as Record<
+    string,
+    unknown
+  >;
+  const answers = setup.priors ?? [];
+  const path = setup.questionnaire ?? "skipped";
+  if (path === "skipped" && answers.length === 0) {
+    return JSON.stringify(world);
+  }
+  return JSON.stringify({
+    ...world,
+    priors: JSON.parse(
+      canonicalPriorEncoding(setupPriorStoreFor(setup)),
+    ) as unknown,
+  });
+}
+
 /** A replay link that actually reproduces the world it came from. */
 export function encodeReplayDescriptor(setup: NewGameSetup): string {
-  return base64UrlEncode(canonicalSetupEncoding(setup));
+  return base64UrlEncode(canonicalReplayEncoding(setup));
 }
 
 /**
@@ -124,7 +241,28 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   ) {
     return null;
   }
-  return {
+  // A descriptor written before the gender field existed carries no gender,
+  // which is exactly what "not stated" means, so it reads back as a valid
+  // setup rather than as an unreadable one. A descriptor that carries a
+  // gender must carry a usable one; half of the pair is a corrupt descriptor.
+  const gender = record.gender;
+  const pronouns = record.pronouns;
+  if (gender !== undefined || pronouns !== undefined) {
+    if (
+      !GENDER_IDENTITY_KEYS.includes(gender as GenderIdentityKey) ||
+      gender === "unstated" ||
+      !PRONOUN_SET_KEYS.includes(pronouns as PronounSetKey)
+    ) {
+      return null;
+    }
+  }
+  // Absent means the ordinary route, which is what every descriptor written
+  // before the field existed meant. Anything else present but unrecognised is
+  // a corrupt descriptor rather than a route to guess at.
+  if (record.startKind !== undefined && record.startKind !== "custom") {
+    return null;
+  }
+  const base: NewGameSetup = {
     seed: record.seed,
     placeKey: record.placeKey,
     startAge: record.startAge as number,
@@ -133,6 +271,24 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     household: record.household,
     givenName: record.givenName as string | null,
     familyName: record.familyName as string | null,
+    ...(gender === undefined
+      ? {}
+      : {
+          gender: gender as GenderIdentityKey,
+          pronouns: pronouns as PronounSetKey,
+        }),
+    ...(record.startKind === "custom" ? { startKind: "custom" as const } : {}),
+  };
+  if (record.priors === undefined) return base;
+  const priors = decodePriorEncoding(record.priors);
+  // An unreadable priors half is not a half-configured game to be salvaged:
+  // the descriptor as a whole is refused, so the caller starts a normal game
+  // rather than one calibrated by whatever survived.
+  if (priors === null) return null;
+  return {
+    ...base,
+    questionnaire: priors.path as SetupQuestionnairePath,
+    priors: priors.answers as readonly SetupAnswerRecord[],
   };
 }
 

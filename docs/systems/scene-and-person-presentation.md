@@ -77,6 +77,58 @@ A scene may register with **no raster**. That is the honest state of a room
 whose plate has not been made, and the runtime says the picture is missing
 rather than borrowing another room's.
 
+## Dynamic scene surfaces
+
+A room stops being a static backdrop when the world already knows something
+that belongs in it. A scene declares `surface_slots`; a resolver decides what
+is actually on them; and text is drawn in the document over the plate, never
+baked into it. Changing what a screen says never requires a new background.
+
+Three questions have to be answered YES before a fact reaches a surface, and
+each is answered by a different owner:
+
+1. **Does the world contain it?** The simulation answers. Only canonical
+   records qualify.
+2. **Could this surface have come by it?** The ROOM answers, through
+   `information_access` on the slot — a closed ladder of
+   `public-broadcast`, `personal-household`, `public-record` and
+   `institutional-working`. A television is fed by a broadcaster; a clerk's
+   terminal is fed by the body's own systems.
+3. **May the player-facing presentation reveal it?**
+   `src/presentation/surface-projection.ts` answers. Every fact it can produce
+   is enumerated there, carries the **disclosure channel** it travelled down
+   (`published`, `public-record`, `institutional-working`), and is derived from
+   projections that were already written for a player to read —
+   `projectMeasureBriefing` and the open working document. Nothing reads a
+   person's mind, memories, appraisals, setup priors, metric values or a vote
+   that has not been taken.
+
+`dynamicSurfacePayloads` joins the second and third answers, and
+`bindSceneSurfaces` reports one of five states per slot: `bound`, `empty` (an
+owner with nothing), `unowned` (no owner at all), `withheld` (an owner has it
+and this surface has no path to it) and `decorative`. Only `bound` draws
+anything. Everything else shows the decoration the scene was painted with —
+never a placeholder, a skeleton, or an "awaiting data" panel, each of which is
+a way of drawing something on a surface that has nothing to say.
+
+Two directions are deliberately fail-closed. A dynamic slot that declares no
+access clears nothing, because treating silence as permission is how a private
+draft ends up on a television. And a class with no canonical owner — today:
+headlines, election results, campaign and candidate names, seals, flags,
+portraits, map labels — stays `unowned` rather than acquiring a plausible
+value.
+
+`?view=scene-gallery` binds every registered room against one named review
+world so all five states are visible side by side.
+
+An explicitly open working document owns `document-body`; measure text is a
+fallback only when no working document was supplied. The current projection
+input cannot prove a stable document link, so even matching titles cannot
+justify replacement. Measure identity and agenda projections are independent.
+The office's working-document surface and transparent semantic entry target
+share the authored slot rectangle. Only the surface paints the paper; focus
+and hover mark the same target without moving it away from the paper.
+
 ## Contact, perspective and depth
 
 Placement is computed, never hand-tuned per sprite.

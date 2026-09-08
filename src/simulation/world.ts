@@ -5,6 +5,7 @@ import {
   makeSimulationMoment,
   simulationMomentOnLocalDate,
 } from "./dates";
+import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -14,6 +15,12 @@ import {
   cloneCausalMechanismCatalog,
   createSyntheticCausalMechanismCatalog,
 } from "./causal-effects";
+import { assertCampaignIntegrity } from "./campaign-integrity";
+import {
+  campaignEntityAvailableAt,
+  campaignEntityExists,
+  campaignHistoryRecords,
+} from "./campaign-queries";
 import {
   assertIncidentCatalogIntegrity,
   cloneIncidentCatalog,
@@ -148,6 +155,7 @@ import type {
   PersonFact,
   PersonFactKind,
   PolicyCatalog,
+  SetupPriorStore,
   SubjectKnowledgeProvenance,
   World,
   ControlState,
@@ -266,6 +274,13 @@ export interface CreateWorldInput {
   readonly incidentCatalog?: IncidentCatalog;
   readonly vitalityCatalog?: VitalityCatalog;
   readonly control?: ControlState;
+  /**
+   * The player's setup answers, if there were any. Passed in rather than
+   * written afterwards so a world is never briefly missing the calibration it
+   * was built with — and deliberately not part of the seed, so it cannot reach
+   * the generators that decide who the character's family is.
+   */
+  readonly setupPriors?: SetupPriorStore;
 }
 
 function recordById<T extends { readonly id: EntityId }>(
@@ -399,6 +414,8 @@ export function createWorld(input: CreateWorldInput): World {
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
   const people = input.people.map(clonePerson);
 
+  if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
+
   const world: World = {
     schemaVersion: 15,
     generatorVersion: LINEAGE_GENERATOR_VERSION[lineage],
@@ -420,6 +437,13 @@ export function createWorld(input: CreateWorldInput): World {
     vitalityCatalog: cloneVitalityCatalog(vitalityCatalog),
     control: { ...control },
     history: createHistoryStore(),
+    // Spread conditionally rather than written as `undefined`: a world with no
+    // priors must serialize exactly as it did before this field existed, and
+    // an explicit `undefined` key would be dropped by `JSON.stringify` but is
+    // still a difference a reader would have to reason about.
+    ...(input.setupPriors
+      ? { setupPriors: clonePriors(input.setupPriors) }
+      : {}),
   };
   assertWorldIntegrity(world);
   return world;
@@ -478,6 +502,9 @@ export function assertWorldIntegrity(world: World): void {
     world.policyCatalog,
   );
   validateControl(world.control, new Set(world.personOrder));
+  if (world.setupPriors !== undefined) {
+    assertSetupPriorIntegrity(world.setupPriors);
+  }
   validateHistoryIntegrity(world);
 }
 
@@ -538,6 +565,7 @@ export function recordWorldEvent(
       !timeWorkEntityExists(world, entityId) &&
       !futureTransitionEntityExists(world, entityId) &&
       !electionContestEntityExists(world, entityId) &&
+      !campaignEntityExists(world, entityId) &&
       !legislationEntityExists(world, entityId)
     ) {
       throw new Error(
@@ -685,6 +713,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable election contest entity: ${entityId}`,
+      );
+    }
+    if (
+      campaignEntityExists(world, entityId) &&
+      !campaignEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable campaign entity: ${entityId}`,
       );
     }
     if (
@@ -1382,6 +1423,7 @@ function validateHistoryIntegrity(world: World): void {
     ...evidenceHistoryRecords(world),
     ...timeWorkHistoryRecords(world),
     ...electionContestHistoryRecords(world),
+    ...campaignHistoryRecords(world),
     ...legislationHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
@@ -1474,6 +1516,7 @@ function validateHistoryIntegrity(world: World): void {
   assertEvidenceIntegrity(world, ids);
   assertTimeWorkIntegrity(world, ids);
   assertElectionContestIntegrity(world, ids);
+  assertCampaignIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
@@ -1582,6 +1625,7 @@ function validateHistoryIntegrity(world: World): void {
         !timeWorkEntityExists(world, involvedId) &&
         !futureTransitionEntityExists(world, involvedId) &&
         !electionContestEntityExists(world, involvedId) &&
+        !campaignEntityExists(world, involvedId) &&
         !legislationEntityExists(world, involvedId)
       ) {
         throw new Error(
@@ -1729,6 +1773,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable election contest entity: ${event.id}`,
+        );
+      }
+      if (
+        campaignEntityExists(world, involvedId) &&
+        !campaignEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable campaign entity: ${event.id}`,
         );
       }
       if (

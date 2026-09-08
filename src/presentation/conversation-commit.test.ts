@@ -44,6 +44,11 @@ import {
 
 function household(seed: string) {
   const game = createNewGameWorld({
+    // A custom start honours the explicit household. On a normal start (Task E)
+    // who is at home is generated from the seed, so this fixture — which needs
+    // a peer at home to hold a household conversation — asks for the custom
+    // route that still takes the answer as given.
+    startKind: "custom",
     placeKey: "kentucky",
     startAge: 34,
     depth: "summarize-earlier-life",

@@ -2,7 +2,9 @@
 
 1. run `npm run agent:preflight`;
 2. read `AGENTS.md`;
-3. read `docs/agent/ACTIVE-HANDOFF.md` if present;
+3. read root `CLAUDE.md` and follow it to the canonical Drive chain; take
+   continuation state from that chain and the owning `docs/plans/` file, not
+   from any repository handoff file;
 4. fetch origin;
 5. identify:
    - absolute workspace;

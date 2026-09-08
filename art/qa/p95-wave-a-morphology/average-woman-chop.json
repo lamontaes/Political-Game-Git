@@ -1,0 +1,229 @@
+{
+  "tool": "source-sheet-chop-v1",
+  "sourcePath": "art/references/candidates/wave-a-morphology/source-sheets/average woman.png",
+  "sourceSha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+  "sourceWidth": 5056,
+  "sourceHeight": 3392,
+  "options": {
+    "alphaNoiseThreshold": 8,
+    "paddingPixels": 64,
+    "minimumGapPixels": 24,
+    "minimumComponentPixels": 20000
+  },
+  "columnBands": [
+    {
+      "start": 250,
+      "end": 907
+    },
+    {
+      "start": 1513,
+      "end": 2337
+    },
+    {
+      "start": 2787,
+      "end": 3490
+    },
+    {
+      "start": 4058,
+      "end": 4730
+    }
+  ],
+  "rowBands": [
+    {
+      "start": 79,
+      "end": 1690
+    },
+    {
+      "start": 1817,
+      "end": 3354
+    }
+  ],
+  "noisePixelsCleared": 3831376,
+  "cells": [
+    {
+      "cellId": "R1C1",
+      "row": 1,
+      "column": 1,
+      "sourceBox": {
+        "x": 250,
+        "y": 79,
+        "width": 658,
+        "height": 1611
+      },
+      "centroidNormalized": {
+        "x": 0.114465,
+        "y": 0.250322
+      },
+      "exportWidth": 786,
+      "exportHeight": 1739,
+      "opaquePixels": 507519,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 29849,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png",
+      "sha256": "ecb41ed2a3a71b4b7650a5c5e801813674bd11683c519736d5c9ac61196011f6"
+    },
+    {
+      "cellId": "R1C2",
+      "row": 1,
+      "column": 2,
+      "sourceBox": {
+        "x": 1513,
+        "y": 81,
+        "width": 707,
+        "height": 1610
+      },
+      "centroidNormalized": {
+        "x": 0.351596,
+        "y": 0.252985
+      },
+      "exportWidth": 835,
+      "exportHeight": 1738,
+      "opaquePixels": 479800,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 24353,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_conversational_open_hand_v1.png",
+      "sha256": "68cc4eaa6c28ead532c2357738da9690cda47e05f1922385a63a8bdf6e10eaf8"
+    },
+    {
+      "cellId": "R1C3",
+      "row": 1,
+      "column": 3,
+      "sourceBox": {
+        "x": 2856,
+        "y": 81,
+        "width": 623,
+        "height": 1610
+      },
+      "centroidNormalized": {
+        "x": 0.626337,
+        "y": 0.250917
+      },
+      "exportWidth": 751,
+      "exportHeight": 1738,
+      "opaquePixels": 514779,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 29303,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png",
+      "sha256": "7728b31198fcc09a3c40d6f580c34176bc991e08a8108f22a21d92fb98a76d54"
+    },
+    {
+      "cellId": "R1C4",
+      "row": 1,
+      "column": 4,
+      "sourceBox": {
+        "x": 4058,
+        "y": 81,
+        "width": 668,
+        "height": 1610
+      },
+      "centroidNormalized": {
+        "x": 0.891066,
+        "y": 0.254054
+      },
+      "exportWidth": 796,
+      "exportHeight": 1738,
+      "opaquePixels": 457847,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23925,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_interaction_surface_v1.png",
+      "sha256": "7efd8db41a6a28da8064af2359e626a60b2f721bece4c38397b32f665334c9f7"
+    },
+    {
+      "cellId": "R2C1",
+      "row": 2,
+      "column": 1,
+      "sourceBox": {
+        "x": 309,
+        "y": 1817,
+        "width": 535,
+        "height": 1536
+      },
+      "centroidNormalized": {
+        "x": 0.11376,
+        "y": 0.756825
+      },
+      "exportWidth": 663,
+      "exportHeight": 1664,
+      "opaquePixels": 494611,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 21744,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png",
+      "sha256": "a0516d7c211e1f173190f787fc5496b7f2be474f0b113492db1776143513ba12"
+    },
+    {
+      "cellId": "R2C2",
+      "row": 2,
+      "column": 2,
+      "sourceBox": {
+        "x": 1538,
+        "y": 1835,
+        "width": 800,
+        "height": 1504
+      },
+      "centroidNormalized": {
+        "x": 0.371929,
+        "y": 0.768759
+      },
+      "exportWidth": 928,
+      "exportHeight": 1632,
+      "opaquePixels": 507927,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23267,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_interaction_surface_v1.png",
+      "sha256": "e1249b5261ec1ec11dbbb2914ceb1dbc085243f1e397e4580583407b93a74b0b"
+    },
+    {
+      "cellId": "R2C3",
+      "row": 2,
+      "column": 3,
+      "sourceBox": {
+        "x": 2787,
+        "y": 1835,
+        "width": 704,
+        "height": 1501
+      },
+      "centroidNormalized": {
+        "x": 0.627661,
+        "y": 0.760477
+      },
+      "exportWidth": 832,
+      "exportHeight": 1629,
+      "opaquePixels": 519869,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 22988,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+      "sha256": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1"
+    },
+    {
+      "cellId": "R2C4",
+      "row": 2,
+      "column": 4,
+      "sourceBox": {
+        "x": 4254,
+        "y": 1819,
+        "width": 477,
+        "height": 1536
+      },
+      "centroidNormalized": {
+        "x": 0.891066,
+        "y": 0.757332
+      },
+      "exportWidth": 605,
+      "exportHeight": 1664,
+      "opaquePixels": 429117,
+      "noisePixelsCleared": 0,
+      "greenFringePixels": 0,
+      "softEdgePixels": 23435,
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_three_quarter_v1.png",
+      "sha256": "7ba02e629ccf4eee9f6b3d42a9bee0774ba2a7af97a28cfd981b0d35b502f998"
+    }
+  ],
+  "rejectedFragments": []
+}

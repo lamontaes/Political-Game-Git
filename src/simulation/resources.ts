@@ -487,7 +487,7 @@ export function recordResourceTransferOutcome(
   assertOptional(input.note, "Resource outcome note");
   validateLifeProvenance(world, input.provenance, occurredAt);
   const sourceOwner = endpointPositionOwner(flow.source);
-  if (sourceOwner && input.transferredAmount.minorUnits > 0) {
+  if (input.transferredAmount.minorUnits > 0) {
     const sourcePosition = resourcePositionAt(
       world,
       sourceOwner,
@@ -640,7 +640,7 @@ export function createResourceObligation(
       "A resource flow may have only one major obligation identity.",
     );
   }
-  if (endpointPositionOwner(flow.source) === null) {
+  if (flow.source.kind === "organization") {
     throw new Error(
       "A personal obligation must be owed by a person or household.",
     );
@@ -1181,10 +1181,16 @@ function validateBasisReference(
   }
 }
 
+/**
+ * Every endpoint can now hold a balance, organizations included, so the mapping
+ * is total. What an organization still cannot do is owe a personal obligation,
+ * and `createResourceObligation` says that in its own words rather than leaning
+ * on this function returning null for it.
+ */
 function endpointPositionOwner(
   endpoint: ResourceEndpoint,
-): ResourcePositionOwner | null {
-  return endpoint.kind === "organization" ? null : { ...endpoint };
+): ResourcePositionOwner {
+  return { ...endpoint };
 }
 
 function entityDate(
