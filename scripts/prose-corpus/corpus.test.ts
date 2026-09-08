@@ -537,11 +537,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // This pins the reported numbers to what the scanner actually returns.
     // Re-pinned after the P1 narration/thread migration
     // (docs/plans/active/p1-prose-migration.md) reshaped the life-narration
-    // banks and added its regression test file to the scanned tree.
+    // banks and added its regression test file to the scanned tree, and after
+    // the garment-fit branch (PR #89) added two scanned presentation sources:
+    // 48,117 / 1,899 / 314 on main becomes the live 48,662 / 1,899 / 316 here.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(48117);
+    expect(coverage.totalLiterals).toBe(48662);
     expect(coverage.counts.INVENTORIED).toBe(1899);
-    expect(coverage.scannedFiles).toBe(314);
+    expect(coverage.scannedFiles).toBe(316);
   });
 });
 
