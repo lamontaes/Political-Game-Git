@@ -176,10 +176,10 @@ describe("Legislative rule packs", () => {
   it("keep unknown, not-applicable and a known negative apart", () => {
     // Not applicable: Nebraska has no second chamber at all.
     expect(NEBRASKA_RULE_PACK.interChamber.kind).toBe("not-applicable");
-    // Unknown: the sources did not settle what inaction means.
-    expect(KENTUCKY_RULE_PACK.executive.inactionOutcomeInSession.kind).toBe(
-      "unknown",
-    );
+    // Unknown: the sources did not settle Nebraska's post-adjournment window.
+    expect(
+      NEBRASKA_RULE_PACK.executive.actionWindowDaysAfterAdjournment.kind,
+    ).toBe("unknown");
     // Known negative: the Kentucky Senate's own rules provide a remedy for a
     // committee that will not report a bill, which means a committee can sit
     // on one. The guarantee is present and false, not missing.
@@ -197,8 +197,8 @@ describe("Legislative rule packs", () => {
     // Reading an unknown or a not-applicable rule raises distinct errors.
     expect(() =>
       requireKnown(
-        KENTUCKY_RULE_PACK.executive.inactionOutcomeInSession,
-        "Inaction outcome",
+        NEBRASKA_RULE_PACK.executive.actionWindowDaysAfterAdjournment,
+        "Post-adjournment action window",
       ),
     ).toThrow(/is unknown in this legislature/);
     expect(() =>

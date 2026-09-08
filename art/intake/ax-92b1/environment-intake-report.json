@@ -1,0 +1,79 @@
+{
+  "candidateCount": 2,
+  "productionCount": 2,
+  "records": [
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_park_community_pavilion_5504x3072_01",
+      "byteLength": 3464125,
+      "contentHash": "935ce236f421786061677da8f017fc775fab50e47693d7f611c916920f22f59f",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    },
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_press_briefing_room_5504x3072_01",
+      "byteLength": 3068797,
+      "contentHash": "e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    }
+  ],
+  "referenceCount": 0,
+  "rejectCount": 0,
+  "tool": "environment-master-intake-v1"
+}

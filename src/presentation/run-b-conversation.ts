@@ -46,6 +46,7 @@ import {
   canListenToRunBConversation,
   createRunBConversationProgress,
   isHouseholdObligationConversationProgress,
+  isLegislativeBargainingProgress,
   isNeighborhoodMeetingConversationProgress,
   isSchoolProjectConversationProgress,
   isRunBReferralConversationProgress,
@@ -59,6 +60,7 @@ import {
   type RunBPendingContribution,
   type RunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
+import { LEGISLATIVE_BARGAINING_INTENTS } from "./legislative-bargaining";
 
 export const RUN_B_AUDIBILITY_OPTIONS = ["normal", "quiet", "private"] as const;
 export type ConversationAudibility = (typeof RUN_B_AUDIBILITY_OPTIONS)[number];
@@ -93,6 +95,7 @@ export const RUN_B_CONVERSATION_INTENTS = [
   "press",
   "listen",
   "discuss-provision",
+  ...LEGISLATIVE_BARGAINING_INTENTS,
   "raise-obligation",
   "offer-to-cover",
   "ask-to-share",
@@ -257,7 +260,7 @@ export interface CommitConversationTurnResult {
   readonly presentation: ConversationPresentationResult;
 }
 
-interface ResolvedResponse {
+export interface ConversationResolvedResponse {
   readonly world: World;
   readonly outcome: ConversationOutcome;
   readonly speakerPersonId: EntityId | null;
@@ -266,6 +269,9 @@ interface ResolvedResponse {
   readonly durableDecisionRecorded: boolean;
   /** What the room did, when nobody said anything. */
   readonly roomNarration?: string;
+  /** A subject may return its own progress and outcome-bound commit hooks. */
+  readonly progress?: ConversationProgress;
+  readonly commit?: ConversationCommitContract;
 }
 
 export function createConversationSessionDescriptor(
@@ -323,6 +329,7 @@ export function availableConversationIntents(
     addressee,
     progress,
     silenceIsUseful,
+    audibility,
   );
 }
 
@@ -519,8 +526,15 @@ export function commitConversationTurn(
     !isRunCLegislativeConversationProgress(currentProgress)
       ? (currentProgress.pendingContributions[0] ?? null)
       : null;
-  const responseSpeakerPersonId =
-    input.intent === "listen" && pendingContribution === null
+  const subject = conversationSubjectPresentation(currentProgress);
+  const responseSpeakerPersonId = subject.responseSpeaker
+    ? subject.responseSpeaker(
+        input.room,
+        input.addressee,
+        input.intent,
+        actualListenerPersonIds,
+      )
+    : input.intent === "listen" && pendingContribution === null
       ? null
       : resolveResponseSpeaker(
           input.room,
@@ -551,19 +565,22 @@ export function commitConversationTurn(
           playerPersonId: input.room.playerPersonId,
           speakerPersonId: responseSpeakerPersonId,
           intent: input.intent,
+          audibility: input.audibility,
           groupAddressed: input.addressee === "everyone",
           previousIntent: previousConversationIntent(inputWorld, input.session),
           progress: currentProgress,
           pendingContribution,
         });
-  const progress = advanceConversationProgress(currentProgress, {
-    room: input.room,
-    addressee: input.addressee,
-    intent: input.intent,
-    outcome: resolved.outcome,
-    responseSpeakerPersonId: resolved.speakerPersonId,
-    pendingContribution,
-  });
+  const progress =
+    resolved.progress ??
+    advanceConversationProgress(currentProgress, {
+      room: input.room,
+      addressee: input.addressee,
+      intent: input.intent,
+      outcome: resolved.outcome,
+      responseSpeakerPersonId: resolved.speakerPersonId,
+      pendingContribution,
+    });
   let world = resolved.world;
   const participantPersonIds = canonicalPeople(input.room, [
     input.room.playerPersonId,
@@ -575,7 +592,7 @@ export function commitConversationTurn(
 
   // What this turn writes is the subject's business, not the engine's. A
   // household deciding who does the shopping used to leave casework history.
-  const commit = conversationCommitContract(currentProgress);
+  const commit = resolved.commit ?? conversationCommitContract(currentProgress);
   const choiceContext = {
     // Addressing the room is addressing the person in it, which is the same
     // reading the subject dialogue already uses.
@@ -657,7 +674,7 @@ export function commitConversationTurn(
         setting: commit.setting,
       },
       socialContext: commit.socialContext,
-      pressure: commit.pressure(input.intent),
+      pressure: commit.pressure(input.intent, currentProgress),
       // Written by the subject in front of the player, in its own words.
       choice: choiceSentence,
       motivation: commit.motivation,
@@ -789,6 +806,22 @@ export function commitConversationTurn(
         supersedesPerceptionId: supersedes,
       });
     }
+  }
+
+  const consequence = commit.consequence?.(
+    input.intent,
+    resolved.outcome,
+    currentProgress,
+  );
+  if (consequence) {
+    world = consequence(world, {
+      turnKey,
+      eventId: event.id,
+      claimId: claim?.id ?? null,
+      audience: claimAudience ?? "limited",
+      listenerPersonIds: claimRecipientPersonIds,
+      statement: resolved.dialogue ?? "",
+    });
   }
 
   // What the exchange did to the people in it, what it obliged anybody to, and
@@ -931,12 +964,13 @@ function resolveNpcResponse(
     readonly playerPersonId: EntityId;
     readonly speakerPersonId: EntityId;
     readonly intent: ConversationIntent;
+    readonly audibility: ConversationAudibility;
     readonly groupAddressed: boolean;
     readonly previousIntent: ConversationIntent | null;
     readonly progress: ConversationProgress;
     readonly pendingContribution: RunBPendingContribution | null;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   if (input.speakerPersonId === input.playerPersonId) {
     throw new Error(
       "The controlled person cannot be an autonomous response actor.",
@@ -946,6 +980,11 @@ function resolveNpcResponse(
   if (!speaker) throw new Error("Conversation response speaker is missing.");
   const isPrimary =
     input.speakerPersonId === input.room.eligibleAddresseePersonIds[0];
+
+  const subjectResponse = conversationSubjectPresentation(
+    input.progress,
+  ).resolveResponse;
+  if (subjectResponse) return subjectResponse(world, input);
 
   if (input.intent === "discuss-provision") {
     if (!isRunCLegislativeConversationProgress(input.progress)) {
@@ -1112,7 +1151,7 @@ const QUIET_ROOM_LINES: readonly string[] = [
 function resolveQuietRoom(
   world: World,
   context: { readonly sceneKey: string; readonly turnOrdinal: number },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   return {
     world,
     outcome: "silence-held",
@@ -1134,7 +1173,7 @@ function resolveLegislativeProvisionResponse(
     readonly speakerPersonId: EntityId;
     readonly progress: RunCLegislativeConversationProgress;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("Legislative response speaker is missing.");
   const knowledge = world.history.knowledge.find(
@@ -1572,7 +1611,7 @@ function resolveHouseholdObligationResponse(
     readonly intent: ConversationIntent;
     readonly progress: HouseholdObligationConversationProgress;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
@@ -1597,7 +1636,7 @@ function resolveHouseholdObligationResponse(
       dialogue: fill(spoken.line, values),
       perception: fill(spoken.perception, values),
       durableDecisionRecorded: false,
-    } satisfies ResolvedResponse;
+    } satisfies ConversationResolvedResponse;
   };
 
   switch (input.intent) {
@@ -1766,7 +1805,7 @@ function resolveSchoolProjectResponse(
     readonly intent: ConversationIntent;
     readonly progress: SchoolProjectConversationProgress;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
@@ -1791,7 +1830,7 @@ function resolveSchoolProjectResponse(
       dialogue: fill(spoken.line, values),
       perception: fill(spoken.perception, values),
       durableDecisionRecorded: false,
-    } satisfies ResolvedResponse;
+    } satisfies ConversationResolvedResponse;
   };
 
   switch (input.intent) {
@@ -1959,7 +1998,7 @@ function resolveNeighborhoodMeetingResponse(
     readonly intent: ConversationIntent;
     readonly progress: NeighborhoodMeetingConversationProgress;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) throw new Error("The other person in the room is missing.");
   const values = {
@@ -1984,7 +2023,7 @@ function resolveNeighborhoodMeetingResponse(
       dialogue: fill(spoken.line, values),
       perception: fill(spoken.perception, values),
       durableDecisionRecorded: false,
-    } satisfies ResolvedResponse;
+    } satisfies ConversationResolvedResponse;
   };
 
   switch (input.intent) {
@@ -2039,7 +2078,7 @@ function resolvePendingConversationContribution(
     readonly speakerPersonId: EntityId;
     readonly pendingContribution: RunBPendingContribution;
   },
-): ResolvedResponse {
+): ConversationResolvedResponse {
   const speaker = world.people[input.speakerPersonId];
   if (!speaker) {
     throw new Error("Pending conversation speaker is missing.");
@@ -2107,7 +2146,10 @@ function advanceConversationProgress(
   if (isNeighborhoodMeetingConversationProgress(progress)) {
     return advanceNeighborhoodMeeting(progress, input.intent, input.outcome);
   }
-  // Everything else is the referral subject; the guard above is exhaustive.
+  // Subject-owned responses must return their own progress before this fallback.
+  if (!isRunBReferralConversationProgress(progress)) {
+    throw new Error("The subject response did not supply its next progress.");
+  }
   if (input.intent === "listen") {
     if (input.pendingContribution === null) {
       return {
@@ -2676,6 +2718,9 @@ function conversationEventSummary(
 function conversationSubjectEntityIds(
   progress: ConversationProgress,
 ): readonly EntityId[] {
+  if (isLegislativeBargainingProgress(progress)) {
+    return [progress.subjectFacts.measureId];
+  }
   if (!isRunCLegislativeConversationProgress(progress)) return [];
   return [
     progress.subjectFacts.currentAlternativeId,
