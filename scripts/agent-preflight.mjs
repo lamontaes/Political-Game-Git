@@ -1,5 +1,6 @@
 /* global console, process */
 import { execSync } from "child_process";
+import { statfsSync } from "node:fs";
 
 function runCmd(cmd) {
   try {
@@ -19,7 +20,40 @@ function runCmdThrow(cmd) {
   }).trim();
 }
 
-console.log("POLITICAL GAME AGENT PREFLIGHT\n");
+function formatBytes(bytes) {
+  const units = ["B", "KiB", "MiB", "GiB", "TiB"];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit++;
+  }
+  return `${value.toFixed(value >= 10 || unit === 0 ? 0 : 1)} ${units[unit]}`;
+}
+
+/**
+ * Free space on the filesystem holding the workspace.
+ *
+ * Informational only. Large test and source runs have repeatedly hit ENOSPC
+ * here, and the useful thing is seeing that coming — not a gate. This never
+ * fails preflight, never deletes anything, and reports "unavailable" rather
+ * than guessing when the platform does not answer.
+ */
+function diskCapacity(path) {
+  try {
+    const stats = statfsSync(path);
+    const total = stats.blocks * stats.bsize;
+    const free = stats.bavail * stats.bsize;
+    if (!Number.isFinite(total) || !Number.isFinite(free) || total <= 0) {
+      return null;
+    }
+    return { free, total };
+  } catch {
+    return null;
+  }
+}
+
+console.log("OUR CIVIC DUTY AGENT PREFLIGHT\n");
 
 // Check valid git repo
 try {
@@ -31,6 +65,13 @@ try {
 
 const workspace = process.cwd();
 console.log(`Workspace: ${workspace}`);
+
+const capacity = diskCapacity(workspace);
+console.log(
+  capacity
+    ? `Disk (workspace filesystem): ${formatBytes(capacity.free)} free of ${formatBytes(capacity.total)} (informational; preflight does not gate or clean)`
+    : "Disk (workspace filesystem): unavailable",
+);
 
 const branch = runCmd("git branch --show-current");
 if (!branch) {
