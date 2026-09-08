@@ -130,7 +130,7 @@ export function createLegislativeBargainingFixture(
     guardianPersonId,
     // The fixture's own synthetic prior-session setup below records this
     // shared work, so the read is true in the fixture world too.
-    workedWithAdvocateBefore: true,
+    advocatePriorWork: "shared-work",
   });
 
   const { roomContext, privateRoomContext } = bargainingRoomContexts({

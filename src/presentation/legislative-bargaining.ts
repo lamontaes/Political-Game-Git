@@ -41,6 +41,10 @@ import type {
   ConversationIntentOption,
   ConversationRoomContext,
 } from "./run-b-conversation";
+import {
+  latestInteractionBetween,
+  priorWorkEvidence,
+} from "./prior-work-evidence";
 
 /**
  * Bargaining over a live measure, as one more subject on the accepted
@@ -1206,25 +1210,33 @@ function bargainingConsiderations(
     });
   }
 
-  const interaction = [...world.history.relationshipInteractions]
-    .reverse()
-    .find(
-      (record) =>
-        record.personIds.includes(input.speakerPersonId) &&
-        record.personIds.includes(input.room.playerPersonId),
-    );
+  // A record naming both people establishes that they have dealt with each
+  // other. Only a record whose own contract entails shared work establishes
+  // that they worked together, so the two are said separately here.
+  const interaction = latestInteractionBetween(
+    world,
+    input.speakerPersonId,
+    input.room.playerPersonId,
+  );
   if (interaction) {
+    const evidence = priorWorkEvidence(
+      world,
+      input.speakerPersonId,
+      input.room.playerPersonId,
+    );
+    const strained = interaction.change === "strained";
     considerations.push({
       stableKey: "bargaining:working-history",
-      optionKey: interaction.change === "strained" ? no : yes,
+      optionKey: strained ? no : yes,
       sourceType: "social:working-history",
       direction: "supports",
       importance: "moderate",
       confidence: "high",
-      explanation:
-        interaction.change === "strained"
-          ? "The last exchange between these two did not go well."
-          : "These two have worked together before and it went somewhere.",
+      explanation: strained
+        ? "The last exchange between these two did not go well."
+        : evidence === "shared-work"
+          ? "These two have worked together before and it went somewhere."
+          : "These two have met before, and it was cordial enough.",
       sourceRefs: [
         { kind: "relationship-interaction", interactionId: interaction.id },
       ],

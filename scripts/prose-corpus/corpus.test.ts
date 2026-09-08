@@ -541,11 +541,15 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // Re-pinned again after merging current main into PR79, whose bargaining
     // dialogue, subjects and floor surface add prose sites and files that the
     // scanner now measures. Re-pinned once more for the 79R1 member-seat
-    // resolver and its regression file.
+    // resolver and its regression file. Re-pinned for 79R2, which adds the
+    // prior-work evidence classifier and two regression files to the scanned
+    // tree (scannedFiles 332 -> 335). INVENTORIED is unchanged at 1,914: the
+    // bounded wording change replaces the advocate's history read in place
+    // rather than adding a prose bank.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(50330);
+    expect(coverage.totalLiterals).toBe(50517);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(332);
+    expect(coverage.scannedFiles).toBe(335);
   });
 });
 

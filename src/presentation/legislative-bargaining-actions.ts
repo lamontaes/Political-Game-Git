@@ -29,25 +29,105 @@ import type { LegislativeBargainingProgress } from "./run-b-conversation-progres
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 
 /**
- * The write boundary re-establishes the seat it is about to act on.
+ * The write boundary re-establishes the authority it is about to act on.
  *
- * A production seat names the member-seat record it was opened on. Between
- * opening the room and putting a question to the chamber, that membership can
- * end or stop being supported; a stale or forged resolved seat must not carry
- * a vote. The check is the same read-only resolver the entry uses — no second
- * authorization framework — and it runs before anything is written.
+ * A resolved seat is a value the caller is holding, not a permission. It was
+ * true when the room opened; between then and the moment a question is put to
+ * the chamber, the membership behind it can end, the seat can stop being
+ * supported, and — the defect this function exists to close — the bill can
+ * pass the member's chamber and be transmitted to the other one. A House
+ * member holding a House context could still reach these two functions after
+ * HB 214 had moved to the Senate, and the writes landed: an amendment and a
+ * recorded vote taken in a chamber that member does not sit in, in a world
+ * that still validated.
+ *
+ * So nothing here trusts the retained context for anything except identity.
+ * Membership is re-resolved through the same accepted read-only resolver the
+ * entry uses, the measure is re-read from the World that was actually passed
+ * in, and the two are reconciled against each other before a single byte is
+ * written. The retained context must still name those same live records; a
+ * stale display object is not authority, and a chamber the measure has left
+ * is not this member's floor.
+ *
+ * Everything fails closed through the existing refusal contract — a thrown
+ * refusal before the first write, leaving the input World untouched.
  */
-function assertSeatStillHeld(world: World, seat: LegislativeBargainingSeat) {
-  if (!seat.memberSeatStableKey) return;
+interface ActionAuthority {
+  readonly chamberKey: string;
+  readonly position: ReturnType<typeof measurePosition>;
+}
+
+function refuse(reason: string): never {
+  throw new Error(`${reason} Nothing was put to the chamber.`);
+}
+
+function resolveActionAuthority(
+  world: World,
+  seat: LegislativeBargainingSeat,
+): ActionAuthority {
+  // The developer fixture's synthetic world carries no canonical seat record
+  // and never reaches production (legislative-bargaining-no-fixture.test.ts).
+  // Its banked behaviour is left exactly as it was.
+  if (!seat.memberSeatStableKey) {
+    const position = measurePosition(world, seat.measureId);
+    return { chamberKey: position.chamberKey ?? "house", position };
+  }
+
+  // 1. Who is this person right now? Not who the context says they were.
   const resolution = resolveActiveMemberSeat(world, seat.playerPersonId);
-  if (
-    resolution.kind !== "seated" ||
-    resolution.seat.relationshipStableKey !== seat.memberSeatStableKey
-  ) {
-    throw new Error(
-      "This member no longer holds the seat this sitting was opened on; nothing was put to the chamber.",
+  if (resolution.kind !== "seated") {
+    refuse(
+      "This member no longer holds an active seat the record supports; the sitting has no authority to act.",
     );
   }
+  const current = resolution.seat;
+  if (current.relationshipStableKey !== seat.memberSeatStableKey) {
+    refuse("This member no longer holds the seat this sitting was opened on.");
+  }
+
+  // 2. The live measure, read from the World that was handed in.
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (record) => record.id === seat.measureId,
+  );
+  if (!measure) {
+    refuse("The bill this sitting was opened on is not in this world.");
+  }
+  if (measure.stableKey !== seat.measureStableKey) {
+    refuse("The bill this sitting was opened on is no longer the same bill.");
+  }
+
+  // 3. The measure and the membership must be the same institution's.
+  if (measure.jurisdictionId !== current.governingJurisdictionId) {
+    refuse("This bill is not before the legislature this member sits in.");
+  }
+  if (measure.rulePackId !== current.legislativeRulePackId) {
+    refuse("This bill is not governed by this seat's rules.");
+  }
+  if (seat.scenario.pack.packId !== current.legislativeRulePackId) {
+    refuse("This sitting's procedure does not belong to this seat.");
+  }
+
+  // 4. Where the bill actually is now. A bill that has left this member's
+  //    chamber is not in front of them, however valid their membership is.
+  const position = measurePosition(world, seat.measureId);
+  if (position.phase !== "on-floor") {
+    refuse("This bill is not on the floor.");
+  }
+  if (position.chamberKey === null) {
+    refuse("The record does not say which chamber this bill is before.");
+  }
+  if (position.chamberKey !== current.chamberKey) {
+    refuse("This bill is no longer before this member's chamber.");
+  }
+  // 5. The retained context was opened on that same floor.
+  if (
+    seat.openedChamberKey !== undefined &&
+    seat.openedChamberKey !== position.chamberKey
+  ) {
+    refuse("This sitting was opened on a different floor than the bill is on.");
+  }
+
+  return { chamberKey: current.chamberKey, position };
 }
 
 /**
@@ -96,11 +176,9 @@ export function offerNegotiatedAmendment(
   progress: LegislativeBargainingProgress,
   variant: AmendmentVariant,
 ): AmendmentResult {
-  assertSeatStillHeld(world, seat);
+  const { chamberKey, position } = resolveActionAuthority(world, seat);
   const facts = progress.subjectFacts;
   const scenario = seat.scenario;
-  const position = measurePosition(world, seat.measureId);
-  const chamberKey = position.chamberKey ?? "house";
   const chamber = chamberByKey(scenario.pack, chamberKey);
   const body = bodyForChamber(scenario, chamberKey);
   const amountMinorUnits =
@@ -203,10 +281,8 @@ export function takeNegotiatedFloorVote(
   seat: LegislativeBargainingSeat,
   progress: LegislativeBargainingProgress,
 ): FloorVoteResult {
-  assertSeatStillHeld(world, seat);
+  const { chamberKey, position } = resolveActionAuthority(world, seat);
   const scenario = seat.scenario;
-  const position = measurePosition(world, seat.measureId);
-  const chamberKey = position.chamberKey ?? "house";
   const chamber = chamberByKey(scenario.pack, chamberKey);
   const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
   const body = bodyForChamber(scenario, chamberKey);

@@ -42,6 +42,7 @@ import {
   withheldReason,
 } from "./player-capabilities";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
+import { priorWorkEvidence } from "./prior-work-evidence";
 
 /**
  * The one question a seated winner's route is allowed to ask:
@@ -253,6 +254,7 @@ export function openLegislativeBargaining(
 
   const seat: LegislativeBargainingSeat = {
     memberSeatStableKey: memberSeat.relationshipStableKey,
+    openedChamberKey: memberSeat.chamberKey,
     scenario: {
       pack: blueprint.pack,
       measureId,
@@ -274,8 +276,9 @@ export function openLegislativeBargaining(
       advocatePersonId,
       guardianPersonId,
       // What the read claims about the past is read from the record, never
-      // asserted for it.
-      workedWithAdvocateBefore: havePriorInteraction(
+      // asserted for it, and never widened past the kind of history the
+      // record actually establishes.
+      advocatePriorWork: priorWorkEvidence(
         next,
         input.playerPersonId,
         advocatePersonId,
@@ -309,17 +312,6 @@ function fiscalNoteStableKey(scenarioKey: string): string {
 }
 
 /** Whether these two people have any recorded history with each other. */
-function havePriorInteraction(
-  world: World,
-  first: EntityId,
-  second: EntityId,
-): boolean {
-  return world.history.relationshipInteractions.some(
-    (record) =>
-      record.personIds.includes(first) && record.personIds.includes(second),
-  );
-}
-
 function ensureContextPerson(
   world: World,
   input: {

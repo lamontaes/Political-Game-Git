@@ -13,6 +13,7 @@ import type {
 import type { ConversationRoomContext } from "./run-b-conversation";
 import type { RunBScenePersonContext } from "./run-b-fixture";
 import type { LegislativeBargainingIntent } from "./legislative-bargaining";
+import type { PriorWorkEvidence } from "./prior-work-evidence";
 
 /**
  * The authored substance of the one bargaining sitting the game can hold.
@@ -116,26 +117,46 @@ export const PRIOR_ADVOCATE_HISTORY_SUMMARY =
 export const PRIOR_GUARDIAN_HISTORY_SUMMARY =
   "They sit two seats apart in committee and have never worked on anything together.";
 
+/**
+ * The advocate's history read, by what the record actually establishes.
+ *
+ * Three evidence classes, three claims, and no claim larger than its class.
+ * Shared work is stated as shared work. Acquaintance is stated as
+ * acquaintance and stops there — it does not carry a work-history negative
+ * the record is not in a position to make exhaustive. No recorded connection
+ * at all is stated as not knowing them, which is the read a member walking
+ * into the room actually has.
+ */
+function advocateHistoryRead(evidence: PriorWorkEvidence): string {
+  switch (evidence) {
+    case "shared-work":
+      return "You have worked together before";
+    case "acquaintance":
+      return "Someone you have met before";
+    case "none":
+      return "A colleague you do not know";
+  }
+}
+
 /** The reads a colleague walks in with, before anybody has said a word. */
 export function bargainingScenePeople(input: {
   readonly chamberName: string;
   readonly advocatePersonId: EntityId;
   readonly guardianPersonId: EntityId;
   /**
-   * Whether the record actually carries shared work with the advocate. The
-   * read never claims a past the world does not hold; a first-term member
-   * meets a colleague they have not worked with, and the read says so.
+   * What the record establishes about the player and the advocate, classified
+   * by the contract of the records themselves. The read claims the kind of
+   * history the world actually holds and no other: having met somebody is not
+   * having worked with them, and the read never widens the one into the other.
    */
-  readonly workedWithAdvocateBefore: boolean;
+  readonly advocatePriorWork: PriorWorkEvidence;
 }): readonly [RunBScenePersonContext, RunBScenePersonContext] {
   return [
     {
       personId: input.advocatePersonId,
       title: `Member, ${input.chamberName}`,
       role: `Represents ${PLACE_LABEL} and the counties around it`,
-      qualitativeRead: input.workedWithAdvocateBefore
-        ? "You have worked together before"
-        : "You have not worked with them before",
+      qualitativeRead: advocateHistoryRead(input.advocatePriorWork),
       inferredRead: `Direct about what ${PLACE_LABEL} needs and unembarrassed about asking. You do not know how far they will go for it.`,
       anchorId: "primary-desk-chair",
       visualVariant: "primary",
@@ -228,6 +249,13 @@ export interface LegislativeBargainingSeat {
    * legislative-bargaining-no-fixture.test.ts).
    */
   readonly memberSeatStableKey?: string;
+  /**
+   * The chamber this sitting was actually opened on. The floor actions require
+   * the bill to still be before it, so a context retained across a transmittal
+   * cannot carry a question into the other chamber. Unset on the developer
+   * fixture, like the seat key above.
+   */
+  readonly openedChamberKey?: string;
   readonly scenario: LegislativeProcedureContext;
   readonly measureId: EntityId;
   readonly measureStableKey: string;

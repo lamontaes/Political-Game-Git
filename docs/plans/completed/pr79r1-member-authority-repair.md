@@ -123,3 +123,30 @@ no-history behavior.
   evidence-aware handling and was deliberately not done here.
 
 PR #79 remains OPEN AND UNMERGED for the narrow independent 79R1 recheck.
+
+---
+
+## Superseded by 79R2 (historical)
+
+The 79A2 independent recheck reproduced two defects this record did not close.
+Two claims above are therefore superseded and are kept only as provenance:
+
+1. **"Both floor actions re-resolve the seat before writing, so an ended or
+   contradicted membership refuses at the write boundary."** True as far as it
+   went, and incomplete: the re-check asked only whether the seat relationship
+   still resolved, never where the bill was. A retained House context could
+   still amend and vote after HB 214 had been transmitted to the Senate — 8 and
+   5 history records respectively, both worlds still integrity-valid. Closed by
+   79R2's `resolveActionAuthority`, which reconciles the re-resolved membership
+   against the live measure's jurisdiction, rule pack and current chamber before
+   any write.
+
+2. **"The advocate's read is derived from the record — 'You have worked together
+   before' only when a shared interaction record exists."** The predicate
+   accepted any interaction naming both people, so `contact:met-socially`
+   rendered as shared work. The persisted fabricated relationships are indeed
+   gone and entry still writes zero relationship records — that part stands —
+   but the classification was wrong. Closed by 79R2's evidence classifier, which
+   holds acquaintance and shared work apart.
+
+Current record: `docs/plans/completed/pr79r2-chamber-write-and-evidence-repair.md`.
