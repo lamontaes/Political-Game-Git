@@ -36,6 +36,20 @@
   /* Important, used sparingly and never as decoration. */
   --p-important: #e0876b;
 
+  /*
+   * The pin rail's lane.
+   *
+   * ONE number owns both sides of this: the rail is exactly this wide, and the
+   * workspace reserves exactly this much on its right. Before, the rail's width
+   * was whatever its widest pin happened to be, while the workspace reserved a
+   * fixed guess — so an expanded pin with a long label grew past the guess and
+   * sat on top of the workspace's own Back and close controls. A lane that is
+   * asserted in one place and consumed in another cannot drift apart.
+   */
+  --p-rail-lane: 17rem;
+  /* The rail's inset from the right edge, and the gap the workspace keeps. */
+  --p-rail-inset: 1.15rem;
+
   --p-hairline: rgba(244, 236, 224, 0.16);
   --p-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
   --p-radius: 3px;
@@ -856,15 +870,27 @@ button {
  */
 .p-pin-rail {
   position: absolute;
-  right: 1.15rem;
+  right: var(--p-rail-inset);
   top: 3.4rem;
   bottom: 1.15rem;
+  /*
+   * Fixed, not content-sized. This is what makes the reserved lane true: a pin
+   * with a long title now ellipsises inside the rail instead of widening it
+   * across the workspace behind.
+   */
+  width: var(--p-rail-lane);
   z-index: 24;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
   overflow-y: auto;
+  /*
+   * The lane is fixed, so there is nothing legitimate to scroll to sideways.
+   * Without this the rail grows its own horizontal scrollbar over the scene the
+   * moment a pin's content is a few pixels wider than the lane.
+   */
+  overflow-x: hidden;
   padding-left: 0.5rem;
   scrollbar-width: thin;
   /*
@@ -878,8 +904,10 @@ button {
 .p-pin-slot {
   position: relative;
   display: flex;
+  justify-content: flex-end;
   align-items: flex-start;
   gap: 0.35rem;
+  width: 100%;
   pointer-events: auto;
 }
 
@@ -888,6 +916,8 @@ button {
   align-items: center;
   gap: 0.6rem;
   min-width: 2.9rem;
+  /* Shrinks with the lane rather than pushing past it. */
+  flex: 0 1 auto;
   padding: 0.4rem 0.6rem;
   border-radius: var(--p-radius);
   border: 1px solid var(--p-hairline);
@@ -902,7 +932,8 @@ button {
 }
 
 .p-pin[data-size="expanded"] {
-  min-width: 15rem;
+  /* Never wider than the lane, however narrow the lane gets. */
+  min-width: min(15rem, 100%);
 }
 
 .p-pin-monogram {
@@ -919,6 +950,8 @@ button {
 }
 
 .p-pin-copy {
+  /* Without this a flex child refuses to shrink and the ellipsis never fires. */
+  min-width: 0;
   display: grid;
   gap: 0.08rem;
   min-width: 0;
@@ -947,6 +980,7 @@ button {
 /* A separate affordance, because opening a reference and managing a pin are
    different operations and one control cannot honestly be both. */
 .p-pin-manage {
+  flex: 0 0 auto;
   flex: 0 0 auto;
   width: 1.5rem;
   height: 1.5rem;
@@ -1271,7 +1305,8 @@ button {
    * underneath it and the rail covers the workspace's own Back and close
    * controls — which is a dead control, not a cosmetic overlap.
    */
-  padding: 3.2rem 19rem 6rem 15rem;
+  padding: 3.2rem calc(var(--p-rail-lane) + var(--p-rail-inset) + 1rem) 6rem
+    15rem;
   background: linear-gradient(
     180deg,
     rgba(6, 9, 14, 0.72),
@@ -1610,11 +1645,7 @@ button {
   }
 
   .p-pin[data-size="expanded"] {
-    min-width: 12rem;
-  }
-
-  .p-workspace-scrim {
-    padding-right: 16rem;
+    min-width: min(12rem, 100%);
   }
 }
 
@@ -1625,9 +1656,16 @@ button {
  * when the workspace is scrolled to its end.
  */
 @media (max-width: 1200px) {
+  /*
+   * Narrower screens get a narrower lane rather than a different reservation:
+   * the rail and the workspace still read the same number.
+   */
+  :root {
+    --p-rail-lane: 13rem;
+  }
+
   .p-workspace-scrim {
     padding-left: 1rem;
-    padding-right: 15rem;
   }
 
   .p-workspace-body {
@@ -1636,12 +1674,19 @@ button {
 }
 
 @media (max-width: 1060px) {
+  :root {
+    --p-rail-lane: 11rem;
+    --p-rail-inset: 0.7rem;
+  }
+
   .p-title {
     padding: clamp(1.8rem, 5vh, 3rem) clamp(1.5rem, 5vw, 3rem);
   }
 
   .p-workspace-scrim {
-    padding: 3.2rem 13rem 5rem 0.8rem;
+    padding-top: 3.2rem;
+    padding-bottom: 5rem;
+    padding-left: 0.8rem;
   }
 
   .p-nav {
@@ -1650,7 +1695,6 @@ button {
   }
 
   .p-pin-rail {
-    right: 0.7rem;
     bottom: 0.7rem;
   }
 

@@ -460,6 +460,149 @@ test.describe("UI-PROTOTYPE-01-R1", () => {
     );
   });
 
+  /* -------------------------------- R1-CI-PIN-CLOSE: the rail's own lane */
+
+  /**
+   * The regression this replaces was real and reproducible: an expanded pin
+   * with a long title grew the rail past the lane the workspace reserved, and
+   * the rail then sat on top of the workspace's own close button. The click
+   * did not fail because it was flaky — it failed because the control was
+   * genuinely covered.
+   *
+   * So this asserts the geometry, at every supported desktop width, with the
+   * rail populated and its widest pin expanded: the rail's left edge is right
+   * of the workspace's right edge, and the close button is the topmost element
+   * at its own centre. Then it actually clicks it.
+   */
+  const REVIEW_WIDTHS = [
+    { width: 1920, height: 1080 },
+    { width: 1600, height: 900 },
+    { width: 1366, height: 768 },
+    { width: 1280, height: 720 },
+    { width: 1024, height: 768 },
+  ] as const;
+
+  for (const viewport of REVIEW_WIDTHS) {
+    test(`the pin rail never covers workspace controls at ${viewport.width}x${viewport.height}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport);
+      await enterShell(page);
+      await pinThreeKinds(page);
+
+      /* The widest label, at the widest size: the worst case, deliberately. */
+      await page
+        .getByTestId("pin-manage-measure:measure-transit-pilot")
+        .click();
+      await page
+        .getByTestId("pin-size-expanded-measure:measure-transit-pilot")
+        .click();
+
+      await page.getByTestId("nav-cluster").click();
+      await page.getByTestId("nav-journal").click();
+      await expect(page.getByTestId("journal-workspace")).toBeVisible();
+
+      const rail = await page.locator(".p-pin-rail").boundingBox();
+      const workspace = await page
+        .getByTestId("journal-workspace")
+        .boundingBox();
+      if (!rail || !workspace) throw new Error("No rail, or no workspace.");
+
+      /* The two lanes do not overlap, at all, anywhere. */
+      expect(rail.x).toBeGreaterThanOrEqual(workspace.x + workspace.width);
+
+      /* Widening a pin cannot widen the rail past its lane. */
+      const widest = await page
+        .locator(".p-pin-slot")
+        .evaluateAll((nodes) =>
+          Math.max(...nodes.map((node) => node.getBoundingClientRect().right)),
+        );
+      expect(widest).toBeLessThanOrEqual(rail.x + rail.width + 1);
+
+      /* And nothing is on top of the close button where it will be clicked. */
+      const close = page.getByTestId("workspace-close");
+      const closeBox = await close.boundingBox();
+      if (!closeBox) throw new Error("No close button.");
+      const onTop = await page.evaluate(
+        ([x, y]) => {
+          const node = document.elementFromPoint(x as number, y as number);
+          return node?.closest("[data-testid=workspace-close]") !== null;
+        },
+        [closeBox.x + closeBox.width / 2, closeBox.y + closeBox.height / 2],
+      );
+      expect(onTop).toBe(true);
+
+      /* The real click, unforced, with no extended timeout. */
+      await close.click();
+      await expect(page.getByTestId("journal-workspace")).toHaveCount(0);
+      await expect(page.getByTestId("scene-shell")).toBeVisible();
+
+      /* The pins are untouched by closing the workspace over them. */
+      await expect(page.locator(".p-pin-slot")).toHaveCount(3);
+    });
+  }
+
+  test("with the rail populated, open, back, drag, cancel and resize all still work by pointer and by keyboard", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await enterShell(page);
+    await pinThreeKinds(page);
+
+    /* Open a record from a pin, follow a link, and walk Back out of it. */
+    await page.getByTestId("pin-measure:measure-transit-pilot").click();
+    await expect(page.getByTestId("entity-workspace")).toContainText(
+      "Transit Access Pilot",
+    );
+    await page
+      .getByTestId("entity-link-person-person-organizer")
+      .first()
+      .click();
+    await expect(page.getByTestId("entity-workspace")).toContainText(
+      "Teresa Boyd",
+    );
+    await page.getByTestId("workspace-back").click();
+    await expect(page.getByTestId("entity-workspace")).toContainText(
+      "Transit Access Pilot",
+    );
+    await page.getByTestId("workspace-close").click();
+
+    /* Drag, over a workspace-free scene, at this width. */
+    await dragPinOnto(
+      page,
+      page.getByTestId("pin-measure:measure-transit-pilot"),
+      page.getByTestId("pin-person:person-aide"),
+    );
+    expect((await railOrder(page))[0]).toBe(
+      "pin-measure:measure-transit-pilot",
+    );
+
+    /* The keyboard equivalent reaches the same controls without a pointer. */
+    await page.getByTestId("pin-manage-person:person-aide").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("pin-menu-person:person-aide")).toBeVisible();
+    await page.getByTestId("pin-up-person:person-aide").focus();
+    await page.keyboard.press("Enter");
+    expect((await railOrder(page))[0]).toBe("pin-person:person-aide");
+
+    await page.getByTestId("pin-size-tiny-person:person-aide").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("pin-person:person-aide")).toHaveAttribute(
+      "data-size",
+      "tiny",
+    );
+    await expect(page.getByTestId("pin-menu-person:person-aide")).toHaveCount(
+      0,
+    );
+
+    /* And the resting proximity behaviour survived all of it. */
+    await page.mouse.move(640, 120);
+    await expect(page.getByTestId("nav-region")).toHaveAttribute(
+      "data-state",
+      "rest",
+    );
+  });
+
   /* ------------------------------------------------------------- U03-05 */
 
   test("U03-05 current activity reads as passing, not as a permanent trait", async ({

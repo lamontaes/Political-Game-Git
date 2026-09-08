@@ -203,6 +203,36 @@ function NavCluster({
   const near = useProximity(navRef, 190);
 
   /*
+   * Whether focus is actually inside the cluster right now.
+   *
+   * React's onBlur is not enough here. Choosing a destination unmounts the
+   * focused menu item, and an element removed from the document never fires a
+   * blur — so the cluster stayed raised forever after its first use. Reading
+   * `activeElement` against the live subtree cannot get stuck that way, and
+   * re-checking when the flyout opens or closes covers exactly the case where
+   * the focused node disappeared instead of losing focus.
+   */
+  useEffect(() => {
+    const check = () => {
+      const node = navRef.current;
+      setFocusWithin(
+        Boolean(
+          node &&
+          document.activeElement &&
+          node.contains(document.activeElement),
+        ),
+      );
+    };
+    check();
+    document.addEventListener("focusin", check);
+    document.addEventListener("focusout", check);
+    return () => {
+      document.removeEventListener("focusin", check);
+      document.removeEventListener("focusout", check);
+    };
+  }, [state.navigation]);
+
+  /*
    * Three ways in, one state. Pointer approach, keyboard focus and the menu
    * being open all raise the cluster identically, so nothing here is reachable
    * only by hovering it — which is the accessibility rule and also just the
@@ -217,12 +247,6 @@ function NavCluster({
       aria-label="Time, location and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="nav-region"
-      onFocus={() => setFocusWithin(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          setFocusWithin(false);
-        }
-      }}
     >
       <button
         type="button"

@@ -217,6 +217,42 @@ One defect found during the pass and fixed: Escape did not close a title-level
 overlay opened from inside the shell. It does now, wherever the overlay came
 from.
 
+### R1-CI-PIN-CLOSE — the rail's lane
+
+Exact-head CI at `bc258e7` failed the new drag proof: after the drag, clicking
+**Close Journal** timed out because `div.p-pin-slot` inside `aside.p-pin-rail`
+intercepted the pointer. The control was genuinely covered — this was a layout
+defect, not a flaky test.
+
+**Cause.** The rail's width was whatever its widest pin happened to be, while
+the workspace scrim reserved a fixed `19rem` guess on its right. An expanded pin
+carrying a long title — "Ordinance 41 — Transit Access Pilot" — rendered wider
+than the guess on the CI font stack, so the rail's slot extended left over the
+workspace's own header and sat on its Back and close controls. Two numbers
+describing one lane, free to disagree.
+
+**Fix.** One token owns the lane. `--p-rail-lane` (with `--p-rail-inset`) sets
+the rail's own width and is the value the scrim's right padding is computed
+from, at every width, with narrower screens redefining the token rather than
+restating a padding. A pin can no longer widen the rail: it ellipsises inside
+it, and `overflow-x: hidden` stops the rail from growing a scrollbar of its own.
+
+**Not done:** no force-click, no timeout increase, no skip, no deleted test. The
+original real click is retained exactly as written.
+
+**Proof added.** The lane geometry is now asserted at 1920x1080, 1600x900,
+1366x768, 1280x720 and 1024x768 with the rail populated and its widest pin
+expanded: the rail's left edge is right of the workspace's right edge, no slot
+exceeds the lane, `elementFromPoint` at the close button's centre resolves to
+the close button, and the button is then actually clicked. A further test walks
+open, link, Back, close, drag, size and reorder with the rail populated, by
+pointer and by keyboard, and checks the resting proximity state survives.
+
+One more defect surfaced while proving the keyboard path: the cluster stayed
+raised forever after its first use, because choosing a destination unmounts the
+focused menu item and a removed element never fires blur. Focus is now read from
+the live subtree instead of tracked through events.
+
 ### Reusable production integration points
 
 These are the parts of R1 that production UI convergence can take, rather than
