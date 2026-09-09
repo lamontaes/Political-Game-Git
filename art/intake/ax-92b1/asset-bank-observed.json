@@ -1,0 +1,76 @@
+{
+  "batchId": "environment-batch-ax-92b1",
+  "entries": [
+    {
+      "artifactFlags": [],
+      "assessedAt": "2026-09-08",
+      "assessedBy": "external-multimodal-qa",
+      "bakedPeople": "no",
+      "bakedReadableText": "no",
+      "cameraAngle": "Exterior, roughly eye-level and very slightly elevated, looking across a curving asphalt path toward an open timber pavilion set right of centre; a large tree trunk fills the extreme left foreground. Image-space observation only: no camera height, focal length or floor plane is claimed.",
+      "contentHash": "935ce236f421786061677da8f017fc775fab50e47693d7f611c916920f22f59f",
+      "disposition": "undecided",
+      "entryId": "env_park_community_pavilion_5504x3072_01",
+      "floorUsable": "unassessed",
+      "height": 3072,
+      "heroSlot": "unassessed",
+      "notes": [
+        "OBSERVATION PASS ONLY (AX-92B1). Development-time multimodal inspection of the source pixels. It records what the picture shows; it is not owner acceptance, not a style-family ruling, and not a geometry calibration.",
+        "No readable lettering anywhere in the frame. The park notice board carries a blank sheet in a blank wooden frame, which is the shape a declared dynamic surface slot would need; nothing has declared one, so it is a candidate observation and not a slot.",
+        "No people are painted in. Baked fixed furniture IS present and is extensive: roughly a dozen picnic tables on and around the pavilion slab, a bike rack, two waste bins and the notice board. Modular people could not be placed on the slab without contending with the baked tables.",
+        "This is an EXTERIOR. Every registered scene in src/presentation/scene-registry.ts is an interior, and no environment family in art/manifest/environment_families.json describes an outdoor space. It substitutes for no interior room.",
+        "floorUsable and seatUsable are left unassessed on purpose. Deciding either needs the floor-plane calibration a human owns (D-070); the open lawn and the paved slab are visible, but 'visible' is not 'measured', and this pass invents no floor plane.",
+        "No real municipality, park, or civic body may be inferred from this art. What the World would call this place is canonical truth supplied by a caller, never read off the picture."
+      ],
+      "occluderCandidates": [
+        "left-foreground tree trunk and its lower branches",
+        "near grass verge and path edge across the bottom of the frame",
+        "right-foreground notice-board frame and post",
+        "green waste bin at the path bend"
+      ],
+      "proposedFilename": "IMG_5204.JPG",
+      "reuseContexts": [],
+      "seatUsable": "unassessed",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG",
+      "styleFamilyStatus": "unassessed",
+      "uiSafeRegions": [],
+      "width": 5504
+    },
+    {
+      "artifactFlags": [],
+      "assessedAt": "2026-09-08",
+      "assessedBy": "external-multimodal-qa",
+      "bakedPeople": "no",
+      "bakedReadableText": "no",
+      "cameraAngle": "Interior, eye-level, from the back left of the seating area looking forward and right toward a low riser stage with a lectern against a full-height curtain. Image-space observation only: no camera height, focal length or floor plane is claimed.",
+      "contentHash": "e16e1b0b0c5cd93a6254ac1b1145f5439351a4e6b8530d739844bd62e973d065",
+      "disposition": "undecided",
+      "entryId": "env_press_briefing_room_5504x3072_01",
+      "floorUsable": "unassessed",
+      "height": 3072,
+      "heroSlot": "unassessed",
+      "notes": [
+        "OBSERVATION PASS ONLY (AX-92B1). Development-time multimodal inspection of the source pixels. It records what the picture shows; it is not owner acceptance, not a style-family ruling, and not a geometry calibration.",
+        "No readable lettering anywhere in the frame. The wall display, the lectern front panel, the framed wall plate, the door sign plate and every sheet pinned to the corkboard are blank. That is the correct shape for declared dynamic surface slots, but no slot is declared here and intake declares none.",
+        "No people are painted in. Baked fixed furniture IS present and dominates the frame: roughly thirty stacking chairs in rows, a wooden lectern with a microphone, a low riser stage, a curtain backdrop, four camera tripods, an AV table, track lighting and a wall-mounted display. Very little open floor survives between the seating and the stage.",
+        "This is a press or announcement room. It is NOT the committee hearing room, and it must not be substituted for civic-hearing-room-production or committee-room-fixture.",
+        "floorUsable and seatUsable are left unassessed on purpose. The chairs are visible but no seat contact point is measured, and no floor plane is derived; both need the human geometry gate.",
+        "A room that looks public is not a room the player can enter. Nothing here says any press event exists, is scheduled, or is attendable."
+      ],
+      "occluderCandidates": [
+        "front rows of stacking chairs across the bottom and lower-right of the frame",
+        "camera tripods standing between the seating and the stage",
+        "audio-visual table with mixer and coiled cable, mid-left"
+      ],
+      "proposedFilename": "IMG_5202.JPG",
+      "reuseContexts": [],
+      "seatUsable": "unassessed",
+      "sourcePath": "art/references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG",
+      "styleFamilyStatus": "unassessed",
+      "uiSafeRegions": [],
+      "width": 5504
+    }
+  ],
+  "manifestVersion": 1,
+  "note": "Seeded by environment intake. Every judgement is unassessed until a reviewer or an external QA pass fills it in."
+}

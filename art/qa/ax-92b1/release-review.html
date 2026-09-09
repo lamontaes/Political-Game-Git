@@ -1,0 +1,283 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>AX-92B1 — park and press-room release review</title>
+<style>
+  :root {
+    color-scheme: light;
+  }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: #f6f5f2;
+    color: #1c1b19;
+    font:
+      14px/1.55 ui-sans-serif,
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
+  }
+  h1 {
+    font-size: 20px;
+    margin: 0 0 4px;
+  }
+  h2 {
+    font-size: 15px;
+    margin: 28px 0 8px;
+  }
+  p,
+  li {
+    max-width: 78ch;
+  }
+  .lede {
+    color: #4a463f;
+    margin: 0 0 20px;
+  }
+  .warn {
+    border-left: 3px solid #a8331f;
+    background: #fbeeeb;
+    padding: 10px 14px;
+    margin: 16px 0;
+  }
+  .row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+  figure {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  /* Actual game scale. The plate coordinate space a 5504x3072 master is
+     authored in is 1376x768 — an exact quarter in both axes, the same space
+     shared-workroom-office-production uses. The browser downscales for
+     display; no derived raster is written and no source byte is touched. */
+  img {
+    display: block;
+    width: 1376px;
+    height: 768px;
+    border: 1px solid #cdc8bd;
+    background: #fff;
+  }
+  figcaption {
+    font-size: 12px;
+    color: #4a463f;
+    margin-top: 6px;
+    width: 1376px;
+  }
+  code {
+    font:
+      12px/1.4 ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      monospace;
+    background: #eae7e0;
+    padding: 1px 4px;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 10px 0 0;
+  }
+  th,
+  td {
+    border: 1px solid #cdc8bd;
+    padding: 6px 10px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  th {
+    background: #eae7e0;
+    font-weight: 600;
+  }
+  .no {
+    color: #a8331f;
+    font-weight: 600;
+  }
+  .yes {
+    color: #2f6a3f;
+    font-weight: 600;
+  }
+</style>
+
+<h1>AX-92B1 — park and press-room release review</h1>
+<p class="lede">
+  Two existing environment sources, measured from their real bytes and
+  registered as candidates. Nothing on this page is released, and nothing on
+  this page is reachable in play. This is the decision surface, not the
+  decision.
+</p>
+
+<div class="warn">
+  <strong
+    >Neither background is reachable in normal play, and intake did not change
+    that.</strong
+  >
+  Ingesting a picture is not travel, not an event, and not a place. No scene
+  spec, no scene-registry entry and no scene consumer exists for either room; a
+  player cannot visit the park or attend a briefing, before or after this run.
+</div>
+
+<h2>At actual game scale</h2>
+<p>
+  Each plate is shown at <code>1376&times;768</code> — the plate coordinate
+  space a 5504&times;3072 master is authored in, an exact quarter in both axes.
+  The page scales the preserved source file itself; no derivative raster was
+  written.
+</p>
+<div class="row">
+  <figure>
+    <img
+      src="../../references/candidates/recent-drive-sweep/source-images/IMG_5204.JPG"
+      alt="Park and community pavilion candidate plate, shown at 1376 by 768."
+    />
+    <figcaption>
+      <strong>env_park_community_pavilion_5504x3072_01</strong> — Drive
+      <code>1SVG_lRUgoMJTmyreTsmhLJB6roJitFr1</code>, Drive title
+      <code>OCD_CANDIDATE_SCENE_PARK_COMMUNITY_PAVILION_5504x3072_01.JPG</code>,
+      repository bytes <code>IMG_5204.JPG</code>, sha256
+      <code>935ce236&hellip;f22f59f</code>, 3&nbsp;464&nbsp;125 bytes. An
+      exterior. No readable text; no baked people; extensive baked picnic
+      tables, bins, a bike rack and a blank notice board.
+    </figcaption>
+  </figure>
+  <figure>
+    <img
+      src="../../references/candidates/recent-drive-sweep/source-images/IMG_5202.JPG"
+      alt="Press briefing room candidate plate, shown at 1376 by 768."
+    />
+    <figcaption>
+      <strong>env_press_briefing_room_5504x3072_01</strong> — Drive
+      <code>1SPvoi-0L7T4mK156yFg1dpOW82ggb4J6</code>, Drive title
+      <code>OCD_CANDIDATE_SCENE_PRESS_BRIEFING_ROOM_5504x3072_01.JPG</code>,
+      repository bytes <code>IMG_5202.JPG</code>, sha256
+      <code>e16e1b0b&hellip;73d065</code>, 3&nbsp;068&nbsp;797 bytes. An
+      interior press or announcement room, not the committee hearing room. No
+      readable text; no baked people; roughly thirty baked stacking chairs, a
+      lectern, a riser, tripods and an AV table.
+    </figcaption>
+  </figure>
+</div>
+
+<h2>Lifecycle, after this run</h2>
+<table>
+  <tr>
+    <th>State</th>
+    <th>Park / community pavilion</th>
+    <th>Press briefing room</th>
+  </tr>
+  <tr>
+    <td>exists</td>
+    <td class="yes">yes</td>
+    <td class="yes">yes</td>
+  </tr>
+  <tr>
+    <td>ingested (bytes preserved in repository)</td>
+    <td class="yes">yes</td>
+    <td class="yes">yes</td>
+  </tr>
+  <tr>
+    <td>measured through environment intake</td>
+    <td class="yes">yes — new in AX-92B1</td>
+    <td class="yes">yes — new in AX-92B1</td>
+  </tr>
+  <tr>
+    <td>candidate-registered in the asset bank</td>
+    <td class="yes">yes — new in AX-92B1</td>
+    <td class="yes">yes — new in AX-92B1</td>
+  </tr>
+  <tr>
+    <td>human-approved</td>
+    <td class="no">no</td>
+    <td class="no">no</td>
+  </tr>
+  <tr>
+    <td>released to production</td>
+    <td class="no">no</td>
+    <td class="no">no</td>
+  </tr>
+  <tr>
+    <td>production consumer present</td>
+    <td class="no">no</td>
+    <td class="no">no</td>
+  </tr>
+</table>
+
+<h2>Decisions nobody has made yet</h2>
+<p>
+  Each of these is a real gate. None of them was filled in by this run, and none
+  may be assumed.
+</p>
+<ol>
+  <li>
+    <strong>Owner style acceptance.</strong> <code>styleFamilyStatus</code> is
+    <code>unassessed</code> for both. The readiness report's standing action for
+    both files was "judge it for style"; that judgement is yours and has not
+    been made.
+  </li>
+  <li>
+    <strong>Rights.</strong> <code>rightsStatus</code> is
+    <code>unknown</code> for both and stays unknown. These are owner-generated
+    inputs, but no rights declaration exists in the project for them, and
+    visibility is not a licence.
+  </li>
+  <li>
+    <strong>Native detail.</strong> <code>nativeDetailState</code> is
+    <code>unverified</code> for both. Nothing in this project establishes
+    whether the 5504px render carries native detail or an external enlargement.
+    Until somebody vouches, every derived tier must report unverified detail
+    rather than claim its pixel width.
+  </li>
+  <li>
+    <strong>Environment family.</strong> Neither declares a
+    <code>family_id</code>, because no family fits.
+    <code>art/manifest/environment_families.json</code>
+    describes no outdoor space at all, and no press or announcement room.
+    Somebody has to decide whether a family is created or these stay unfamilied.
+  </li>
+  <li>
+    <strong>Geometry.</strong> <code>floorUsable</code>,
+    <code>seatUsable</code>, <code>uiSafeRegions</code>, the floor calibration,
+    the safe and essential content areas, and every anchor are unmeasured. Both
+    frames are dense with baked furniture — picnic tables on the pavilion slab,
+    thirty chairs across the briefing room — so how much floor a person could
+    actually stand on is a real open question, not a formality.
+  </li>
+  <li>
+    <strong>Dynamic surface slots.</strong> Both plates contain the blank
+    rectangles a declared slot would need — the park notice board, and the
+    briefing room's wall display, lectern panel, door plate and corkboard
+    sheets. No slot is declared. Until one is, nothing the simulation owns may
+    be painted there.
+  </li>
+  <li>
+    <strong>World identity.</strong> Neither picture names a place. What
+    jurisdiction, park or press office either room stands for is canonical world
+    truth supplied by a caller. It may never be inferred from the art, the
+    filename, or the asset id.
+  </li>
+  <li>
+    <strong>A gameplay consumer.</strong> Even a fully released plate would show
+    nothing until a surface resolves a scene that uses it. That is travel,
+    events, or a briefing capability — separate work, in a separate lane, not
+    commissioned here.
+  </li>
+</ol>
+
+<h2>What this page is not</h2>
+<ul>
+  <li>
+    It is not an approval. Nothing here records an approver, and none was
+    invented.
+  </li>
+  <li>It is not evidence that either room exists in the game world.</li>
+  <li>
+    It is not a claim that any real park, press office, event or attendee is
+    depicted. The art is generic and stays generic.
+  </li>
+  <li>
+    It is not a request for replacement art. Both files exist and are usable
+    inputs; the open questions are acceptance and consumers, not generation.
+  </li>
+</ul>
