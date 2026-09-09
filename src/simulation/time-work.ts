@@ -1,3 +1,5 @@
+import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
+import { workStatusAt } from "./life-queries";
 import {
   addDays,
   addSimulationMinutes,
@@ -372,6 +374,42 @@ export function createScheduledActivity(
       scheduledActivityStates: [
         ...world.history.scheduledActivityStates,
         state,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/** Explicit cancellation preserves the original interval and append-only history. */
+export function cancelScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const previous = scheduledActivityState(world, activityId);
+  if (previous.status !== "scheduled") return world;
+  const stableKey = `schedule:cancel:${activityId}:${world.history.nextSequence}`;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      scheduledActivityStates: [
+        ...world.history.scheduledActivityStates,
+        {
+          ...previous,
+          id: createStableId(
+            "scheduled-activity-state",
+            `${world.id}:${stableKey}`,
+          ),
+          stableKey,
+          sequence: world.history.nextSequence,
+          recordedAt: cloneMoment(world.currentMoment),
+          status: "cancelled",
+          change: "cancelled",
+          outcomeEventId: null,
+          supersedesStateId: previous.id,
+        },
       ],
     },
   };
@@ -1093,7 +1131,19 @@ function projectStaffProgress(
     world.control.kind === "person" ? world.control.personId : null;
   const totalMinutes = simulationMinutesBetween(start, target);
   const results: StaffProgressProjection[] = [];
+  const occupiedMinutes = new Map<EntityId, Set<number>>();
   for (const item of world.history.workItems) {
+    // A linked employment/volunteer engagement is authority for this work.
+    // Legacy unbound items retain their existing semantics.
+    const engagements = world.history.workRelationships.filter((work) =>
+      item.sourceEntityIds.includes(work.id),
+    );
+    if (
+      engagements.some(
+        (work) => workStatusAt(world, work.id)?.status !== "active",
+      )
+    )
+      continue;
     const state = latestWorkStateUnchecked(world, item.id);
     if (
       !state ||
@@ -1112,10 +1162,17 @@ function projectStaffProgress(
       const minuteStart = addSimulationMinutes(start, offset);
       const minuteEnd = addSimulationMinutes(start, offset + 1);
       if (
-        state.assignedPersonIds.every((personId) =>
-          isPersonAvailable(world, personId, minuteStart, minuteEnd),
+        state.assignedPersonIds.every(
+          (personId) =>
+            !occupiedMinutes.get(personId)?.has(offset) &&
+            isPersonAvailable(world, personId, minuteStart, minuteEnd),
         )
       ) {
+        for (const personId of state.assignedPersonIds) {
+          const occupied = occupiedMinutes.get(personId) ?? new Set<number>();
+          occupied.add(offset);
+          occupiedMinutes.set(personId, occupied);
+        }
         completedEffortMinutes += 1;
         if (completedEffortMinutes >= item.effort.requiredMinutes) {
           completedEffortMinutes = item.effort.requiredMinutes;
@@ -1444,6 +1501,7 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     world.people[id] ||
     world.jurisdictions[id] ||
     world.history.events.some((record) => record.id === id) ||
+    lifeEntityExists(world, id) ||
     policySemanticsEntityExists(world, id) ||
     // A work item focused on legislative material needs the measure it is
     // about to count as canonical provenance. The `legislative-material` focus
@@ -1472,6 +1530,13 @@ function canonicalSourceAvailable(
       sequenceExclusive,
     );
   }
+  // Both clauses are required, and in the same order `canonicalSourceExists`
+  // accepts them. That function already admits life entities and legislative
+  // material; if either one is missing here it falls through to the work-item
+  // lookup, finds nothing, and a canonical source the world does accept is
+  // reported unavailable.
+  if (lifeEntityExists(world, id))
+    return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
     return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
   }

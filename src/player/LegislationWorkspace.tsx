@@ -1,3 +1,5 @@
+import { useReviewEnvironment, useReviewStorage } from "../ui/review-context";
+import { useEffect } from "react";
 import { useMemo, useState } from "react";
 
 import {
@@ -96,9 +98,9 @@ interface SessionState {
   readonly source: "fresh" | "restored";
 }
 
-function startSession(scenarioKey: string): SessionState {
+function startSession(scenarioKey: string, storage: Storage): SessionState {
   const scenario = createLegislativeScenario(scenarioKey);
-  const saved = window.localStorage.getItem(`${STORAGE_PREFIX}${scenarioKey}`);
+  const saved = storage.getItem(`${STORAGE_PREFIX}${scenarioKey}`);
   if (saved) {
     try {
       return { scenario, world: deserializeWorld(saved), source: "restored" };
@@ -106,16 +108,26 @@ function startSession(scenarioKey: string): SessionState {
       // A save that no longer loads is simply ignored.
     }
   }
-  return { scenario, world: scenario.world, source: "fresh" };
+  return {
+    scenario,
+    world: deserializeWorld(serializeWorld(scenario.world)),
+    source: "fresh",
+  };
 }
 
 export function LegislationDevRoute() {
+  const review = useReviewEnvironment();
+  const storage = useReviewStorage();
   const [scenarioKey, setScenarioKey] = useState(scenarioFromUrl);
   const [session, setSession] = useState<SessionState>(() =>
-    startSession(scenarioFromUrl()),
+    startSession(scenarioFromUrl(), storage),
   );
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    review?.reportWorld(session.world);
+  }, [session.world, review]);
 
   const briefing = useMemo(
     () => projectMeasureBriefing(session.world, session.scenario.measureId),
@@ -139,11 +151,11 @@ export function LegislationDevRoute() {
 
   function switchPlace(key: string) {
     setScenarioKey(key);
-    setSession(startSession(key));
+    setSession(startSession(key, storage));
     setMessage(null);
     setError(null);
     const url = new URL(window.location.href);
-    url.searchParams.set("view", "legislation");
+    if (!review) url.searchParams.set("view", "legislation");
     url.searchParams.set("place", key);
     window.history.replaceState({}, "", url);
   }
@@ -161,15 +173,15 @@ export function LegislationDevRoute() {
         scenarioKey,
         onSwitchPlace: switchPlace,
         onSave: () => {
-          window.localStorage.setItem(
+          storage.setItem(
             `${STORAGE_PREFIX}${scenarioKey}`,
             serializeWorld(session.world),
           );
           setMessage("Saved. Reloading will pick the bill up where it is.");
         },
         onRestart: () => {
-          window.localStorage.removeItem(`${STORAGE_PREFIX}${scenarioKey}`);
-          setSession(startSession(scenarioKey));
+          storage.removeItem(`${STORAGE_PREFIX}${scenarioKey}`);
+          setSession(startSession(scenarioKey, storage));
           setMessage("Started again from the day the bill was filed.");
           setError(null);
         },

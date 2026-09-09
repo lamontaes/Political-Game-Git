@@ -868,6 +868,40 @@ adapter. A regression checks both vote records while the formal capacity stays
 unknown. No source fact, rule pack, bargaining evaluator, ownership guard or
 player-route behavior is redefined.
 
+## DEV-LAB2 disposable review / harness boundary audit
+
+Scope: source base `1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b` to the DEV-LAB2
+candidate. Existing simulation transitions, schemas, seeded controls, art
+registries/compositors/anchors and normal-player navigation are preserved.
+
+- **Identity and history:** cloning uses canonical serialization; stable IDs,
+  seed and history survive. Review control changes only the disposable clone's
+  control pointer and creates no office, trip, time or history record.
+- **Persistence:** `inspectSnapshot` validates/reads an existing slot without
+  updating `lastPlayedAt` or acquiring its write generation. Its regression
+  checks entire stored-record bytes and later write refusal. No save migration
+  or parallel World/store has been introduced.
+- **Reuse / ownership:** the hub composes the existing developer/trace/content,
+  character/scene/office and floor/legislation viewers. Optional in-memory
+  storage is supplied only within review. App/PlayerGame remain unchanged;
+  UI-CORE-RELEASE receives an exact registration patch. Candidate visual
+  acceptance and normal reachability remain separate.
+- **Fixture truth:** authored workflow prerequisites remain labeled; the hub
+  reports their actual World seed instead of claiming the requested seed was
+  used. A supported picture or work record never grants legal power.
+- **Harness integrity:** startup identity binds source tree plus actual dirty
+  bytes to checkout/head and detects subsequent edits. Strict ports, bounded
+  workers, isolated cache/build-info/artifact paths and direct-child shutdown
+  prevent silent shared-server/output reuse. Tests do not write historical
+  proof files, and a guard verifies all tracked evidence hashes.
+- **Retroactive compatibility:** accepted standalone route behavior and test
+  assertions remain. E2E imports adopt one provenance fixture and screenshot
+  path changes are mechanical. No gameplay test is skipped or weakened, and
+  dev entry is never substituted for normal-player proof.
+
+Validation and exact final head are recorded in the DEV-LAB2 owning plan and
+PR. Human visual and independent acceptance are not implied by this audit.
+
 ### LEG-FINISH4 — targeted composition and calendar boundary review
 
 The delta retains one World, the existing clock, existing vote records and the

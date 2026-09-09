@@ -1,4 +1,4 @@
-import { expect, test, type Locator, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "./fixtures";
 
 async function closeConversation(page: Page) {
   const close = page
@@ -246,7 +246,11 @@ for (const viewport of [
     await page.mouse.move(viewport.width / 2, 20);
     await page.waitForTimeout(180);
     await page.screenshot({
-      path: `test-results/visual-acceptance-${viewport.width}x${viewport.height}-closed.png`,
+      path: test
+        .info()
+        .outputPath(
+          `visual-acceptance-${viewport.width}x${viewport.height}-closed.png`,
+        ),
       fullPage: false,
     });
 
@@ -317,7 +321,11 @@ for (const viewport of [
 
     await page.mouse.move(viewport.width / 2, 20);
     await page.screenshot({
-      path: `test-results/visual-acceptance-${viewport.width}x${viewport.height}-open.png`,
+      path: test
+        .info()
+        .outputPath(
+          `visual-acceptance-${viewport.width}x${viewport.height}-open.png`,
+        ),
       fullPage: false,
     });
 
@@ -564,12 +572,15 @@ for (const viewport of RESPONSIVE_VIEWPORT_MATRIX) {
         (viewport.width === 5_120 && viewport.height === 1_440)
       ) {
         await page.screenshot({
-          path:
-            "test-results/visual-acceptance-" +
-            viewport.width +
-            "x" +
-            viewport.height +
-            "-responsive.png",
+          path: test
+            .info()
+            .outputPath(
+              "visual-acceptance-" +
+                viewport.width +
+                "x" +
+                viewport.height +
+                "-responsive.png",
+            ),
           fullPage: false,
           animations: "disabled",
           scale: "css",
@@ -627,7 +638,9 @@ test("keeps camera geometry and raster alignment at DPR 1, 1.25, and 2", async (
     expect(foregroundBox.height).toBeCloseTo(environmentBox.height, 2);
     if (deviceScaleFactor === 2) {
       await page.screenshot({
-        path: "test-results/visual-acceptance-mac-retina-1512x982-dpr2.png",
+        path: test
+          .info()
+          .outputPath("visual-acceptance-mac-retina-1512x982-dpr2.png"),
         fullPage: false,
         animations: "disabled",
         scale: "device",

@@ -545,22 +545,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual LEG-CONTENT1 tree after the
-    // instrument expansion: accepted main including the #79 merge, plus this
-    // branch's four content banks, the compiler's instrument refusals and the
-    // docket. The nine new families are prose-heavy by construction - clause
-    // templates are sentences - so the literal count moves a long way and the
-    // inventoried template count does not, which is what it should do: the new
-    // strings are statutory text the scanner sees and classifies, not new
-    // narration templates. No pin was carried forward; this is a live
-    // measurement on this tree.
+    // Re-measured by corpus:prose on this tree, which composes current
+    // accepted main with the LEG-CONTENT1 bill families and docket modules.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(56834);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
+    expect(coverage.totalLiterals).toBe(60496);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(403);
     expect(coverage.scannedFiles).toBe(371);
   });
 });

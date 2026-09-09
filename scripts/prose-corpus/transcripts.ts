@@ -150,6 +150,21 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     key: "campaign-alternate",
     intent:
       "A second candidacy on a different seed, so a contest outcome is not read from one run.",
+    // `corpus-campaign-b`, the original control, restored.
+    //
+    // P2R1 re-seeded this lane to `corpus-campaign-c` because the old seed had
+    // stopped resolving the way the matrix wanted. Renaming a control until it
+    // gives the answer is not a repair, and it was covering for something real:
+    // every transcript candidate was spending all six afternoons on the phones,
+    // because the session loop took whichever offer came first. Money moves no
+    // canonical support, so both contests were being settled inside the bounded
+    // keyed swing — at accepted main this matrix's only win was seven tenths of
+    // a point wide.
+    //
+    // With the candidate actually canvassing (see `runCampaign`), support moves
+    // for reasons, and the two original seeds now demonstrate one contest each:
+    // `p85c-owner-clock` loses and `corpus-campaign-b` wins. Neither outcome is
+    // written anywhere; both are read off the resolved contest.
     setup: setup({
       seed: "corpus-campaign-b",
       startAge: 41,
@@ -291,10 +306,23 @@ function runCampaign(
     lines.push(...view.openQuestions);
     lines.push(...view.offers.map((offer) => offer.label));
   }
+  // Afternoons spent talking to people, where there are any to spend.
+  //
+  // The loop used to take whichever offer came first in the list, which is
+  // always fundraising, so every transcript candidate in the corpus ran a
+  // campaign consisting entirely of phone calls and never once knocked on a
+  // door. Money is not support — the campaign suite pins that raising it moves
+  // no canonical support at all — so the contests were being decided by the
+  // bounded keyed swing rather than by anything the candidate did. Preferring
+  // outreach is not a thumb on the scale: it is the transcript playing the
+  // game rather than taking the first button on the screen.
   const sessions: string[] = [];
   for (let index = 0; index < 6; index += 1) {
-    const offers = projectCampaign(current, personId)?.offers ?? [];
-    const offer = offers.find((candidate) => candidate.unavailable === null);
+    const offers = (projectCampaign(current, personId)?.offers ?? []).filter(
+      (candidate) => candidate.unavailable === null,
+    );
+    const offer =
+      offers.find((candidate) => candidate.kind === "outreach") ?? offers[0];
     if (!offer) break;
     sessions.push(offer.label);
     current = spendAnAfternoon(current, personId, offer.kind);

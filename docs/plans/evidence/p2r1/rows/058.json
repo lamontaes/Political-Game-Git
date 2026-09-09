@@ -1,0 +1,18 @@
+{
+  "packet": "SURFACE: memory\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: Recorded action: asked to use your preferred plan. No consent or agreed plan established. This family is withheld from new play because the original predicate does not establish the situation. This is a conditional authored action recap, not proof of eligibility.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: One natural memory from the action, not an inferred outcome.\n",
+  "writer": "result: SAFE_RENDER\nprose: You asked to use your preferred plan.",
+  "grounding-reviewer": "GROUNDING: PASS",
+  "grounding-reviewer-input": "FACT PACKET\nSURFACE: memory\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: Recorded action: asked to use your preferred plan. No consent or agreed plan established. This family is withheld from new play because the original predicate does not establish the situation. This is a conditional authored action recap, not proof of eligibility.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: One natural memory from the action, not an inferred outcome.\n\nCANDIDATE OUTPUT\nresult: SAFE_RENDER\nprose: You asked to go with your plan.\n",
+  "finalCandidate": "result: SAFE_RENDER\nprose: You asked to go with your plan.\n",
+  "id": "prose:life:adult:adult.partner-plan#option:your-way:memory",
+  "number": 58,
+  "writerInput": "Use $civic-prose. Return your raw result envelope unchanged.\nFACT PACKET\nSURFACE: memory\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: Recorded action: asked to use your preferred plan. No consent or agreed plan established. This family is withheld from new play because the original predicate does not establish the situation. This is a conditional authored action recap, not proof of eligibility.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: One natural memory from the action, not an inferred outcome.\n",
+  "priorReviews": [
+    {
+      "round": "revision-1",
+      "verdict": "GROUNDING: PASS",
+      "input": "FACT PACKET\nSURFACE: memory\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: Recorded action: asked to use your preferred plan. No consent or agreed plan established. This family is withheld from new play because the original predicate does not establish the situation. This is a conditional authored action recap, not proof of eligibility.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: One natural memory from the action, not an inferred outcome.\n\nCANDIDATE OUTPUT\nresult: SAFE_RENDER\nprose: You asked to use your preferred plan."
+    }
+  ],
+  "runtimeQualification": "Conditional authored action only; family remains withheld."
+}
