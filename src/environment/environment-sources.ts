@@ -1,6 +1,6 @@
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import environmentIntake from "../../art/intake/ax-92b1/environment-intake-report.json";
-import driveInventory from "../../art/qa/p95-recent-drive-sweep/drive-image-inventory.json";
+import driveInventory from "./public-drive-inventory.generated.json";
 
 /**
  * EVERY ENVIRONMENT, TITLE, BACKGROUND AND PROP SOURCE THIS PROJECT HOLDS, AND
@@ -385,14 +385,12 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
 /* -------------------------------------------------------------------------- */
 
 interface DriveInventoryFile {
-  readonly filename: string;
   readonly classification: string;
   readonly likelyAssetFamily: string;
 }
 
 const DRIVE_FILES = (
   driveInventory as unknown as {
-    readonly count: number;
     readonly files: readonly DriveInventoryFile[];
   }
 ).files;
