@@ -97,3 +97,24 @@ requirements instead of claiming an unavailable route is accepted.
 Single draft PR: https://github.com/lamontaes/Political-Game-Git/pull/140 .
 No merge, automation, or monitoring. Acceptance remains **incomplete / draft**
 for the entry, producer and shared-shell gaps above, regardless of test results.
+
+## LIFE-EXEC4 donor repair continuation
+
+FINISH-WAVE4 D assigns sole shared repair ownership to LIFE-PATHS2. Original
+EXEC checkout at5b9076a remains read-only; isolated codex/life-exec4-repair normally
+merged LIFE6939f9a, preserving both histories and the existing return/defer fixes.
+No allocator or #135 clock change. The same-worker140-minute/completion690 test
+and saved remaining work are now carried by this actual donor.
+
+Corpus drift reproduced after composition, then accepted tooling regenerated this
+actual tree:1884templates,3426unclassified candidates,311warnings, zero hard errors.
+The check passed; no manually combined anchors, ledger ownership or counts.
+Combined LIFE/D-Lite/EXEC tests passed81before an additional principal-departure
+variant. All38EXEC cases then passed, including saved partial work stopping when
+either the staff engagement or principal authority ends. The final combined run
+is recorded in the PR. Full format/lint/both TypeScript projects passed.
+
+This repaired donor is published separately from subsequent normal entry and Work
+completion. Public staffing permission remains separate from capacity. UI144 owns
+roots; QUAL owns eligibility predicates. Full/browser gates remain queued, and
+human/normal-player acceptance is not supplied by these isolated checks.
