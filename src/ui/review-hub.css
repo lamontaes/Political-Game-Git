@@ -1,0 +1,93 @@
+.review-hub {
+  color: #e9e5db;
+  background: #19252b;
+  min-height: 100vh;
+}
+.review-header {
+  padding: 24px clamp(16px, 4vw, 64px);
+  border-bottom: 2px solid #a99b73;
+}
+.review-header h1 {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  margin: 8px 0;
+}
+.review-header p {
+  max-width: 100ch;
+}
+.review-hub pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 360px;
+  overflow: auto;
+}
+.review-identity {
+  display: grid;
+  grid-template-columns: minmax(100px, 180px) 1fr;
+  gap: 6px 14px;
+}
+.review-identity dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.review-actions,
+.review-header nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  align-items: center;
+}
+.review-hub button,
+.review-hub input,
+.review-hub select {
+  font: inherit;
+}
+.review-header button,
+.review-office button {
+  background: #31424b;
+  color: #fff;
+  border: 1px solid #89999c;
+  border-radius: 5px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+.review-header button[aria-pressed="true"] {
+  background: #eadcb7;
+  color: #14242d;
+}
+.review-hub a {
+  color: #f0d494;
+}
+.review-hub :focus-visible {
+  outline: 3px solid #f5cf70;
+  outline-offset: 3px;
+}
+.review-content {
+  padding: 20px;
+}
+.review-content > main {
+  max-width: 100%;
+}
+.review-hub select {
+  max-width: 100%;
+}
+.review-office {
+  padding: 18px;
+}
+.review-safety-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background: #eadcb7;
+  color: #16242c;
+  padding: 9px 20px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.review-content {
+  background: #f0ece3;
+  color: #243b3e;
+}
+.review-content .review-office button {
+  margin: 8px;
+}

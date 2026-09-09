@@ -531,6 +531,21 @@ export class BrowserSaveStore {
     } as const;
   }
 
+  /** Read an isolated snapshot without taking the slot or updating metadata. */
+  inspectSnapshot(saveId: EntityId): Promise<World | null> {
+    return this.#enqueue(async () => {
+      const raw = await this.#get(saveId);
+      const state = readSlotState(raw);
+      if (state.kind === "absent" || state.kind === "deleted") return null;
+      const read = readStoredRecord(raw);
+      if (read.kind !== "healthy")
+        throw new Error("This save cannot be inspected safely.");
+      if (read.record.saveId !== saveId)
+        throw new Error("Save identity mismatch.");
+      return deserializeWorld(read.record.payload);
+    });
+  }
+
   load(saveId: EntityId): Promise<World | null> {
     return this.#enqueue(async () => {
       if (this.#deleted.has(saveId)) return null;

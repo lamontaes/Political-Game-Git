@@ -39,21 +39,31 @@ function resolveViteBin() {
 }
 
 const rawArgs = process.argv.slice(2);
-let port = 5173;
+let port = Number(process.env.PG_PORT ?? process.env.PLAYWRIGHT_PORT ?? 5173);
 let host = "127.0.0.1";
+let seed = process.env.PG_SEED ?? "dev-lab2-review";
 const forwardedArgs = [];
 
 for (let i = 0; i < rawArgs.length; i++) {
   const arg = rawArgs[i];
+  if (arg === "--seed") {
+    if (!rawArgs[i + 1]) throw new Error("--seed requires a value");
+    seed = rawArgs[++i];
+    continue;
+  }
+  if (arg.startsWith("--seed=")) {
+    seed = arg.slice(7);
+    continue;
+  }
   if (arg === "--port") {
     if (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith("-")) {
       i++;
-      port = parseInt(rawArgs[i], 10) || 5173;
+      port = Number(rawArgs[i]);
     }
     continue;
   }
   if (arg.startsWith("--port=")) {
-    port = parseInt(arg.slice("--port=".length), 10) || 5173;
+    port = Number(arg.slice("--port=".length));
     continue;
   }
   if (arg === "--host") {
@@ -75,13 +85,20 @@ for (let i = 0; i < rawArgs.length; i++) {
   forwardedArgs.push(arg);
 }
 
-console.log("POLITICAL GAME DEV SERVER\n");
+if (!Number.isInteger(port) || port < 1 || port > 65535)
+  throw new Error("Invalid server port");
+
+console.log("OUR CIVIC DUTY DEV SERVER\n");
 console.log(`Workspace: ${process.cwd()}`);
 console.log(`Branch: ${runCmd("git branch --show-current")}`);
 console.log(`Commit: ${runCmd("git rev-parse HEAD")}`);
 console.log(`Host: ${host}`);
 console.log(`Requested Port: ${port}`);
 console.log(`Launcher PID: ${process.pid}\n`);
+console.log(
+  `Review: http://${host}:${port}/review.html?seed=${encodeURIComponent(seed)}`,
+);
+console.log(`Identity: http://${host}:${port}/__dev/identity`);
 
 const viteArgs = [
   "--host",
@@ -99,10 +116,14 @@ if (viteBin) {
     stdio: "inherit",
   });
 } else {
-  child = spawn("npx", ["vite", ...viteArgs], {
-    stdio: "inherit",
-  });
+  throw new Error(
+    "Vite is not installed. Install dependencies before launching.",
+  );
 }
+
+console.log(
+  `Owned Vite PID: ${child.pid}; workspace: ${process.cwd()}; port: ${port}`,
+);
 
 let isShuttingDown = false;
 let killEscalationTimer = null;
@@ -120,7 +141,7 @@ function shutdown(signal) {
 
     killEscalationTimer = setTimeout(() => {
       try {
-        if (!child.killed) {
+        if (child.exitCode === null && child.signalCode === null) {
           child.kill("SIGKILL");
         }
       } catch {

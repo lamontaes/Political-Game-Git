@@ -1,0 +1,70 @@
+# DEV-LAB2 — disposable review hub and isolated harness
+
+Owner: Codex, exclusive DEV-LAB2. Base: origin/main
+`1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b`, freshly fetched 2026-09-08.
+Worktree: `/private/tmp/pg-dev-lab2`; branch: `codex/dev-lab2`.
+Authority: shared delivery contract and section F, Drive
+`1BQTTAZlOLQBVKQpzVGPfqEH8iD5kuH08aB8nIfibamc`, explicitly activated by owner.
+The supplied historical stage gates are preserved for accepted semantics; the
+current assignment authorizes developer tooling only.
+
+## Reuse and ownership
+
+- Reuse DeveloperViewer/PeopleList/PersonInspector, CausalTraceView, content,
+  character, scene gallery/authoring/proof and production-office viewers.
+- Reuse existing office/floor/legislation fixtures and canonical transitions;
+  their authored prerequisites remain visible and never prove normal entry.
+- BrowserSaveStore owns save decoding; add a read-only snapshot seam because
+  normal load updates lastPlayedAt. Review clones use existing serialization,
+  no new World schema, persistence migration or simulation engine.
+- UI-CORE-RELEASE owns App/PlayerGame/production navigation. Deliver one exact
+  optional development registration patch; a separate review entry enables
+  verification without modifying that owner's files.
+- PEOPLE1-R1 owns compositor/character art; ENV-ALL1 owns anchors/scene registry.
+  Consume their existing interfaces with no art edits or approval claims.
+- DEV-LAB2 owns identified launcher, Playwright isolation and artifact paths.
+
+## Execution and proof
+
+1. Build feature-local review session with clone/reset/exit, exact seed/source,
+   existing person control and room/office/workflow selection.
+2. Repair server identity, strict/configurable ports and URLs, run outputs,
+   bounded workers and owned process shutdown; reproduce wrong-server refusal.
+3. Focused unit/browser tests: no save writes, context navigation, real pointer
+   and keyboard activation, two identified checkouts, historical evidence hashes,
+   cleanup leaving unrelated server alive. Run required integration/art gates.
+4. Record exact final head, observed CI and remaining human acceptance; one
+   draft PR, unmerged, no monitoring. Encode lessons in regressions.
+
+Known starting defects: pose-proof.spec.ts writes two historical tracked PNGs;
+Playwright reuses any responsive server; non-CI workers are unbounded;
+BrowserSaveStore.load mutates save metadata. The source checkout has two dirty
+historical PNGs; it remains untouched. Disk preflight reports 2.1 GiB free;
+reuse installed dependencies and keep temporary outputs bounded.
+
+## First implementation checkpoint
+
+Implemented the hub, read-only save snapshot seam, optional review-memory
+adapters, exact UI-core registration patch, identity/port/output/seed guards,
+per-run TypeScript and Vite cache isolation, and historical screenshot repair.
+No App/PlayerGame, compositor/anchor/manifest, World schema or simulation
+semantics edits.
+
+Evidence so far (not final-head acceptance):
+
+- Focused snapshot/session/harness run: 53 passed.
+- Two real fixture checkouts served distinct Vite identities; mismatch,
+  post-start source change, PID/cwd/port and owned cleanup proof: 1 passed.
+- First browser run: 8 passed, 1 new-test assertion failed because the unchanged
+  fixture has an actual volunteer relationship. Corrected that assertion to
+  test the intended missing legislative seat; no control seed changed.
+- Subsequent two-test browser run timed out before completing. Do not call
+  those runs proof. Keep the same assertions/timeouts for isolated rerun.
+- Full formatting and external-artifact-directory typecheck passed. Lint and
+  remaining repository/browser/art gates are pending this checkpoint.
+
+Shared machine: another owner's ENOSPC was confirmed locally at roughly
+560 MiB free; later `df` showed 31 GiB free. No other owner's process/cache was
+removed by this task. Live process evidence also showed full Claude-owned
+validators/browser tests outside the Codex slot queue. Final validation remains
+required; these observations do not reclassify failures as passes.
