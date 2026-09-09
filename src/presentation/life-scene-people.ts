@@ -13,8 +13,27 @@ import {
 } from "./visual-integration";
 import { derivePersonAppearance } from "../simulation";
 import type { CharacterWardrobeContext } from "./character-components";
+import {
+  resolvePersonWardrobeContext,
+  type PersonWardrobePreference,
+} from "./person-visual-selection";
 import type { ScenePerson } from "./life-story";
-import type { World } from "../simulation";
+import type { Person, World } from "../simulation";
+
+export interface LifeSceneWardrobeOptions {
+  readonly wardrobeByPersonId: Readonly<
+    Record<string, PersonWardrobePreference>
+  >;
+  /** A caller with another catalog resolves against that catalog and the anchor's actual pose. */
+  readonly resolveWardrobe?: (
+    person: Person,
+    preference: PersonWardrobePreference,
+    context: {
+      readonly scene: RegisteredScene;
+      readonly anchor: RegisteredSceneAnchor;
+    },
+  ) => CharacterWardrobeContext;
+}
 
 /**
  * Standing the generated household in the room, from the accepted systems.
@@ -61,6 +80,38 @@ export interface PlacedScenePerson {
   readonly hasArt: boolean;
   /** One honest player-facing sentence for the placeholder. */
   readonly presence: string;
+  /** Explicit saved choices that cannot resolve suppress this person's art only. */
+  readonly wardrobeRefusal?: string;
+}
+
+function resolveSavedWardrobe(
+  person: Person,
+  preference: PersonWardrobePreference,
+  {
+    scene,
+    anchor,
+  }: {
+    readonly scene: RegisteredScene;
+    readonly anchor: RegisteredSceneAnchor;
+  },
+): CharacterWardrobeContext {
+  const appearance = person.appearance ?? derivePersonAppearance(person.id);
+  // Use the compositor's resolved pose, including its permitted-pose fallback.
+  const probe = composeSceneCharacter({
+    personId: person.id,
+    displayName: `${person.givenName} ${person.familyName}`,
+    appearance,
+    scene,
+    anchor,
+    library: PRODUCTION_CHARACTER_LIBRARY,
+    visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+    poseRegistry: PRODUCTION_POSE_REGISTRY,
+    poseArt: PRODUCTION_POSE_ART,
+  });
+  return resolvePersonWardrobeContext({ ...person, appearance }, preference, {
+    library: PRODUCTION_CHARACTER_LIBRARY,
+    poseFamily: probe.recipe.context.poseFamily,
+  });
 }
 
 /** A standing figure is roughly this many times as tall as it is wide. */
@@ -149,6 +200,7 @@ export function planLifeScenePeople(
   present: readonly ScenePerson[],
   sceneId: string | null,
   wardrobe?: CharacterWardrobeContext,
+  savedWardrobes?: LifeSceneWardrobeOptions,
 ): readonly PlacedScenePerson[] {
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
@@ -173,13 +225,44 @@ export function planLifeScenePeople(
     const heightPercent = widthPercent * plateAspect * ratio;
     const leftPercent = anchor.xPercent - widthPercent / 2;
     const topPercent = Math.max(0, anchor.contactFloorYPercent - heightPercent);
-    const layers = releasedLayers(
-      world,
-      { id: person.personId, displayName: person.name },
-      scene,
-      anchor,
-      wardrobe,
-    );
+    let personWardrobe = wardrobe;
+    let wardrobeRefusal: string | undefined;
+    if (
+      savedWardrobes &&
+      Object.prototype.hasOwnProperty.call(
+        savedWardrobes.wardrobeByPersonId,
+        person.personId,
+      )
+    ) {
+      try {
+        const record = world.people[person.personId];
+        const preference = savedWardrobes.wardrobeByPersonId[person.personId];
+        if (!record)
+          throw new Error(
+            `No canonical person '${person.personId}' exists for the saved wardrobe.`,
+          );
+        if (!preference || preference.personId !== record.id)
+          throw new Error(
+            "Wardrobe preference must belong to the canonical person being rendered.",
+          );
+        personWardrobe = (
+          savedWardrobes.resolveWardrobe ?? resolveSavedWardrobe
+        )(record, preference, { scene, anchor });
+      } catch (error) {
+        wardrobeRefusal =
+          error instanceof Error ? error.message : String(error);
+      }
+    }
+    const layers =
+      wardrobeRefusal !== undefined
+        ? []
+        : releasedLayers(
+            world,
+            { id: person.personId, displayName: person.name },
+            scene,
+            anchor,
+            personWardrobe,
+          );
     return {
       personId: person.personId,
       name: person.name,
@@ -195,6 +278,7 @@ export function planLifeScenePeople(
       presence: person.relationship
         ? `${person.name}, ${person.relationship}`
         : person.name,
+      ...(wardrobeRefusal !== undefined ? { wardrobeRefusal } : {}),
     } satisfies PlacedScenePerson;
   });
 

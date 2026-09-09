@@ -257,3 +257,23 @@ describe("private Journal storage", () => {
     });
   });
 });
+
+it("persists per-person wardrobe without discarding an unavailable family and rejects another-person key", async () => {
+  const database = new FakeDatabase();
+  const store = new BrowserShellStateStore({ indexedDB: database.asFactory() });
+  const preference = {
+    personId: ALICE.id,
+    families: { top: "unavailable-but-retained-family" },
+  };
+  const stored = readStoredShellState({
+    version: 2,
+    pins: [],
+    preferences: DEFAULT_PREFERENCES,
+    personWardrobes: { [ALICE.id]: preference, wrong: preference },
+  })!;
+  expect(stored.personWardrobes).toEqual({ [ALICE.id]: preference });
+  await store.write(SLOT, stored);
+  expect((await store.read(SLOT))?.personWardrobes).toEqual({
+    [ALICE.id]: preference,
+  });
+});

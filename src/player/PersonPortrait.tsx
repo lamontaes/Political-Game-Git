@@ -1,3 +1,8 @@
+import { useSavedWardrobe } from "./SavedAppearance";
+import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
+import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
+import type { CharacterWardrobeContext } from "../presentation/character-components";
+import type { PersonVisualLibraries } from "../presentation/person-visual";
 import { resolvePersonPortrait } from "../presentation/person-visual";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
@@ -5,6 +10,8 @@ import type { EntityId, World } from "../simulation";
 
 export interface PersonPortraitProps {
   readonly world: World;
+  readonly visualLibraries?: PersonVisualLibraries;
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: EntityId;
   readonly size?: "small" | "large";
   /** Shown under the name when the world knows one. */
@@ -16,11 +23,31 @@ export function PersonPortrait({
   personId,
   size = "small",
   note = null,
+  visualLibraries,
+  wardrobe,
 }: PersonPortraitProps) {
+  const savedWardrobe = useSavedWardrobe(personId);
   const person = world.people[personId];
   if (!person) return null;
   const name = personName(person);
-  const visual = resolvePersonPortrait(person);
+  let refusal: string | null = null;
+  let resolvedWardrobe = wardrobe;
+  if (!wardrobe && savedWardrobe) {
+    try {
+      resolvedWardrobe = resolvePersonWardrobeContext(person, savedWardrobe, {
+        library: visualLibraries?.characters ?? PRODUCTION_CHARACTER_LIBRARY,
+        poseFamily: "standing-neutral",
+      });
+    } catch (error) {
+      refusal = error instanceof Error ? error.message : String(error);
+    }
+  }
+  const visual = refusal
+    ? { kind: "placeholder" as const, reason: refusal }
+    : resolvePersonPortrait(person, {
+        libraries: visualLibraries,
+        wardrobe: resolvedWardrobe,
+      });
 
   return (
     <figure
@@ -51,6 +78,7 @@ export function PersonPortrait({
       <figcaption>
         <strong>{name}</strong>
         {note ? <span>{note}</span> : null}
+        {refusal ? <span role="status">{refusal}</span> : null}
       </figcaption>
     </figure>
   );

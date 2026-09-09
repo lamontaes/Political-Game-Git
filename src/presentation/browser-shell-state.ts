@@ -1,3 +1,4 @@
+import type { PersonWardrobePreference } from "./person-visual-selection";
 import {
   DEFAULT_DATABASE_NAME,
   INTERFACE_STORE_NAME,
@@ -42,6 +43,7 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
 ];
 
 export interface StoredShellState {
+  readonly personWardrobes?: Readonly<Record<string, PersonWardrobePreference>>;
   readonly journal?: PrivateJournal;
   readonly pins: readonly ShellPin[];
   readonly preferences: ShellPreferences;
@@ -51,6 +53,7 @@ export const EMPTY_SHELL_STATE: StoredShellState = {
   pins: [],
   preferences: DEFAULT_PREFERENCES,
   journal: EMPTY_JOURNAL,
+  personWardrobes: {},
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -110,6 +113,7 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
   if (value.version !== 1 && value.version !== RECORD_VERSION) return null;
   return {
     journal: readJournal(value.journal),
+    personWardrobes: readWardrobes(value.personWardrobes),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
   };
@@ -252,6 +256,7 @@ export class BrowserShellStateStore {
           saveId,
           version: RECORD_VERSION,
           journal: state.journal ?? EMPTY_JOURNAL,
+          personWardrobes: readWardrobes(state.personWardrobes),
           pins: state.pins.map((pin) => ({
             ref: { kind: pin.ref.kind, id: pin.ref.id },
             size: pin.size,
@@ -277,4 +282,29 @@ export class BrowserShellStateStore {
       /* A slot that could not be cleared is not worth failing a delete over. */
     }
   }
+}
+
+function readWardrobes(
+  value: unknown,
+): Readonly<Record<string, PersonWardrobePreference>> {
+  if (!isRecord(value)) return {};
+  const result: Record<string, PersonWardrobePreference> = Object.create(null);
+  for (const [id, entry] of Object.entries(value)) {
+    if (!isRecord(entry) || entry.personId !== id || !isRecord(entry.families))
+      continue;
+    if (
+      Object.entries(entry.families).some(
+        ([kind, family]) =>
+          !["top", "bottom", "footwear"].includes(kind) ||
+          typeof family !== "string" ||
+          !family.trim(),
+      )
+    )
+      continue;
+    result[id] = {
+      personId: id,
+      families: { ...entry.families },
+    } as PersonWardrobePreference;
+  }
+  return result;
 }

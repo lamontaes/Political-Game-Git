@@ -220,9 +220,47 @@ Development warnings are allowed to be technical. **Player-facing fallback copy
 is not**: it says what is actually being shown, names the person, and never
 mentions slots, assets, anchors, tiers or contracts.
 
+## Candidate admission
+
+A candidate is banked art that has files, hashes and a definition, and that
+nobody has agreed to put on a person yet. It lives outside every catalog
+generation, and `liftCandidatesForReview` composes it into a throwaway library
+so a reviewer can look at it. Promotion is a separate authorized act.
+
+Evidence bodies measured from existing source sheets are registered in
+`art/manifest/character_candidate_registry.json` — a **separate file** from
+`asset_manifest.json`, so the production library cannot reach one by accident —
+and are read only by `src/presentation/candidate-review.ts`. `npm run
+admit:wave-a-candidates` regenerates the registry and its evidence report;
+both are deterministic and checked in.
+
+Three rules make an admission evidence rather than a claim:
+
+- **A filename is not a pose.** Each crop carries a reviewed observation
+  authored from the pixels — posture, facing, baked prop, figure extent,
+  confidence — with the reviewer and method named. The prior filename claim is
+  recorded beside it and the disagreements are reported, not resolved silently.
+- **The registry declares only what the silhouette carries.** Anchors come from
+  the accepted `measureBodyRig`. A landmark the raster cannot show — a `brow` on
+  a blank face, the interior hip joint centre — stays unresolved, and the
+  candidate is correctly rejected by `validateProductionBodyAnchors`.
+- **A facing or posture with no registered pose family is a missing contract**,
+  not a body to be filed under the nearest family that exists.
+
+Composing a candidate that no head or garment has been drawn for needs one
+narrow escape: `resolveCharacterRecipe` accepts
+`unresolvableRequiredSlots: "diagnose"`, which turns "no family is compatible
+with this body" from a throw into a `required-family-unavailable` diagnostic. It
+defaults to the throw, no runtime path passes it, and the render plan still
+reports the person incomplete. It exists so unfinished art can be looked at,
+never so an unfinished person can be shipped.
+
 ## Development surfaces
 
 - `?view=character-proof` — the modular component compositor.
+- `?view=character-proof&set=wave-a` — candidate admission review: one banked
+  body at gameplay scale, its measured contact placed on a drawn floor line, and
+  every required slot it cannot fill with the contract reason why.
 - `?view=scene-proof` — the scene and person presentation proof: the same
   generated people placed in two rooms by contact metadata alone, with the
   overlay drawing every declared plane, contact, footprint, occluder, surface
@@ -249,3 +287,38 @@ and exits non-zero when any candidate fails.
   wide; 4608 is the absolute floor.
 - The top 20% of every landscape plate is expendable on ultrawide, and the
   outer ~15% left and right should hold nothing mandatory.
+
+## Context wardrobe and person consumers (PEOPLE1-R1)
+
+`CharacterWardrobeContext` v1 is optional presentation input: an `id` and allowed
+family lists for `top`, `bottom`, and `footwear`. It does not write a Person or
+change their identity slots, seed, recipe version, or pinned catalog generation.
+The resolver selects context components within that pin and the existing body,
+pose, facing, release, blocked-slot and fit contracts. An unavailable required
+context family fails closed. Omission reproduces the established default.
+Activity/wardrobe meaning is caller-owned; these lists do not invent an activity,
+clothing ownership, profession, demographic identity or new simulation fact.
+
+The same input reaches `buildCharacterRenderPlan`, `composeSceneCharacter`, and
+`planLifeScenePeople`. Scene capacity is the count of declared usable anchors,
+not a global three-person cap. Existing named presence placeholders may use a
+scene's declared footprint/contact with uncalibrated perspective; they do not
+claim approved body art. Real layers require complete placement and non-DEV,
+released components. No width is invented when both footprint and scene body
+width are absent.
+
+`resolvePersonPortrait` / `PersonPortrait` connect normal HUD/person consumers to
+an exact saved authored appearance seed or a complete released modular recipe.
+DEV-only recipes, missing/future catalog generations, and absent appearance stay
+placeholders. Candidate libraries are not accepted by this adapter. Full person
+illustrations in the compact portrait are not claims of a newly authored face.
+
+`baked_slots` states component kinds already painted by every body in a family.
+The context resolver must honour the selected body's declaration too; no duplicate
+head layer and no false empty-head diagnostic. A baked head's geometry is not
+proof of facial features or human acceptance. Candidate review labels structural
+completion, fit evidence, native-resolution limits and missing faces separately.
+
+For recovered derivative limitations and the distinction between raw landmark
+residuals and the accepted ease-preserving fit metric, see the
+[PEOPLE1-R1 transfer plan](../plans/active/people1-r1-transfer.md).

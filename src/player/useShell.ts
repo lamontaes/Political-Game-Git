@@ -55,6 +55,7 @@ export function useShell(
         dispatch({
           type: "restore",
           journal: stored.journal ?? EMPTY_JOURNAL,
+          personWardrobes: stored.personWardrobes ?? {},
           pins: stored.pins,
           preferences: stored.preferences,
         });
@@ -76,10 +77,19 @@ export function useShell(
     if (loadedSlot !== saveId) return;
     void store.write(saveId, {
       journal: state.journal,
+      personWardrobes: state.personWardrobes,
       pins: state.pins,
       preferences: state.preferences,
     });
-  }, [saveId, loadedSlot, store, state.pins, state.preferences, state.journal]);
+  }, [
+    saveId,
+    loadedSlot,
+    store,
+    state.pins,
+    state.preferences,
+    state.journal,
+    state.personWardrobes,
+  ]);
 
   /* A pin the world cannot resolve is not shown as one that can be opened. */
   useEffect(() => {

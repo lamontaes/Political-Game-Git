@@ -1445,6 +1445,7 @@ export interface CharacterRecipe {
   readonly appearanceSeed: string;
   readonly recipeVersion: string;
   readonly catalogGeneration: number;
+  readonly selection?: PersonAppearance["selection"];
   readonly identity: CharacterRecipeIdentity;
   readonly context: CharacterRecipeContext;
 }
@@ -1746,7 +1747,36 @@ export function resolveCharacterRecipe(
       "Character catalog has no generation; no modular components can resolve.",
     );
   }
-  const generation = request.catalogGeneration ?? library.catalogGeneration;
+  const selection = appearance.selection;
+  if (
+    selection !== undefined &&
+    (selection === null ||
+      typeof selection !== "object" ||
+      !isNonEmptyString(selection.bodyFamily) ||
+      !isNonEmptyString(selection.headFamily) ||
+      (selection.hairFamily !== null &&
+        !isNonEmptyString(selection.hairFamily)) ||
+      Object.keys(selection).some(
+        (key) => !["bodyFamily", "headFamily", "hairFamily"].includes(key),
+      ))
+  ) {
+    throw new Error(
+      "Explicit character selection requires body, head and hair family choices.",
+    );
+  }
+  const selectedGeneration = appearance.catalogGeneration ?? 1;
+  if (
+    selection &&
+    request.catalogGeneration !== undefined &&
+    request.catalogGeneration !== selectedGeneration
+  ) {
+    throw new Error(
+      "Explicit character selection cannot override the person's catalog pin.",
+    );
+  }
+  const generation =
+    request.catalogGeneration ??
+    (selection ? selectedGeneration : library.catalogGeneration);
   if (
     !isFiniteInteger(generation) ||
     generation < 1 ||
@@ -1773,11 +1803,14 @@ export function resolveCharacterRecipe(
       `Character catalog generation ${generation} has no body families.`,
     );
   }
-  const bodyFamily = pickFamily(
-    rng,
-    `character-identity:${version}:body-family`,
-    bodyFamilies,
-  );
+  if (selection && !bodyFamilies.includes(selection.bodyFamily)) {
+    throw new Error(
+      `Explicit body family '${selection.bodyFamily}' is unavailable at pinned generation ${generation}.`,
+    );
+  }
+  const bodyFamily =
+    selection?.bodyFamily ??
+    pickFamily(rng, `character-identity:${version}:body-family`, bodyFamilies);
 
   /**
    * Kinds the chosen body family paints into its own raster.
@@ -1816,7 +1849,30 @@ export function resolveCharacterRecipe(
   const identityDiagnostics: CharacterRecipeDiagnostic[] = [];
   const diagnoseUnresolvable = request.unresolvableRequiredSlots === "diagnose";
   let headFamily: string;
-  if (bakedKinds.has("head")) {
+  if (selection) {
+    if (bakedKinds.has("hair-front")) {
+      throw new Error(
+        "Explicit hairstyle cannot replace or remove hair baked into the selected body.",
+      );
+    }
+    if (
+      bakedKinds.has("head") ||
+      !headFamilies.includes(selection.headFamily)
+    ) {
+      throw new Error(
+        `Explicit head family '${selection.headFamily}' is unavailable for body '${bodyFamily}' at pinned generation ${generation}.`,
+      );
+    }
+    headFamily = selection.headFamily;
+    if (
+      selection.hairFamily !== null &&
+      !library.slots.some((slot) => slot.kind === "hair-front")
+    ) {
+      throw new Error(
+        "Explicit hairstyle requires a hair-front slot in the pinned catalog.",
+      );
+    }
+  } else if (bakedKinds.has("head")) {
     headFamily = CHARACTER_UNRESOLVED_FAMILY;
     identityDiagnostics.push({
       code: "slot-painted-by-body",
@@ -1885,6 +1941,24 @@ export function resolveCharacterRecipe(
           .map((component) => component.definition.family),
       ),
     ];
+    if (selection && slot.kind === "hair-front") {
+      if (selection.hairFamily === null) {
+        if (slot.required) {
+          throw new Error(
+            `Required hairstyle slot '${slot.slot_id}' cannot be explicitly empty.`,
+          );
+        }
+        slots[slot.slot_id] = null;
+      } else {
+        if (!families.includes(selection.hairFamily)) {
+          throw new Error(
+            `Explicit hair family '${selection.hairFamily}' is unavailable for body '${bodyFamily}' and head '${headFamily}' at pinned generation ${generation}.`,
+          );
+        }
+        slots[slot.slot_id] = selection.hairFamily;
+      }
+      continue;
+    }
     if (families.length === 0) {
       if (slot.required) {
         if (!diagnoseUnresolvable) {
@@ -2173,6 +2247,7 @@ export function resolveCharacterRecipe(
     appearanceSeed: appearance.seed,
     recipeVersion: version,
     catalogGeneration: generation,
+    ...(selection ? { selection: { ...selection } } : {}),
     identity,
     context: {
       poseFamily,
@@ -2192,6 +2267,7 @@ export interface EstablishedCharacterRecipe {
   readonly appearanceSeed: string;
   readonly recipeVersion: string;
   readonly catalogGeneration: number;
+  readonly selection?: PersonAppearance["selection"];
   readonly identity: CharacterRecipeIdentity;
 }
 
@@ -2205,6 +2281,12 @@ export function reproduceCharacterRecipe(
       appearance: {
         seed: established.appearanceSeed,
         recipeVersion: established.recipeVersion,
+        ...(established.selection
+          ? {
+              catalogGeneration: established.catalogGeneration,
+              selection: established.selection,
+            }
+          : {}),
       },
       poseFamily,
       catalogGeneration: established.catalogGeneration,

@@ -1,3 +1,4 @@
+import type { PersonWardrobePreference } from "./person-visual-selection";
 import type { EntityId } from "../simulation";
 
 /**
@@ -106,6 +107,7 @@ export interface ShellState {
   readonly peopleCategory: string;
   readonly peopleQuery: string;
   readonly preferences: ShellPreferences;
+  readonly personWardrobes: Readonly<Record<string, PersonWardrobePreference>>;
   readonly journal: PrivateJournal;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
@@ -122,10 +124,15 @@ export const INITIAL_SHELL_STATE: ShellState = {
   peopleQuery: "",
   preferences: DEFAULT_PREFERENCES,
   announcement: "",
+  personWardrobes: {},
   journal: EMPTY_JOURNAL,
 };
 
 export type ShellAction =
+  | {
+      readonly type: "set-person-wardrobe";
+      readonly preference: PersonWardrobePreference;
+    }
   | { readonly type: "set-journal"; readonly journal: PrivateJournal }
   | { readonly type: "toggle-navigation" }
   | { readonly type: "open-nav-submenu"; readonly submenu: "personal" }
@@ -164,6 +171,9 @@ export type ShellAction =
   /** Restores pins and preferences read back from storage. */
   | {
       readonly type: "restore";
+      readonly personWardrobes?: Readonly<
+        Record<string, PersonWardrobePreference>
+      >;
       readonly journal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
@@ -407,6 +417,14 @@ export function shellReducer(
         preferences: { ...state.preferences, defaultPinSize: action.size },
       };
 
+    case "set-person-wardrobe":
+      return {
+        ...state,
+        personWardrobes: {
+          ...state.personWardrobes,
+          [action.preference.personId]: action.preference,
+        },
+      };
     case "set-journal":
       return { ...state, journal: action.journal };
     case "restore":
@@ -415,6 +433,7 @@ export function shellReducer(
         pins: action.pins,
         preferences: action.preferences,
         journal: action.journal ?? EMPTY_JOURNAL,
+        personWardrobes: action.personWardrobes ?? {},
       };
 
     /*

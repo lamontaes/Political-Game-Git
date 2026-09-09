@@ -1,3 +1,7 @@
+import {
+  SavedAppearanceProvider,
+  SavedAppearanceControls,
+} from "./SavedAppearance";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
@@ -1691,8 +1695,10 @@ function PlayingScreen({
           ? []
           : moment.scene.presentPeople,
         sceneId,
+        undefined,
+        { wardrobeByPersonId: shell.personWardrobes },
       ),
-    [session.world, moment.scene.presentPeople, sceneId],
+    [session.world, moment.scene.presentPeople, sceneId, shell.personWardrobes],
   );
 
   const view = activeView(shell);
@@ -1948,12 +1954,13 @@ function PlayingScreen({
   });
 
   return (
-    <main
-      className="life-shell"
-      data-testid="play-screen"
-      data-scene-id={sceneId ?? ""}
-    >
-      {/*
+    <SavedAppearanceProvider value={shell.personWardrobes}>
+      <main
+        className="life-shell"
+        data-testid="play-screen"
+        data-scene-id={sceneId ?? ""}
+      >
+        {/*
         THE ROOM IS THE SURFACE.
 
         The scene — with the generated household standing on its own anchors —
@@ -1961,203 +1968,219 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
-      <SceneBackdrop
-        sceneId={sceneId}
-        people={scenePeople}
-        surfaces={surfaceProjection}
-      >
-        <OpeningLifeFlow
-          key={session.world.id}
-          world={session.world}
-          playerPersonId={session.personId}
-          alreadyIntroduced={session.saveId !== null}
-          onWorldChange={onWorldChange}
-          transitionHandlers={createCampaignElectionTransitionRegistry()}
-          continuingLife={
-            <StoryView session={session} onWorldChange={onWorldChange} />
-          }
+        <SceneBackdrop
+          sceneId={sceneId}
+          people={scenePeople}
+          surfaces={surfaceProjection}
+        >
+          <OpeningLifeFlow
+            key={session.world.id}
+            world={session.world}
+            playerPersonId={session.personId}
+            alreadyIntroduced={session.saveId !== null}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+            continuingLife={
+              <StoryView session={session} onWorldChange={onWorldChange} />
+            }
+          />
+        </SceneBackdrop>
+
+        <LifePeopleRail
+          moment={moment}
+          household={introduction?.household ?? []}
+          shell={shell}
+          dispatch={dispatch}
         />
-      </SceneBackdrop>
 
-      <LifePeopleRail
-        moment={moment}
-        household={introduction?.household ?? []}
-        shell={shell}
-        dispatch={dispatch}
-      />
-
-      {/*
+        {/*
         The anchored action menu. One click on somebody opens it, and every
         entry on it carries that person's id — there is no route from here to a
         surface that has forgotten who was chosen.
       */}
-      {actionPerson ? (
-        <div
-          className="pg-action-menu civic-glass"
-          role="menu"
-          aria-label={`${actionPerson.name} actions`}
-          data-testid="person-action-menu"
-          data-person-id={actionPerson.personId}
-        >
-          <p className="pg-action-menu-name">{actionPerson.name}</p>
-          <button
-            type="button"
-            role="menuitem"
-            data-testid="action-inspect"
-            onClick={() =>
-              dispatch({
-                type: "open-quick-dossier",
-                personId: actionPerson.personId,
-              })
-            }
+        {actionPerson ? (
+          <div
+            className="pg-action-menu civic-glass"
+            role="menu"
+            aria-label={`${actionPerson.name} actions`}
+            data-testid="person-action-menu"
+            data-person-id={actionPerson.personId}
           >
-            Inspect
-            <small>What you make of them</small>
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            data-testid="action-talk"
-            disabled={
-              openConversationWith(
-                session.world,
-                session.personId,
-                actionPerson.personId,
-              ).kind === "unavailable"
+            <p className="pg-action-menu-name">{actionPerson.name}</p>
+            <button
+              type="button"
+              role="menuitem"
+              data-testid="action-inspect"
+              onClick={() =>
+                dispatch({
+                  type: "open-quick-dossier",
+                  personId: actionPerson.personId,
+                })
+              }
+            >
+              Inspect
+              <small>What you make of them</small>
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              data-testid="action-talk"
+              disabled={
+                openConversationWith(
+                  session.world,
+                  session.personId,
+                  actionPerson.personId,
+                ).kind === "unavailable"
+              }
+              onClick={() => {
+                openEntity({ kind: "person", id: actionPerson.personId });
+                talkTo(actionPerson.personId);
+              }}
+            >
+              Talk
+              <small>Say something to them</small>
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              data-testid="action-pin"
+              onClick={() =>
+                dispatch({
+                  type: "toggle-pin",
+                  ref: { kind: "person", id: actionPerson.personId },
+                })
+              }
+            >
+              {isPinned(shell, { kind: "person", id: actionPerson.personId })
+                ? "Unpin"
+                : "Pin"}
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              data-testid="action-record"
+              onClick={() =>
+                openEntity({ kind: "person", id: actionPerson.personId })
+              }
+            >
+              Full record
+            </button>
+          </div>
+        ) : null}
+
+        {selectedDossier ? (
+          <QuickDossier
+            world={session.world}
+            dossier={selectedDossier}
+            pinned={isPinned(shell, {
+              kind: "person",
+              id: selectedDossier.personId,
+            })}
+            onClose={() => dispatch({ type: "close-quick-dossier" })}
+            onOpenFull={() =>
+              openEntity({ kind: "person", id: selectedDossier.personId })
             }
-            onClick={() => {
-              openEntity({ kind: "person", id: actionPerson.personId });
-              talkTo(actionPerson.personId);
-            }}
-          >
-            Talk
-            <small>Say something to them</small>
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            data-testid="action-pin"
-            onClick={() =>
+            onTogglePin={() =>
               dispatch({
                 type: "toggle-pin",
-                ref: { kind: "person", id: actionPerson.personId },
+                ref: { kind: "person", id: selectedDossier.personId },
               })
             }
-          >
-            {isPinned(shell, { kind: "person", id: actionPerson.personId })
-              ? "Unpin"
-              : "Pin"}
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            data-testid="action-record"
-            onClick={() =>
-              openEntity({ kind: "person", id: actionPerson.personId })
-            }
-          >
-            Full record
-          </button>
-        </div>
-      ) : null}
+            onOpenLink={openEntity}
+          />
+        ) : null}
 
-      {selectedDossier ? (
-        <QuickDossier
-          world={session.world}
-          dossier={selectedDossier}
-          pinned={isPinned(shell, {
-            kind: "person",
-            id: selectedDossier.personId,
-          })}
-          onClose={() => dispatch({ type: "close-quick-dossier" })}
-          onOpenFull={() =>
-            openEntity({ kind: "person", id: selectedDossier.personId })
-          }
-          onTogglePin={() =>
-            dispatch({
-              type: "toggle-pin",
-              ref: { kind: "person", id: selectedDossier.personId },
+        {workspace}
+
+        <div className="life-hud" data-testid="life-hud">
+          {notice ? (
+            <p className="life-hud-note" role="status">
+              {notice}
+            </p>
+          ) : null}
+          {problem ? (
+            <p className="life-hud-note life-hud-note--problem" role="status">
+              {problem}
+            </p>
+          ) : null}
+          {session.unsavedSeed !== null ? (
+            <p className="life-hud-note" data-testid="unsaved-note">
+              This life has not been saved yet.
+            </p>
+          ) : null}
+          <p className="sr-only" role="status">
+            {shell.announcement}
+          </p>
+        </div>
+
+        {scenePeople
+          .filter((person) => person.wardrobeRefusal)
+          .map((person) => (
+            <p
+              key={person.personId}
+              role="status"
+              className="life-hud-note life-hud-note--problem"
+            >
+              {person.name}: {person.wardrobeRefusal}
+            </p>
+          ))}
+        <ShellNav
+          state={shell}
+          dispatch={dispatch}
+          playerName={moment.personName}
+          dateLabel={moment.dateLabel}
+          placeName={moment.placeName}
+          destinations={destinations}
+          canSave={!savesUnavailable}
+          unsaved={session.unsavedSeed !== null}
+          onSave={() =>
+            onKeep({
+              pins: shell.pins,
+              preferences: shell.preferences,
+              journal: shell.journal,
+              personWardrobes: shell.personWardrobes,
             })
           }
-          onOpenLink={openEntity}
+          onLeave={onLeave}
         />
-      ) : null}
 
-      {workspace}
+        <ShellPinRail
+          world={session.world}
+          state={shell}
+          dispatch={dispatch}
+          onOpen={openEntity}
+        />
 
-      <div className="life-hud" data-testid="life-hud">
-        {notice ? (
-          <p className="life-hud-note" role="status">
-            {notice}
-          </p>
-        ) : null}
-        {problem ? (
-          <p className="life-hud-note life-hud-note--problem" role="status">
-            {problem}
-          </p>
-        ) : null}
-        {session.unsavedSeed !== null ? (
-          <p className="life-hud-note" data-testid="unsaved-note">
-            This life has not been saved yet.
-          </p>
-        ) : null}
-        <p className="sr-only" role="status">
-          {shell.announcement}
-        </p>
-      </div>
-
-      <ShellNav
-        state={shell}
-        dispatch={dispatch}
-        playerName={moment.personName}
-        dateLabel={moment.dateLabel}
-        placeName={moment.placeName}
-        destinations={destinations}
-        canSave={!savesUnavailable}
-        unsaved={session.unsavedSeed !== null}
-        onSave={() =>
-          onKeep({
-            pins: shell.pins,
-            preferences: shell.preferences,
-            journal: shell.journal,
-          })
-        }
-        onLeave={onLeave}
-      />
-
-      <ShellPinRail
-        world={session.world}
-        state={shell}
-        dispatch={dispatch}
-        onOpen={openEntity}
-      />
-
-      {/*
+        {/*
         The build's own version, quiet in the corner and read from the checkout
         rather than restated. Nothing on this route can change it.
       */}
-      <p className="pg-version" data-testid="shell-version">
-        v{CANONICAL_VERSION}
-      </p>
+        <p className="pg-version" data-testid="shell-version">
+          v{CANONICAL_VERSION}
+        </p>
 
-      {floorSeat ? (
-        <div className="production-floor-layer" data-testid="production-floor">
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="leave-floor"
-            onClick={() => setFloorSeat(null)}
+        {floorSeat ? (
+          <div
+            className="production-floor-layer"
+            data-testid="production-floor"
           >
-            Put the bill down and go back
-          </button>
-          <MeasureFloorSurface
-            world={session.world}
-            seat={floorSeat}
-            onWorldChange={onWorldChange}
-          />
-        </div>
-      ) : null}
-    </main>
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="leave-floor"
+              onClick={() => setFloorSeat(null)}
+            >
+              Put the bill down and go back
+            </button>
+            <MeasureFloorSurface
+              world={session.world}
+              seat={floorSeat}
+              onWorldChange={onWorldChange}
+            />
+          </div>
+        ) : null}
+      </main>
+    </SavedAppearanceProvider>
   );
 }
 
@@ -2260,6 +2283,15 @@ function renderWorkspace({
         dossier.name,
         "person-workspace",
         <>
+          <SavedAppearanceControls
+            world={session.world}
+            personId={dossier.personId}
+            preference={shell.personWardrobes[dossier.personId]}
+            onWorldChange={onWorldChange}
+            onPreferenceChange={(preference) =>
+              dispatch({ type: "set-person-wardrobe", preference })
+            }
+          />
           <FullDossier
             world={session.world}
             dossier={dossier}

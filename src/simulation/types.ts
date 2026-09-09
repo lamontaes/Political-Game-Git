@@ -371,6 +371,13 @@ export interface PersonIdentity {
 export interface PersonAppearance {
   readonly seed: string;
   readonly recipeVersion: string;
+  /** Explicit player choice within the pinned catalog; absent preserves seeded identity. */
+  readonly selection?: {
+    readonly bodyFamily: string;
+    readonly headFamily: string;
+    /** Null explicitly selects no optional hairstyle. */
+    readonly hairFamily: string | null;
+  };
   /**
    * Character catalog generation this person's appearance is pinned to.
    * Presentation resolves the modular recipe against exactly this frozen
