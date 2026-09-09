@@ -23,13 +23,13 @@ outgoing task tools are unavailable. Domain owners retain their correction scope
 
 ## Applied frozen composition
 
-- MUNI14993328bd: normal Local government, canonical attendance/time/save, exact ENV callback. Later corrected source/notes-work delivery is incoming.
+- MUNI149c23d848: corrected dated references, canonical notes work and browser discovery correction applied; normal Local government preserves attendance/time/save and exact ENV callback.
 - NEWS1434ae3db2: unknown jurisdiction stays unknown; existing filing publisher and News/person/Back route preserved.
 - ECON148c2eda37: context registered using creator initialMoment.date and saved World.currentDate in Personal/finances; unknown/earlier observations remain unavailable.
-- OPENING150543ddec: exact source delta and published anchor issuance/retirement lineage applied over the explicit LAND composition. The existing fade calls one controller; selected person and World remain shared. Normal Life scenes navigation preserves re-entry. Dependency failures at the initial partial import were resolved, not suppressed.
+- OPENING150e890e4d: exact source delta and published anchor issuance/retirement lineage applied over the explicit LAND composition. The existing fade calls one controller; selected person and World remain shared. Normal Life scenes navigation preserves re-entry. Dependency failures at the initial partial import were resolved, not suppressed.
 - LAND129fee3357 and135cd90ef1: accepted runtime/clock plus corrected W-1 controls included. Independent/landing gates remain LAND-owned; no main merge here.
 - LIFE/EXEC140edf438b: final corrected shared contract and extra once-only/departure/reload tests included; normal Work mounts existing LifePathsPanel for noninstitutional lives. Qualification-backed executive entry still belongs to domain owners.
-- DEV138d963895: public identity repair included. Actual app artifact scan found remaining gallery source-art local-path exposure, returned to ENV/DEV for a bounded projection fix.
+- DEV138d963895: public identity repair included. Actual app scan exposed the gallery full-inventory import; UI8c18cd8 replaces it with a deterministic public projection retaining every classification/family row. Original private provenance is unchanged. Build and privacy scan pass (320 files).
 - ENV14240da720: county provider, prop gallery correction, released-mask/plate-clip occlusion consumer included. No town inferred from county and no people inferred from painted crowds.
 - PEOPLE13444aea4b production behavior remains; current typed appearance/wardrobe correction is incoming, not claimed as consumed.
 - Raster1309d4beef production/tests retained plus independently reproduced same-width new-URL repair. The hook retains decoded URL+width and rejects stale completion.
@@ -51,8 +51,8 @@ fields readable labels/spacing; it is not human visual acceptance.
 - Normal3/3 passed clean92bf3819260112525b30a299fdb2fb56d635f334: real Carson City Nevada citizen attendance/current room/save/reload/read+duplicate purity; private Journal/person/Back/bookmark/save/reload with identical World; title cumulative notes/version/keyboard Back. Earlier first run had a Michigan selection ambiguity and Journal locator/group interaction failure; these were corrected and rerun, not relabeled.
 - Focused73 shell/MUNI/raster,109 OPENING/staff/county,17 NEWS/ECON and latest54 OPENING/scene/county/NEWS/ECON checks passed at their recorded compositions. Full exact-head validation is still required.
 - Build92bf381 passed; public scan failed on a gallery source-art local path. No distribution or release activation.
-- Four combined P2/OPENING controls remain unresolved: source-accounted extra initialization must preserve external W-1 wording/identity sensitivity; two newly supported circumstance stages need their corrected grounded assertions; the transcript matrix must actually demonstrate its claimed losing result. Owners have exact failures; no runtime outcomes or assertions are changed merely to obtain a green run.
-- Current normal matrix, county creation/reload, updated visuals, remaining corrected donor interfaces, privacy scan and full final gates remain. Human visual/art/prose and independent domain acceptance are separate gates.
+- Four combined P2/OPENING controls remain unresolved: source-accounted extra initialization must preserve external W-1 wording/identity sensitivity; the two newly supported circumstance classifications now consume the exact OPENING correction, retaining domain missing-premise negatives; the transcript matrix must actually demonstrate its claimed losing result. Owners have exact failures; no runtime outcomes or assertions are changed merely to obtain a green run.
+- Current normal matrix, county creation/reload, updated visuals, remaining corrected donor interfaces and full final gates remain. Human visual/art/prose and independent domain acceptance are separate gates.
 
 ## LEARN
 
@@ -61,3 +61,5 @@ as tier width. Combined corpus checks compare the committed report with the live
 scanner and retain immutable anchor issuance; source additions require real
 regeneration. Never reuse a prior tested SHA or remove historical provenance to
 make a newer composition appear accepted.
+
+Latest checkpoint: clean8c18cd8 format/lint/typecheck and all three required art commands passed. MUNI is authorized to run its isolated five-test normal matrix on that frozen candidate. Subsequent OPENINGe890e4d source delta passes12 focused checks; corpus regeneration has0 hard errors/267 warnings. These later changes have not been relabeled as browser-tested.
