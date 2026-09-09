@@ -189,7 +189,9 @@ test.describe("Opening the game opens a game", () => {
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before);
+    await expect(page.getByTestId("story-who")).toHaveText(before, {
+      useInnerText: true,
+    });
     await saveLife(page);
     const replayed = await savedWorlds(page);
     expect(replayed).toHaveLength(2);
@@ -270,7 +272,9 @@ test.describe("A life is kept, and comes back", () => {
     // The same person, the same age, the same place — the notice line above
     // them is session chrome and is allowed to differ.
     await enterLife(page);
-    await expect(page.getByTestId("story-who")).toHaveText(before);
+    await expect(page.getByTestId("story-who")).toHaveText(before, {
+      useInnerText: true,
+    });
   });
 
   test("keeps two lives apart in the saved games list", async ({ page }) => {
