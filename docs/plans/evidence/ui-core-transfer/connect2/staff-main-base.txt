@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/run-d-lite.test.ts -t continues canonically through flexible work --maxWorkers=1
+
+
+ RUN  v4.1.1 /private/tmp/ui-connect2-staff-base
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 32 skipped (33)
+   Start at  23:12:51
+   Duration  8.49s (transform 4.74s, setup 0ms, import 5.46s, tests 2.55s, environment 0ms)
+

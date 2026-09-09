@@ -84,3 +84,34 @@ origin/main remains1eb0b0d. Campaign repair is pending LAND's explicit delivery,
 not claimed repaired. OPENING and MUNI remain owned, unpublished adapters; they
 do not block this delivered News connection. No branch merge to main, release
 activation, new prototype, interview system, or monitoring occurred.
+
+### Final UI-CONNECT2 gates
+
+Clean tested head24f0a518fcc7c3e5b4044895a1853d2de48fa8e6; expected and served
+sourceDigest3f5a2508aed639f21023c013ea3a7ada06f87596b76cf5eca35cc5e0e61d9bdb.
+Format/lint/typecheck passed. Full unit run:199 files passed,2 failed;
+3476 tests passed,6 failed,2 skipped (465.52s). All six failures were explicit
+localhost `listen EPERM`, not assertions or timeouts. Unchanged infrastructure
+files rerun with local-server permission:6/6 passed (3.99s). Both original CI
+assertions pass. No whole-run-green claim replaces this exact result.
+
+Source validation passed with existing declared-source warnings; source replay
+was byte-identical; production build and validation-seed demo passed. Build
+retains its chunk-size warning. Art validate/inventory/QA passed,331items.
+Clean-head combined browser final14:31/31 passed, no retries, covering creator,
+LIFE/JUD, mixed pins, ENV, docket, News, actual person/Talk targets, keyboard,
+Back/Escape, pure reads, save/reload and desktop1920/1600/1366/1280/1024.
+
+Logs and hashes are retained in `connect2/`; final browser provenance/screens
+in `browser/`. News screenshot is1280x720, reflecting Chromium's project
+viewport override; the original temporary filename1440 was misleading and the
+future filename now uses the actual viewport width. This artifact-name-only
+test change does not alter test behavior or production source.
+
+UI-CONNECT2 is code-complete and locally verified. Outstanding: fresh published
+head hosted CI result and human visual acceptance. Separate original-phase
+integration remains: LAND's #129/#135 prerequisites, OPENING's canonical opening
+adapter, and MUNI's newly received frozen364176be candidate (owner final checks
+and PR still pending). MUNI and ENV supplied the exact root venue callback;
+no sourcebinding gap is claimed, and normal MUNI registration/proof is still
+pending UI integration. Historical raster-error/placeholder findings stay open.

@@ -73,7 +73,9 @@ test("normal completed legislative action publishes News with person Back and un
   await expect(page.getByTestId("public-information-help")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByTestId("public-information-help")).toHaveCount(0);
-  await page.screenshot({ path: info.outputPath("normal-news-1440.png") });
+  await page.screenshot({
+    path: info.outputPath(`normal-news-${page.viewportSize()!.width}.png`),
+  });
   await save(page);
   expect(await savedWorld(page)).toEqual(published);
   await page.reload();
