@@ -37,13 +37,18 @@ import type {
   LegislativeProcedure,
   ManagerValue,
   MayorValue,
+  MayoralActionWindow,
+  MeetingCadenceRule,
   MeetingPlace,
+  MeetingSeries,
   MunicipalGovernanceRecord,
+  PublicAttendanceRule,
   PowerRule,
   PresidingRule,
   RecordProvenance,
   SourceIdentity,
   TermInfo,
+  VoteThreshold,
 } from "./types";
 
 export interface MunicipalNormalizeResult {
@@ -62,11 +67,12 @@ function evidenceFor(
   sourceKey: string,
   citation: string,
   path: string,
+  kind: "legal-section" | "document-section",
 ): Evidence {
   return {
     artifactId: sourceKey,
     locator: {
-      kind: "legal-section",
+      kind,
       artifactId: sourceKey,
       citation: citation || sourceKey,
       pageOrSection: path,
@@ -87,6 +93,7 @@ export function readCell<T>(
   path: string,
   corpusAsOf: string,
   defects: ParseDefect[],
+  kind: "legal-section" | "document-section" = "document-section",
 ): Sourced<T> {
   const cite = (): Evidence => {
     if (!cell.sourceKey || !keys.has(cell.sourceKey)) {
@@ -99,9 +106,9 @@ export function readCell<T>(
       });
       // A synthetic evidence keeps the algebra's invariant while the defect
       // fails the compile; it never reaches a tracked artifact.
-      return evidenceFor(cell.sourceKey ?? "__unsourced__", "", path);
+      return evidenceFor(cell.sourceKey ?? "__unsourced__", "", path, kind);
     }
-    return evidenceFor(cell.sourceKey, cell.legalLocator ?? "", path);
+    return evidenceFor(cell.sourceKey, cell.legalLocator ?? "", path, kind);
   };
 
   switch (cell.status) {
@@ -162,7 +169,7 @@ export function readCell<T>(
     default: {
       const investigated = (cell.investigatedSourceKeys ?? [])
         .filter((key) => keys.has(key))
-        .map((key) => evidenceFor(key, "", path));
+        .map((key) => evidenceFor(key, "", path, kind));
       return unknown<T>(
         cell.reason || `${path}: nobody has established this here.`,
         investigated,
@@ -189,6 +196,7 @@ function normalizePack(
   pack: MunicipalPackInput,
   corpusAsOf: string,
   defects: ParseDefect[],
+  kind: "legal-section" | "document-section",
 ): MunicipalGovernanceRecord {
   const keys = sourceKeySet(pack);
   const cell = <T>(c: Cell, path: string): Sourced<T> =>
@@ -198,7 +206,23 @@ function normalizePack(
       `${pack.sourceGovernmentKey}/${path}`,
       corpusAsOf,
       defects,
+      kind,
     );
+  /**
+   * A cell a pack may legitimately not carry at all.
+   *
+   * Absent and UNKNOWN mean the same thing — nobody established it — but they
+   * must produce the same value rather than a missing key, so the record shape
+   * never varies between packs authored before and after a field existed.
+   */
+  const optionalCell = <T>(
+    c: Cell | undefined,
+    path: string,
+    absentReason: string,
+  ): Sourced<T> =>
+    c
+      ? cell<T>(c, path)
+      : unknown<T>(`${pack.sourceGovernmentKey}/${path}: ${absentReason}`);
 
   const sourceIdentity: SourceIdentity = {
     sourceGovernmentKey: pack.sourceGovernmentKey,
@@ -341,6 +365,11 @@ function normalizePack(
       pack.legislativeProcedure.quorum,
       "legislativeProcedure/quorum",
     ),
+    quorumRule: optionalCell<VoteThreshold>(
+      pack.legislativeProcedure.quorumRule,
+      "legislativeProcedure/quorumRule",
+      "no source read for this government stated the quorum as a count or fraction, only in words.",
+    ),
     passageThreshold: cell(
       pack.legislativeProcedure.passageThreshold,
       "legislativeProcedure/passageThreshold",
@@ -352,6 +381,11 @@ function normalizePack(
     mayoralAction: cell(
       pack.legislativeProcedure.mayoralAction,
       "legislativeProcedure/mayoralAction",
+    ),
+    mayoralActionWindow: optionalCell<MayoralActionWindow>(
+      pack.legislativeProcedure.mayoralActionWindow,
+      "legislativeProcedure/mayoralActionWindow",
+      "no source read for this government fixed how long the mayor has or what silence does.",
     ),
     override: cell(
       pack.legislativeProcedure.override,
@@ -466,6 +500,26 @@ function normalizePack(
     }),
   );
 
+  const meetingSeries: MeetingSeries[] = (pack.meetingSeries ?? []).map(
+    (entry) => ({
+      seriesKey: entry.seriesKey,
+      kind: entry.kind,
+      bodyName: cell(
+        entry.bodyName,
+        `meetingSeries/${entry.seriesKey}/bodyName`,
+      ),
+      cadence: cell<MeetingCadenceRule>(
+        entry.cadence,
+        `meetingSeries/${entry.seriesKey}/cadence`,
+      ),
+      venue: cell(entry.venue, `meetingSeries/${entry.seriesKey}/venue`),
+      publicAttendance: cell<PublicAttendanceRule>(
+        entry.publicAttendance,
+        `meetingSeries/${entry.seriesKey}/publicAttendance`,
+      ),
+    }),
+  );
+
   const provenance: RecordProvenance = {
     asOf: pack.asOf,
     citedSources: normalizeSources(pack.citedSources),
@@ -483,6 +537,10 @@ function normalizePack(
     budgetProcedure,
     consolidation,
     meetingPlaces,
+    meetingSeries,
+    researchObservations: (pack.researchObservations ?? []).map(
+      (entry, index) => cell<string>(entry, `researchObservations/${index}`),
+    ),
     provenance,
   };
 }
@@ -491,9 +549,12 @@ function normalizePack(
 export function normalizeMunicipalPacks(
   packs: readonly MunicipalPackInput[],
   corpusAsOf: string,
+  kind: "legal-section" | "document-section" = "document-section",
 ): MunicipalNormalizeResult {
   const defects: ParseDefect[] = [];
-  const records = packs.map((pack) => normalizePack(pack, corpusAsOf, defects));
+  const records = packs.map((pack) =>
+    normalizePack(pack, corpusAsOf, defects, kind),
+  );
 
   records.sort((left, right) =>
     left.recordId < right.recordId

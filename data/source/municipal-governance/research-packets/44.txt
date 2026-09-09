@@ -1,0 +1,1697 @@
+﻿# Next-Phase Municipal Governance and Environment Matrix — 2026-08-25
+
+
+## Status
+ACTIVE NATIONAL MUNICIPAL PASS. This document continues Part 2 at the municipal-government level. It is not a finished 50-state matrix yet.
+
+
+## Purpose
+Build a real municipal institutional and scene backbone from official sources. Each city entry must distinguish governance form from physical environment. The same label, such as “City Council,” can conceal materially different council size, district structure, mayor powers, professional-manager authority, veto/override rules, committee systems, public-comment rules, board/commission ecosystems, meeting locations, and office-building layouts.
+
+
+This work follows the Part 1 Census Government Units backbone. Census supplies the governmental universe; current municipal charters, codes, budgets, meeting records, directories, public notices, planning documents, and official facility records supply the institutional and physical detail.
+
+
+## Hard research rules
+1. Prefer current official municipal sources, especially charters/codes, council rules, meeting agendas, budgets, clerk pages, facility pages, and planning/historic-preservation records.
+2. Time-version institutional structures and locations. Do not apply a 2026 council size, building, or charter rule to an earlier start year unless it was then in force.
+3. Treat governance form, elected-body structure, executive authority, professional administration, and physical scene family as separate fields.
+4. A council chamber may be outside City Hall; a ward office may be geographically distributed; one chamber may serve several boards; a mayor may preside without voting; a professional manager may administer while a mayor remains politically prominent.
+5. Do not infer room appearance from government form or government powers from architecture.
+6. Separate permanent architecture from rotating exhibits, current-office decorations, temporary construction, and occupant-specific artifacts.
+7. Never promote a candidate city to a production-ready visual pack until actual contemporary room/building imagery is sufficient.
+
+
+# Tranche 1 — Alabama through Colorado
+
+
+## Alabama
+
+
+### Birmingham — MAJOR CITY / NINE-DISTRICT MAYOR-COUNCIL FAMILY
+Verified:
+- Birmingham City Council has nine members representing nine districts.
+- Council is the legislative branch under the city’s Mayor-Council structure.
+- Regular Council meetings are held Tuesdays at 9:30 a.m. in the third-floor Council Chambers of Birmingham City Hall, 710 N. 20th Street.
+- Council committees use several room configurations; many meet in the Council Chamber, while Budget and Finance can use Conference Rooms D and E.
+Scene families:
+1. THIRD-FLOOR CITY COUNCIL CHAMBER.
+2. COUNCIL COMMITTEE / CONFERENCE ROOM family.
+3. COUNCIL MEMBER/OFFICE family.
+4. MAYOR executive-office family.
+Official sources:
+https://www.birminghamal.gov/government/city-council/council
+https://www.birminghamal.gov/government/city-council/council/council-committees-2025-2027
+Status: GOVERNANCE + MEETING LOCATION VERIFIED; dedicated contemporary visual pack pending.
+
+
+### Montgomery — CAPITAL-CITY / NINE-DISTRICT MAYOR-COUNCIL FAMILY
+Verified:
+- Montgomery uses a Mayor-Council system with nine district council members.
+- Regular Council meetings occur on the first and third Tuesdays at 5:00 p.m. at 103 N. Perry Street.
+- Current 2026 agenda material identifies the meeting space as the COUNCIL AUDITORIUM.
+- The City Clerk maintains Council records, ordinances/resolutions, and municipal-election functions, creating a persistent clerk/legislative-records actor rather than merely a UI database.
+Scene families:
+1. COUNCIL AUDITORIUM.
+2. COUNCIL / CLERK legislative-office family.
+3. MAYOR executive-office family.
+4. COMMITTEE / smaller meeting-room family.
+Official sources:
+https://www.montgomeryal.gov/government/city-government/city-council
+https://www.montgomeryal.gov/government/city-government/city-departments/city-clerk-s-office
+Status: GOVERNANCE + CURRENT MEETING VENUE VERIFIED; visual pack pending.
+
+
+### Mobile — DISTRICT COUNCIL + GOVERNMENT PLAZA FAMILY
+Verified:
+- Mobile has a separately elected Mayor and seven district Council members.
+- Official city material assigns executive authority to the Mayor and legislative/policymaking authority to Council.
+- Council offices are in Government Plaza, 205 Government Street, ninth-floor South Tower.
+- Regular Council meetings occur Tuesdays at 10:30 a.m. in the ground-floor Auditorium; Council also uses a ninth-floor Council conference room.
+Production implication: council offices and full public meetings are vertically separated inside a larger government complex. Do not collapse them into one room.
+Scene families:
+1. GOVERNMENT PLAZA GROUND-FLOOR AUDITORIUM.
+2. NINTH-FLOOR COUNCIL OFFICE family.
+3. NINTH-FLOOR COUNCIL CONFERENCE ROOM.
+4. MAYOR/EXECUTIVE family.
+Official source:
+https://www.cityofmobile.org/city-council
+Status: GOVERNANCE + FLOOR/ROOM USE SUBSTANTIALLY VERIFIED; visual pack pending.
+
+
+Alabama matrix status: STRONG INITIAL THREE-CITY SET. Birmingham = major; Montgomery = capital/institutional contrast; Mobile = distinctive shared-government-complex candidate.
+
+
+## Alaska
+
+
+### Anchorage — MUNICIPAL ASSEMBLY MEETS IN A PUBLIC LIBRARY
+Verified:
+- Current Municipality of Anchorage Assembly meetings use the Assembly Chambers at the Z.J. Loussac Library, 3600 Denali Street, Room 108.
+- Anchorage City Hall is at a different downtown address, so the elected legislative chamber must not be rendered as a City Hall room.
+- Current agendas show a 12-member Assembly alongside the separately elected Mayor.
+- Current municipal legislation continues to version Assembly organization and procedure.
+Production implication: this is a high-value exception to generic City Hall assumptions. A player can move between municipal executive offices and a legislative chamber housed in a major public library.
+Scene families:
+1. LOUSSAC LIBRARY ASSEMBLY CHAMBERS.
+2. MUNICIPAL ASSEMBLY legislative-office/committee family.
+3. CITY HALL MAYOR/EXECUTIVE family.
+4. LIBRARY PUBLIC LOBBY/civic-event family where relevant.
+Official source family:
+https://www.muni.org/
+https://meetings.muni.org/
+Status: CURRENT LEGISLATIVE VENUE STRONGLY VERIFIED; governance-rule and visual-room packs continue.
+
+
+### Juneau — CONSOLIDATED CITY-BOROUGH + CITY HALL TRANSITION CANDIDATE
+Verified:
+- City and Borough of Juneau’s Assembly has nine members.
+- All nine members sit on the Committee of the Whole; Finance Committee also uses the full Assembly, so one elected body can enter several procedural states without becoming a different institution.
+- Current public-hearing material uses Assembly Chambers.
+- City Manager offices are associated with 155 Heritage Way.
+- Current 2026 municipal records include live property/government-location questions involving 155 Heritage Way, making future facility state something to time-version rather than freeze.
+Scene families:
+1. ASSEMBLY CHAMBERS.
+2. COMMITTEE-OF-THE-WHOLE procedural state in the same/related room family.
+3. CITY MANAGER administrative-office family.
+4. MAYOR/ASSEMBLY offices.
+Official sources:
+https://juneau.org/clerk/boards-committees
+https://juneau.org/clerk/notice-of-public-hearing
+https://juneau.org/manager/contact-information
+Status: GOVERNANCE + CURRENT ADMINISTRATIVE LOCATION SUBSTANTIALLY VERIFIED; visual pack and facility-transition chronology need deeper work.
+
+
+### Fairbanks
+Status: PENDING. Do not infer current governance/meeting location from secondary summaries. Requires official charter/council/facility pass before inclusion.
+
+
+Alaska matrix status: PARTIAL. Anchorage and Juneau are strong; representative Interior-Alaska city still pending.
+
+
+## Arizona
+
+
+### Phoenix — COUNCIL-MANAGER / MAYOR + EIGHT DISTRICTS
+Verified:
+- Phoenix uses a council-manager structure.
+- The elected body is an at-large Mayor plus eight district Council members.
+- The Council-appointed City Manager manages day-to-day operations.
+- Formal, policy and special meetings use City Council Chambers at 200 W. Jefferson Street; City Hall’s main civic address is nearby at 200 W. Washington Street.
+- Council subcommittees also use Council Chambers.
+- Official budget-hearing records distinguish Upper and Lower Chamber seating configurations, showing that room state can vary by hearing type.
+Scene families:
+1. PHOENIX CITY COUNCIL CHAMBERS.
+2. UPPER/LOWER CHAMBER public-hearing configurations.
+3. COUNCIL MEMBER/OFFICE family.
+4. CITY MANAGER administrative-executive family.
+5. MAYOR political-executive family.
+Official sources:
+https://www.phoenix.gov/administration/departments/cityclerk/programs-services/city-council-meetings/about.html
+https://www.phoenix.gov/administration/departments/cityclerk/programs-services/elections.html
+https://www.phoenix.gov/administration/departments/citymanager.html
+Status: GOVERNANCE + VENUE VERIFIED; visual pack pending.
+
+
+### Tucson — COUNCIL-MANAGER + DISTRIBUTED WARD OFFICES
+Verified:
+- Tucson uses a council-manager form: Mayor/Council establish policy and the City Manager implements it.
+- Mayor and Council Chambers are in City Hall, 255 W. Alameda Street.
+- City Manager’s Office is in the same building on the tenth floor.
+- Tucson has six Council wards, and official ward pages identify geographically distributed ward offices rather than locating all district political work in central City Hall.
+- The Planning Commission also uses Mayor & Council Chambers, making the chamber a multi-body civic-hearing location.
+Scene families:
+1. MAYOR & COUNCIL CHAMBERS.
+2. CENTRAL CITY HALL MAYOR/COUNCIL office family.
+3. TENTH-FLOOR CITY MANAGER family.
+4. DISTRIBUTED WARD OFFICE family with neighborhood-specific buildings.
+5. PLANNING/COMMISSION procedural use of the chamber.
+Official sources:
+https://www.tucsonaz.gov/Government/Office-of-the-City-Manager
+https://www.tucsonaz.gov/Government/City-Information/Frequently-Asked-Questions-FAQ-about-City-Government
+https://www.tucsonaz.gov/Government/Mayor-Council-and-City-Manager/City-Council-Wards
+Status: STRONG GOVERNANCE/LOCATION PACK; ward-office visual families pending.
+
+
+### Mesa
+Verified baseline only:
+- Official municipal financial material identifies a council-manager form with Mayor plus six district Council members.
+Status: PARTIAL. Current 2026 chamber/office location and contemporary visual pack must be verified before promotion to full entry.
+
+
+Arizona matrix status: Phoenix and Tucson strong; medium/distinctive third candidate remains open pending Mesa/Tempe/Scottsdale comparison.
+
+
+## Arkansas
+
+
+### Little Rock — EVOLVED MANAGER SYSTEM WITH ENHANCED MAYORAL EXECUTIVE POWER
+Verified:
+- Little Rock retains a Board/City Manager institutional lineage, but its current structure cannot be modeled as a generic weak-mayor council-manager city.
+- The elected Board of Directors is the legislative/policymaking body.
+- The City Manager runs day-to-day administration.
+- A voter-approved 2007 structural change increased mayoral authority; current official city material describes the Mayor as chief executive and the City Manager as appointed subject to Board approval.
+- Central city-government address is 500 W. Markham Street.
+Simulation implication: preserve the institutional evolution and split authority instead of assigning one generic `council_manager` preset.
+Scene families:
+1. BOARD OF DIRECTORS meeting chamber — exact current room needs dedicated verification.
+2. MAYOR executive-office family.
+3. CITY MANAGER administrative-office family.
+4. BOARD/DIRECTOR office family.
+Official sources:
+https://littlerock.gov/government/city-managers-office/
+https://littlerock.gov/delphone-hubbard-named-city-manager/
+Status: GOVERNANCE STRUCTURE SUBSTANTIALLY VERIFIED; exact current Board chamber and visual packs pending.
+
+
+### Fort Smith — CITY ADMINISTRATOR + BOARD MEETS AT THE BLUE LION
+Verified:
+- Fort Smith uses a City Administrator form.
+- Board has seven Directors: four ward and three at-large; Mayor is separately elected.
+- City Administrator handles day-to-day administration and serves at the pleasure of the Board.
+- Mayor presides but does not vote on Board matters; the Mayor can veto most Board decisions, and five Directors can override.
+- Regular meetings and study sessions are held at The Blue Lion, 101 N. 2nd Street, rather than a generic City Hall council chamber.
+Production implication: this is a distinctive political venue and institutional family. Do not fabricate a municipal chamber in City Hall when the real Board routinely meets at The Blue Lion.
+Scene families:
+1. BLUE LION FULL BOARD meeting family.
+2. BLUE LION STUDY-SESSION configuration.
+3. BOARD/DIRECTOR office family.
+4. MAYOR political office family.
+5. CITY ADMINISTRATOR executive-administrative family.
+Official sources:
+https://www.fortsmithar.gov/government/about-the-city-municipality
+https://www.fortsmithar.gov/government/leadership/board-of-directors
+https://www.fortsmithar.gov/government/meetings-agendas/board-of-directors-meeting-information
+Status: STRONG GOVERNANCE + DISTINCTIVE VENUE PACK; dedicated visual extraction still required.
+
+
+### Fayetteville
+Verified baseline:
+- Current municipal agenda material places Council meetings at City Hall, Room 219, 113 W. Mountain Street.
+- Eight Council members are elected two from each of four wards, alongside the Mayor.
+Status: PARTIAL. Current Mayor/administrative authority structure still needs official charter/manager verification before full entry.
+
+
+Arkansas matrix status: Little Rock and Fort Smith strong institutionally; Fort Smith is a likely distinctive custom venue. Fayetteville pending authority-model completion.
+
+
+## Colorado
+
+
+### Denver — CONSOLIDATED CITY-COUNTY / HOME-RULE MAYOR-COUNCIL
+Verified:
+- Denver is a consolidated City and County under home rule with a Mayor-Council structure.
+- Council has 13 members: 11 geographic district representatives plus two at-large members.
+- Full Council meets in the Cathy Reynolds City Council Chamber, 1437 Bannock Street, fourth floor.
+- Committees use Room 391.
+- Council offices are not physically uniform: some members work in the City and County Building while others maintain district offices because of space/community needs.
+- Mayor’s Office is also based at 1437 Bannock Street.
+Scene families:
+1. CATHY REYNOLDS COUNCIL CHAMBER.
+2. ROOM 391 COMMITTEE family.
+3. CENTRAL COUNCIL OFFICE family.
+4. DISTRIBUTED DISTRICT OFFICE family.
+5. MAYOR executive-office family.
+Simulation implication: consolidated status, district representation and distributed district offices should all be explicit rather than inferred from a generic city size.
+Official source family:
+https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-City-Council
+Status: STRONG GOVERNANCE/ROOM PACK; visual pack pending.
+
+
+### Colorado Springs — STRONG-MAYOR / NINE-MEMBER COUNCIL
+Verified:
+- Voters changed Colorado Springs to a council-mayor/strong-mayor form in 2010.
+- Mayor is the full-time chief executive.
+- Council has nine members: six district and three at-large.
+- Council Chambers are in City Hall, 107 N. Nevada Avenue.
+Scene families:
+1. CITY HALL COUNCIL CHAMBERS.
+2. COUNCIL MEMBER/OFFICE family.
+3. STRONG-MAYOR executive family.
+4. COMMITTEE/WORK-SESSION configurations.
+Status: GOVERNANCE + CURRENT CHAMBER LOCATION VERIFIED through official city records; visual pack pending.
+
+
+### Pueblo
+Verified baseline:
+- Official municipal records identify Council Chambers at 1 City Hall Place for public municipal proceedings.
+Status: PARTIAL. Current governance structure, exact 2026 Council configuration and contemporary room pack still require direct official verification.
+
+
+Colorado matrix status: Denver + Colorado Springs strong; medium/distinctive third candidate pending Pueblo completion or alternate comparison.
+
+
+# Tranche 1 cross-cutting lessons
+- A municipal legislature may meet in a library (Anchorage), a special event/civic venue (Fort Smith), an auditorium separate from council offices (Mobile), or a shared city-county building (Denver and later examples).
+- Professional administration and political executive authority can coexist in several distinct forms; “manager” does not imply identical mayor powers.
+- Ward/district offices can be physically distributed across the city (Tucson, Denver), so constituent work should not always teleport to central City Hall.
+- A physical chamber can support Council, planning, boards, hearings, budget sessions, or other procedural states; `scene_venue` and `active_institution` must be separate.
+- Recent structural reforms must carry effective dates.
+
+
+
+
+# Tranche 2 — Connecticut through Hawai‘i
+
+
+## Connecticut
+
+
+### Bridgeport — LARGE CITY COUNCIL + MULTIPLE MUNICIPAL BUILDINGS
+Verified:
+- Current City Council records use a large elected council and current 2025-2026 meeting cycle; Council meets on the first and third Mondays under the published schedule.
+- Council’s legislative offices are in the Margaret Morton Government Center, 999 Broad Street.
+- Bridgeport also uses City Hall at 45 Lyon Terrace for council workshops and departmental orientation sessions, showing that the legislative-office site and other municipal meeting spaces are not a single building/room.
+- Current council committee calendars separately track Budget and Appropriations, Ordinance and other committees.
+Production implication: model GOVERNMENT CENTER LEGISLATIVE SUITE, FORMAL COUNCIL venue, COMMITTEE rooms, and CITY HALL workshop/event rooms separately once exact formal chamber location is visually verified.
+Official sources:
+https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council
+https://www.bridgeportct.gov/government/departments/city-council
+https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council/city-council-meeting-minutes-agendas-and-notices
+Status: CURRENT COUNCIL/LEGISLATIVE-OFFICE STRUCTURE VERIFIED; exact formal-chamber visual pack still pending.
+
+
+### Hartford — NINE-MEMBER AT-LARGE COUNCIL + STRONG EXECUTIVE + STATE FISCAL OVERSIGHT
+Verified:
+- Hartford’s Charter and official financial material identify the Mayor as chief executive and the Court of Common Council as a nine-member body elected at large.
+- Hartford City Hall is 550 Main Street; historical/current city material places Council operations and Council Chambers in the building.
+- Hartford’s budget process creates a concrete Mayor -> Council amendment -> Mayor action -> Council final-action sequence rather than a generic municipal-budget action.
+- Hartford remains under Connecticut Municipal Accountability Review Board Tier 3 oversight; official FY2027 budget material states that revenue assumptions and financial reporting are subject to MARB review.
+Simulation implication: a fiscally distressed city can have a real external state-oversight institution constraining local choices. This is precisely the kind of failure/recovery state the game should model from institutional data, not a generic “fiscal crisis” modifier.
+Scene families:
+1. HARTFORD CITY HALL COUNCIL CHAMBERS.
+2. MAYOR executive-office family.
+3. COUNCIL offices/committee family.
+4. BUDGET/STATE-OVERSIGHT briefing scenes, including interactions with MARB as an external institution rather than local decoration.
+Official sources:
+https://www.hartfordct.gov/Government/Departments/OMBG
+https://www.hartfordct.gov/Government/Departments/OMBG/Mgmt-Divisions/Bud-Dev-Ctrl
+https://www.hartfordct.gov/files/assets/public/town-clerk/town-clerk-documents/hartford-charter.07.elector-approval-of-charter.8-november-2022.annotated-with-footnotes-003.pdf
+Status: STRONG GOVERNANCE/FAILURE-MODE PACK; current chamber imagery still needs dedicated visual collection.
+
+
+### New Haven — 30-WARD BOARD OF ALDERS / DISTINCT LEGISLATIVE SERVICES
+Verified:
+- Board of Alders is the city legislative body and maintains a professional Office of Legislative Services.
+- Full Board meets on the first and third Monday in the aldermanic chambers, 165 Church Street, second floor.
+- Current 2026-2027 committee structure includes Aldermanic Affairs, City Services and Environmental Policy, Community Development, Education, Finance, Health and Human Services, Legislation, Public Safety, Tax Abatement, and Youth and Youth Services.
+- New Haven’s elected representation is ward-centered and materially denser than small generic council models.
+Production implication: New Haven is a strong example of a large neighborhood-representation municipal legislature with its own staff apparatus and committee ecology.
+Scene families:
+1. SECOND-FLOOR ALDERMANIC CHAMBERS.
+2. LEGISLATIVE SERVICES staff/office family.
+3. COMMITTEE hearing rooms.
+4. WARD/PERSONAL constituent-work contexts.
+Official sources:
+https://www.newhavenct.gov/government/departments-divisions/board-of-alders
+https://www.newhavenct.gov/government/departments-divisions/board-of-alders/committees
+Status: STRONG GOVERNANCE + CHAMBER LOCATION PACK; visual pack pending.
+
+
+Connecticut matrix status: STRONG. Bridgeport gives large-city office geography; Hartford gives capital/strong-executive + state fiscal oversight; New Haven gives a large ward legislature and legislative-services model.
+
+
+## Delaware
+
+
+### Wilmington — 13-MEMBER COUNCIL IN SHARED CITY/COUNTY BUILDING
+Verified:
+- Wilmington’s Council has a separately elected Council President, eight district members and four at-large members, for 13 Council members total.
+- Council and numerous city functions occupy the Louis L. Redding City/County Building, 800 N. French Street.
+- Council offices are on the ninth floor; current municipal hearing notices use City Council Chambers at the same address.
+- The chamber is also used by bodies such as the Zoning Board of Adjustment and for budget hearings.
+Production implication: this is both a legislative environment and a SHARED CITY/COUNTY CIVIC BUILDING family. Do not imply that every city function has an independent City Hall.
+Scene families:
+1. REDDING CITY/COUNTY BUILDING COUNCIL CHAMBERS.
+2. NINTH-FLOOR COUNCIL office family.
+3. MAYOR/EXECUTIVE offices in shared building.
+4. BOARD/COMMISSION hearing state using same chamber.
+Official sources:
+https://www.wilmingtonde.gov/
+Current official city directories and 2026 board/hearing calendars at WilmingtonDE.gov.
+Status: STRONG CURRENT GOVERNANCE/BUILDING PACK; room imagery still requires visual-reference collection.
+
+
+### Newark — HOME-RULE COUNCIL-MANAGER / MAYOR HAS ONE COUNCIL VOTE
+Verified:
+- Newark operates under a home-rule council-manager charter.
+- Council consists of the Mayor plus six district Council members; each has one vote.
+- Current April 2026 organizational meeting material uses Council Chambers and includes election of Deputy Mayor and Council officers.
+- The City Manager is appointed through the elected Council/Mayor structure and carries administrative responsibility.
+Production implication: mayoral title does not mean an executive branch equivalent to strong-mayor Wilmington/Jacksonville models. The Mayor is part of the seven-member governing body.
+Scene families:
+1. MUNICIPAL BUILDING COUNCIL CHAMBER.
+2. CITY MANAGER administrative-office family.
+3. MAYOR/COUNCIL political-office family.
+Official sources:
+https://newarkde.gov/Archive/ViewFile/Item/8541
+https://newarkde.gov/DocumentCenter/View/1671/New-Resident-Booklet
+Status: GOVERNANCE + CURRENT CHAMBER USE VERIFIED; exact contemporary building/room visual pass pending.
+
+
+### Dover
+Status: PENDING. Capital-city entry requires a dedicated current charter + 2026 chamber/location pass rather than inference from older municipal summaries.
+
+
+Delaware matrix status: PARTIAL-STRONG. Wilmington and Newark establish materially different executive/legislative structures; Dover remains a required capital-city completion.
+
+
+## Florida
+
+
+### Jacksonville — CONSOLIDATED CITY-COUNTY / STRONG MAYOR + 19-MEMBER COUNCIL
+Verified:
+- Jacksonville operates a consolidated City of Jacksonville/Duval County strong-mayor structure.
+- Official FY2026 material describes the Mayor as county-wide chief executive and the Council as 19 members: 14 geographic district seats and five at-large seats.
+- Current 2026 Council meetings, standing committees, budget hearings and special meetings routinely use the first-floor Council Chamber in City Hall at St. James, 117 W. Duval Street.
+- The same City Hall contains smaller named meeting rooms such as the Lynwood Roberts Room and Don Davis Room used for other Council/member activity.
+- The Duval County state legislative delegation has also used the Jacksonville Council Chamber for organizational/public hearings, creating a local/state institutional crossover in the same physical scene.
+Production implication: Jacksonville is a high-value consolidated-government family with a large legislature and multiple legislative room states inside the St. James building.
+Scene families:
+1. ST. JAMES FIRST-FLOOR COUNCIL CHAMBER.
+2. SMALLER CITY HALL LEGISLATIVE/MEETING ROOM family.
+3. COUNCIL MEMBER office family.
+4. STRONG-MAYOR executive family.
+5. STATE DELEGATION hearing state in the same chamber.
+Official sources:
+https://www.jacksonville.gov/city-council/events
+https://www.jacksonville.gov/city-council/standing-committees
+https://www.jacksonville.gov/getContentAsset/00ca4efe-dac2-4994-a6b5-1c2b757c5848/135b97c9-84fa-4e82-b956-0fbccec4aa1f/FY26-Approved-Budget-web.pdf
+Status: PRODUCTION-USEFUL GOVERNANCE/LOCATION PACK; dedicated room/art reference pack pending.
+
+
+### Tallahassee — MODIFIED COMMISSION-MANAGER / FIVE AT-LARGE COMMISSIONERS
+Verified:
+- Tallahassee has used a modified commission-manager structure since the early twentieth century; current charter structure has five commissioners elected at large, with a directly elected Mayor plus four commissioners.
+- The Commission appoints core administrative officers; official FY2026 material identifies the City Manager as overseeing most departments and daily operations.
+- Current 2026 Commission meetings, public hearings and budget workshops use the second-floor City Commission Chambers in City Hall, 300 S. Adams Street.
+- The same chamber is used by intergovernmental/related boards such as the CRA and regional transportation bodies at various times, while other city committees use named rooms or distributed community facilities.
+Production implication: Tallahassee is useful both as state capital and as an intergovernmental local scene where city/county/regional institutions regularly overlap.
+Scene families:
+1. SECOND-FLOOR CITY COMMISSION CHAMBERS.
+2. CITY HALL TALLAHASSEE ROOM / smaller hearing family.
+3. CITY MANAGER administrative family.
+4. MAYOR/COMMISSION offices.
+5. INTERGOVERNMENTAL BOARD state using Commission Chambers.
+Official sources:
+https://www.talgov.com/cityleadership/citizeninput
+https://www.talgov.com/Main/News/6034
+https://cot-lecis.talgov.com/transparency/budget-fy26
+Status: STRONG CURRENT GOVERNANCE/LOCATION PACK.
+
+
+### Miami — DISTINCTIVE DINNER KEY CITY HALL
+Already researched in Part 2/43. Retain as Florida’s major distinctive architectural municipal reference: Miami City Hall occupies the historic former Pan American terminal at Dinner Key. Governance/room detail remains linked to the existing Part 2 entry rather than duplicated here.
+
+
+Florida matrix status: STRONG INITIAL SET. Jacksonville = consolidated giant; Tallahassee = capital/commission-manager/intergovernmental; Miami = architecturally distinctive executive/commission setting. St. Augustine remains a potential historic additional scene pack rather than necessary baseline coverage.
+
+
+## Georgia
+
+
+### Atlanta — 15-MEMBER COUNCIL + SEPARATE COUNCIL PRESIDENT
+Verified:
+- Atlanta City Council is the city’s chief policymaking body.
+- Current structure has 12 district seats and three at-large posts, plus a separately elected Council President.
+- Current 2026 full meetings use the Marvin S. Arrington, Sr. Council Chamber in Atlanta City Hall, 55 Trinity Avenue SW.
+- Budget, zoning and major development decisions are explicit Council functions and should generate actual legislative workflows rather than a generic municipal policy menu.
+Scene families:
+1. MARVIN S. ARRINGTON SR. COUNCIL CHAMBER.
+2. COUNCIL committee/hearing family.
+3. DISTRICT/AT-LARGE Council office family.
+4. COUNCIL PRESIDENT leadership office family.
+5. MAYOR executive-office family.
+Official sources:
+https://citycouncil.atlantaga.gov/
+Current 2026 Atlanta City Council releases and municipal-election records.
+Status: STRONG GOVERNANCE + CURRENT CHAMBER PACK; visual collection pending.
+
+
+### Augusta-Richmond County — CONSOLIDATED GOVERNMENT / TEN COMMISSIONERS + MAYOR
+Verified:
+- Augusta-Richmond County is a consolidated government.
+- Current charter-review draft preserves a commission composed of Mayor plus ten commissioners, with eight single districts and two larger district/post structures defined by charter mapping.
+- Administrative departments are supervised through the manager structure under the charter, while the Mayor has specific nomination/appointment and political functions.
+- Current 2026 charter-review meetings occur in the Lee N. Beard Commission Chamber at 535 Telfair Street.
+Production implication: the live 2026 charter-review process itself is useful as a model for institutional change—government structure can become a political object, not just a fixed game setting.
+Scene families:
+1. LEE N. BEARD COMMISSION CHAMBER.
+2. CONSOLIDATED-GOVERNMENT COMMISSION offices.
+3. MAYOR office family.
+4. MANAGER/ADMINISTRATIVE family.
+5. CHARTER-REVIEW institutional-change meeting state.
+Official sources:
+https://www.augustaga.gov/DocumentCenter/View/21007/Complete-Draft-March-6-2026-with-reinserted-ethics-language
+Current 2026 Augusta Charter Review Committee agendas.
+Status: STRONG CURRENT INSTITUTIONAL/CHAMBER PACK; note that draft charter language must not be treated as enacted until adoption/effective date is verified.
+
+
+### Savannah — COUNCIL-MANAGER / FORMAL CHAMBER + SEPARATE WORK-SESSION MEDIA ROOM
+Verified:
+- Savannah’s council-manager structure places legislative policy in Mayor and Aldermen and day-to-day administration in the City Manager.
+- Current 2026 Council consists of Mayor, two at-large aldermen, and six district aldermen.
+- Regular Council meetings are held on the second floor of historic City Hall, 2 E. Bay Street, in Council Chambers.
+- On Council days, Mayor and Aldermen also attend a work session/City Manager briefing; current 2026 notices repeatedly place those workshops in the second-floor Media Room, distinct from the formal chamber.
+Production implication: FORMAL MEETING and PRE-MEETING WORK SESSION should be different scenes even when they occur minutes apart in the same building.
+Scene families:
+1. HISTORIC SECOND-FLOOR COUNCIL CHAMBERS.
+2. SECOND-FLOOR MEDIA ROOM work-session/manager-briefing family.
+3. MAYOR/ALDERMAN offices.
+4. CITY MANAGER administrative family.
+Official sources:
+https://www.savannahga.gov/458/Council-Meeting-Schedule
+https://agenda.savannahga.gov/
+Current 2026 Council agendas/notices.
+Status: STRONG CURRENT GOVERNANCE/ROOM-USE PACK; architecture is a likely high-value custom civic asset.
+
+
+Georgia matrix status: STRONG. Atlanta = large modern city legislature; Augusta = consolidated government + live charter review; Savannah = historic council-manager city with distinct formal/work-session room grammar.
+
+
+## Hawai‘i
+
+
+### Honolulu — CITY AND COUNTY / NINE-DISTRICT COUNCIL
+Verified:
+- Honolulu is the consolidated City and County government for O‘ahu.
+- Charter vests legislative power in a nine-member Council, one member elected from each of nine districts; Mayor is chief executive.
+- Current Council offices are at Honolulu Hale, 530 S. King Street, Room 202.
+- Honolulu’s extensive neighborhood-board system creates a second layer of civic participation across community centers and local venues; current 2026 agendas show Mayor, Council, state legislative and federal representatives reporting into neighborhood-board meetings.
+Production implication: do not model O‘ahu politics as only Mayor + Council. Neighborhood boards are a recurring local-political scene and information network, while remaining distinct from the formal legislative branch.
+Scene families:
+1. HONOLULU HALE formal Council family — exact chamber visual/location detail still to complete.
+2. COUNCIL offices at Honolulu Hale.
+3. MAYOR executive family.
+4. NEIGHBORHOOD BOARD community-center family distributed across O‘ahu.
+5. CHARTER COMMISSION/board procedural states as applicable.
+Official sources:
+https://www.honolulucitycouncil.org/
+https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf
+https://www.honolulu.gov/events/
+Status: GOVERNANCE STRONG; formal Council-chamber visual/location pack still needs completion.
+
+
+### Maui County — ISLAND-SPANNING COUNTY COUNCIL + DISTRIBUTED RESIDENCY-AREA OFFICES
+Verified:
+- Maui County Council has nine members under the county charter and represents a multi-island county.
+- Current 2026 Council meetings/public hearings provide in-person testimony in the Council Chamber, Kalana O Maui Building, eighth floor, 200 South High Street, Wailuku.
+- Current notices also identify courtesy testimony/residency-area offices across East Maui/Hana, South Maui, Moloka‘i, Lāna‘i, Makawao-Ha‘ikū-Pā‘ia, and West Maui/Lahaina.
+Production implication: a single central chamber is insufficient. Geographic representation is physically expressed through island/residency-area offices and remote testimony infrastructure.
+Scene families:
+1. KALANA O MAUI EIGHTH-FLOOR COUNCIL CHAMBER.
+2. WAILUKU COUNTY administrative/executive offices.
+3. DISTRIBUTED RESIDENCY-AREA OFFICE family across multiple islands/regions.
+4. REMOTE/HYBRID TESTIMONY procedural state connecting those sites.
+Official sources:
+Current 2026 County Council public notices at https://www.mauicounty.gov/
+Maui County Charter.
+Status: STRONG CURRENT ROOM/GEOGRAPHIC-PROCEDURE PACK; distributed offices require individual visual families where practical.
+
+
+### Hawai‘i County — DUAL-EAST/WEST CIVIC GEOGRAPHY
+Verified:
+- Hawai‘i County’s charter uses a nine-member County Council, one member from each district.
+- Hilo Council Chambers are in the Hawai‘i County Building, 25 Aupuni Street, first floor, Room 1401; multiple county boards/commissions use this room.
+- Current county records also show substantial West Hawai‘i government activity at the West Hawai‘i Civic Center, so the island should not be represented by Hilo alone.
+- Planning and community-development bodies operate through geographically specific systems, including Hilo and Kona-facing offices/meetings.
+Production implication: county political geography has an east/west physical split. The game should preserve travel/location consequences rather than treating “Hawai‘i County government” as one building.
+Scene families:
+1. HILO COUNCIL CHAMBERS, 25 Aupuni Street.
+2. HILO county office/board family.
+3. WEST HAWAI‘I CIVIC CENTER family.
+4. DISTRICT/community planning meeting venues.
+Official source family:
+https://records.hawaiicounty.gov/
+https://www.hawaiicounty.gov/
+Status: STRONG MULTI-SITE INSTITUTIONAL PACK; current Council procedural split and West Hawai‘i exact chamber configurations need further visual extraction.
+
+
+Hawai‘i matrix status: STRONG AND STRUCTURALLY DISTINCT. For gameplay, counties rather than incorporated municipalities dominate local government; multi-island/residency-area and neighborhood-board structures must be first-class institutional geography.
+
+
+# Tranche 2 cross-cutting additions
+- MUNICIPAL FISCAL OVERSIGHT can come from an external state institution (Hartford/MARB), producing real constraints and recovery pathways.
+- SHARED CITY/COUNTY buildings (Wilmington) and CONSOLIDATED GOVERNMENTS (Jacksonville, Augusta, Honolulu) are separate concepts and should not share one boolean.
+- COUNCIL WORK SESSION and FORMAL SESSION can occupy different rooms in the same building (Savannah).
+- LOCAL LEGISLATURE SIZE varies dramatically: large ward bodies, district+at-large structures, compact commissions, and county councils require different staffing/coalition/committee assumptions.
+- ISLAND/REGIONAL OFFICE networks in Hawai‘i demonstrate why constituent access and testimony can be distributed across multiple physical sites.
+- A state oversight board, charter-review commission, zoning board, CRA, regional planning/transportation body, or neighborhood board can create political scenes without the player holding office in that institution.
+
+
+
+
+# Tranche 3 — Idaho through Kansas
+
+
+## Idaho
+
+
+### Boise — STRONG MAYOR + SIX SINGLE-MEMBER COUNCIL DISTRICTS
+Verified:
+- Boise’s FY2026 adopted budget explicitly identifies a strong mayor-council form.
+- Mayor is elected at large, works full time managing daily city operations, chairs Council meetings and votes only to break ties.
+- Six part-time Council members represent geographic districts and hold budget/policy authority.
+- Boise City Hall remains at 150 N. Capitol Boulevard in 2026.
+- Official Boise hearing records identify the City Hall Council Chambers at 150 N. Capitol Boulevard, historically/currently associated with the third-floor civic-meeting space; a fresh visual/floor-layout confirmation should precede art production rather than assuming older room finishes are unchanged.
+Simulation implication: Boise’s district-based Council is a relatively recent representation regime and should be time-versioned rather than back-projected indefinitely.
+Scene families:
+1. BOISE CITY HALL COUNCIL CHAMBERS.
+2. MAYOR strong-executive office family.
+3. SIX DISTRICT COUNCIL office/constituent-work family.
+4. PLANNING/HISTORIC-PRESERVATION hearing state using the chamber.
+Official sources:
+https://www.cityofboise.org/media/20517/fy-26-adopted-budget-ada-compliant.pdf
+https://permits.cityofboise.org/CitizenAccess/contactus.aspx
+Status: STRONG GOVERNANCE + BUILDING PACK; current chamber visual/floor confirmation pending before production art.
+
+
+### Meridian — RECENT SIX-DISTRICT COUNCIL TRANSITION
+Verified:
+- Meridian has six elected Council representatives, one from each of six districts.
+- Official city material states the districts were created in 2022 pursuant to state-law requirements and district elections began in November 2023.
+- Council holds regular Tuesday meetings with a work-session/public-hearing cadence at Meridian City Hall, 33 E. Broadway Avenue.
+- Mayor’s Office is also based at City Hall.
+Simulation implication: municipal representation rules can change because of state law. The pre-2023 and post-2023 Meridian political maps should not be treated as the same institutional state.
+Scene families:
+1. MERIDIAN CITY HALL COUNCIL meeting family.
+2. MAYOR executive office.
+3. DISTRICT COUNCIL constituent-work family.
+Official source family:
+https://meridiancity.org/
+Status: STRONG GOVERNANCE/LOCATION PACK; dedicated room imagery pending.
+
+
+### Coeur d’Alene
+Status: PENDING. Retain as northern-Idaho candidate, but do not infer its 2026 governance/room details from secondary summaries.
+
+
+Idaho matrix status: BOISE + MERIDIAN STRONG; northern/distinctive third city pending.
+
+
+## Illinois
+
+
+Illinois municipal work is already substantially deeper in Part 2 / file 43 and the earlier scene-reference research. Do not duplicate those entries here.
+
+
+Cross-reference authoritative existing packs:
+- CHICAGO — City Council/chamber/city-government family already researched.
+- SPRINGFIELD — Municipal Center West Council Chambers distinct from the ornate Illinois State Capitol; do not confuse municipal and state scenes.
+- PEORIA — City Hall Room 400 / curved dark-wood dais / historic mural / distinctive medium-city chamber already researched.
+
+
+Additional later expansion candidates: Aurora and Rockford if broader Illinois municipal variation is needed after the national first pass.
+
+
+Illinois matrix status: FIRST-PASS MUNICIPAL COVERAGE ALREADY SATISFIED BY FILE 43; no redundant rewrite.
+
+
+## Indiana
+
+
+### Indianapolis-Marion County — CONSOLIDATED CITY-COUNTY / 25-DISTRICT LEGISLATURE
+Verified:
+- The City-County Council is the legislative and fiscal body of the Consolidated City of Indianapolis and Marion County.
+- Since 2016, Council has 25 members representing 25 single-member geographic districts.
+- Council adopts budgets, levies and tax rates not only for core city/county departments but also for certain municipal corporations.
+- In 2026 the City-County Building Public Assembly Room (PAR) is Room 230, 200 E. Washington Street, and hosts numerous Council committee meetings.
+- Meeting Room 260 in the same building hosts other committees such as Administration and Finance, Ethics and Municipal Corporations.
+- Current municipal-corporation committee jurisdiction includes entities such as the Airport Authority, Capital Improvement Board, Health and Hospital Corporation, Public Library and IndyGo.
+Production implication: Indianapolis should expose a dense municipal-corporation ecosystem rather than treating all services as departments directly subordinate to the Mayor/Council.
+Scene families:
+1. CITY-COUNTY BUILDING PUBLIC ASSEMBLY ROOM / ROOM 230.
+2. ROOM 260 committee family.
+3. CITY-COUNTY COUNCIL legislative offices/staff.
+4. MAYOR consolidated-executive family.
+5. MUNICIPAL CORPORATION board/agency scenes linked to Council oversight.
+Official sources:
+https://calendar.indy.gov/location/06f77ee5-a704-4b7e-82e6-d550ed7e354c/
+https://calendar.indy.gov/location/eb7a5fd4-de8d-4764-b57f-c188e418757a/
+https://www.indy.gov/workflow/city-county-council-proposals
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Fort Wayne — NINE-MEMBER COUNCIL / CITIZENS SQUARE SHARED CIVIC COMPLEX
+Verified:
+- Fort Wayne Council has nine elected members: six geographic districts and three at-large.
+- Council is the legislative branch with responsibility for budget, appropriations, contracts, annexation, zoning and regulation ordinances.
+- Council offices are in Citizens Square, Suite 120, 200 E. Berry Street.
+- Current city guidance places both Committee Sessions and Regular Sessions in Room 35 Council Chambers on the Garden Level of Citizens Square.
+- Current 2026 Neighborhood Presidents meetings also use the same Council Chambers, showing that the room functions as a broader civic-governance venue.
+- Fort Wayne and Allen County planning/zoning processes overlap physically and institutionally; past/current hearing records place city and county planning actors in the same civic complex.
+Scene families:
+1. CITIZENS SQUARE ROOM 35 COUNCIL CHAMBERS / GARDEN LEVEL.
+2. COUNCIL OFFICE Suite 120.
+3. MAYOR/ADMINISTRATION family.
+4. CITY-COUNTY planning/intergovernmental hearing state.
+5. NEIGHBORHOOD PRESIDENTS civic-participation state using the chamber.
+Official sources:
+https://www.cityoffortwayne.org/city-council-home/
+https://engage.cityoffortwayne.org/neighborhood-presidents-meeting
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Bloomington — STRONG MAYOR + NINE-MEMBER COMMON COUNCIL IN ADAPTIVE-REUSE CITY HALL
+Verified:
+- Bloomington has an executive Mayor and nine-member Common Council.
+- Council structure is six district members plus three at-large members.
+- Mayor serves as chief executive; Common Council is legislative and fiscal body.
+- Council Chambers are Room 115 in City Hall / Showers Building, 401 N. Morton Street.
+- Current civic-room system also includes named conference rooms such as McCloskey Room 135, Kelly Room 155 and Hooker Room 245 for committees/boards.
+- Current official open data maintains the six Council district geometries and was updated in 2026.
+Production implication: the Showers Building should be researched as an actual adaptive-reuse municipal environment rather than rendered as generic limestone/classical City Hall. Exact architectural-history details belong in the later visual pack.
+Scene families:
+1. SHOWERS BUILDING COUNCIL CHAMBERS ROOM 115.
+2. NAMED CONFERENCE-ROOM committee family.
+3. MAYOR strong-executive office family.
+4. COMMON COUNCIL legislative-office family.
+5. PLAN COMMISSION / boards using Room 115.
+Official sources:
+https://bloomington.in.gov/node/16
+https://data.bloomington.in.gov/Elections-Politics/City-Council-Districts/bbv8-zsj5
+Official City of Bloomington financial/government reports.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK; architectural visual-history pass pending.
+
+
+Indiana matrix status: STRONG. Indianapolis = consolidated 25-district legislature/municipal corporations; Fort Wayne = district+at-large Council in shared civic complex; Bloomington = smaller strong-mayor city with multi-room adaptive-reuse City Hall.
+
+
+## Iowa
+
+
+### Des Moines — LIVE 2026 CITY HALL / COUNCIL-CHAMBER RELOCATION
+Verified:
+- Prior Des Moines Council agendas used City Hall Council Chambers at 400 Robert D. Ray Drive.
+- A February 9, 2026 Council work-session agenda explicitly says: City Council Chambers, first floor, City Hall, 1200 Locust Street — “Note New Location.”
+- By April 2026, formal public-hearing notices consistently identify Council Chambers at 1200 Locust Street.
+- The 1200 Locust facility is the T.M. Franklin Cownie City Administration Building/current City Hall family in 2026 municipal records.
+Production implication: this is a hard effective-date transition. A pre-move Des Moines start and a post-February-2026 start should not use the same default municipal-building scene.
+Scene families:
+1. PRE-2026 / 400 ROBERT D. RAY CITY HALL council family, valid only for appropriate historical dates.
+2. POST-MOVE / 1200 LOCUST FIRST-FLOOR COUNCIL CHAMBERS.
+3. MAYOR/COUNCIL office family tied to active City Hall era.
+4. WORK-SESSION state in the current chamber.
+Official sources:
+https://councildocs.dsm.city/agendas/2026/20260209CouncilWorkSession.pdf
+https://councildocs.dsm.city/resolutions/20260406/45.pdf
+Status: STRONG LIVE-TRANSITION PACK. Exact move date and office-by-office relocation chronology can be refined during visual/facility research.
+
+
+### Davenport — MAYOR-COUNCIL + PROFESSIONAL CITY ADMINISTRATOR
+Verified:
+- Davenport is a Mayor-Council government with a professional City Administrator.
+- Legislative body consists of Mayor plus ten Council members: eight ward aldermen and two at-large aldermen.
+- Mayor and at-large aldermen are elected citywide; ward aldermen are elected by ward; terms are two years.
+- City Administrator carries out Mayor/Council policies, prepares the annual budget, oversees personnel and day-to-day administration and advises the elected body.
+- Tim Gleason was selected as permanent City Administrator in February 2026 after serving interim; his contract was scheduled to begin March 2 after Council approval.
+- Current 2026 Council meetings are in City Hall Council Chambers, 226 W. 4th Street.
+- Plan and Zoning Commission, Zoning Board of Adjustment, Historic Preservation Commission and other civic bodies also use the Council Chambers.
+Production implication: the City Administrator is not an elected executive replacement; political Mayor/Council leadership and professional administration coexist. One chamber is a multi-institution civic venue.
+Scene families:
+1. 226 W. 4TH CITY HALL COUNCIL CHAMBERS.
+2. MAYOR/COUNCIL political-office family.
+3. CITY ADMINISTRATOR professional-administration office.
+4. PLAN/ZONING/HISTORIC boards using same chamber.
+Official sources:
+https://www.davenportiowa.com/government/mayor_council
+https://www.davenportiowa.com/government/departments/city_administration
+https://www.davenportiowa.com/news/what_s_new/tim_gleason_selected_as_city_administrator
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Iowa City — COUNCIL SELECTS MAYOR FROM AMONG ITS OWN MEMBERS
+Verified:
+- Iowa City has seven Council members: four at-large and one each from Districts A, B and C in the current structure.
+- The Mayor is not a separately elected chief executive. At the first meeting of the new Council in January 2026, Council members elected Bruce Teague as Mayor and Megan Alter as Mayor Pro Tem, both by 4-3 votes; terms continue to January 2028.
+- Council formal meetings and work sessions occur in Emma J. Harvat Hall inside City Hall, 410 E. Washington Street.
+- The same hall is used by multiple commissions and boards.
+- Council members do not maintain conventional fixed public office hours at City Hall, which matters for how constituent-contact scenes should be staged.
+Production implication: an Iowa City mayoral career is an intra-council leadership selection, not a separate citywide mayoral election. This should produce coalition/leadership gameplay fundamentally different from Davenport or Des Moines.
+Scene families:
+1. EMMA J. HARVAT HALL formal Council meeting.
+2. EMMA J. HARVAT HALL work-session state.
+3. CITY HALL Council/Clerk administrative context.
+4. BOARD/COMMISSION use of Harvat Hall.
+5. COUNCIL leadership-selection scene after an election cycle.
+Official sources:
+https://www.icgov.org/Home/Components/News/News/2422/390
+https://www.icgov.org/government/city-council
+https://www.icgov.org/Home/Components/Calendar/Event/6182/394
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK; especially valuable institutional-variation example.
+
+
+Iowa matrix status: STRONG. Des Moines adds live facility transition; Davenport adds Mayor-Council + professional administrator; Iowa City adds council-selected mayoral leadership.
+
+
+## Kansas
+
+
+### Wichita — MAYOR-COUNCIL-MANAGER / SIX DISTRICTS + AT-LARGE MAYOR
+Verified:
+- Wichita’s official budget identifies a Mayor-Council-Manager system.
+- Governing body is Mayor elected at large plus six district Council members.
+- City Manager is appointed by the Council and manages administration/personnel.
+- Current 2026 meetings occur in City Council Chambers, City Hall, 455 N. Main Street.
+Scene families:
+1. 455 N. MAIN CITY COUNCIL CHAMBERS.
+2. MAYOR political-leadership office.
+3. SIX DISTRICT COUNCIL office/constituent family.
+4. CITY MANAGER administrative office.
+Official source family:
+https://www.wichita.gov/
+Current City budget and 2026 meeting notices.
+Status: STRONG GOVERNANCE/LOCATION PACK; visual pack pending.
+
+
+### Overland Park — MAYOR + 12 COUNCIL / SIX TWO-MEMBER WARDS
+Verified:
+- Overland Park uses a Mayor-Council-City Manager form.
+- Governing body has Mayor elected at large plus 12 Council members, two from each of six wards.
+- City Manager implements policies and directs day-to-day administration.
+- Current 2026 Council meetings are held in the Council Chamber at City Hall, 8500 Santa Fe Drive.
+- Committee of the Whole and recurring goal-area committees commonly use Conference Room 1 rather than the full chamber.
+Production implication: two Council members per ward creates within-ward co-representation rather than one-person geographic ownership. Full Council and committee scenes also have distinct room families.
+Scene families:
+1. 8500 SANTA FE CITY HALL COUNCIL CHAMBER.
+2. CONFERENCE ROOM 1 committee/Committee-of-the-Whole family.
+3. MAYOR office.
+4. COUNCIL ward-representation office family.
+5. CITY MANAGER administrative family.
+Official sources:
+https://opkansas.civicweb.net/portal/
+https://online.encodeplus.com/regs/overlandpark-ks-gbp/doc-viewer.aspx?secid=51
+Current 2026 Overland Park budgets/meeting records.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Topeka — COUNCIL-MANAGER / MAYOR + NINE DISTRICTS / NORMAL CHAMBER RESTORED
+Verified:
+- Topeka uses a Council-Manager system.
+- Current Governing Body consists of directly elected Mayor plus nine district Council members; City Manager handles professional administration.
+- Current 2026 Governing Body meetings are definitively back in City Council Chambers, 214 SE 8th Street, second floor.
+- City’s current Granicus portal confirms this as the standing in-person meeting location and lists 2026 meetings there through August 2026.
+- Earlier renovation/HVAC-related temporary relocations therefore belong to a historical/temporary facility state, not the current scene.
+- City Clerk’s office is separately located at 215 SE 7th Street, Room 166, showing that legislative records/administration is physically distinct from the chamber.
+Scene families:
+1. 214 SE 8TH SECOND-FLOOR COUNCIL CHAMBERS.
+2. MAYOR political office.
+3. NINE-DISTRICT COUNCIL family.
+4. CITY MANAGER administrative family.
+5. CITY CLERK / RECORDS office at separate address.
+6. TEMPORARY RELOCATION state for historical renovation periods only.
+Official sources:
+https://topeka.granicus.com/ViewPublisher.php?view_id=1
+Current 2026 Governing Body agendas.
+Status: STRONG CURRENT GOVERNANCE/LOCATION PACK; temporary-relocation chronology preserved separately.
+
+
+Kansas matrix status: STRONG. Wichita, Overland Park and Topeka provide three distinct council/manager geometries and room patterns.
+
+
+# Tranche 3 cross-cutting additions
+- RECENT DISTRICTING REFORMS (Boise/Meridian) require effective dates just as much as building moves.
+- CONSOLIDATED LOCAL GOVERNMENT can create specialist municipal corporations and unusual fiscal/oversight relationships (Indianapolis).
+- A COUNCIL CHAMBER may double as planning, zoning, historic-preservation, neighborhood or other civic-body space; physical venue and active institution remain separate.
+- PROFESSIONAL ADMINISTRATOR systems vary: Davenport’s Mayor-Council + Administrator is not identical to Wichita/Overland Park/Topeka council-manager arrangements.
+- COUNCIL-SELECTED MAYOR leadership (Iowa City) is a fundamentally different political career path from direct mayoral election and must be modeled as such.
+- MUNICIPAL BUILDING MOVES (Des Moines) and TEMPORARY RENOVATION RELOCATIONS (Topeka) are both time-versioned scene states but are different event types.
+- TWO-MEMBER WARDS (Overland Park) create co-representation dynamics different from standard single-member districts.
+
+
+
+
+# Tranche 4 — Kentucky through Massachusetts
+
+
+## Kentucky
+
+
+### Louisville/Jefferson County Metro — CONSOLIDATED METRO WITH NESTED HOME-RULE CITIES
+Verified:
+- Louisville Metro Council has 26 single-member geographic districts.
+- Full Council and the 2026 standing committees meet in Metro Council Chambers on the third floor of Historic City Hall, 601 W. Jefferson Street.
+- The Mayor’s Office is physically separate at 527 W. Jefferson Street, so executive and legislative work should not be collapsed into one City Hall interior.
+- Consolidation did not erase every smaller incorporated/home-rule city within Jefferson County. Metro Council districts can contain or overlap retained municipalities such as St. Matthews and other home-rule cities.
+Simulation implication: `consolidated government` does not mean `all subordinate municipal governments abolished`. Nested municipal authority, service responsibility and political identity require explicit representation.
+Scene families:
+1. HISTORIC CITY HALL THIRD-FLOOR METRO COUNCIL CHAMBERS.
+2. METRO COUNCIL member/committee office family at 601 W. Jefferson.
+3. MAYOR executive family at 527 W. Jefferson.
+4. HOME-RULE CITY council/mayor families nested within Jefferson County where relevant.
+Official source family:
+https://louisvilleky.gov/government/metro-council
+https://louisvilleky.gov/government/mayor
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK; dedicated contemporary visual extraction pending.
+
+
+### Lexington-Fayette Urban County Government — CONSOLIDATED URBAN-COUNTY + PROFESSIONAL LEGISLATIVE STAFF
+Verified:
+- Urban County Council consists of 12 district Council members plus three at-large members; one at-large member serves as Vice Mayor.
+- Current Council, committee and work-session activity is centered on the Council Chamber at 200 E. Main Street.
+- Council has a professional support apparatus including a Council Administrator and research, budget and communications functions rather than relying only on elected members’ personal staff.
+- Official LFUCG materials distinguish ordinances, resolutions, committee referrals and work sessions, providing a real legislative-process backbone for city-level policymaking.
+Simulation implication: Lexington is useful for modeling a local legislature with substantive institutional staff capacity. A council member can ask analysts/budget staff for work instead of every policy action being self-performed.
+Scene families:
+1. 200 E. MAIN COUNCIL CHAMBER.
+2. COUNCIL WORK SESSION / committee procedural states.
+3. COUNCIL ADMINISTRATION / RESEARCH / BUDGET staff-office family.
+4. MAYOR executive-office family.
+Official source family:
+https://www.lexingtonky.gov/government/council
+https://www.lexingtonky.gov/government/council/council-office
+Status: STRONG CURRENT GOVERNANCE/INSTITUTIONAL PACK; existing project continuity also contains Lexington-focused political research.
+
+
+### Bowling Green — AT-LARGE COMMISSION + CITY MANAGER
+Verified:
+- Bowling Green uses a Board of Commissioners with four commissioners elected at large plus the Mayor.
+- A professional City Manager is responsible for day-to-day administration.
+- Current 2026 Board meetings/public hearings use the Commission Chamber in City Hall, 1001 College Street.
+Production implication: this provides a smaller-city Kentucky contrast where geographic wards are absent and coalition/accountability dynamics are citywide.
+Scene families:
+1. 1001 COLLEGE STREET COMMISSION CHAMBER.
+2. MAYOR/COMMISSION political-office family.
+3. CITY MANAGER administrative-office family.
+Official source family:
+https://www.bgky.org/government
+Status: STRONG GOVERNANCE/ROOM PACK.
+
+
+Kentucky matrix status: STRONG. Louisville and Lexington provide two different consolidated-government families; Bowling Green provides a compact at-large commission-manager contrast.
+
+
+## Louisiana
+
+
+### New Orleans — HOME-RULE MAYOR-COUNCIL / FIVE DISTRICTS + TWO AT-LARGE
+Verified:
+- New Orleans operates under a Home Rule Charter with a Mayor-Council structure rather than a consolidated city-parish system.
+- Council has seven members: five geographic district seats and two at-large seats.
+- Mayor is the executive and works with a Chief Administrative Officer responsible to the Mayor.
+- Current 2026 municipal hearings identify City Council Chamber, 1300 Perdido Street, Room 1E07.
+- The chamber is also used by institutions including the City Planning Commission, Historic District Landmarks Commission and Board of Zoning Adjustments.
+- Official capital-planning material documented a multi-phase Council Chamber renovation sequence including seating/dais/flooring and later audiovisual work. Visual references therefore require an era tag rather than mixing pre- and post-renovation imagery.
+- Council district maps effective January 12, 2026 create another explicit geographic effective-date boundary.
+Scene families:
+1. 1300 PERDIDO ROOM 1E07 COUNCIL CHAMBER.
+2. COUNCIL member/committee office family.
+3. MAYOR / CHIEF ADMINISTRATIVE OFFICER executive-administrative family.
+4. PLANNING / LANDMARKS / ZONING procedural state in same chamber.
+Official source family:
+https://council.nola.gov/
+https://nola.gov/
+Status: STRONG CURRENT GOVERNANCE/ROOM + ERA-VERSIONING PACK.
+
+
+### Baton Rouge / East Baton Rouge Parish — CONSOLIDATED CITY-PARISH / MAYOR-PRESIDENT
+Verified:
+- Baton Rouge and East Baton Rouge Parish operate through a consolidated city-parish government whose modern structure developed from the 1947 Plan of Government and later council consolidation.
+- The Mayor-President serves as both Mayor of Baton Rouge and Parish President and directs day-to-day executive administration, including appointment of most department heads subject to applicable law.
+- Metropolitan Council has 12 single-member districts.
+- Council governs not just general city/parish functions but a range of districts/authorities and fiscal structures, creating more institutional objects than a generic city budget.
+- Current 2026 agendas identify Council Chambers at 222 Saint Louis Street, Room 348; Council administrative offices use other rooms in the same building, so chamber and office location must remain distinct.
+Scene families:
+1. 222 SAINT LOUIS ROOM 348 METROPOLITAN COUNCIL CHAMBER.
+2. METROPOLITAN COUNCIL district-office/staff family.
+3. MAYOR-PRESIDENT consolidated-executive office.
+4. SPECIAL DISTRICT / AUTHORITY oversight and budget-hearing states.
+Official source family:
+https://www.brla.gov/
+Status: STRONG CONSOLIDATED-GOVERNMENT/ROOM PACK.
+
+
+### Shreveport — SEVEN-DISTRICT COUNCIL / GOVERNMENT PLAZA
+Verified:
+- Shreveport Council has seven members, one from each district A-G.
+- Regular meetings occur twice monthly and are preceded by an Administrative Conference on the prior day.
+- Current meetings use Government Chambers on the first floor of Government Plaza, 505 Travis Street.
+- Government Plaza is a broader intergovernmental complex containing city, parish and sheriff functions; the chamber is also used for additional municipal judicial/administrative proceedings.
+- Council staff includes positions such as Clerk, Deputy Clerk, Director of Council Affairs and Council Analyst.
+Production implication: Administrative Conference and formal Council meeting can be different procedural states even if using the same room; Government Plaza also supports cross-government hallway/office scenes.
+Scene families:
+1. GOVERNMENT PLAZA FIRST-FLOOR GOVERNMENT CHAMBERS.
+2. ADMINISTRATIVE-CONFERENCE state.
+3. COUNCIL staff/analyst office family.
+4. MAYOR executive-office family.
+5. PARISH/SHERIFF/intergovernmental shared-complex scenes.
+Official source family:
+https://www.shreveportla.gov/
+Status: STRONG CURRENT GOVERNANCE/BUILDING PACK.
+
+
+Louisiana matrix status: STRONG. New Orleans = home-rule city; Baton Rouge = consolidated city-parish with Mayor-President; Shreveport = seven-district city council in shared Government Plaza.
+
+
+## Maine
+
+
+### Portland — COUNCIL-MANAGER + POPULARLY ELECTED RANKED-CHOICE MAYOR
+Verified:
+- Portland operates under a Council-Manager form with a nine-member Council: popularly elected Mayor, five district Councilors and three at-large Councilors.
+- Mayor is chosen by majority through ranked-choice voting and serves a four-year term; the other Council seats follow their own terms/election cycles.
+- City Hall is at 389 Congress Street. Official city materials consistently identify the City Council Chambers there; historical official notices identify the chamber as a second-floor room. Before production art, confirm that the 2026 physical configuration/floor designation remains unchanged rather than relying on historical room metadata alone.
+Production implication: Portland combines a direct mayoral mandate with professional management; this is distinct from Bangor’s council-selected ceremonial mayor despite both being council-manager systems.
+Scene families:
+1. PORTLAND CITY HALL COUNCIL CHAMBERS, 389 Congress Street.
+2. MAYOR political-leadership office.
+3. DISTRICT/AT-LARGE COUNCIL family.
+4. CITY MANAGER administrative-office family.
+5. COUNCIL committees/boards using City Hall rooms.
+Official sources:
+https://www.portlandmaine.gov/your-government
+https://www.portlandmaine.gov/city-council
+Status: GOVERNANCE STRONG; CURRENT CHAMBER VISUAL/FLOOR CONFIRMATION PENDING.
+
+
+### Lewiston — MAYOR + SEVEN WARDS / CITY ADMINISTRATOR / LIVE PUBLIC-SAFETY INSTITUTIONAL RESPONSE
+Verified:
+- Lewiston has a Mayor and seven Councilors, each Councilor representing one ward.
+- City Administrator and Deputy City Administrator oversee operations and implement Mayor/Council policy.
+- City Hall is at 27 Pine Street; current agendas use Council Chambers.
+- In 2026 Lewiston created a Public Safety Committee through Ordinance 26-07, effective April 2, building on a prior mayoral ad hoc process and bringing elected, police/fire/planning/community actors into a standing institution focused on public-safety problems.
+- A June 30, 2026 special Council meeting concerning youth gun violence was held at Lewiston High School rather than City Hall and drew more than 150 residents along with police, prosecution, schools, corrections and service actors.
+Simulation implication: serious local conditions can cause government to create new committees and move public deliberation to larger community venues. Institution creation should be a real historical event, not merely a menu unlock.
+Scene families:
+1. LEWISTON CITY HALL COUNCIL CHAMBERS.
+2. MAYOR/SEVEN-WARD Council office family.
+3. CITY ADMINISTRATOR office family.
+4. PUBLIC SAFETY COMMITTEE multi-agency scene.
+5. LARGE COMMUNITY PUBLIC MEETING at school/auditorium when issue scale requires.
+Official source family:
+https://www.lewistonmaine.gov/
+Status: STRONG GOVERNANCE + INSTITUTIONAL-CHANGE PACK; exact chamber floor/visual pack pending.
+
+
+### Bangor — NINE AT-LARGE COUNCILORS / COUNCIL-SELECTED MAYOR
+Verified:
+- Bangor City Council is nine members elected at large on a nonpartisan basis to staggered three-year terms; three seats are elected each year.
+- After the November election, Council selects one member as Council Chair for the year. That Chair serves as Mayor and represents the city ceremonially and in interactions with state/federal government.
+- Bangor is Council-Manager; City Manager is chief administrative officer and Council sets policy.
+- Current 2026 meetings, workshops, budget workshops and many committee/board meetings use the first-floor City Council Chambers at Bangor City Hall, 73 Harlow Street.
+- Planning Board, Board of Ethics and other bodies also use the chamber.
+Simulation implication: the path to Mayor is internal Council coalition selection after winning an at-large Council seat; it is not a direct mayoral election.
+Scene families:
+1. FIRST-FLOOR CITY COUNCIL CHAMBERS, 73 Harlow Street.
+2. PRE-COUNCIL WORKSHOP state in/around chamber.
+3. CITY MANAGER administrative office.
+4. COUNCIL CHAIR/MAYOR leadership-selection scene after annual election.
+5. BOARD/COMMITTEE use of same chamber.
+Official sources:
+https://bangormaine.gov/446/City-Council
+https://www.bangormaine.gov/209/City-Manager
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+Maine matrix status: STRONG. Portland = directly elected RCV mayor + manager; Lewiston = ward mayor/administrator + live institutional response; Bangor = at-large council + annually council-selected mayor.
+
+
+## Maryland
+
+
+### Baltimore — INDEPENDENT-CITY GOVERNMENT / PRESIDENT + 14 SINGLE-MEMBER DISTRICTS
+Verified:
+- Baltimore City Council is the legislative branch of the independent City of Baltimore.
+- Council structure is a Council President elected citywide plus 14 members from single-member districts.
+- Current Council Rules define the Council Chamber as the Clarence “Du” Burns Council Chamber in City Hall.
+- City Hall is at 100 N. Holliday Street; official Council materials identify the Du Burns Chamber on the fourth floor.
+- Council President has distinct institutional roles beyond merely chairing floor debate, including succession/ex-officio mayor functions under specified circumstances and a role in the Board of Estimates.
+Production implication: Baltimore’s independent-city status and Board of Estimates create a city-level institutional structure that should not be treated as an ordinary municipality nested inside a county.
+Scene families:
+1. FOURTH-FLOOR CLARENCE “DU” BURNS COUNCIL CHAMBER.
+2. CITY COUNCIL President leadership office.
+3. 14 DISTRICT COUNCIL office/constituent family.
+4. MAYOR executive-office family.
+5. BOARD OF ESTIMATES proceedings as a distinct institution even when actors overlap.
+Official sources:
+https://baltimorecitycouncil.com/
+https://legislativereference.baltimorecity.gov/
+Status: STRONG GOVERNANCE/CHAMBER PACK; current visual pack pending.
+
+
+### Annapolis — DIRECTLY ELECTED MAYOR + EIGHT WARD ALDERPERSONS
+Verified:
+- Annapolis City Council comprises Mayor plus eight Alderpersons, one representing each ward.
+- Mayor is elected citywide; Alderpersons are elected by ward. Official city material describes the Council as the municipal legislative body with oversight over spending and service delivery.
+- Current April/May 2026 agendas identify City Council Chambers at City Hall, 160 Duke of Gloucester Street.
+- Current work sessions can use the same chamber but differ procedurally from voting sessions.
+- Annapolis is simultaneously state capital and Anne Arundel County seat, with state, county, federal/USNA and municipal institutions physically close but legally distinct.
+Production implication: downtown Annapolis can support unusually dense cross-level political scenes without merging institutions.
+Scene families:
+1. 160 DUKE OF GLOUCESTER CITY COUNCIL CHAMBERS.
+2. MAYOR executive office.
+3. EIGHT WARD ALDERPERSON offices/constituent contexts.
+4. COUNCIL work-session state.
+5. STATE/COUNTY/FEDERAL neighboring-institution scenes in the Annapolis civic core.
+Official sources:
+https://www.annapolis.gov/
+Status: STRONG GOVERNANCE/2026 CHAMBER PACK.
+
+
+### Rockville — COUNCIL-MANAGER / MAYOR + SIX COUNCILMEMBERS ALL ELECTED AT LARGE
+Verified:
+- FY2026 adopted budget identifies a council-manager government.
+- Mayor and six Councilmembers are all elected at large for four-year terms; the current seven-member body reflects a recent expansion from the older five-member structure.
+- Mayor/Council set policy and appoint the professional City Manager, who manages day-to-day city operations.
+- Mayor and Council use Rockville City Hall, 111 Maryland Avenue; official agendas refer to the Mayor and Council Chamber there and current participation instructions explicitly govern entrance/sign-up for that chamber.
+- Rockville provides substantial municipal services but Montgomery County retains other major functions such as schools, libraries, social services and fire protection. Service responsibility therefore cannot be inferred simply from incorporated-city status.
+Simulation implication: municipal service scope must be data-driven. Rockville’s police role, water/sewer coverage and County-provided functions create real intergovernmental dependencies.
+Scene families:
+1. ROCKVILLE CITY HALL MAYOR AND COUNCIL CHAMBER.
+2. MAYOR/COUNCIL office family.
+3. CITY MANAGER administrative office.
+4. CITY/COUNTY intergovernmental coordination scenes.
+Official sources:
+https://www.rockvillemd.gov/wp-content/uploads/2025/09/Fiscal-Year-2026-Adopted-Budget.pdf
+https://www.rockvillemd.gov/mayorcouncil
+Status: STRONG CURRENT GOVERNANCE PACK; contemporary chamber imagery pending.
+
+
+Maryland matrix status: STRONG. Baltimore = independent city/large district legislature; Annapolis = state-capital ward council; Rockville = council-manager municipality embedded in a service-rich county.
+
+
+## Massachusetts
+
+
+### Boston
+Already researched deeply in Part 2 / file 43, including the distinctive Brutalist City Hall/council-chamber family. Cross-reference rather than duplicate. Boston remains a must-customize municipal environment.
+
+
+### Worcester — PLAN E COUNCIL-MANAGER / POPULARLY ELECTED MAYOR WITH LIMITED EXECUTIVE ROLE
+Verified:
+- Worcester operates under Council-Manager / Plan E government.
+- Current structure is 11 Council members: six at-large and five district Councilors. One at-large position is the popularly elected Mayor.
+- The professional City Manager is the chief administrative executive.
+- Current Council meetings are held in Esther Howland Chamber on the third floor of City Hall, 455 Main Street.
+- Current 2026 Council material also uses Esther Howland Chamber for standing-committee/charter-review discussions.
+Production implication: a popularly elected Mayor can coexist with a City Manager who holds primary administrative authority. Do not equate direct mayoral election with strong-mayor executive powers.
+Scene families:
+1. THIRD-FLOOR ESTHER HOWLAND CHAMBER, 455 Main Street.
+2. MAYOR/AT-LARGE political-leadership office.
+3. DISTRICT/AT-LARGE COUNCIL family.
+4. CITY MANAGER executive-administrative office.
+5. CHARTER/municipal-operations committee state.
+Official sources:
+https://www.worcesterma.gov/city-manager
+https://www.worcesterma.gov/city-council
+https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Cambridge — 2025 NEW CHARTER + PROPORTIONAL REPRESENTATION + COUNCIL-SELECTED MAYOR
+Verified:
+- Cambridge voters adopted a new charter in 2025; current official election guidance reflects that charter.
+- Nine City Councillors are elected at large for two-year terms by proportional representation.
+- After taking office, the nine Councillors elect one of themselves as Mayor.
+- Council appoints the City Manager, City Clerk and City Auditor; City Manager is chief administrative officer.
+- Current 2026 regular, special, committee and executive-session meetings use Sullivan Chamber on the second floor of City Hall, 795 Massachusetts Avenue.
+- The chamber includes a Members’ Lobby with access rules, which is a useful physical/procedural subspace rather than generic background decoration.
+Production implication: Cambridge combines proportional representation, council-selected ceremonial/presiding mayor and strong professional management. The 2025 charter adoption is an explicit institutional effective-date event.
+Scene families:
+1. SECOND-FLOOR SULLIVAN CHAMBER.
+2. MEMBERS’ LOBBY connected to chamber.
+3. CITY MANAGER administrative-executive office.
+4. NINE AT-LARGE PR COUNCIL political-office family.
+5. COUNCIL MAYOR-SELECTION organizational meeting.
+Official sources:
+https://www.cambridgema.gov/departments/electioncommission/cambridgemunicipalelections
+https://www.cambridgema.gov/departments/cityclerksoffice/calendar
+Status: STRONG CURRENT GOVERNANCE/ROOM + CHARTER-CHANGE PACK.
+
+
+### Springfield — STRONG-MAYOR CITY + MIXED 13-MEMBER COUNCIL
+Verified:
+- Springfield City Council has 13 members: five elected at large and one elected from each of eight wards.
+- This mixed representation system took effect after a 2007 voter-approved change and began with the 2009 election cycle.
+- Current 2026-2027 Council membership reflects that 13-seat structure.
+- Council offices are at City Hall, 36 Court Street, Room 200. Official historical municipal records identify Room 200 as City Council Chambers; current 2026 office/budget materials continue to use Room 205 and other City Hall rooms for budget/committee work, so a fresh current chamber-layout verification is required before art production rather than assuming no room reconfiguration.
+- Springfield’s Mayor is a separately elected executive, producing a materially different Massachusetts municipal system from Worcester/Cambridge.
+Scene families:
+1. CITY HALL COUNCIL CHAMBER / ROOM 200 family, current visual confirmation required.
+2. COUNCIL committee/budget rooms including Room 205 where current notices specify.
+3. MAYOR strong-executive office family.
+4. EIGHT WARD + FIVE AT-LARGE Council political-office family.
+Official sources:
+https://www.springfield-ma.gov/elections/ward-representation
+https://www.springfield-ma.gov/cos/city-council-members
+Status: GOVERNANCE STRONG; exact 2026 chamber visual/configuration remains a flagged follow-up.
+
+
+Massachusetts matrix status: STRONG. Boston = distinctive major-city chamber; Worcester = Plan E with directly elected mayor; Cambridge = PR council + council-selected mayor + 2025 charter; Springfield = separately elected executive + mixed ward/at-large Council.
+
+
+# Tranche 4 cross-cutting additions
+- CONSOLIDATION does not necessarily abolish nested municipalities (Louisville/Jefferson County).
+- MUNICIPAL LEGISLATIVE STAFF CAPACITY varies materially (Lexington research/budget staff; Shreveport Council analyst; Baltimore legislative infrastructure) and should affect what work elected officials can delegate.
+- COUNCIL-MANAGER is a family, not one government type: Portland has a directly elected RCV mayor; Bangor and Cambridge select mayors from the council; Worcester directly elects a mayor but keeps professional executive management.
+- ELECTORAL METHOD itself belongs in the institutional backbone: ranked-choice voting, proportional representation, ward/district/at-large mixtures and internal leadership elections create different career strategies.
+- INDEPENDENT CITY, CONSOLIDATED CITY-COUNTY/PARISH, HOME-RULE CITY and ORDINARY INCORPORATED MUNICIPALITY are different legal-geographic relationships.
+- EXTERNAL OR COUNTY-PROVIDED SERVICES must be explicit. A city government may not control schools, fire protection, libraries or other services residents associate with “the city.”
+- NEW COMMITTEES, CHARTER REFORMS, COUNCIL EXPANSIONS and DISTRICT MAP CHANGES are historical institutional events with effective dates, not static metadata.
+- A chamber can have meaningful connected subspaces such as a Members’ Lobby (Cambridge), and procedural access rules can shape scenes.
+
+
+
+
+# Tranche 5 — Michigan through Montana
+
+
+## Michigan
+
+
+Detroit and Grand Rapids already have substantive municipal environment/governance coverage in Part 2 / file 43. Cross-reference rather than duplicate.
+
+
+### Lansing — CAPITAL-CITY FOLLOW-UP CANDIDATE
+Verified baseline:
+- Lansing maintains separate Mayor’s Office, City Council, Clerk, courts and extensive boards/commissions under the current city structure.
+- Current Council pages identify ward and at-large elected representation, but the city website’s rendered member list is not sufficiently machine-readable in the present research pass to safely restate exact current seat allocation without a charter/election-document check.
+- Lansing is especially valuable because municipal government, Michigan state government and Michigan State University/East Lansing institutions create a dense capital-region political environment.
+Status: PARTIAL. Before promoting Lansing to a full production entry, verify exact 2026 Council composition, chamber location and current charter powers from official charter/election/agenda documents.
+
+
+Michigan matrix status: EXISTING DETROIT + GRAND RAPIDS PACKS SATISFY FIRST-PASS STATE COVERAGE; Lansing remains a high-priority capital-city expansion.
+
+
+## Minnesota
+
+
+Minneapolis and Saint Paul already have strong municipal research in Part 2 / file 43. Cross-reference rather than duplicate.
+
+
+### Duluth — MAYOR-COUNCIL / FIVE DISTRICT + FOUR AT-LARGE
+Verified:
+- Duluth has a Mayor-Council form with a nine-member Council.
+- Five Councilors represent geographic districts and four are elected at large.
+- City Council offices are in City Hall, Room 318, 411 W. First Street.
+- Current 2026 Council/Planning activity uses the Council Chambers on the third floor of Duluth City Hall.
+- Council elects its own President and Vice President annually; in January 2026 the Council elected Lynn Marie Nephew President and Janet Kennedy Vice President.
+- Duluth Transit Authority is a separate nine-member authority with a statutory/organizational relationship to the Council districts, providing a concrete quasi-independent service institution rather than merely a city department.
+Scene families:
+1. THIRD-FLOOR DULUTH CITY HALL COUNCIL CHAMBERS.
+2. ROOM 318 COUNCIL office family.
+3. MAYOR executive-office family.
+4. DULUTH TRANSIT AUTHORITY board room/institution.
+5. CHARTER COMMISSION and Planning Commission use of chamber.
+Official sources:
+https://duluthmn.gov/city-council/
+https://duluthmn.gov/boards-commissions/regional-authorities-boards/duluth-transit-authority/
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+Minnesota matrix status: STRONG with Minneapolis, Saint Paul and Duluth.
+
+
+## Mississippi
+
+
+### Jackson — STRONG MAYOR-COUNCIL / SEVEN WARDS
+Verified:
+- Jackson operates under a Mayor-Council form with a full-time Mayor elected at large and seven part-time Council members, one from each of seven wards.
+- Current 2026 agendas continue to use Council Chambers at Jackson City Hall, 219 S. President Street.
+- Current Council packets identify executive officers including Mayor, Chief of Staff, City Attorney, Chief Administrative Officer, Chief Finance Officer and department directors, illustrating a substantial executive-administrative apparatus alongside the elected Council.
+- Council maintains its own Clerk of Council function separate from executive departmental leadership.
+Scene families:
+1. 219 S. PRESIDENT CITY COUNCIL CHAMBERS.
+2. SEVEN-WARD COUNCIL political-office family.
+3. MAYOR/CHIEF OF STAFF executive family.
+4. CHIEF ADMINISTRATIVE OFFICER/department-head briefing family.
+Official sources:
+https://jacksonms.gov/government/city-council/
+https://jacksonms.gov/government/city-council/meeting-schedule/
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Gulfport — SEVEN-WARD MAYOR-COUNCIL / COASTAL INTERGOVERNMENTAL SERVICE SYSTEMS
+Verified historical/legal baseline:
+- Official city financial records identify Gulfport as a code-charter Mayor-Council municipality with a full-time Mayor and seven part-time Council members elected by wards.
+- Official financial records also document joint-venture/intergovernmental service structures such as regional wastewater/solid-waste arrangements, illustrating how city services can be supplied through multi-government institutions.
+Status: PARTIAL. Exact current 2026 Council composition/chamber location must be refreshed from current agendas before production use. Retain Gulfport as a strong coastal/intergovernmental-service candidate, not yet a completed room pack.
+Official source family:
+https://www.gulfport-ms.gov/
+
+
+### Additional Mississippi candidate
+Tupelo remains a useful medium-city/northern-state contrast but requires its own current official pass.
+
+
+Mississippi matrix status: JACKSON STRONG; Gulfport institutional baseline useful but current-room refresh required.
+
+
+## Missouri
+
+
+### Kansas City — COUNCIL-MANAGER / MAYOR + 12 COUNCIL MEMBERS WITH DISTRICT AND DISTRICT-AT-LARGE PAIRS
+Verified:
+- Kansas City’s longstanding charter uses council-manager government.
+- Mayor presides over a Council with 12 additional members: each of six districts elects one in-district member and one district-at-large member elected citywide but associated with that district.
+- Current May 2026 Council business sessions use the 26th-floor Council Chamber, City Hall, 414 E. 12th Street.
+- City Plan Commission uses a separate 10th-floor Council Committee Room for 2026 hearings, illustrating distinct full-Council versus commission/committee environments.
+Production implication: district-at-large seats are not equivalent to generic citywide at-large seats; each is institutionally paired with one of six districts.
+Scene families:
+1. 26TH-FLOOR KANSAS CITY COUNCIL CHAMBER.
+2. 10TH-FLOOR COUNCIL COMMITTEE ROOM.
+3. MAYOR political leadership office.
+4. CITY MANAGER administrative-executive family.
+5. SIX DISTRICT + SIX DISTRICT-AT-LARGE Council office network.
+Official source family:
+https://www.kcmo.gov/
+Current City Clerk/Council notices at clerk.kcmo.gov.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### St. Louis — INDEPENDENT CITY / 14-WARD BOARD OF ALDERMEN
+Verified:
+- St. Louis’ post-reduction Board of Aldermen uses 14 wards, replacing the former 28-ward structure beginning with the 2023 election cycle.
+- Full Board meetings in 2026 are held in Board of Aldermen Chambers, Room 230, St. Louis City Hall, 1200 Market Street.
+- Aldermanic committees frequently use Kennedy Room 208, creating a distinct committee environment.
+- The legislative year has a formal session rhythm including winter/spring breaks, sine die ending and annual meeting/start of a new legislative session.
+- Current 2026 budget proceedings in committee expose a complex set of city funds, commissions and trust structures rather than one undifferentiated municipal treasury.
+Production implication: ward reduction is a major electoral-system effective-date event, and the formal aldermanic session calendar should be modeled rather than applying a generic year-round Council cadence.
+Scene families:
+1. CITY HALL ROOM 230 BOARD OF ALDERMEN CHAMBERS.
+2. KENNEDY ROOM 208 committee family.
+3. BOARD PRESIDENT leadership office.
+4. 14 WARD aldermanic office/constituent family.
+5. MAYOR executive-office family.
+Official sources:
+https://www.stlouis-mo.gov/government/departments/aldermen/
+https://www.stlouis-mo.gov/events/
+Status: STRONG CURRENT GOVERNANCE/ROOM + REDISTRICTING-ERA PACK.
+
+
+### Springfield — MAYOR + FOUR ZONE + FOUR GENERAL COUNCIL MEMBERS / TEMPORARY 2026 MEETING FACILITY
+Verified:
+- Springfield Council structure consists of Mayor plus four Zone Council members and four General Council members.
+- City administration includes a professional City Manager who reports and interacts with Council.
+- Historic City Hall at 830 Boonville traditionally contained City Council Chambers, but the building is undergoing a major rehabilitation scheduled through the end of 2026.
+- Current 2026 Council and Planning & Zoning meetings are therefore held in the City Council and Planning & Zoning Commission Meeting Facility at the Springfield Regional Police & Fire Training Center, 2620 W. Battlefield Road.
+- Current CityView records show Council meetings there through August 2026.
+Production implication: this is a textbook temporary-facility state. A 2026 scene must NOT place Council in the historic 830 Boonville chamber merely because older photographs are more available. The post-renovation return date/configuration requires later verification.
+Scene families:
+1. 2026 TEMPORARY COUNCIL/P&Z MEETING FACILITY — Regional Police-Fire Training Center, 2620 W. Battlefield.
+2. HISTORIC CITY HALL COUNCIL CHAMBER — valid for pre-relocation eras and future post-return only after effective-date verification.
+3. MAYOR political office.
+4. FOUR ZONE + FOUR GENERAL Council political family.
+5. CITY MANAGER administrative family.
+Official sources:
+https://cityview.springfieldmo.gov/city-council-live
+https://cityview.springfieldmo.gov/city-council-meetings-1
+https://www.springfieldmo.gov/
+Status: STRONG LIVE-2026 TEMPORARY-LOCATION PACK.
+
+
+Missouri matrix status: STRONG. Kansas City, St. Louis and Springfield provide three radically different electoral/governance/venue systems.
+
+
+## Montana
+
+
+### Billings — MAYOR + TEN COUNCIL MEMBERS / TWO PER WARD / NEW CITY HALL
+Verified:
+- Current Council consists of Mayor plus ten Council members: two representatives from each of five wards.
+- Current 2026 Council meetings and work sessions are in the fifth-floor Council Chambers of the NEW City Hall, 316 N. 26th Street.
+- Older official records placed Council at 210 N. 27th Street; those references are historical and must not be mixed with the current scene.
+- The new City Hall also contains named conference rooms such as Rimrock and Beartooth used by committees/boards, while some authorities/boards remain elsewhere.
+- Current agendas identify a City Administrator and Assistant City Administrator alongside the elected Mayor/Council.
+Production implication: Billings requires an explicit municipal-building transition state. It also uses two representatives per ward, creating co-representation dynamics.
+Scene families:
+1. NEW CITY HALL FIFTH-FLOOR COUNCIL CHAMBERS, 316 N. 26th.
+2. RIMROCK / BEARTOOTH conference-room family.
+3. MAYOR/CITY ADMINISTRATOR offices.
+4. FIVE TWO-MEMBER WARD political family.
+5. OLD 210 N. 27TH City Hall family for historical dates only.
+Official sources:
+https://www.billingsmt.gov/calendar.aspx?CID=55&view=list&year=2026
+https://www.billingsmt.gov/Directory.aspx?DID=3
+Status: STRONG CURRENT GOVERNANCE/NEW-BUILDING PACK.
+
+
+### Missoula — STRONG MAYORAL EXECUTIVE + 12 COUNCIL MEMBERS / TWO PER SIX WARDS
+Verified:
+- Missoula is divided into six wards, each represented by two City Council members, for 12 Councilors total.
+- Official legal material identifies the Mayor as chief executive under Missoula’s self-government charter.
+- Current 2026 Council meetings use City Council Chambers at 140 W. Pine Street.
+- Council member administrative mailing/office address is separately listed at 435 Ryman, so elected-office and chamber geography should not be collapsed.
+- The 140 W. Pine complex also hosts Planning Commission, Historic Preservation Commission, Missoula Redevelopment Agency spaces and other civic functions; City-County health/environment boards create additional intergovernmental layers.
+- Neighborhood Councils are explicitly tied to Council wards and provide another civic-participation network.
+Scene families:
+1. 140 W. PINE CITY COUNCIL CHAMBERS.
+2. COUNCIL office/administrative family at 435 Ryman.
+3. MAYOR executive-office family.
+4. SIX TWO-MEMBER WARD political family.
+5. NEIGHBORHOOD COUNCIL / COMMUNITY FORUM family.
+6. REDEVELOPMENT / CITY-COUNTY boards in shared civic complex.
+Official sources:
+https://www.ci.missoula.mt.us/314/City-Council
+https://www.ci.missoula.mt.us/calendar.aspx
+Status: STRONG CURRENT GOVERNANCE/MULTI-INSTITUTION PACK.
+
+
+### Helena — AT-LARGE MAYOR + FOUR COMMISSIONERS / COMMISSION-MANAGER
+Verified:
+- Helena City Commission is Mayor plus four Commissioners elected at large.
+- Commission is legislative/policymaking body; City Manager is appointed by and serves at the pleasure of the Commission and implements policy.
+- Current Commission Chambers are at 316 N. Park Avenue.
+- Helena’s citizen-council and board ecosystem participates in city-manager recruitment and other public processes, illustrating formal citizen institutions beyond ordinary public comment.
+- A city-manager recruitment process was active around the 2025-2026 transition after the previous manager’s announced retirement, creating another concrete personnel/institutional event state.
+Scene families:
+1. 316 N. PARK COMMISSION CHAMBERS.
+2. MAYOR/FOUR COMMISSIONER political family.
+3. CITY MANAGER administrative-office family.
+4. HELENA CITIZENS COUNCIL / board participation family.
+5. MANAGER-RECRUITMENT/interview procedural scenes when vacancies occur.
+Official sources:
+https://www.helenamt.gov/
+Status: STRONG GOVERNANCE/ROOM PACK.
+
+
+Montana matrix status: STRONG. Billings = two-per-ward + new City Hall; Missoula = two-per-ward strong-mayor self-government + neighborhood institutions; Helena = at-large commission-manager capital.
+
+
+# Tranche 5 cross-cutting additions
+- DISTRICT-AT-LARGE seats (Kansas City) and TWO-MEMBER WARDS (Billings/Missoula) require distinct electoral/representation schemas.
+- MUNICIPAL LEGISLATIVE SESSION CALENDARS can be formalized like state legislatures (St. Louis), including sine die and annual organizational sessions.
+- TEMPORARY CIVIC VENUES caused by renovation (Springfield MO) must override visually attractive historical references.
+- NEW CITY HALL transitions (Billings) require exact effective-date scene switching.
+- QUASI-INDEPENDENT AUTHORITIES such as transit, redevelopment, airport, health/hospital or special districts should be real organizations with boards, budgets and appointments—not generic department tabs.
+- COUNCIL OFFICES and COUNCIL CHAMBERS can be at different addresses (Missoula) even within one municipal system.
+- CITY MANAGER / CITY ADMINISTRATOR roles coexist with elected Mayors in many different power configurations; their title alone is insufficient to infer executive authority.
+
+
+
+
+# Tranche 6 — Nebraska through New Jersey
+
+
+## Nebraska
+
+
+### Omaha — MAYOR-COUNCIL / SEVEN SINGLE-MEMBER DISTRICTS / SHARED OMAHA-DOUGLAS CIVIC CENTER
+Verified:
+- Omaha’s current Council geography consists of seven districts. Current Douglas County GIS/open-data material identifies Districts 1-7 and current representatives.
+- Current 2026 public-hearing notices place City Council meetings in the Legislative Chambers at the Omaha/Douglas Civic Center, 1819 Farnam Street.
+- The same Legislative Chambers are also used by bodies such as the Omaha City Planning Board and Personnel Board, making this another shared civic-hearing venue rather than a Council-only room.
+- Current Council practice includes pre-Council meetings in separate conference rooms such as the Jesse Lowe Conference Room before formal floor sessions.
+Production implication: Omaha requires separate FORMAL LEGISLATIVE CHAMBER, PRE-COUNCIL/CONFERENCE and district-member work contexts inside a shared city-county civic complex.
+Scene families:
+1. OMAHA/DOUGLAS CIVIC CENTER LEGISLATIVE CHAMBERS, 1819 Farnam.
+2. JESSE LOWE / pre-Council conference family.
+3. SEVEN DISTRICT COUNCIL political-office family.
+4. MAYOR executive-office family.
+5. PLANNING/PERSONNEL/other-board procedural state in the Legislative Chambers.
+Official/primary source family:
+- Douglas County/Omaha current GIS Council district layer.
+- City of Omaha official public-hearing notices as published in the Omaha Daily Record.
+- City departmental records identifying the Omaha/Douglas Civic Center Legislative Chambers.
+Status: STRONG CURRENT DISTRICT/ROOM PACK; dedicated current City Charter power-map and visual reference extraction still pending.
+
+
+### Grand Island — TEN COUNCIL MEMBERS / TWO PER FIVE WARDS
+Verified:
+- Current City Council ward pages identify five wards with two Council members per ward: Ward 1, Ward 2, Ward 3, Ward 4 and Ward 5.
+- Current City Council meetings and study sessions are centered at City Hall, 100 E. First Street; current city material identifies Council Chambers there.
+- Grand Island uses a JOINT Regional Planning Commission that serves the City Council, Hall County Board of Commissioners and several smaller-area governments. This is a high-value regional institution because one planning body can feed recommendations into multiple elected governments.
+- Current city communications expose individual Council-member ward commentary and budget presentations, useful for modeling ward-level political communication rather than only formal votes.
+Scene families:
+1. 100 E. FIRST CITY HALL COUNCIL CHAMBERS.
+2. TEN-MEMBER / TWO-PER-WARD Council political family.
+3. COUNCIL STUDY-SESSION state.
+4. JOINT REGIONAL PLANNING COMMISSION procedural state using the same civic environment.
+Official source family:
+https://www.grand-island.com/page/city-council
+https://www.grand-island.com/page/ward-5-haase-lanfear
+Status: STRONG CURRENT REPRESENTATION/LOCATION PACK.
+
+
+### Lincoln
+Already researched in Part 2 / file 43. Cross-reference rather than duplicate.
+
+
+Nebraska matrix status: STRONG. Omaha = seven-district major city/shared civic center; Lincoln = existing state-capital municipal pack; Grand Island = two-per-ward medium city + joint regional planning institution.
+
+
+## Nevada
+
+
+### Las Vegas — COUNCIL-MANAGER / MAYOR + SIX WARDS
+Verified:
+- Las Vegas explicitly identifies itself as council-manager government.
+- Mayor and City Council are the governing body; Council appoints the City Manager and approves key managerial appointments. City Manager runs the professional administrative organization.
+- Current organizational chart effective January 2026 places City Manager Mike Janssen beneath Mayor & City Council and above the operating departments.
+- Mayor Shelley Berkley was elected in November 2024.
+- Current Council geography uses six wards.
+- City Hall is 495 S. Main Street; current 2026 events identify the Council Chambers on the second floor.
+- Ward-level elected offices sponsor and attend neighborhood/community events outside City Hall, so constituent politics belongs in distributed venues as well as the chamber.
+- Council also acts as the Redevelopment Agency and members sit on regional bodies including transit, flood-control and health institutions, generating cross-institutional roles.
+Scene families:
+1. SECOND-FLOOR LAS VEGAS CITY HALL COUNCIL CHAMBERS.
+2. MAYOR political-leadership office.
+3. SIX WARD Council office/community-event family.
+4. CITY MANAGER administrative-executive office.
+5. REDEVELOPMENT AGENCY state using overlapping elected actors.
+6. REGIONAL AUTHORITY board scenes.
+Official sources:
+https://www.lasvegasnevada.gov/Government/Departments/City-Managers-Office
+Current City of Las Vegas ACFR/organizational chart and Mayor/Council pages.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Reno — 2024 TRANSITION FROM FIVE WARDS + AT-LARGE SEAT TO SIX WARDS
+Verified:
+- Reno is council-manager government; Mayor is the chief elected/formal representative and City Manager selected by Council is chief administrative official.
+- Current City Council has seven people total: Mayor plus six ward Council members.
+- In 2024 Reno transitioned from five wards plus an at-large Council seat to SIX WARDS; the old at-large Council seat was eliminated. The sixth ward was created following state legislation and a City Charter Committee recommendation.
+- Current 2026 election material confirms Wards 2 and 4 are up in 2026 and explicitly states the City transitioned from five to six wards in 2024.
+- Regular Council meetings take place in City Council Chamber at City Hall, 1 E. First Street.
+- Council also sits as Redevelopment Agency Board in some meetings.
+Simulation implication: pre-2024 and post-2024 Reno have different electoral institutions, not merely a new district map.
+Scene families:
+1. 1 E. FIRST RENO CITY COUNCIL CHAMBER.
+2. SIX WARD Council political family.
+3. MAYOR political-leadership office.
+4. CITY MANAGER administrative office.
+5. REDEVELOPMENT AGENCY procedural state.
+6. PRE-2024 FIVE-WARD + AT-LARGE electoral regime for historical starts.
+Official sources:
+https://www.reno.gov/government/city-council/
+https://reno.gov/government/departments/city-clerk/elections/2026-election.php
+Status: STRONG CURRENT + ELECTORAL-TRANSITION PACK.
+
+
+### Carson City — CONSOLIDATED MUNICIPALITY / MAYOR + FOUR SUPERVISORS ALL ELECTED AT LARGE WITH WARD RESIDENCY
+Verified:
+- Carson City consolidated with Ormsby County in 1969.
+- Governing body is a five-member Board of Supervisors: Mayor plus four Supervisors.
+- All five are elected at large, but each Supervisor must reside in one of Wards 1-4. This is distinct from ward-only voting and ordinary at-large representation.
+- Board as a whole is both legislative and executive branch; it appoints a City Manager, who serves as the administrative/operational arm under the council-manager framework.
+- Mayor chairs meetings and is head of local government for ceremonial/emergency purposes.
+- Regular Board meetings occur in the Robert “Bob” Crowell Board Room of the Community Center, not City Hall.
+- City Hall is separately at 201 N. Carson Street.
+Production implication: Carson City is a high-value exception where consolidated elected government meets in a community-center board room while City Hall is a separate administrative building.
+Scene families:
+1. ROBERT “BOB” CROWELL BOARD ROOM / COMMUNITY CENTER.
+2. CITY HALL administrative offices, 201 N. Carson.
+3. MAYOR + FOUR WARD-RESIDENCY/AT-LARGE Supervisor political family.
+4. CITY MANAGER administrative family.
+5. PLANNING and other Board/Commission procedural states in the community-center system.
+Official source:
+https://www.carsoncity.gov/government/board-of-supervisors
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+Nevada matrix status: STRONG. Las Vegas = council-manager major city; Reno = live electoral-regime transition; Carson City = consolidated city-county-style municipality with unusual at-large/ward-residency supervisors.
+
+
+## New Hampshire
+
+
+### Manchester — MAYOR + 14 ALDERMEN / 12 WARDS + TWO AT-LARGE
+Verified:
+- Current 2026-2027 Board of Mayor and Aldermen is the legislative body.
+- Board consists of Mayor plus 14 Aldermen: one from each of 12 wards and two elected at large.
+- Aldermen serve two-year terms.
+- Regular BMA meetings are in Aldermanic Chambers on the THIRD FLOOR of City Hall, One City Hall Plaza.
+- The City Clerk prepares agendas for the Board, nine standing committees and special committees, creating a substantial legislative-support role.
+- Charter allows authority to be delegated to boards, commissions, departments and officers while preserving the Mayor/department-head executive powers defined by charter.
+- Manchester’s boards/commissions ecosystem includes Police Commission, Fire Commission, Planning Board, Retirement Board, Transit Authority and other bodies with mixed mayoral/aldermanic/ex-officio appointment structures.
+Production implication: the elected government is only one part of Manchester’s formal power map; independent/semi-independent commissions and appointment coalitions matter.
+Scene families:
+1. THIRD-FLOOR ALDERMANIC CHAMBERS, One City Hall Plaza.
+2. MAYOR executive-office family.
+3. 12 WARD + TWO AT-LARGE aldermanic political family.
+4. CITY CLERK legislative-support office.
+5. STANDING-COMMITTEE family.
+6. POLICE/FIRE/TRANSIT/PLANNING commission scenes.
+Official sources:
+https://www.manchesternh.gov/Government/Mayor-and-Aldermen
+https://www.manchesternh.gov/Government/Mayor-and-Aldermen/Aldermen
+Status: STRONG CURRENT GOVERNANCE/ROOM/COMMISSION PACK.
+
+
+### Nashua — 15-MEMBER BOARD OF ALDERMEN / NINE WARD + SIX AT-LARGE
+Verified:
+- Nashua City Charter effective January 1, 2026 provides for 15 Aldermen sitting as one body.
+- Nine Ward Aldermen are elected for two-year terms; six At-Large Aldermen are elected to four-year terms, with three at-large seats elected at each municipal election.
+- Mayor is separately elected at large.
+- Board is Nashua’s governing/policymaking body except where Charter provides otherwise.
+- Current meetings occur in the Aldermanic Chambers on the SECOND FLOOR of City Hall, 229 Main Street.
+- Legislative Office prepares agendas for the Board and six standing committees.
+- Nashua also has substantive boards with direct service authority, including Board of Fire Commissioners, Board of Public Works and Police Commission, plus numerous joint/ad hoc bodies.
+Production implication: public safety and public works cannot automatically be treated as departments under one mayoral command chain; chartered commissions can hold real appointment/governance authority.
+Scene families:
+1. SECOND-FLOOR ALDERMANIC CHAMBERS, 229 Main.
+2. MAYOR office.
+3. NINE WARD + SIX AT-LARGE Alderman political family.
+4. LEGISLATIVE OFFICE / committee family.
+5. FIRE COMMISSION / PUBLIC WORKS BOARD / POLICE COMMISSION scenes.
+Official sources:
+https://www.nashuanh.gov/DocumentCenter/View/194/City-Charter-PDF
+https://www.nashuanh.gov/514/Board-of-Aldermen
+Status: STRONG CURRENT CHARTER/ROOM PACK.
+
+
+### Concord — 15-MEMBER COUNCIL + APPOINTED CITY MANAGER / CAPITAL-CITY CROSS-LEVEL DENSITY
+Verified:
+- Current official budget identifies a 15-member City Council and appointed City Manager.
+- Council composition: Mayor, four at-large Councilors and ten Ward Councilors.
+- Mayor and ward Councilors are elected every two years; four at-large Councilors have staggered four-year terms, two elected every two years.
+- City Manager is responsible for carrying out Council policies/ordinances and is the chief executive officer for municipal administration.
+- Current 2026 Council meetings and many other boards occur in Council Chambers at 37 Green Street.
+- The chamber has distinct upper/lower public-address levels reflected in accessibility procedures, which can inform the visual layout rather than treating it as a flat generic meeting room.
+- Concord is simultaneously state capital, Merrimack County seat and federal court seat, creating dense cross-level governmental proximity while institutions remain legally separate.
+Scene families:
+1. 37 GREEN STREET COUNCIL CHAMBERS with upper/lower public areas.
+2. MAYOR/CITY COUNCIL political family.
+3. CITY MANAGER administrative-executive office.
+4. PLANNING / design / parking / advisory boards using the chamber.
+5. STATE/COUNTY/FEDERAL neighboring-government scenes in the Concord civic core.
+Official sources:
+https://www.concordnh.gov/DocumentCenter/View/24363/FY26-Adopted-Budget
+Current 2026 Concord municipal calendar.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+New Hampshire matrix status: STRONG. Manchester and Nashua show large aldermanic legislatures with materially different commission ecosystems; Concord provides manager government + capital-region cross-level density.
+
+
+## New Jersey
+
+
+### Newark — FAULKNER PLAN C MAYOR-COUNCIL / FIVE WARD + FOUR AT-LARGE
+Verified:
+- Newark operates a Mayor-Council Plan C / Faulkner Act structure; Mayor functions as chief executive and nine-member Municipal Council as legislative body.
+- Council has one member from each of five wards plus four members at large.
+- Current Council page confirms the five ward members and four at-large positions in 2026.
+- City Hall is 920 Mayor Kenneth A. Gibson Boulevard.
+- Current 2026 city material places the City Hall Council Chamber on the SECOND FLOOR; a 2025 HUD planning document identifies Municipal Council Chamber as Room 215.
+- City Clerk’s Office is separately in Room 306 and provides administrative support to Council including budget/legislative research, records and elections.
+- Newark’s mayoral administration can also create new executive institutions by executive order; current 2026 city records include creation of an Office of Constitutional Affairs, useful as a live example of executive organizational change.
+Scene families:
+1. SECOND-FLOOR MUNICIPAL COUNCIL CHAMBER / ROOM 215 family.
+2. ROOM 306 CITY CLERK / legislative-support family.
+3. MAYOR chief-executive office.
+4. FIVE WARD + FOUR AT-LARGE Council family.
+5. EXECUTIVE-ORDER institution-creation scenes.
+Official sources:
+https://www.newarknj.gov/160/Council-Members
+https://www.newarknj.gov/166/Office-of-the-City-Clerk
+Current Newark 2026 municipal press releases and official financial/charter records.
+Status: STRONG CURRENT GOVERNANCE/ROOM PACK.
+
+
+### Jersey City — PLAN C-STYLE STRONG MAYOR / SIX WARD + THREE AT-LARGE / COUNCIL-SELECTED PRESIDENT
+Verified:
+- Current City Council consists of nine members: one from each of six wards plus three at-large members.
+- Council members serve four-year terms coinciding with the Mayor’s term; Council selects its President from among its members every two years.
+- Current administration identifies Mayor as chief executive and Business Administrator as chief operating/day-to-day administrative officer implementing mayoral policy.
+- Current 2026 Council and caucus meetings use the Anna and Anthony R. Cucci Memorial Council Chambers, City Hall, 280 Grove Street, SECOND FLOOR.
+- Caucuses are held before formal Council meetings and generally do not include public comment; both can occur in the same chamber but are distinct procedural states.
+- Current Mayor-led community town halls are distributed across all six wards in libraries, community centers, college facilities and sometimes the City Hall chamber.
+Production implication: formal Council, Council caucus and Mayor-led ward town hall are three different political scenes even when overlapping elected actors are present.
+Scene families:
+1. SECOND-FLOOR ANNA AND ANTHONY R. CUCCI MEMORIAL COUNCIL CHAMBERS.
+2. COUNCIL CAUCUS procedural state.
+3. MAYOR executive office.
+4. BUSINESS ADMINISTRATOR operational executive family.
+5. SIX WARD + THREE AT-LARGE Council political family.
+6. DISTRIBUTED WARD TOWN-HALL family.
+Official sources:
+https://www.jerseycitynj.gov/cityhall/citycouncil
+https://www.jerseycitynj.gov/cityhall/citycouncil/citycouncilmeetings
+Current 2026 Jersey City Council agendas and Mayor’s ward-town-hall notices.
+Status: STRONG CURRENT GOVERNANCE/ROOM/COMMUNITY-OUTREACH PACK.
+
+
+### Trenton — MAYOR-COUNCIL PLAN C / FOUR WARD + THREE AT-LARGE
+Verified:
+- Trenton is Mayor-Council Plan C under New Jersey’s Optional Municipal Charter framework.
+- Council has seven members: four ward representatives and three elected at large, each serving four-year terms.
+- Mayor is separately elected and is chief executive/administrative officer under the Plan C structure.
+- Current 2026 election packet confirms Mayor + three at-large Council seats are up in the November 2026 election; ward seats follow the complementary cycle.
+- Current Council meetings are at City Hall, 319 E. State Street, second floor.
+- The same City Hall chamber is used for additional official proceedings such as ABC/licensing meetings and ceremonial swearing-in events.
+Scene families:
+1. SECOND-FLOOR TRENTON CITY HALL COUNCIL CHAMBERS.
+2. FOUR WARD + THREE AT-LARGE Council political family.
+3. MAYOR chief-executive office.
+4. BUSINESS ADMINISTRATION/department-head family.
+5. ABC/licensing and ceremonial procedural states in the chamber.
+Official sources:
+https://www.trentonnj.org/476/Meetings
+https://www.trentonnj.org/DocumentCenter/View/11032/2026-Candidate-Packet
+Trenton municipal code / official government records.
+Status: STRONG CURRENT GOVERNANCE/ROOM/ELECTION-CYCLE PACK.
+
+
+New Jersey matrix status: STRONG. Newark, Jersey City and Trenton share broad Faulkner/strong-mayor family traits but differ in Council geometry, leadership practice, administrative organization and civic-scene ecology; they must not be treated as one New Jersey template.
+
+
+# Tranche 6 cross-cutting additions
+- AT-LARGE ELECTION WITH WARD RESIDENCY (Carson City) is distinct from ward-only election and ordinary citywide at-large seats.
+- ELECTORAL REGIME TRANSITION can eliminate an office entirely (Reno’s at-large seat) while preserving the same total number of elected policy-makers.
+- LARGE ALDERMANIC BODIES (Manchester, Nashua) coexist with boards/commissions that may hold real executive, appointment or service-control authority.
+- CITY CLERK / LEGISLATIVE OFFICE capacity should be represented as institutional staff, not invisible menu plumbing.
+- FORMAL COUNCIL, CAUCUS, PRE-MEETING CONFERENCE and PUBLIC TOWN HALL are different procedural states even when the same people/room are involved.
+- SHARED CIVIC BUILDING does not necessarily imply consolidated government: Omaha’s shared city-county Civic Center and Carson City’s legally consolidated government are distinct institutional facts.
+- NEW JERSEY FAULKNER-STYLE MUNICIPALITIES still require city-specific data: similar formal categories can produce different council geography, administrative practice, leadership selection and meeting culture.

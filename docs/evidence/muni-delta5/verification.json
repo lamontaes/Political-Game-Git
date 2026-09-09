@@ -1,0 +1,23 @@
+{
+  "sourceHead": "c9f0a44b4ff30703d095ea030e9729708a697b45",
+  "main": "04c735c32c8e38d942d5ba978a2efc5dd63315bb",
+  "rawBytesAndRetrievalReceiptsUnchanged": true,
+  "fullValidation": {
+    "command": "VITEST_MAX_WORKERS=1 npm run validate",
+    "passed": true,
+    "testsPassed": 3549,
+    "testsSkipped": 2,
+    "filesPassed": 193
+  },
+  "focusedTestsPassed": 49,
+  "browser": {
+    "command": "PLAYWRIGHT_PORT=5397 npx playwright test tests/e2e/municipal-public-work.spec.ts --workers=1",
+    "testsPassed": 3,
+    "seconds": 6.6,
+    "gitCleanAfter": true,
+    "serverStopped": true,
+    "kind": "isolated feature regression; normal-root evidence remains separately attributed"
+  },
+  "artCommands": ["validate:art", "inventory:art", "qa:art"],
+  "independentAcceptance": false
+}
