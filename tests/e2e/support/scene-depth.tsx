@@ -6,6 +6,7 @@ import "../../../src/player/player.css";
 /** Deliberate rendering control: the red block is not a person or production art. */
 function DepthFixture() {
   const [visible, setVisible] = useState(false);
+  const hall = new URLSearchParams(location.search).get("scene") === "hall";
   const red =
     "data:image/svg+xml," +
     encodeURIComponent(
@@ -13,7 +14,9 @@ function DepthFixture() {
     );
   return (
     <SceneBackdrop
-      sceneId="office-council-staff-fixture"
+      sceneId={
+        hall ? "civic-community-meeting-room" : "office-council-staff-fixture"
+      }
       people={
         visible
           ? [
@@ -21,20 +24,20 @@ function DepthFixture() {
                 personId: "depth-control",
                 name: "Depth fixture",
                 relationship: null,
-                anchorId: "primary-desk-chair",
+                anchorId: hall ? "podium-speaker" : "primary-desk-chair",
                 seated: true,
-                leftPercent: 55,
-                topPercent: 35,
+                leftPercent: hall ? 29 : 55,
+                topPercent: hall ? 15 : 35,
                 widthPercent: 10,
-                heightPercent: 60,
+                heightPercent: hall ? 80 : 60,
                 hasArt: true,
                 layers: [
                   {
                     url: red,
-                    leftPercent: 55,
-                    topPercent: 35,
+                    leftPercent: hall ? 29 : 55,
+                    topPercent: hall ? 15 : 35,
                     widthPercent: 10,
-                    heightPercent: 60,
+                    heightPercent: hall ? 80 : 60,
                   },
                 ],
                 presence: "Rendering control",
