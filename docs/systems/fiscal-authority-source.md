@@ -13,38 +13,43 @@ blended, one value algebra with five states that carry no value, opaque
 capability handles, no wall clock, mandatory coverage. This document records
 only what is particular to fiscal authority.
 
-The research behind it is `92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY_COMPLETION`
-(2026-09-05), which profiles all 50 states with first-party legal citations.
+The research input is `92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY_COMPLETION`
+(2026-09-05), which profiles all 50 states and supplies candidate citations.
+Candidate citation prose is not first-party evidence.
 
-## It compiles no production records, and that is the decision
+## Production admission is claim-by-claim
 
-The domain declares a `productionGate`. The gate is a _sourcing_ gate, not an
-acquisition-environment one, and the distinction is the same one
-`government-units` draws in the other direction.
+The production gate cleared for an evidence-bounded tranche. The domain's
+acquisition plan retrieves three current Alaska Legislature artifacts: Alaska
+Statutes §§ 29.45.010-.100, §§ 29.45.650-.710, and §§ 29.47.180-.200. It pins
+the publisher bytes and enacted-text-only boundaries, then compiles 12
+borough/city records only after every declared excerpt is found inside the
+corresponding opened bytes. Those records answer materially different questions
+about sales-tax authority and referendum, property-tax authority and its
+ordinary 30-mill ceiling, and the voter hurdle for general-obligation bond debt.
 
-`government-finances`, `government-units` and `public-employment` are gated
-because a proxy denies census.gov. A better network clears them; the compilers
-are already correct.
+The effective date is not inferred from the current web pages. It is derived
+from the Alaska Legislature's enrolled `ch. 74 SLA 1985`: § 90 on PDF page 211
+states January 1, 1986. The relevant enacted provisions appear on PDF pages 101,
+116, and 150. The verified PDF was 36,898,000 bytes with SHA-256
+`30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f`.
+Each record carries that derivation chain alongside its current statutory
+locator; the PDF transport metadata does not substitute for the current enacted
+text artifact used by the compiler.
 
-This domain is gated because 92N is a research synthesis — a secondary source,
-however well cited. `Evidence` in this substrate means "these are the bytes this
-compiler read". A production record holding `KNOWN(2.0)` for a California
-assessment growth cap, with evidence pointing at Cal. Const. Art. XIII A, would
-assert that this repository read that article. It read a document reporting it.
-No network fixes that.
+This does not admit 92N as evidence. Its exact master and byte-identical mirror
+are preserved under `research-input/`; `research-disposition.json` inventories
+all 50 states, all 750 state/section groups, and all 2,650 claim leaves. Four
+leaves are first-party verified, one is first-party verified with its incorrect
+matrix locator corrected, and the remainder retain exact blank,
+malformed-locator, conflict, or matrix-only dispositions. In particular, the
+matrix attributes Alaska's 30-mill rule to § 29.45.080; the production record
+corrects the operative locator to § 29.45.090(a) and retains § 29.45.100's
+bond-payment exception. The inventory walks the complete input and has no state
+or row ceiling.
 
-Clearing the gate needs one of two things, and both belong to current
-authority rather than to a compiler:
-
-- the cited constitutions and statutes acquired as first-party artifacts
-  through `source:acquire`; or
-- an explicit architecture decision admitting a declared secondary-source
-  evidence tier, with its own evidence kind so a reader can tell the two apart.
-
-Everything else is real and exercised. The types, schema, parser, normalizer,
-derivations and validator all work, and the fixture compiles end to end through
-the same capability boundary every other domain uses. When the gate clears,
-production fiscal authority is a data change rather than a design.
+Every additional claim must clear the same acquisition, rights, date, locator,
+and excerpt gates. A larger research matrix does not weaken them.
 
 ## Three separations, each one a way a fiscal model starts lying
 
@@ -142,10 +147,22 @@ There is no fiscal freedom index, capacity rating or solvency score, and no
 field to put one in. The core fabricated-score guard is the second line, for a
 verdict smuggled in as the _name_ of a fund or a forecasting body.
 
-## Nothing reaches the game
+## Dated query and Work consumer
 
-No adapter consumes this domain. The import boundary that keeps
-`src/simulation/` and every presentation layer out of `src/source/**` applies
-here as everywhere, and no fiscal balance, scoring or budgeting system is built
-on it. A fact reaches the world through a named one-way adapter or not at all,
-and none exists for fiscal authority.
+`src/source/adapters/fiscal-authority.ts` performs a one-way mapping into a
+portable read model. `src/fiscal-authority/query.ts` is browser-safe and pure: a
+caller supplies date, state, level, and exactly one instrument or field, and
+receives the current record, constraints, source locator, and uncertainty. A
+missing or wrong-level answer is `UNESTABLISHED`, never a prohibition.
+
+`src/presentation/fiscal-authority-work.ts` is the first existing-system
+consumer. It reuses the canonical elected-member seat chain and Run D-Lite Work
+item writer to open legislative analysis of a proposed authority change. The
+Work item names the current legal baseline and expressly does not levy a tax,
+change law, or estimate revenue. An unestablished current baseline stays
+`UNESTABLISHED`, but it does not prevent an otherwise seated legislature from
+opening proposal-analysis work: drafting a proposed change is not evidence of
+present authority. The `exercise-current-authority` route refuses at this
+legislative boundary; a supported municipal office must receive that action
+through the MUNI seam. No treasury, economy, fiscal-balance store, or UI root is
+introduced.

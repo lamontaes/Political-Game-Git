@@ -1,11 +1,10 @@
 /**
  * The state and local fiscal authority domain's public API.
  *
- * This domain is wired into the command matrix and compiles **no production
- * records**. That is a decision, not an omission, and it is the same decision
- * `state-office-qualifications` records: the substrate compiles production
- * corpora only from artifacts it retrieved and hashed itself, and 92N is a
- * research synthesis — a secondary source, however well cited.
+ * This domain compiles production records only from legal artifacts retrieved,
+ * hashed, rights-scoped, and excerpt-checked by the source substrate. The 92N
+ * research synthesis is preserved and fully dispositioned, but its claims do
+ * not become production evidence merely because its prose contains citations.
  *
  * The distinction matters because of what a production record would claim.
  * Emitting `KNOWN(2.0)` for a California assessment growth cap, with evidence
@@ -14,13 +13,11 @@
  * this substrate means "these are the bytes this compiler read", and there is
  * no honest way to put a constitution's identity on a research paper's bytes.
  *
- * This is a *sourcing* gate, not an acquisition-environment one. Unlike
- * `government-units`, which is gated only because a proxy denies census.gov,
- * nothing here is unblocked by a better network. Lifting it needs one of two
- * things: the cited state constitutions and statutes acquired as first-party
- * artifacts through `source:acquire`, or an explicit architecture decision
- * admitting a declared secondary-source tier with its own evidence kind. Both
- * are decisions for current authority, not for a compiler.
+ * The production tranche follows that route for exact Alaska municipal
+ * sales-and-use-tax, property-tax, and general-obligation-bond statutes. Claims
+ * for which the route has not completed stay outside production with a
+ * machine-readable disposition; this is evidence-bounded coverage, not an
+ * arbitrary state sample.
  *
  * Everything else is real and exercised. The types keep the three ways of
  * saying "no tax here" apart, the schema refuses a percentage in a millage
@@ -29,14 +26,21 @@
  * derivations refuse a partial balanced-budget classification, and the
  * validator refuses a prohibition with no provision and a statistical survey
  * dressed as legal authority. The fixtures compile end to end through the same
- * capability boundary every other domain uses. When the gate clears, production
- * fiscal authority becomes a data change rather than a design.
+ * capability boundary every other domain uses. Additional production coverage
+ * is therefore a first-party data acquisition and declaration change, not a
+ * redesign.
  */
 
-import { corpusCanonicalDigest, openFixture } from "../../core/index";
+import {
+  corpusCanonicalDigest,
+  openFixture,
+  openProductionArtifacts,
+} from "../../core/index";
 import type {
+  ArtifactLock,
   CompiledCorpus,
   FixtureInput,
+  OpenedArtifact,
   ProductionInput,
   SourceDomainModule,
   ValidationReport,
@@ -45,6 +49,12 @@ import { parseFiscalMatrix } from "./parse";
 import { normalizeFiscalAuthority } from "./normalize";
 import { validateFiscalAuthorityCorpus } from "./validate";
 import type { FiscalAuthorityRecord } from "./types";
+import {
+  FISCAL_AUTHORITY_ACQUISITION,
+  FISCAL_AUTHORITY_AS_OF,
+  FISCAL_AUTHORITY_SOURCES,
+} from "./acquisition";
+import { compileFiscalAuthorityDeclarations } from "./declarations";
 
 export type {
   BalancedBudgetStage,
@@ -104,21 +114,17 @@ export {
   taxInstrumentAuthorization,
 } from "./classify";
 export { validateFiscalAuthorityCorpus } from "./validate";
+export * from "./acquisition";
+export * from "./declarations";
 
-export const FISCAL_AUTHORITY_COMPILER_VERSION = "1.1.0";
+export const FISCAL_AUTHORITY_COMPILER_VERSION = "2.0.0";
 export const FISCAL_AUTHORITY_PARSER_VERSION = "2.0.0";
 
 /** The as-of date a fixture corpus is evaluated against. */
 export const FISCAL_AUTHORITY_CORPUS_AS_OF = "2026-01-01";
 
-/**
- * Why no production corpus exists.
- *
- * Stated here so that `source:manifest` carries it and an auditor reads the
- * gate rather than discovering an absence.
- */
-export const FISCAL_AUTHORITY_PRODUCTION_GATE =
-  "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier.";
+export const FISCAL_AUTHORITY_PRODUCTION_SCOPE =
+  "Production contains only declarations verified against acquired first-party legal text. The recovered 92N matrix is separately dispositioned and never compiles as legal evidence.";
 
 /** The matrix a fixture supplies: its bytes, inline. */
 export interface FiscalAuthorityFixtureArtifacts {
@@ -175,7 +181,7 @@ export function compileFiscalAuthorityFixture(
         universeDescription:
           "A fixture exercising the fiscal authority compiler. It describes no real jurisdiction's fiscal law and must never be read as one.",
         boundedSampleReason:
-          "Fixture only. The domain compiles no production records; see FISCAL_AUTHORITY_PRODUCTION_GATE.",
+          "Fixture only. Production compiles separately from acquired first-party legal artifacts.",
       },
     },
     records,
@@ -192,16 +198,69 @@ export function openFiscalAuthorityFixture(
   );
 }
 
+function requireDigest(lock: ArtifactLock, artifactId: string): string {
+  const artifact = lock.artifacts.find(
+    (candidate) => candidate.artifactId === artifactId,
+  );
+  if (!artifact) throw new Error(`Missing locked artifact ${artifactId}.`);
+  return artifact.bytes.sha256;
+}
+
+export function openFiscalAuthorityArtifacts(lock: ArtifactLock) {
+  return openProductionArtifacts(
+    "state-local-fiscal-authority",
+    lock,
+    Object.fromEntries(
+      FISCAL_AUTHORITY_SOURCES.map((source) => [
+        source.artifactId,
+        source.artifactId,
+      ]),
+    ),
+  );
+}
+
+export function compileFiscalAuthorityProduction(
+  input: ProductionInput<Readonly<Record<string, OpenedArtifact>>>,
+): CompiledCorpus<FiscalAuthorityRecord, "production"> {
+  const records = compileFiscalAuthorityDeclarations(input.artifacts);
+  return {
+    corpus: {
+      corpusId: "state-local-fiscal-authority",
+      compiler: {
+        name: "state-local-fiscal-authority",
+        version: FISCAL_AUTHORITY_COMPILER_VERSION,
+      },
+      parser: {
+        name: "literal-first-party-legal-declarations",
+        version: "1.0.0",
+      },
+      inputs: FISCAL_AUTHORITY_SOURCES.map((source) => ({
+        artifactId: source.artifactId,
+        sha256: requireDigest(input.lock, source.artifactId),
+      })),
+      asOf: FISCAL_AUTHORITY_AS_OF,
+      recordCount: records.length,
+      canonicalSha256: corpusCanonicalDigest(records),
+      inputClass: "production",
+      coverage: {
+        isCompleteUniverse: false,
+        universeDescription:
+          "Fifty states, six government levels, eight tax instruments, and every declared fiscal-rule field. This production tranche emits only claims verified against acquired first-party legal text; the separate 92N disposition accounts for the rest.",
+        boundedSampleReason:
+          "First-party acquisition currently verifies Alaska borough and municipal sales-tax, property-tax, millage-cap, and general-obligation-bond-vote claims. Every other matrix candidate remains explicitly outside production rather than being promoted from secondary research.",
+      },
+    },
+    records,
+  };
+}
+
 export const sourceDomain: SourceDomainModule<FiscalAuthorityRecord> = {
   domain: "state-local-fiscal-authority",
   compilerVersion: FISCAL_AUTHORITY_COMPILER_VERSION,
-  acquisitionPlan: { domain: "state-local-fiscal-authority", requests: [] },
+  acquisitionPlan: FISCAL_AUTHORITY_ACQUISITION,
   lockPath: "data/source/state-local-fiscal-authority/artifact-lock.json",
-  productionGate: FISCAL_AUTHORITY_PRODUCTION_GATE,
-  compileProduction(): CompiledCorpus<FiscalAuthorityRecord, "production"> {
-    throw new Error(
-      `The state-local-fiscal-authority domain compiles no production corpus. ${FISCAL_AUTHORITY_PRODUCTION_GATE}`,
-    );
+  compileProduction(lock): CompiledCorpus<FiscalAuthorityRecord, "production"> {
+    return compileFiscalAuthorityProduction(openFiscalAuthorityArtifacts(lock));
   },
   validateCorpus(
     corpus: CompiledCorpus<FiscalAuthorityRecord>,

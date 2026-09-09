@@ -740,6 +740,41 @@
       "isCompleteUniverse": true,
       "recordCount": 50,
       "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "ak-municipal-sales-use-tax-statutes",
+          "sha256": "17b394d4fcc7d934aa4bf965973c7144e5a8e43d378fe1075f151413a087eb1b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-municipal-property-tax-statutes",
+          "sha256": "c93e7b0ff63c9aa94d9b9d5f0a2a63584d6a818a26d243facaa5dfc5a6101848",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-municipal-general-obligation-bond-statutes",
+          "sha256": "02a1a00507ff1c2c6d1a89624a8f9cc34f772f1e160cdf33eca38efa59c4e621",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "First-party acquisition currently verifies Alaska borough and municipal sales-tax, property-tax, millage-cap, and general-obligation-bond-vote claims. Every other matrix candidate remains explicitly outside production rather than being promoted from secondary research.",
+      "canonicalSha256": "1d89b9f027aa3409d64dc35161f63e917a11a24a6d3721607406cfbef4afb0d3",
+      "compiler": {
+        "name": "state-local-fiscal-authority",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "1d89b9f027aa3409d64dc35161f63e917a11a24a6d3721607406cfbef4afb0d3",
+      "corpusId": "state-local-fiscal-authority",
+      "domain": "state-local-fiscal-authority",
+      "isCompleteUniverse": false,
+      "recordCount": 12,
+      "universeDescription": "Fifty states, six government levels, eight tax instruments, and every declared fiscal-rule field. This production tranche emits only claims verified against acquired first-party legal text; the separate 92N disposition accounts for the rest."
     }
   ],
   "gatedDomains": [
@@ -750,10 +785,6 @@
     {
       "domain": "municipal-governance",
       "productionGate": "The municipal-governance packs are compiled from the 92I Drive implementation cargo, which is a secondary synthesis even where it labels a field VERIFIED. Current first-party checks found stale claims in that cargo, so no production fact may cite the synthesis as if this repository read the law. Production compilation is gated on independently acquiring, rights-scoping, hashing, and proposition-checking the exact cited statutes, charters, codes, rules, and government-unit artifacts. The Kentucky packs remain audit fixtures until that source/architecture review clears them."
-    },
-    {
-      "domain": "state-local-fiscal-authority",
-      "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
     },
     {
       "domain": "state-office-qualifications",

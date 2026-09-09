@@ -1,0 +1,34 @@
+{
+  "asOf": "2026-09-09",
+  "canonicalSha256": "1d89b9f027aa3409d64dc35161f63e917a11a24a6d3721607406cfbef4afb0d3",
+  "compiler": {
+    "name": "state-local-fiscal-authority",
+    "version": "2.0.0"
+  },
+  "corpusId": "state-local-fiscal-authority",
+  "coverage": {
+    "boundedSampleReason": "First-party acquisition currently verifies Alaska borough and municipal sales-tax, property-tax, millage-cap, and general-obligation-bond-vote claims. Every other matrix candidate remains explicitly outside production rather than being promoted from secondary research.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Fifty states, six government levels, eight tax instruments, and every declared fiscal-rule field. This production tranche emits only claims verified against acquired first-party legal text; the separate 92N disposition accounts for the rest."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "ak-municipal-sales-use-tax-statutes",
+      "sha256": "17b394d4fcc7d934aa4bf965973c7144e5a8e43d378fe1075f151413a087eb1b"
+    },
+    {
+      "artifactId": "ak-municipal-property-tax-statutes",
+      "sha256": "c93e7b0ff63c9aa94d9b9d5f0a2a63584d6a818a26d243facaa5dfc5a6101848"
+    },
+    {
+      "artifactId": "ak-municipal-general-obligation-bond-statutes",
+      "sha256": "02a1a00507ff1c2c6d1a89624a8f9cc34f772f1e160cdf33eca38efa59c4e621"
+    }
+  ],
+  "parser": {
+    "name": "literal-first-party-legal-declarations",
+    "version": "1.0.0"
+  },
+  "recordCount": 12
+}

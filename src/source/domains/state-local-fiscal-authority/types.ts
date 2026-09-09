@@ -244,6 +244,8 @@ interface FiscalRecordBase {
   /** True where the research flagged the fact for normalization review. */
   readonly normalizationReviewRequired: boolean;
   readonly evidence: Evidence;
+  /** Conditions stated by the authority; never inferred from fiscal observations. */
+  readonly constraints?: readonly string[];
 }
 
 /**
