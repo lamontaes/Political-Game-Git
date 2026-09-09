@@ -268,7 +268,25 @@ describe("coverage discovery", () => {
   });
 
   it("actually finds the inventory's own prose in the source", () => {
-    expect(coverage.counts.INVENTORIED).toBeGreaterThan(1000);
+    /*
+     * A scale floor, deliberately loose.
+     *
+     * The live-versus-committed comparison further down is a staleness
+     * detector: both of its sides come from `buildCoverageReport`, so a corpus
+     * that genuinely contracted and was then faithfully regenerated moves both
+     * together and passes. Accepted main used three exact pins, which caught
+     * that but could not survive a composition. The independent reviewer noted
+     * that the only remaining scale protection was `> 1000` against a corpus of
+     * 2302 — two orders of magnitude of headroom on the literals figure.
+     *
+     * These are floors, not pins: comfortably under today's values, so ordinary
+     * growth and composition never touch them, and nowhere near far enough
+     * under to let a whole prose bank disappear unnoticed. Raise them
+     * deliberately when the corpus grows; never lower one to make a run pass.
+     */
+    expect(coverage.counts.INVENTORIED).toBeGreaterThan(2000);
+    expect(coverage.totalLiterals).toBeGreaterThan(60_000);
+    expect(coverage.scannedFiles).toBeGreaterThan(450);
   });
 });
 
@@ -489,9 +507,20 @@ describe("transcripts", () => {
     const idle = SEED_FAMILIES.find(
       (family) => family.key === "campaign-without-the-work",
     );
-    // Same control seed, same life, same beats: the campaign is the only
-    // difference between them, so the difference in outcome is the campaign's.
-    expect(idle?.setup.seed).toBe(worked?.setup.seed);
+    /*
+     * Same control seed, same life, same beats: the campaign is the only
+     * difference between them, so the difference in outcome is the campaign's.
+     *
+     * The whole setup is compared, not just the seed. Pinning the seed alone
+     * left start age, place, household, gender and pronouns free to drift
+     * apart, and any one of them moving would change the idle lane's outcome
+     * while this guard still passed — which would quietly turn the contrast
+     * back into the luck it was written to replace. Raised by the independent
+     * reviewer.
+     */
+    expect(idle?.setup).toStrictEqual(worked?.setup);
+    expect(idle?.steps).toBe(worked?.steps);
+    expect(idle?.prefer).toStrictEqual(worked?.prefer);
 
     const workedRun = transcriptFor(worked!).campaign;
     const idleRun = transcriptFor(idle!).campaign;

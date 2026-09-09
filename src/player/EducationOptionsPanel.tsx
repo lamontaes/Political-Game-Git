@@ -1,9 +1,5 @@
 import { acceptedEducationPath } from "../simulation/education-study-terms";
-import { expandInstitution } from "../education/compact";
-import type {
-  CompactInstitution,
-  EducationDictionary,
-} from "../education/compact";
+import { loadEducationCatalog } from "../education/catalog-load";
 import { useEffect, useMemo, useState } from "react";
 import type { World } from "../simulation/types";
 import type { EducationInstitution } from "../education/types";
@@ -35,44 +31,7 @@ export function EducationOptionsPanel({
     setMessage("Loading institution directory…");
     void (async () => {
       try {
-        const manifest = (await fetch("/education/manifest.json").then((r) => {
-          if (!r.ok) throw new Error("Directory manifest unavailable");
-          return r.json();
-        })) as {
-          chunks: {
-            kind: string;
-            path: string;
-            sha256: string;
-            recordCount: number;
-          }[];
-        };
-        const rows: EducationInstitution[] = [];
-        for (const chunk of manifest.chunks.filter(
-          (c) => !kind || c.kind === kind,
-        )) {
-          if (!/^catalog-[a-f0-9]{64}\.json$/.test(chunk.path))
-            throw new Error("Invalid directory manifest");
-          const response = await fetch(`/education/${chunk.path}`);
-          if (!response.ok) throw new Error("Directory unavailable");
-          const bytes = await response.arrayBuffer();
-          const hash = [
-            ...new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)),
-          ]
-            .map((b) => b.toString(16).padStart(2, "0"))
-            .join("");
-          if (hash !== chunk.sha256)
-            throw new Error("Directory integrity check failed");
-          const payload = JSON.parse(new TextDecoder().decode(bytes)) as {
-            dictionary: EducationDictionary;
-            records: CompactInstitution[];
-          };
-          const chunkRows = payload.records.map((r) =>
-            expandInstitution(r, payload.dictionary),
-          );
-          if (chunkRows.length !== chunk.recordCount)
-            throw new Error("Incomplete directory");
-          rows.push(...chunkRows);
-        }
+        const rows = await loadEducationCatalog(kind);
         if (!cancelled) {
           setCatalog(rows);
           setMessage("");

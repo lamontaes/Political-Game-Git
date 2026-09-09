@@ -2825,6 +2825,14 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
+      "line": 27,
+      "text": "Loading institution directory…",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/EducationOptionsPanel.tsx",
+      "enclosingSymbol": "EducationOptionsPanel",
       "line": 31,
       "text": "Loading institution directory…",
       "verdict": "NEEDS_CLASSIFICATION",
@@ -2833,15 +2841,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 35,
-      "text": "Loading institution directory…",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/EducationOptionsPanel.tsx",
-      "enclosingSymbol": "EducationOptionsPanel",
-      "line": 82,
+      "line": 41,
       "text": "Directory unavailable",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2849,7 +2849,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 109,
+      "line": 68,
       "text": "Real education options",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2857,7 +2857,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 223,
+      "line": 182,
       "text": "Institution details",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2865,7 +2865,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 229,
+      "line": 188,
       "text": "not supplied",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2873,7 +2873,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 243,
+      "line": 202,
       "text": "Game-authored option: eight two-hour sessions, at least seven days apart; $25 per attended session. Completion records noncredit study, never a degree or license.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2881,7 +2881,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 279,
+      "line": 238,
       "text": "Study offer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -50317,6 +50317,12 @@
       "count": 21
     },
     {
+      "sourcePath": "src/main.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/character-proof.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -50413,12 +50419,6 @@
       "count": 27
     },
     {
-      "sourcePath": "src/player/EducationOptionsPanel.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/persistence/sqlite-world-repository.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -50447,12 +50447,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 59
-    },
-    {
-      "sourcePath": "src/main.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/environment/scenes/residence-apartment-living-production.ts",
@@ -50507,12 +50501,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
       "count": 8
-    },
-    {
-      "sourcePath": "src/environment/reference/shape.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 25
     },
     {
       "sourcePath": "src/environment/reference/resolve.ts",
@@ -50581,9 +50569,21 @@
       "count": 2
     },
     {
+      "sourcePath": "src/education/catalog-load.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/content/content-registry.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 25
+    },
+    {
+      "sourcePath": "src/environment/reference/shape.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
       "count": 25
     },
     {

@@ -137,15 +137,32 @@ naming `scripts/source/export-education.ts` as the producer. No heap inflation,
 no blanket exclusion, no handwritten code excluded. With it the format gate
 completes in 42s at 404 MB on #153 and 65s at 357 MB on the combined branch.
 
-**Protection retained, and now actually checked.** The catalogs' integrity was
-never Prettier's doing: they are content-addressed and `EducationOptionsPanel`
+**Protection retained, and checked — but say what it is.** The catalogs'
+integrity was never Prettier's doing: they are content-addressed and the loader
 re-hashes every chunk it fetches and refuses one whose bytes do not match.
 Nothing tested that. `tests/source/education-catalog-integrity.test.ts` now
-states it — digest agrees with file name and manifest, payload carries the
-version, the locked acquisition hashes and exactly the promised record count,
-the producer's trailing-newline convention holds, and a single flipped or
-truncated byte breaks the digest. Verified by corrupting a catalog by one byte
-and watching two tests fail, then restoring.
+does: digest agrees with file name and manifest, payload carries the version,
+the locked acquisition hashes and exactly the promised record count, and the
+producer's trailing-newline convention holds.
+
+Two corrections to how this was first described here, both from the independent
+reviewer and both upheld:
+
+- The corrupted-byte case was a SHA-256 tautology. It hashed a flipped byte with
+  the test's own helper and asserted the digest changed, which is a property of
+  SHA-256 rather than of this repository; deleting the loader's check would not
+  have failed it, and the comment claimed the opposite. The verification is now
+  lifted into `src/education/catalog-load.ts` so a test can drive it, and the
+  case feeds tampered bytes to the loader the panel uses and watches it refuse.
+  Verified by deleting the check and watching the test fail.
+- **This is internal consistency, not producer replay.** Every check compares a
+  committed catalog against a digest written beside it by the same export run,
+  so a corrupted GENERATION passes all of them consistently. `source:replay`
+  covers `data/source/<domain>` only and never reaches `public/education/`, and
+  `scripts/source/export-education.ts` has no npm script, no CI step and no
+  `--check` mode. 78 MB the education panel fetches sits outside every
+  producer-replay gate in the repository. That gap is now pinned by a test that
+  fails the day a runner is added, so it cannot be forgotten quietly.
 
 A second, separate format failure was hidden behind the abort:
 `edu-path7-proof.html` was unformatted. It is handwritten, so it stays checked
