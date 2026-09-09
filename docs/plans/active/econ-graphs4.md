@@ -51,3 +51,8 @@ Carrier: PR #148, branch `codex/econ-context2`
 - The original reviewer rechecked the owner-supplied Drive return and targeted
   Drive/uploads, but the complete Claude ledger remains unavailable. Exact E-1
   recovery is externally blocked; no reconstructed finding is used.
+- The coordinated serial suite passed 182 files / 3,233 tests with 2 skipped.
+  Five localhost dev-wrapper timeouts from the original sandbox run passed 5/5
+  unchanged with port permission. UI-core explicitly authorized isolated
+  feature-branch prose regeneration; the four stale corpus/anchor results then
+  passed, and corpus check reports byte-identical generated artifacts.
