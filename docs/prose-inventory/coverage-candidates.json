@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 1927,
     "INTENTIONALLY_NON_PLAYER_FACING": 5048,
-    "DIAGNOSTIC_OR_TEST": 3803,
-    "NEEDS_CLASSIFICATION": 3656
+    "DIAGNOSTIC_OR_TEST": 3804,
+    "NEEDS_CLASSIFICATION": 3658
   },
   "needsClassification": [
     {
@@ -1987,6 +1987,22 @@
       "enclosingSymbol": "CareerPathsPanel",
       "line": 144,
       "text": "Engagement ended",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/CareerPathsPanel.tsx",
+      "enclosingSymbol": "CareerPathsPanel",
+      "line": 165,
+      "text": "Resolve your current calendar commitment before waiting.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/CareerPathsPanel.tsx",
+      "enclosingSymbol": "CareerPathsPanel",
+      "line": 169,
+      "text": "One day passed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -12081,7 +12097,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 191,
+      "line": 192,
       "text": "This offer is no longer available to you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12089,7 +12105,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 202,
+      "line": 203,
       "text": "You have already accepted these terms.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12097,7 +12113,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 209,
+      "line": 210,
       "text": "You accepted the employer terms. Work begins on ",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12105,7 +12121,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 212,
+      "line": 213,
       "text": "Accepted. Begin work on or after ",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12113,7 +12129,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 225,
+      "line": 226,
       "text": "You declined the offered work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12121,7 +12137,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "respondCareerOffer",
-      "line": 227,
+      "line": 228,
       "text": "You declined. Other opportunities remain available.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12129,7 +12145,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "startCareerWork",
-      "line": 245,
+      "line": 246,
       "text": "Accept the offer and wait until its start date.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12137,7 +12153,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "startCareerWork",
-      "line": 275,
+      "line": 276,
       "text": "You began the accepted work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12145,7 +12161,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "scheduleCareerTask",
-      "line": 290,
+      "line": 291,
       "text": "This responsibility is not available in your active role.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12153,7 +12169,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "scheduleCareerTask",
-      "line": 302,
+      "line": 303,
       "text": "O*NET {p.sourceVersion} task {task.id}: {task.text}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12161,7 +12177,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "scheduleCareerTask",
-      "line": 305,
+      "line": 306,
       "text": "The responsibility is scheduled within your next shift.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12169,7 +12185,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "completeCareerTask",
-      "line": 332,
+      "line": 333,
       "text": "Describe the work you are submitting (10–2,000 characters).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12177,7 +12193,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "completeCareerTask",
-      "line": 348,
+      "line": 349,
       "text": "Your completed responsibility and submission are retained in your work record. {planned.summary}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12185,7 +12201,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "completeCareerTask",
-      "line": 353,
+      "line": 354,
       "text": "Your work and submission are recorded. The completed shift is payable on the following day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12193,7 +12209,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "acceptCareerResponsibilities",
-      "line": 379,
+      "line": 380,
       "text": "An expanded responsibility agreement requires two recorded shifts in this engagement.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12201,7 +12217,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "n",
-      "line": 388,
+      "line": 389,
       "text": "{lifePathDefinition(p.pathId).title} — assignment coordination",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12209,7 +12225,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "acceptCareerResponsibilities",
-      "line": 400,
+      "line": 401,
       "text": "You accepted responsibility for organizing your assignment handoffs. Your earlier work remains the basis for this agreement; no professional credential is granted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12217,7 +12233,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "acceptCareerResponsibilities",
-      "line": 403,
+      "line": 404,
       "text": "Your role now includes organizing assignment handoffs.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12225,7 +12241,7 @@
     {
       "sourcePath": "src/simulation/career-path7.ts",
       "enclosingSymbol": "resignCareer",
-      "line": 411,
+      "line": 412,
       "text": "This is not your engagement.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -30085,18 +30101,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/life-paths2-catalog.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-paths2-catalog.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMembership. Play fails closed rather than showing it.",
@@ -30161,6 +30165,18 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
       "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/life.ts",
@@ -30643,6 +30659,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/evidence-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDiscovery. Play fails closed rather than showing it.",
@@ -30883,18 +30905,6 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/career-path7.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
-    },
-    {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/canonical-json.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -30910,6 +30920,12 @@
       "sourcePath": "src/simulation/campaigns.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/career-path7.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
     },
     {

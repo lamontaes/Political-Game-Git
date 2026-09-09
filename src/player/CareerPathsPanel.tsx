@@ -158,9 +158,17 @@ export function CareerPathsPanel({
                 </button>
                 <p>Start date: {r.startedAt}</p>
                 <button
-                  onClick={() =>
-                    onWorldChange(advanceWorldMinutes(world, 1440, handlers))
-                  }
+                  onClick={() => {
+                    const next = advanceWorldMinutes(world, 1440, handlers);
+                    if (next === world)
+                      setNotice(
+                        "Resolve your current calendar commitment before waiting.",
+                      );
+                    else {
+                      onWorldChange(next);
+                      setNotice("One day passed.");
+                    }
+                  }}
                 >
                   Wait one day
                 </button>

@@ -30,6 +30,15 @@ describe("CAREER-PATH7 locked source replay", () => {
     expect(c.records.reduce((n, r) => n + r.tasks.length, 0)).toBe(18838);
   });
   it("rejects corrupt digest, absent source, unknown rights and missing crosswalk", () => {
+    expect(() =>
+      compileCareerOccupations({
+        ...lock,
+        artifacts: lock.artifacts.map((a) => ({
+          ...a,
+          localPath: "data/source/career-occupations/raw/absent-source.xlsx",
+        })),
+      }),
+    ).toThrow();
     for (const id of lock.artifacts.map((a) => a.artifactId)) {
       expect(() =>
         compileCareerOccupations({

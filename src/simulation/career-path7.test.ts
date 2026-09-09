@@ -1,3 +1,4 @@
+import { simulationMinutesBetween } from "./dates";
 import type { EntityId } from "./types";
 import { describe, it, expect } from "vitest";
 import {
@@ -20,7 +21,13 @@ import {
   careerEligibility,
 } from "./career-path7";
 import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
-import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
+import {
+  enterLifePath,
+  scheduleLifePathSession,
+  performLifePathSession,
+  hasLifePathCredential,
+  LIFE_PATHS2_HANDLERS,
+} from "./life-paths2";
 import { workStatusAt } from "./life-queries";
 import { scheduledActivityState } from "./time-work";
 const p = CAREER_PROVIDERS[0]!;
@@ -37,7 +44,7 @@ function fixture() {
     stableKey: "career-funds",
     owner: { kind: "person", personId: d.personOrder[0]! },
     openedAt: w.currentDate,
-    openingBalance: money(0, "USD"),
+    openingBalance: money(100000, "USD"),
     provenance: { kind: "authored", note: "Synthetic test account." },
   });
   return w;
@@ -77,6 +84,8 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
       expect(scheduled.ok).toBe(true);
       w = scheduled.world;
       const a = w.history.scheduledActivities.at(-1)!;
+      const timing = scheduledActivityState(w, a.id);
+      expect(simulationMinutesBetween(timing.start, timing.end)).toBe(240);
       expect(scheduleCareerTask(w, id, p, p.tasks[i]!.id).world).toBe(w);
       const done = completeCareerTask(
         w,
@@ -87,6 +96,7 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
       );
       expect(done.ok).toBe(true);
       w = done.world;
+      expect(w.currentMoment).toEqual(timing.end);
       expect(scheduledActivityState(w, a.id).status).toBe("completed");
       expect(
         completeCareerTask(w, id, p, a.id, "Duplicate submission is forbidden.")
@@ -117,6 +127,57 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
       ),
     ).toBe(true);
     expect(seekCareerOffer(w, p).ok).toBe(true);
+  });
+  it("switches jobs only after actually completing required training", () => {
+    let w = fixture();
+    const repair = CAREER_PROVIDERS.find((p) => p.pathId === "repair-worker")!;
+    expect(seekCareerOffer(w, repair).ok).toBe(false);
+    w = seekCareerOffer(w, p).world;
+    const old = w.history.workRelationships.at(-1)!.id;
+    w = respondCareerOffer(w, old, p, true).world;
+    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = startCareerWork(w, old, p).world;
+    w = resignCareer(w, old, p).world;
+    w = enterLifePath(w, "trade-training").world;
+    const enrollment = w.history.educationEnrollments.at(-1)!.id;
+    expect(
+      hasLifePathCredential(
+        w,
+        w.personOrder[0]!,
+        "training:repair-certificate",
+      ),
+    ).toBe(false);
+    for (let i = 0; i < 12; i++) {
+      const scheduled = scheduleLifePathSession(w, enrollment);
+      expect(scheduled.ok).toBe(true);
+      w = scheduled.world;
+      const attended = performLifePathSession(
+        w,
+        w.history.scheduledActivities.at(-1)!.id,
+      );
+      expect(attended.ok).toBe(true);
+      w = attended.world;
+    }
+    expect(
+      hasLifePathCredential(
+        w,
+        w.personOrder[0]!,
+        "training:repair-certificate",
+      ),
+    ).toBe(true);
+    w = seekCareerOffer(w, repair).world;
+    const next = w.history.workRelationships.at(-1)!;
+    expect(next.organizationId).not.toBe(
+      w.history.workRelationships.find((r) => r.id === old)!.organizationId,
+    );
+    w = respondCareerOffer(w, next.id, repair, true).world;
+    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = startCareerWork(w, next.id, repair).world;
+    expect(workStatusAt(w, old)?.status).toBe("ended");
+    expect(workStatusAt(w, next.id)?.status).toBe("active");
+    expect(
+      deserializeWorld(serializeWorld(w)).history.workRelationships,
+    ).toEqual(w.history.workRelationships);
   });
   it("covers every source task in the declared three LIFE work contexts", () => {
     expect(CAREER_PROVIDERS.map((p) => p.tasks.length)).toEqual([24, 20, 18]);

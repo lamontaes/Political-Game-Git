@@ -11,3 +11,5 @@ Three existing authored LIFE contexts form the declared playable slice: retail s
 EDU uses hasLifePathCredential through LIFE entry checks: actual completed programKind, not source customary education. CIVIL owner confirms public hiring remains excluded until its dated class/authority query is integrated. Existing campaign/private/public funding boundaries remain untouched.
 
 Normal-player acceptance remains pending application and browser proof. The patch alone is not reachability evidence.
+
+Browser contract: tests/e2e/career-path7.spec.ts walks normal new-life/Work controls, uses pointer and Enter/Space activation, refuses one offer, accepts another, begins after its start, schedules/performs work and resigns. It requires the applied UI patch; no skip or diagnostic route substitutes for it. Same-employer/role serialization is additionally covered by the headless lifecycle test.

@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 1927 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5048 |
-| DIAGNOSTIC_OR_TEST | 3803 |
-| **NEEDS_CLASSIFICATION** | **3656** |
+| DIAGNOSTIC_OR_TEST | 3804 |
+| **NEEDS_CLASSIFICATION** | **3658** |
 
-Scanned 369 files holding 55057 string
+Scanned 369 files holding 55068 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -159,6 +159,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/simulation/vitality-integrity.ts` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
+| 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
@@ -174,7 +175,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
-| 3 | `src/player/CareerPathsPanel.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/life-introduction.ts` |

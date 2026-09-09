@@ -19,7 +19,7 @@
         "httpStatus": 200,
         "method": "bulk-download",
         "responseBytes": 102540,
-        "retrievedAt": "2026-09-09T17:37:52.478Z",
+        "retrievedAt": "2026-09-09T17:53:10.969Z",
         "url": "https://www.onetcenter.org/dl_files/database/db_31_0_excel/Occupation%20Data.xlsx"
       },
       "rights": {
@@ -48,7 +48,7 @@
         "httpStatus": 200,
         "method": "bulk-download",
         "responseBytes": 1149461,
-        "retrievedAt": "2026-09-09T17:37:52.769Z",
+        "retrievedAt": "2026-09-09T17:53:11.249Z",
         "url": "https://www.onetcenter.org/dl_files/database/db_31_0_excel/Task%20Statements.xlsx"
       },
       "rights": {
@@ -77,7 +77,7 @@
         "httpStatus": 200,
         "method": "bulk-download",
         "responseBytes": 44847,
-        "retrievedAt": "2026-09-09T17:37:54.726Z",
+        "retrievedAt": "2026-09-09T17:53:12.151Z",
         "url": "https://www.onetcenter.org/taxonomy/2019/soc/2019_to_SOC_Crosswalk.xlsx?fmt=xlsx"
       },
       "rights": {
@@ -106,7 +106,7 @@
         "httpStatus": 200,
         "method": "bulk-download",
         "responseBytes": 51367,
-        "retrievedAt": "2026-09-09T17:37:55.634Z",
+        "retrievedAt": "2026-09-09T17:53:12.543Z",
         "url": "https://www.bls.gov/soc/2018/soc_structure_2018.xlsx"
       },
       "rights": {
@@ -122,6 +122,11 @@
         "length": 279525,
         "sha256": "b5855a37f3e03e779f6fbf173d3bbc94aeeff33426aef32fa95ce6d025bab1af"
       },
+      "container": {
+        "memberLength": 289615,
+        "memberPath": "oesm25nat/national_M2025_dl.xlsx",
+        "memberSha256": "852250997ceff9b721ff68f63e877d818f9c1ec8b1b69dd367958faedd5282b2"
+      },
       "localPath": "data/source/career-occupations/raw/oews.zip",
       "mediaType": "application/zip",
       "provider": "BLS",
@@ -135,7 +140,7 @@
         "httpStatus": 200,
         "method": "bulk-download",
         "responseBytes": 279525,
-        "retrievedAt": "2026-09-09T17:37:55.849Z",
+        "retrievedAt": "2026-09-09T17:53:12.731Z",
         "url": "https://www.bls.gov/oes/special-requests/oesm25nat.zip"
       },
       "rights": {

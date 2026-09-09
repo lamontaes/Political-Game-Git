@@ -68,6 +68,7 @@ export const sourceDomain: SourceDomainModule<OccupationRecord> = {
       },
       {
         artifactId: "bls-oews2025-national",
+        containerMemberPath: "oesm25nat/national_M2025_dl.xlsx",
         provider: "BLS",
         url: "https://www.bls.gov/oes/special-requests/oesm25nat.zip",
         method: "bulk-download",
