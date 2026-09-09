@@ -547,9 +547,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // Re-measured by corpus:prose on the actual OPENING checkpoint composed
     // with frozen P2R2/P01; these are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(53802);
+    expect(coverage.totalLiterals).toBe(53856);
     expect(coverage.counts.INVENTORIED).toBe(2115);
-    expect(coverage.scannedFiles).toBe(367);
+    expect(coverage.scannedFiles).toBe(370);
   });
 });
 

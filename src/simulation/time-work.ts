@@ -375,6 +375,42 @@ export function createScheduledActivity(
   return next;
 }
 
+/** Explicit cancellation preserves the original interval and append-only history. */
+export function cancelScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const previous = scheduledActivityState(world, activityId);
+  if (previous.status !== "scheduled") return world;
+  const stableKey = `schedule:cancel:${activityId}:${world.history.nextSequence}`;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      scheduledActivityStates: [
+        ...world.history.scheduledActivityStates,
+        {
+          ...previous,
+          id: createStableId(
+            "scheduled-activity-state",
+            `${world.id}:${stableKey}`,
+          ),
+          stableKey,
+          sequence: world.history.nextSequence,
+          recordedAt: cloneMoment(world.currentMoment),
+          status: "cancelled",
+          change: "cancelled",
+          outcomeEventId: null,
+          supersedesStateId: previous.id,
+        },
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
+
 export function rescheduleScheduledActivity(
   world: World,
   input: RescheduleScheduledActivityInput,

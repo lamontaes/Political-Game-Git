@@ -1,0 +1,35 @@
+{
+  "currentMoment": {
+    "date": "2026-01-07",
+    "minuteOfDay": 1200,
+    "timeZone": "America/New_York",
+    "utcOffsetMinutes": -300
+  },
+  "invitation": {
+    "activityId": "scheduled-activity_40f1b8f6333747bd",
+    "invitationEventId": "event_2c1f72643715e261",
+    "counterpartPersonId": "person_4819ac1a232cd42e",
+    "title": "Something on Saturday",
+    "start": {
+      "date": "2026-01-10",
+      "minuteOfDay": 900,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "end": {
+      "date": "2026-01-10",
+      "minuteOfDay": 1080,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "revision": "scheduled-activity-state_320faf84b43b8998"
+  },
+  "before": [
+    "scheduled-activity_40f1b8f6333747bd"
+  ],
+  "after": [],
+  "status": "cancelled",
+  "clockUnchanged": true,
+  "activitiesUnchanged": true,
+  "reload": true
+}

@@ -19,7 +19,7 @@ edit it by hand; edit the production bank or the generator and regenerate.
 
 - **2281** inventoried templates.
 - Reachability: 42 CURRENTLY_UNREACHABLE, 91 DEV_FIXTURE_ONLY, 90 LEGACY_OR_WITHDRAWN, 1689 PLAYER_REACHABLE, 369 WITHHELD_BY_GROUNDING.
-- **3493** coverage candidates still need a
+- **3498** coverage candidates still need a
   person's classification. 100% coverage is *not* claimed.
 - **0** hard errors, **268** review warnings.
 

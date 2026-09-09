@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2115 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4768 |
-| DIAGNOSTIC_OR_TEST | 3757 |
-| **NEEDS_CLASSIFICATION** | **3493** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4769 |
+| DIAGNOSTIC_OR_TEST | 3760 |
+| **NEEDS_CLASSIFICATION** | **3498** |
 
-Scanned 367 files holding 53802 string
+Scanned 370 files holding 53856 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -170,6 +170,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
+| 4 | `src/presentation/social-invitation.ts` |
 | 4 | `src/simulation/life-personality.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
@@ -198,6 +199,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/player/PersonPortrait.tsx` |
 | 1 | `src/player/PlayerConversation.tsx` |
 | 1 | `src/player/SceneSurfaceLayer.tsx` |
+| 1 | `src/presentation/SocialInvitationPanel.tsx` |
 | 1 | `src/presentation/adult-life.ts` |
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
