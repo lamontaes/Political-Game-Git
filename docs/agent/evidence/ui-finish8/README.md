@@ -244,15 +244,46 @@ Human review of the captures, not just their passing:
   patch. **No patch was received from C during this session**, so no INCIDENT
   root change was made. Recorded as outstanding rather than improvised.
 
+## Validation
+
+Every stage of the composed `validate` chain passes on this branch:
+
+| Stage                             | Result                                                                                                             |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `format`                          | All matched files use Prettier code style (65s, 357 MB peak)                                                       |
+| `lint`                            | clean                                                                                                              |
+| `typecheck`                       | clean                                                                                                              |
+| `release:check`                   | `version 0.2.0, 6 pending declaration(s) ... OK.`                                                                  |
+| `test`                            | **272 files, 4234 passed, 2 skipped, 0 failed**                                                                    |
+| `source:validate`                 | 18 domains, 0 errors (published warnings preserved, not suppressed)                                                |
+| `source:replay`                   | pass                                                                                                               |
+| `build`                           | pass                                                                                                               |
+| `demo -- validation-seed`         | pass                                                                                                               |
+| `validate:art`                    | `Validation passed.`                                                                                               |
+| `admit:wave-a-candidates --check` | up to date                                                                                                         |
+| `derive:wave-a-wardrobe --check`  | up to date; 49 historical enlarged candidates checked against banked hashes only, **not** accepted or re-generated |
+
+Nothing here is a claim of art approval, and no candidate art was promoted.
+
 ## Remaining defects and host notes
 
-- Full validation on this host shows timeouts in
-  `tests/source/substrate.test.ts` and
-  `src/presentation/people-visual4-review.test.ts` under parallel load. Both
-  pass in isolation well inside the budget (2.07s and 1.35s against 5s), and
-  the hosted run at `0deebff6` did not hit them. Treated as contention on a
-  machine running many worktrees, not as branch defects. Neither test was
-  modified.
+- **The unit suite is green, but only with bounded parallelism on this host.**
+  This machine has 8 cores and was carrying a load average of 26 across many
+  agent worktrees. At vitest's default worker count, individually fast tests
+  exceed the 5s per-test budget, and which ones do so moves between runs — three
+  in one run, one in the next, twelve in a third, across
+  `substrate.test.ts`, `people-visual4-review.test.ts` and
+  `legislative-bargaining-world.test.ts`. Each passes in isolation well inside
+  the budget. Run with `--maxWorkers=3` the whole suite is 4234 passed, 0
+  failed, and the hosted run at `0deebff6` did not hit these either. This is
+  host oversubscription, not a branch defect; no test was weakened to get past
+  it. Anyone re-running here should bound the workers.
+- One real cost increase was found rather than assumed and is fixed at the
+  cause: `substrate.test.ts`'s corpus-digest replay walks every source domain,
+  and the composition takes that from 15 domains / 85 MB to 18 / 184 MB —
+  0.74s to 2.07s. Its budget is stated explicitly; every domain is still
+  digested and compared. This touches the shared source substrate by one
+  argument and no assertion, declared for B and C.
 - `corpus.test.ts` now plays its seven lives once at module scope. The file
   takes 5.2s where accepted main took 17.8s, and no individual test is near the
   timeout.
