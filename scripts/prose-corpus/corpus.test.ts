@@ -556,9 +556,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // ENV recovery adds scene, activity, travel and review modules. Counts below
     // match the regenerated coverage report; template identities are unchanged.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52450);
+    expect(coverage.totalLiterals).toBe(52526);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(352);
+    expect(coverage.scannedFiles).toBe(355);
   });
 });
 

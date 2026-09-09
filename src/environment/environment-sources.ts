@@ -136,13 +136,12 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     sourceId: "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
     label: "The community meeting hall",
     path: "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-    disposition: "released-no-canonical-activity",
+    disposition: "in-ordinary-play",
     sceneId: "civic-community-meeting-room",
-    remainingStep:
-      "UI-core must integrate docs/integration/env-all1-ui-core.patch; activity execution and immediate aftermath are implemented, normal-root integration is pending.",
-    owedBy: "UI-CORE-RELEASE",
+    remainingStep: null,
+    owedBy: null,
     openRequestIds: [],
-    note: "ONE PLATE, TWO SCENES. It has stood behind the title since #86; this lane authored it a second time as a room to be in, and the posted public meeting an ordinary life can attend now resolves to it. No new art was made for either use.",
+    note: "One released plate serves title and completed public-meeting context. UI #144 normal Day pointer/keyboard and Save/Continue proof is recorded at 517dfa3 and retained in the later combined UI. This donor alone does not own the root. MUNI's additional callback is separately being verified; baked audience figures remain anonymous decor.",
   },
   {
     sourceId: "env_shared_workroom_office_v1",

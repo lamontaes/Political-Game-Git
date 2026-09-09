@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4851 |
-| DIAGNOSTIC_OR_TEST | 3688 |
-| **NEEDS_CLASSIFICATION** | **3312** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4853 |
+| DIAGNOSTIC_OR_TEST | 3692 |
+| **NEEDS_CLASSIFICATION** | **3318** |
 
-Scanned 352 files holding 52450 string
+Scanned 355 files holding 52526 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -46,12 +46,12 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/simulation/time-work.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
+| 40 | `src/ui/SceneGalleryView.tsx` |
 | 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/presentation/scene-consumers.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
-| 37 | `src/ui/SceneGalleryView.tsx` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/person-stress-harness.ts` |
@@ -106,6 +106,7 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/presentation/surface-projection.ts` |
 | 13 | `src/simulation/election-contests.ts` |
+| 13 | `src/simulation/life-places.ts` |
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
@@ -115,7 +116,6 @@ literals in total; the table counts only those that read like a sentence.
 | 11 | `src/content/adapters/life-situations.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
-| 11 | `src/simulation/life-places.ts` |
 | 11 | `src/simulation/political-belief-formation.ts` |
 | 11 | `src/ui/SceneAuthoringProofView.tsx` |
 | 11 | `src/ui/scene-venue-exercise.ts` |
@@ -196,6 +196,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/life-scene-people.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
+| 1 | `src/simulation/national-counties.generated.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |
 

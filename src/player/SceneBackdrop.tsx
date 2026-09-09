@@ -12,6 +12,10 @@ import {
 } from "../presentation/surface-projection";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
+import {
+  releasedSceneOccluders,
+  scenePlateClips,
+} from "../presentation/scene-occlusion";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
 
@@ -84,6 +88,8 @@ export function SceneBackdrop({
   );
 
   const painted = Boolean(tier.paintedUrl);
+  const occluders = releasedSceneOccluders(scene);
+  const plateClips = scenePlateClips(scene);
   const bindings = useMemo(
     () =>
       scene ? bindSceneSurfaces(scene, dynamicSurfacePayloads(surfaces)) : [],
@@ -171,6 +177,7 @@ export function SceneBackdrop({
                     top: `${topLeft.y}px`,
                     width: `${width}px`,
                     height: `${height}px`,
+                    zIndex: scene?.anchors.get(person.anchorId)?.zOrder ?? 0,
                   } satisfies CSSProperties
                 }
               >
@@ -197,15 +204,82 @@ export function SceneBackdrop({
                     aria-hidden="true"
                   />
                 )}
-                <span className="scene-person-plate">
-                  <strong>{person.name}</strong>
-                  {person.relationship ? (
-                    <small>{person.relationship}</small>
-                  ) : null}
-                </span>
               </div>
             );
           })}
+          {occluders.map((occluder) => (
+            <img
+              key={occluder.id}
+              src={occluder.asset.url}
+              alt=""
+              draggable="false"
+              data-testid="scene-backdrop-occluder"
+              data-occluder-id={occluder.id}
+              style={{
+                position: "absolute",
+                left: transform.xOffset,
+                top: transform.yOffset,
+                width: plate.width * transform.uniformScale,
+                height: plate.height * transform.uniformScale,
+                zIndex: occluder.zOrder,
+              }}
+            />
+          ))}
+          {plateClips.map((clip) => (
+            <img
+              key={clip.id}
+              src={tier.paintedUrl!}
+              alt=""
+              draggable="false"
+              data-testid="scene-backdrop-plate-clip"
+              data-occluder-id={clip.id}
+              style={{
+                position: "absolute",
+                left: transform.xOffset,
+                top: transform.yOffset,
+                width: plate.width * transform.uniformScale,
+                height: plate.height * transform.uniformScale,
+                zIndex: clip.zOrder,
+                clipPath: clip.clipPath,
+              }}
+            />
+          ))}
+          {/* Names are interface labels, above the physical depth stack. */}
+          {people.map((person) => (
+            <div
+              key={`label:${person.personId}`}
+              style={{
+                position: "absolute",
+                left:
+                  transform.xOffset +
+                  ((person.leftPercent + person.widthPercent / 2) / 100) *
+                    plate.width *
+                    transform.uniformScale,
+                top:
+                  transform.yOffset +
+                  ((person.topPercent + person.heightPercent) / 100) *
+                    plate.height *
+                    transform.uniformScale,
+                transform: "translateX(-50%)",
+                zIndex:
+                  Math.max(
+                    0,
+                    ...occluders.map((o) => o.zOrder),
+                    ...plateClips.map((o) => o.zOrder),
+                    ...[...(scene?.anchors.values() ?? [])].map(
+                      (a) => a.zOrder,
+                    ),
+                  ) + 1,
+              }}
+            >
+              <span className="scene-person-plate">
+                <strong>{person.name}</strong>
+                {person.relationship ? (
+                  <small>{person.relationship}</small>
+                ) : null}
+              </span>
+            </div>
+          ))}
         </div>
       ) : null}
       <div className="scene-backdrop-content">{children}</div>

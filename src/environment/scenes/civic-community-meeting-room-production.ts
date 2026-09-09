@@ -3,7 +3,8 @@ import type { EnvironmentSceneSpec } from "../environment-scene-spec";
 /** Gameplay framing of the existing community-hall plate.
  * Baked audience figures are anonymous decor, never canonical participants.
  * Contacts and slots retain the accepted title plate's image-space estimates.
- * No body-scale calibration or alpha occluder is asserted.
+ * Body-scale calibration remains unknown. A visual-estimate vector silhouette
+ * now clips the existing painted lectern; no source pixels are replaced.
  */
 export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
   environment_id: "environment:civic-community-meeting:public-room:v1",
@@ -89,6 +90,27 @@ export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
       id: "lectern-front",
       type: "furniture-foreground",
       z_order: 5,
+      plate_clip: {
+        confidence: "visual-estimate",
+        method_note:
+          "ENV-FINISH4 authored image-space silhouette traced against the released 1376x768 tier: lectern reading board, wooden stem and base. Points are plate percentages converted from inspected pixels, not physical measurements. Microphone and soft floor shadow are excluded. Edge uncertainty approximately 3 pixels at this tier; no changes to source art or native-detail lineage.",
+        points: [
+          { x: 22.1657, y: 39.974 },
+          { x: 33.3576, y: 32.4219 },
+          { x: 40.3343, y: 34.375 },
+          { x: 40.3343, y: 36.7188 },
+          { x: 36.7006, y: 39.4531 },
+          { x: 36.7733, y: 92.5781 },
+          { x: 40.1163, y: 94.0104 },
+          { x: 40.1163, y: 96.4844 },
+          { x: 29.4331, y: 98.8281 },
+          { x: 24.2733, y: 92.4479 },
+          { x: 24.2733, y: 89.974 },
+          { x: 26.7442, y: 89.3229 },
+          { x: 26.7442, y: 43.8802 },
+          { x: 22.1657, y: 41.6667 },
+        ],
+      },
       region_percent: {
         x_percent: 22,
         y_percent: 33,
@@ -153,7 +175,7 @@ export const CIVIC_COMMUNITY_MEETING_ROOM_SCENE: EnvironmentSceneSpec = {
   ],
 
   explicit_unknowns: [
-    "This scene shares its raster, its tier ladder and its measured geometry with `civic-community-meeting-title`. Every unknown recorded there applies here unchanged: no floor calibration pair, no standard body width, an ESTIMATED podium floor line, a painted-in audience whose chairs carry no anchors, cropped left-edge chairs with no declared seat planes, and an occluder with no authored alpha.",
+    "This scene shares its raster and tier ladder with civic-community-meeting-title. No floor calibration pair or standard body width is established. The podium floor line remains estimated; painted audience chairs and cropped left-edge chairs have no canonical seats. The gameplay lectern uses an explicitly authored image-space vector clip; the microphone and soft shadow are not masked.",
     "This plate is an external upscale to 5504x3072 from a 2048-wide pass. The inherited tier declarations are preserved; reduction does not establish native source detail.",
     "This is a generic public meeting hall. It names no jurisdiction and depicts no real room. Which meeting of which body it is standing for is canonical world truth supplied by the caller and is never read off the picture.",
   ],
