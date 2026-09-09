@@ -118,3 +118,10 @@ the render plan, canonical identity and wardrobe A/B/A through serialization,
 shared portrait and registered scenes, and full-figure framing. Browser and
 serialized full-validation results are recorded in the delivery evidence after
 the coordinated finite slot. Passing tests are not human visual acceptance.
+
+Final execution evidence is in `docs/agent/evidence/people-visual4/README.md`.
+Frozen code64b49a7 passed2/2 browser proofs after visual inspection corrected
+preview containment and washout. All validation phases passed after refreshing
+stale prose/fit evidence and rerunning the four affected suites (127 tests).
+The corrected fixture affine is3.14%; its harness-only bounded warp is1.12%.
+Production fit transforms/classes and all fixture pixels remain unchanged.

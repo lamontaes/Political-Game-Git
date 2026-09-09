@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2054 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5192 |
 | DIAGNOSTIC_OR_TEST | 4357 |
-| **NEEDS_CLASSIFICATION** | **5622** |
+| **NEEDS_CLASSIFICATION** | **5624** |
 
-Scanned 492 files holding 64709 string
+Scanned 492 files holding 64718 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -183,6 +183,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
+| 6 | `src/player/PersonAppearanceControls.tsx` |
 | 6 | `src/player/SceneBackdrop.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
@@ -213,7 +214,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
-| 4 | `src/player/PersonAppearanceControls.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |

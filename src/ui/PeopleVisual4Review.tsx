@@ -289,7 +289,7 @@ export function PeopleVisual4Review() {
           <p>Portrait withheld until the saved wardrobe is repaired.</p>
         )}
       </section>
-      <section>
+      <section className="people-visual4-scene-preview">
         <h2>Registered scene consumer</h2>
         <p data-testid="visual4-scene-status">{sceneStatus}</p>
         <SceneBackdrop
