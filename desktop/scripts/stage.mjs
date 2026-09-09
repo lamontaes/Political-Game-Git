@@ -119,18 +119,10 @@ writeFileSync(
   ) + "\n",
 );
 
-// electron-builder reads the app version from desktop/package.json; keep
-// it equal to the canonical repository version without hand-editing.
-const desktopPackagePath = path.join(desktopRoot, "package.json");
-const desktopPackage = JSON.parse(readFileSync(desktopPackagePath, "utf8"));
-if (desktopPackage.version !== identity.version) {
-  desktopPackage.version = identity.version;
-  writeFileSync(
-    desktopPackagePath,
-    JSON.stringify(desktopPackage, null, 2) + "\n",
-  );
-}
-
+// The tracked desktop/package.json version is a fixed placeholder and is
+// never written here: packaging injects the staged version through
+// electron-builder extraMetadata (scripts/package.mjs), so a clean tree
+// stays clean before and after staging.
 console.log(
   `Staged ${identity.version} @ ${identity.revisionShort}${identity.dirty ? " (dirty)" : ""} distribution=${distribution} composition=${composition}`,
 );

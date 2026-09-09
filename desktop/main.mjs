@@ -1,4 +1,4 @@
-/* global process, URL, Response */
+/* global process, URL, Response, setTimeout */
 /**
  * Our Civic Duty — desktop shell main process.
  *
@@ -21,6 +21,7 @@ import { stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
+import { runUpdateCheck, updateActivation } from "./updater.mjs";
 
 const { app, BrowserWindow, Menu, dialog, protocol, session, shell } = electron;
 
@@ -216,85 +217,74 @@ function readUpdateConfig() {
 }
 
 const updateConfig = readUpdateConfig();
-const updatesActive =
-  updateConfig.enabled === true &&
-  typeof updateConfig.feedURL === "string" &&
-  updateConfig.feedURL.startsWith("https://") &&
-  identity.distribution !== "steam";
+const activation = updateActivation(updateConfig, identity);
 
 let updateCheckInFlight = false;
 
-async function checkForUpdates(interactive) {
-  if (!updatesActive) {
-    if (interactive)
-      await dialog.showMessageBox({
-        type: "info",
-        message: "Updates are not configured for this build.",
-        detail:
-          identity.distribution === "steam"
-            ? "This is a Steam-managed build; Steam delivers updates."
-            : "This internal build has no authorized update endpoint. Install a newer build manually to update.",
-      });
-    return;
-  }
+/**
+ * Asks every window to close through the normal close flow and reports
+ * whether all of them actually did — the game gets its chance to finish
+ * persisting, and a window that stays open blocks the restart.
+ */
+async function closeAllWindows() {
+  const windows = BrowserWindow.getAllWindows();
+  await Promise.all(
+    windows.map(
+      (win) =>
+        new Promise((resolve) => {
+          if (win.isDestroyed()) return resolve();
+          win.once("closed", resolve);
+          setTimeout(resolve, 3000);
+          win.close();
+        }),
+    ),
+  );
+  return BrowserWindow.getAllWindows().length === 0;
+}
+
+async function checkForUpdates() {
   if (updateCheckInFlight) return;
   updateCheckInFlight = true;
   try {
-    const { default: updaterModule } = await import("electron-updater");
-    const { autoUpdater } = updaterModule;
-    autoUpdater.autoDownload = false;
-    autoUpdater.autoInstallOnAppQuit = false;
-    autoUpdater.channel = updateConfig.channel ?? "internal";
-    autoUpdater.setFeedURL({
-      provider: "generic",
-      url: updateConfig.feedURL,
-      channel: updateConfig.channel ?? "internal",
-    });
-    const result = await autoUpdater.checkForUpdates();
-    const available =
-      result?.updateInfo && result.updateInfo.version !== identity.version;
-    if (!available) {
-      if (interactive)
-        await dialog.showMessageBox({
-          type: "info",
-          message: "You are on the newest available build.",
-          detail: `Version ${identity.version} (${identity.revisionShort}).`,
+    await runUpdateCheck({
+      activation,
+      currentVersion: identity.version,
+      channel: identity.channel ?? "internal",
+      loadUpdater: async () => {
+        const { default: updaterModule } = await import("electron-updater");
+        const { autoUpdater } = updaterModule;
+        autoUpdater.autoDownload = false;
+        autoUpdater.autoInstallOnAppQuit = false;
+        autoUpdater.channel = updateConfig.channel ?? "internal";
+        autoUpdater.setFeedURL({
+          provider: "generic",
+          url: updateConfig.feedURL,
+          channel: updateConfig.channel ?? "internal",
         });
-      return;
-    }
-    const { response } = await dialog.showMessageBox({
-      type: "question",
-      buttons: ["Download", "Not now"],
-      cancelId: 1,
-      message: `Version ${result.updateInfo.version} is available.`,
-      detail:
-        "The update downloads in the background. Nothing restarts until you choose to; unsaved play is never discarded.",
+        return {
+          checkForUpdates: () => autoUpdater.checkForUpdates(),
+          downloadUpdate: () => autoUpdater.downloadUpdate(),
+          quitAndInstall: () => autoUpdater.quitAndInstall(),
+          setAutoInstallOnAppQuit: (value) => {
+            autoUpdater.autoInstallOnAppQuit = value;
+          },
+        };
+      },
+      ask: async (message, detail, buttons) => {
+        const { response } = await dialog.showMessageBox({
+          type: "question",
+          buttons: [...buttons],
+          cancelId: buttons.length - 1,
+          message,
+          detail,
+        });
+        return response;
+      },
+      notify: async (message, detail) => {
+        await dialog.showMessageBox({ type: "info", message, detail });
+      },
+      closeAllWindows,
     });
-    if (response !== 0) return;
-    await autoUpdater.downloadUpdate();
-    const { response: installNow } = await dialog.showMessageBox({
-      type: "question",
-      buttons: ["Restart and install", "Later"],
-      cancelId: 1,
-      message: "Update downloaded.",
-      detail:
-        "Install now, or keep playing and it installs the next time you quit the app yourself.",
-    });
-    if (installNow === 0) {
-      const windows = BrowserWindow.getAllWindows();
-      for (const win of windows) win.close();
-      // Only proceed if every window actually agreed to close (the game
-      // had its chance to finish persisting through normal close flow).
-      if (BrowserWindow.getAllWindows().length === 0)
-        autoUpdater.quitAndInstall();
-    }
-  } catch (error) {
-    if (interactive)
-      await dialog.showMessageBox({
-        type: "warning",
-        message: "The update check did not complete.",
-        detail: String(error?.message ?? error),
-      });
   } finally {
     updateCheckInFlight = false;
   }
@@ -350,7 +340,7 @@ function buildMenu() {
               { label: "About Our Civic Duty", click: showAbout },
               {
                 label: "Check for Updates…",
-                click: () => checkForUpdates(true),
+                click: () => checkForUpdates(),
               },
               { type: "separator" },
               { role: "hide" },
@@ -371,7 +361,7 @@ function buildMenu() {
               { label: "About Our Civic Duty", click: showAbout },
               {
                 label: "Check for Updates…",
-                click: () => checkForUpdates(true),
+                click: () => checkForUpdates(),
               },
               { type: "separator" },
               { role: "quit" },
