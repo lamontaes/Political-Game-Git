@@ -1,3 +1,4 @@
+import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { test, expect } from "./fixtures";
 import {
   startLife,
@@ -129,6 +130,12 @@ test("normal dated education offer, attendance, interruption and repeated saving
   await enterLife(page);
   await openElsewhere(page, "work");
   await expect(study).toContainText("Interrupted. 1 attended sessions");
+  await test
+    .info()
+    .attach("saved-study-world.json", {
+      body: JSON.stringify(await readSavedLegislativeWorld(page)),
+      contentType: "application/json",
+    });
   await study.getByRole("button", { name: "Return", exact: true }).click();
   await study
     .getByRole("button", { name: "Schedule next session", exact: true })
