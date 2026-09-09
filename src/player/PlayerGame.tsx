@@ -1850,13 +1850,22 @@ function PlayingScreen({
     const scenarioKey = capabilities.legislativeScenarioKey;
     const jurisdictionId = capabilities.legislativeJurisdictionId;
     if (!scenarioKey || !jurisdictionId) return;
-    const opened = openLegislativeWork(session.world, {
-      scenarioKey,
-      playerPersonId: session.personId,
-      jurisdictionId,
-    });
-    setAssignment(opened.assignment);
-    if (opened.world !== session.world) onWorldChange(opened.world);
+    try {
+      const opened = openLegislativeWork(session.world, {
+        scenarioKey,
+        playerPersonId: session.personId,
+        jurisdictionId,
+      });
+      setAssignment(opened.assignment);
+      setFloorNote(null);
+      if (opened.world !== session.world) onWorldChange(opened.world);
+    } catch (error) {
+      setFloorNote(
+        error instanceof Error
+          ? error.message
+          : "This work is not available in the current world.",
+      );
+    }
   }
 
   /**
@@ -2559,6 +2568,11 @@ function renderWorkspace({
           >
             {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
+          {floorNote && !assignment ? (
+            <p role="status" data-testid="work-unavailable">
+              {floorNote}
+            </p>
+          ) : null}
           {capabilities.legislativeJurisdictionId ? (
             <DocketWorkspace
               world={session.world}

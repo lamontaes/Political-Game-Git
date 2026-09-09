@@ -80,7 +80,7 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   const place = life.place ?? "Kentucky";
-  await page.getByTestId("place-search").fill(place.slice(0, 5));
+  await page.getByTestId("place-search").fill(place);
   await page
     .getByTestId("place-choices")
     .getByRole("button", { name: new RegExp(place, "i") })

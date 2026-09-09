@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
 import { expect, test } from "./fixtures";
-import { goTo, startLife } from "./support/creator";
+import { fillCreator, goTo, startLife } from "./support/creator";
 
 /** Only visible opening controls; no fixture World or hidden state injection. */
 async function enterOpening(page: Page) {
@@ -253,4 +253,42 @@ test("title Patch notes shows every canonical section and real package version w
     .press("Enter");
   await expect(page.getByTestId("new-game")).toBeVisible();
   await expect(page.getByTestId("title-patch-notes-workspace")).toHaveCount(0);
+});
+
+test("normal county selection preserves unspecified town and exact saved jurisdiction", async ({
+  page,
+}, info) => {
+  await page.goto("/?seed=ui-converge4-county");
+  await fillCreator(page, {
+    age: 38,
+    place: "Fayette County, Kentucky",
+    route: "normal",
+  });
+  await page.getByTestId("begin").press("Enter");
+  await enterOpening(page);
+  await save(page);
+  const initial = await savedWorld(page);
+  const player =
+    initial.control.kind === "person"
+      ? initial.people[initial.control.personId]
+      : null;
+  expect(player).toBeDefined();
+  await expect(page.getByTestId("play-screen")).toContainText("Fayette County");
+  await goTo(page, "nav-municipal");
+  await expect(page.getByTestId("municipal-workspace")).toContainText(
+    "No verified government link",
+  );
+  await save(page);
+  expect(await savedWorld(page)).toEqual(initial);
+  await continueSaved(page);
+  await goTo(page, "nav-personal-group");
+  await page.getByTestId("nav-personal").click();
+  await expect(page.getByTestId("personal-workspace")).toContainText(
+    "Fayette County",
+  );
+  await save(page);
+  expect(await savedWorld(page)).toEqual(initial);
+  await page.screenshot({
+    path: info.outputPath("normal-county-reloaded.png"),
+  });
 });
