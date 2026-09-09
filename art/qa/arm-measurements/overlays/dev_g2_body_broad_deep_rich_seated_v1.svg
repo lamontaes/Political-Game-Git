@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="420" height="660" viewBox="0 0 420 660">
+  <title>dev_g2_body_broad_deep_rich_seated_v1 — seated-at-desk — arm-measure-v1</title>
+  <image href="../../../generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png" xlink:href="../../../generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png" width="420" height="660" />
+  <line x1="209.5" y1="129" x2="209.5" y2="373" stroke="#2563eb" stroke-width="1" stroke-dasharray="4 3" />
+  <line x1="0" y1="131" x2="420" y2="131" stroke="#2563eb" stroke-width="1" opacity="0.5" />
+  <polyline points="83,131 82,147 80,163 79,179 77,196 75,212 74,228 72,244 70,260 69,276 67,292 65,308 64,325 62,341 60,357 59,373" fill="none" stroke="#111827" stroke-width="1" />
+  <circle cx="83" cy="131" r="1" fill="#dc2626" />
+  <circle cx="82" cy="147" r="1" fill="#dc2626" />
+  <circle cx="80" cy="163" r="1" fill="#dc2626" />
+  <circle cx="79" cy="179" r="1" fill="#dc2626" />
+  <circle cx="77" cy="196" r="1" fill="#dc2626" />
+  <circle cx="75" cy="212" r="1" fill="#dc2626" />
+  <circle cx="74" cy="228" r="1" fill="#dc2626" />
+  <circle cx="72" cy="244" r="1" fill="#dc2626" />
+  <circle cx="70" cy="260" r="1" fill="#dc2626" />
+  <circle cx="69" cy="276" r="1" fill="#dc2626" />
+  <circle cx="67" cy="292" r="1" fill="#dc2626" />
+  <circle cx="65" cy="308" r="1" fill="#dc2626" />
+  <circle cx="64" cy="325" r="1" fill="#dc2626" />
+  <circle cx="62" cy="341" r="1" fill="#dc2626" />
+  <circle cx="60" cy="357" r="1" fill="#dc2626" />
+  <circle cx="83" cy="131" r="5" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>left shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <polyline points="336,131 337,147 339,163 340,179 342,196 344,212 345,228 347,244 349,260 350,276 352,292 354,308 355,325 357,341 359,357 360,373" fill="none" stroke="#111827" stroke-width="1" />
+  <circle cx="336" cy="131" r="1" fill="#dc2626" />
+  <circle cx="337" cy="147" r="1" fill="#dc2626" />
+  <circle cx="339" cy="163" r="1" fill="#dc2626" />
+  <circle cx="340" cy="179" r="1" fill="#dc2626" />
+  <circle cx="342" cy="196" r="1" fill="#dc2626" />
+  <circle cx="344" cy="212" r="1" fill="#dc2626" />
+  <circle cx="345" cy="228" r="1" fill="#dc2626" />
+  <circle cx="347" cy="244" r="1" fill="#dc2626" />
+  <circle cx="349" cy="260" r="1" fill="#dc2626" />
+  <circle cx="350" cy="276" r="1" fill="#dc2626" />
+  <circle cx="352" cy="292" r="1" fill="#dc2626" />
+  <circle cx="354" cy="308" r="1" fill="#dc2626" />
+  <circle cx="355" cy="325" r="1" fill="#dc2626" />
+  <circle cx="357" cy="341" r="1" fill="#dc2626" />
+  <circle cx="359" cy="357" r="1" fill="#dc2626" />
+  <circle cx="336" cy="131" r="5" fill="#1f9d55" fill-opacity="0.85" stroke="#ffffff" stroke-width="1"><title>right shoulder: measured — Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.</title></circle>
+  <text x="6" y="15" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">dev_g2_body_broad_deep_rich_seated_v1</text>
+  <text x="6" y="30" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">dev-g2-broad / seated-at-desk</text>
+  <text x="6" y="44" font-family="monospace" font-size="11" fill="#dc2626" stroke="#ffffff" stroke-width="2" paint-order="stroke">left: occluded (fused)</text>
+  <text x="6" y="58" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">  shoulder measured · elbow occluded · wrist occluded</text>
+  <text x="6" y="73" font-family="monospace" font-size="11" fill="#dc2626" stroke="#ffffff" stroke-width="2" paint-order="stroke">right: occluded (fused)</text>
+  <text x="6" y="87" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">  shoulder measured · elbow occluded · wrist occluded</text>
+  <text x="6" y="101" font-family="monospace" font-size="11" fill="#111827" stroke="#ffffff" stroke-width="2" paint-order="stroke">fused-row samples marked red; inner contour dashed</text>
+</svg>
