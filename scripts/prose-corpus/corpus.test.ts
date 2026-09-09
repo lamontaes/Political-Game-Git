@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the INCIDENT-RESPONSE7 report and response-work modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(58021);
+    expect(coverage.totalLiterals).toBe(58318);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(403);
+    expect(coverage.scannedFiles).toBe(407);
   });
 });
 
