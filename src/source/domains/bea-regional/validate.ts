@@ -137,7 +137,7 @@ export function validateBeaCorpus(
         severity: "error",
         code: "bea/coverage-overclaim",
         message:
-          "This corpus compiles one year of three tables out of a much larger published series and must say so.",
+          "This corpus compiles a declared historical window from three tables out of a much larger published series and must say so.",
       });
     }
 

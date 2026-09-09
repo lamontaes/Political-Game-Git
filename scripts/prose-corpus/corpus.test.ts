@@ -543,11 +543,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which composes current
-    // accepted main with the PEOPLE-VISUAL4 candidate assembly modules.
+    // accepted main with the PEOPLE-VISUAL4 candidate assembly modules. The generator was re-run;
+    // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(57931);
-    expect(coverage.counts.INVENTORIED).toBe(2105);
-    expect(coverage.scannedFiles).toBe(405);
+    expect(coverage.totalLiterals).toBe(58543);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(414);
   });
 });
 
