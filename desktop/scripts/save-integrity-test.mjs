@@ -1,4 +1,4 @@
-/* global console, process, URL, indexedDB, setTimeout */
+/* global console, process, indexedDB, setTimeout */
 /**
  * Save failure and compatibility controls against a packaged build, on an
  * isolated disposable profile.
@@ -20,13 +20,14 @@
  */
 
 import { mkdtempSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 
 const require = createRequire(
   path.join(
-    path.dirname(new URL(import.meta.url).pathname),
+    path.dirname(fileURLToPath(import.meta.url)),
     "..",
     "..",
     "package.json",
