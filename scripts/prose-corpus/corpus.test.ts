@@ -546,13 +546,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose after ECON-CONTEXT2 added the generated
-    // player projection and its presentation tests. Source-adapter text stays
-    // outside this scan under the established source-substrate exclusion.
+    // Re-measured by corpus:prose after ECON-GRAPHS4 added its browser
+    // provider, graph read models, player panel and focused tests. The seven
+    // newly scanned feature files account for the file-count change;
+    // source-adapter text and generated public shards stay outside this scan.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51780);
+    expect(coverage.totalLiterals).toBe(52338);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(342);
+    expect(coverage.scannedFiles).toBe(349);
   });
 });
 
