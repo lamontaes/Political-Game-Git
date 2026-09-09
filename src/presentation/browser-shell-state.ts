@@ -36,10 +36,24 @@ import type { EntityId } from "../simulation";
 const RECORD_VERSION = 2;
 
 const PIN_SIZES: readonly PinSize[] = ["tiny", "normal", "expanded"];
+/**
+ * Reference kinds a stored pin may name.
+ *
+ * This is the saved-navigation allowlist, and it is deliberately explicit: a
+ * pin read back from storage is untrusted input, so an unknown kind is dropped
+ * rather than reconstructed. Adding a reference type therefore means adding it
+ * here too — `government` arrived with UI9-04, and without this line a pinned
+ * government survived until the page reloaded and then silently vanished.
+ *
+ * Older records simply have no government pins in them, so there is nothing to
+ * migrate: they read back exactly as they did before, and gain the new kind
+ * only once the player pins one.
+ */
 const REF_KINDS: readonly ShellRef["kind"][] = [
   "person",
   "commitment",
   "measure",
+  "government",
 ];
 
 export interface StoredShellState {
