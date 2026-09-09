@@ -1,22 +1,5 @@
-/**
- * The municipal-governance domain's public API.
- *
- * Like state-office-qualifications, this domain is wired into the command matrix
- * and compiles **no production records**. That is a decision, not an omission.
- * The substrate compiles production corpora only from artifacts it retrieved and
- * hashed itself, and the municipal research (Drive 42A / 44 / 45, and the 92I
- * research-to-implementation frontier) is a secondary synthesis. Emitting a
- * KNOWN council structure with evidence pointing at a city's charter would say
- * this repository read that charter. It did not; it read a document reporting
- * it, and (in this environment) could not even retrieve the official pages,
- * whose hosts the network egress proxy blocks.
- *
- * So the schema, compiler, validator and the three Kentucky pilot packs are all
- * real and exercised through the same capability boundary every other domain
- * uses — but as a fixture, behind a truthful production gate. Clearing the gate
- * is the acquisition step (92I Lane B): retrieve and hash the exact first-party
- * charters/statutes each pack cites, then compile production from those bytes.
- * That is a data-and-acquisition change, not a redesign.
+/** Existing municipal compiler, research corpus and independently proven enacted provisions.
+ * Research and production remain different evidence classes at every consumer.
  */
 
 import {
@@ -25,12 +8,18 @@ import {
   toCanonicalJson,
 } from "../../core/index";
 import type {
+  ArtifactLock,
   CompiledCorpus,
   FixtureInput,
   ProductionInput,
   SourceDomainModule,
   ValidationReport,
 } from "../../core/index";
+import { MUNICIPAL_ACQUISITION_PLAN } from "./acquisition";
+import {
+  compileMunicipalProduction,
+  openMunicipalProduction,
+} from "./production";
 import { parseMunicipalArtifacts } from "./parse";
 import type { MunicipalGovernanceArtifacts } from "./parse";
 import { normalizeMunicipalPacks } from "./normalize";
@@ -57,10 +46,18 @@ export type {
   LegislativeVoteRole,
   LegislativeProcedure,
   ManagerValue,
+  MayoralActionWindow,
+  MayoralInactionOutcome,
   MayorValue,
+  MeetingCadenceRule,
   MeetingPlace,
   MeetingPlaceKind,
+  MeetingSeries,
+  MeetingSeriesKind,
+  MeetingWeekday,
+  MonthlyOrdinal,
   MunicipalGovernanceRecord,
+  PublicAttendanceRule,
   NestedGovernment,
   PowerKind,
   PowerRule,
@@ -81,6 +78,7 @@ export type {
   Cell,
   CellStatus,
   MeetingPlaceInput,
+  MeetingSeriesInput,
   MunicipalGovernanceArtifacts,
   MunicipalPackInput,
   PowerInput,
@@ -97,13 +95,21 @@ export const MUNICIPAL_PARSER_VERSION = "2.0.0";
 export const MUNICIPAL_CORPUS_AS_OF = "2026-09-05";
 
 /**
- * Why no production corpus exists.
+ * What is still not production, and why.
  *
- * Stated here so `source:manifest` carries it and an auditor reads the gate
- * rather than discovering an absence.
+ * #120 recorded this as a gate on the whole domain: nothing compiled, because
+ * nothing had been read. Three governments have now been read, so the domain
+ * compiles production and no longer declares `productionGate` — a gate in this
+ * substrate means the domain produces no production records at all, and that is
+ * no longer true.
+ *
+ * The sentence survives because the boundary did. It names exactly which
+ * governments are backed by enacted text this repository retrieved and which
+ * remain a research transcription, and the corpus coverage metadata says the
+ * same thing where an auditor reads it.
  */
 export const MUNICIPAL_PRODUCTION_GATE =
-  "The municipal-governance packs are compiled from the 92I Drive implementation cargo, which is a secondary synthesis even where it labels a field VERIFIED. Current first-party checks found stale claims in that cargo, so no production fact may cite the synthesis as if this repository read the law. Production compilation is gated on independently acquiring, rights-scoping, hashing, and proposition-checking the exact cited statutes, charters, codes, rules, and government-unit artifacts. The Kentucky packs remain audit fixtures until that source/architecture review clears them.";
+  "Production contains only individually retrieved, scoped and excerpt-checked enacted provisions. The full declared research corpus remains separately attributed research, with unsupported fields UNKNOWN. A source being downloaded or quoted does not itself prove an authored interpretation, nor does a partial charter authorize unsupported procedures.";
 
 /** The fixture payload: the three Kentucky pilot packs, inline. */
 export interface MunicipalGovernanceFixtureArtifacts extends MunicipalGovernanceArtifacts {
@@ -161,7 +167,7 @@ export function compileMunicipalFixture(
         universeDescription:
           "Three Kentucky pilot governments (Lexington-Fayette Urban County, Louisville-Jefferson County Metro, Bowling Green), chosen to exercise the schema across consolidated and non-consolidated forms. It is not a census of Kentucky local governments and must never be read as one.",
         boundedSampleReason:
-          "Audit fixture only. The domain compiles no production records; see the production gate for the independent first-party acquisition and proposition-proof work still required.",
+          "Audit fixture only. This research fixture does not claim independently verified law; production provisions have separate locked evidence.",
       },
     },
     records,
@@ -181,13 +187,12 @@ export function openMunicipalFixture(
 export const sourceDomain: SourceDomainModule<MunicipalGovernanceRecord> = {
   domain: "municipal-governance",
   compilerVersion: MUNICIPAL_COMPILER_VERSION,
-  acquisitionPlan: { domain: "municipal-governance", requests: [] },
+  acquisitionPlan: MUNICIPAL_ACQUISITION_PLAN,
   lockPath: "data/source/municipal-governance/artifact-lock.json",
-  productionGate: MUNICIPAL_PRODUCTION_GATE,
-  compileProduction(): CompiledCorpus<MunicipalGovernanceRecord, "production"> {
-    throw new Error(
-      `The municipal-governance domain compiles no production corpus. ${MUNICIPAL_PRODUCTION_GATE}`,
-    );
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<MunicipalGovernanceRecord, "production"> {
+    return compileMunicipalProduction(openMunicipalProduction(lock));
   },
   validateCorpus(
     corpus: CompiledCorpus<MunicipalGovernanceRecord>,
@@ -199,3 +204,38 @@ export const sourceDomain: SourceDomainModule<MunicipalGovernanceRecord> = {
 /** Narrowing helper so the unused production input type stays referenced. */
 export type MunicipalProductionInput =
   ProductionInput<MunicipalGovernanceFixtureArtifacts>;
+
+export {
+  MUNICIPAL_ACQUISITION_PLAN,
+  MUNICIPAL_SOURCES,
+  municipalSourceById,
+} from "./acquisition";
+export type { MunicipalSourceSpec } from "./acquisition";
+export {
+  compileMunicipalProduction,
+  openMunicipalProduction,
+} from "./production";
+export {
+  MUNICIPAL_PRODUCTION_AS_OF,
+  MUNICIPAL_PRODUCTION_PACKS,
+  PRODUCTION_PACK_ARTIFACTS,
+  PRODUCTION_PLACE_CROSSWALK,
+} from "./production-packs";
+export type { Sourced } from "../../core/index";
+export { NATIONAL_MUNICIPAL_RESEARCH } from "./national-corpus";
+export {
+  packForResearchGovernment,
+  packsForResearchCorpus,
+} from "./national-packs";
+export type {
+  NationalResearchCorpus,
+  ResearchGovernment,
+} from "./national-research";
+
+/** The fixture the national institutional corpus compiles from. */
+export const MUNICIPAL_NATIONAL_FIXTURE_PATH =
+  "fixtures/source/municipal-governance/national.json";
+
+/** The fixture the three Kentucky pilot packs compile from. */
+export const MUNICIPAL_KENTUCKY_FIXTURE_PATH =
+  "fixtures/source/municipal-governance/kentucky-pilot.json";
