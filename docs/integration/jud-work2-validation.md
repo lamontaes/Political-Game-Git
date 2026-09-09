@@ -17,13 +17,13 @@ Draft PR: [#139](https://github.com/lamontaes/Political-Game-Git/pull/139).
   its original five-second limit. The exact case, same seed and assertions,
   passed separately in 805 ms; the filtered retry skipped the other 21 cases.
   Do not report the combined run itself as 44/44 green.
-- Earlier runs are retained as failures: expanded20 had16pass/four timeouts;
+- Earlier runs are retained as failures: expanded 20 had 16 pass/four timeouts;
   an initial fixture error incorrectly reused an existing household and a note
   artifact referenced another artifact where only entity/event IDs were valid.
   Those defects were corrected in feature code/fixtures. No accepted test,
   control seed or time limit was weakened.
-- Final Playwright feature proof: one test passed in16.1seconds, one Chrome
-  worker, unchanged30-second limit, actual identified head/checkout on5196.
+- Final Playwright feature proof: one test passed in 16.1 seconds, one Chrome
+  worker, unchanged 30-second limit, actual identified head/checkout on 5196.
   Earlier attempts failed first on an ambiguous test locator, then on the
   original time limit after exact IndexedDB reload. Both remain failed attempts.
 - Actual proof includes read-only Work reopen, canonical person-link IDs,
@@ -42,7 +42,7 @@ Six adapted office workflows are supported when their actual people exist.
 The Custom start normally provides five; SEED-49 additionally needs an existing
 married and co-resident spouse. Four compiled intakes remain blocked by their
 exact missing case/proceeding/rule relationships. Fifty bank entries retain their
-individual mechanic gates. All60 are accounted for by the runtime projection.
+individual mechanic gates. All 60 are accounted for by the runtime projection.
 No court engine, ruling, remedy, recusal, reassignment, discipline, selection law,
 ideology score or predicted outcome is delivered.
 
@@ -53,6 +53,32 @@ merge, release setting change or monitoring is authorized or performed.
 
 ## Repository integration gates
 
-Final sequential repository gates and one exact-head CI observation are pending
-at this evidence checkpoint. Results will be added after execution; the
-feature proof does not substitute for them.
+The sequential run passed repository formatting, lint and full `tsc -b`.
+The complete unit attempt finished: **173 files passed / five failed; 3,223 tests
+passed / 11 failed / six skipped; one unhandled error** (1,076.10 seconds).
+All judicial consumer, production-life and unchanged compiler tests passed in
+that full run. The run itself is not green.
+
+The failures were:
+
+- Four corpus CLI/crossbranch checks rejected stale generated coverage output;
+  the count test also found the expected old pin (51,732 versus measured 52,167).
+  Re-running the existing generator repaired four derived artifacts, without
+  touching allocation history, anchors, inventoried templates or source inputs.
+  Exact pins now match 52,167 literals, 1,914 inventoried entries and 347 files.
+  `corpus:prose -- check` then passed (seven artifacts byte-identical; review
+  packet differs only by its recorded head). The exact count test passed alone
+  with 39 other cases filtered out. These specific repairs do not relabel the
+  earlier full run as passing.
+- Two legislative-bargaining tests exceeded their original five-second limits.
+- Five launcher tests exceeded their original five-second limits; the same
+  run recorded `listen EPERM` on 127.0.0.1:5196. The judicial browser proof was
+  separately authorized to bind its local server and passed. No blanket timeout
+  increase or test suppression was used.
+
+The full run overlapped another owner's validator despite the earlier slot
+handoff. It is not isolated evidence of a load-related cause. Source checks,
+build/demo, all three art commands and one exact-head CI observation remain
+pending at this checkpoint. LAND requested no new broad checks; the orchestrator
+is paused and has no active test child. The feature proof does not substitute
+for those remaining gates.

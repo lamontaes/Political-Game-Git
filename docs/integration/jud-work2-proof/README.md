@@ -19,3 +19,11 @@ navigation or human acceptance evidence.
 ![Mobile feature history](mobile.png)
 
 ![Desktop feature history](desktop.png)
+
+The [full unit attempt](full-unit-attempt.txt) is retained as failed evidence:
+3,223 passed, 11 failed, six skipped, one sandbox bind error. It began on the
+same implementation head. The measured corpus pin was corrected after its
+failure was reported, so the diagnostic's later source excerpt reflects the
+edited file; the executed assertion still used the old pin. The delivery report
+records that repair and its separate successful checks. No full-pass claim is
+made from this log.

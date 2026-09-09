@@ -74,7 +74,7 @@ cannot certify that UI-core has adopted the normal-player patch.
 The PR includes the mechanical two-pin correction in
 `scripts/prose-corpus/corpus.test.ts`. The unchanged scanner measures 52,167
 literals, 1,914 inventoried entries and 347 files on this feature tree. The base
-pinned 51,732 literals and 340 files before the seven production files were added.
+pinned 51,732 literals and 340 files before the seven source files were added.
 The exact assertions, membership, anchors and source chronology are preserved.
 The existing `corpus:prose` command also regenerated its four changed derived
 artifacts (coverage report/candidates, README and review-packet head stamp);

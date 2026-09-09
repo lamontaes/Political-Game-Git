@@ -553,7 +553,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // member-seat resolver and prior-work evidence classifier. Neither side's
     // pin was chosen; the combined tree was scanned and these are what it
     // measures.
-    // JUD-WORK2 adds seven production files. Re-measured with the unchanged
+    // JUD-WORK2 adds seven source files. Re-measured with the unchanged
     // scanner on this feature tree; inventoried membership remains 1,914.
     const coverage = buildCoverageReport(inventory);
     expect(coverage.totalLiterals).toBe(52167);
