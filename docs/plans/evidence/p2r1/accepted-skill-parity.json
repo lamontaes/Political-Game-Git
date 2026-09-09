@@ -1,0 +1,52 @@
+[
+  {
+    "path": ".agents/skills/civic-prose/SKILL.md",
+    "sha256": "3f7dfbd5102dde029cdfd085dc4d1f7b7ae91deaf803c5b11e040d0a70678a32",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/examples/approved.jsonl",
+    "sha256": "7887d039566d0712ab6c91cda077439ce1e0ab5e03a241f171782ed603e6a68e",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/examples/needs-context.jsonl",
+    "sha256": "b6843d5f6b5a41d364e965028a72589974dcf4142497d039507f4fe04287a303",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/examples/rejected.jsonl",
+    "sha256": "db770268b39989bb71af9b6119593eea46b051010c197170a4af81779dc87b7e",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/references/fact-packet-schema.md",
+    "sha256": "42cddad9b7132bc429f82e4ef4d7850c43a676ee2919cbba5b4a9fd0b6039f50",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/references/grounding-gate.md",
+    "sha256": "3b4bb71eebff8069e62c546a63707e1cea6fd7d6b9cb065ae929138eabd96480",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/references/prose-contract.md",
+    "sha256": "9efbcec558b70522c4fa45e5a87e0c53e7fa2d3fabe9e63feb25c403bfe8ac12",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".agents/skills/civic-prose/references/surface-registers.md",
+    "sha256": "ee100bf2f70c5fee06b62fc52d770ab9af95220d431dd40458d55999f22908a0",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".codex/agents/civic-prose-grounding-reviewer.toml",
+    "sha256": "8bed20303f8f34a595783c236233e56c16111aff1533c4b7099cf8706304c601",
+    "byteIdenticalToMerged121": true
+  },
+  {
+    "path": ".codex/agents/civic-prose-writer.toml",
+    "sha256": "fb0a4ce7d605c1e64eded00de820c16b79b92ee30cfae1177d72a22ccf9eeb3a",
+    "byteIdenticalToMerged121": true
+  }
+]

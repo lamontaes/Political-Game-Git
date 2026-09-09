@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 prose:eval
+> node --import tsx scripts/prose-eval/cli.ts hygiene
+
+hygiene: OK — 43 skill/agent files carry no holdout material
