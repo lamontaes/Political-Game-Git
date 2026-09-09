@@ -32,7 +32,7 @@ export function PrivateJournalEditor({
     ...new Set(journal.notes.map((note) => note.group).filter(Boolean)),
   ];
   return (
-    <section aria-label="Private notebook">
+    <section className="pg-private-journal" aria-label="Private notebook">
       <h3>Your private notebook</h3>
       <p>
         These are your notes and intentions. They do not change what happened or

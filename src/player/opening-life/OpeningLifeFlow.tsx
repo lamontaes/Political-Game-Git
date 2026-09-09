@@ -41,7 +41,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
     );
   if (continuing) return props.continuingLife;
   return (
-    <>
+    <div className="life-moment pg-opening-flow">
       <button
         type="button"
         className="ui-action"
@@ -56,6 +56,6 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         onContinue={() => setContinuing(true)}
         transitionHandlers={props.transitionHandlers}
       />
-    </>
+    </div>
   );
 }
