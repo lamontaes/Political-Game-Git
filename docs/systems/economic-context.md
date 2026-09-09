@@ -31,6 +31,12 @@ returns `unavailable` and cannot fall back through the word “Lexington.”
 - LAUS retains the existing seasonally adjusted 2024-and-later QA slice. Each
   observation retains its series, measure, area code, period, unit, footnotes,
   and preliminary/final state. A missing published value remains `UNKNOWN`.
+  The full parent file is checksum-pinned as
+  `80b0d29bde6e36e55adb737a0c953cd39fdaa9f5736b2f9200e89cd897a0fd06`
+  but is classified `cached-not-committed` and is absent from a fresh
+  checkout. Consequently, pre-2024 LAUS history is unavailable here. The
+  committed 2024+ slice is the only replayable LAUS observation range; this
+  delivery does not imply that the historical parent cache was recovered.
 - HUD retains the locked FY2025 Fair Market Rent and income-limit products.
   Rent units are USD per month; income thresholds are USD per year. Because the
   compiled workbook record does not encode a release classification, the read
@@ -64,7 +70,11 @@ boundaries:
 - real observations do not become simulated future values after a save diverges.
 
 `playerEconomicContextLines` is the browser-safe normal-player seam. It formats
-three dated Lexington context lines from the generated projection and returns
-an empty list for any place without an exact binding. UI-core owns the final
-append in `PlayerGame.tsx`; the exact handoff is recorded in the active/completed
-delivery plan.
+three dated Lexington context lines from the generated projection and requires
+the canonical simulation date. A row is shown only on or after the conservative
+date by which its committed corpus proves it was present. Because exact source
+release dates are unavailable, the UI exposes that `sourceObservedBy` date and
+retains `sourceReleaseDate: null`; it does not backdate the row to its reference
+period. The function returns an empty list for any place without an exact
+binding. UI-core owns final registration in `PlayerGame.tsx`; the exact handoff
+is recorded in the delivery plan.

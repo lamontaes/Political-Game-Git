@@ -4,7 +4,7 @@ Owner: UI-core
 
 Feature branch: `codex/econ-context2`
 
-Feature-owned seam: `playerEconomicContextLines(placeKey)` in
+Feature-owned seam: `playerEconomicContextLines(placeKey, simulationDate)` in
 `src/presentation/economic-context.ts`
 
 After this feature PR is available in the UI-core integration base, make only
@@ -21,14 +21,20 @@ this registration change in `src/player/PlayerGame.tsx`:
        ? "The game models this state's legislature, so political office is reachable here later."
        : "The game does not model a legislature here yet, so this is an everyday life for now.",
    );
-+  lines.push(...playerEconomicContextLines(place.key).map((item) => item.text));
++  lines.push(
++    ...playerEconomicContextLines(place.key, world.currentDate).map(
++      (item) => item.text,
++    ),
++  );
    return lines;
  }
 ```
 
 Do not copy values into `PlayerGame.tsx`. The presentation function reads the
-compact generated artifact, returns nothing for an unbound place, and carries
-the date/geography/unit interpretation boundaries in its typed return values.
+compact generated artifact, returns nothing for an unbound place or an
+observation not yet known by the simulation date, and carries the distinct
+reference-period/source-observed-by/release-date/geography/unit boundaries in
+its typed return values.
 
 Acceptance after integration:
 

@@ -6,6 +6,10 @@ export interface PlayerEconomicContextLine {
   readonly sourceProduct: "bea-regional" | "bls-laus" | "hud-fair-market-rent";
   readonly period: string;
   readonly providerGeographyCode: string;
+  /** The conservative date by which the committed corpus proves this row existed. */
+  readonly sourceObservedBy: string;
+  /** Null because none of the three locked products establishes a release date. */
+  readonly sourceReleaseDate: null;
   readonly interpretationBoundary:
     | "observation-not-wallet"
     | "area-rate-not-person-probability"
@@ -23,6 +27,7 @@ interface GeneratedObservation {
     readonly providerName: string;
   };
   readonly vintage: {
+    readonly corpusAsOf: string;
     readonly adjustment: string;
     readonly release: string | null;
   };
@@ -47,20 +52,24 @@ const context = lexingtonEconomicContext as unknown as GeneratedEconomicContext;
  */
 export function playerEconomicContextLines(
   placeKey: string,
+  simulationDate: string,
 ): readonly PlayerEconomicContextLine[] {
+  requireIsoDate(simulationDate);
   if (placeKey !== context.placeKey) return [];
 
   const income = requireKnown("bea.cainc1.3");
   const unemployment = requireKnown("bls.laus.lasst210000000000003");
   const rent = requireKnown("hud.fmr.2-bedroom");
 
-  return [
+  const lines: readonly PlayerEconomicContextLine[] = [
     {
       key: income.sourceSeriesKey,
       text: `${income.period} Fayette County per-capita personal income: ${formatUsd(income.value.value)} a year (BEA). This is an area observation, not money in your wallet.`,
       sourceProduct: "bea-regional",
       period: income.period,
       providerGeographyCode: income.geography.providerCode,
+      sourceObservedBy: income.vintage.corpusAsOf,
+      sourceReleaseDate: null,
       interpretationBoundary: "observation-not-wallet",
     },
     {
@@ -69,6 +78,8 @@ export function playerEconomicContextLines(
       sourceProduct: "bls-laus",
       period: unemployment.period,
       providerGeographyCode: unemployment.geography.providerCode,
+      sourceObservedBy: unemployment.vintage.corpusAsOf,
+      sourceReleaseDate: null,
       interpretationBoundary: "area-rate-not-person-probability",
     },
     {
@@ -77,9 +88,20 @@ export function playerEconomicContextLines(
       sourceProduct: "hud-fair-market-rent",
       period: rent.period,
       providerGeographyCode: rent.geography.providerCode,
+      sourceObservedBy: rent.vintage.corpusAsOf,
+      sourceReleaseDate: null,
       interpretationBoundary: "benchmark-not-transaction",
     },
   ];
+  return lines.filter((line) => line.sourceObservedBy <= simulationDate);
+}
+
+function requireIsoDate(value: string): void {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(value))) {
+    throw new Error(
+      `Economic context requires an ISO simulation date: ${value}`,
+    );
+  }
 }
 
 function requireKnown(sourceSeriesKey: string): GeneratedObservation & {
