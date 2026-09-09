@@ -71,10 +71,7 @@ const EXACT_TEMPORAL_REVIEWS: Readonly<Record<string, ExactTemporalReview>> = {
     basisLocator: "publisher effective-date label",
     basisExcerpt: "Effective - 03 Sep 1970",
     expectedArtifactText: "Effective -  03 Sep 1970",
-    amendmentAnnotations: [
-      "Amended August 17, 1965",
-      "Amended August 4, 1970",
-    ],
+    amendmentAnnotations: ["Amended August 17, 1965", "Amended August 4, 1970"],
   },
   "nv-nrs-228": {
     validFrom: "2021-05-29",
@@ -151,7 +148,9 @@ const EXACT_TEMPORAL_REVIEWS: Readonly<Record<string, ExactTemporalReview>> = {
 export function qualificationProvisionValidity(
   sourceArtifactId: string,
   sourceArtifact: RawArtifact,
-  openedArtifacts: Readonly<Record<string, { artifact: RawArtifact; bytes: Buffer }>>,
+  openedArtifacts: Readonly<
+    Record<string, { artifact: RawArtifact; bytes: Buffer }>
+  >,
   provisionByKey: ReadonlyMap<string, string>,
 ): ProvisionValidity {
   const review = EXACT_TEMPORAL_REVIEWS[sourceArtifactId];
@@ -196,8 +195,6 @@ export function qualificationProvisionValidity(
   };
 }
 
-export function unknownTransportValidity(
-  reason: string,
-): ProvisionValidity {
+export function unknownTransportValidity(reason: string): ProvisionValidity {
   return { state: "UNKNOWN", reason, amendmentAnnotations: [] };
 }

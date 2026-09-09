@@ -70,11 +70,7 @@ export function validateQualificationCorpus(
         recordId: record.recordId,
       });
     }
-    if (
-      !/^\d{4}-\d{2}-\d{2}$/.test(
-        authority.researchReportedEffectiveDate,
-      )
-    ) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(authority.researchReportedEffectiveDate)) {
       findings.push({
         severity: "error",
         code: "qualifications/no-effective-date",
@@ -84,9 +80,7 @@ export function validateQualificationCorpus(
     }
     if (
       authority.provisionValidity.state === "EXACT_INTERVAL" &&
-      (!/^\d{4}-\d{2}-\d{2}$/.test(
-        authority.provisionValidity.validFrom,
-      ) ||
+      (!/^\d{4}-\d{2}-\d{2}$/.test(authority.provisionValidity.validFrom) ||
         (authority.provisionValidity.validThrough !== null &&
           authority.provisionValidity.validThrough <
             authority.provisionValidity.validFrom))

@@ -323,9 +323,7 @@ describe("the production source boundary", () => {
       ),
     ) as ArtifactLock;
     const compiled = sourceDomain.compileProduction(lock);
-    expect(compiled.corpus.compiler.version).toBe(
-      sourceDomain.compilerVersion,
-    );
+    expect(compiled.corpus.compiler.version).toBe(sourceDomain.compilerVersion);
     expect(
       compiled.records.every(
         (record) => record.citedAuthority.researchTransport !== undefined,

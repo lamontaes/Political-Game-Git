@@ -108,11 +108,7 @@ function authorityFrom(
     authorityType: matrixField(row, "authority_type", schema),
     legalLocator: matrixField(row, "legal_locator", schema),
     authorityUrl: matrixField(row, "authority_url", schema),
-    researchReportedEffectiveDate: matrixField(
-      row,
-      "effective_date",
-      schema,
-    ),
+    researchReportedEffectiveDate: matrixField(row, "effective_date", schema),
     provisionValidity: unknownTransportValidity(
       "The staged research transport does not establish provision-specific temporal applicability.",
     ),
@@ -269,12 +265,7 @@ export function normalizeQualifications(
                 corpusAsOf,
               )
             : status === "KNOWN"
-              ? known(
-                  value !== "false",
-                  [evidence],
-                  "FINAL",
-                  corpusAsOf,
-                )
+              ? known(value !== "false", [evidence], "FINAL", corpusAsOf)
               : unknown(
                   `The research recorded office existence as "${status}".`,
                   [evidence],

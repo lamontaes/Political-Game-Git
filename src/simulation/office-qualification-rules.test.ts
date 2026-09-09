@@ -32,9 +32,7 @@ describe("production-compiled office qualification rules", () => {
         "US-OH",
         "LOWER_CHAMBER",
         makeIsoDate("2026-09-09"),
-      ).find(
-        (row) => row.field === "DISTRICT_RESIDENCE",
-      ),
+      ).find((row) => row.field === "DISTRICT_RESIDENCE"),
     ).toMatchObject({
       sourceState: "KNOWN",
       researchBatch: "31D",
@@ -120,9 +118,7 @@ describe("production-compiled office qualification rules", () => {
       ),
     ).toBe(true);
     expect(
-      nevadaOn.every(
-        (row) => row.temporalApplicability.state === "SUPPORTED",
-      ),
+      nevadaOn.every((row) => row.temporalApplicability.state === "SUPPORTED"),
     ).toBe(true);
     expect(nevadaOn[0]?.researchReportedEffectiveDate).toBe("2021-10-01");
     expect(nevadaOn[0]?.provisionValidity).toMatchObject({

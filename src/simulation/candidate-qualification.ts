@@ -82,7 +82,8 @@ export function candidateQualificationRuleSet(
   officeKey: string,
   onDate: IsoDate,
 ): CandidateQualificationRuleSet | null {
-  const rules = CANDIDATE_QUALIFICATION_RULE_SETS.find(
+  const rules =
+    CANDIDATE_QUALIFICATION_RULE_SETS.find(
       (rules) =>
         rules.candidacyPackId === candidacyPackId &&
         rules.officeKey === officeKey,
