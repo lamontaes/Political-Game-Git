@@ -281,7 +281,10 @@ function recordWorkInstruction(
           recordedAt: next.currentMoment,
           waitingOnPersonIds,
           scheduledActivityId,
-          blocker: summary,
+          blocker: waitingOnPersonIds.length ? summary : null,
+          playerRequirement: waitingOnPersonIds.length
+            ? "none"
+            : previous.playerRequirement,
           outcomeEventId: event.id,
           supersedesStateId: previous.id,
         },
@@ -457,13 +460,13 @@ export function actOnExecutiveWork(
           ? refused(world, "An earlier commitment prevents this review.")
           : { ok: true, world: next };
       }
-      if (state.playerRequirement === "decision" && !statement?.trim())
+      if (step.input.playerRequirement === "decision" && !statement?.trim())
         return refused(
           world,
           "Record an instruction before completing this decision.",
         );
       if (
-        state.playerRequirement === "none" &&
+        step.input.playerRequirement === "none" &&
         state.status !== "ready-for-review"
       )
         return refused(

@@ -567,7 +567,7 @@ it.each(["return-for-work", "defer"] as const)(
   "records %s as real pending work before a decision",
   (action) => {
     const definition = EXECUTIVE_GOVERNING_KERNELS.find(
-      (k) => k.row.id === "92H-K-003",
+      (k) => k.row.id === "92H-K-002",
     )!;
     const seeded = facts(
       incoming(staff(officeWorld())),
