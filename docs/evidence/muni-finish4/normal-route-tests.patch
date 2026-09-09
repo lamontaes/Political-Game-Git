@@ -1,0 +1,85 @@
+diff --git a/tests/e2e/municipal-member.spec.ts b/tests/e2e/municipal-member.spec.ts
+index e19397f..6fb4ef4 100644
+--- a/tests/e2e/municipal-member.spec.ts
++++ b/tests/e2e/municipal-member.spec.ts
+@@ -58,14 +58,24 @@ test("normal saved municipal member completes work once and reloads without acqu
+ }, info) => {
+   test.setTimeout(120_000);
+   const errors: string[] = [];
++  const missingOptionalAssets: string[] = [];
+   page.on("pageerror", (error) => errors.push(error.message));
+   page.on("console", (message) => {
+-    if (message.type() === "error") errors.push(message.text());
++    if (message.type() !== "error") return;
++    if (
++      new URL(message.location().url || "http://unknown.invalid").pathname ===
++        "/favicon.ico" &&
++      message.text().includes("404")
++    )
++      missingOptionalAssets.push("favicon.ico returned 404");
++    else errors.push(message.text());
+   });
+   await page.goto("/?seed=muni-finish4-member");
+   await startLife(page, {
+     age: 35,
+     place: "Carson City, Nevada",
++    placeQuery: "Carson City",
++    placeScope: "locality",
+     route: "normal",
+   });
+   await enterLife(page);
+@@ -165,6 +175,7 @@ test("normal saved municipal member completes work once and reloads without acqu
+     contentType: "application/json",
+     body: JSON.stringify({
+       seed: completed.seed,
++      missingOptionalAssets,
+       governmentKey: view.government.key,
+       personId,
+       worldId: completed.id,
+diff --git a/tests/e2e/support/creator.ts b/tests/e2e/support/creator.ts
+index 187e1a9..938dd61 100644
+--- a/tests/e2e/support/creator.ts
++++ b/tests/e2e/support/creator.ts
+@@ -18,6 +18,8 @@ export interface CreatorLife {
+   readonly givenName?: string;
+   readonly familyName?: string;
+   /** Matched against the place buttons. Defaults to Kentucky. */
++  readonly placeQuery?: string;
++  readonly placeScope?: "locality" | "county";
+   readonly place?: string;
+   /** The explicit route. Defaults to the ordinary generated one. */
+   readonly route?: "normal" | "custom";
+@@ -80,10 +82,17 @@ export async function fillCreator(
+ 
+   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
+   const place = life.place ?? "Kentucky";
+-  await page.getByTestId("place-search").fill(place);
+-  await page
++  await page.getByTestId("place-search").fill(life.placeQuery ?? place);
++  const choices = page
+     .getByTestId("place-choices")
+-    .getByRole("button", { name: new RegExp(place, "i") })
++    .getByRole("button", { name: new RegExp(place, "i") });
++  await (
++    life.placeScope
++      ? choices.filter({
++          has: page.locator(`[data-place-scope="${life.placeScope}"]`),
++        })
++      : choices
++  )
+     .first()
+     .click();
+   await page.getByTestId("creator-continue-place").click();
+diff --git a/tests/e2e/ui-converge4.spec.ts b/tests/e2e/ui-converge4.spec.ts
+index f205ae6..c863d6f 100644
+--- a/tests/e2e/ui-converge4.spec.ts
++++ b/tests/e2e/ui-converge4.spec.ts
+@@ -66,6 +66,8 @@ test("normal Carson City citizen attends a public session and retains the real v
+   await startLife(page, {
+     age: 38,
+     place: "Carson City, Nevada",
++    placeQuery: "Carson City",
++    placeScope: "locality",
+     route: "normal",
+   });
+   await enterOpening(page);

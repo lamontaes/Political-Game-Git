@@ -499,6 +499,11 @@ function applyRecordedAction(
     case "override-chamber-recorded": {
       const gate = requirePhase(state, action.kind, ["awaiting-override"]);
       if (!gate.ok) return gate;
+      if (pack.executive.override.kind === "not-applicable") {
+        return illegal(
+          `${pack.displayName} has no override forum: ${pack.executive.override.note}`,
+        );
+      }
       if (pack.executive.override.kind !== "each-chamber") {
         return illegal(
           `${pack.displayName} reconsiders a veto as one body, not chamber by chamber`,
@@ -710,6 +715,13 @@ export function measureGate(world: World, measureId: EntityId): MeasureGate {
       };
     case "awaiting-override": {
       const override = pack.executive.override;
+      if (override.kind === "not-applicable") {
+        return {
+          actorLabel: "None",
+          description: `There is no forum to reconsider a veto here: ${override.note}`,
+          thresholdLabel: null,
+        };
+      }
       if (override.kind === "joint-session") {
         // A money bill's heavier bar is a different rule. If the pack has not
         // resolved it, the ordinary bar is not quietly shown in its place.
@@ -2241,6 +2253,11 @@ export function attemptVetoOverride(
   );
   const pack = rulePackById(measure.rulePackId);
   const override = pack.executive.override;
+  if (override.kind === "not-applicable") {
+    throw new Error(
+      `${pack.displayName} has no forum in which to reconsider a veto: ${override.note}`,
+    );
+  }
 
   let next = world;
   let allSucceeded = true;

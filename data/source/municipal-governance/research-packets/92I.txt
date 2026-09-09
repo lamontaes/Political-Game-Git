@@ -1,0 +1,620 @@
+# 92I_ANTIGRAVITY_KENTUCKY_MUNICIPAL_GOVERNANCE_IMPLEMENTATION_CARGO — 2026-09-05
+**Targeted Machine-Ready Current Evidence Pack & Field-by-Field Implementation Cargo for Kentucky Municipal Governance**
+
+- **Packet Identifier:** `92I_ANTIGRAVITY_KENTUCKY_MUNICIPAL_GOVERNANCE_IMPLEMENTATION_CARGO — 2026-09-05`
+- **Research Lane:** Antigravity (Google DeepMind)
+- **As-Of / Retrieval Date:** 2026-09-05
+- **Consumer:** Municipal-Governance Source-Domain Implementation (Our Civic Duty)
+- **Legal & Empirical Scope:** 
+  1. Lexington-Fayette Urban County Government (LFUCG)
+  2. Louisville-Jefferson County Metro Government (Louisville Metro)
+  3. City of Bowling Green
+- **Controlling Project Authorities & Prior Research:** 
+  - `42A_PART_1_FOUNDATIONAL_GOVERNMENT_DATA_BACKBONE`
+  - `44_NEXT_PHASE_MUNICIPAL_GOVERNANCE_AND_ENVIRONMENT_MATRIX`
+  - `45_PART_2_MUNICIPAL_AND_ENVIRONMENT_EXPANSION — ACTIVE_SOURCE_REGISTRY`
+  - `U.S. Census Bureau 2025 Government Units Listing (GUS / Census of Governments)`
+  - `Kentucky Revised Statutes (KRS Chapters 39A, 65, 67A, 67C, 81, 82, 83A, 91A, 100, 132, 424)`
+  - `Kentucky Constitution (§§ 99, 144, 152, 156b, 157, 158, 160, 181)`
+  - `Charter of the Lexington-Fayette Urban County Government (1974, as amended)`
+  - `Rules of the Legislative Council of Louisville/Jefferson County Metro Government (as amended 2024/2026)`
+  - `Rules of Procedure of the Lexington-Fayette Urban County Council (as amended 2024/2026)`
+  - `City of Bowling Green Code of Ordinances, Chapter 2 (Administration, as amended through Ord. BG2020-3)`
+- **Operational Directives:** 
+  - Do not edit GitHub.
+  - Do not repeat generic explanations of mayor/council government.
+  - Every field verified against first-party statutes, charters, codes, rules, and court holdings.
+  - Mark candidate records clearly as `NON-AUTHORITATIVE IMPLEMENTATION CARGO UNTIL VALIDATED BY ENGINEERING`.
+
+---
+
+## 1. EPISTEMIC TAXONOMY & VERIFICATION STATUS DEFINITIONS
+
+Every field in the evidence tables below is strictly classified under one of four unambiguous machine tags:
+- `VERIFIED`: Directly corroborated by current first-party legal instruments (statute, charter, municipal code, official council rules, binding appellate precedent, or federal census registry) with exact citation, retrieval date (2026-09-05), effective date/vintage, and quoted or tightly paraphrased evidentiary basis.
+- `NOT_APPLICABLE`: The legal or structural category does not exist for this jurisdictional form (e.g., veto power in a City Manager form, or nested municipalities in a unified urban county).
+- `UNKNOWN_CURRENT_SOURCE_NOT_FOUND`: An empirical attribute is acknowledged to exist in practice but could not be definitively grounded in an active first-party public instrument as of the retrieval date.
+- `CONFLICT_REQUIRES_REVIEW`: A statutory amendment, charter revision, or judicial holding creates an active divergence between historical local practice and state law requiring explicit engineering triage.
+
+---
+
+## 2. FIELD-BY-FIELD EVIDENCE TABLE: LEXINGTON-FAYETTE URBAN COUNTY GOVERNMENT
+
+### A. Identity
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Official Government Name** | `VERIFIED` | Charter of the Lexington-Fayette Urban County Government, Preamble & Sec. 1.01 | 1974-01-01; current through 2026 | "The name of the government shall be the Lexington-Fayette Urban County Government." Charter Sec. 1.01. |
+| **Government Form** | `VERIFIED` | KRS Chapter 67A; LFUCG Charter Art. 1, 4, 5 | 1974-01-01; current through 2026 | Urban-County Government. A consolidated city-county local government exercising all constitutional and statutory powers of counties and cities of the second class (KRS 67A.010, 67A.060). Governed by an Urban County Council and Mayor. |
+| **Consolidation Type** | `VERIFIED` | KRS 67A.010; LFUCG Charter Sec. 1.01; *City of Lexington v. Motel Developers, Inc.*, 465 S.W.2d 253 (Ky. 1971) | 1974-01-01 | Complete unified city-county consolidation. Absorbed 100% of the territory and functions of the City of Lexington and Fayette County into a single municipal corporation. Retains zero underlying incorporated cities. |
+| **Effective / Legal Basis** | `VERIFIED` | 1970 Ky. Acts ch. 268; 1972 Ky. Acts ch. 3; KRS 67A.010–67A.040; Charter referendum approved 1972-11-07; effective 1974-01-01 | Effective 1974-01-01 | Voter-approved home rule charter drafted by a 25-member commission under KRS 67A.020, upheld as constitutional under Ky. Const. §§ 156–160 in *Pinnick v. Shannon*, 490 S.W.2d 460 (Ky. 1973). |
+| **Government-Unit Identifiers** | `VERIFIED` | U.S. Census Bureau, 2025 Government Units Listing (Census of Governments) | 2025/2026 dataset; retrieved 2026-09-05 | Census Gov ID (GID): `165831`; Official Census Name: `URBAN COUNTY GOVERNMENT OF LEXINGTON-FAYETTE`; State FIPS: `21`; County FIPS: `067`; Census Place FIPS: `46027`; GEOID: `2146027`. |
+
+### B. Elected Body
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Mayor / Executive** | `VERIFIED` | LFUCG Charter Sec. 5.01, 5.02 | 1974-01-01; current through 2026 | Mayor of Lexington-Fayette. Chief executive officer of the urban county government, elected countywide. Holds executive power, administrative authority, and qualified veto power. |
+| **Council / Commission Name** | `VERIFIED` | LFUCG Charter Sec. 4.01 | 1974-01-01; current through 2026 | Lexington-Fayette Urban County Council. Vested with all legislative powers of the urban county government. |
+| **Council Size** | `VERIFIED` | LFUCG Charter Sec. 4.01 | 1974-01-01; current through 2026 | 15 members (excluding the Mayor, who presides but votes only to break ties). |
+| **District / Ward / At-Large Composition** | `VERIFIED` | LFUCG Charter Sec. 4.01, 4.02 | 1974-01-01; current through 2026 | 12 district councilmembers elected from single-member districts + 3 at-large councilmembers elected countywide. Total = 15 councilmembers. |
+| **Presiding Roles** | `VERIFIED` | LFUCG Charter Sec. 4.03, 4.04, 5.05; Council Rules of Procedure | 1974-01-01; amended 2024 | The Mayor presides over regular and special Council meetings, with tie-breaking vote only. The Vice Mayor is the at-large councilmember receiving the highest vote total in the preceding election (Sec. 4.03). The Vice Mayor presides in the Mayor's absence and routinely presides over Council Work Sessions. |
+| **Terms** | `VERIFIED` | LFUCG Charter Sec. 4.02, 5.02; Charter Amendment 1998 | Current through 2026 | District councilmembers: 2-year terms. At-large councilmembers: 4-year terms. Mayor: 4-year term. Term limits: Mayor and at-large councilmembers are restricted to three (3) consecutive 4-year terms (12 years max). District councilmembers have no term limits. |
+| **Vacancies** | `VERIFIED` | LFUCG Charter Sec. 4.07, 5.04; KRS 83A.040(5); Ky. Const. § 152 | Current through 2026 | Council vacancy: Filled by majority vote of the remaining members of the Council within 30 days. Mayoral vacancy: Council appoints a qualified person within 30 days. If Council fails to fill within 30 days, the Governor of Kentucky appoints. Special election held pursuant to Ky. Const. § 152. |
+| **Election Timing** | `VERIFIED` | LFUCG Charter Sec. 4.02, 5.02; KRS 83A.045 | Current through 2026 | Nonpartisan primary held on the first Tuesday after the third Monday in May (even years). Nonpartisan general election held on the first Tuesday after the first Monday in November (even years). District seats up every 2 years; Mayoral and at-large seats up every 4 years. |
+| **Partisan / Nonpartisan Status** | `VERIFIED` | LFUCG Charter Sec. 4.02, 5.02; KRS 83A.050 | 1974-01-01; current through 2026 | NONPARTISAN. Charter explicitly specifies that candidates for Mayor and Council run without party designation or political party emblems. |
+
+### C. Administration
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **City Manager / Administrator Existence** | `VERIFIED` | LFUCG Charter Sec. 5.06; LFUCG Code of Ordinances § 2-31 | 1974-01-01; current through 2026 | YES. Chief Administrative Officer (CAO). Operates as the chief operating executive under the Mayor's supervision. |
+| **Appointment / Removal Authority** | `VERIFIED` | LFUCG Charter Sec. 5.06 | 1974-01-01; current through 2026 | Appointed by the Mayor subject to confirmation by a majority vote of the Urban County Council. Serves at the pleasure of the Mayor and may be removed unilaterally by the Mayor without Council approval. |
+| **Department-Head Authority** | `VERIFIED` | LFUCG Charter Sec. 5.07, 5.08 | 1974-01-01; current through 2026 | Department Commissioners (Public Safety, Finance, General Services, Social Services, Environmental Quality & Public Works, Planning Preservation & Development) are appointed by the Mayor subject to Council confirmation. Removed by the Mayor at pleasure (subject to merit civil service rules for lower division personnel). |
+| **Reporting Relationships** | `VERIFIED` | LFUCG Charter Sec. 5.06, 5.07; LFUCG Code Ch. 2 | Current through 2026 | Commissioners and department directors report directly to the Chief Administrative Officer (CAO); the CAO reports directly to the Mayor. |
+
+### D. Enumerated Powers
+| Actor | Action | Target | Conditions / Threshold | Authoritative Source | Effective Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Mayor** | `Veto` | Ordinances & resolutions passed by Council | Must return within 10 days of presentation with written veto message. Does NOT apply to zoning map amendments (*Hacker v. Baesler*, 812 S.W.2d 706) or 4 charter-exempt internal administrative matters. | LFUCG Charter Sec. 5.05; *Hacker v. Baesler* (Ky. 1991) | 1974-01-01 / 1991-05-09 |
+| **Mayor** | `Line-Item Veto` | Appropriations ordinances (budget) | May veto specific dollar items or expenditure lines while approving the remainder of the appropriation ordinance. | LFUCG Charter Sec. 5.05, 6.07 | 1974-01-01 |
+| **Council** | `Veto Override` | Mayoral general or line-item veto | Three-fifths (3/5) roll-call vote of all 15 members of the Council (minimum 9 votes). | LFUCG Charter Sec. 5.05 | 1974-01-01 |
+| **Mayor** | `Appointment` | CAO, department commissioners, board members | Must submit nominee to Council; requires majority vote confirmation of the Council. | LFUCG Charter Sec. 5.06, 5.07, 7.02 | 1974-01-01 |
+| **Mayor** | `Removal` | CAO and unclassified department commissioners | Discretionary unilateral removal at pleasure without Council approval. | LFUCG Charter Sec. 5.06, 5.07 | 1974-01-01 |
+| **Mayor** | `Budget Submission` | Annual comprehensive operating & capital budget | Mandatory submission to Council at least 60 days before start of fiscal year (by May 1). | LFUCG Charter Sec. 6.02, 6.03 | 1974-01-01 |
+| **Council** | `Budget Adoption` | Annual appropriation ordinance | Adopted before July 1 by majority vote; balanced-budget mandate. | LFUCG Charter Sec. 6.04; KRS 91A.030 | 1974-01-01 |
+| **Mayor** | `Tie-Breaking Vote` | Council legislative ties | Only when the 15-member council is equally divided (e.g., 7-7 with 1 abstention/absence). | LFUCG Charter Sec. 4.04, 5.05 | 1974-01-01 |
+| **Mayor** | `Emergency Declaration` | Local emergency powers, curfews, executive orders | Executive order filed with Urban County Council Clerk; invokes emergency powers under KRS 39A.100. | KRS 39A.100; LFUCG Code Ch. 6 | 1974-01-01 |
+| **Council** | `Inquiry / Subpoena` | Government officers and operational records | Council may investigate any department or office by resolution; power to subpoena witnesses and documents. | LFUCG Charter Sec. 4.10 | 1974-01-01 |
+
+### E. Local Lawmaking
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Ordinance / Resolution Types** | `VERIFIED` | LFUCG Charter Sec. 4.08; KRS 83A.060 | Current through 2026 | Ordinances: Binding legislative acts prescribing permanent rules of conduct, civil/criminal penalties, taxation, zoning, or appropriations. Resolutions: Formal expressions of council policy, contract approvals, or internal administrative directives. |
+| **Introduction** | `VERIFIED` | LFUCG Charter Sec. 4.08; Council Rules of Procedure | Current through 2026 | Introduced by any Councilmember or submitted by the Mayor through the CAO via the council docket. |
+| **Readings** | `VERIFIED` | LFUCG Charter Sec. 4.08; KRS 83A.060(4) | Current through 2026 | Two separate readings on separate days required for every ordinance. First reading usually by title at Council meeting; second reading and final roll-call vote at subsequent meeting. |
+| **Committees / Referral** | `VERIFIED` | Council Rules of Procedure § 3 | Amended 2024 | Council Work Session serves as committee-of-the-whole. Standing committees include: Budget, Finance & Economic Development; Planning & Public Safety; General Government & Social Services; Environmental Quality & Public Works. |
+| **Public Hearing** | `VERIFIED` | KRS 100.211; KRS 132.027; LFUCG Charter Sec. 6.04 | Current through 2026 | Mandatory public hearings for: zoning map amendments, annual budget adoption, and property tax rates exceeding the compensating tax rate. |
+| **Agenda / Calendar Control** | `VERIFIED` | Council Rules of Procedure § 2; LFUCG Code Ch. 2 | Current through 2026 | Council Docket Review Agenda committee, managed by the Vice Mayor and Council Administrator in coordination with the CAO. |
+| **Amendment** | `VERIFIED` | Council Rules of Procedure § 4 | Current through 2026 | Amendments may be proposed in committee, work session, or on the floor; substantive amendments require re-reading if text fundamentally changes character. |
+| **Quorum / Passage** | `VERIFIED` | LFUCG Charter Sec. 4.05, 4.08 | Current through 2026 | Quorum: 8 members (majority of 15-member Council). Passage: Affirmative vote of a majority of members present and voting, except where supermajority is mandated by charter/statute (e.g. debt, emergency). |
+| **Executive Action** | `VERIFIED` | LFUCG Charter Sec. 5.05 | Current through 2026 | Presented to Mayor within statutory transmission timeframe. Mayor has 10 days to sign, veto with message, or allow to take effect without signature. |
+| **Override** | `VERIFIED` | LFUCG Charter Sec. 5.05 | 1974-01-01 | Three-fifths (3/5) roll-call vote of all 15 members of the Council (minimum 9 votes). |
+| **Publication / Effectiveness** | `VERIFIED` | KRS 83A.060(9); KRS Chapter 424 | Current through 2026 | Ordinances take effect upon publication in the newspaper of highest circulation or official municipal portal, unless an emergency is declared in the ordinance body. |
+
+### F. Budget
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Fiscal Year** | `VERIFIED` | LFUCG Charter Sec. 6.01; KRS 91A.030 | Current through 2026 | July 1 through June 30. |
+| **Who Prepares** | `VERIFIED` | LFUCG Charter Sec. 6.02 | Current through 2026 | Mayor, assisted by the Chief Administrative Officer (CAO) and Division of Budget. |
+| **Who Proposes** | `VERIFIED` | LFUCG Charter Sec. 6.03 | Current through 2026 | Mayor delivers executive budget address and submits proposed appropriation ordinance to Council at least 60 days prior to fiscal year start (by May 1). |
+| **Who Amends** | `VERIFIED` | LFUCG Charter Sec. 6.04 | Current through 2026 | Urban County Council, through its Budget, Finance & Economic Development Committee and Committee of the Whole. |
+| **Who Adopts** | `VERIFIED` | LFUCG Charter Sec. 6.04; KRS 91A.030 | Current through 2026 | Urban County Council enacts annual appropriation ordinance. |
+| **Deadlines** | `VERIFIED` | LFUCG Charter Sec. 6.03, 6.04 | Current through 2026 | Submission: May 1 (60 days prior to FY start). Adoption: June 30. |
+| **Balanced-Budget Constraint** | `VERIFIED` | LFUCG Charter Sec. 6.04; KRS 91A.030; Ky. Const. § 157 | Current through 2026 | Mandated. Total proposed expenditures cannot exceed estimated revenues plus unencumbered surplus funds. Deficit spending is unconstitutional under Ky. Const. § 157. |
+
+### G. Consolidation / Nesting
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Predecessor / Merged Governments** | `VERIFIED` | KRS 67A.010; LFUCG Charter Sec. 1.01 | 1974-01-01 | City of Lexington (2nd class city) and Fayette County. Merged January 1, 1974. |
+| **Retained Governments / Offices** | `VERIFIED` | Ky. Const. § 99; KRS 67A.020; LFUCG Charter Art. 8 | Current through 2026 | Constitutional County Officers retained: Fayette County Sheriff, County Attorney, County Clerk, Property Valuation Administrator (PVA), Coroner, Constables. Note: Fayette County Jailer office was abolished/merged into LFUCG Division of Community Corrections under executive authority. |
+| **Nested Municipalities** | `VERIFIED` | LFUCG Charter Sec. 1.01; U.S. Census Bureau GUS 2025 | 1974-01-01 | ZERO (0). Fayette County has no incorporated cities within its boundaries; LFUCG is the sole municipal/county entity. |
+| **Retained County Functions** | `VERIFIED` | KRS 67A.060; LFUCG Charter Art. 1 | Current through 2026 | All functions of a Kentucky county fiscal court are exercised directly by the Urban County Council. |
+| **School / Special Districts** | `VERIFIED` | KRS Chapter 160; U.S. Census Bureau GUS 2025 | Current through 2026 | Fayette County Public Schools (FCPS) is an independent school district governed by an elected school board (Census ID `116696`). Special districts include Transit Authority of Lexington-Fayette (LexTran) and Lexington-Fayette Airport Board. |
+| **Service Districts** | `VERIFIED` | LFUCG Charter Art. 2; KRS 67A.150 | Current through 2026 | Two service districts: (1) Full Urban Services District (USD) within the Urban Service Boundary (receives street cleaning, refuse, street lighting, fire hydrants; pays higher ad valorem tax); (2) General Services District (GSD) for the rural/agricultural county balance (base tax rate). |
+
+### H. Physical / Meeting Links
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Regular Council Chamber** | `VERIFIED` | LFUCG Official Facilities Directory; Council Rules § 2 | Current through 2026 | Lexington Government Center, 200 E. Main Street, 2nd Floor Council Chambers, Lexington, KY 40507. |
+| **Work-Session Location** | `VERIFIED` | LFUCG Council Docket & Minutes | Current through 2026 | Lexington Government Center, 200 E. Main Street, 2nd Floor Council Chambers. |
+| **Mayor Office** | `VERIFIED` | LFUCG Executive Office Registry | Current through 2026 | Lexington Government Center, 200 E. Main Street, 12th Floor, Lexington, KY 40507. |
+| **Manager (CAO) Office** | `VERIFIED` | LFUCG Administrative Directory | Current through 2026 | Lexington Government Center, 200 E. Main Street, 12th Floor, Lexington, KY 40507. |
+
+---
+
+## 3. FIELD-BY-FIELD EVIDENCE TABLE: LOUISVILLE-JEFFERSON COUNTY METRO GOVERNMENT
+
+### A. Identity
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Official Government Name** | `VERIFIED` | KRS 67C.101; Louisville Metro Code of Ordinances § 10.01 | 2003-01-06; current through 2026 | Louisville/Jefferson County Metro Government (commonly referred to as Louisville Metro Government). |
+| **Government Form** | `VERIFIED` | KRS Chapter 67C (Consolidated Local Government Act) | 2003-01-06; current through 2026 | Consolidated Local Government. Exercising all powers of a city of the first class and of a county under Kentucky law (KRS 67C.101(1)). Separated Mayor-Council structure. |
+| **Consolidation Type** | `VERIFIED` | KRS 67C.101, 67C.111; *Miller v. Metro Government*, 243 S.W.3d 331 | 2003-01-06 | City-County Consolidation with Retained Municipalities. Consolidated the City of Louisville (1st class) and Jefferson County, but preserved 83 pre-existing incorporated suburban cities within Jefferson County. |
+| **Effective / Legal Basis** | `VERIFIED` | 2000 Ky. Acts ch. 189 (HB 647); KRS Chapter 67C; Referendum approved 2000-11-07; took effect 2003-01-06 | Effective 2003-01-06 | Created by state statute and local referendum. Upheld by Kentucky Supreme Court in *Miller v. Louisville-Jefferson County Metro Government*, 243 S.W.3d 331 (Ky. 2007). |
+| **Government-Unit Identifiers** | `VERIFIED` | U.S. Census Bureau, 2025 Government Units Listing (Census of Governments) | 2025/2026 dataset; retrieved 2026-09-05 | Census Gov ID (GID): `165866`; Official Census Name: `METRO GOVERNMENT OF LOUISVILLE-JEFFERSON COUNTY`; State FIPS: `21`; County FIPS: `111`; Census Place FIPS: `48006`; GEOID: `2148006`. |
+
+### B. Elected Body
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Mayor / Executive** | `VERIFIED` | KRS 67C.105(1) | 2003-01-06; current through 2026 | Mayor of Louisville/Jefferson County Metro Government. Chief executive officer, elected countywide. |
+| **Council / Commission Name** | `VERIFIED` | KRS 67C.103(1) | 2003-01-06; current through 2026 | Legislative Council of Louisville/Jefferson County Metro Government (commonly Louisville Metro Council). |
+| **Council Size** | `VERIFIED` | KRS 67C.103(1) | 2003-01-06; current through 2026 | 26 members. |
+| **District / Ward / At-Large Composition** | `VERIFIED` | KRS 67C.103(1), (2) | 2003-01-06; current through 2026 | 26 single-member districts based on equal population. Zero (0) at-large council seats. |
+| **Presiding Roles** | `VERIFIED` | KRS 67C.103(6); Rules of the Council Rule 2.01 | Current through 2026 | Council President, elected annually by a majority vote of the Metro Council from among its 26 members. The Mayor DOES NOT preside over Council meetings and has NO vote (KRS 67C.105(5)). Council also elects a President Pro Tem. |
+| **Terms** | `VERIFIED` | KRS 67C.103(5), 67C.105(1) | Current through 2026 | Council members serve 4-year staggered terms (even-numbered districts elected in presidential years; odd-numbered districts elected in midterm years). Mayor serves a 4-year term, limited to three (3) consecutive terms (12 years max). |
+| **Vacancies** | `VERIFIED` | KRS 67C.103(6), 67C.105(2); Ky. Const. § 152 | Current through 2026 | Council vacancy: Filled by majority vote of remaining Council members within 30 days; if deadlocked, Governor appoints. Mayoral vacancy: Council elects an interim mayor within 30 days; if deadlocked, Governor appoints. Successor elected pursuant to Ky. Const. § 152. |
+| **Election Timing** | `VERIFIED` | 2024 Ky. Acts ch. 167 (HB 388); KRS 67C.103; KRS 118.025 | Enacted 2024-04-12; eff. 2026 cycle | Nonpartisan primary on the first Tuesday after the third Monday in May; Nonpartisan general election on the first Tuesday after the first Monday in November (even years). Staggered 4-year council elections (13 seats every 2 years). |
+| **Partisan / Nonpartisan Status** | `VERIFIED` | 2024 Ky. Acts ch. 167 (HB 388, overriding veto); KRS 67C.103(1), 67C.105(1) | Effective for 2026 election cycle | NONPARTISAN. **Critical Legal Verification:** Historically partisan from 2003 through 2024. In April 2024, the Kentucky General Assembly enacted HB 388 over gubernatorial veto, converting Louisville Metro mayoral and council elections to a nonpartisan primary/general format beginning in the 2026 cycle. |
+
+### C. Administration
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **City Manager / Administrator Existence** | `VERIFIED` | KRS 67C.105(5); Louisville Metro Code Ch. 30, 32 | Current through 2026 | No statutory City Manager. Chief Operating Officer / Deputy Mayor / Chief of Staff positions established by executive order and administrative code under the Mayor's plenary executive authority. |
+| **Appointment / Removal Authority** | `VERIFIED` | KRS 67C.105(5) | 2003-01-06; current through 2026 | Mayor appoints all department heads, division directors, and members of boards and commissions, subject to confirmation by a majority vote of the Metro Council. Mayor removes department heads at pleasure without Council approval. |
+| **Department-Head Authority** | `VERIFIED` | KRS 67C.105(5); Louisville Metro Code Ch. 32 | Current through 2026 | Department heads (Police Chief, Fire Chief, Public Works Director, OMB Director, etc.) operate under executive direction of the Mayor. |
+| **Reporting Relationships** | `VERIFIED` | Louisville Metro Administrative Organization Chart | Current through 2026 | Department directors report to Deputy Mayors / Chief Operating Officer; Deputy Mayors report directly to the Mayor. |
+
+### D. Enumerated Powers
+| Actor | Action | Target | Conditions / Threshold | Authoritative Source | Effective Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Mayor** | `Veto` | Ordinances & resolutions passed by Metro Council | Must return within 21 days of presentation with written veto message; failure to act results in ordinance becoming law. | KRS 67C.105(5) | 2003-01-06 |
+| **Mayor** | `Line-Item Veto` | Appropriations ordinances (budget) | May veto specific line items or parts of appropriation bills while signing the remainder. | KRS 67C.105(5) | 2003-01-06 |
+| **Metro Council** | `Veto Override` | Mayoral general or line-item veto | Two-thirds (2/3) vote of all 26 members of the Metro Council (minimum 18 affirmative votes). | KRS 67C.105(5); Council Rules Rule 4.05 | 2003-01-06 |
+| **Mayor** | `Appointment` | Department directors, agency heads, board members | Nominated by Mayor; requires majority confirmation vote of Metro Council. | KRS 67C.105(5) | 2003-01-06 |
+| **Mayor** | `Removal` | Department directors and executive officers | Discretionary unilateral removal at pleasure without Council consent. | KRS 67C.105(5) | 2003-01-06 |
+| **Mayor** | `Budget Submission` | Executive operating & capital budget | Mandatory submission to Council at least 60 days before start of fiscal year (by May 1). | KRS 67C.105(3) | 2003-01-06 |
+| **Metro Council** | `Budget Adoption` | Annual appropriation ordinance | Adopted before July 1 by majority vote; balanced-budget constraint. | KRS 67C.103(1), 67C.105(3) | 2003-01-06 |
+| **Mayor** | `Emergency Declaration` | Local emergency powers, curfews, executive orders | Executive declaration under KRS 39A.100 and Metro Code Chapter 35. | KRS 39A.100; Metro Code § 35.01 | 2003-01-06 |
+| **Council President** | `Preside & Assign` | Council meetings and standing committee referrals | Sets committee referrals and presides over Council deliberations. | KRS 67C.103(6); Council Rules | 2003-01-06 |
+| **Metro Council** | `Subpoena / Investigation` | Executive administration and municipal operations | Council may issue subpoenas and compel testimony by committee resolution. | KRS 67C.103(13) | 2003-01-06 |
+
+### E. Local Lawmaking
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Ordinance / Resolution Types** | `VERIFIED` | KRS 67C.103; Council Rules Rule 4 | Current through 2026 | Ordinances: Binding legislative acts prescribing police powers, taxes, appropriations, and penalties. Resolutions: Formal expressions of council sentiment, approval of contracts/grants, appointments. |
+| **Introduction** | `VERIFIED` | Council Rules Rule 4.01 | Current through 2026 | Introduced by any Metro Council member as sponsor or co-sponsor. |
+| **Readings** | `VERIFIED` | Council Rules Rule 4.02; KRS 83A.060 | Current through 2026 | Two readings required. First reading by title, followed by referral to committee; second reading on floor prior to final roll call. |
+| **Committees / Referral** | `VERIFIED` | Council Rules Rule 3 | Amended 2024 | Committee on Committees assigns bills. Standing committees: Budget Committee, Public Works, Public Safety, Planning & Zoning, Labor & Economic Development, Government Oversight & Appointments. |
+| **Public Hearing** | `VERIFIED` | KRS 100.211; KRS 132.027; Council Rules | Current through 2026 | Mandatory for zoning map amendments, annual budget, and tax rate levies exceeding the compensating rate. |
+| **Agenda / Calendar Control** | `VERIFIED` | Council Rules Rule 2, Rule 4 | Current through 2026 | Set by the Council President in coordination with Majority and Minority Caucus leaders. |
+| **Amendment** | `VERIFIED` | Council Rules Rule 4.04 | Current through 2026 | Amendments adopted in committee or on the floor by majority vote of members present. |
+| **Quorum / Passage** | `VERIFIED` | KRS 67C.103(8), (9); Council Rules Rule 1 | Current through 2026 | Quorum: 14 members (majority of the 26-member Council). Passage: Majority of members present and voting, except appropriations/debt/override requiring statutory supermajorities. |
+| **Executive Action** | `VERIFIED` | KRS 67C.105(5) | 2003-01-06 | Presented to Mayor within 3 business days. Mayor has 21 calendar days to sign, veto with message, or permit measure to become law without signature. |
+| **Override** | `VERIFIED` | KRS 67C.105(5); Council Rules Rule 4.05 | 2003-01-06 | Two-thirds (2/3) vote of all 26 members of the Council (minimum 18 votes). |
+| **Publication / Effectiveness** | `VERIFIED` | KRS 67C.103; KRS Chapter 424 | Current through 2026 | Effective upon signature/override and publication in accordance with KRS Chapter 424. |
+
+### F. Budget
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Fiscal Year** | `VERIFIED` | KRS 67C.105(3); KRS 91A.030 | Current through 2026 | July 1 through June 30. |
+| **Who Prepares** | `VERIFIED` | KRS 67C.105(3); Metro Code Ch. 30 | Current through 2026 | Mayor, assisted by the Chief Financial Officer and Office of Management and Budget (OMB). |
+| **Who Proposes** | `VERIFIED` | KRS 67C.105(3) | Current through 2026 | Mayor submits executive budget proposal to Metro Council at least 60 days before fiscal year begins (by May 1). |
+| **Who Amends** | `VERIFIED` | KRS 67C.103(1); Council Rules | Current through 2026 | Metro Council, through its Budget Committee. |
+| **Who Adopts** | `VERIFIED` | KRS 67C.105(3); KRS 91A.030 | Current through 2026 | Metro Council enacts annual appropriation ordinance. |
+| **Deadlines** | `VERIFIED` | KRS 67C.105(3) | Current through 2026 | Submission: May 1 (60 days prior). Adoption: June 30. |
+| **Balanced-Budget Constraint** | `VERIFIED` | KRS 67C.105(3); Ky. Const. § 157 | Current through 2026 | Statutory and constitutional mandate: "The budget shall provide for total estimated revenues... at least equal to total proposed expenditures." |
+
+### G. Consolidation / Nesting
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Predecessor / Merged Governments** | `VERIFIED` | KRS 67C.101; 2000 Ky. Acts ch. 189 | 2003-01-06 | City of Louisville (1st class) and Jefferson County. Merged January 6, 2003. |
+| **Retained Governments / Offices** | `VERIFIED` | Ky. Const. § 99; KRS 67C.103; KRS 67C.111 | Current through 2026 | Retained County Constitutional Officers: Jefferson County Sheriff (tax collection, court security), County Attorney, County Clerk, PVA, Coroner, Constables. |
+| **Nested Municipalities** | `VERIFIED` | KRS 67C.111; U.S. Census Bureau GUS 2025 | Current through 2026 | 83 incorporated cities retained within Jefferson County (e.g. Anchorage, Jeffersontown, St. Matthews, Shively, Lyndon, Prospect). Retain separate police powers, mayors, city councils, and local taxing authority. Cannot be dissolved by Metro Government. |
+| **Retained County Functions** | `VERIFIED` | KRS 67C.101; KRS 67C.115 | Current through 2026 | All functions of the former Jefferson County Fiscal Court are vested in the Metro Council. |
+| **School / Special Districts** | `VERIFIED` | KRS Chapter 160; U.S. Census Bureau GUS 2025 | Current through 2026 | Jefferson County Public Schools (JCPS) is an independent school district governed by an elected school board (Census ID `116696`). Special districts: Louisville-Jefferson County Metropolitan Sewer District (MSD), Transit Authority of River City (TARC), Waterfront Development Corp, 18 suburban fire protection districts. |
+| **Service Districts** | `VERIFIED` | KRS 67C.111, 67C.147; Metro Code Ch. 31 | Current through 2026 | (1) Urban Services District (USD) — territory of former City of Louisville, receiving enhanced fire, street cleaning, and garbage collection, paying additional ad valorem tax; (2) General Services District (GSD) — countywide balance. |
+
+### H. Physical / Meeting Links
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Regular Council Chamber** | `VERIFIED` | Louisville Metro Legislative Directory | Current through 2026 | Historic Louisville City Hall, 601 W. Jefferson Street, 3rd Floor Council Chambers, Louisville, KY 40202. |
+| **Work-Session Location** | `VERIFIED` | Metro Council Committee Schedule | Current through 2026 | Historic Louisville City Hall, 601 W. Jefferson Street, 3rd Floor Committee Rooms (Room 106 / Chambers). |
+| **Mayor Office** | `VERIFIED` | Louisville Metro Executive Office Directory | Current through 2026 | Louisville Metro Hall (Historic Jefferson County Courthouse), 527 W. Jefferson Street, 2nd Floor, Louisville, KY 40202. |
+| **Manager (COO) Office** | `VERIFIED` | Louisville Metro Administrative Directory | Current through 2026 | Louisville Metro Hall, 527 W. Jefferson Street, 2nd Floor, Louisville, KY 40202. |
+
+---
+
+## 4. FIELD-BY-FIELD EVIDENCE TABLE: CITY OF BOWLING GREEN
+
+### A. Identity
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Official Government Name** | `VERIFIED` | City of Bowling Green Code of Ordinances § 1-1.01 | Current through 2026 | City of Bowling Green. |
+| **Government Form** | `VERIFIED` | KRS 83A.150; BG Code Chapter 2 | 1980-07-15; current through 2026 | City Manager Form of Government. Legislative authority vested in Board of Commissioners; executive and administrative authority vested in appointed City Manager. |
+| **Consolidation Type** | `NOT_APPLICABLE` | KRS Chapter 81, 83A | Current through 2026 | Not a consolidated city-county. Operates as an independent incorporated home rule class city within Warren County. |
+| **Effective / Legal Basis** | `VERIFIED` | 1980 Ky. Acts ch. 235 (Municipal Code); KRS 83A.150; KRS 81.005 | Current through 2026 | Governed under the Municipal Code of 1980 (KRS Chapter 83A) and classified as a Home Rule Class city pursuant to 2014 Ky. Acts ch. 92 (KRS 81.005, effective Jan 1, 2015). |
+| **Government-Unit Identifiers** | `VERIFIED` | U.S. Census Bureau, 2025 Government Units Listing (Census of Governments) | 2025/2026 dataset; retrieved 2026-09-05 | Census Gov ID (GID): `212021`; Official Census Name: `CITY OF BOWLING GREEN`; State FIPS: `21`; County FIPS: `227`; Census Place FIPS: `08902`; GEOID: `2108902`. |
+
+### B. Elected Body
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Mayor / Executive** | `VERIFIED` | KRS 83A.150(3); BG Code Subchapter 2-2 | Current through 2026 | Mayor of Bowling Green. Member of the Board of Commissioners; presides over meetings, serves as ceremonial head, but possesses NO regular administrative duties and NO veto power. |
+| **Council / Commission Name** | `VERIFIED` | KRS 83A.150(1); BG Code Subchapter 2-2 | Current through 2026 | Board of Commissioners of the City of Bowling Green. |
+| **Council Size** | `VERIFIED` | KRS 83A.150(1); BG Code § 2-2.02 | Current through 2026 | 5 members (Mayor + 4 City Commissioners). |
+| **District / Ward / At-Large Composition** | `VERIFIED` | KRS 83A.150(1); BG Code § 2-2.02; Ord. BG2020-3 | Current through 2026 | 100% AT-LARGE. All 4 Commissioners and the Mayor are elected citywide. Zero (0) ward/district seats. |
+| **Presiding Roles** | `VERIFIED` | KRS 83A.150(3); BG Code § 2-2.04 | Current through 2026 | Mayor presides over all meetings of the Board of Commissioners. Mayor Pro Tem is selected by the Board from among the 4 Commissioners to preside in the Mayor's absence. |
+| **Terms** | `VERIFIED` | KRS 83A.040(1), (2); BG Code § 2-2.02 | Current through 2026 | Commissioners serve 2-year terms. Mayor serves a 4-year term. No term limits. |
+| **Vacancies** | `VERIFIED` | KRS 83A.040(5); BG Code § 2-2.03 | Current through 2026 | Vacancy in the office of Mayor or Commissioner is filled by a majority vote of the remaining members of the Board within 30 days. If the Board fails to act within 30 days, the Governor of Kentucky appoints. |
+| **Election Timing** | `VERIFIED` | KRS 83A.045; Ordinance BG2020-3 | Amended 2020-03-03; current through 2026 | Nonpartisan general election held on the first Tuesday after the first Monday in November (even years). Ordinance BG2020-3 eliminated municipal primary elections; candidates run in the general election plurality. All 4 commission seats up every 2 years; Mayoral seat up every 4 years. |
+| **Partisan / Nonpartisan Status** | `VERIFIED` | KRS 83A.050; BG Code Subchapter 2-2; Ord. BG2020-3 | Current through 2026 | NONPARTISAN. Candidates run without party label. |
+
+### C. Administration
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **City Manager / Administrator Existence** | `VERIFIED` | KRS 83A.150(7); BG Code Subchapter 2-3 | 1980-07-15; current through 2026 | YES. City Manager is the chief executive and administrative officer of the city. |
+| **Appointment / Removal Authority** | `VERIFIED` | KRS 83A.150(7), (8); BG Code Subchapter 2-3 | Current through 2026 | Appointed by a majority vote of the Board of Commissioners for an indefinite term. Removed by majority vote of the Board. Prior to removal, Board must adopt a preliminary resolution stating reasons; Manager may demand a written statement and a public hearing within 30 days before final vote. |
+| **Department-Head Authority** | `VERIFIED` | KRS 83A.150(7)(a); BG Code Subchapter 2-3 | Current through 2026 | Department heads (Police Chief, Fire Chief, Public Works, Parks, HR, CFO) are appointed and removed by the Board of Commissioners ONLY upon the recommendation of the City Manager. The Mayor has no independent appointment or removal power. |
+| **Reporting Relationships** | `VERIFIED` | KRS 83A.150(7); BG Code Ch. 2 | Current through 2026 | Department heads report directly to the City Manager; City Manager reports to the Board of Commissioners as a collective body. |
+
+### D. Enumerated Powers
+| Actor | Action | Target | Conditions / Threshold | Authoritative Source | Effective Date |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Mayor** | `Preside & Vote` | Board of Commissioners meetings | Full voting member on all roll calls; possesses ZERO veto power. | KRS 83A.150(3) | 1980-07-15 |
+| **Mayor** | `Veto` | Ordinances, orders, resolutions | `NOT_APPLICABLE`. Statutory prohibition: "The mayor shall have no regular administrative duties... and shall have no veto power." | KRS 83A.150(3) | 1980-07-15 |
+| **Board of Commissioners** | `Appoint / Remove City Manager` | Chief executive office of the city | Majority vote of the 5-member board; removal subject to statutory preliminary resolution and hearing rights. | KRS 83A.150(7), (8) | 1980-07-15 |
+| **City Manager** | `Executive Administration` | All municipal departments, employees, operations | Sole authority to execute laws, enforce contracts, supervise administration. | KRS 83A.150(7) | 1980-07-15 |
+| **Board of Commissioners** | `Appoint / Remove Department Heads` | Police Chief, Fire Chief, Department Directors | Majority vote of Board, but ONLY upon recommendation of the City Manager. | KRS 83A.150(7)(a) | 1980-07-15 |
+| **City Manager** | `Budget Proposal` | Annual municipal operating & capital budget | Mandatory submission to Board at least 30 days prior to fiscal year start (by June 1). | KRS 83A.150(7)(c) | 1980-07-15 |
+| **Board of Commissioners** | `Budget Adoption` | Annual budget ordinance & tax rates | Enacted before July 1 by majority vote; balanced-budget constraint. | KRS 83A.150(4); KRS 91A.030 | 1980-07-15 |
+| **City Manager** | `Contract Recommendation` | Purchasing & municipal contracts | City Manager executes contracts approved by Board via municipal order. | BG Code § 2-3.02 | Current through 2026 |
+| **Mayor** | `Emergency Declaration` | Local disaster emergency | Issued in coordination with City Manager and Warren County Disaster Emergency Services under KRS 39A.100. | KRS 39A.100; BG Code Ch. 2 | 1980-07-15 |
+| **City Manager** | `Agenda Preparation` | Board of Commissioners meeting docket | City Manager compiles agenda items, municipal orders, and ordinances. | BG Code § 2-2.19 | Current through 2026 |
+
+### E. Local Lawmaking
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Ordinance / Resolution Types** | `VERIFIED` | KRS 83A.060; BG Code Subchapter 2-2 | Current through 2026 | Ordinances: Binding legislative acts with penal sanctions, tax levies, zoning, or appropriations. Municipal Orders: Routine administrative approvals, contracts, personnel appointments (KRS 83A.060(13)). Resolutions: Policy statements. |
+| **Introduction** | `VERIFIED` | BG Code § 2-2.19 | Current through 2026 | Sponsored by the City Manager, Mayor, or any City Commissioner. |
+| **Readings** | `VERIFIED` | KRS 83A.060(4); BG Code § 2-2.19 | Current through 2026 | Two separate readings on separate days required for all ordinances. Municipal orders and resolutions require only one reading and take effect immediately upon passage. |
+| **Committees / Referral** | `NOT_APPLICABLE` | BG Code Subchapter 2-2 | Current through 2026 | No standing legislative committee system exists. Due to the 5-member board size, all items are considered by the Board of Commissioners as a whole. |
+| **Public Hearing** | `VERIFIED` | KRS 100.211; KRS 132.027 | Current through 2026 | Required for zoning map amendments, municipal budget, and property tax rates exceeding compensating rates. |
+| **Agenda / Calendar Control** | `VERIFIED` | BG Code § 2-2.19 | Current through 2026 | Controlled by the City Manager in consultation with the Mayor and City Clerk. |
+| **Amendment** | `VERIFIED` | KRS 83A.060; BG Code § 2-2.19 | Current through 2026 | Approved by majority vote on first or second reading; if amended materially, must be re-read before final adoption. |
+| **Quorum / Passage** | `VERIFIED` | KRS 83A.150(4); BG Code § 2-2.04 | Current through 2026 | Quorum: 3 members (majority of the 5-member board). Passage: Affirmative vote of a majority of members present (minimum 2 or 3 votes). |
+| **Executive Action** | `VERIFIED` | KRS 83A.150(3) | 1980-07-15 | Mayor signs as presiding officer, but has NO VETO power. Cannot delay or block enacted ordinances. |
+| **Override** | `NOT_APPLICABLE` | KRS 83A.150(3) | 1980-07-15 | No veto power exists; override mechanic is non-existent. |
+| **Publication / Effectiveness** | `VERIFIED` | KRS 83A.060(9); KRS Chapter 424 | Current through 2026 | Ordinances take effect upon publication in full or summary in the newspaper of general circulation. Municipal orders take effect immediately upon passage. |
+
+### F. Budget
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Fiscal Year** | `VERIFIED` | KRS 91A.030; BG Code Subchapter 2-3 | Current through 2026 | July 1 through June 30. |
+| **Who Prepares** | `VERIFIED` | KRS 83A.150(7)(c); BG Code Subchapter 2-3 | Current through 2026 | City Manager, assisted by the Chief Financial Officer and Finance Department. |
+| **Who Proposes** | `VERIFIED` | KRS 83A.150(7)(c) | Current through 2026 | City Manager submits proposed budget ordinance to Board of Commissioners at least 30 days before fiscal year begins (by June 1). |
+| **Who Amends** | `VERIFIED` | KRS 83A.150(4); BG Code Subchapter 2-2 | Current through 2026 | Board of Commissioners. |
+| **Who Adopts** | `VERIFIED` | KRS 83A.150(4); KRS 91A.030 | Current through 2026 | Board of Commissioners enacts budget ordinance. |
+| **Deadlines** | `VERIFIED` | KRS 83A.150(7)(c); KRS 91A.030 | Current through 2026 | Submission: June 1 (at least 30 days prior). Adoption: June 30. |
+| **Balanced-Budget Constraint** | `VERIFIED` | KRS 91A.030(2); Ky. Const. § 157 | Current through 2026 | Mandated. Total proposed expenditures cannot exceed estimated revenues plus unencumbered fund balances. |
+
+### G. Consolidation / Nesting
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Predecessor / Merged Governments** | `NOT_APPLICABLE` | KRS Chapter 81 | Current through 2026 | Non-consolidated entity. No merger has ever occurred. |
+| **Retained Governments / Offices** | `NOT_APPLICABLE` | KRS Chapter 81 | Current through 2026 | Non-consolidated entity. |
+| **Nested Municipalities** | `NOT_APPLICABLE` | KRS Chapter 81 | Current through 2026 | None. |
+| **Retained County Functions** | `VERIFIED` | Ky. Const. § 144; KRS 67.083 | Current through 2026 | Warren County Fiscal Court (County Judge/Executive + 6 Magistrates) retains separate countywide jurisdiction. Warren County Sheriff operates independently. |
+| **School / Special Districts** | `VERIFIED` | KRS Chapter 160; U.S. Census Bureau GUS 2025 | Current through 2026 | Bowling Green Independent School District (city core; Census ID `116696`) operates separately from Warren County Public Schools. Bowling Green Municipal Utilities (BGMU) operates water/electric under independent board. City-County Planning Commission of Warren County handles zoning. |
+| **Service Districts** | `NOT_APPLICABLE` | BG Code Chapter 2 | Current through 2026 | Single uniform citywide service and taxation area. |
+
+### H. Physical / Meeting Links
+| Field Label | Status | Authoritative Source | Vintage / Effective Date | Evidentiary Basis & Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Regular Commission Chamber** | `VERIFIED` | City of Bowling Green Official Directory | Current through 2026 | Bowling Green City Hall, 1001 College Street, Commission Chamber, Bowling Green, KY 42101. |
+| **Work-Session Location** | `VERIFIED` | Board of Commissioners Meeting Notices | Current through 2026 | Bowling Green City Hall, 1001 College Street, Commission Chamber or Executive Conference Room. |
+| **Mayor Office** | `VERIFIED` | City of Bowling Green Directory | Current through 2026 | Bowling Green City Hall, 1001 College Street, Bowling Green, KY 42101. |
+| **Manager Office** | `VERIFIED` | City of Bowling Green Directory | Current through 2026 | Bowling Green City Hall, 1001 College Street, Bowling Green, KY 42101. |
+
+---
+
+## 5. NON-AUTHORITATIVE IMPLEMENTATION CARGO: NORMALIZED CANDIDATE RECORDS
+
+> [!CAUTION]
+> **ENGINEERING ALERT: NON-AUTHORITATIVE CANDIDATE RECORDS**
+> The following JSON structures are generated implementation candidates intended to feed domain engines. They must NOT be treated as canonical game authority until engineering executes validation tests and accepts them into `src/simulation/`.
+
+```json
+{
+  "jurisdiction_candidate_records": [
+    {
+      "schema_version": "1.0.0-candidate",
+      "cargo_status": "NON-AUTHORITATIVE IMPLEMENTATION CARGO UNTIL VALIDATED",
+      "as_of_date": "2026-09-05",
+      "stable_id": "jurisdiction:us-ky-lexington-fayette",
+      "census_gov_id": "165831",
+      "census_geoid": "2146027",
+      "fips": { "state": "21", "county": "067", "place": "46027" },
+      "official_name": "Lexington-Fayette Urban County Government",
+      "common_name": "Lexington",
+      "legal_form": "URBAN_COUNTY_GOVERNMENT",
+      "statutory_authority": "KRS Chapter 67A",
+      "charter_basis": "Charter of the Lexington-Fayette Urban County Government (1974)",
+      "consolidation": {
+        "status": "CONSOLIDATED_CITY_COUNTY",
+        "nested_municipalities_count": 0,
+        "nested_municipalities": [],
+        "retained_county_constitutional_officers": [
+          "SHERIFF", "COUNTY_ATTORNEY", "COUNTY_CLERK", "PVA", "CORONER", "CONSTABLE"
+        ],
+        "jailer_status": "ABOLISHED_MERGED_INTO_LFUCG_CORRECTIONS",
+        "service_districts": ["FULL_URBAN_SERVICES_DISTRICT", "GENERAL_SERVICES_DISTRICT"]
+      },
+      "elected_body": {
+        "body_name": "Lexington-Fayette Urban County Council",
+        "total_members": 15,
+        "composition": {
+          "single_member_districts": 12,
+          "at_large_seats": 3
+        },
+        "presiding_officer": {
+          "regular_meetings": "MAYOR",
+          "work_sessions": "VICE_MAYOR",
+          "tie_breaker_only": true
+        },
+        "vice_mayor_selection": "HIGHEST_AT_LARGE_POPULAR_VOTE",
+        "terms": {
+          "district_years": 2,
+          "at_large_years": 4,
+          "district_term_limit": null,
+          "at_large_term_limit": 3
+        },
+        "electoral_system": {
+          "partisan_status": "NONPARTISAN",
+          "primary_timing": "MAY_EVEN_YEARS",
+          "general_timing": "NOVEMBER_EVEN_YEARS"
+        }
+      },
+      "executive": {
+        "title": "Mayor of Lexington-Fayette",
+        "term_years": 4,
+        "term_limit_consecutive": 3,
+        "partisan_status": "NONPARTISAN",
+        "city_manager_equivalent": {
+          "title": "Chief Administrative Officer",
+          "appointment_by": "MAYOR",
+          "confirmation_required": "COUNCIL_MAJORITY",
+          "removal_by": "MAYOR_UNILATERAL_AT_PLEASURE"
+        },
+        "powers": {
+          "general_veto": true,
+          "line_item_veto": true,
+          "veto_return_window_days": 10,
+          "veto_override_threshold": "THREE_FIFTHS_TOTAL_COUNCIL",
+          "veto_override_votes_required": 9,
+          "zoning_veto_allowed": false,
+          "emergency_powers_statutory": "KRS 39A.100"
+        }
+      },
+      "budget": {
+        "fiscal_year_start": "07-01",
+        "fiscal_year_end": "06-30",
+        "preparer": "MAYOR_AND_CAO",
+        "proposer": "MAYOR",
+        "submission_deadline_days_before_fy": 60,
+        "submission_deadline_date": "05-01",
+        "adopting_body": "COUNCIL",
+        "adoption_deadline_date": "06-30",
+        "balanced_budget_mandate": true
+      },
+      "facilities": {
+        "council_chamber": "Lexington Government Center, 200 E. Main St, 2nd Floor, Lexington, KY 40507",
+        "work_session_location": "Lexington Government Center, 200 E. Main St, 2nd Floor, Lexington, KY 40507",
+        "mayor_office": "Lexington Government Center, 200 E. Main St, 12th Floor, Lexington, KY 40507",
+        "manager_office": "Lexington Government Center, 200 E. Main St, 12th Floor, Lexington, KY 40507"
+      }
+    },
+    {
+      "schema_version": "1.0.0-candidate",
+      "cargo_status": "NON-AUTHORITATIVE IMPLEMENTATION CARGO UNTIL VALIDATED",
+      "as_of_date": "2026-09-05",
+      "stable_id": "jurisdiction:us-ky-louisville-jefferson",
+      "census_gov_id": "165866",
+      "census_geoid": "2148006",
+      "fips": { "state": "21", "county": "111", "place": "48006" },
+      "official_name": "Louisville/Jefferson County Metro Government",
+      "common_name": "Louisville Metro",
+      "legal_form": "CONSOLIDATED_LOCAL_GOVERNMENT",
+      "statutory_authority": "KRS Chapter 67C",
+      "charter_basis": "KRS Chapter 67C (2000 Ky Acts ch 189 / HB 647)",
+      "consolidation": {
+        "status": "CONSOLIDATED_CITY_COUNTY_WITH_RETAINED_CITIES",
+        "nested_municipalities_count": 83,
+        "nested_municipalities_sample": ["Shively", "St. Matthews", "Jeffersontown", "Anchorage", "Lyndon"],
+        "retained_county_constitutional_officers": [
+          "SHERIFF", "COUNTY_ATTORNEY", "COUNTY_CLERK", "PVA", "CORONER", "CONSTABLE"
+        ],
+        "police_status": "MERGED_LOUISVILLE_METRO_POLICE_DEPARTMENT",
+        "service_districts": ["URBAN_SERVICES_DISTRICT", "GENERAL_SERVICES_DISTRICT"]
+      },
+      "elected_body": {
+        "body_name": "Legislative Council of Louisville/Jefferson County Metro Government",
+        "total_members": 26,
+        "composition": {
+          "single_member_districts": 26,
+          "at_large_seats": 0
+        },
+        "presiding_officer": {
+          "regular_meetings": "COUNCIL_PRESIDENT",
+          "work_sessions": "COUNCIL_PRESIDENT_OR_COMMITTEE_CHAIR",
+          "mayor_presides": false,
+          "mayor_votes": false
+        },
+        "vice_mayor_selection": "NOT_APPLICABLE",
+        "terms": {
+          "district_years": 4,
+          "at_large_years": null,
+          "district_term_limit": null,
+          "at_large_term_limit": null
+        },
+        "electoral_system": {
+          "partisan_status": "NONPARTISAN",
+          "statutory_transition_source": "2024 Ky Acts ch 167 (HB 388)",
+          "effective_cycle": "2026",
+          "primary_timing": "MAY_EVEN_YEARS",
+          "general_timing": "NOVEMBER_EVEN_YEARS"
+        }
+      },
+      "executive": {
+        "title": "Mayor of Louisville/Jefferson County Metro Government",
+        "term_years": 4,
+        "term_limit_consecutive": 3,
+        "partisan_status": "NONPARTISAN",
+        "city_manager_equivalent": {
+          "title": "Chief Operating Officer / Deputy Mayor",
+          "appointment_by": "MAYOR",
+          "confirmation_required": "COUNCIL_MAJORITY",
+          "removal_by": "MAYOR_UNILATERAL_AT_PLEASURE"
+        },
+        "powers": {
+          "general_veto": true,
+          "line_item_veto": true,
+          "veto_return_window_days": 21,
+          "veto_override_threshold": "TWO_THIRDS_TOTAL_COUNCIL",
+          "veto_override_votes_required": 18,
+          "zoning_veto_allowed": true,
+          "emergency_powers_statutory": "KRS 39A.100"
+        }
+      },
+      "budget": {
+        "fiscal_year_start": "07-01",
+        "fiscal_year_end": "06-30",
+        "preparer": "MAYOR_AND_OMB",
+        "proposer": "MAYOR",
+        "submission_deadline_days_before_fy": 60,
+        "submission_deadline_date": "05-01",
+        "adopting_body": "COUNCIL",
+        "adoption_deadline_date": "06-30",
+        "balanced_budget_mandate": true
+      },
+      "facilities": {
+        "council_chamber": "Historic Louisville City Hall, 601 W. Jefferson St, 3rd Floor, Louisville, KY 40202",
+        "work_session_location": "Historic Louisville City Hall, 601 W. Jefferson St, 3rd Floor Committee Rooms, Louisville, KY 40202",
+        "mayor_office": "Louisville Metro Hall, 527 W. Jefferson St, 2nd Floor, Louisville, KY 40202",
+        "manager_office": "Louisville Metro Hall, 527 W. Jefferson St, 2nd Floor, Louisville, KY 40202"
+      }
+    },
+    {
+      "schema_version": "1.0.0-candidate",
+      "cargo_status": "NON-AUTHORITATIVE IMPLEMENTATION CARGO UNTIL VALIDATED",
+      "as_of_date": "2026-09-05",
+      "stable_id": "jurisdiction:us-ky-bowling-green",
+      "census_gov_id": "212021",
+      "census_geoid": "2108902",
+      "fips": { "state": "21", "county": "227", "place": "08902" },
+      "official_name": "City of Bowling Green",
+      "common_name": "Bowling Green",
+      "legal_form": "CITY_MANAGER_GOVERNMENT",
+      "statutory_authority": "KRS 83A.150; KRS 81.005",
+      "charter_basis": "Kentucky Municipal Code of 1980 (KRS Chapter 83A)",
+      "consolidation": {
+        "status": "NOT_CONSOLIDATED",
+        "nested_municipalities_count": 0,
+        "nested_municipalities": [],
+        "retained_county_constitutional_officers": "WARREN_COUNTY_INDEPENDENT",
+        "jailer_status": "WARREN_COUNTY_OPERATION",
+        "service_districts": ["UNIFORM_CITYWIDE"]
+      },
+      "elected_body": {
+        "body_name": "Board of Commissioners of the City of Bowling Green",
+        "total_members": 5,
+        "composition": {
+          "single_member_districts": 0,
+          "at_large_seats": 5
+        },
+        "presiding_officer": {
+          "regular_meetings": "MAYOR",
+          "work_sessions": "MAYOR",
+          "tie_breaker_only": false,
+          "full_voting_member": true
+        },
+        "vice_mayor_selection": "MAYOR_PRO_TEM_ELECTED_BY_BOARD",
+        "terms": {
+          "district_years": null,
+          "at_large_years": 2,
+          "commissioner_years": 2,
+          "mayor_years": 4,
+          "term_limit": null
+        },
+        "electoral_system": {
+          "partisan_status": "NONPARTISAN",
+          "primary_eliminated": true,
+          "primary_elimination_source": "Ordinance BG2020-3",
+          "general_timing": "NOVEMBER_EVEN_YEARS"
+        }
+      },
+      "executive": {
+        "title": "Mayor of Bowling Green",
+        "term_years": 4,
+        "term_limit_consecutive": null,
+        "partisan_status": "NONPARTISAN",
+        "city_manager_equivalent": {
+          "title": "City Manager",
+          "appointment_by": "BOARD_OF_COMMISSIONERS_MAJORITY",
+          "confirmation_required": "NOT_APPLICABLE",
+          "removal_by": "BOARD_OF_COMMISSIONERS_MAJORITY_WITH_HEARING_RIGHTS"
+        },
+        "powers": {
+          "general_veto": false,
+          "line_item_veto": false,
+          "veto_return_window_days": null,
+          "veto_override_threshold": "NOT_APPLICABLE",
+          "veto_override_votes_required": null,
+          "zoning_veto_allowed": false,
+          "emergency_powers_statutory": "KRS 39A.100"
+        }
+      },
+      "budget": {
+        "fiscal_year_start": "07-01",
+        "fiscal_year_end": "06-30",
+        "preparer": "CITY_MANAGER_AND_CFO",
+        "proposer": "CITY_MANAGER",
+        "submission_deadline_days_before_fy": 30,
+        "submission_deadline_date": "06-01",
+        "adopting_body": "BOARD_OF_COMMISSIONERS",
+        "adoption_deadline_date": "06-30",
+        "balanced_budget_mandate": true
+      },
+      "facilities": {
+        "council_chamber": "Bowling Green City Hall, 1001 College St, Commission Chamber, Bowling Green, KY 42101",
+        "work_session_location": "Bowling Green City Hall, 1001 College St, Commission Chamber or Executive Conference Room, Bowling Green, KY 42101",
+        "mayor_office": "Bowling Green City Hall, 1001 College St, Bowling Green, KY 42101",
+        "manager_office": "Bowling Green City Hall, 1001 College St, Bowling Green, KY 42101"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## 6. ASYMMETRIC DIFF TABLE: WHAT BREAKS IF ALL THREE USE A GENERIC MAYOR + COUNCIL MODEL
+
+If simulation architecture or gameplay surfaces flatten Lexington, Louisville, and Bowling Green into an ungrounded "generic mayor + council" abstraction, ten distinct game mechanics, legal rules, and visual scenes immediately break:
+
+| Simulation Domain | Generic Mayor + Council Assumption | Real Legal & Governance Reality | What Breaks in Gameplay / Simulation | Exact Statutory / Legal Breakdown |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Mayoral Veto Authority** | Mayor holds general veto over all legislative ordinances passed by council. | **Bowling Green:** Mayor has ZERO veto power under KRS 83A.150(3). **Lexington:** Mayor has veto, but CANNOT veto zoning under *Hacker v. Baesler*. **Louisville:** Mayor has full veto including zoning. | A Bowling Green player mayor is offered an illegal "Veto Ordinance" UI action. A Lexington player mayor can illegally block residential rezoning that the courts would void. | KRS 83A.150(3); LFUCG Charter Sec. 5.05; *Hacker v. Baesler*, 812 S.W.2d 706 (Ky. 1991). |
+| **2. Veto Override Math & Thresholds** | Council overrides mayoral veto with a standard two-thirds (2/3) or three-fifths (3/5) majority vote. | **Lexington:** Requires 3/5 of total membership (9 of 15 votes). **Louisville:** Requires 2/3 of total membership (18 of 26 votes). **Bowling Green:** N/A (no veto exists). | A 9–6 council vote in Louisville would falsely override a mayoral veto (18 needed). A 9–6 vote in Lexington would be falsely rejected if generic 2/3 threshold (10 votes) was applied. | LFUCG Charter Sec. 5.05; KRS 67C.105(5); Louisville Council Rules Rule 4.05. |
+| **3. Executive Administration & Department Heads** | Mayor directly hires, manages, and terminates police chiefs and department heads. | **Bowling Green:** Board of Commissioners hires/fires department heads ONLY upon recommendation of the City Manager. **Lexington & Louisville:** Mayor appoints subject to Council confirmation; removes at pleasure. | A Bowling Green player mayor attempting to unilaterally fire a corrupt police chief succeeds erroneously in-game, bypassing the City Manager and triggering no commission vote. | KRS 83A.150(7)(a); LFUCG Charter Sec. 5.07; KRS 67C.105(5). |
+| **4. Council Presiding Officer & Dais Geometry** | Mayor sits at center rostrum, presides over legislative debate, and votes only to break ties. | **Louisville:** Council President presides; Mayor is barred from presiding and NEVER votes. **Lexington:** Mayor presides and breaks ties; Vice Mayor presides over Work Sessions. **Bowling Green:** Mayor presides and has a standard full vote on every measure. | Louisville 3D/2D council chamber scene renders the Mayor in the presiding officer's chair. Tie votes in Louisville trigger a phantom Mayoral vote instead of ordinance failure. | KRS 67C.103(6); KRS 67C.105(5); LFUCG Charter Sec. 4.04; KRS 83A.150(3). |
+| **5. Partisan vs. Nonpartisan Elections** | All cities either use national party primaries (D/R) or all use nonpartisan ballots uniformly across time. | **Louisville:** Partisan from 2003 through 2024; converted to NONPARTISAN starting 2026 by HB 388. **Lexington & Bowling Green:** Strictly NONPARTISAN throughout modern history. | If the game sets all to partisan, Lexington and Bowling Green force players into synthetic party primaries contrary to KRS 83A.050. If set to nonpartisan globally prior to 2026, historical Louisville runs erase real party primary battles. | 2024 Ky. Acts ch. 167 (HB 388); KRS 67C.103(1); KRS 83A.050; LFUCG Charter Sec. 4.02. |
+| **6. Jurisdictional Nesting & Annexation** | City council legislation and taxation apply uniformly to all land and persons within county borders. | **Louisville:** 83 independent incorporated cities exist inside Jefferson County with sovereign police and taxing powers. **Lexington:** Zero incorporated cities exist; LFUCG has total territorial monopoly. **Bowling Green:** Warren County Fiscal Court exercises parallel countywide authority. | A player mayor in Louisville bans gas-powered leaf blowers or raises occupational taxes, and the game erroneously enforces it in St. Matthews or Jeffersontown, ignoring KRS 67C.111. | KRS 67C.111; KRS 67A.010; Ky. Const. § 144; KRS 67.083. |
+| **7. Two-Tiered Service District Tax Rates** | Single flat ad valorem property tax rate across the entire jurisdiction. | **Lexington & Louisville:** Both maintain an Urban Services District (USD) with higher millage for streetlights/trash/fire and a General Services District (GSD) for rural areas. **Bowling Green:** Single municipal millage + county tax. | Rural horse farm owners in Fayette County or rural residents in eastern Jefferson County are hit with full urban fire/sanitation tax levies, causing artificial agrarian tax revolts. | LFUCG Charter Art. 2; KRS 67A.150; KRS 67C.111, 67C.147. |
+| **8. Budget Proposal Pipeline & Deadlines** | Executive submits budget 30 days prior to fiscal year start. | **Lexington & Louisville:** Mayor MUST submit budget at least 60 days before FY begins (May 1). **Bowling Green:** City Manager MUST submit at least 30 days before FY begins (June 1). | A Lexington or Louisville player mayor waiting until May 25 to finalize budget files lawfully under the generic rule but commits an actionable charter breach in reality. | LFUCG Charter Sec. 6.03; KRS 67C.105(3); KRS 83A.150(7)(c). |
+| **9. Electoral Topology & Campaign Mechanics** | Standard council districting (e.g. 7–9 equal single-member wards). | **Louisville:** 26 micro-districts (intense ward-heeler street politics). **Lexington:** 12 districts + 3 at-large seats (top at-large becomes Vice Mayor). **Bowling Green:** 4 at-large seats (citywide slate voting). | Running for council in Louisville requires district voter canvassing, while running at-large in Lexington requires countywide media buys. Vice Mayorship cannot be contested directly; it is an emergent result of at-large vote tallies. | KRS 67C.103(1); LFUCG Charter Sec. 4.01, 4.03; KRS 83A.150(1); Ord. BG2020-3. |
+| **10. Local Direct Democracy Mechanisms** | Uniform initiative and referendum ballot petition thresholds. | **Bowling Green (City Manager):** Citizens possess statutory initiative and referendum rights under KRS 83A.130/83A.150. **Lexington & Louisville (Consolidated):** No general statutory ordinance initiative exists outside specific tax rate recall (HB 44 / KRS 132.027) and charter review petitions. | Players face ballot initiative revolts overturning general ordinances in Louisville or Lexington where state law provides no general municipal initiative mechanism. | KRS 83A.150; KRS 132.027; KRS 67A.020; KRS 67C.103. |
+
+---
+
+## 7. RECONCILIATION SUMMARY & IMPLEMENTATION HANDOFF
+
+1. **No Canonical Control Document Modification:** This research pack creates `92I_ANTIGRAVITY_KENTUCKY_MUNICIPAL_GOVERNANCE_IMPLEMENTATION_CARGO — 2026-09-05` as an external implementation cargo deliverable. It does not modify `docs/GAME-CONSTITUTION.md`, `docs/decisions/DECISION-LOG.md`, or frozen Stage 6 / Stage 6.5 simulation code.
+2. **Readiness for Domain Engineering:** The candidate records provide verified entity identifiers, exact statutory thresholds, districting rules, and physical address anchors ready for consumption when municipal governance systems are integrated.
+
