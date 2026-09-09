@@ -148,13 +148,22 @@ const output = {
   boundaries: model.boundaries,
 };
 
-writeText(
-  resolve(
-    REPO_ROOT,
-    "src/presentation/generated/economic-context-lexington.json",
-  ),
-  toCanonicalJson(output),
+const DEFAULT_OUTPUT = resolve(
+  REPO_ROOT,
+  "src/presentation/generated/economic-context-lexington.json",
 );
-console.log(
-  `export:economic-context: ${selected.length} observations for ${model.placeKey}`,
-);
+
+export function exportEconomicContext(outputPath: string = DEFAULT_OUTPUT): {
+  readonly observationCount: number;
+  readonly placeKey: string;
+} {
+  writeText(outputPath, toCanonicalJson(output));
+  return { observationCount: selected.length, placeKey: model.placeKey };
+}
+
+if (process.argv[1]?.endsWith("export-economic-context.ts")) {
+  const result = exportEconomicContext();
+  console.log(
+    `export:economic-context: ${result.observationCount} observations for ${result.placeKey}`,
+  );
+}

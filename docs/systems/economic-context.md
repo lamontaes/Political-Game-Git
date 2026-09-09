@@ -45,9 +45,12 @@ returns `unavailable` and cannot fall back through the word “Lexington.”
 
 Corpus `asOf`, observation period/as-of, product vintage, adjustment, and
 revision are separate fields. None is silently promoted to a source release
-date. Source replay covers the expanded BEA corpus and manifest byte-for-byte;
-`npm run export:economic-context` deterministically rebuilds the compact browser
-projection from those tracked corpora.
+date. Source replay covers the expanded BEA corpus and manifest byte-for-byte.
+It also invokes the existing `export:economic-context` producer in a scratch
+directory and compares the compact Lexington projection byte-for-byte with
+`src/presentation/generated/economic-context-lexington.json`. A stale value or
+endpoint release therefore fails `npm run source:replay`; a corruption control
+pins that sensitivity. This is separate from the full browser-corpus replay.
 
 ## Consumers and refusals
 
