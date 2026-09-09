@@ -542,17 +542,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual LAND-READY6 combined tree.
-    // Neither side's pin is selected; the combined tree is scanned and these
-    // values are updated from that measurement.
+    // Re-measured by corpus:prose on the actual LAND-READY6 EXEC combined
+    // tree. Neither side's pin is selected; these values come from the
+    // accepted generator after composing the exact LIFE dependency.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(54214);
+    expect(coverage.totalLiterals).toBe(55350);
     expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(359);
+    expect(coverage.scannedFiles).toBe(371);
   });
 });
 
