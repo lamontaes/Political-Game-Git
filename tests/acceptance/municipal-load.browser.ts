@@ -4,6 +4,10 @@ import { writeFileSync } from "node:fs";
 test("the original twelve-navigation authored-bill workload", async ({
   page,
 }, info) => {
+  // The default 250-entry buffer truncates this application's import graph.
+  await page.addInitScript(() =>
+    performance.setResourceTimingBufferSize(10_000),
+  );
   const started = Date.now();
   const navigations: unknown[] = [];
   let assertionsCompleted = 0;
