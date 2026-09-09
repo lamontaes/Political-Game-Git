@@ -88,6 +88,9 @@ for (let i = 0; i < rawArgs.length; i++) {
 if (!Number.isInteger(port) || port < 1 || port > 65535)
   throw new Error("Invalid server port");
 
+if (!["127.0.0.1", "localhost", "::1"].includes(host))
+  throw new Error("Local review provenance requires a loopback host");
+
 console.log("POLITICAL GAME DEV SERVER\n");
 console.log(`Workspace: ${process.cwd()}`);
 console.log(`Branch: ${runCmd("git branch --show-current")}`);
@@ -114,6 +117,7 @@ let child;
 if (viteBin) {
   child = spawn(process.execPath, [viteBin, ...viteArgs], {
     stdio: "inherit",
+    env: { ...process.env, PG_LOCAL_REVIEW: "1" },
   });
 } else {
   throw new Error(
