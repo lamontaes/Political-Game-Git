@@ -197,7 +197,7 @@ export function offerNegotiatedAmendment(
       amendmentStableKey: stableKey,
       provisionKey: facts.requestedProvisionKey,
     },
-    questionLabel: `Adoption of the ${facts.requestedSectionLabel} amendment, ${amountLabel} for ${facts.requestedBeneficiaryLabel}`,
+    questionLabel: `Adoption of the ${amountLabel} ${facts.requestedQuestionSubject}`,
     pendingChange: {
       provisionKey: facts.requestedProvisionKey,
       beneficiaryLabels: [facts.requestedBeneficiaryLabel],
@@ -208,7 +208,7 @@ export function offerNegotiatedAmendment(
   const next = offerFloorAmendment(derived.world, {
     stableKey,
     measureId: seat.measureId,
-    description: `Add ${facts.requestedSectionLabel}, ${facts.requestedHeading}: not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
+    description: `Add ${facts.requestedDescriptionSubject} of not more than ${amountLabel} for ${facts.requestedBeneficiaryLabel}.`,
     offeredByPersonId: seat.playerPersonId,
     offeredByLabel: "Floor sponsor",
     dispositions: blendDispositions(
@@ -239,7 +239,10 @@ export function offerNegotiatedAmendment(
   }
 
   const withText = adoptProvisionRevision(next, {
-    stableKey: `${stableKey}:${facts.requestedProvisionKey}`,
+    // The record's identity comes from the facts' declared suffix, never from
+    // its provision key. The authored sitting's is `section-4` and stays that,
+    // because saves hold it under that key.
+    stableKey: `${stableKey}:${facts.requestedProvisionStableKeySuffix}`,
     measureId: seat.measureId,
     amendmentId: amendment.id,
     supersedesProvisionId: null,
@@ -258,7 +261,7 @@ export function offerNegotiatedAmendment(
       jurisdictionId: scopeJurisdiction(world, seat),
       segmentKey: facts.requestedSegmentKey,
     },
-    fiscalExposureLabel: `${amountLabel} under ${facts.requestedSectionLabel}`,
+    fiscalExposureLabel: `${amountLabel} ${facts.requestedExposurePhrase}`,
     fiscalExposureMinorUnits: amountMinorUnits,
   });
 

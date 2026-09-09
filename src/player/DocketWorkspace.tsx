@@ -13,11 +13,15 @@ import {
   type ProgramParameterValue,
 } from "../simulation/legislation-program-families";
 import {
+  availableAuthorities,
   availableDraftOptions,
   fileDraft,
   previewDraft,
-  readDocket,
+  queryDocket,
+  resolveAuthority,
   type DocketBill,
+  type DocketQuery,
+  type DraftAuthorityOption,
 } from "../presentation/legislation-docket";
 import { billAnalysis } from "../presentation/legislation-analysis";
 
@@ -55,54 +59,204 @@ export function DocketWorkspace({
   onGoToFloor,
   floorNote,
 }: DocketWorkspaceProps) {
-  const docket = useMemo(
-    () => readDocket(world, { scenarioKey, playerPersonId }),
-    [world, scenarioKey, playerPersonId],
+  const [query, setQuery] = useState<DocketQuery>({});
+  const page = useMemo(
+    () => queryDocket(world, { scenarioKey, playerPersonId }, query),
+    [world, scenarioKey, playerPersonId, query],
   );
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const selected =
-    docket.find((bill) => bill.docketKey === selectedKey) ?? null;
+    page.bills.find((bill) => bill.docketKey === selectedKey) ?? null;
+
+  /** Changing a filter starts the list again rather than paging into nothing. */
+  function narrow(next: Partial<DocketQuery>) {
+    setQuery((current) => ({ ...current, ...next, offset: 0 }));
+    setSelectedKey(null);
+  }
 
   return (
     <section className="docket" data-testid="docket">
       <h3 className="docket-heading">The bills this office is carrying</h3>
-      {docket.length === 0 ? (
+
+      {page.total === 0 ? (
         <p className="docket-empty" data-testid="docket-empty">
           Nothing has been filed yet.
         </p>
       ) : (
-        <ul className="docket-list" data-testid="docket-list">
-          {docket.map((bill) => (
-            <li
-              key={bill.docketKey}
-              className={
-                bill.docketKey === selectedKey
-                  ? "docket-entry docket-entry-open"
-                  : "docket-entry"
-              }
-            >
+        <>
+          {/*
+            Filters appear once there is enough on the docket for them to be
+            worth anything. Below that they would be four controls over three
+            rows, which is worse than no controls at all.
+          */}
+          {page.total > 3 ? (
+            <div className="docket-filters" data-testid="docket-filters">
+              <label className="docket-filter">
+                <span>Kind of bill</span>
+                <select
+                  data-testid="docket-filter-instrument"
+                  value={query.instrument ?? ""}
+                  onChange={(event) =>
+                    narrow({
+                      instrument:
+                        event.target.value === ""
+                          ? undefined
+                          : (event.target.value as DocketQuery["instrument"]),
+                    })
+                  }
+                >
+                  <option value="">All kinds ({page.total})</option>
+                  {page.instruments.map((facet) => (
+                    <option key={facet.key} value={facet.key}>
+                      {facet.label} ({facet.count})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="docket-filter">
+                <span>Subject</span>
+                <select
+                  data-testid="docket-filter-family"
+                  value={query.familyKey ?? ""}
+                  onChange={(event) =>
+                    narrow({
+                      familyKey:
+                        event.target.value === ""
+                          ? undefined
+                          : event.target.value,
+                    })
+                  }
+                >
+                  <option value="">All subjects ({page.total})</option>
+                  {page.families.map((facet) => (
+                    <option key={facet.key} value={facet.key}>
+                      {facet.label} ({facet.count})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="docket-filter">
+                <span>Still moving</span>
+                <select
+                  data-testid="docket-filter-status"
+                  value={query.status ?? "all"}
+                  onChange={(event) =>
+                    narrow({
+                      status: event.target.value as DocketQuery["status"],
+                    })
+                  }
+                >
+                  <option value="all">Everything ({page.total})</option>
+                  <option value="open">Still moving ({page.openCount})</option>
+                  <option value="concluded">
+                    Finished ({page.concludedCount})
+                  </option>
+                </select>
+              </label>
+
+              <label className="docket-filter">
+                <span>Find</span>
+                <input
+                  type="search"
+                  data-testid="docket-filter-search"
+                  value={query.search ?? ""}
+                  placeholder="Bill number or title"
+                  onChange={(event) => narrow({ search: event.target.value })}
+                />
+              </label>
+            </div>
+          ) : null}
+
+          <p className="docket-count" data-testid="docket-count">
+            {page.matching === page.total
+              ? `${page.total} ${page.total === 1 ? "bill" : "bills"} on the docket.`
+              : `${page.matching} of ${page.total} bills match.`}
+            {page.matching > page.bills.length
+              ? ` Showing ${page.offset + 1}–${page.offset + page.bills.length}.`
+              : ""}
+          </p>
+
+          {page.bills.length === 0 ? (
+            <p className="docket-empty" data-testid="docket-no-matches">
+              No bill on this docket matches that.
+            </p>
+          ) : (
+            <ul className="docket-list" data-testid="docket-list">
+              {page.bills.map((bill) => (
+                <li
+                  key={bill.docketKey}
+                  className={
+                    bill.docketKey === selectedKey
+                      ? "docket-entry docket-entry-open"
+                      : "docket-entry"
+                  }
+                >
+                  <button
+                    type="button"
+                    className="docket-entry-button"
+                    data-testid={`docket-open-${bill.docketKey}`}
+                    onClick={() => {
+                      setSelectedKey(
+                        bill.docketKey === selectedKey ? null : bill.docketKey,
+                      );
+                      setDrafting(false);
+                      setError(null);
+                    }}
+                  >
+                    <span className="docket-designation">
+                      {bill.designation}
+                    </span>
+                    <span className="docket-title">{bill.shortTitle}</span>
+                    {bill.instrumentLabel ? (
+                      <span className="docket-instrument">
+                        {bill.instrumentLabel}
+                      </span>
+                    ) : null}
+                    <span className="docket-stage">{stageLabel(bill)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {page.offset > 0 || page.hasMore ? (
+            <div className="docket-paging" data-testid="docket-paging">
               <button
                 type="button"
-                className="docket-entry-button"
-                data-testid={`docket-open-${bill.docketKey}`}
-                onClick={() => {
-                  setSelectedKey(
-                    bill.docketKey === selectedKey ? null : bill.docketKey,
-                  );
-                  setDrafting(false);
-                  setError(null);
-                }}
+                className="ui-action"
+                data-testid="docket-page-back"
+                disabled={page.offset === 0}
+                onClick={() =>
+                  setQuery((current) => ({
+                    ...current,
+                    offset: Math.max(0, page.offset - page.limit),
+                  }))
+                }
               >
-                <span className="docket-designation">{bill.designation}</span>
-                <span className="docket-title">{bill.shortTitle}</span>
-                <span className="docket-stage">{stageLabel(bill)}</span>
+                Earlier bills
               </button>
-            </li>
-          ))}
-        </ul>
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="docket-page-forward"
+                disabled={!page.hasMore}
+                onClick={() =>
+                  setQuery((current) => ({
+                    ...current,
+                    offset: page.offset + page.limit,
+                  }))
+                }
+              >
+                More bills
+              </button>
+            </div>
+          ) : null}
+        </>
       )}
 
       <button
@@ -136,10 +290,11 @@ export function DocketWorkspace({
       {drafting ? (
         <DraftingTable
           world={world}
+          playerPersonId={playerPersonId}
           scenarioKey={scenarioKey}
           jurisdictionId={jurisdictionId}
-          nextSequence={docket.length + 1}
-          onFile={(familyKey, variantKey, parameterValues) => {
+          nextSequence={page.total + 1}
+          onFile={(familyKey, variantKey, parameterValues, authorityKey) => {
             try {
               const result = fileDraft(world, {
                 scenarioKey,
@@ -148,7 +303,9 @@ export function DocketWorkspace({
                 familyKey,
                 variantKey,
                 parameterValues,
+                ...(authorityKey !== null ? { authorityKey } : {}),
               });
+              setQuery({});
               onWorldChange(result.world);
               setSelectedKey(result.bill.docketKey);
               setDrafting(false);
@@ -224,6 +381,12 @@ function FiledBillPanel({
           <dd>{stageLabel(bill)}</dd>
         </div>
         <div>
+          <dt>Kind of bill</dt>
+          <dd data-testid="docket-instrument">
+            {bill.instrumentLabel ?? "Not recorded"}
+          </dd>
+        </div>
+        <div>
           <dt>Drafted from</dt>
           <dd data-testid="docket-lineage">
             {bill.familyTitle} — {bill.variantLabel} ({bill.familyVersion})
@@ -250,11 +413,23 @@ function FiledBillPanel({
 
       <h5 className="docket-subheading">What it commits</h5>
       <p className="docket-analysis" data-testid="docket-stated-total">
-        {analysis.fiscal.statedCeilingLabel === "This Act states no amount."
+        {analysis.fiscal.effect.kind === "states-no-amount"
           ? "This Act states no amount."
-          : `The sections add up to ${analysis.fiscal.statedCeilingLabel}.`}{" "}
+          : analysis.fiscal.effect.kind === "provides-money"
+            ? `The sections provide ${analysis.fiscal.statedCeilingLabel}.`
+            : analysis.fiscal.effect.kind === "collects-charge"
+              ? `The sections charge ${analysis.fiscal.statedCeilingLabel}.`
+              : `The sections authorize up to ${analysis.fiscal.statedCeilingLabel}.`}{" "}
         {analysis.fiscal.basis}
       </p>
+      {analysis.fiscal.headroom ? (
+        <p className="docket-analysis" data-testid="docket-headroom">
+          It is written against {analysis.fiscal.headroom.citationLabel}
+          {analysis.fiscal.headroom.allowedLabel === null
+            ? ", which states no amount of its own."
+            : `, which authorizes ${analysis.fiscal.headroom.allowedLabel}. That leaves ${analysis.fiscal.headroom.remainingLabel} of it unclaimed by this bill.`}
+        </p>
+      ) : null}
       <p className="docket-analysis" data-testid="docket-estimate">
         {analysis.estimate.kind === "available"
           ? `${analysis.estimate.statement} That can be estimated: somebody has established where it stands today.`
@@ -294,23 +469,31 @@ function DraftingTable({
   jurisdictionId,
   nextSequence,
   world,
+  playerPersonId,
   onFile,
 }: {
   readonly scenarioKey: string;
   readonly jurisdictionId: EntityId;
   readonly nextSequence: number;
   readonly world: World;
+  readonly playerPersonId: EntityId;
   readonly onFile: (
     familyKey: string,
     variantKey: string,
     parameterValues: Readonly<Record<string, ProgramParameterValue>>,
+    authorityKey: string | null,
   ) => void;
 }) {
   const options = useMemo(
     () => availableDraftOptions(scenarioKey),
     [scenarioKey],
   );
+  const authorities = useMemo(
+    () => availableAuthorities(world, { scenarioKey, playerPersonId }),
+    [world, scenarioKey, playerPersonId],
+  );
   const [chosen, setChosen] = useState<string | null>(null);
+  const [authorityKey, setAuthorityKey] = useState<string | null>(null);
   const [values, setValues] = useState<
     Readonly<Record<string, ProgramParameterValue>>
   >({});
@@ -318,6 +501,27 @@ function DraftingTable({
   const option = options.find(
     (entry) => `${entry.familyKey}/${entry.variantKey}` === chosen,
   );
+
+  // Which authorities this kind of act can actually be written against. An
+  // appropriation needs one that spends; a repeal or an eligibility amendment
+  // can act on anything that exists. The list narrows to what would work,
+  // rather than offering everything and failing at the boundary.
+  const eligibleAuthorities: readonly DraftAuthorityOption[] = option
+    ? option.requiresAuthority
+      ? authorities.filter(
+          (candidate) =>
+            !option.requiresSpendingAuthority || candidate.authorizesSpending,
+        )
+      : []
+    : [];
+
+  const authority = useMemo(() => {
+    if (!option?.requiresAuthority || authorityKey === null) return undefined;
+    return (
+      resolveAuthority(world, { scenarioKey, playerPersonId }, authorityKey) ??
+      undefined
+    );
+  }, [option, authorityKey, world, scenarioKey, playerPersonId]);
 
   // Two readings of the same configuration: the one the bank offers by
   // default, and the one the player has moved to. Comparing them is how a
@@ -333,11 +537,19 @@ function DraftingTable({
         variantKey: option.variantKey,
         filedOn: world.currentDate,
         provisionalSequence: nextSequence,
+        ...(authority !== undefined ? { predicateAuthority: authority } : {}),
       });
     } catch {
       return null;
     }
-  }, [option, scenarioKey, jurisdictionId, world.currentDate, nextSequence]);
+  }, [
+    option,
+    authority,
+    scenarioKey,
+    jurisdictionId,
+    world.currentDate,
+    nextSequence,
+  ]);
 
   const asChosen = useMemo<
     { readonly draft: CompiledBillDraft } | { readonly refused: string } | null
@@ -353,6 +565,7 @@ function DraftingTable({
           parameterValues: values,
           filedOn: world.currentDate,
           provisionalSequence: nextSequence,
+          ...(authority !== undefined ? { predicateAuthority: authority } : {}),
         }),
       };
     } catch (caught) {
@@ -361,6 +574,7 @@ function DraftingTable({
   }, [
     option,
     values,
+    authority,
     scenarioKey,
     jurisdictionId,
     world.currentDate,
@@ -390,6 +604,7 @@ function DraftingTable({
                 onClick={() => {
                   setChosen(key === chosen ? null : key);
                   setValues({});
+                  setAuthorityKey(null);
                 }}
               >
                 <span className="drafting-option-family">
@@ -397,6 +612,9 @@ function DraftingTable({
                 </span>
                 <span className="drafting-option-variant">
                   {entry.variantLabel}
+                </span>
+                <span className="drafting-option-instrument">
+                  {entry.instrumentLabel}
                 </span>
                 <span className="drafting-option-synopsis">
                   {entry.synopsis}
@@ -412,6 +630,63 @@ function DraftingTable({
           <p className="drafting-mechanism" data-testid="drafting-mechanism">
             {option.mechanism}
           </p>
+
+          <p className="drafting-instrument" data-testid="drafting-instrument">
+            <strong>{option.instrumentLabel}.</strong>{" "}
+            {option.instrumentDescription}
+          </p>
+
+          {option.requiresAuthority ? (
+            <div
+              className="drafting-authority"
+              data-testid="drafting-authority"
+            >
+              <h5 className="docket-subheading">What this bill would act on</h5>
+              {eligibleAuthorities.length === 0 ? (
+                <p className="docket-error" data-testid="drafting-no-authority">
+                  There is nothing here for this bill to act on yet.{" "}
+                  {option.requiresSpendingAuthority
+                    ? "An appropriation has to name a programme that is already authorized to spend — pass one first, or choose a different kind of bill."
+                    : "It has to name something that already exists."}
+                </p>
+              ) : (
+                <ul className="drafting-authority-list">
+                  {eligibleAuthorities.map((candidate) => (
+                    <li key={candidate.authorityKey}>
+                      <button
+                        type="button"
+                        className={
+                          candidate.authorityKey === authorityKey
+                            ? "drafting-authority-option drafting-authority-chosen"
+                            : "drafting-authority-option"
+                        }
+                        data-testid={`drafting-authority-${candidate.authorityKey}`}
+                        onClick={() =>
+                          setAuthorityKey(
+                            candidate.authorityKey === authorityKey
+                              ? null
+                              : candidate.authorityKey,
+                          )
+                        }
+                      >
+                        <span className="drafting-authority-citation">
+                          {candidate.citationLabel}
+                        </span>
+                        <span className="drafting-authority-note">
+                          {candidate.note}
+                        </span>
+                        <span className="drafting-authority-ceiling">
+                          {candidate.authorizedCeilingLabel === null
+                            ? "It states no amount."
+                            : `It authorizes ${candidate.authorizedCeilingLabel}.`}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ) : null}
 
           <h5 className="docket-subheading">What you can change</h5>
           <div className="drafting-controls" data-testid="drafting-controls">
@@ -471,9 +746,22 @@ function DraftingTable({
               </table>
 
               <p className="docket-analysis" data-testid="drafting-total">
-                {asChosen.draft.authorizedCeilingLabel === null
-                  ? "This configuration authorizes no money at all."
-                  : `As you would file it, the sections state ${asChosen.draft.authorizedCeilingLabel}.`}
+                {asChosen.draft.appropriatedLabel !== null
+                  ? `As you would file it, this Act provides ${asChosen.draft.appropriatedLabel}${
+                      asChosen.draft.predicateAuthority
+                        ?.authorizedCeilingMinorUnits === null
+                        ? "."
+                        : `, against the ${formatMinorUnits(
+                            asChosen.draft.predicateAuthority
+                              ?.authorizedCeilingMinorUnits ?? 0,
+                            "USD",
+                          )} that ${asChosen.draft.predicateAuthority?.citationLabel} authorizes.`
+                    }`
+                  : asChosen.draft.revenueLabel !== null
+                    ? `As you would file it, this Act charges ${asChosen.draft.revenueLabel}. What that raises depends on how many pay it, and nothing here knows that.`
+                    : asChosen.draft.authorizedCeilingLabel === null
+                      ? "This configuration authorizes no money at all."
+                      : `As you would file it, this Act authorizes up to ${asChosen.draft.authorizedCeilingLabel}. Stating a ceiling is not providing the money.`}
               </p>
 
               <button
@@ -481,7 +769,12 @@ function DraftingTable({
                 className="ui-action"
                 data-testid="file-the-draft"
                 onClick={() =>
-                  onFile(option.familyKey, option.variantKey, values)
+                  onFile(
+                    option.familyKey,
+                    option.variantKey,
+                    values,
+                    authorityKey,
+                  )
                 }
               >
                 File this bill

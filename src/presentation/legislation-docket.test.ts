@@ -7,16 +7,24 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { BillConfigurationError } from "../simulation/legislation-drafting";
-import { programConfigurations } from "../simulation/legislation-program-families";
 import {
+  legalInstrumentRule,
+  programConfigurations,
+  programVariant,
+  standingAuthorities,
+} from "../simulation/legislation-program-families";
+import {
+  availableAuthorities,
   availableDraftOptions,
   docketBill,
   fileDraft,
   previewDraft,
+  queryDocket,
   readDocket,
   recompileSavedBill,
   type DocketBill,
 } from "./legislation-docket";
+import { billAnalysis } from "./legislation-analysis";
 
 /**
  * More than one bill, and each of them still itself.
@@ -66,6 +74,7 @@ function file(
   familyKey: string,
   variantKey: string,
   parameterValues?: Parameters<typeof fileDraft>[1]["parameterValues"],
+  authorityKey?: string,
 ): { readonly world: World; readonly bill: DocketBill } {
   const result = fileDraft(world, {
     scenarioKey: fixture.scenarioKey,
@@ -74,6 +83,7 @@ function file(
     familyKey,
     variantKey,
     parameterValues,
+    ...(authorityKey !== undefined ? { authorityKey } : {}),
   });
   return { world: result.world, bill: result.bill };
 }
@@ -416,7 +426,57 @@ describe("the content bank cannot restate a bill that is already filed", () => {
     }
   });
 
-  it("says so plainly when a saved configuration is no longer offered", () => {
+  /**
+   * Reopens a saved world whose lineage was written by a different content
+   * bank.
+   *
+   * This is the actual D-085 scenario rather than an approximation of it. The
+   * bill is filed normally, the world is saved, one field of the *saved
+   * lineage record* is changed, and the save is loaded back. That is exactly
+   * the shape of a save written before the bank moved: the filed provisions
+   * are untouched, and the record pinning the configuration says something the
+   * bank no longer agrees with.
+   *
+   * Overriding the DocketBill's own fields, as an earlier test did, reaches
+   * none of this — the lineage is looked up by measure, so the saved record
+   * still resolved and the refusal branch was never executed.
+   */
+  function reloadWithEditedHistory(
+    world: World,
+    edit: (history: {
+      legislativeDraftLineages?: Record<string, unknown>[];
+    }) => void,
+  ): World {
+    const snapshot = JSON.parse(serializeWorld(world)) as {
+      world: World & {
+        history: { legislativeDraftLineages?: Record<string, unknown>[] };
+      };
+    };
+    edit(snapshot.world.history);
+    // Re-sealed through the accepted writer, so the save names the world it
+    // actually holds — which is what a save written by that older bank would
+    // have been. Nothing here bypasses the snapshot's own integrity check.
+    return deserializeWorld(serializeWorld(snapshot.world));
+  }
+
+  function reloadWithEditedLineage(
+    world: World,
+    edit: (lineage: Record<string, unknown>) => void,
+  ): World {
+    return reloadWithEditedHistory(world, (history) => {
+      const lineages = history.legislativeDraftLineages ?? [];
+      expect(lineages.length).toBeGreaterThan(0);
+      edit(lineages[0]!);
+    });
+  }
+
+  function reloadWithoutLineages(world: World): World {
+    return reloadWithEditedHistory(world, (history) => {
+      history.legislativeDraftLineages = [];
+    });
+  }
+
+  it("refuses to re-read a bill whose family version has moved, and leaves its text alone", () => {
     const fixture = kentucky();
     const filed = file(
       fixture,
@@ -424,12 +484,557 @@ describe("the content bank cannot restate a bill that is already filed", () => {
       "transit-access",
       "enrollment-fare-relief",
     );
-    // A bill whose family has been retired from the bank keeps its identity and
-    // its filed text; only the re-reading is unavailable, and it says why.
-    const moved: DocketBill = { ...filed.bill, familyKey: "retired-family" };
-    const answer = recompileSavedBill(filed.world, moved);
-    // The lineage is looked up by measure, so the saved family still resolves;
-    // the meaningful case is a family the bank genuinely lacks.
-    expect(answer).toBeDefined();
+    const filedTexts = (filed.world.history.legislativeProvisions ?? [])
+      .filter((record) => record.measureId === filed.bill.measureId)
+      .map((record) => record.text);
+    expect(filedTexts.length).toBeGreaterThan(0);
+
+    const reloaded = reloadWithEditedLineage(filed.world, (lineage) => {
+      lineage.familyVersion = "v0";
+    });
+
+    const bill = docketBill(reloaded, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+      docketKey: filed.bill.docketKey,
+    });
+    expect(bill).not.toBeNull();
+    // The bill is still on the docket, still itself, and still says which
+    // version wrote it. Nothing about it was hidden or rewritten.
+    expect(bill!.familyVersion).toBe("v0");
+    expect(bill!.designation).toBe(filed.bill.designation);
+
+    const answer = recompileSavedBill(reloaded, bill!);
+    expect("unavailable" in answer).toBe(true);
+    if ("unavailable" in answer) {
+      expect(answer.unavailable).toContain("v0");
+      expect(answer.unavailable).toContain("Its filed text stands as filed.");
+    }
+
+    // The point of the refusal: the text a player filed is untouched, and is
+    // still exactly what it was, rather than silently recompiled into whatever
+    // the current bank would say.
+    expect(
+      (reloaded.history.legislativeProvisions ?? [])
+        .filter((record) => record.measureId === bill!.measureId)
+        .map((record) => record.text),
+    ).toEqual(filedTexts);
+  });
+
+  it("refuses to re-read a bill whose family has left the bank entirely", () => {
+    const fixture = kentucky();
+    const filed = file(
+      fixture,
+      fixture.world,
+      "broadband-access",
+      "unserved-buildout",
+    );
+    const reloaded = reloadWithEditedLineage(filed.world, (lineage) => {
+      lineage.familyKey = "a-family-this-bank-does-not-carry";
+    });
+    const bill = docketBill(reloaded, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+      docketKey: filed.bill.docketKey,
+    });
+    expect(bill).not.toBeNull();
+    // A retired configuration reads by its saved keys rather than being hidden.
+    expect(bill!.familyTitle).toBe("a-family-this-bank-does-not-carry");
+    expect(bill!.instrument).toBeNull();
+
+    const answer = recompileSavedBill(reloaded, bill!);
+    expect("unavailable" in answer).toBe(true);
+    if ("unavailable" in answer) {
+      expect(answer.unavailable).toContain("a-family-this-bank-does-not-carry");
+      expect(answer.unavailable).toContain("Its filed text is unaffected.");
+    }
+  });
+
+  it("refuses to re-read a bill whose authority has left the bank", () => {
+    const fixture = kentucky();
+    const authority = standingAuthorities().find(
+      (candidate) => candidate.authorizesSpending,
+    )!;
+    const filed = file(
+      fixture,
+      fixture.world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority.authorityKey,
+    );
+    // It re-reads normally while the authority is there.
+    expect("unavailable" in recompileSavedBill(filed.world, filed.bill)).toBe(
+      false,
+    );
+
+    const reloaded = reloadWithEditedLineage(filed.world, (lineage) => {
+      lineage.authorityKey = "standing:an-act-that-was-repealed";
+    });
+    const bill = docketBill(reloaded, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+      docketKey: filed.bill.docketKey,
+    })!;
+    const answer = recompileSavedBill(reloaded, bill);
+    expect("unavailable" in answer).toBe(true);
+    if ("unavailable" in answer) {
+      expect(answer.unavailable).toContain("standing:an-act-that-was-repealed");
+      expect(answer.unavailable).toContain("Its filed text stands as filed.");
+    }
+  });
+
+  it("cannot save a filed bill that has lost its drafting configuration", () => {
+    // The stronger fact, found by trying to construct the case: a save with a
+    // filed bill and no lineage for it is not reachable at all. Removing the
+    // record leaves a hole in the history sequence, and world integrity
+    // refuses to seal it. So a bill cannot arrive from a save having quietly
+    // forgotten which configuration wrote it — the append-only history is what
+    // guarantees that, not a check inside the docket.
+    const fixture = kentucky();
+    const filed = file(
+      fixture,
+      fixture.world,
+      "transit-access",
+      "enrollment-fare-relief",
+    );
+    expect(() => reloadWithoutLineages(filed.world)).toThrow(
+      /History sequence is not contiguous/,
+    );
+  });
+});
+
+describe("a docket that has grown can still be worked", () => {
+  /**
+   * One bill from every configuration the bank offers, built once.
+   *
+   * Filing is genuinely expensive and the cost is not this feature's: every
+   * append in the game runs the accepted world-integrity validation over the
+   * whole history, which measures ~22ms on a fresh scenario and ~165ms once
+   * the legislative subsystem has records — and then stays there. Measured on
+   * this tree, per-bill filing cost rises from ~170ms to ~500ms over the first
+   * ten bills and is flat from ten to thirty-one, so the docket is linear in
+   * its own size rather than quadratic.
+   *
+   * Reading, which is the hot path, is ~1.6ms for the whole thirty-one-bill
+   * docket and ~2.3ms for a filtered page of it.
+   *
+   * So the fixture is built once and shared, and the tests below carry an
+   * explicit timeout because thirty-one real filings take about thirteen
+   * seconds — not because anything here is slow to answer.
+   */
+  let cached: { readonly world: World; readonly filed: number } | null = null;
+
+  function wholeBank(fixture: Fixture): {
+    readonly world: World;
+    readonly filed: number;
+  } {
+    if (cached) return cached;
+    let world = fixture.world;
+    let filed = 0;
+    for (const configuration of programConfigurations()) {
+      const { variant } = programVariant(
+        configuration.familyKey,
+        configuration.variantKey,
+      );
+      const rule = legalInstrumentRule(variant.instrument);
+      let authorityKey: string | undefined;
+      if (rule.requiresPredicateAuthority) {
+        const candidate = availableAuthorities(world, {
+          scenarioKey: fixture.scenarioKey,
+          playerPersonId: fixture.playerPersonId,
+        }).find((entry) =>
+          rule.predicateMustAuthorizeSpending ? entry.authorizesSpending : true,
+        );
+        expect(candidate).toBeDefined();
+        authorityKey = candidate!.authorityKey;
+      }
+      const result = file(
+        fixture,
+        world,
+        configuration.familyKey,
+        configuration.variantKey,
+        undefined,
+        authorityKey,
+      );
+      world = result.world;
+      filed += 1;
+    }
+    cached = { world, filed };
+    return cached;
+  }
+
+  const FIXTURE = kentucky();
+  const INPUT = {
+    scenarioKey: FIXTURE.scenarioKey,
+    playerPersonId: FIXTURE.playerPersonId,
+  };
+  const BUILD_TIMEOUT_MS = 120_000;
+
+  it(
+    "keeps every bill distinct across a docket far larger than three",
+    () => {
+      const { world, filed } = wholeBank(FIXTURE);
+      expect(filed).toBe(programConfigurations().length);
+      expect(filed).toBeGreaterThan(20);
+
+      const docket = readDocket(world, INPUT);
+      expect(docket).toHaveLength(filed);
+      // Every bill has its own measure, its own docket key and its own
+      // designation. A docket that reused any of the three would cross-wire.
+      expect(new Set(docket.map((bill) => bill.docketKey)).size).toBe(filed);
+      expect(new Set(docket.map((bill) => bill.measureId)).size).toBe(filed);
+      expect(new Set(docket.map((bill) => bill.designation)).size).toBe(filed);
+      // And its own text. Two bills sharing a body would mean one bill's
+      // clauses were written onto another's measure.
+      const bodies = docket.map((bill) =>
+        (world.history.legislativeProvisions ?? [])
+          .filter((record) => record.measureId === bill.measureId)
+          .map((record) => record.text)
+          .join("\n"),
+      );
+      expect(new Set(bodies).size).toBe(filed);
+    },
+    BUILD_TIMEOUT_MS,
+  );
+
+  it(
+    "reads a large docket purely, and gives the same answer twice",
+    () => {
+      const { world } = wholeBank(FIXTURE);
+      const full = readDocket(world, INPUT);
+      expect(full.length).toBeGreaterThan(20);
+      const before = serializeWorld(world);
+      expect(readDocket(world, INPUT)).toEqual(full);
+      expect(serializeWorld(world)).toBe(before);
+    },
+    BUILD_TIMEOUT_MS,
+  );
+
+  it(
+    "filters by kind of act, by subject and by whether a bill is still moving",
+    () => {
+      const { world } = wholeBank(FIXTURE);
+      const all = queryDocket(world, INPUT, { limit: 500 });
+      expect(all.matching).toBe(all.total);
+
+      const appropriations = queryDocket(world, INPUT, {
+        instrument: "appropriation",
+        limit: 500,
+      });
+      expect(appropriations.matching).toBeGreaterThan(0);
+      expect(appropriations.matching).toBeLessThan(all.total);
+      for (const bill of appropriations.bills) {
+        expect(bill.instrument).toBe("appropriation");
+      }
+
+      expect(
+        queryDocket(world, INPUT, {
+          familyKey: "transit-access",
+          limit: 500,
+        }).matching,
+      ).toBe(2);
+
+      // The facets count the docket, not the bank: nothing is offered as a
+      // filter that has no bill behind it.
+      for (const facet of all.families) {
+        expect(facet.count).toBeGreaterThan(0);
+        expect(
+          queryDocket(world, INPUT, { familyKey: facet.key, limit: 500 })
+            .matching,
+        ).toBe(facet.count);
+      }
+      expect(all.openCount + all.concludedCount).toBe(all.total);
+
+      const byTitle = queryDocket(world, INPUT, {
+        search: all.bills[0]!.shortTitle,
+        limit: 500,
+      });
+      expect(byTitle.matching).toBeGreaterThan(0);
+      expect(
+        queryDocket(world, INPUT, { search: "no bill says this", limit: 500 })
+          .matching,
+      ).toBe(0);
+    },
+    BUILD_TIMEOUT_MS,
+  );
+
+  it(
+    "pages without dropping or repeating a bill",
+    () => {
+      const { world } = wholeBank(FIXTURE);
+      const total = queryDocket(world, INPUT, { limit: 500 }).total;
+
+      const seen: string[] = [];
+      let offset = 0;
+      for (;;) {
+        const page = queryDocket(world, INPUT, { limit: 5, offset });
+        seen.push(...page.bills.map((bill) => bill.docketKey));
+        if (!page.hasMore) break;
+        offset += page.limit;
+      }
+      expect(seen).toHaveLength(total);
+      expect(new Set(seen).size).toBe(total);
+    },
+    BUILD_TIMEOUT_MS,
+  );
+});
+
+describe("a bill can be written against another bill", () => {
+  it("appropriates against a programme the player authorized earlier", () => {
+    const fixture = kentucky();
+    const authorized = file(
+      fixture,
+      fixture.world,
+      "broadband-access",
+      "unserved-buildout",
+    );
+
+    const authority = availableAuthorities(authorized.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find(
+      (candidate) =>
+        candidate.kind === "docket-measure" && candidate.authorizesSpending,
+    );
+    expect(authority).toBeDefined();
+    expect(authority!.citationLabel).toContain(authorized.bill.designation);
+
+    const appropriated = file(
+      fixture,
+      authorized.world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority!.authorityKey,
+    );
+
+    // The second bill names the first in its own operative text, and records
+    // the link in a form a save carries.
+    const sections = (appropriated.world.history.legislativeProvisions ?? [])
+      .filter((record) => record.measureId === appropriated.bill.measureId)
+      .map((record) => record.text);
+    expect(sections[0]).toContain(authorized.bill.designation);
+    expect(appropriated.bill.authorityMeasureId).toBe(
+      authorized.bill.measureId,
+    );
+
+    // And it survives a save and a reload as the same link.
+    const reloaded = deserializeWorld(serializeWorld(appropriated.world));
+    const reread = docketBill(reloaded, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+      docketKey: appropriated.bill.docketKey,
+    });
+    expect(reread!.authorityMeasureId).toBe(authorized.bill.measureId);
+  });
+
+  it("refuses to appropriate more than the authority it names allows", () => {
+    const fixture = kentucky();
+    const authorized = file(
+      fixture,
+      fixture.world,
+      "broadband-access",
+      "unserved-buildout",
+    );
+    const authority = availableAuthorities(authorized.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find((candidate) => candidate.kind === "docket-measure")!;
+    const ceiling = authority.authorizedCeilingMinorUnits!;
+
+    const before = serializeWorld(authorized.world);
+    expect(() =>
+      file(
+        fixture,
+        authorized.world,
+        "appropriations",
+        "single-programme",
+        {
+          appropriation: {
+            kind: "money",
+            minorUnits: ceiling + 100,
+            currency: "USD",
+          },
+        },
+        authority.authorityKey,
+      ),
+    ).toThrow(BillConfigurationError);
+    // A refused filing writes nothing at all.
+    expect(serializeWorld(authorized.world)).toBe(before);
+  });
+
+  it("does not offer a bill that itself acts on something as an authority", () => {
+    const fixture = kentucky();
+    const authorized = file(
+      fixture,
+      fixture.world,
+      "broadband-access",
+      "unserved-buildout",
+    );
+    const authority = availableAuthorities(authorized.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find((candidate) => candidate.kind === "docket-measure")!;
+    const appropriated = file(
+      fixture,
+      authorized.world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority.authorityKey,
+    );
+
+    const offered = availableAuthorities(appropriated.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    });
+    // The authorization is offered; the appropriation written against it is
+    // not. An appropriation against an appropriation does not resolve.
+    expect(
+      offered.some((candidate) =>
+        candidate.citationLabel.includes(authorized.bill.designation),
+      ),
+    ).toBe(true);
+    expect(
+      offered.some((candidate) =>
+        candidate.citationLabel.includes(appropriated.bill.designation),
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("the new content is not implicitly Kentucky", () => {
+  it("files an instrument-diverse bill in a second supported legislature", () => {
+    const fixture = nebraska();
+    const authority = standingAuthorities().find(
+      (candidate) => candidate.authorizesSpending,
+    )!;
+    const filed = file(
+      fixture,
+      fixture.world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority.authorityKey,
+    );
+    // The bill belongs to Nebraska's own jurisdiction and rule pack, and its
+    // designation comes from that pack's chamber rather than Kentucky's.
+    expect(filed.bill.jurisdictionId).toBe(fixture.jurisdictionId);
+    expect(filed.bill.scenarioKey).toBe("nebraska");
+    const kentuckyBill = file(
+      kentucky(),
+      kentucky().world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority.authorityKey,
+    );
+    expect(filed.bill.jurisdictionId).not.toBe(
+      kentuckyBill.bill.jurisdictionId,
+    );
+    expect(filed.bill.chamberName).not.toBe(null);
+  });
+
+  it("carries a revenue measure and a repeal in the second legislature too", () => {
+    const fixture = nebraska();
+    let world = fixture.world;
+    const charge = file(fixture, world, "service-charges", "flat-permit-fee");
+    world = charge.world;
+    const authority = standingAuthorities()[0]!;
+    const repeal = file(
+      fixture,
+      world,
+      "program-sunset",
+      "repeal-outright",
+      undefined,
+      authority.authorityKey,
+    );
+    expect(charge.bill.instrument).toBe("revenue-measure");
+    expect(repeal.bill.instrument).toBe("sunset-repeal");
+    expect(
+      readDocket(repeal.world, {
+        scenarioKey: fixture.scenarioKey,
+        playerPersonId: fixture.playerPersonId,
+      }),
+    ).toHaveLength(2);
+  });
+});
+
+describe("the analysis says which verb applies", () => {
+  it("distinguishes authorizing, providing, charging and stating nothing", () => {
+    const fixture = kentucky();
+    let world = fixture.world;
+
+    const authorization = file(
+      fixture,
+      world,
+      "broadband-access",
+      "unserved-buildout",
+    );
+    world = authorization.world;
+    expect(billAnalysis(world, authorization.bill).fiscal.effect.kind).toBe(
+      "authorizes-ceiling",
+    );
+
+    const authority = availableAuthorities(world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find((candidate) => candidate.kind === "docket-measure")!;
+    const appropriation = file(
+      fixture,
+      world,
+      "appropriations",
+      "single-programme",
+      undefined,
+      authority.authorityKey,
+    );
+    world = appropriation.world;
+    const provided = billAnalysis(world, appropriation.bill).fiscal;
+    expect(provided.effect.kind).toBe("provides-money");
+    // And it says what the authority allows, and what is left of it.
+    expect(provided.headroom).not.toBeNull();
+    expect(provided.headroom!.citationLabel).toContain(
+      authorization.bill.designation,
+    );
+    expect(provided.headroom!.remainingLabel).not.toBeNull();
+
+    const charge = file(fixture, world, "service-charges", "flat-permit-fee");
+    world = charge.world;
+    expect(billAnalysis(world, charge.bill).fiscal.effect.kind).toBe(
+      "collects-charge",
+    );
+
+    const mandate = file(
+      fixture,
+      world,
+      "water-service-lines",
+      "inventory-and-plan",
+    );
+    world = mandate.world;
+    expect(billAnalysis(world, mandate.bill).fiscal.effect.kind).toBe(
+      "states-no-amount",
+    );
+  });
+
+  it("reads an analysis without writing anything", () => {
+    const fixture = kentucky();
+    const filed = file(
+      fixture,
+      fixture.world,
+      "utility-resilience",
+      "hardening-grants",
+    );
+    const before = serializeWorld(filed.world);
+    const first = billAnalysis(filed.world, filed.bill);
+    const second = billAnalysis(filed.world, filed.bill);
+    expect(serializeWorld(filed.world)).toBe(before);
+    expect(second).toEqual(first);
+    // A new game has measured none of this, and the analysis says which series
+    // is missing rather than producing a number.
+    expect(first.estimate.kind).toBe("unavailable");
+    if (first.estimate.kind === "unavailable") {
+      expect(first.estimate.reason.length).toBeGreaterThan(0);
+    }
   });
 });

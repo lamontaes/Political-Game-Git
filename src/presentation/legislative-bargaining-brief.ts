@@ -37,6 +37,28 @@ export const BARGAINING_BRIEF_SCENARIO_KEY = "kentucky";
 
 export const PROGRAM_PROVISION_KEY = "pilot-support-limit";
 export const REQUESTED_PROVISION_KEY = "local-project-match";
+
+/**
+ * The suffix the authored Kentucky sitting's adopted provision has always used.
+ *
+ * It is not `local-project-match`, and it is deliberately not being made to
+ * match. This string is a persisted identity: worlds saved before the content
+ * bank existed hold their adopted provision under a stable key ending in it,
+ * and changing the string would orphan those records rather than rename them.
+ * A migration would be the alternative, and a migration is a much larger
+ * promise than keeping four characters.
+ */
+export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
+
+/**
+ * A heading, mid-sentence.
+ *
+ * Only the first character is lowered, so a heading that begins with a proper
+ * noun keeps it. Nothing here title-cases anything or guesses at a word.
+ */
+function lowerFirst(text: string): string {
+  return text.length === 0 ? text : text[0]!.toLowerCase() + text.slice(1);
+}
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
   "transit.ashland-boyd-local-match";
 
@@ -205,6 +227,15 @@ export function bargainingSubjectFacts(input: {
     billAmountLabel: "$8,000,000",
 
     requestedProvisionKey: REQUESTED_PROVISION_KEY,
+    // Pinned, not derived. This sitting has written its adopted provision
+    // under `...:section-4` since the sitting existed, and a saved world holds
+    // it under that key.
+    requestedProvisionStableKeySuffix: LEGACY_ADOPTED_PROVISION_SUFFIX,
+    // The accepted #79 phrasing, held exactly. These three reach persisted
+    // records, so they are identity-adjacent even though they read as prose.
+    requestedExposurePhrase: "local match",
+    requestedQuestionSubject: "local match amendment",
+    requestedDescriptionSubject: "Section 4, a local project match",
     requestedSectionNumber: 4,
     requestedSectionLabel: "Section 4",
     requestedHeading: "Local project match",
@@ -469,6 +500,14 @@ export function bargainingSubjectFactsForDraft(input: {
       draft.authorizedCeilingLabel ?? "nothing; this Act appropriates no money",
 
     requestedProvisionKey: invitation.provisionKey,
+    // New content has no history to preserve, so its record key is its own
+    // provision key and two families cannot collide.
+    requestedProvisionStableKeySuffix: invitation.provisionKey,
+    requestedExposurePhrase: `under Section ${invitation.sectionNumber}`,
+    requestedQuestionSubject: `Section ${invitation.sectionNumber} amendment for ${invitation.beneficiaryLabel}`,
+    requestedDescriptionSubject: `Section ${invitation.sectionNumber}, ${lowerFirst(
+      invitation.heading,
+    )}`,
     requestedSectionNumber: invitation.sectionNumber,
     requestedSectionLabel: `Section ${invitation.sectionNumber}`,
     requestedHeading: invitation.heading,

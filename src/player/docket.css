@@ -290,3 +290,106 @@
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Filtering, kinds of act, and the authority a bill acts on.
+
+   Added with the instrument work. Everything here is scoped to the docket
+   surface; player.css is still untouched and none of the prototype design is
+   absorbed.
+   ------------------------------------------------------------------------- */
+
+.docket-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.docket-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  min-width: 9rem;
+}
+
+.docket-filter > span {
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+.docket-filter select,
+.docket-filter input {
+  font: inherit;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+}
+
+.docket-count {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0.25rem 0;
+}
+
+.docket-paging {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.docket-instrument,
+.drafting-option-instrument {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.drafting-instrument {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.drafting-authority-list {
+  list-style: none;
+  margin: 0.25rem 0 0.75rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.drafting-authority-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.drafting-authority-chosen {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drafting-authority-citation {
+  font-weight: 600;
+}
+
+.drafting-authority-note,
+.drafting-authority-ceiling {
+  font-size: 0.78rem;
+  opacity: 0.78;
+}
