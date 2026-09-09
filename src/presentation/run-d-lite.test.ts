@@ -557,14 +557,29 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
     expect(projectRunDLite(world, fixture).nextCommitment?.activity.id).toBe(
       fixture.dLite.flexibleActivityId,
     );
+    // LIFE-PATHS2 shares one assignee's capacity across assignments. The
+    // earlier meeting brief consumes these 65 minutes; the summary cannot
+    // simultaneously spend another 50 minutes belonging to the same person.
     expect(workItemState(world, fixture.dLite.staffWorkItemId)).toMatchObject({
-      status: "ready-for-review",
-      completedEffortMinutes: 50,
-      recordedAt: { minuteOfDay: 600 },
+      status: "active",
+      completedEffortMinutes: 0,
+      recordedAt: { minuteOfDay: 550 },
     });
     expect(
       workItemState(world, fixture.dLite.delegableWorkItemId),
     ).toMatchObject({ status: "active", completedEffortMinutes: 65 });
+
+    // Persist the partially completed 90-minute item and untouched 50-minute
+    // item; subsequent canonical activity must consume only the remaining75.
+    world = deserializeWorld(serializeWorld(world));
+    expect(
+      workItemState(world, fixture.dLite.delegableWorkItemId)
+        .completedEffortMinutes,
+    ).toBe(65);
+    expect(
+      workItemState(world, fixture.dLite.staffWorkItemId)
+        .completedEffortMinutes,
+    ).toBe(0);
 
     const afterBriefing = JSON.stringify(world);
     expect(() =>
@@ -607,6 +622,18 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
       completedEffortMinutes: 90,
       recordedAt: { minuteOfDay: 640 },
     });
+
+    expect(workItemState(world, fixture.dLite.staffWorkItemId)).toMatchObject({
+      status: "ready-for-review",
+      completedEffortMinutes: 50,
+      recordedAt: { minuteOfDay: 690 },
+    });
+    expect(
+      workItemState(world, fixture.dLite.delegableWorkItemId)
+        .completedEffortMinutes +
+        workItemState(world, fixture.dLite.staffWorkItemId)
+          .completedEffortMinutes,
+    ).toBe(140);
 
     const beforeBlockedTravelSkip = JSON.stringify(world);
     expect(

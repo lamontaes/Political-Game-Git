@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5024 |
-| DIAGNOSTIC_OR_TEST | 3763 |
-| **NEEDS_CLASSIFICATION** | **3508** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5044 |
+| DIAGNOSTIC_OR_TEST | 3796 |
+| **NEEDS_CLASSIFICATION** | **3627** |
 
-Scanned 359 files holding 54214 string
+Scanned 365 files holding 54882 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -33,6 +33,7 @@ literals in total; the table counts only those that read like a sentence.
 | 124 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
+| 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 66 | `src/player/PlayerGame.tsx` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
@@ -67,6 +68,7 @@ literals in total; the table counts only those that read like a sentence.
 | 31 | `src/content/adapters/life-episodes.ts` |
 | 31 | `src/simulation/people.ts` |
 | 31 | `src/simulation/politics.ts` |
+| 30 | `src/simulation/life-paths2-catalog.ts` |
 | 30 | `src/simulation/person-context.ts` |
 | 29 | `src/presentation/run-d-lite.ts` |
 | 28 | `src/content/adapters/simulation-catalogs.ts` |
@@ -101,6 +103,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
+| 15 | `src/player/LifePathsPanel.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
@@ -189,6 +192,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/title-ambient.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
+| 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
 | 1 | `src/player/PlayerConversation.tsx` |
