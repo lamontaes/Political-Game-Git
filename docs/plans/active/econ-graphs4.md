@@ -42,7 +42,12 @@ Carrier: PR #148, branch `codex/econ-context2`
   unavailability, accessible feature-local panel, and deterministic replay proof
   are implemented locally pending a frozen extension checkpoint.
 - UI-core published the normal-player mount and combined prose regeneration at
-  `b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144. Its reported proof is
-  11 focused checks, typecheck, and 2/2 normal-browser tests covering Begin →
-  Personal, exact saved home-place/date binding, pointer/keyboard disclosures,
-  non-Lexington absence, and save/reload read purity.
+  `b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144, then consumed the final
+  HUD date-field separation at `2fe0b0908085f87dddef3cbcf7352e3c06e31d87`.
+  Its reported ECON proof is 11 focused checks, typecheck, and 2/2 normal-browser
+  tests covering Begin → Personal, exact saved home-place/date binding,
+  pointer/keyboard disclosures, non-Lexington absence, and save/reload read
+  purity.
+- The original reviewer rechecked the owner-supplied Drive return and targeted
+  Drive/uploads, but the complete Claude ledger remains unavailable. Exact E-1
+  recovery is externally blocked; no reconstructed finding is used.

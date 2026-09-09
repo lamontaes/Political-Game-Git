@@ -2,8 +2,10 @@
 
 Owner: UI-core
 
-Applied UI checkpoint:
-`b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144. The UI owner reports
+Initial applied UI checkpoint:
+`b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144. The final HUD
+date-field separation was consumed at UI head
+`2fe0b0908085f87dddef3cbcf7352e3c06e31d87`. The UI owner reports
 11 focused checks, typecheck, and 2/2 normal-browser tests passing. The mounted
 route is Begin → Personal; it uses the saved person's exact home-place key and
 `world.currentDate`, excludes non-Lexington places, supports pointer and keyboard
