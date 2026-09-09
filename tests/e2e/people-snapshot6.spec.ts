@@ -212,11 +212,27 @@ test("saved outfit and person A/B/A keep captions and decoded layers aligned und
   // Separate canonical person, with a separately saved effective wardrobe.
   await personControl.selectOption(personB);
   await configure(page, polo);
+  await expect(page.getByTestId(`scene-person-${personB}`)).toHaveAttribute(
+    "data-has-art",
+    "true",
+  );
+  await expect(page.getByTestId("person-portrait-character")).toHaveAttribute(
+    "data-person-id",
+    personB,
+  );
   await loadedProof(page, expected(polo));
   await page.getByRole("button", { name: "Save review", exact: true }).click();
   await personControl.selectOption(personA);
   await expect(top).toHaveValue(family(parka));
   const personABA = await loadedProof(page, expected(parka));
+  await expect(page.getByTestId(`scene-person-${personA}`)).toHaveAttribute(
+    "data-has-art",
+    "true",
+  );
+  await expect(page.getByTestId("person-portrait-character")).toHaveAttribute(
+    "data-person-id",
+    personA,
+  );
   await expect(character).toHaveAttribute("data-person-id", personA);
   await expect(character).toHaveAttribute("data-recipe-key", identity!);
   // Rapid selections followed immediately by the real reload button restore B.
