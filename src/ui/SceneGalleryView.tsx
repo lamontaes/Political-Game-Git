@@ -2,6 +2,7 @@ import { useMemo, useState, type CSSProperties } from "react";
 
 import assetRequestDocument from "../../art/requests/asset-requests.json";
 import intakeDispositions from "../../art/qa/p71/source_intake_dispositions.json";
+import candidateReview from "../../art/qa/p95-recent-drive-sweep/candidate-component-review.json";
 import {
   openAssetRequests,
   summarizeAssetRequests,
@@ -392,6 +393,68 @@ const candidateUrls = import.meta.glob<string>(
   { eager: true, import: "default", query: "?url" },
 );
 
+/** Existing coarse crops are inspectable without claiming item separation or release. */
+function PropCandidateSection() {
+  const [shown, setShown] = useState(false);
+  const props = candidateReview.components.filter(
+    (entry) => entry.family === "supplies",
+  );
+  return (
+    <section className="scene-gallery-intake" data-testid="scene-gallery-props">
+      <h2>Existing prop candidates</h2>
+      <p>
+        These {props.length} preserved coarse crops include individual objects
+        and groups. They are not released props. Object separation, clean alpha,
+        scene attachment and art approval remain explicit review gates.
+      </p>
+      <button
+        type="button"
+        onClick={() => setShown(!shown)}
+        aria-expanded={shown}
+      >
+        {shown ? "Hide prop candidates" : "Preview prop candidates"}
+      </button>
+      {shown ? (
+        <ul className="scene-gallery-intake-grid">
+          {props.map((entry) => (
+            <li
+              key={entry.choppedOutputPath}
+              data-testid="scene-gallery-prop-candidate"
+            >
+              <img
+                src={cellUrl(entry.choppedOutputPath)}
+                alt={`Unreleased prop crop ${entry.originalCell}`}
+                loading="lazy"
+              />
+              <strong>
+                {entry.originalCell}:{" "}
+                {entry.apparentPoseCategory
+                  .replace(/^wave_a_supplies_/, "")
+                  .replace(/_v1$/, "")
+                  .replaceAll("_", " ")}
+              </strong>
+              <p>
+                {entry.choppedDimensions.width} ×{" "}
+                {entry.choppedDimensions.height}; candidate only.
+              </p>
+              <p>{entry.productionEligibilityReason}</p>
+              <details>
+                <summary>Preserved lineage</summary>
+                <p>
+                  Source SHA-256: <code>{entry.sourceSha256}</code>
+                </p>
+                <p>
+                  Crop SHA-256: <code>{entry.outputSha256}</code>
+                </p>
+              </details>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </section>
+  );
+}
+
 /**
  * CANDIDATE PIXELS, FOR LOOKING AT ONLY.
  *
@@ -445,7 +508,8 @@ const SOURCE_DISPOSITION_COPY: Readonly<
   "candidate-preview-only": "Candidate — preview only, NOT released",
   "reference-only": "Reference only",
   "duplicate-of-accounted-source": "Duplicate of something accounted for",
-  "source-sheet-not-separable": "A sheet nobody can cut",
+  "source-sheet-not-separable":
+    "Coarse crops preserved; item separation incomplete",
   "bank-empty": "A declared bank with nothing in it",
 };
 
@@ -816,6 +880,7 @@ export function SceneGalleryView({
       <VenueSection />
 
       <SourceIntakeSection />
+      <PropCandidateSection />
 
       <section className="scene-gallery-requests">
         <h2>What is actually missing</h2>

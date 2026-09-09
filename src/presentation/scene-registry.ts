@@ -72,6 +72,7 @@ export interface RegisteredSceneOccluder {
   readonly assetId: string | null;
   readonly zOrder: number;
   readonly regionPercent: PercentRect | null;
+  readonly plateClip?: Occluder["plate_clip"];
 }
 
 export interface RegisteredScene {
@@ -156,6 +157,7 @@ function projectOccluder(occluder: Occluder): RegisteredSceneOccluder {
     assetId: occluder.asset_id ?? null,
     zOrder: occluder.z_order ?? 0,
     regionPercent: occluder.region_percent ?? null,
+    plateClip: occluder.plate_clip,
   };
 }
 

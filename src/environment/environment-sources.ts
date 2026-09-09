@@ -136,13 +136,12 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     sourceId: "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
     label: "The community meeting hall",
     path: "art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png",
-    disposition: "released-no-canonical-activity",
+    disposition: "in-ordinary-play",
     sceneId: "civic-community-meeting-room",
-    remainingStep:
-      "UI-core must integrate docs/integration/env-all1-ui-core.patch; activity execution and immediate aftermath are implemented, normal-root integration is pending.",
-    owedBy: "UI-CORE-RELEASE",
+    remainingStep: null,
+    owedBy: null,
     openRequestIds: [],
-    note: "ONE PLATE, TWO SCENES. It has stood behind the title since #86; this lane authored it a second time as a room to be in, and the posted public meeting an ordinary life can attend now resolves to it. No new art was made for either use.",
+    note: "One released plate serves title and completed public-meeting context. UI #144 normal Day pointer/keyboard and Save/Continue proof is recorded at 517dfa3 and retained in the later combined UI. This donor alone does not own the root. MUNI's additional callback is separately being verified; baked audience figures remain anonymous decor.",
   },
   {
     sourceId: "env_shared_workroom_office_v1",
@@ -361,10 +360,10 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     disposition: "source-sheet-not-separable",
     sceneId: null,
     remainingStep:
-      "A chopper that can separate adjacent objects. The accepted chopper groups neighbouring objects and CANNOT safely item-chop this sheet, which the sweep recorded rather than producing twenty-seven bad cutouts.",
+      "Existing coarse crops are reviewable in the scene gallery. Grouped objects still need item separation; individual crops need clean-alpha/contact review and explicit approval before release.",
     owedBy: "an art-pipeline owner",
     openRequestIds: [],
-    note: "Twenty-seven staggered office and accessory objects including a lanyard badge. This is the whole of the prop-source position: one sheet nobody can cut, and eight empty prop banks below.",
+    note: "The sweep preserved coarse regions, including separate phone, earbud-case and USB-cable candidates. This is not an empty source bank or proof that no extraction is possible. Original source and crop hashes remain in candidate-component-review.json; no crop is promoted by this review.",
   },
   {
     sourceId: "art/shared/*",

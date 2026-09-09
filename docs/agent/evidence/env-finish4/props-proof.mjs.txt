@@ -1,0 +1,30 @@
+import { chromium } from '/private/tmp/pg-env-all1-transfer/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+const out='/private/tmp/env-finish4-browser';
+mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const results=[];
+try {
+  for(const [width,action] of [[1440,'pointer'],[960,'keyboard']]) {
+    const page=await browser.newPage({viewport:{width,height:900}});
+    const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+    await page.goto('http://127.0.0.1:5362/?view=scene-gallery');
+    const section=page.getByTestId('scene-gallery-props');
+    const button=section.getByRole('button',{name:'Preview prop candidates',exact:true});
+    assert.equal(await section.locator('img').count(),0);
+    if(action==='pointer') await button.click(); else await button.press('Enter');
+    const count=await section.getByTestId('scene-gallery-prop-candidate').count();
+    assert.equal(count,JSON.parse(readFileSync('/private/tmp/pg-env-all1-transfer/art/qa/p95-recent-drive-sweep/candidate-component-review.json','utf8')).components.filter(x=>x.family==='supplies').length);
+    await section.locator('img').first().scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>{const img=document.querySelector('[data-testid="scene-gallery-props"] img');return img?.complete && img.naturalWidth>0;});
+    await section.getByTestId('scene-gallery-prop-candidate').first().screenshot({path:`${out}/prop-candidate-${width}.png`});
+    assert.match(await section.innerText(),/not released props/);
+    assert.deepEqual(errors,[]);
+    await section.getByRole('button',{name:'Hide prop candidates'}).click();
+    assert.equal(await section.locator('img').count(),0);
+    results.push({width,action,count,errors}); await page.close();
+  }
+  writeFileSync(`${out}/props-results.json`,JSON.stringify({head:'14b81ed',url:'http://127.0.0.1:5362/?view=scene-gallery',results},null,2)+'\n');
+  console.log(JSON.stringify(results));
+} finally {await browser.close();}

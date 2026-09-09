@@ -122,3 +122,27 @@ The bounded shared-host slot was released to SKILL-OPS1 after this sequence.
 No self-merge, deployment, new image generation or candidate release occurred.
 The exact workplace/room/provider gaps above remain; this checkpoint does not
 claim every banked environment is playable or that combined UI acceptance is done.
+
+## Late MUNI frozen handoff
+
+After ENV publication, MUNI supplied frozen
+`364176be7ee1e0e498f8e1f41cee1b010fb0821f`. Read-only inspection verified that
+`municipalVenueForActivity` returns the existing `SceneVenue` contract for its
+explicit `municipal:us-nv-carson-city:regular` binding, conditional on MUNI's
+attributed venue field. This is a MUNI-owned source declaration, not ENV's
+independent historical-room verification. Other keys still return null.
+
+`attendMunicipalPublicMeeting` performs the actual participant visit through
+`performScheduledActivity`; the attendance event retains that visit activity ID.
+`MunicipalWorkspace.renderVenue` passes that World, ID and binding to UI-core.
+The required callback is `resolveActivityVenueScene(world, personId, activityId,
+venue)` and must render only a non-null result. Existing current-instant,
+participant/access, completion-event and released-art checks remain mandatory.
+No static global venue key, household attendance, new source fact or room identity
+was inferred by ENV.
+
+This narrows the earlier MUNI gap: a frozen explicit binding is now supplied;
+UI-core registration and actual MUNI normal-route/browser evidence remain pending.
+The two ENV normal-player passes above cover the ordinary posted activity and do
+not claim to prove this later MUNI path. No ENV runtime code changed for the
+handoff, and no further heavy job was started after releasing the shared slot.
