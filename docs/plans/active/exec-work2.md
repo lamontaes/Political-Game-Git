@@ -67,3 +67,30 @@ LEARN: a compiled-bank binding proof is not a normal-play integration proof.
 The explicitly labelled review fixture and disabled normal-entry constant make
 that distinction durable; the handoff lists entry, producer and registration
 requirements instead of claiming an unavailable route is accepted.
+
+## Validation evidence (2026-09-08)
+
+- Final focused consumer suite: **37/37 passed**, original five-second limits,
+  75.73 seconds total. Covers three jurisdictions; every generic compiled context;
+  family practices bound to actual partnerships; invalid/expired office refusal;
+  staff departure; exact-once recurring work; snapshot round trips; presented
+  sign/veto transitions preserving legislative history; return/defer pending work.
+- Pointer/keyboard browser proof: **1/1 passed**, 32.7 seconds including startup,
+  strict port 4287, one worker, isolated cache/results, no server reuse. Actual
+  panel pointer and keyboard activation, Escape/focus return and reload proven.
+  This is a synthetic review fixture, not normal entry or human visual acceptance.
+- App and node TypeScript checks passed with isolated build-info files.
+- Source validation and byte-identical replay passed with existing gates retained.
+- Production Vite build and deterministic validation-seed demo passed.
+- Art validation, unchanged 329-item inventory, and contact-sheet QA passed;
+  tracked art remained unchanged.
+- Independent civic-prose review PASS, verifier PASS, hygiene PASS. Player refusal
+  feedback no longer exposes internal compiler IDs.
+- Earlier CI passed repository format/lint and identified two test record/state
+  property mistakes, corrected. Subsequent focused tests caught two real pending
+  Work invariant errors, also corrected without weakening shared invariants.
+- Full unit-suite run and final exact-head CI result remain to be recorded.
+
+Single draft PR: https://github.com/lamontaes/Political-Game-Git/pull/140 .
+No merge, automation, or monitoring. Acceptance remains **incomplete / draft**
+for the entry, producer and shared-shell gaps above, regardless of test results.
