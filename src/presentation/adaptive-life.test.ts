@@ -278,9 +278,38 @@ describe("Acceptance 2 — an answer may shape a family and may never author one
         ),
       ).toBe(false);
     }
-    // No personal value, tendency or belief was created by answering.
-    expect(world.history.personalValues).toHaveLength(0);
-    expect(world.history.personalityTendencies).toHaveLength(0);
+    // OPENING initializes ordinary-life mind records before play. Compare the
+    // controlled person's authored preferences with skipped calibration: answers
+    // may not become canonical beliefs or rewrite these independent draws.
+    const skipped = createNewGameWorld({
+      ...setup,
+      questionnaire: "skipped",
+      priors: [],
+    });
+    const preferences = (candidate: World, id: EntityId) => ({
+      values: candidate.history.personalValues
+        .filter((entry) => entry.personId === id)
+        .map((entry) => ({
+          valueId: entry.valueId,
+          orientation: entry.orientation,
+        })),
+      tendencies: candidate.history.personalityTendencies
+        .filter((entry) => entry.personId === id)
+        .map((entry) => ({
+          tendencyId: entry.tendencyId,
+          expressionKey: entry.expressionKey,
+        })),
+    });
+    expect(preferences(world, personId)).toEqual(
+      preferences(skipped.world, skipped.playerPersonId),
+    );
+    expect(preferences(world, personId).values).toHaveLength(3);
+    expect(preferences(world, personId).tendencies).toHaveLength(2);
+    for (const answer of setupPriorsOf(world).answers) {
+      expect(JSON.stringify(world.history)).not.toContain(answer.questionKey);
+      if (answer.choiceId)
+        expect(JSON.stringify(world.history)).not.toContain(answer.choiceId);
+    }
     expect(world.history.privateBeliefs).toHaveLength(0);
     expect(world.history.publicPositions).toHaveLength(0);
 

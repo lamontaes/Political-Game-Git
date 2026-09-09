@@ -172,19 +172,29 @@ describe("A named person arrives with a relationship", () => {
     return { world: game.world, personId: game.playerPersonId };
   }
 
-  it("calls the guardian a parent, from the authority record", () => {
+  it("names a parent or guardian from the actual authority record", () => {
     const { world, personId } = childWorld();
-    const labels = Object.keys(world.people)
-      .filter((id) => id !== personId)
-      .map((id) => describePersonContext(world, personId, id as EntityId)!);
-    const guardian = labels.find((entry) =>
-      /^your (mom|dad|parent)$/.test(entry.relationship ?? ""),
+    const authority = world.history.childAuthorities.find(
+      (entry) =>
+        entry.childPersonId === personId && entry.holder.kind === "person",
+    )!;
+    expect(authority).toBeDefined();
+    if (authority.holder.kind !== "person")
+      throw new Error("Expected person authority");
+    const guardian = describePersonContext(
+      world,
+      personId,
+      authority.holder.personId,
+    )!;
+    expect(guardian.relationship).toMatch(
+      authority.kind.startsWith("parental:")
+        ? /^your (mom|dad|parent)$/
+        : /^your guardian$/,
     );
+    expect(guardian.basis).toContain(`${authority.kind} authority record`);
     expect(
-      guardian,
-      `no guardian label among ${labels.map((entry) => entry.relationship).join(", ")}`,
-    ).toBeDefined();
-    expect(guardian!.basis).toContain("authority record");
+      guardian.anchors.some((anchor) => anchor.recordId === authority.id),
+    ).toBe(true);
   });
 
   it("calls a sibling a sibling, and says which of them is older", () => {
