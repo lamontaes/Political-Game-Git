@@ -246,3 +246,37 @@ test("normal activity completion replaces household presence without a second cl
     "true",
   );
 });
+
+test("frozen docket uses the normal Work shell and keeps its selected document on reload", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/?seed=ui-core-docket-adapter");
+  await startLife(page, { age: 35, route: "custom", office: true });
+  await enterLife(page);
+  await goTo(page, "elsewhere-work");
+  await expect(page.getByTestId("docket")).toBeVisible();
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await page.getByTestId("file-the-draft").press("Enter");
+  await expect(page.getByTestId("docket-bill")).toBeVisible();
+  const lineage = await page.getByTestId("docket-lineage").innerText();
+  const pinButton = page.getByTestId("pin-docket-measure");
+  const measureId = await pinButton.getAttribute("data-measure-id");
+  await pinButton.click();
+  await expect(page.getByTestId(`pin-measure:${measureId}`)).toBeVisible();
+  await page.screenshot({
+    path: testInfo.outputPath("normal-work-docket.png"),
+  });
+  await goTo(page, "keep-world");
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await goTo(page, "elsewhere-work");
+  await expect(page.getByTestId("docket-lineage")).toHaveText(lineage);
+  await expect(page.getByTestId(`pin-measure:${measureId}`)).toBeVisible();
+  await expect(page.getByTestId("pin-docket-measure")).toHaveAttribute(
+    "data-measure-id",
+    measureId!,
+  );
+});

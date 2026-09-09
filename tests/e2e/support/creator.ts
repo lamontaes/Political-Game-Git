@@ -15,6 +15,8 @@ import { expect, type Page } from "@playwright/test";
 
 export interface CreatorLife {
   readonly age: number;
+  readonly givenName?: string;
+  readonly familyName?: string;
   /** Matched against the place buttons. Defaults to Kentucky. */
   readonly place?: string;
   /** The explicit route. Defaults to the ordinary generated one. */
@@ -69,6 +71,10 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
   await page.getByTestId("start-age").fill(String(life.age));
+  if (life.givenName)
+    await page.getByLabel("First name", { exact: true }).fill(life.givenName);
+  if (life.familyName)
+    await page.getByLabel("Last name", { exact: true }).fill(life.familyName);
   if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
   await page.getByTestId("creator-continue-character").click();
 

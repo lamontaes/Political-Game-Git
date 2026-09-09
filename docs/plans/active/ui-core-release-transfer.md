@@ -52,3 +52,9 @@ See `docs/plans/evidence/ui-core-transfer/VERIFICATION.md`. Current focused proo
 LEARN is encoded in executable proof: pin tests wait for actual Save completion and compare all reference kinds/order/sizes; LIFE scheduling tests assert the real conflict, perform the existing activity, then verify the exact new session. A generic calendar row did not prove the study-session integration. Source identity includes generated tracked art reports: running art generators during a browser proof invalidates its fingerprint, so all tracked generators must finish before the browser server starts.
 
 Historical recovery follow-up received from OLD-WORK-RECOVERY1: raster decode errors and placeholder rendering need the existing visual owner's review. They are not silently marked repaired by these shell tests.
+
+## Later integration checkpoint
+
+LEG owner published80801a9 on PR137; integrated via8959726. Docket uses the existing Work frame, callback and save store. The currently selected document can be pinned by its canonical measure ID. Two root/browser checks pass, including selected-document reload/pin persistence. UI's transition fade now precedes generation and has reduced-motion support plus a once-only completion guard; creator09 passes named-draft recovery and keyboard Begin. OPENING will connect its frozen controller at this same root-owned boundary.
+
+Source validation, source replay, production build and headless demo pass. Full suite remains queued behind PEOPLE/ENV. Current evidence ledger records exact runs and incomplete acceptance.

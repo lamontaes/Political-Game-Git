@@ -1,3 +1,4 @@
+import { LifeStartTransition } from "./LifeStartTransition";
 import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
 import {
@@ -99,7 +100,11 @@ import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { DocketWorkspace } from "./DocketWorkspace";
-import type { DocketBill } from "../presentation/legislation-docket";
+import {
+  docketBill,
+  type DocketBill,
+} from "../presentation/legislation-docket";
+import { selectedDocketKey } from "../presentation/legislation-docket-selection";
 import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -155,6 +160,7 @@ type Screen =
   | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
   | { readonly kind: "saves" }
   | { readonly kind: "options" }
+  | { readonly kind: "transition"; readonly setup: NewGameSetup }
   | { readonly kind: "playing" };
 
 interface Session {
@@ -454,14 +460,36 @@ export function PlayerGame() {
   }
 
   function beginLife(setup: NewGameSetup) {
-    try {
-      const game = createNewGameWorld(setup);
-      startPlaying(game.world, game.playerPersonId, setup.seed, null);
-    } catch (error) {
-      setProblem(
-        error instanceof Error ? error.message : "That start did not work.",
-      );
-    }
+    setScreen({ kind: "transition", setup });
+  }
+
+  if (screen.kind === "transition") {
+    return (
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <LifeStartTransition
+            onComplete={() => {
+              try {
+                const game = createNewGameWorld(screen.setup);
+                startPlaying(
+                  game.world,
+                  game.playerPersonId,
+                  screen.setup.seed,
+                  null,
+                );
+              } catch (error) {
+                setProblem(
+                  error instanceof Error
+                    ? error.message
+                    : "This life could not be started.",
+                );
+                setScreen({ kind: "setup", draft: screen.setup });
+              }
+            }}
+          />
+        )}
+      </AmbientTableau>
+    );
   }
 
   if (screen.kind === "setup") {
@@ -2355,6 +2383,18 @@ function renderWorkspace({
           </p>,
         );
       }
+      const docketKey = selectedDocketKey(
+        session.world,
+        capabilities.legislativeScenarioKey,
+        session.personId,
+      );
+      const workingBill = docketKey
+        ? docketBill(session.world, {
+            scenarioKey: capabilities.legislativeScenarioKey,
+            playerPersonId: session.personId,
+            docketKey,
+          })
+        : null;
       return frame(
         "The office",
         "office-section",
@@ -2383,6 +2423,25 @@ function renderWorkspace({
               floorNote={floorNote}
             />
           ) : null}
+          {workingBill && (
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="pin-docket-measure"
+              data-measure-id={workingBill.measureId}
+              aria-pressed={pinnedRef({
+                kind: "measure",
+                id: workingBill.measureId,
+              })}
+              onClick={() =>
+                togglePin({ kind: "measure", id: workingBill.measureId })
+              }
+            >
+              {pinnedRef({ kind: "measure", id: workingBill.measureId })
+                ? "Unpin selected document"
+                : "Pin selected document"}
+            </button>
+          )}
           {assignment ? (
             <>
               <button

@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // LIFE, EXEC, JUD, PEOPLE, ENV and LEG sources. Anchor identities and
     // inventory membership are unchanged; generated reports carry this count.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(60000);
+    expect(coverage.totalLiterals).toBe(60021);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(414);
+    expect(coverage.scannedFiles).toBe(415);
   });
 });
 

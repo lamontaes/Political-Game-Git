@@ -984,3 +984,27 @@
 .pg-workspace .game-hint {
   color: var(--pg-ivory-dim);
 }
+
+.pg-life-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #05080d;
+  color: var(--pg-ivory);
+  animation: pg-life-start var(--pg-start-fade) ease-out both;
+}
+@keyframes pg-life-start {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-life-transition {
+    animation: none;
+  }
+}

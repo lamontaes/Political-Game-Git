@@ -25,3 +25,17 @@ Logs and identified browser manifests are retained in `/private/tmp/ui-core-tran
 Visual inspection: mixed rail at960/1440 and venue aftermath inspected. Workspace close controls remain reachable; inherited dark hint text corrected. These checks are not human visual acceptance.
 
 Outstanding proof: combined OPENING/MUNI/LEG adapters; final exact-head full validation/source/replay/build/demo; final combined browser smoke and title/opening/scene/dossier/Personal/Calendar/Work visual acceptance. No release activation or self-merge.
+
+## Subsequent frozen LEG and transition proof
+
+LEG80801a9 is integrated in merge8959726. Conflicts preserved both LIFE and LEG canonical source-availability checks, both stylesheet imports and the UI-owned root shell. Docket callbacks carry the actual selected bill; the pin control uses its exact measure ID. No physical travel or venue attendance is inferred from document/floor navigation.
+
+- leg07 passed (6.9s): normal Custom office → Work → file document → saved selection/reload.
+- leg08 passed (12.5s): additionally preserves the selected document's exact measure pin through reload.
+- creator09 passed two tests (9.6s): named draft and next question survive Back; actual keyboard Begin crosses a once-guarded presentation fade before generation. Title screenshots at1440/960 inspected.
+- typecheck-leg04/05 passed. Source validation passed (with pre-existing data warnings); source replay regenerates all tracked artifacts byte-identically. Production build passed with chunk-size warnings. Headless validation-seed demo passed.
+- Combined corpus generated with1884 templates, zero hard errors; latest live scanner60021 literals/415files and1914 inventoried sentences. Existing anchor bindings/issuance files unchanged. Review warnings and unclassified prose are not editorial acceptance.
+
+Selected screenshots and source/browser provenance are retained in `browser/`; full logs/traces remain in the identified temporary evidence root. These are screenshots of existing released art and canonical test lives, not new production assets or human acceptance.
+
+OPENING and MUNI immutable checkpoints, final combined full-suite/browser proof and human acceptance remain outstanding. Historical raster error/placeholder findings remain explicitly unresolved under UI ownership.

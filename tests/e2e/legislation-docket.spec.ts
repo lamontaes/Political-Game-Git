@@ -256,8 +256,8 @@ test.describe("the docket, from the ordinary route", () => {
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
-    await page.getByTestId("keep-world").click();
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await goTo(page, "keep-world");
+    await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -321,7 +321,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "test-results/leg-content1/transfer-unavailable-estimate.png",
+    path: test.info().outputPath("transfer-unavailable-estimate.png"),
   });
 
   await page.getByTestId("open-drafting-table").click();
@@ -351,7 +351,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "test-results/leg-content1/transfer-reloaded-selection.png",
+    path: test.info().outputPath("transfer-reloaded-selection.png"),
   });
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-002")
