@@ -9,6 +9,10 @@ const PATH = resolve(
   import.meta.dirname,
   "../../docs/research/92M-campaign-finance-ethics-lobbying.json",
 );
+const ACCOUNTING_PATH = resolve(
+  import.meta.dirname,
+  "../../docs/research/QUAL-COMPLIANCE1-ACCOUNTING.md",
+);
 
 describe("92M campaign-compliance research transport", () => {
   it("compiles every jurisdiction and field without promoting the synthesis", () => {
@@ -51,5 +55,30 @@ describe("92M campaign-compliance research transport", () => {
         Buffer.from(JSON.stringify(original)),
       ),
     ).toThrow(/official_source must be a non-empty string/);
+  });
+
+  it("accounts for the exact 20-field transport shape in every jurisdiction", () => {
+    const original = JSON.parse(readFileSync(PATH, "utf8")) as {
+      jurisdictions: Record<
+        string,
+        { rules: Record<string, Record<string, unknown>> }
+      >;
+    };
+    const jurisdictions = Object.values(original.jurisdictions);
+    const expectedFields = Object.keys(jurisdictions[0]!.rules);
+    expect(jurisdictions).toHaveLength(51);
+    expect(expectedFields).toHaveLength(20);
+    for (const jurisdiction of jurisdictions) {
+      expect(Object.keys(jurisdiction.rules)).toEqual(expectedFields);
+    }
+
+    const accounting = readFileSync(ACCOUNTING_PATH, "utf8")
+      .split("## 92M field accounting")[1]!
+      .split("Exact 92M status totals")[0]!;
+    const documentedFields = accounting
+      .split("\n")
+      .filter((line) => line.startsWith("| `"))
+      .map((line) => line.split("`")[1]!);
+    expect(documentedFields).toEqual(expectedFields);
   });
 });

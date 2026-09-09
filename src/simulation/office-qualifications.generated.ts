@@ -20,7 +20,7 @@
 export const OFFICE_QUALIFICATIONS_META = {
   "asOf": "2026-09-09",
   "corpusSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
-  "compiler": "state-office-qualifications@2.1.0",
+  "compiler": "state-office-qualifications@2.1.1",
   "recordCount": 63,
   "states": [
     "MN",

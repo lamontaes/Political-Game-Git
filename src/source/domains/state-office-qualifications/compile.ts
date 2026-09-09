@@ -33,6 +33,7 @@ import type {
   ArtifactLock,
   CompiledCorpus,
   Evidence,
+  OpenedArtifact,
   ProductionInput,
   RawArtifact,
 } from "../../core/index";
@@ -50,10 +51,11 @@ import {
 import type { ReviewedTranscription } from "./transcription";
 import {
   qualificationProvisionValidity,
+  qualificationTemporalSourceLiterals,
   unknownTransportValidity,
 } from "./temporal";
 
-export const QUALIFICATIONS_COMPILER_VERSION = "2.1.0";
+export const QUALIFICATIONS_COMPILER_VERSION = "2.1.1";
 import type {
   CitedAuthority,
   OfficeExistence,
@@ -203,7 +205,7 @@ function provisionTexts(
 /** Open every declared authority. Roles are artifact ids; there is no aliasing. */
 export function openQualificationArtifacts(
   lock: ArtifactLock,
-): ProductionInput<Record<string, { artifact: RawArtifact; bytes: Buffer }>> {
+): ProductionInput<Record<string, OpenedArtifact>> {
   const roles = Object.fromEntries(
     QUALIFICATION_SOURCES.map((spec) => [spec.artifactId, spec.artifactId]),
   );
@@ -211,9 +213,8 @@ export function openQualificationArtifacts(
     "state-office-qualifications",
     lock,
     roles,
-  ) as unknown as ProductionInput<
-    Record<string, { artifact: RawArtifact; bytes: Buffer }>
-  >;
+    qualificationTemporalSourceLiterals(),
+  );
 }
 
 function authorityFrom(
@@ -247,14 +248,12 @@ function authorityFrom(
  * evaluated against, and NOT_YET_OPERATIVE is defined against it.
  */
 export function compileQualifications(
-  input: ProductionInput<
-    Record<string, { artifact: RawArtifact; bytes: Buffer }>
-  >,
+  input: ProductionInput<Record<string, OpenedArtifact>>,
   corpusAsOf: string,
 ): QualificationCompileResult {
   const opened = (
     input as unknown as {
-      artifacts: Record<string, { artifact: RawArtifact; bytes: Buffer }>;
+      artifacts: Record<string, OpenedArtifact>;
     }
   ).artifacts;
 

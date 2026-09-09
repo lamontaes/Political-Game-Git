@@ -3,7 +3,7 @@
   "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
   "compiler": {
     "name": "state-office-qualifications",
-    "version": "2.1.0"
+    "version": "2.1.1"
   },
   "corpusId": "state-office-qualifications",
   "coverage": {

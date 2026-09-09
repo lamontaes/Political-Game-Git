@@ -1,6 +1,12 @@
 import type { RawArtifact } from "../../core/index";
 import type { ProvisionValidity } from "./types";
 
+interface TemporalOpenedArtifact {
+  readonly artifact: RawArtifact;
+  readonly bytes: Buffer;
+  readonly verifiedSourceLiterals: readonly string[];
+}
+
 /** A reviewed, provision-specific temporal transcription. */
 interface ExactTemporalReview {
   readonly validFrom: string;
@@ -145,12 +151,31 @@ const EXACT_TEMPORAL_REVIEWS: Readonly<Record<string, ExactTemporalReview>> = {
   },
 };
 
+/**
+ * Exact non-enacted publisher labels the source opener must verify before a
+ * temporal review can promote a provision date. The returned literals are
+ * requirements, not proof: only `openProductionArtifacts` may turn them into
+ * receipts after hashing and inspecting the acquired publisher bytes.
+ */
+export function qualificationTemporalSourceLiterals(): Readonly<
+  Record<string, readonly string[]>
+> {
+  const requirements: Record<string, string[]> = {};
+  for (const review of Object.values(EXACT_TEMPORAL_REVIEWS)) {
+    if (review.expectedArtifactText === undefined) continue;
+    const literals = requirements[review.basisArtifactId] ?? [];
+    if (!literals.includes(review.expectedArtifactText)) {
+      literals.push(review.expectedArtifactText);
+    }
+    requirements[review.basisArtifactId] = literals;
+  }
+  return requirements;
+}
+
 export function qualificationProvisionValidity(
   sourceArtifactId: string,
   sourceArtifact: RawArtifact,
-  openedArtifacts: Readonly<
-    Record<string, { artifact: RawArtifact; bytes: Buffer }>
-  >,
+  openedArtifacts: Readonly<Record<string, TemporalOpenedArtifact>>,
   provisionByKey: ReadonlyMap<string, string>,
 ): ProvisionValidity {
   const review = EXACT_TEMPORAL_REVIEWS[sourceArtifactId];
@@ -164,16 +189,30 @@ export function qualificationProvisionValidity(
     };
   }
 
+  if (sourceArtifact.artifactId !== sourceArtifactId) {
+    throw new Error(
+      `Temporal review for ${sourceArtifactId} was handed source artifact ${sourceArtifact.artifactId}.`,
+    );
+  }
+
   const basis = openedArtifacts[review.basisArtifactId];
   if (!basis) {
     throw new Error(
       `Temporal review for ${sourceArtifactId} requires unopened artifact ${review.basisArtifactId}.`,
     );
   }
-  // The capability exposes enacted text only. Publisher date labels remain
-  // reviewable in the locked raw capture and are pinned by its artifact hash.
-  if (
-    review.expectedArtifactText === undefined &&
+  if (basis.artifact.artifactId !== review.basisArtifactId) {
+    throw new Error(
+      `Temporal review for ${sourceArtifactId} requires artifact ${review.basisArtifactId}, but that role holds ${basis.artifact.artifactId}.`,
+    );
+  }
+  if (review.expectedArtifactText !== undefined) {
+    if (!basis.verifiedSourceLiterals.includes(review.expectedArtifactText)) {
+      throw new Error(
+        `Temporal review for ${sourceArtifactId} has no verified source-byte receipt for ${JSON.stringify(review.expectedArtifactText)} in ${review.basisArtifactId}.`,
+      );
+    }
+  } else if (
     ![...provisionByKey.entries()].some(
       ([key, text]) =>
         key.startsWith(`${review.basisArtifactId}::`) &&
