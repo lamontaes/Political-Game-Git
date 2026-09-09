@@ -56,7 +56,7 @@ app TypeScript check passed. The account case verifies campaign ownership of the
 pay flow, no transfer at acceptance, absent-authority refusal and exact save/load.
 The ten-case rerun passed nine, including complete college study, and caught a one-cent floating-point rounding defect in the pay progression calculation. The fix adds the integer-cent 10% increment rather than multiplying by 1.1. The corrected suite is recorded below; broader gates remain unpassed.
 
-## Latest checkpoint verdict
+## Historical pre-FINISH-WAVE4 verdict
 
 The corrected ten-case feature run passed nine, including pay progression and
 campaign account separation; the college case timed out at 32 seconds against its
@@ -72,3 +72,27 @@ All own test/browser processes ended; the browser slot was released to JUD.
 Focused formatting passed before the final documentation append. No full lint,
 node-typecheck, art-QA or full-repository-test success is claimed. The implementation
 and added regression coverage are committed, but delivery acceptance is incomplete.
+
+## FINISH-WAVE4 current checkpoint
+
+The earlier timeouts above are historical. On LIFE donor 74dbc76, all 15 LIFE
+cases pass, including full college/associate/trade completion, materially
+different work, refusal, interruption/return, scheduled pay, willingness,
+contention, employee resignation and save/reload. Full test run: 3,220 passed,
+two skipped, six failed. One stale corpus count pin was corrected from actual
+scanner output; the other five were localhost binding denied by the sandbox.
+Both affected files reran with binding permitted: 45/45 passed. No time limits
+were relaxed. Exact measured corpus pins remain: 52,400 literals, 1,914
+inventoried sentences and 346 source files.
+
+Format, lint, both TypeScript projects, source validation/replay, production
+build/preparation, deterministic demo, art validation, inventory and QA passed.
+The feature-local browser proof passes in 2.5 seconds after locating Person by
+its actual combobox role/name. Pointer and keyboard actions covered attendance,
+interruption, reload, return, recruitment, delegation completion and departure.
+Logs: `/private/tmp/life-exec4-life-browser-retry.log` and
+`/private/tmp/life-exec4-life-final`, with remaining gates in
+`/private/tmp/life-exec4-life-remaining`.
+
+This is feature-level evidence. Normal UI entry/Work integration and human visual
+acceptance remain open. Existing draft PR #141 stays unmerged.

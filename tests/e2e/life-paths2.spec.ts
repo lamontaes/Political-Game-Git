@@ -34,7 +34,9 @@ test("LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof", as
   ).toBeVisible();
   await page.getByRole("button", { name: "Return", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("returned");
-  await page.getByLabel("Person", { exact: true }).selectOption({ index: 1 });
+  await page
+    .getByRole("combobox", { name: "Person", exact: true })
+    .selectOption({ index: 1 });
   await page.getByRole("button", { name: "Make offer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("Accepted");
   await page
