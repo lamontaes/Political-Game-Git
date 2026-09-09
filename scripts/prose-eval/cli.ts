@@ -58,9 +58,11 @@ const SKILL_ROOTS = [
   ".agents/skills/civic-prose",
   ".codex/agents/civic-prose-writer.toml",
   ".codex/agents/civic-prose-grounding-reviewer.toml",
+  ".codex/agents/civic-prose-terminology-reviewer.toml",
   ".claude/skills/civic-prose",
   ".claude/agents/civic-prose-writer.md",
   ".claude/agents/civic-prose-grounding-reviewer.md",
+  ".claude/agents/civic-prose-terminology-reviewer.md",
   "scripts/prose-eval/fixtures/grounding",
   "scripts/prose-eval/grounding.test.ts",
 ];
