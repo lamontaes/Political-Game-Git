@@ -81,3 +81,14 @@ eligible follow-through for the previous family precedes unrelated seeded
 selection; unrelated selection stays unchanged. Added saved lunchbox consumer
 proof. Donor69/69 remains separately attributed; local combined tests have not
 run. LAND released its slot, but UI is queued behind MUNI's finite sequence.
+
+## LIFE96_TEST_BUDGET_DELTA
+
+Compared and consumed only src/simulation/life-paths2.test.ts from
+cb3a97ae1f8e67f99740607434d368ffcc3f3005. UI carries the exact 96-session
+associate journey; its budget changes from30s to60s, while the12-session trade
+case retains30s. Session, fee, credential, intermediate/final reload assertions
+are unchanged. Donor evidence docs/systems/life-paths2-validation.md attributes
+the35.061s measurement to hosted34315596484 oncb8f97e. This is a named test-only
+budget delta, not a global timeout or simulation-time change. No local rerun
+while MUNI holds the heavy slot.
