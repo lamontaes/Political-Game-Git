@@ -25,7 +25,8 @@ export type RuleAuthorityLayer =
   | "joint-rules"
   | "uniform-rules"
   | "statute"
-  | "parliamentary-fallback";
+  | "parliamentary-fallback"
+  | "research-reference";
 
 export type RuleVerificationStatus = "verified" | "partial" | "unresolved";
 
@@ -153,6 +154,20 @@ export interface VoteThresholdRule {
   readonly denominatorParts: number;
   readonly countedAgainst: VoteDenominator;
   readonly rounding: VoteRounding;
+  /**
+   * An absolute floor the fraction may not fall below, where an instrument
+   * states one.
+   *
+   * Municipal charters state thresholds this way often: Richmond overrides a
+   * veto with "six or more of the currently filled seats" and Charlottesville
+   * seats a quorum of "three councilors", neither of which is a fraction of
+   * anything. Expressed as a fraction alone they are exact at a full body and
+   * quietly wrong the moment a seat is vacant, which is the sort of small
+   * falsehood this vocabulary exists to refuse. The floor makes the rule exact
+   * at every membership, and a floor above the denominator is reported as the
+   * unreachable requirement it is rather than lowered to something achievable.
+   */
+  readonly minimumVotes?: number;
   /** Plain-language statement of the rule for players and audit. */
   readonly label: string;
   readonly source: RuleSourceRef;
@@ -179,13 +194,18 @@ export function resolveRequiredVotes(
     );
   }
   const exact = (denominatorValue * rule.numerator) / rule.denominatorParts;
-  const requiredVotes =
+  const fromFraction =
     rule.rounding === "strictly-greater-than-fraction"
       ? Math.floor(exact) + 1
       : Math.ceil(exact - 1e-9);
+  // The fraction is capped by the denominator, and then the instrument's own
+  // floor applies over the top of it. A floor above the denominator stays
+  // above it: an unreachable requirement is a fact about the rule, not a
+  // number to be rounded down until somebody can meet it.
+  const capped = Math.min(Math.max(fromFraction, 0), denominatorValue);
   return {
     denominatorValue,
-    requiredVotes: Math.min(Math.max(requiredVotes, 0), denominatorValue),
+    requiredVotes: Math.max(capped, rule.minimumVotes ?? 0),
     rule,
   };
 }
@@ -203,6 +223,14 @@ export function assertThresholdRule(rule: VoteThresholdRule): void {
   ) {
     throw new Error(
       `Vote threshold fraction is invalid: ${rule.numerator}/${rule.denominatorParts}`,
+    );
+  }
+  if (
+    rule.minimumVotes !== undefined &&
+    (!Number.isSafeInteger(rule.minimumVotes) || rule.minimumVotes <= 0)
+  ) {
+    throw new Error(
+      `Vote threshold floor is invalid: ${String(rule.minimumVotes)}`,
     );
   }
   if (rule.label.trim().length === 0) {
@@ -234,12 +262,14 @@ export function fractionOf(
   countedAgainst: VoteDenominator,
   label: string,
   source: RuleSourceRef,
+  minimumVotes?: number,
 ): VoteThresholdRule {
   return {
     numerator,
     denominatorParts,
     countedAgainst,
     rounding: "at-least-fraction",
+    ...(minimumVotes === undefined ? {} : { minimumVotes }),
     label,
     source,
   };
@@ -345,11 +375,27 @@ export interface ConferenceRule {
   readonly adoptionThresholdLabel: string;
 }
 
-/** Where a veto is reconsidered. Alaska uses one joint sitting of both houses. */
+/**
+ * Where a veto is reconsidered. Alaska uses one joint sitting of both houses.
+ *
+ * `not-applicable` is the third answer and it is not a missing forum. A
+ * legislature whose executive has no power to return a measure has nothing to
+ * reconsider, and there is no threshold to state. That case first arose with a
+ * city whose charter gives its mayor a councilor's vote and no action on an
+ * adopted ordinance: forcing a forum on it would have meant writing an
+ * override arithmetic no instrument contains, which is the fabrication this
+ * whole vocabulary exists to prevent. It is only legal where presentment is
+ * itself known to be absent, and that pairing is enforced.
+ */
 export type OverrideForum =
   | {
       readonly kind: "each-chamber";
       readonly threshold: VoteThresholdRule;
+    }
+  | {
+      readonly kind: "not-applicable";
+      readonly note: string;
+      readonly source: RuleSourceRef;
     }
   | {
       readonly kind: "joint-session";
@@ -360,6 +406,24 @@ export type OverrideForum =
       /** Some jurisdictions apply a higher bar to money bills. */
       readonly appropriationsThreshold: RuleValue<VoteThresholdRule>;
     };
+
+/**
+ * The threshold a forum states, or a throw when there is no forum at all.
+ *
+ * A caller that needs an override arithmetic has already assumed the executive
+ * can return a measure. Where that assumption is wrong the answer is not a
+ * fallback number; it is that the question does not arise here.
+ */
+export function requireOverrideThreshold(
+  forum: OverrideForum,
+): VoteThresholdRule {
+  if (forum.kind === "not-applicable") {
+    throw new Error(
+      `This legislature reconsiders no veto, so it states no override threshold: ${forum.note}`,
+    );
+  }
+  return forum.threshold;
+}
 
 export type ExecutiveInactionOutcome =
   "becomes-law-without-signature" | "pocket-veto";
@@ -955,7 +1019,28 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   );
   assertRuleValue(executive.lineItemVeto, "line-item veto");
 
-  if (executive.override.kind === "each-chamber") {
+  if (executive.override.kind === "not-applicable") {
+    if (executive.override.note.trim().length === 0) {
+      throw new Error(
+        `Rule pack '${pack.packId}' marks override not-applicable without saying why.`,
+      );
+    }
+    assertSourceRef(
+      executive.override.source,
+      `absent override forum in '${pack.packId}'`,
+    );
+    // An executive who can return a measure must have somewhere it goes back
+    // to. Only a pack that has established there is no presentment at all may
+    // say there is no forum.
+    if (
+      executive.presentmentRequired.kind !== "known" ||
+      executive.presentmentRequired.value !== false
+    ) {
+      throw new Error(
+        `Rule pack '${pack.packId}' has no override forum but has not established that no measure is presented to the ${executive.titleLabel}.`,
+      );
+    }
+  } else if (executive.override.kind === "each-chamber") {
     assertThresholdRule(executive.override.threshold);
   } else {
     assertThresholdRule(executive.override.threshold);

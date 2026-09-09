@@ -14,7 +14,12 @@
  */
 
 import type { ParseDefect } from "../../core/index";
-import type { ActorRole, MeetingPlaceKind, PowerKind } from "./types";
+import type {
+  ActorRole,
+  MeetingPlaceKind,
+  MeetingSeriesKind,
+  PowerKind,
+} from "./types";
 
 /** A research status, in this domain's authoring vocabulary. */
 export type CellStatus =
@@ -37,6 +42,15 @@ export interface Cell {
   readonly operativeFrom?: string;
   readonly reason?: string;
   readonly investigatedSourceKeys?: readonly string[];
+  /**
+   * The words this fact was read out of, verbatim.
+   *
+   * Optional here because the fixture corpus is a transcription of a research
+   * pass rather than of an instrument. The production compiler requires one on
+   * every cell that carries evidence and refuses the cell unless the excerpt is
+   * literally present in the locked enacted text the cell cites.
+   */
+  readonly excerpt?: string;
 }
 
 export interface CitedSourceInput {
@@ -71,6 +85,22 @@ export interface PresidingRuleInput {
 export interface MeetingPlaceInput {
   readonly kind: MeetingPlaceKind;
   readonly location: Cell;
+}
+
+/**
+ * One authored recurring sitting.
+ *
+ * Optional on the pack, because the three Kentucky pilot packs were authored
+ * before this field existed and a government whose meeting cadence nobody
+ * established should carry no series at all rather than an invented one.
+ */
+export interface MeetingSeriesInput {
+  readonly seriesKey: string;
+  readonly kind: MeetingSeriesKind;
+  readonly bodyName: Cell;
+  readonly cadence: Cell;
+  readonly venue: Cell;
+  readonly publicAttendance: Cell;
 }
 
 export interface PredecessorInput {
@@ -139,9 +169,13 @@ export interface MunicipalPackInput {
     readonly committeeReferral: Cell;
     readonly publicHearing: Cell;
     readonly quorum: Cell;
+    /** Optional: the quorum as arithmetic, where a source established it. */
+    readonly quorumRule?: Cell;
     readonly passageThreshold: Cell;
     readonly amendment: Cell;
     readonly mayoralAction: Cell;
+    /** Optional: the mayor's action window, where a source established it. */
+    readonly mayoralActionWindow?: Cell;
     readonly override: Cell;
     readonly effectivePublication: Cell;
   };
@@ -168,6 +202,9 @@ export interface MunicipalPackInput {
     readonly parallelGeneralGovernment: Cell;
   };
   readonly meetingPlaces: readonly MeetingPlaceInput[];
+  readonly meetingSeries?: readonly MeetingSeriesInput[];
+  /** Attributed report text; never an operative legal rule. */
+  readonly researchObservations?: readonly Cell[];
   readonly unresolved: readonly string[];
   readonly asOf: string;
   readonly citedSources: readonly CitedSourceInput[];
@@ -286,6 +323,60 @@ export function parseMunicipalArtifacts(
     }
     if (!Array.isArray((pack as unknown as MunicipalPackInput).meetingPlaces)) {
       fail(`Pack ${pack.sourceGovernmentKey} meetingPlaces is not an array.`);
+      return;
+    }
+    const series = (pack as unknown as MunicipalPackInput).meetingSeries;
+    if (series !== undefined) {
+      if (!Array.isArray(series)) {
+        fail(`Pack ${pack.sourceGovernmentKey} meetingSeries is not an array.`);
+        return;
+      }
+      const seriesKeys = new Set<string>();
+      for (const entry of series) {
+        if (
+          !isObject(entry) ||
+          typeof entry.seriesKey !== "string" ||
+          !entry.seriesKey
+        ) {
+          fail(
+            `Pack ${pack.sourceGovernmentKey} has a meeting series with no seriesKey.`,
+          );
+          return;
+        }
+        if (seriesKeys.has(entry.seriesKey)) {
+          fail(
+            `Pack ${pack.sourceGovernmentKey} repeats meeting series key "${entry.seriesKey}".`,
+          );
+          return;
+        }
+        seriesKeys.add(entry.seriesKey);
+        if (
+          !isCell(entry.bodyName) ||
+          !isCell(entry.cadence) ||
+          !isCell(entry.venue) ||
+          !isCell(entry.publicAttendance)
+        ) {
+          fail(
+            `Pack ${pack.sourceGovernmentKey} meeting series "${entry.seriesKey}" is missing a cell.`,
+          );
+          return;
+        }
+      }
+    }
+    const observations = (pack as unknown as MunicipalPackInput)
+      .researchObservations;
+    if (
+      observations !== undefined &&
+      (!Array.isArray(observations) ||
+        observations.some(
+          (entry) =>
+            !isCell(entry) ||
+            (entry.status === "KNOWN" && typeof entry.value !== "string"),
+        ))
+    ) {
+      fail(
+        `Pack ${pack.sourceGovernmentKey} has malformed research observations.`,
+      );
       return;
     }
     const elected = (pack as unknown as MunicipalPackInput).electedStructure;

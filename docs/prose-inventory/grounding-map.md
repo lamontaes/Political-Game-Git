@@ -16,6 +16,12 @@ declare is reported as undeclared rather than filled in from a guess.
 | `conversation/commit-contract` | 91 | 0 | 0 | — |
 | `conversation/conversation-subject` | 65 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
+| `governing/municipal-attendance-and-work` | 37 | 0 | 0 | activity-evidence, work-standing |
+| `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
+| `governing/municipal-institution-record` | 2 | 0 | 0 | activity-evidence |
+| `governing/municipal-law-projection` | 47 | 0 | 0 | — |
+| `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
+| `governing/municipal-workspace` | 60 | 0 | 0 | — |
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |
@@ -36,9 +42,9 @@ count is how many families' declared grounding touches each one.
 | --- | --- |
 | Age | 1 |
 | Enrollment | 1 |
-| Work standing | 1 |
+| Work standing | 3 |
 | Colleague or supervisor identity | 2 |
-| Shift or activity evidence | 1 |
+| Shift or activity evidence | 4 |
 | Household and kinship | 2 |
 | Persistent cast identity | 3 |
 | Incidents and locality | 1 |

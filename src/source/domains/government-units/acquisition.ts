@@ -33,7 +33,7 @@ export const GOVERNMENT_UNITS_ZIP_URL =
 
 export const GOVERNMENT_UNITS_ZIP_ARTIFACT =
   "census-gov-units-2025-listing-zip";
-export const GOVERNMENT_UNITS_LISTING_MEMBER = "gov_units_2025.txt";
+export const GOVERNMENT_UNITS_LISTING_MEMBER = "Govt_Units_2025_Final.xlsx";
 
 export const governmentUnitsAcquisition: AcquisitionPlan = {
   domain: "government-units",

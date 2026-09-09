@@ -7,16 +7,18 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5219 |
-| DIAGNOSTIC_OR_TEST | 3948 |
-| **NEEDS_CLASSIFICATION** | **3944** |
+| INVENTORIED | 2105 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5249 |
+| DIAGNOSTIC_OR_TEST | 3994 |
+| **NEEDS_CLASSIFICATION** | **3946** |
 
-Scanned 391 files holding 57489 string
+Scanned 401 files holding 58262 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
 
+- `src/simulation/municipal-rule-registry.generated.ts` — Generated admission projection of the municipal source inventory. Authored rule adapter prose remains inventoried at its original source, not duplicated in the transport.
+- `src/simulation/municipal-governments.generated.ts` — Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.
 - `src/source` — The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.
 - `src/devtools` — Developer diagnostics. Reachable only from the developer view, which ordinary play never opens.
@@ -30,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 | --- | --- |
 | 221 | `src/presentation/run-b-conversation.ts` |
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
-| 124 | `src/simulation/legislation.ts` |
+| 126 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |

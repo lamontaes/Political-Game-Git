@@ -1,0 +1,45 @@
+
+ RUN  v4.1.1 /private/tmp/pg-muni-play1
+
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 1 failed) 3967ms
+     × reports counts that match a live measurement, not a stale run 967ms
+(node:63669) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65420) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65435) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65458) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66063) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66540) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > reports counts that match a live measurement, not a stale run
+AssertionError: expected 52324 to be 51732 // Object.is equality
+
+- Expected
++ Received
+
+- 51732
++ 52324
+
+ ❯ scripts/prose-corpus/corpus.test.ts:557:36
+    555|     );
+    556|     expect(report).toContain(
+    557|       `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
+       |                                    ^
+    558|     );
+    559|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 178 passed (179)
+      Tests  1 failed | 3237 passed | 2 skipped (3240)
+   Start at  23:26:57
+   Duration  295.23s (transform 6.83s, setup 0ms, import 38.97s, tests 229.77s, environment 11ms)
+
