@@ -546,12 +546,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which composes current
-    // accepted main with the LEG-CONTENT1 bill families and docket modules.
+    // accepted main with the LEG-CONTENT1 bill families and docket.
+    // The generator was re-run; these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(60496);
+    expect(coverage.totalLiterals).toBe(61497);
     expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(403);
-    expect(coverage.scannedFiles).toBe(371);
+    expect(coverage.scannedFiles).toBe(412);
   });
 });
 

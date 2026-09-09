@@ -1,11 +1,24 @@
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
-import { unknownRule } from "./legislature-rules";
+import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type {
   FormalSeatCount,
   LegislativeRulePack,
   RuleValue,
 } from "./legislature-rules";
 import type { ElectiveOfficeRef } from "./types";
+import { candidateQualificationRuleSet } from "./candidate-qualification";
+import { makeIsoDate } from "./dates";
+import {
+  OFFICE_QUALIFICATIONS_META,
+  officeFamilyForChamberKey,
+  officeQualification as compiledOfficeQualification,
+  officeQualifications as compiledOfficeQualifications,
+  qualificationSourceRef,
+} from "./office-qualification-rules";
+import type {
+  QualificationOfficeFamily,
+  SourcedQualification,
+} from "./office-qualification-rules";
 
 /**
  * Which offices exist to be run for, and on whose authority.
@@ -17,13 +30,11 @@ import type { ElectiveOfficeRef } from "./types";
  * and where, lives next door in `candidacy.ts`, which is free to know about
  * places because nothing in the world's own import graph needs it.
  *
- * The game has no candidate-qualification corpus. What it does have is a set of
- * accepted legislative rule packs, and each of those cites the constitutional
- * text establishing a chamber and the number of members elected to it. That is
- * enough to say truthfully that the office exists and is filled by election. It
- * is not enough to say who may stand for it, when filing closes, or which
- * district a seat belongs to, and this module says so rather than filling the
- * gaps in with something plausible.
+ * The game now has a bounded candidate-qualification corpus. It is joined to
+ * accepted legislative rule packs by exact jurisdiction and chamber keys; no
+ * display name decides which rule applies. Missing filing rules and district
+ * identity remain explicit gaps rather than being filled with something
+ * plausible.
  *
  * So candidacy is offered exactly where a pack has been accepted, and nowhere
  * else. Lexington-Fayette has a jurisdiction and a household and an ordinary
@@ -100,14 +111,18 @@ export interface CandidacyCoverage {
   readonly packCount: number;
   readonly officeCount: number;
   /** True only once real candidate qualifications back the offer. */
-  readonly qualificationsAreSourced: false;
+  readonly qualificationsAreSourced: boolean;
+  readonly sourcedOfficeCount: number;
   readonly outstandingDependency: string;
   /** The same fact, said the way a player should hear it. */
   readonly playerNote: string;
 }
 
 const NO_QUALIFICATION_CORPUS =
-  "No accepted source in this repository states candidate qualifications, filing deadlines, or terms of office. The legislative rule packs describe how a measure moves through a chamber, not who may stand for a seat in it.";
+  "No accepted source in this repository states this office's candidate qualifications. The legislative rule pack describes how a measure moves through the chamber, not who may stand for a seat in it.";
+
+const NO_FILING_CORPUS =
+  "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.";
 
 const NO_MEMBERSHIP_INSTRUMENT =
   "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.";
@@ -115,7 +130,148 @@ const NO_MEMBERSHIP_INSTRUMENT =
 const NO_DISTRICT_GEOGRAPHY =
   "The game has no district geography, so a seat in this chamber has no district identity and a contest is for a seat rather than for a numbered district.";
 
-function officeQualification(): ElectiveOfficeQualification {
+function officeQualification(
+  packId: string,
+  jurisdictionKey: string,
+  chamberKey: string,
+): ElectiveOfficeQualification {
+  const rules = candidateQualificationRuleSet(
+    `${packId}:candidacy`,
+    `${packId}:${chamberKey}`,
+    makeIsoDate(OFFICE_QUALIFICATIONS_META.asOf),
+  );
+  if (rules) {
+    const source = {
+      authority: "constitution" as const,
+      citation:
+        rules.minimumAge.state === "KNOWN"
+          ? rules.minimumAge.source.legalLocator
+          : "Qualification source unresolved",
+      sourceTitle:
+        rules.minimumAge.state === "KNOWN"
+          ? rules.minimumAge.source.sourceTitle
+          : "Qualification source unresolved",
+      sourceUrl:
+        rules.minimumAge.state === "KNOWN"
+          ? rules.minimumAge.source.sourceUrl
+          : null,
+      retrievedAt:
+        rules.minimumAge.state === "KNOWN"
+          ? rules.minimumAge.source.retrievedAt
+          : null,
+      verification: "verified" as const,
+      note:
+        rules.minimumAge.state === "KNOWN"
+          ? rules.minimumAge.source.researchLineage
+          : null,
+    };
+    return {
+      minimumAge:
+        rules.minimumAge.state === "KNOWN"
+          ? knownRule(rules.minimumAge.value, source)
+          : unknownRule("Minimum age is not resolved."),
+      residency:
+        rules.stateResidenceYears.state === "KNOWN" &&
+        rules.districtResidenceYears.state === "KNOWN"
+          ? knownRule(
+              `${rules.stateResidenceYears.value} years in the state and ${rules.districtResidenceYears.value} year in the district immediately preceding filing`,
+              source,
+            )
+          : unknownRule("Residence qualification is not resolved."),
+      termYears:
+        rules.termYears.state === "KNOWN"
+          ? knownRule(rules.termYears.value, source)
+          : unknownRule("Term length is not resolved."),
+      filing: unknownRule(
+        "The qualification source establishes who may serve, not a filing deadline or filing authority.",
+      ),
+    };
+  }
+
+  const officeFamily = officeFamilyForChamberKey(chamberKey);
+  if (officeFamily !== null) {
+    const numericRule = (
+      row: SourcedQualification | null,
+    ): RuleValue<number> => {
+      if (row === null) return unknownRule(NO_QUALIFICATION_CORPUS);
+      if (row.sourceState === "NO_REQUIREMENT_FOUND") {
+        return notApplicableRule(
+          `${row.citation} was read and imposes no such requirement.`,
+        );
+      }
+      if (row.sourceState === "NOT_APPLICABLE") {
+        return notApplicableRule(
+          `${row.citation} does not reach this office for this requirement.`,
+        );
+      }
+      if (row.sourceState !== "KNOWN" || typeof row.value !== "number") {
+        return unknownRule(
+          `${row.citation} was read but does not provide a whole-number value the game can apply.`,
+        );
+      }
+      return knownRule(row.value, qualificationSourceRef(row));
+    };
+    const textRule = (row: SourcedQualification | null): RuleValue<string> => {
+      if (row === null) return unknownRule(NO_QUALIFICATION_CORPUS);
+      if (row.sourceState === "NO_REQUIREMENT_FOUND") {
+        return notApplicableRule(
+          `${row.citation} was read and imposes no such requirement.`,
+        );
+      }
+      if (row.sourceState === "NOT_APPLICABLE") {
+        return notApplicableRule(
+          `${row.citation} does not reach this office for this requirement.`,
+        );
+      }
+      if (row.sourceState !== "KNOWN" || row.value === null) {
+        return unknownRule(
+          `${row.citation} was read but left this requirement unresolved.`,
+        );
+      }
+      return knownRule(String(row.value), qualificationSourceRef(row));
+    };
+    if (
+      compiledOfficeQualifications(
+        jurisdictionKey,
+        officeFamily,
+        OFFICE_QUALIFICATIONS_META.asOf,
+      ).length > 0
+    ) {
+      return {
+        minimumAge: numericRule(
+          compiledOfficeQualification(
+            jurisdictionKey,
+            officeFamily,
+            "MINIMUM_AGE",
+            OFFICE_QUALIFICATIONS_META.asOf,
+          ),
+        ),
+        residency: textRule(
+          compiledOfficeQualification(
+            jurisdictionKey,
+            officeFamily,
+            "STATE_RESIDENCE",
+            OFFICE_QUALIFICATIONS_META.asOf,
+          ) ??
+            compiledOfficeQualification(
+              jurisdictionKey,
+              officeFamily,
+              "DISTRICT_RESIDENCE",
+              OFFICE_QUALIFICATIONS_META.asOf,
+            ),
+        ),
+        termYears: numericRule(
+          compiledOfficeQualification(
+            jurisdictionKey,
+            officeFamily,
+            "TERM_LENGTH",
+            OFFICE_QUALIFICATIONS_META.asOf,
+          ),
+        ),
+        filing: unknownRule(NO_FILING_CORPUS),
+      };
+    }
+  }
   return {
     minimumAge: unknownRule(NO_QUALIFICATION_CORPUS),
     residency: unknownRule(NO_QUALIFICATION_CORPUS),
@@ -150,9 +306,19 @@ export function candidacyPackFromRulePack(
       },
       seats: chamber.seats,
       recordedBy: { packId: pack.packId, packName: pack.displayName },
-      qualification: officeQualification(),
+      qualification: officeQualification(
+        pack.packId,
+        pack.jurisdictionKey,
+        chamber.chamberKey,
+      ),
       unresolvedGaps: [
-        NO_QUALIFICATION_CORPUS,
+        ...(officeHasSourcedQualifications(
+          pack.packId,
+          pack.jurisdictionKey,
+          chamber.chamberKey,
+        )
+          ? [NO_FILING_CORPUS]
+          : [NO_QUALIFICATION_CORPUS]),
         NO_MEMBERSHIP_INSTRUMENT,
         NO_DISTRICT_GEOGRAPHY,
       ],
@@ -165,9 +331,17 @@ export function candidacyPackFromRulePack(
     legislativeRulePackId: pack.packId,
     offices,
     unresolvedGaps: [
-      NO_QUALIFICATION_CORPUS,
+      ...(offices.some((office) =>
+        officeHasSourcedQualifications(
+          pack.packId,
+          pack.jurisdictionKey,
+          office.officeKey.split(":").at(-1) ?? "",
+        ),
+      )
+        ? [NO_FILING_CORPUS]
+        : [NO_QUALIFICATION_CORPUS]),
       NO_DISTRICT_GEOGRAPHY,
-      "No primary, party nomination, ballot access or campaign finance rule is sourced, so a filing here is a general-election candidacy and nothing more.",
+      "No primary, party nomination or ballot-access rule is sourced, so a filing here is a general-election candidacy and nothing more.",
     ],
   };
 }
@@ -224,6 +398,15 @@ export function electiveOfficeOption(
 }
 
 export function candidacyCoverage(): CandidacyCoverage {
+  const sourcedOfficeCount = CANDIDACY_PACKS.flatMap((pack) =>
+    pack.offices.map((office) => ({ pack, office })),
+  ).filter(({ pack, office }) =>
+    officeHasSourcedQualifications(
+      pack.legislativeRulePackId,
+      pack.jurisdictionKey,
+      office.officeKey.split(":").at(-1) ?? "",
+    ),
+  ).length;
   return {
     kind: "derived-from-accepted-rule-packs",
     packCount: CANDIDACY_PACKS.length,
@@ -231,9 +414,37 @@ export function candidacyCoverage(): CandidacyCoverage {
       (total, pack) => total + pack.offices.length,
       0,
     ),
-    qualificationsAreSourced: false,
+    qualificationsAreSourced: sourcedOfficeCount > 0,
+    sourcedOfficeCount,
     outstandingDependency: NO_QUALIFICATION_CORPUS,
-    playerNote:
-      "The game knows these seats are elected because it has read the instrument that creates them. It has not read who is allowed to stand for one, so it applies its own adult rule and says so rather than pretending to quote a law.",
+    playerNote: `${sourcedOfficeCount} offered legislative offices carry at least one source-verified qualification. Every other field remains explicitly unresolved; no jurisdiction borrows another's rule.`,
   };
 }
+
+function officeHasSourcedQualifications(
+  packId: string,
+  jurisdictionKey: string,
+  chamberKey: string,
+): boolean {
+  if (
+    candidateQualificationRuleSet(
+      `${packId}:candidacy`,
+      `${packId}:${chamberKey}`,
+      makeIsoDate(OFFICE_QUALIFICATIONS_META.asOf),
+    )
+  ) {
+    return true;
+  }
+  const family: QualificationOfficeFamily | null =
+    officeFamilyForChamberKey(chamberKey);
+  return (
+    family !== null &&
+    compiledOfficeQualifications(
+      jurisdictionKey,
+      family,
+      OFFICE_QUALIFICATIONS_META.asOf,
+    ).some((row) => row.temporalApplicability.state === "SUPPORTED")
+  );
+}
+
+export { OFFICE_QUALIFICATIONS_META };

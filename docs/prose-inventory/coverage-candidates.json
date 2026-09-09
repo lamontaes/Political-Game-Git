@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1927,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5187,
-    "DIAGNOSTIC_OR_TEST": 4081,
-    "NEEDS_CLASSIFICATION": 5147
+    "INTENTIONALLY_NON_PLAYER_FACING": 5247,
+    "DIAGNOSTIC_OR_TEST": 4106,
+    "NEEDS_CLASSIFICATION": 5237
   },
   "needsClassification": [
     {
@@ -4427,6 +4427,110 @@
       "enclosingSymbol": "runCompareAndSwap",
       "line": 1561,
       "text": "Saving was interrupted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "obligation",
+      "line": 68,
+      "text": "The named authority was read and no requirement was found.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 97,
+      "text": "Campaign money remains in the committee-owned resource position, separate from the candidate's personal resources.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 109,
+      "text": "File the statement of spending intent within {String(days)} days.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 115,
+      "text": "Full reporting applies above ${(Number(amount)/100).toFixed(0)} in an election.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 121,
+      "text": "Report schedules: {(schedulesasreadonlystring[]).join(\",\")}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 127,
+      "text": "A report is timely when received within {String(days)} business days after the reporting period ends; this simulation does not guess a calendar date without a Kentucky business-day calendar.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 132,
+      "text": "File through {String(system)}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 138,
+      "text": "Submit corrections through {String(system)} as amendments.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 143,
+      "text": "Filed reports become public records upon receipt.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 149,
+      "text": "Contributions above ${(Number(amount)/100).toFixed(0)} require itemized contributor details.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 155,
+      "text": "Campaign contributions remain in committee accounts and are not commingled with the candidate's personal funds.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 160,
+      "text": "A current contribution limit is known.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/campaign-compliance-projection.ts",
+      "enclosingSymbol": "projectCampaignCompliance",
+      "line": 167,
+      "text": "Campaign money remains in the committee-owned resource position, separate from the candidate's personal resources.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -12527,9 +12631,361 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "CAMPAIGN_COMPLIANCE_ROWS",
+      "line": 27,
+      "text": "[{\"jurisdictionKey\":\"US-MN\",\"regime\":\"Minnesota Campaign Finance and Public Disclosure Act\",\"obligation\":\"principal-campaign-committee-required\",\"thresholdState\":\"KNOWN\",\"thresholdMinorUnits\":75000,\"thresholdCurrency\":\"USD\",\"thresholdAppliesTo\":\"contributions accepted in aggregate from a source other than the candidate\",\"legalLocator\":\"Minn. Stat. § 10A.105, subd. 1\",\"authorityUrl\":\"https://www.revisor.mn.gov/statutes/cite/10A.105\",\"enactedExcerpt\":\"unless the candidate designates and causes to be formed a single principal campaign committee for each office sought\",\"supportingEnactedExcerpts\":[],\"sourceRetrievedAt\":\"2026-09-09T06:24:53.798Z\",\"sourceStatedVintage\":null,\"provisionValidity\":{\"amendmentAnnotations\":[],\"kind\":\"CURRENT_OBSERVATION\",\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired current provision proves this wording on the retrieval date; its history annotation does not establish when every compiled clause began.\"}},{\"jurisdictionKey\":\"US-MN\",\"regime\":\"Minnesota Campaign Finance and Public Disclosure Act\",\"obligation\":\"single-principal-campaign-committee\",\"thresholdState\":\"NOT_APPLICABLE\",\"thresholdMinorUnits\":null,\"thresholdCurrency\":null,\"thresholdAppliesTo\":\"The statute sets no amount for this obligation: a candidate may not form a second committee at any level of receipts.\",\"legalLocator\":\"Minn. Stat. § 10A.105, subd. 1\",\"authorityUrl\":\"https://www.revisor.mn.gov/statutes/cite/10A.105\",\"enactedExcerpt\":\"A candidate may not authorize, designate, or cause to be formed any other political committee bearing the candidate's name or title\",\"supportingEnactedExcerpts\":[],\"sourceRetrievedAt\":\"2026-09-09T06:24:53.798Z\",\"sourceStatedVintage\":null,\"provisionValidity\":{\"amendmentAnnotations\":[],\"kind\":\"CURRENT_OBSERVATION\",\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired current provision proves this wording on the retrieval date; its history annotation does not establish when every compiled clause began.\"}},{\"jurisdictionKey\":\"US-NE\",\"regime\":\"Nebraska Political Accountability and Disclosure Act\",\"obligation\":\"organized-committee-with-treasurer-required\",\"thresholdState\":\"NOT_APPLICABLE\",\"thresholdMinorUnits\":null,\"thresholdCurrency\":null,\"thresholdAppliesTo\":\"The statute sets no amount for this obligation: an unorganised committee without a treasurer may accept nothing and spend nothing.\",\"legalLocator\":\"Neb. Rev. Stat. § 49-1446\",\"authorityUrl\":\"https://nebraskalegislature.gov/laws/statutes.php?statute=49-1446\",\"enactedExcerpt\":\"No contribution shall be accepted and no expenditure shall be made by a committee which has not filed a statement of organization and which does not have a treasurer.\",\"supportingEnactedExcerpts\":[\"Each committee shall have a treasurer who is a qualified elector of this state.\"],\"sourceRetrievedAt\":\"2026-09-09T06:24:54.325Z\",\"sourceStatedVintage\":null,\"provisionValidity\":{\"amendmentAnnotations\":[],\"kind\":\"CURRENT_OBSERVATION\",\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired current provision proves this wording on the retrieval date; its history annotation does not establish when every compiled clause began.\"}}]",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 41,
+      "text": "KRS 121.180(1)(a)1.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 45,
+      "text": "Candidates and slates of candidates shall submit this form to the registry within five (5) days of receiving contributions or making expenditures with a view to bringing about his or her nomination or election to public office, or within five (5) days of filing papers to run for public office, whichever is sooner.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 47,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 56,
+      "text": "KRS 121.180(1)(a), (3)(a)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 60,
+      "text": "more than five thousand dollars ($5,000) in any one (1) election",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 62,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 76,
+      "text": "KRS 121.180(3)(b)2.-5., (4)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 80,
+      "text": "make reports on the sixtieth day preceding a regular election; make reports on the thirtieth day preceding an election; make reports on the fifteenth day preceding the date of the election; make post-election reports within thirty (30) days after the election",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 82,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 91,
+      "text": "KRS 121.180(3)(b)5., (4)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 96,
+      "text": "KRS 121.180 effective-date/history footer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 97,
+      "text": "Effective: July 15, 2026",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 100,
+      "text": "2026 Ky. Acts ch. 175, § 45, KRS 121.180(3)(b)5.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 101,
+      "text": "within seven (7) [two (2)] business days",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 103,
+      "text": "must be received by the registry within seven (7) business days after the date the reporting period ends to be deemed timely filed",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 105,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 114,
+      "text": "KEFMS FAQ: filing an electronic Statement of Spending Intent",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 118,
+      "text": "The new Kentucky Election Finance Management System (KEFMS) is ready to receive your Statement of Spending Intent filing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 120,
+      "text": "KEFMS Frequently Asked Questions updated 2025-08-30",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 133,
+      "text": "All reports filed under the provisions of this chapter shall be a matter of public record open to inspection by any member of the public immediately upon receipt of the report by the registry.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 135,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 144,
+      "text": "KRS 121.180(3)(a)2.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 149,
+      "text": "KRS 121.180 effective-date/history footer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 150,
+      "text": "Effective: July 15, 2026",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 153,
+      "text": "2026 Ky. Acts ch. 175, § 45, KRS 121.180(3)(a)2.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 154,
+      "text": "two hundred dollars ($200) [one hundred dollars ($100)]",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 156,
+      "text": "For each contribution in excess of two hundred dollars ($200)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 158,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 167,
+      "text": "KRS 121.180(9)(a)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 171,
+      "text": "No contributions shall be commingled with the candidate's or slated candidates' personal funds or accounts.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 173,
+      "text": "Includes enactments through the 2026 Regular Session",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 182,
+      "text": "KEFMS FAQ: Amending your Statement of Spending Intent",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 186,
+      "text": "Go to the KEFMS Candidate Dashboard to amend your Statement of Spending Intent.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "enclosingSymbol": "KENTUCKY_COMPLIANCE_REVIEW",
+      "line": 188,
+      "text": "KEFMS Frequently Asked Questions updated 2025-08-30",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "sourceFor",
+      "line": 128,
+      "text": "Kentucky Registry of Election Finance — KEFMS FAQ",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "sourceFor",
+      "line": 129,
+      "text": "Kentucky Revised Statutes § 121.180",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "sourceFor",
+      "line": 154,
+      "text": "Recovered 92M/45 claim, field-reviewed against the hash-locked first-party artifact; no date is inferred from amendment history.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "reviewedValue",
+      "line": 169,
+      "text": "Not applicable.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "assessKentuckyCampaignContribution",
+      "line": 513,
+      "text": "A contribution amount must be a positive integer of minor currency units.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "assessKentuckyCampaignContribution",
+      "line": 518,
+      "text": "The accepted Kentucky pack states amounts in U.S. dollars only.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "assessKentuckyCampaignContribution",
+      "line": 527,
+      "text": "The itemization threshold is {threshold.state} on {input.onDate}; the game will not infer a recordability rule from a later source.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "assessKentuckyCampaignContribution",
+      "line": 532,
+      "text": "The contributor is unknown; the game cannot infer an eligible source or a contribution limit.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "enclosingSymbol": "assessKentuckyCampaignContribution",
+      "line": 543,
+      "text": "A contribution over ${(threshold.state===\"KNOWN\"?threshold.value/100:0).toFixed(0)} lacks the contributor details required for itemization.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignSupportDefinition",
-      "line": 192,
+      "line": 195,
       "text": "Canonical bounded support for one candidate in one contest at an explicit point in time. Not shown to any player; the campaign reads it only through fallible observations.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12537,7 +12993,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignSupportDefinition",
-      "line": 201,
+      "line": 204,
       "text": "Candidate support is contest-specific and cannot be summed across candidates or jurisdictions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12545,7 +13001,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 498,
+      "line": 501,
       "text": "Campaign stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12553,7 +13009,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 499,
+      "line": 502,
       "text": "Campaign committee name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12561,7 +13017,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 500,
+      "line": 503,
       "text": "Campaign supporter pool name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12569,7 +13025,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 501,
+      "line": 504,
       "text": "Campaign advertising vendor name",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12577,7 +13033,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "rivals",
-      "line": 531,
+      "line": 534,
       "text": "Campaign rivals",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12585,7 +13041,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "staffPersonIds",
-      "line": 535,
+      "line": 538,
       "text": "Campaign staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12593,7 +13049,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 618,
+      "line": 621,
       "text": "An aggregate pool of supporters. The game has no donor corpus and does not pretend to model individual contributions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12601,7 +13057,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 628,
+      "line": 631,
       "text": "An aggregate advertising counterparty. The game has no media market and does not pretend to model one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12609,7 +13065,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 691,
+      "line": 694,
       "text": "Campaign volunteer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12617,7 +13073,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 724,
+      "line": 727,
       "text": "Filed for a {option.office.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12625,7 +13081,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 730,
+      "line": 733,
       "text": "{candidate.givenName} {candidate.familyName} filed as a candidate for a {option.office.title}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12633,7 +13089,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 735,
+      "line": 738,
       "text": "Filing for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12641,7 +13097,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 738,
+      "line": 741,
       "text": "A public candidacy, on the record from the day it was filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12649,7 +13105,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 740,
+      "line": 743,
       "text": "Put their name on the ballot.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12657,7 +13113,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 741,
+      "line": 744,
       "text": "Stand for something they cannot change from outside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12665,7 +13121,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "fileCampaign",
-      "line": 743,
+      "line": 746,
       "text": "There is a committee, an empty account, and a date to work towards.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12673,7 +13129,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "participants",
-      "line": 854,
+      "line": 862,
       "text": "Campaign activity participants",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12681,7 +13137,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "next",
-      "line": 1083,
+      "line": 1091,
       "text": "Campaign field memo",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12689,7 +13145,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "moneyLabel",
-      "line": 1116,
+      "line": 1124,
       "text": "{amount.currency} {(amount.minorUnits/100).toFixed(2)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12697,7 +13153,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "actionMoney",
-      "line": 1187,
+      "line": 1195,
       "text": "Proceeds of a scheduled fundraising session, received by the committee.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12705,7 +13161,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "actionMoney",
-      "line": 1188,
+      "line": 1196,
       "text": "An advertising buy, paid out of the committee's own account.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12713,7 +13169,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "outcomeSummary",
-      "line": 1241,
+      "line": 1249,
       "text": "The committee spent the session on the phones and took in {moneyLabel(money.raisedAmount!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12721,7 +13177,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "outcomeSummary",
-      "line": 1243,
+      "line": 1251,
       "text": "The committee placed an advertising buy worth {moneyLabel(money.spentAmount!)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12729,7 +13185,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "outcomeSummary",
-      "line": 1244,
+      "line": 1252,
       "text": "The campaign spent the session knocking on doors and talking to people who answered.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12737,7 +13193,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1263,
+      "line": 1271,
       "text": "Led a fundraising session",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12745,7 +13201,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1265,
+      "line": 1273,
       "text": "Signed off the advertising buy",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12753,7 +13209,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1266,
+      "line": 1274,
       "text": "Led the door-knocking",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12761,7 +13217,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1279,
+      "line": 1287,
       "text": "Campaign work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12769,7 +13225,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1281,
+      "line": 1289,
       "text": "Campaign work, on the same clock as the rest of the day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12777,7 +13233,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1282,
+      "line": 1290,
       "text": "There are only so many days left before the election.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12785,7 +13241,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1285,
+      "line": 1293,
       "text": "Spend the afternoon asking people for money.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12793,7 +13249,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1287,
+      "line": 1295,
       "text": "Spend the committee's money reaching people nobody had time to meet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12801,7 +13257,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1288,
+      "line": 1296,
       "text": "Spend the afternoon meeting people instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12809,7 +13265,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1289,
+      "line": 1297,
       "text": "Be in a position to win on the day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12817,7 +13273,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1292,
+      "line": 1300,
       "text": "There is more in the account than there was this morning.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12825,7 +13281,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1294,
+      "line": 1302,
       "text": "There is less in the account, and more people have heard the name.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12833,7 +13289,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1295,
+      "line": 1303,
       "text": "Somebody who had never heard of them now has.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12841,7 +13297,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1337,
+      "line": 1345,
       "text": "Read the field memo",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12849,7 +13305,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1343,
+      "line": 1351,
       "text": "The field memo puts them somewhere around {Math.round(observed)} percent, give or take four points.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12857,7 +13313,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1347,
+      "line": 1355,
       "text": "Campaign office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12865,7 +13321,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1348,
+      "line": 1356,
       "text": "A memo left on the desk",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12873,7 +13329,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1351,
+      "line": 1359,
       "text": "Somebody's best estimate from the calls they made, not the electorate itself.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12881,7 +13337,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1354,
+      "line": 1362,
       "text": "Give the candidate something to act on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12889,7 +13345,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "performCampaignAction",
-      "line": 1355,
+      "line": 1363,
       "text": "It could be wrong, and there is no way to check.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12897,7 +13353,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "terminal",
-      "line": 1595,
+      "line": 1603,
       "text": "They won, and the office follows.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12905,7 +13361,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "terminal",
-      "line": 1596,
+      "line": 1604,
       "text": "They lost. The campaign is over; the life is not.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12913,7 +13369,7 @@
     {
       "sourcePath": "src/simulation/campaigns.ts",
       "enclosingSymbol": "campaignElectionTransitionHandler",
-      "line": 1683,
+      "line": 1691,
       "text": "The contest for a {requireElectionContest(closed,campaign.contestId).office.title} was decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12921,15 +13377,23 @@
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "NO_QUALIFICATION_CORPUS",
-      "line": 110,
-      "text": "No accepted source in this repository states candidate qualifications, filing deadlines, or terms of office. The legislative rule packs describe how a measure moves through a chamber, not who may stand for a seat in it.",
+      "line": 122,
+      "text": "No accepted source in this repository states this office's candidate qualifications. The legislative rule pack describes how a measure moves through the chamber, not who may stand for a seat in it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "NO_FILING_CORPUS",
+      "line": 125,
+      "text": "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "NO_MEMBERSHIP_INSTRUMENT",
-      "line": 113,
+      "line": 128,
       "text": "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12937,15 +13401,119 @@
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "NO_DISTRICT_GEOGRAPHY",
-      "line": 116,
+      "line": 131,
       "text": "The game has no district geography, so a seat in this chamber has no district identity and a contest is for a seat rather than for a numbered district.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "source",
+      "line": 149,
+      "text": "Qualification source unresolved",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "source",
+      "line": 153,
+      "text": "Qualification source unresolved",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "officeQualification",
+      "line": 172,
+      "text": "Minimum age is not resolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "officeQualification",
+      "line": 177,
+      "text": "{rules.stateResidenceYears.value} years in the state and {rules.districtResidenceYears.value} year in the district immediately preceding filing",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "officeQualification",
+      "line": 180,
+      "text": "Residence qualification is not resolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "officeQualification",
+      "line": 184,
+      "text": "Term length is not resolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "officeQualification",
+      "line": 186,
+      "text": "The qualification source establishes who may serve, not a filing deadline or filing authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "numericRule",
+      "line": 199,
+      "text": "{row.citation} was read and imposes no such requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "numericRule",
+      "line": 204,
+      "text": "{row.citation} does not reach this office for this requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "numericRule",
+      "line": 209,
+      "text": "{row.citation} was read but does not provide a whole-number value the game can apply.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "textRule",
+      "line": 218,
+      "text": "{row.citation} was read and imposes no such requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "textRule",
+      "line": 223,
+      "text": "{row.citation} does not reach this office for this requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
+      "enclosingSymbol": "textRule",
+      "line": 228,
+      "text": "{row.citation} was read but left this requirement unresolved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "offices",
-      "line": 146,
+      "line": 302,
       "text": "Seat in the {chamber.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12953,23 +13521,23 @@
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "candidacyPackFromRulePack",
-      "line": 170,
-      "text": "No primary, party nomination, ballot access or campaign finance rule is sourced, so a filing here is a general-election candidacy and nothing more.",
+      "line": 344,
+      "text": "No primary, party nomination or ballot-access rule is sourced, so a filing here is a general-election candidacy and nothing more.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
       "enclosingSymbol": "candidacyCoverage",
-      "line": 237,
-      "text": "The game knows these seats are elected because it has read the instrument that creates them. It has not read who is allowed to stand for one, so it applies its own adult rule and says so rather than pretending to quote a law.",
+      "line": 420,
+      "text": "{sourcedOfficeCount} offered legislative offices carry at least one source-verified qualification. Every other field remains explicitly unresolved; no jurisdiction borrows another's rule.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/candidacy.ts",
       "enclosingSymbol": "noSourcedOfficeReason",
-      "line": 125,
+      "line": 141,
       "text": "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12977,7 +13545,7 @@
     {
       "sourcePath": "src/simulation/candidacy.ts",
       "enclosingSymbol": "noSourcedOfficeReason",
-      "line": 128,
+      "line": 144,
       "text": "The game has not read this state's elected offices yet, so there is nothing to stand for here. It will not borrow another state's rules to fill the gap.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12985,8 +13553,64 @@
     {
       "sourcePath": "src/simulation/candidacy.ts",
       "enclosingSymbol": "noSourcedOfficeReason",
-      "line": 131,
+      "line": 147,
       "text": "That office is not one the accepted rules for this place establish, so the game will not put it on a ballot.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "AK_CONSTITUTION",
+      "line": 43,
+      "text": "The Constitution of the State of Alaska",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "AK_CONSTITUTION",
+      "line": 45,
+      "text": "Alaska Const. art. II, §§ 2–3",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "AK_CONSTITUTION",
+      "line": 49,
+      "text": "31A Alaska legislative-office qualification rows",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "candidateQualificationRuleSet",
+      "line": 98,
+      "text": "minimum age",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "candidateQualificationRuleSet",
+      "line": 99,
+      "text": "state residence",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "candidateQualificationRuleSet",
+      "line": 100,
+      "text": "district residence",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "enclosingSymbol": "candidateQualificationRuleSet",
+      "line": 101,
+      "text": "term length",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -33999,6 +34623,102 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "qualificationSourceRef",
+      "line": 249,
+      "text": "Retrieved state authority",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "qualificationRuleValue",
+      "line": 279,
+      "text": "{row.citation} was read and imposes no such requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "qualificationRuleValue",
+      "line": 284,
+      "text": "{row.citation} does not reach this office for this requirement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "qualificationRuleValue",
+      "line": 288,
+      "text": "{row.citation} was read but left this unresolved ({row.sourceState}).",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 429,
+      "text": "Old enough: {row.citation} sets the minimum at {required}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 430,
+      "text": "Too young to stand: {row.citation} sets the minimum at {required}, and this character is {age}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 452,
+      "text": "{row.citation} requires {String(row.value)} of residence. The game has not recorded when this character came to live here, so it will not guess whether they qualify.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 453,
+      "text": "{row.citation} states a residence requirement the game cannot read as a number of years.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 463,
+      "text": "Resident long enough: {row.citation} requires {required} year{required===1?\"\":\"s\"}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "enclosingSymbol": "assessOfficeQualifications",
+      "line": 464,
+      "text": "Not resident long enough: {row.citation} requires {required} year{required===1?\"\":\"s\"}, and this character has lived here {held}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualifications.generated.ts",
+      "enclosingSymbol": "OFFICE_QUALIFICATIONS_META",
+      "line": 32,
+      "text": "Office qualifications for MN, MO, NE, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/office-qualifications.generated.ts",
+      "enclosingSymbol": "OFFICE_QUALIFICATION_ROWS",
+      "line": 42,
+      "text": "[{\"stateUsps\":\"MN\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":21,\"citation\":\"Minn. Const. art. VII, § 6\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_7\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MN\",\"officeFamily\":\"GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Minn. Const. art. V, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_5\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MN\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"DISTRICT_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":\"6 months\",\"citation\":\"Minn. Const. art. IV, § 6\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_4\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MN\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":21,\"citation\":\"Minn. Const. art. VII, § 6; art. IV, § 6\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_7\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MN\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"STATE_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":1,\"citation\":\"Minn. Const. art. IV, § 6\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_4\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MN\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":\"4_YEARS_WITH_2_YEAR_REDISTRICTING_EXCEPTION\",\"citation\":\"Minn. Const. art. IV, § 4\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1974-11-05\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:31.597Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.revisor.mn.gov/constitution/#article_4\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"GOVERNOR\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":30,\"citation\":\"Mo. Const. art. IV, § 3\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-4-sec-3\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:42.616Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Mo. Const. 1945, art. IV, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-4-sec-1\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:40.487Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=IV+++1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"GOVERNOR\",\"field\":\"STATE_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":10,\"citation\":\"Mo. Const. art. IV, § 3\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-4-sec-3\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:42.616Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"GOVERNOR\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_TERMS_LIFETIME\",\"citation\":\"Mo. Const. art. IV, § 17\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1965-08-17\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Amended August 17, 1965\",\"Amended August 4, 1970\"],\"basisArtifactId\":\"mo-constitution-art-4-sec-17\",\"basisExcerpt\":\"Effective - 03 Sep 1970\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1970-09-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:44.777Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=IV+++17\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"GOVERNOR\",\"field\":\"US_CITIZENSHIP\",\"sourceState\":\"KNOWN\",\"value\":15,\"citation\":\"Mo. Const. art. IV, § 3\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-4-sec-3\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:42.616Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":24,\"citation\":\"Mo. Const. art. III, § 4\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-3-sec-4\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:34.087Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=III+++4\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"8_YEARS_CHAMBER_16_YEARS_TOTAL\",\"citation\":\"Mo. Const. art. III, § 8\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1992-11-03\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Adopted November 3, 1992\",\"Amended November 5, 2002\"],\"basisArtifactId\":\"mo-constitution-art-3-sec-8\",\"basisExcerpt\":\"Effective - 05 Dec 2002\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"2002-12-05\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:38.356Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=III+++8\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"MO\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":30,\"citation\":\"Mo. Const. art. III, § 6\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1945-02-27\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"mo-constitution-art-3-sec-6\",\"basisExcerpt\":\"Effective - 27 Feb 1945\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1945-02-27\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:36.224Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://revisor.mo.gov/main/OneSection.aspx?section=III+++6\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"GOVERNOR\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":30,\"citation\":\"Neb. Const. art. IV, § 2\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1875-11-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:57.892Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=IV-2\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Neb. Const. art. IV, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1875-11-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:55.795Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=IV-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"GOVERNOR\",\"field\":\"STATE_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":5,\"citation\":\"Neb. Const. art. IV, § 2\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1875-11-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:57.892Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=IV-2\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"GOVERNOR\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE_TERMS\",\"citation\":\"Neb. Const. art. IV, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1966-11-08\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:55.795Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=IV-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"LIEUTENANT_GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Neb. Const. art. IV, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1875-11-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:55.795Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=IV-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"false\",\"citation\":\"Neb. Const. art. III, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1937-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:47.405Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"DISTRICT_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":1,\"citation\":\"Neb. Const. art. III, § 8\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1972-11-07\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:51.595Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-8\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":21,\"citation\":\"Neb. Const. art. III, § 8\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1972-11-07\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:51.595Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-8\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Neb. Const. art. III, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1937-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:47.405Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"SELECTION_MECHANISM\",\"sourceState\":\"KNOWN\",\"value\":\"ELECTED_NONPARTISAN\",\"citation\":\"Neb. Const. art. III, § 7\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1937-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:49.501Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-7\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Neb. Const. art. III, § 7\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1937-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:49.501Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-7\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE_TERMS\",\"citation\":\"Neb. Const. art. III, § 12\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"2000-11-07\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:53.694Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-12\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NE\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"false\",\"citation\":\"Neb. Const. art. III, § 1\",\"authorityType\":\"CONSTITUTION\",\"researchReportedEffectiveDate\":\"1937-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:39:47.405Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://nebraskalegislature.gov/laws/articles.php?article=III-1\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NV\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":30,\"citation\":\"NRS 228.010 (amended 2021)\",\"authorityType\":\"STATUTE\",\"researchReportedEffectiveDate\":\"2021-10-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"NRS A 2021, 932\",\"NRS A 2025, 2094\"],\"basisArtifactId\":\"nv-2021-chapter-199-ab236\",\"basisExcerpt\":\"This act becomes effective upon passage and approval.\",\"basisLocator\":\"2021 Nev. Stat., ch. 199, §§ 1-2\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"2021-05-29\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:58.240Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.leg.state.nv.us/NRS/NRS-228.html#NRS228Sec010\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NV\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"PROFESSIONAL_QUALIFICATION\",\"sourceState\":\"KNOWN\",\"value\":\"MEMBER_STATE_BAR_OF_NEVADA\",\"citation\":\"NRS 228.010\",\"authorityType\":\"STATUTE\",\"researchReportedEffectiveDate\":\"2021-10-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"NRS A 2021, 932\",\"NRS A 2025, 2094\"],\"basisArtifactId\":\"nv-2021-chapter-199-ab236\",\"basisExcerpt\":\"This act becomes effective upon passage and approval.\",\"basisLocator\":\"2021 Nev. Stat., ch. 199, §§ 1-2\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"2021-05-29\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:58.240Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.leg.state.nv.us/NRS/NRS-228.html#NRS228Sec010\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NV\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"STATE_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":3,\"citation\":\"NRS 228.010\",\"authorityType\":\"STATUTE\",\"researchReportedEffectiveDate\":\"2021-10-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"NRS A 2021, 932\",\"NRS A 2025, 2094\"],\"basisArtifactId\":\"nv-2021-chapter-199-ab236\",\"basisExcerpt\":\"This act becomes effective upon passage and approval.\",\"basisLocator\":\"2021 Nev. Stat., ch. 199, §§ 1-2\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"2021-05-29\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:39:58.240Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.leg.state.nv.us/NRS/NRS-228.html#NRS228Sec010\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NV\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"MINIMUM_AGE\",\"sourceState\":\"KNOWN\",\"value\":21,\"citation\":\"NRS 218A.200\",\"authorityType\":\"STATUTE\",\"researchReportedEffectiveDate\":\"1957-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:40:02.920Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.leg.state.nv.us/NRS/NRS-218A.html#NRS218ASec200\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"NV\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"STATE_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":1,\"citation\":\"NRS 218A.200\",\"authorityType\":\"STATUTE\",\"researchReportedEffectiveDate\":\"1957-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"observedOn\":\"2026-09-09\",\"reason\":\"The acquired publisher snapshot proves the current words on this observation date, but no claim-specific primary material in this corpus proves how far back those same words applied.\",\"state\":\"CURRENT_OBSERVATION\"},\"sourceRetrievedAt\":\"2026-09-09T05:40:02.920Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://www.leg.state.nv.us/NRS/NRS-218A.html#NRS218ASec200\",\"researchBatch\":\"31C\",\"researchArtifactId\":\"31F-compiler-ready-claims\",\"researchArtifactSha256\":\"141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384\",\"derivation\":\"DIRECT\",\"derivationChain\":null,\"notes\":null},{\"stateUsps\":\"OH\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"SELECTION_MECHANISM\",\"sourceState\":\"KNOWN\",\"value\":\"ELECTED_GENERAL\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1954-11-02\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"ATTORNEY_GENERAL\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE\",\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1995-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Same 2-consecutive term limit\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"GOVERNOR\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Foundational Ohio eligibility requirement\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"GOVERNOR\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1954-11-02\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"GOVERNOR\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE\",\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1995-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Must sit out 4 years before running again\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LIEUTENANT_GOVERNOR\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LIEUTENANT_GOVERNOR\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LIEUTENANT_GOVERNOR\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1954-11-02\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LIEUTENANT_GOVERNOR\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE\",\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1995-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"DISTRICT_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":\"RESIDENT_1_YEAR\",\"citation\":\"Ohio Const. art. II, § 3\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-2-3\",\"basisExcerpt\":\"Effective: November 7, 1967\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1967-11-07\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:07.584Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.3\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Except when absent on public business\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. II, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-2-1\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:03.437Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"99 members\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"SELECTION_MECHANISM\",\"sourceState\":\"KNOWN\",\"value\":\"ELECTED_GENERAL\",\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":2,\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"LOWER_CHAMBER\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"4_CONSECUTIVE\",\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1993-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Max 8 consecutive years (4 terms)\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"SECRETARY_OF_STATE\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"SECRETARY_OF_STATE\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"SECRETARY_OF_STATE\",\"field\":\"SELECTION_MECHANISM\",\"sourceState\":\"KNOWN\",\"value\":\"ELECTED_GENERAL\",\"citation\":\"Ohio Const. art. III, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-3-1\",\"basisExcerpt\":\"Effective: October 13, 1885\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1885-10-13\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:09.650Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"SECRETARY_OF_STATE\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1954-11-02\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"SECRETARY_OF_STATE\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE\",\"citation\":\"Ohio Const. art. III, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1995-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1995 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-3-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:13.789Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-3.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Same 2-consecutive term limit\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UNICAMERAL_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"false\",\"citation\":\"Ohio Const. art. II, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-2-1\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:03.437Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Unicameral N/A in OH\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"DISTRICT_RESIDENCE\",\"sourceState\":\"KNOWN\",\"value\":\"RESIDENT_1_YEAR\",\"citation\":\"Ohio Const. art. II, § 3\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-2-3\",\"basisExcerpt\":\"Effective: November 7, 1967\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1967-11-07\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:07.584Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.3\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Except when absent on public business\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"ELECTOR_REQUIREMENT\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. XV, § 4\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-15-4\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:15.860Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-15.4\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"OFFICE_EXISTENCE\",\"sourceState\":\"KNOWN\",\"value\":\"true\",\"citation\":\"Ohio Const. art. II, § 1\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[],\"basisArtifactId\":\"oh-constitution-sec-2-1\",\"basisExcerpt\":\"Effective: November 3, 1953\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1953-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:03.437Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.1\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"33 members\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"SELECTION_MECHANISM\",\"sourceState\":\"KNOWN\",\"value\":\"ELECTED_GENERAL\",\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"TERM_LENGTH\",\"sourceState\":\"KNOWN\",\"value\":4,\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1851-09-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"none\"},{\"stateUsps\":\"OH\",\"officeFamily\":\"UPPER_CHAMBER\",\"field\":\"TERM_LIMIT\",\"sourceState\":\"KNOWN\",\"value\":\"2_CONSECUTIVE\",\"citation\":\"Ohio Const. art. II, § 2\",\"authorityType\":\"State Constitution\",\"researchReportedEffectiveDate\":\"1993-01-01\",\"provisionValidity\":{\"amendmentAnnotations\":[\"Only terms beginning on or after January 1, 1993 shall be considered\"],\"basisArtifactId\":\"oh-constitution-sec-2-2\",\"basisExcerpt\":\"Effective: November 3, 1992\",\"basisLocator\":\"publisher effective-date label\",\"state\":\"EXACT_INTERVAL\",\"validFrom\":\"1992-11-03\",\"validThrough\":null},\"sourceRetrievedAt\":\"2026-09-09T05:40:05.507Z\",\"sourceStatedVintage\":null,\"authorityUrl\":\"https://codes.ohio.gov/ohio-constitution/section-2.2\",\"researchBatch\":\"31D\",\"researchArtifactId\":\"31D-recovered-qualifications\",\"researchArtifactSha256\":\"bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473\",\"derivation\":\"DIRECT\",\"derivationChain\":\"none\",\"notes\":\"Max 8 consecutive years (2 terms)\"}]",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/people.ts",
       "enclosingSymbol": "EDUCATION_PATHS",
       "line": 37,
@@ -41199,6 +41919,12 @@
     {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateSubjectKnowledgeProvenance. Play fails closed rather than showing it.",
       "count": 5
     },
@@ -41263,9 +41989,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/world-metrics.ts",
+      "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -41293,6 +42019,12 @@
       "count": 54
     },
     {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 16
+    },
+    {
       "sourcePath": "src/simulation/vitality.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -41301,13 +42033,37 @@
     {
       "sourcePath": "src/simulation/vitality-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertVitalityIntegrity. Play fails closed rather than showing it.",
-      "count": 16
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/CausalTraceView.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/vitality-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertVitalityIntegrity. Play fails closed rather than showing it.",
       "count": 16
     },
     {
@@ -41347,45 +42103,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/vitality-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertUniqueId. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/CausalTraceView.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -41503,6 +42223,12 @@
       "count": 7
     },
     {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/rng.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -41512,6 +42238,12 @@
       "sourcePath": "src/simulation/rng.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/serialization.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -41525,12 +42257,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/resource-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/resource-integrity.ts",
@@ -41551,21 +42277,39 @@
       "count": 5
     },
     {
-      "sourcePath": "src/simulation/serialization.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
       "sourcePath": "src/simulation/records.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/resource-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/resources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in requireWorkCompensationFlow. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/resources.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -41593,21 +42337,15 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/portability-fixture.ts",
+      "sourcePath": "src/simulation/quantity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 13
     },
     {
       "sourcePath": "src/simulation/politics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateSubjectKnowledgeProvenance. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/resources.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateLifeProvenance. Play fails closed rather than showing it.",
       "count": 3
     },
     {
@@ -41637,12 +42375,6 @@
     {
       "sourcePath": "src/simulation/political-belief-formation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/political-belief-formation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 14
     },
@@ -41654,12 +42386,6 @@
     },
     {
       "sourcePath": "src/simulation/policy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 13
-    },
-    {
-      "sourcePath": "src/simulation/quantity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 13
@@ -41683,34 +42409,16 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/resources.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "sourcePath": "src/simulation/political-belief-formation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "sourcePath": "src/simulation/portability-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyRealization. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -41743,6 +42451,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/simulation/resources.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateLifeProvenance. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyOperation. Play fails closed rather than showing it.",
@@ -41752,6 +42466,12 @@
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyImplementationProfile. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyRealization. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -41771,6 +42491,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyBaseline. Play fails closed rather than showing it.",
       "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
@@ -41821,12 +42547,6 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePolicyAlternative. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -41869,6 +42589,18 @@
       "count": 10
     },
     {
+      "sourcePath": "src/simulation/office-qualification-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 9
+    },
+    {
+      "sourcePath": "src/simulation/office-qualification-rules.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 8
+    },
+    {
       "sourcePath": "src/simulation/narrative-threads.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -41879,12 +42611,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/municipal-election-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/municipal-election-rules.ts",
@@ -41905,18 +42631,6 @@
       "count": 92
     },
     {
-      "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 54
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
@@ -41929,10 +42643,28 @@
       "count": 54
     },
     {
+      "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 54
+    },
+    {
       "sourcePath": "src/simulation/mind-queries.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 33
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -41955,43 +42687,25 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 2
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMindProvenance. Play fails closed rather than showing it.",
-      "count": 2
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -42073,6 +42787,24 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -42147,12 +42879,6 @@
     {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateMembership. Play fails closed rather than showing it.",
       "count": 1
     },
@@ -42166,6 +42892,12 @@
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -42457,6 +43189,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/judicial-office-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -42529,12 +43267,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/judicial-office-work.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/legislative-member-decisions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -42571,9 +43303,9 @@
       "count": 20
     },
     {
-      "sourcePath": "src/simulation/history.ts",
+      "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -42619,12 +43351,6 @@
       "count": 7
     },
     {
-      "sourcePath": "src/simulation/executive-governing-kernels.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 11
-    },
-    {
       "sourcePath": "src/simulation/executive-governing-kernels.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -42658,30 +43384,6 @@
       "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/executive-governing-kernels.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -42733,6 +43435,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/executive-governing-kernels.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/evidence-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateArtifact. Play fails closed rather than showing it.",
@@ -42763,12 +43471,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/election-contests.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertElectionContestIntegrity. Play fails closed rather than showing it.",
@@ -42793,7 +43495,25 @@
       "count": 64
     },
     {
+      "sourcePath": "src/simulation/economy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 12
+    },
+    {
       "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 11
@@ -42805,10 +43525,16 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/economy.ts",
+      "sourcePath": "src/simulation/demo-jurisdiction-context.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 12
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/decisions.ts",
@@ -42833,12 +43559,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/character-history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/character-history.ts",
@@ -42868,24 +43588,6 @@
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/demo-jurisdiction-context.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/demo.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/ids.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Identifier construction.",
       "count": 1
     },
     {
@@ -42919,6 +43621,12 @@
       "count": 5
     },
     {
+      "sourcePath": "src/simulation/character-history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -42943,10 +43651,34 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/canonical-json.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 13
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/simulation/candidate-qualification.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/candidacy-packs.ts",
@@ -42982,7 +43714,7 @@
       "sourcePath": "src/simulation/campaigns.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 47
+      "count": 59
     },
     {
       "sourcePath": "src/simulation/campaign-queries.ts",
@@ -42994,43 +43726,37 @@
       "sourcePath": "src/simulation/campaign-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertCampaignIntegrity. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/candidacy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/campaign-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 34
+      "count": 40
     },
     {
-      "sourcePath": "src/simulation/boundary.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/architecture-integrity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 29
+      "sourcePath": "src/simulation/campaign-compliance.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 22
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 14
     },
     {
       "sourcePath": "src/simulation/appearance-persistence.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 8
-    },
-    {
-      "sourcePath": "src/simulation/adult-situations.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/adult-situations.test.ts",
@@ -43042,6 +43768,12 @@
       "sourcePath": "src/presentation/visual-integration.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOfficeVisualScene. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/boundary.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 2
     },
     {
@@ -43058,6 +43790,12 @@
     },
     {
       "sourcePath": "src/presentation/title-tableau.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 29
+    },
+    {
+      "sourcePath": "src/simulation/architecture-integrity.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 29
@@ -43082,6 +43820,12 @@
     },
     {
       "sourcePath": "src/presentation/session-seed.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -43114,6 +43858,12 @@
       "sourcePath": "src/presentation/scene-proof.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/campaign-compliance.generated.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -43231,6 +43981,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -43295,12 +44051,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 39
-    },
-    {
-      "sourcePath": "src/presentation/pose-control-plate.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/presentation/player-spine.test.ts",
@@ -43399,6 +44149,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/presentation/player-capabilities.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/legislative-member-seat.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -43477,6 +44233,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/pose-control-plate.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -43486,12 +44248,6 @@
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/player-capabilities.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -43657,12 +44413,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/judicial-office.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateGarmentFitBank. Play fails closed rather than showing it.",
@@ -43756,6 +44506,12 @@
       "sourcePath": "src/presentation/character-render-plan.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/judicial-office.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 2
     },
     {
@@ -44014,6 +44770,24 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/ids.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Identifier construction.",
       "count": 1
     },
     {

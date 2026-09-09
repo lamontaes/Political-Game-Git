@@ -39,7 +39,10 @@ import {
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
 import { workStatusHistory } from "./life-queries";
-import { stateJurisdictionForKey } from "./life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "./life-places";
 import { drawCanonicalName } from "./people";
 import { createExactQuantity } from "./quantity";
 import { positionOwnerEndpoint } from "./resource-queries";
@@ -763,6 +766,11 @@ export function fileCampaign(
     jurisdictionId: input.jurisdictionId,
     officeKey: option.officeKey,
     candidacyPackId: packId,
+    compliancePackId:
+      lifePlaceByJurisdictionId(input.jurisdictionId)?.stateJurisdictionKey ===
+      "US-KY"
+        ? "us-ky-candidate-campaign-compliance-v1"
+        : null,
     organizationId,
     donorPoolOrganizationId,
     advertisingVendorOrganizationId,
