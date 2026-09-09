@@ -297,3 +297,23 @@ original activity records; the study route activates decline by keyboard.
 Combined typecheck/scoped lint pass, corpus regenerated2453templates5891
 unclassified/0harderrors270warnings. Browser proof remains pending LAND's
 finite slot release; no donor test is relabeled as normal UI acceptance.
+
+## UI-FINISH8 return (role A, CLAUDE-CLOSE8)
+
+Adopted `0deebff6` whole. Corrected head published to the same PR branch as
+`af3a136a`; EDU's bounded formatting correction published to `codex/edu-path7`
+as `5911d817`. Accepted main `ec437eda` is composed in, and the branch's
+missing release enforcement is restored alongside its own art checks — this
+branch had carried no `scripts/release/`, no `release:*` commands and no
+`release.yml` at all.
+
+The `election-lost` transcript failure was a two-afternoon campaign loop, not a
+corpus-tooling fault; EDU's formatting abort was a 60 MB generated catalog
+walked by Prettier, not a heap limit. Both causes, the measurements behind
+them, the named owner visual set, and what is still missing in NEWS, INCIDENT
+and the work/study presentation are recorded in
+[the UI-FINISH8 evidence](../../agent/evidence/ui-finish8/README.md).
+
+Full composed validation passes, including `release:check` and 4234 unit tests.
+Independent acceptance and the owner visual gate remain outstanding, and no
+main merge was performed from this role.
