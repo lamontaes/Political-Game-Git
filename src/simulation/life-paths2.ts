@@ -1,3 +1,4 @@
+import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
   addDays,
@@ -443,17 +444,21 @@ export function performLifePathSession(
   if (scheduledActivityState(world, activityId).status !== "scheduled")
     return fail(world, "This session has already ended.");
   const actor = controlled(world);
+  const funded =
+    path.sessionCostMinor > 0
+      ? ensureLifePathPersonalPosition(world, actor, money(0, "USD").currency)
+      : world;
   if (
     path.sessionCostMinor > 0 &&
     (resourcePositionAt(
-      world,
+      funded,
       { kind: "person", personId: actor },
       money(0, "USD").currency,
     )?.liquidBalance.minorUnits ?? 0) < path.sessionCostMinor
   )
     return fail(world, "You do not have enough money for this session.");
-  let next = performScheduledActivity(world, activityId, handlers);
-  if (next === world)
+  let next = performScheduledActivity(funded, activityId, handlers);
+  if (next === funded)
     return fail(world, "Another calendar commitment must be resolved first.");
   if (path.kind === "study") {
     if (path.sessionCostMinor > 0) {
@@ -620,11 +625,25 @@ export const LIFE_PATHS2_HANDLERS = createFutureTransitionHandlerRegistry([
       }
       const terms = resourceFlowTermsAt(world, flow.id)!;
       const source = flow.source;
+      let funded =
+        source.kind === "person"
+          ? ensureLifePathPersonalPosition(
+              world,
+              source.personId,
+              terms.amount.currency,
+            )
+          : world;
+      if (flow.recipient.kind === "person")
+        funded = ensureLifePathPersonalPosition(
+          funded,
+          flow.recipient.personId,
+          terms.amount.currency,
+        );
       const funds =
-        resourcePositionAt(world, source, terms.amount.currency)?.liquidBalance
+        resourcePositionAt(funded, source, terms.amount.currency)?.liquidBalance
           .minorUnits ?? 0;
       const paid = funds >= terms.amount.minorUnits;
-      const next = recordResourceTransferOutcome(world, {
+      const next = recordResourceTransferOutcome(funded, {
         stableKey: `${due.stableKey}:settled`,
         resourceFlowId: flow.id,
         periodStartsAt: state.recordedAt.date,
@@ -667,7 +686,15 @@ export const LIFE_PATHS2_HANDLERS = createFutureTransitionHandlerRegistry([
         historySequenceExclusive: worked.sequence + 1,
       });
       if (!terms) throw new Error("Earned pay terms are missing.");
-      const next = recordResourceTransferOutcome(world, {
+      const funded =
+        flow.recipient.kind === "person"
+          ? ensureLifePathPersonalPosition(
+              world,
+              flow.recipient.personId,
+              terms.amount.currency,
+            )
+          : world;
+      const next = recordResourceTransferOutcome(funded, {
         stableKey: `${due.stableKey}:paid`,
         resourceFlowId: flow.id,
         periodStartsAt: worked.occurredAt,
