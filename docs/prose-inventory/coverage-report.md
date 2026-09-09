@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4735 |
-| DIAGNOSTIC_OR_TEST | 3639 |
-| **NEEDS_CLASSIFICATION** | **3262** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4768 |
+| DIAGNOSTIC_OR_TEST | 3653 |
+| **NEEDS_CLASSIFICATION** | **3291** |
 
-Scanned 340 files holding 51732 string
+Scanned 346 files holding 51976 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -101,14 +101,15 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
+| 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/incidents.ts` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
-| 13 | `src/presentation/surface-projection.ts` |
 | 13 | `src/simulation/election-contests.ts` |
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
+| 12 | `src/presentation/civic-glossary.ts` |
 | 12 | `src/simulation/history.ts` |
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
@@ -130,8 +131,10 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |
+| 8 | `src/simulation/public-information.ts` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
+| 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
@@ -191,6 +194,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/life-scene-people.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
+| 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |
 
