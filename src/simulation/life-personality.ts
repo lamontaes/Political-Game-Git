@@ -243,6 +243,14 @@ export function completeOrdinaryGoal(
   const event = world.history.events.find((entry) => entry.id === eventId);
   if (
     !event ||
+    !(
+      (event.type === "life.scene.resolved" &&
+        ((goal === "learning" && event.tags.includes("choice:read")) ||
+          (goal === "privacy" && event.tags.includes("choice:rest")))) ||
+      (goal === "connection" &&
+        event.type === "life.conversation" &&
+        event.tags.includes("life.talk:spendTime"))
+    ) ||
     !event.participants.some((participant) => participant.personId === personId)
   )
     throw new Error("A performed personal action is required.");
@@ -259,10 +267,15 @@ export function completeOrdinaryGoal(
     targetEntityId: previous.targetEntityId,
     deadline: previous.deadline,
     outcome: event.summary,
-    provenance: createMindProvenance("player-choice", {
-      note: "Completed through the recorded ordinary-life action.",
-      sourceRefs: [{ kind: "historical-event", eventId }],
-    }),
+    provenance: createMindProvenance(
+      world.control.kind === "person" && world.control.personId === personId
+        ? "player-choice"
+        : "reflection",
+      {
+        note: "Completed through the recorded ordinary-life action.",
+        sourceRefs: [{ kind: "historical-event", eventId }],
+      },
+    ),
     replacesGoalId: null,
     supersedesGoalStateId: previous.id,
   });

@@ -1,39 +1,40 @@
 {
-  "digest": "3db3f197cee1527d",
+  "digest": "a50dfb5ba2c99c1f",
   "counts": {
-    "total": 2039,
+    "total": 2141,
     "byDomain": {
       "campaign": 23,
       "conversation": 180,
       "legislative": 93,
-      "life": 1310,
+      "life": 1412,
       "narration": 75,
       "ordinary": 4,
       "setup": 354
     },
     "bySurface": {
-      "answer": 280,
+      "answer": 311,
       "artifact": 115,
       "callback": 41,
       "connective": 53,
-      "option-description": 343,
-      "option-label": 343,
-      "option-memory": 343,
+      "option-description": 361,
+      "option-label": 372,
+      "option-memory": 361,
       "option-witnessed": 54,
       "prompt": 74,
-      "scene-line": 176,
+      "scene-line": 182,
       "status": 185,
       "thread-recap": 32
     },
     "byReachability": {
+      "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 91,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1489,
+      "PLAYER_REACHABLE": 1549,
       "WITHHELD_BY_GROUNDING": 369
     },
     "byRealization": {
-      "static": 1695,
-      "templated": 344
+      "static": 1772,
+      "templated": 369
     }
   },
   "records": [
@@ -41432,6 +41433,502 @@
       "contextRevision": "1e03f1b9e39e"
     },
     {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "During a quiet reading activity at school, {role:school-peer} whispers a joke. You feel yourself starting to laugh.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "b4584e9d1641",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:laugh-out-loud:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:laugh-out-loud:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "Laugh with them",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "e6bd6ef54436",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:laugh-out-loud:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "You laugh out loud with {role:school-peer} during the quiet reading activity.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "86b1aa4a61fa",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:scoot-away:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:scoot-away:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "Move a little farther away",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "2f45438e8243",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:scoot-away:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "You move away from {role:school-peer} so you can listen to the reading.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "9fd89396e0f4",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:stifle-face:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:stifle-face:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "Try to hold in the laugh",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "629391dc0866",
+      "contextRevision": "04fbd0809693"
+    },
+    {
+      "id": "prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.community.library-quiet/moment",
+      "field": "option:stifle-face:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.community.library-quiet/moment",
+      "text": "You cover your mouth and turn back to the book.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:7",
+          "description": "The character is under 7.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "aafdc1614a22",
+      "contextRevision": "04fbd0809693"
+    },
+    {
       "id": "prose:life:episode:opening.early.community.lost-pet-flyer/moment#line:0",
       "domain": "life",
       "bank": "episode",
@@ -44302,6 +44799,1998 @@
       "contextRevision": "3993b05f9cbb"
     },
     {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "During the school break, {role:school-peer} drops a snack into a puddle and starts crying. You still have your own snack.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "eb55431ce067",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:break-half-share:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:break-half-share:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "Offer some of your snack",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "ccaa24be60d6",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:break-half-share:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "You offer {role:school-peer} a clean piece of your snack.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "05fef85292d0",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:comfort-words:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:comfort-words:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "Stay and comfort them",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "c67449acff2d",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:comfort-words:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "You stay beside {role:school-peer} and say you're sorry their snack fell.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "df8fb38a53a1",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:walk-past-eat:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:walk-past-eat:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "Move away quietly",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "7b48f60d2963",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.dropped-treat/moment",
+      "field": "option:walk-past-eat:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment",
+      "text": "You move away from {role:school-peer} with your own snack.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "28e1d550e9da",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "During tag, {role:school-peer} knocks you over while trying to catch you. You sit up on the grass, startled.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "63e674535537",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:brush-off-tough:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:brush-off-tough:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "Get up and keep playing",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "690ef44dd460",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:brush-off-tough:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "You get up and rejoin the game with {role:school-peer}.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "287a896a6964",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:state-boundary:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:state-boundary:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "Say tag doesn't mean pushing",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "6a31d6b7417f",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:state-boundary:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "You tell {role:school-peer} you don't want to be pushed during tag.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "2b6288332735",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:stop-playing:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:stop-playing:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "Stop playing for now",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "7c87460810a4",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.roughhouse-line/moment",
+      "field": "option:stop-playing:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment",
+      "text": "You tell {role:school-peer} you're stopping the game and step away.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "c8f627e4f9f7",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "During story time, {role:school-peer} whispers an embarrassing story about another child. You don't know whether it happened.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "5fac17082d1b",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:decline-to-pass:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:decline-to-pass:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "Keep it to yourself",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "14b1a43bd1e8",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:decline-to-pass:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "You don't repeat what {role:school-peer} told you.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "109415b4f0de",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:keep-secret:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:keep-secret:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "Say it sounds unkind",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "6fcf50d5b206",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:keep-secret:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "You tell {role:school-peer} the story sounds unkind and turn back to the book.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "361b834c799f",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:question-story:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:question-story:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "Ask how they know",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "923d3fba3098",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.secret-whisper/moment",
+      "field": "option:question-story:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment",
+      "text": "You ask {role:school-peer} how they know the story is true.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "ad2f3b14752e",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "You and {role:school-peer} have drawn a chalk game in the schoolyard. {role:school-peer} wants to add a rule that changes how you play.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "0abe197bb905",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:compromise-rule:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "10 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "b075b6e113fc",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:compromise-rule:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "Suggest trying the rule for one round",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "756e5fc3e76f",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:compromise-rule:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "You suggest one trial round to {role:school-peer} before deciding.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "d565fc4e69f9",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:give-in-play:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "10 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "b075b6e113fc",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:give-in-play:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "Try their rule",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "171177399c1c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:give-in-play:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "You play the next round using the rule {role:school-peer} suggested.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "85fd45ee657c",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:insist-house-rules:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "10 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "b075b6e113fc",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:insist-house-rules:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "Ask to keep the rules you agreed",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "a0ee077b9ea0",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
+      "id": "prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.peer.sidewalk-game/moment",
+      "field": "option:insist-house-rules:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment",
+      "text": "You remind {role:school-peer} of the rules you agreed before starting.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:6",
+          "description": "The character is at least 6.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "4365f88f6eda",
+      "contextRevision": "e080bbe1f684"
+    },
+    {
       "id": "prose:life:episode:opening.early.peer.toy-damage-accidental/moment#line:0",
       "domain": "life",
       "bank": "episode",
@@ -45291,6 +47780,504 @@
         "stakes:ordinary"
       ],
       "textRevision": "aec0e3869554",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "At lunch, {role:school-peer} offers to swap snacks. The lunch monitor has just said to keep your own food.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "507190448a02",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:decline-cite-rule:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:decline-cite-rule:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "Say trading isn't allowed",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "cc1f407dfe3d",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:decline-cite-rule:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "You tell {role:school-peer} what the monitor said and keep your snack.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "78e799729213",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:eat-own-food:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:eat-own-food:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "Keep the snack you brought",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "616706e9c085",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:eat-own-food:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "You tell {role:school-peer} you prefer your own snack.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "795048c22c4a",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:make-secret-swap:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:make-secret-swap:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "Make the swap quietly",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "faeb958d2b88",
+      "contextRevision": "a0a00c1da980"
+    },
+    {
+      "id": "prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.early.school.lunchbox-swap/moment",
+      "field": "option:make-secret-swap:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment",
+      "text": "You and {role:school-peer} exchange snacks under the table.",
+      "realization": "templated",
+      "slots": [
+        "role:school-peer"
+      ],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:5",
+          "description": "The character is at least 5.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:8",
+          "description": "The character is under 8.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "role:school-peer",
+          "description": "A canonical person fills the school-peer role.",
+          "kind": "role"
+        },
+        {
+          "key": "fact:school.enrolled",
+          "description": "The record establishes school.enrolled.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view",
+        "family": "school",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:school",
+        "stakes:ordinary"
+      ],
+      "textRevision": "e9fbde6abf12",
       "contextRevision": "a0a00c1da980"
     },
     {
@@ -64646,6 +67633,1354 @@
       ],
       "textRevision": "8d21a6746a69",
       "contextRevision": "9d5250102a31"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0001#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0001",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Ask if they want to talk",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "40f9d78fad79",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0002#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0002",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Ask if they would like this to be a date",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d99688446528",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0003#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0003",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Ask what they would like to do",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e4379c17e14a",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0004#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0004",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Ask why",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "13f4c8fc5dd4",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0005#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0005",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Let them know you heard",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9e48e1a9d46d",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0006#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0006",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Say goodbye",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "22cabba56bbc",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0007#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0007",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Say hello",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6d995dba1af0",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0008#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0008",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Spend half an hour together",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "37360153d7f6",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0009#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0009",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Suggest playing a game together",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "04517e13cbea",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0010#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0010",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Suggest sitting and talking together",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "5fd5faa03326",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0011#text",
+      "domain": "life",
+      "bank": "opening-conversation-intents",
+      "stableKey": "LIFE_TALK_INTENTS-0011",
+      "field": "text",
+      "surface": "option-label",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "LIFE_TALK_INTENTS",
+      "text": "Talk about an earlier conversation",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+      "grounding": [
+        {
+          "key": "eligible-selected-person-intent",
+          "description": "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "LIFE_TALK_INTENTS",
+        "anchor": "LIFE_TALK_INTENTS-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f6f11212caa3",
+      "contextRevision": "003d5204173d"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0001#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0001",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Can we play a game we both know?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0001"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "44f9b97dd12f",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0002#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0002",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Can we try a new game?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0002"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "662ab7b0f797",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0003#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0003",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Hi again.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "af7afdb158c8",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0004#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0004",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Hi, {world.people[playerPersonId]!.givenName}.",
+      "realization": "templated",
+      "slots": [
+        "world.people[playerPersonId]!.givenName"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0004"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6d9e2e63a598",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0005#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0005",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I remember saying, “{remembered.context.immediateReaction}”",
+      "realization": "templated",
+      "slots": [
+        "remembered.context.immediateReaction"
+      ],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0005"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "a54067801e89",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0006#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0006",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I said yes because I want to hear what you have to say.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0006"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "be0a2e3d858c",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0007#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0007",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I want to spend time with you.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0007"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8306c5ef7b90",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0008#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0008",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I want to try something I haven't done before.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0008"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9172c0342abf",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0009#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0009",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd like some company. We could spend a little time together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0009"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "bb669f3dabd8",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0010#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0010",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd like to do something I already enjoy.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0010"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "fa5f00b42eee",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0011#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0011",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd like to try something new. What did you have in mind?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0011"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9cd32704856d",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0012#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0012",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd rather do something familiar. We don't have to make a big plan.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0012"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "644d1e55cf05",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0013#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0013",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd rather keep that to myself for now.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0013"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ba338e842c0b",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0014#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0014",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'd rather not sit and talk right now. Thanks for asking.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0014"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "e4853ffbfd58",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0015#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0015",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'm glad we took some time together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0015"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "305855e33be8",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0016#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0016",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'm listening. Go ahead.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0016"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "77943cbdd259",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0017#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0017",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "I'm not ready to talk about it. Please leave it there.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0017"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "9f7a60789bfb",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0018#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0018",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "It isn't what I feel like doing right now. We can leave it there.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0018"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "461b4d84dbf0",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0019#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0019",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Let's do something together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0019"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "f669b8aeadf3",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0020#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0020",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "No, thank you. I'd like to keep this as it is.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0020"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "8de156125421",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0021#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0021",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Not a game right now, thanks. I'd rather leave it for another time.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0021"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "d0b7888eedf0",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0022#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0022",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Not right now. Can we talk about something else?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0022"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "6505b3297e58",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0023#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0023",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "See you.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0023"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "61adafbd65d8",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0024#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0024",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Sure. What did you want to talk about?",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0024"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ca736e25008d",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0025#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0025",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Thanks for hearing me out.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0025"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "85e413f8d9a4",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0026#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0026",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "That sounds like a way I'd enjoy spending time together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0026"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "637665ef173a",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0027#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0027",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "We haven't talked about that.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0027"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "83e74a57d1bf",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0028#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0028",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Yes, I'd like to play a game together.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0028"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "66f2dc42a0ee",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0029#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0029",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Yes. I'd like that. We could sit and talk for a while.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0029"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "ae28db5233a4",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0030#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0030",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Yes. Let's sit and talk for a while.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0030"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "714ed05c3a75",
+      "contextRevision": "cf05132f1067"
+    },
+    {
+      "id": "prose:life:opening-conversation-replies:replyFor-0031#text",
+      "domain": "life",
+      "bank": "opening-conversation-replies",
+      "stableKey": "replyFor-0031",
+      "field": "text",
+      "surface": "answer",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "sourceSymbol": "replyFor",
+      "text": "Yes. Tell me what's on your mind.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "CURRENTLY_UNREACHABLE",
+      "reachabilityReason": "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+      "grounding": [
+        {
+          "key": "saved-selected-person-turn",
+          "description": "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "replyFor",
+        "anchor": "replyFor-0031"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "271b59880924",
+      "contextRevision": "cf05132f1067"
     },
     {
       "id": "prose:narration:connective:composeConnectiveNarration-0001#text",

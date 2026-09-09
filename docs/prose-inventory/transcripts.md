@@ -16,7 +16,7 @@ quietly passing.
 Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
 14 beats, 60 realized lines, 42 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.spilled-paint, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.school.spilled-paint, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
 
 
@@ -184,33 +184,33 @@ Something got broken in the corridor at your school and your name is the one tha
 
 _Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to be under 18._
 
-#### Beat 12 — 2026-12-17, age 7 (episode, opening.early.peer.toy-damage-accidental/moment)
+#### Beat 12 — 2026-12-17, age 7 (episode, opening.early.peer.roughhouse-line/moment)
 
 
 
-While you play together, a wheel snaps off Idris Villegas's toy truck in your hands.
+During tag, Idris Villegas knocks you over while trying to catch you. You sit up on the grass, startled.
 
-- **Show them the wheel** ← chosen
-- Try putting it back
-- Put the truck aside
+- **Say tag doesn't mean pushing** ← chosen
+- Stop playing for now
+- Get up and keep playing
 
 _Present: Idris Villegas, who is in your class_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Idris Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 13 — 2026-12-17, age 7 (episode, opening.early.school.crayon-sharing/moment)
+#### Beat 13 — 2026-12-17, age 7 (episode, opening.early.peer.secret-whisper/moment)
 
 
 
-You're drawing with the blue crayon. Idris Villegas asks for it to draw water.
+During story time, Idris Villegas whispers an embarrassing story about another child. You don't know whether it happened.
 
-- **Hand over the crayon** ← chosen
-- Ask to finish first
-- Keep using it
+- **Say it sounds unkind** ← chosen
+- Keep it to yourself
+- Ask how they know
 
 _Present: Idris Villegas, who is in your class_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Idris Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
+_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Idris Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
 
 ---
@@ -220,7 +220,7 @@ _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 65 realized lines, 50 linked back to a template.
+16 beats, 66 realized lines, 54 linked back to a template.
 
 **Actually demonstrated:** age-band:adolescence, connective-narration, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, thread-recap
 
@@ -293,7 +293,19 @@ _Present: Maria Nielsen_
 
 _Grounded by: familiar is Maria Nielsen: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-03-17.; Age 15; needs to be under 18._
 
-#### Beat 5 — 2026-07-22, age 15 (formative)
+#### Beat 5 — 2026-07-22, age 15 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 6 — 2026-07-22, age 15 (formative)
 
 
 
@@ -302,7 +314,7 @@ Something at school is wrong enough that people are talking about doing somethin
 - **Help organize it** ← chosen
 - Stay out of it
 
-#### Beat 6 — 2026-11-05, age 16 (episode, school.the-thing-you-got-blamed-for/it-came-out)
+#### Beat 7 — 2026-11-05, age 16 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
 > Half a year on, and you're 16 now.
 
@@ -313,7 +325,7 @@ The person you named has not spoken to you since, and has told other people thei
 
 _Grounded by: At blamed they chose name-them, on 2026-01-05.; 304 day(s) since blamed; needs 200._
 
-#### Beat 7 — 2026-12-09, age 16 (episode, home.someone-is-not-all-right/noticing)
+#### Beat 8 — 2026-12-09, age 16 (episode, home.someone-is-not-all-right/noticing)
 
 
 
@@ -328,7 +340,19 @@ _Present: Naomi Merritt, your younger sister_
 
 _Grounded by: household-peer is Naomi Merritt: Resident on the same household record, with no authority either way between them.; household-peer is Naomi Merritt, 13, old enough (needs 13).; answers-for-themselves does not hold, as required.; Age 16; needs to be under 18.; household.shared: Somebody else is on the household record._
 
-#### Beat 8 — 2027-01-12, age 16 (formative)
+#### Beat 9 — 2027-01-12, age 16 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 16; needs at least 5.; Age 16; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 10 — 2027-01-12, age 16 (formative)
 
 
 
@@ -338,7 +362,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 - Observe first
 - Get other people to go
 
-#### Beat 9 — 2027-03-26, age 16 (episode, home.someone-is-not-all-right/asked-directly)
+#### Beat 11 — 2027-03-26, age 16 (episode, home.someone-is-not-all-right/asked-directly)
 
 
 
@@ -352,7 +376,19 @@ _Present: Naomi Merritt, your younger sister_
 
 _Grounded by: household-peer is Naomi Merritt: Resident on the same household record, with no authority either way between them.; At noticing they chose ask, on 2026-12-09.; 107 day(s) since noticing; needs 60._
 
-#### Beat 10 — 2027-06-05, age 16 (formative)
+#### Beat 12 — 2027-06-05, age 16 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 16; needs at least 5.; Age 16; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 13 — 2027-06-05, age 16 (formative)
 
 
 
@@ -362,7 +398,19 @@ Somebody at home needs more looking after than the household can spread around, 
 - Say what you can manage
 - Look for help from outside the house
 
-#### Beat 11 — 2027-08-13, age 16 (formative)
+#### Beat 14 — 2027-08-13, age 16 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 16; needs at least 5.; Age 16; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 15 — 2027-08-13, age 16 (formative)
 
 
 
@@ -372,52 +420,6 @@ There is a sign-up sheet, a practice schedule, and only so many afternoons in a 
 - Leave the activity
 - Stay, but do less of it
 
-#### Beat 12 — 2027-08-14, age 16 (formative)
-
-
-
-There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
-
-- **Accept the opportunity** ← chosen
-- Decline for now
-
-#### Beat 13 — 2028-01-01, age 17 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
-
-> Half a year on, and you're 17 now.
-
-You and Maria Nielsen are down to running into each other. Neither of you did anything. There is a version of this where you call them, and a version where the year goes past.
-
-- **Call them** ← chosen
-- Let it lapse
-
-_Present: Maria Nielsen_
-
-_Grounded by: familiar is Maria Nielsen: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-06-18.; Stage the-year-you-were-inseparable was played on 2026-06-18.; 562 day(s) since the-year-you-were-inseparable; needs 500._
-
-#### Beat 14 — 2028-02-04, age 17 (episode, home.someone-is-not-all-right/it-got-worse)
-
-
-
-There is a phone call at an hour when phone calls are never good, and it is about Naomi Merritt. By the time anybody explains it to you properly, the part where you could have said something has been over for a year.
-
-- **Go, and stay** ← chosen
-- Handle the practical end
-- Keep out of it
-
-_Present: Naomi Merritt, your younger sister_
-
-_Grounded by: household-peer is Naomi Merritt: Resident on the same household record, with no authority either way between them.; Stage noticing was played on 2026-12-09.; 422 day(s) since noticing; needs 400.; tell-someone was not chosen at noticing, as required._
-
-#### Beat 15 — 2028-06-11, age 17 (formative)
-
-
-
-There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
-
-- **Follow the rule** ← chosen
-- Say nobody does that
-- Do it, then say something after
-
 
 ---
 
@@ -426,7 +428,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 102 realized lines, 48 linked back to a template.
+20 beats, 96 realized lines, 58 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -465,19 +467,7 @@ _Present: Elias Terrell, who you live with_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Elias Terrell: Resident on the same household record._
 
-#### Beat 2 — 2026-02-08, age 34 (episode, opening.adult.home.free-time/moment)
-
-
-
-You have a little free time at home. What would you like to do?
-
-- **Read for a while** ← chosen
-- Take a quiet break
-- Draw something
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 3 — 2026-02-08, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+#### Beat 2 — 2026-02-08, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
 
 
@@ -489,6 +479,18 @@ There is a notice on the door of the building at the end of the road about what 
 
 _Grounded by: Age 34; needs at least 18._
 
+#### Beat 3 — 2026-03-14, age 34 (episode, opening.adult.home.free-time/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
+
 #### Beat 4 — 2026-03-14, age 34 (ordinary-stretch)
 
 
@@ -499,7 +501,7 @@ _Grounded by: Age 34; needs at least 18._
 
 #### Beat 5 — 2026-05-31, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
-> Half a year on, and you're 35 now.
+> A couple of months on, and you're 35 now.
 > You saw Elias Terrell.
 > You and Edward Todd were in and out of each other's business more than once.
 
@@ -536,7 +538,19 @@ Somebody you know has got themselves into something, and they have told you rath
 
 _Present: Edward Todd, your dad_
 
-#### Beat 8 — 2026-10-24, age 35 (adult)
+#### Beat 8 — 2026-10-24, age 35 (episode, opening.adult.home.free-time/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 9 — 2026-10-24, age 35 (adult)
 
 
 
@@ -548,7 +562,7 @@ Somebody you know has asked you for a hand with one thing, and said it matters t
 
 _Present: Edward Todd, your dad_
 
-#### Beat 9 — 2026-11-19, age 35 (adult)
+#### Beat 10 — 2026-11-19, age 35 (adult)
 
 > A month later.
 > You saw Elias Terrell.
@@ -561,7 +575,7 @@ The evening is free, and the person you live with said they would be in for it.
 
 _Present: Elias Terrell, who you live with_
 
-#### Beat 10 — 2026-12-18, age 35 (adult)
+#### Beat 11 — 2026-12-18, age 35 (adult)
 
 > A month later.
 > You saw Elias Terrell.
@@ -574,21 +588,33 @@ Somebody local asked you to something on Saturday. Nobody needs you there.
 
 _Present: Edward Todd, your dad_
 
-#### Beat 11 — 2026-12-30, age 35 (ordinary-stretch)
+#### Beat 12 — 2026-12-30, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of weeks on.
 > You saw Elias Terrell.
 > You saw Edward Todd.
 
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 13 — 2026-12-30, age 35 (ordinary-stretch)
+
+
+
 
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 12 — 2027-03-18, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/the-issue-got-bigger)
+#### Beat 14 — 2027-03-18, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/the-issue-got-bigger)
 
 > A couple of months on.
-> Things came up at home with Elias Terrell more than once in that time.
-> You and Edward Todd were in and out of each other's business more than once.
+> You saw Elias Terrell.
+> You saw Edward Todd.
 
 It is not one building now. The same decision is being made about four streets, and somebody has asked you to put your name to a position on it in public. You have read enough by now to have one. That is not the same as wanting it attached to you.
 
@@ -598,56 +624,32 @@ It is not one building now. The same decision is being made about four streets, 
 
 _Grounded by: At you-said-something they chose take-the-role, on 2026-05-31.; 291 day(s) since you-said-something; needs 240.; civic.participation: An active participation in a local organization._
 
-#### Beat 13 — 2027-07-24, age 36 (ordinary-stretch)
+#### Beat 15 — 2027-07-24, age 36 (episode, opening.adult.home.free-time/moment)
 
 > Half a year on, and you're 36 now.
 > What you said you'd do about Edward Todd came up.
 
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 36; needs at least 18.; Age 36; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 16 — 2027-07-24, age 36 (ordinary-stretch)
 
 
-- **Let the weeks run on** ← chosen
-
-#### Beat 14 — 2027-10-10, age 36 (adult)
-
-> A year on, and you're 36 now.
-> You saw Elias Terrell.
-> You saw Edward Todd.
-
-Somebody local asked you to something on Saturday. Nobody needs you there.
-
-- **Say you will come** ← chosen
-- Keep the weekend
-
-_Present: Edward Todd, your dad_
-
-#### Beat 15 — 2027-10-22, age 36 (adult)
-
-> A couple of weeks on.
-> You saw Elias Terrell.
-> You saw Edward Todd.
-
-The evening is free, and the person you live with said they would be in for it.
-
-- **Spend it together** ← chosen
-- Keep the evening
-
-_Present: Elias Terrell, who you live with_
-
-#### Beat 16 — 2027-11-03, age 36 (ordinary-stretch)
-
-> A couple of weeks on.
-> You saw Elias Terrell.
-> You saw Edward Todd.
 
 
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 17 — 2028-01-20, age 36 (adult)
+#### Beat 17 — 2027-10-10, age 36 (adult)
 
 > A couple of months on.
-> Things came up at home with Elias Terrell more than once in that time.
-> You and Edward Todd were in and out of each other's business more than once.
+> You saw Elias Terrell.
+> You saw Edward Todd.
 
 Somebody local asked you to something on Saturday. Nobody needs you there.
 
@@ -656,11 +658,23 @@ Somebody local asked you to something on Saturday. Nobody needs you there.
 
 _Present: Edward Todd, your dad_
 
-#### Beat 18 — 2028-02-01, age 36 (adult)
+#### Beat 18 — 2027-10-22, age 36 (episode, opening.adult.home.free-time/moment)
 
 > A couple of weeks on.
 > You saw Elias Terrell.
 > You saw Edward Todd.
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 36; needs at least 18.; Age 36; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 19 — 2027-10-22, age 36 (adult)
+
+
 
 The evening is free, and the person you live with said they would be in for it.
 
@@ -668,16 +682,6 @@ The evening is free, and the person you live with said they would be in for it.
 - Keep the evening
 
 _Present: Elias Terrell, who you live with_
-
-#### Beat 19 — 2028-02-13, age 36 (ordinary-stretch)
-
-> A couple of weeks on.
-> You saw Elias Terrell.
-> You saw Edward Todd.
-
-
-
-- **Let the weeks run on** ← chosen
 
 
 ---
@@ -687,7 +691,7 @@ _Present: Elias Terrell, who you live with_
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 150 realized lines, 102 linked back to a template.
+40 beats, 158 realized lines, 128 linked back to a template.
 
 **Actually demonstrated:** age-band:adolescence, age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.school.crayon-sharing, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
@@ -915,7 +919,19 @@ _Present: Catherine Hunter, who is in your class_
 
 _Grounded by: familiar is Catherine Hunter: 6 record(s) name the two of them, none of them family or household; the most recent is 2026-02-08.; Stage the-year-you-were-inseparable was played on 2026-02-08.; 510 day(s) since the-year-you-were-inseparable; needs 500._
 
-#### Beat 17 — 2027-08-06, age 8 (formative)
+#### Beat 17 — 2027-08-06, age 8 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 18 — 2027-08-06, age 8 (formative)
 
 
 
@@ -927,9 +943,21 @@ The table is full except for one gap, and someone is standing at the end of it h
 
 _Present: Catherine Hunter, who is in your class_
 
-#### Beat 18 — 2027-12-11, age 9 (formative)
+#### Beat 19 — 2027-12-11, age 9 (episode, opening.young.home.choose-activity/moment)
 
 > Half a year on, and you're 9 now.
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 20 — 2027-12-11, age 9 (formative)
+
+
 
 Something got said that should not have been, and now the two of you are being careful with each other.
 
@@ -939,7 +967,19 @@ Something got said that should not have been, and now the two of you are being c
 
 _Present: Catherine Hunter, who is in your class_
 
-#### Beat 19 — 2028-07-26, age 9 (formative)
+#### Beat 21 — 2028-07-26, age 9 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 22 — 2028-07-26, age 9 (formative)
 
 
 
@@ -949,9 +989,21 @@ The house needs you on the same afternoons the thing you signed up for does.
 - Keep the commitment
 - Try to do both
 
-#### Beat 20 — 2029-03-11, age 10 (formative)
+#### Beat 23 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/moment)
 
 > A year on, and you're 10 now.
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 10; needs at least 5.; Age 10; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 24 — 2029-03-11, age 10 (formative)
+
+
 
 A teacher keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.
 
@@ -960,7 +1012,7 @@ A teacher keeps you back for a minute after the others go, and offers to help wi
 
 _Present: Felix Price_
 
-#### Beat 21 — 2029-10-25, age 11 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
+#### Beat 25 — 2029-10-25, age 11 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
 > A year on, and you're 11 now.
 
@@ -974,7 +1026,19 @@ _Present: Felix Price_
 
 _Grounded by: familiar is Felix Price: 2 record(s) name the two of them, none of them family or household; the most recent is 2029-03-11.; Age 11; needs to be under 18._
 
-#### Beat 22 — 2029-11-28, age 11 (formative)
+#### Beat 26 — 2029-11-28, age 11 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 27 — 2029-11-28, age 11 (formative)
 
 
 
@@ -984,7 +1048,19 @@ The school is changing a rule, and for once it is asking the people the rule is 
 - Leave it to others
 - Put it in writing
 
-#### Beat 23 — 2030-06-11, age 11 (ordinary-stretch)
+#### Beat 28 — 2030-06-11, age 11 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 29 — 2030-06-11, age 11 (ordinary-stretch)
 
 
 
@@ -992,17 +1068,29 @@ The school is changing a rule, and for once it is asking the people the rule is 
 
 - **Let the year run on** ← chosen
 
-#### Beat 24 — 2031-01-25, age 12 (ordinary-stretch)
+#### Beat 30 — 2031-01-25, age 12 (episode, opening.young.home.choose-activity/moment)
 
-> The better part of two years later, and you're 12 now.
+> A year on, and you're 12 now.
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 12; needs at least 5.; Age 12; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 31 — 2031-01-25, age 12 (ordinary-stretch)
+
+
 
 
 
 - **Let the year run on** ← chosen
 
-#### Beat 25 — 2031-09-10, age 13 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
+#### Beat 32 — 2031-09-10, age 13 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
 
-> The better part of two years later, and you're 13 now.
+> A year on, and you're 13 now.
 
 You and Felix Price are down to running into each other. Neither of you did anything. There is a version of this where you call them, and a version where the year goes past.
 
@@ -1013,7 +1101,19 @@ _Present: Felix Price_
 
 _Grounded by: familiar is Felix Price: 4 record(s) name the two of them, none of them family or household; the most recent is 2029-10-25.; Stage the-year-you-were-inseparable was played on 2029-10-25.; 685 day(s) since the-year-you-were-inseparable; needs 500._
 
-#### Beat 26 — 2031-10-14, age 13 (formative)
+#### Beat 33 — 2031-10-14, age 13 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 13; needs at least 5.; Age 13; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 34 — 2031-10-14, age 13 (formative)
 
 
 
@@ -1023,7 +1123,19 @@ Somebody at home needs more looking after than the household can spread around, 
 - Say what you can manage
 - Look for help from outside the house
 
-#### Beat 27 — 2032-02-23, age 13 (formative)
+#### Beat 35 — 2032-02-23, age 13 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 13; needs at least 5.; Age 13; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 36 — 2032-02-23, age 13 (formative)
 
 
 
@@ -1032,7 +1144,19 @@ Something at school is wrong enough that people are talking about doing somethin
 - **Help organize it** ← chosen
 - Stay out of it
 
-#### Beat 28 — 2032-02-24, age 13 (formative)
+#### Beat 37 — 2032-02-24, age 13 (episode, opening.young.home.choose-activity/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
+
+_Grounded by: Age 13; needs at least 5.; Age 13; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 38 — 2032-02-24, age 13 (formative)
 
 
 
@@ -1042,103 +1166,17 @@ There is a sign-up sheet, a practice schedule, and only so many afternoons in a 
 - Leave the activity
 - Stay, but do less of it
 
-#### Beat 29 — 2032-08-07, age 13 (formative)
+#### Beat 39 — 2032-08-07, age 13 (episode, opening.young.home.choose-activity/moment)
 
 
 
-Something local needs hands on a Saturday, and someone has asked whether you are one of them.
+You have a little free time at home. What would you like to do?
 
-- **Volunteer** ← chosen
-- Observe first
-- Get other people to go
+- **Draw something** ← chosen
+- Read a book
+- Take a quiet break
 
-#### Beat 30 — 2032-08-08, age 13 (formative)
-
-
-
-Someone you respect says something you think is wrong, and says it as though it settles the matter.
-
-- **Say you disagree** ← chosen
-- Let it pass
-
-_Present: Felix Price_
-
-#### Beat 31 — 2033-01-20, age 14 (formative)
-
-> Half a year on, and you're 14 now.
-
-There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
-
-- **Accept the opportunity** ← chosen
-- Decline for now
-
-#### Beat 32 — 2033-01-21, age 14 (formative)
-
-
-
-There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
-
-- **Follow the rule** ← chosen
-- Say nobody does that
-- Do it, then say something after
-
-#### Beat 33 — 2033-07-05, age 14 (formative)
-
-
-
-The year is running out, and people keep asking what comes after it.
-
-- **Take a concrete step** ← chosen
-- Keep your options open
-- Ask somebody who has done it
-
-#### Beat 34 — 2033-07-06, age 14 (ordinary-stretch)
-
-
-
-
-
-- **Let the year run on** ← chosen
-
-#### Beat 35 — 2033-12-18, age 15 (ordinary-stretch)
-
-> Half a year on, and you're 15 now.
-
-
-
-- **Let the year run on** ← chosen
-
-#### Beat 36 — 2033-12-19, age 15 (ordinary-stretch)
-
-> Half a year on, and you're 15 now.
-
-
-
-- **Let the year run on** ← chosen
-
-#### Beat 37 — 2034-06-03, age 15 (ordinary-stretch)
-
-> A year on, and you're 15 now.
-
-
-
-- **Let the year run on** ← chosen
-
-#### Beat 38 — 2034-11-16, age 16 (ordinary-stretch)
-
-> The better part of two years later, and you're 16 now.
-
-
-
-- **Let the year run on** ← chosen
-
-#### Beat 39 — 2035-05-01, age 16 (ordinary-stretch)
-
-> The better part of two years later, and you're 16 now.
-
-
-
-- **Let the year run on** ← chosen
+_Grounded by: Age 13; needs at least 5.; Age 13; needs to be under 18.; Requires a recorded current household._
 
 
 ---
@@ -1148,27 +1186,18 @@ The year is running out, and people keep asking what comes after it.
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
-6 beats, 29 realized lines, 17 linked back to a template.
+6 beats, 26 realized lines, 18 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.shared-time, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the House of Representatives
 - Sessions: 2
-- Resolved: true (won)
+- Resolved: true (lost)
 
-### Legislative surface reached
-
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2026-09-26. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+_No legislative surface: the capability layer did not open one for this run._
 
 
 ### Beats
@@ -1228,27 +1257,25 @@ There is a notice on the door of the building at the end of the road about what 
 
 _Grounded by: Age 34; needs at least 18._
 
-#### Beat 4 — 2026-03-14, age 34 (ordinary-stretch)
+#### Beat 4 — 2026-03-14, age 34 (episode, opening.adult.home.free-time/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Take a quiet break
+- Draw something
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 5 — 2026-03-14, age 34 (ordinary-stretch)
 
 
 
 
 
 - **Let the weeks run on** ← chosen
-
-#### Beat 5 — 2026-05-31, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
-
-> Half a year on, and you're 35 now.
-> You saw Dennis Mullins.
-> You and Emily Vance were in and out of each other's business more than once.
-
-The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
-
-- **Take the title** ← chosen
-- Do the work without the title
-- Stop at the building
-
-_Grounded by: At the-meeting they chose go, on 2026-02-08.; civic.participation: An active participation in a local organization.; 112 day(s) since the-meeting; needs 60._
 
 
 ---

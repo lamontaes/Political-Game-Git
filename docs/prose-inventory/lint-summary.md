@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 261 review warnings.**
+**0 hard errors. 267 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 166 |
+| vague-referent | 172 |
 | and-it-scaffold | 39 |
 | rather-than-scaffold | 27 |
 | slot-agreement | 12 |
@@ -22,9 +22,9 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2039 templates, 1966 distinct texts.
-- 32 exact duplicate groups.
-- 37 normalized duplicate groups.
+- 2141 templates, 2048 distinct texts.
+- 34 exact duplicate groups.
+- 39 normalized duplicate groups.
 - 14 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each

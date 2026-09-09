@@ -6,6 +6,7 @@ import {
   serializeWorld,
   lifePlaceSearch,
 } from "../simulation";
+import { recordOrganizationParticipationState } from "../simulation/life";
 import { activeOrganizationParticipationsAt } from "../simulation/life-queries";
 import {
   latestPersonalityTendency,
@@ -184,6 +185,51 @@ describe("ordinary-life agency and boundaries", () => {
     }
     expect(reached).toBe(true);
   });
+  it.each(["inactive", "ended"] as const)(
+    "can rejoin after participation becomes %s without duplicating people",
+    (status) => {
+      const game = start();
+      const joined = joinOrdinaryGroup(game.world, game.playerPersonId);
+      const membership = activeOrganizationParticipationsAt(
+        joined,
+        game.playerPersonId,
+      ).at(-1)!;
+      const state = joined.history.organizationParticipationStates
+        .filter(
+          (entry) => entry.participationId === membership.participation.id,
+        )
+        .at(-1)!;
+      const left = recordOrganizationParticipationState(joined, {
+        stableKey: `test:leave:${status}`,
+        participationId: membership.participation.id,
+        effectiveAt: joined.currentDate,
+        status,
+        roleKind: state.roleKind,
+        context: "Left the group.",
+        provenance: membership.participation.provenance,
+        supersedesStateId: state.id,
+      });
+      const rejoined = joinOrdinaryGroup(
+        deserializeWorld(serializeWorld(left)),
+        game.playerPersonId,
+      );
+      expect(
+        activeOrganizationParticipationsAt(rejoined, game.playerPersonId),
+      ).toHaveLength(
+        activeOrganizationParticipationsAt(joined, game.playerPersonId).length,
+      );
+      expect(Object.keys(rejoined.people)).toEqual(Object.keys(joined.people));
+      expect(rejoined.history.organizations).toEqual(
+        joined.history.organizations,
+      );
+      expect(rejoined.history.organizationParticipations.length).toBe(
+        joined.history.organizationParticipations.length +
+          (status === "ended" ? 1 : 0),
+      );
+      expect(joinOrdinaryGroup(rejoined, game.playerPersonId)).toBe(rejoined);
+      assertWorldIntegrity(rejoined);
+    },
+  );
   it("uses one generation controller across transition callbacks in multiple places", () => {
     for (const name of ["Boston", "Honolulu", "Anchorage"]) {
       const place = lifePlaceSearch(name, 1)[0]!;

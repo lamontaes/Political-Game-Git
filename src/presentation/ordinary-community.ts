@@ -8,7 +8,10 @@ import {
   SeededRng,
   recordWorldEvent,
 } from "../simulation";
-import { createOrganizationParticipation } from "../simulation/life";
+import {
+  createOrganizationParticipation,
+  recordOrganizationParticipationState,
+} from "../simulation/life";
 import { activeOrganizationParticipationsAt } from "../simulation/life-queries";
 import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import { establishLifePersonality } from "../simulation/life-personality";
@@ -94,8 +97,22 @@ export function joinOrdinaryGroup(world: World, personId: EntityId): World {
       provenance,
     });
   }
+  const previous = next.history.organizationParticipations
+    .filter(
+      (entry) =>
+        entry.personId === personId && entry.organizationId === organizationId,
+    )
+    .at(-1);
+  const previousState = previous
+    ? next.history.organizationParticipationStates
+        .filter((entry) => entry.participationId === previous.id)
+        .at(-1)
+    : undefined;
+  const joinKey = previous
+    ? `${KEY}:rejoin:${personId}:${next.history.nextSequence}`
+    : `${KEY}:join:${personId}`;
   next = recordWorldEvent(next, {
-    stableKey: `${KEY}:join:${personId}`,
+    stableKey: joinKey,
     type: "life.group-joined",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
@@ -117,19 +134,35 @@ export function joinOrdinaryGroup(world: World, personId: EntityId): World {
       immediateReaction: null,
     },
   });
-  next = createOrganizationParticipation(next, {
-    stableKey: `${KEY}:participation:${personId}`,
-    personId,
-    organizationId,
-    startedAt: world.currentDate,
-    kind: "activity:walking",
-    roleKind: "participant:member",
-    context:
-      "Joined by explicit player choice; no meeting attendance is implied.",
-    provenance: {
-      kind: "simulated-event",
-      eventId: next.history.events.at(-1)!.id,
-    },
-  });
+  const participationProvenance = {
+    kind: "simulated-event" as const,
+    eventId: next.history.events.at(-1)!.id,
+  };
+  if (previous && previousState?.status === "inactive") {
+    next = recordOrganizationParticipationState(next, {
+      stableKey: `${joinKey}:active`,
+      participationId: previous.id,
+      effectiveAt: next.currentDate,
+      status: "active",
+      roleKind: "participant:member",
+      context:
+        "Resumed by explicit player choice; no meeting attendance is implied.",
+      provenance: participationProvenance,
+      supersedesStateId: previousState.id,
+    });
+  } else
+    next = createOrganizationParticipation(next, {
+      stableKey: previous
+        ? `${joinKey}:participation`
+        : `${KEY}:participation:${personId}`,
+      personId,
+      organizationId,
+      startedAt: world.currentDate,
+      kind: "activity:walking",
+      roleKind: "participant:member",
+      context:
+        "Joined by explicit player choice; no meeting attendance is implied.",
+      provenance: participationProvenance,
+    });
   return refreshLifeOpportunities(next, personId);
 }

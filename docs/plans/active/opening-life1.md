@@ -32,8 +32,9 @@ Do not edit those owners' branches. P2R2 frozen
   62-kernel inventory and 86-lane appendix read. Machine inventory preserved.
 - Existing household cases, versioned ordinary personality content, deterministic
   opening controller, scene-bank additions, selected-person dialogue and goals
-  implemented locally. Original P2R2/P01 frozen dependency composition remains
-  in progress; generated prose files still require reconciliation.
+  implemented. The recovered frozen dependency composition was published in draft #150 at
+  649f10ba48885a1161e9bcd30269af995a9e3084 after actual corpus regeneration.
+  That checkpoint retains old frozen donors and is not current-main ready.
 - CODEX-TRANSFER-01 shared recovery and section F read. Stopped Claude source
   `5767496180e32d52e101453623103c72cb71d8f6` and all selected dirty/untracked files
   captured read-only, hashed and compared. See evidence/opening-life1/recovery.
@@ -48,8 +49,15 @@ Do not edit those owners' branches. P2R2 frozen
   passed, one production multi-age test timed out at its existing 5-second limit.
   No timeout increase or full-validation acceptance claimed. Full checks await
   the finite shared-host validation slot coordinated by LAND.
-- Normal-player proof, full source coverage, final gates, LEARN/audit, commit and
-  one draft PR remain outstanding. No publication or human acceptance claimed.
+- Draft PR #150 is the sole carrier. Continued work adds six school adaptations,
+  proposal-specific conversation follow-through, action-grounded goal completion,
+  repeatable daily free time and canonical walking-group rejoining.
+- Source coverage now maps all 62 kernel keys: 16 registered existing mappings,
+  16 opening adaptations, 30 without a verified exact consumer. Missing authored
+  premise writers are unfinished work, not automatically external blockers.
+- Normal-player proof, remaining source scope, final gates and LEARN/audit remain
+  outstanding. No human acceptance claimed. Shared heavy-slot order is LIFE →
+  OPENING → DEV → LEG → ENV → PEOPLE → MUNI; explicit release required.
 
 ## Proof required
 

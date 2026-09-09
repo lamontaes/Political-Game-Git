@@ -245,7 +245,16 @@ export function openNextLifeScene(
   );
   const eligible = availableOpeningLifeScenes(world, personId).filter(
     ({ definition }) =>
-      definition.setting === setting && !used.has(`family:${definition.key}`),
+      definition.setting === setting &&
+      (definition.recurrence === "daily"
+        ? !world.history.events.some(
+            (event) =>
+              event.type === OPEN &&
+              event.involvedEntityIds.includes(personId) &&
+              event.occurredAt === world.currentDate &&
+              event.tags.includes(`family:${definition.key}`),
+          )
+        : !used.has(`family:${definition.key}`)),
   );
   if (!eligible.length) return world;
   const index =
@@ -270,7 +279,7 @@ export function openNextLifeScene(
         : "In your neighborhood";
   const summary = beat.prose;
   let next = recordWorldEvent(world, {
-    stableKey: `opening-life:scene:${personId}:${definition.key}`,
+    stableKey: `opening-life:scene:${personId}:${definition.key}${definition.recurrence === "daily" ? `:${world.currentDate}` : ""}`,
     type: OPEN,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,

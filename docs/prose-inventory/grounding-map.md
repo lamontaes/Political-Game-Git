@@ -19,9 +19,11 @@ declare is reported as undeclared rather than filled in from a guess.
 | `legislative/measure-briefing` | 93 | 0 | 0 | measure |
 | `life/adult` | 384 | 287 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 41 | 0 | 0 | — |
-| `life/episode` | 698 | 82 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
+| `life/episode` | 758 | 82 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 10 | 0 | 0 | — |
+| `life/opening-conversation-intents` | 11 | 0 | 0 | — |
+| `life/opening-conversation-replies` | 31 | 0 | 0 | — |
 | `narration/connective` | 43 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 32 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
