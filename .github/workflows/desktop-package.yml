@@ -110,7 +110,10 @@ jobs:
           cd release-artifacts
           rm -rf mac-arm64 win-unpacked builder-debug.yml || true
           {
-            echo "source revision: $GITHUB_SHA"
+            # On a pull_request event GITHUB_SHA names the synthetic merge
+            # commit, not the tree this job checked out and built; ask the
+            # checkout itself, exactly as the staged build identity does.
+            echo "source revision: $(git rev-parse HEAD)"
             echo "workflow run: $GITHUB_RUN_ID"
             cat ../staged/build-identity.json
             shasum -a 256 * 2>/dev/null || sha256sum *
