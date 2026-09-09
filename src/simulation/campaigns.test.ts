@@ -29,9 +29,12 @@ import {
   addDays,
   assessKentuckyCampaignContribution,
   campaignCompliancePackFor,
+  campaignObligations,
   committeeCampaignComplianceDocuments,
   publicCampaignComplianceDocuments,
   recordCampaignComplianceDocument,
+  assessContribution,
+  assessSecondCommittee,
 } from "./index";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -182,7 +185,7 @@ describe("candidacy coverage is stated, never assumed", () => {
   it("offers offices only where an accepted rule pack establishes them", () => {
     const coverage = candidacyCoverage();
     expect(coverage.qualificationsAreSourced).toBe(true);
-    expect(coverage.sourcedOfficeCount).toBe(2);
+    expect(coverage.sourcedOfficeCount).toBe(10);
     expect(coverage.packCount).toBeGreaterThan(0);
 
     for (const place of lifePlaces()) {
@@ -194,7 +197,7 @@ describe("candidacy coverage is stated, never assumed", () => {
     }
   });
 
-  it("keeps every candidate qualification unknown rather than inventing one", () => {
+  it("keeps unsupported Kentucky qualifications unknown rather than borrowing another state's", () => {
     const pack = candidacyPackById(KENTUCKY_PACK)!;
     for (const office of pack.offices) {
       expect(office.qualification.minimumAge.kind).toBe("unknown");
@@ -333,6 +336,63 @@ describe("filing", () => {
       }),
     ).toThrow(/already running/i);
   });
+
+  it("applies Nebraska's organization and treasurer rule to an actual campaign record", () => {
+    const filed = fileKentuckyCampaign("nebraska-committee-rule");
+    const nebraska = lifePlaces().find(
+      (place) =>
+        place.scope === "state" && place.stateJurisdictionKey === "US-NE",
+    )!;
+    const nebraskaCampaign = {
+      ...filed.campaign,
+      jurisdictionId: nebraska.context.jurisdiction.id,
+      officeKey: "us-ne-legislature-v1:legislature",
+    };
+    const nebraskaWorld: World = {
+      ...filed.world,
+      history: {
+        ...filed.world.history,
+        campaigns: filed.world.history.campaigns?.map((campaign) =>
+          campaign.id === filed.campaign.id ? nebraskaCampaign : campaign,
+        ),
+      },
+    };
+
+    expect(campaignObligations("US-MN")).toHaveLength(2);
+    expect(campaignObligations("US-NE")).toHaveLength(1);
+    expect(
+      assessContribution(nebraskaWorld, {
+        campaignId: nebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 100_000,
+        statementOfOrganizationFiled: true,
+        treasurerPersonId: nebraskaCampaign.candidatePersonId,
+        treasurerQualifiedElector: true,
+      }),
+    ).toMatchObject({ decision: "allowed", citation: expect.any(String) });
+    expect(
+      assessContribution(nebraskaWorld, {
+        campaignId: nebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 1,
+        statementOfOrganizationFiled: null,
+        treasurerPersonId: null,
+        treasurerQualifiedElector: null,
+      }),
+    ).toMatchObject({
+      decision: "refused",
+      obligation: "organized-committee-with-treasurer-required",
+    });
+
+    // Minnesota's separate committee rule does not attach to a Nebraska race.
+    expect(
+      assessSecondCommittee(nebraskaWorld, {
+        personId: nebraskaCampaign.candidatePersonId,
+        stateJurisdictionKey: "US-MN",
+        officeKey: nebraskaCampaign.officeKey,
+      }).decision,
+    ).toBe("allowed");
+  });
   it("records Kentucky compliance drafts, filings, and corrections without calling a filing approval", () => {
     const filed = fileKentuckyCampaign("compliance-documents");
     const election = requireElectionContest(
@@ -346,6 +406,11 @@ describe("filing", () => {
       campaignCompliancePackFor(filed.world, filed.campaign.id)
         ?.contributionLimitMinorUnits.state,
     ).toBe("UNKNOWN");
+    const clockBefore = {
+      currentDate: filed.world.currentDate,
+      currentMoment: filed.world.currentMoment,
+      actionSequence: filed.world.actionSequence,
+    };
 
     const withDraft = recordCampaignComplianceDocument(filed.world, {
       stableKey: "report:draft:post-election",
@@ -415,11 +480,21 @@ describe("filing", () => {
         filed.campaign.id,
         filed.candidatePersonId,
       ),
-    ).toMatchObject({ audience: "committee-private", documents: { length: 3 } });
+    ).toMatchObject({
+      audience: "committee-private",
+      documents: { length: 3 },
+    });
     expect(
       projectCampaignCompliance(corrected, filed.campaign.id, outsiderId),
     ).toMatchObject({ audience: "public", documents: { length: 2 } });
-    expect(deserializeWorld(serializeWorld(corrected))).toStrictEqual(corrected);
+    expect({
+      currentDate: corrected.currentDate,
+      currentMoment: corrected.currentMoment,
+      actionSequence: corrected.actionSequence,
+    }).toStrictEqual(clockBefore);
+    expect(deserializeWorld(serializeWorld(corrected))).toStrictEqual(
+      corrected,
+    );
   });
 
   it("refuses wrong filing transport and dates as zero-write operations", () => {

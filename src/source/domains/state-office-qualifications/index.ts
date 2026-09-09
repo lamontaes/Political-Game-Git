@@ -1,23 +1,20 @@
 /**
  * The state-office qualifications domain's public API.
  *
- * This domain is wired into the command matrix and compiles **no production
- * records**. That is a decision, not an omission, and 31F §8 records the whole
- * of its reasoning. In short: the substrate compiles production corpora only
- * from artifacts it retrieved and hashed itself, and the 31 research wave is a
- * secondary source. Emitting `KNOWN(7 years)` with evidence pointing at a
- * Massachusetts constitutional article would say this repository read that
- * article. It did not; it read a document reporting it.
+ * This domain preserves the complete 31F and recovered 31D research transports,
+ * but promotes only the bounded claims whose cited provisions were separately
+ * retrieved, hashed, and reviewed. Sixty-three claims currently clear that
+ * gate. Every other research row remains accounted for as staged or refused;
+ * the research document's own `primary` label never substitutes for acquired
+ * first-party bytes.
  *
  * PR #72 contributes nothing here in any form. Not a row, not a citation, not
  * a schema.
  *
- * Everything else is real and exercised. The types, the matrix reader, the
- * normalizer and the validator all work, and the fixtures compile end to end
- * through the same capability boundary every other domain uses — including the
- * cases that matter most, an office that does not exist and an office created
- * but not yet operative. When the gate in 31F §8 clears, production
- * qualifications become a data change rather than a design.
+ * The matrix reader, normalizer, reviewed-transcription compiler, validator,
+ * and fixtures all run through the same capability boundary as other source
+ * domains, including the cases that matter most: an office that does not exist,
+ * an office not yet operative, and an authority that was read but is silent.
  */
 
 import { corpusCanonicalDigest, openFixture } from "../../core/index";
@@ -30,7 +27,7 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import { parseQualificationMatrix } from "./parse";
-import { QUALIFICATION_ACQUISITION, QUALIFICATION_SOURCES } from "./acquisition";
+import { QUALIFICATION_ACQUISITION } from "./acquisition";
 import { compileQualifications, openQualificationArtifacts } from "./compile";
 import { normalizeQualifications } from "./normalize";
 import { validateQualificationCorpus } from "./validate";
@@ -151,9 +148,9 @@ export function compileQualificationResearchTransport(
 /**
  * Compile a qualifications corpus from a fixture matrix.
  *
- * There is deliberately no production counterpart. A caller cannot reach this
- * compiler with a production input because none can be opened for this domain,
- * and cannot reach it with a plain object because `FixtureInput` is branded.
+ * This fixture path remains isolated from production acquisition. A caller
+ * cannot pass it a production input or a plain object because `FixtureInput` is
+ * branded.
  */
 export function compileQualificationFixture(
   input: FixtureInput<QualificationFixtureArtifacts>,
@@ -199,7 +196,7 @@ export function compileQualificationFixture(
         universeDescription:
           "A fixture exercising the qualifications compiler. It describes no real jurisdiction's law and must never be read as one.",
         boundedSampleReason:
-          "Fixture only. The domain compiles no production records; see 31F section 8 for the gate.",
+          "Fixture only. Production promotion uses separately acquired, locked first-party authorities; see 31F section 8 for the gate.",
       },
     },
     records,

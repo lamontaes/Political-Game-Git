@@ -77,9 +77,9 @@ export const RESEARCH_MATRICES: readonly ResearchMatrixSpec[] = [
       "The 118 claims 31F marked compiler-ready, drawn from research batch 31C (MA MI MN MO MS MT NE NH NJ NV).",
   },
   {
-    matrixId: "31D-recovered-claims",
+    matrixId: "31D-recovered-qualifications",
     batch: "31D",
-    path: "docs/research/31D-recovered-claims.tsv",
+    path: "docs/research/31D-recovered-qualifications.tsv",
     description:
       "The 601 claims recovered losslessly from research batch 31D (NM NY NC ND OH OK OR PA RI SC) after its delimiters were found intact.",
   },
@@ -251,26 +251,18 @@ export function compileQualifications(
   for (const spec of QUALIFICATION_SOURCES) {
     const held = opened[spec.artifactId];
     if (!held) continue;
-    for (const [key, text] of provisionTexts(
-      spec,
-      held.artifact,
-      held.bytes,
-    )) {
+    for (const [key, text] of provisionTexts(spec, held.artifact, held.bytes)) {
       provisionByKey.set(key, text);
     }
   }
 
   const records: QualificationRecord[] = [];
   const refusals: QualificationRefusal[] = [];
-  const matrixInputs: { artifactId: string; sha256: string }[] = [];
   let rowsConsidered = 0;
 
   for (const matrix of RESEARCH_MATRICES) {
     const bytes = readRepositoryFile(matrix.path);
-    matrixInputs.push({
-      artifactId: matrix.matrixId,
-      sha256: sha256Hex(bytes),
-    });
+    const matrixSha256 = sha256Hex(bytes);
     const table = parseQualificationMatrix(bytes);
 
     for (const row of table.rows) {
@@ -284,12 +276,16 @@ export function compileQualifications(
       const fieldRaw = matrixField(row, "fact_field", table.schema);
       const status = matrixField(row, "status", table.schema);
       const value = matrixField(row, "value", table.schema);
-      const authority = authorityFrom(row, table.schema);
+      const authority: CitedAuthority = {
+        ...authorityFrom(row, table.schema),
+        researchTransport: {
+          batch: matrix.batch,
+          artifactId: matrix.matrixId,
+          sha256: matrixSha256,
+        },
+      };
 
-      const refuse = (
-        kind: QualificationRefusalKind,
-        reason: string,
-      ): void => {
+      const refuse = (kind: QualificationRefusalKind, reason: string): void => {
         refusals.push({
           batch: matrix.batch,
           stateUsps,
@@ -481,7 +477,11 @@ export function compileQualifications(
   }
 
   records.sort((left, right) =>
-    left.recordId < right.recordId ? -1 : left.recordId > right.recordId ? 1 : 0,
+    left.recordId < right.recordId
+      ? -1
+      : left.recordId > right.recordId
+        ? 1
+        : 0,
   );
 
   const sourcedStates = [
@@ -498,7 +498,6 @@ export function compileQualifications(
         compiler: { name: "state-office-qualifications", version: "2.0.0" },
         parser: { name: "qualification-matrix-tsv", version: "2.0.0" },
         inputs: [
-          ...matrixInputs,
           ...QUALIFICATION_SOURCES.map((spec) => ({
             artifactId: spec.artifactId,
             sha256: opened[spec.artifactId]

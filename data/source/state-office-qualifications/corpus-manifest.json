@@ -1,6 +1,6 @@
 {
   "asOf": "2026-01-01",
-  "canonicalSha256": "453eb687830cfa8ade3e035ef204667fa6c4d76a6696c6f05d13f3879fdb76ca",
+  "canonicalSha256": "63f50ce17742d272cce5ae3f8a6add2c521aa5439cc0bd8d2f2b4f129bb56824",
   "compiler": {
     "name": "state-office-qualifications",
     "version": "2.0.0"
@@ -14,20 +14,8 @@
   "inputClass": "production",
   "inputs": [
     {
-      "artifactId": "31F-compiler-ready-claims",
-      "sha256": "141c869b55359ed9d5d023fd56ff2608390e918b840e4c599420792ed4a1d384"
-    },
-    {
-      "artifactId": "31D-recovered-claims",
-      "sha256": "2920ae2161465c6b67fbc94aa347eb4036e8b19487dfb1aec7552245e982f6dc"
-    },
-    {
       "artifactId": "mn-constitution",
       "sha256": "90c292cf969f958a4828ea9ed000e9fa73a3316bab5251db9c38a75a93cf082a"
-    },
-    {
-      "artifactId": "mn-statutes-10a-105",
-      "sha256": "4819e233a583bf67d44007cadf81132d5c9255935679cbff3f5442c028a9749d"
     },
     {
       "artifactId": "mo-constitution-art-3-sec-2",

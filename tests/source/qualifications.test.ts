@@ -1,12 +1,11 @@
 /**
  * The state-office qualifications compiler.
  *
- * The domain ships no production records — 31F §8 explains the gate — so these
- * tests are what demonstrate that the compiler is real. They exercise it
- * through the same capability boundary every other domain uses, on the cases
- * that matter: an office that does not exist, an office not yet operative, a
- * requirement nobody has established, and an authority that was read and is
- * silent.
+ * The domain preserves both research transports and promotes only claims that
+ * clear 31F §8's first-party artifact gate. These tests exercise the transport,
+ * fixture, and production boundaries, including an office that does not exist,
+ * an office not yet operative, a requirement nobody has established, and an
+ * authority that was read and is silent.
  *
  * They also pin PR #72's specific failures as permanent validation errors.
  */
@@ -30,6 +29,7 @@ import {
 } from "../../src/source/domains/state-office-qualifications/index";
 import type { QualificationRecord } from "../../src/source/domains/state-office-qualifications/index";
 import { isClean } from "../../src/source/core/index";
+import type { ArtifactLock } from "../../src/source/core/index";
 
 const REPO = resolve(import.meta.dirname, "../..");
 const FIXTURE = "fixtures/source/state-office-qualifications/mixed-states.json";
@@ -122,6 +122,20 @@ describe("the qualifications compiler", () => {
 });
 
 describe("the matrix reader refuses a shape it cannot transcribe", () => {
+  it("matches only a complete cited provision, never a section-number prefix", async () => {
+    const { locatorNames } =
+      await import("../../src/source/domains/state-office-qualifications/index");
+    expect(
+      locatorNames("Neb. Const. art. III, § 12", "Neb. Const. art. III, § 1"),
+    ).toBe(false);
+    expect(
+      locatorNames(
+        "Minn. Const. art. VII, § 6; art. IV, § 6",
+        "Minn. Const. art. VII, § 6",
+      ),
+    ).toBe(true);
+  });
+
   it("recovers 31D as the exact 14-column transport found in Drive", () => {
     const bytes = readFileSync(
       resolve(REPO, "docs/research/31D-recovered-qualifications.tsv"),
@@ -298,6 +312,29 @@ describe("the production source boundary", () => {
     ).toThrow(/was handed the lock for/);
     expect(sourceDomain.productionGate).toBeUndefined();
     expect(QUALIFICATIONS_SOURCE_BOUNDARY).toMatch(/31F section 8/);
+
+    const lock = JSON.parse(
+      readFileSync(
+        resolve(
+          REPO,
+          "data/source/state-office-qualifications/artifact-lock.json",
+        ),
+        "utf8",
+      ),
+    ) as ArtifactLock;
+    const compiled = sourceDomain.compileProduction(lock);
+    expect(
+      compiled.records.every(
+        (record) => record.citedAuthority.researchTransport !== undefined,
+      ),
+    ).toBe(true);
+    expect(
+      compiled.corpus.inputs.every((input) =>
+        lock.artifacts.some(
+          (artifact) => artifact.artifactId === input.artifactId,
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("keeps the compiler-ready matrix as real TSV, with its delimiters intact", () => {

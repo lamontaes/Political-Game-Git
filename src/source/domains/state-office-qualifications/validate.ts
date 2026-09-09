@@ -144,7 +144,11 @@ export function validateQualificationCorpus(
   const unresolved = records.filter(
     (record) => !isOfficeExistence(record) && isUnresolved(record.requirement),
   ).length;
-  if (records.length >= 20 && unresolved === 0) {
+  if (
+    compiled.corpus.coverage.isCompleteUniverse &&
+    records.length >= 20 &&
+    unresolved === 0
+  ) {
     findings.push({
       severity: "warning",
       code: "qualifications/no-uncertainty",

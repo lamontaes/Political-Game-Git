@@ -217,7 +217,7 @@ export function campaignEntityAvailableAt(
         : "createdAt" in record
           ? record.createdAt
           : "dueOn" in record
-            ? record.filedAt ?? record.dueOn
+            ? (record.filedAt ?? record.dueOn)
             : record.filedAt;
   return date <= asOfDate;
 }

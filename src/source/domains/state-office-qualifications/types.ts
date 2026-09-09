@@ -67,6 +67,12 @@ export type SelectionMechanism =
  * to have read a state constitution it never retrieved.
  */
 export interface CitedAuthority {
+  /** Exact research transport row that nominated this claim for review. */
+  readonly researchTransport?: {
+    readonly batch: "31C" | "31D";
+    readonly artifactId: string;
+    readonly sha256: string;
+  };
   /** "State Constitution", "Enacted Statute", "Court Ruling", verbatim. */
   readonly authorityType: string;
   /** The article, section or statute number, verbatim. */

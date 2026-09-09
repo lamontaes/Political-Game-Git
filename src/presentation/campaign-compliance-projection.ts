@@ -1,9 +1,9 @@
 import {
-  KENTUCKY_CAMPAIGN_COMPLIANCE_PACK,
   campaignCompliancePackFor,
   committeeCampaignComplianceDocuments,
   publicCampaignComplianceDocuments,
 } from "../simulation/campaign-compliance";
+import type { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "../simulation/campaign-compliance";
 import { requireCampaign } from "../simulation/campaign-queries";
 import type {
   CampaignComplianceDocumentRecord,
@@ -13,7 +13,8 @@ import type {
 
 export interface CampaignComplianceObligationView {
   readonly key: string;
-  readonly state: "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
+  readonly state:
+    "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
   readonly summary: string;
   readonly sourceUrl: string | null;
 }
@@ -70,7 +71,8 @@ function obligation(
         : value.state === "NOT_APPLICABLE"
           ? value.reason
           : "The named authority was read and no requirement was found.",
-    sourceUrl: value.state === "NO_REQUIREMENT_FOUND" ? value.source.sourceUrl : null,
+    sourceUrl:
+      value.state === "NO_REQUIREMENT_FOUND" ? value.source.sourceUrl : null,
   };
 }
 
@@ -104,19 +106,30 @@ export function projectCampaignCompliance(
       obligation(
         "statement-of-spending-intent",
         pack.statementOfIntentWithinDays,
-        (days) => `File the statement of spending intent within ${String(days)} days.`,
+        (days) =>
+          `File the statement of spending intent within ${String(days)} days.`,
       ),
-      obligation("report-schedules", pack.reportSchedules, (schedules) =>
-        `Report schedules: ${(schedules as readonly string[]).join(", ")}.`,
+      obligation(
+        "report-schedules",
+        pack.reportSchedules,
+        (schedules) =>
+          `Report schedules: ${(schedules as readonly string[]).join(", ")}.`,
       ),
-      obligation("electronic-filing", pack.electronicFilingSystem, (system) =>
-        `File through ${String(system)}.`,
+      obligation(
+        "electronic-filing",
+        pack.electronicFilingSystem,
+        (system) => `File through ${String(system)}.`,
       ),
-      obligation("amendments", pack.amendmentTransport, (system) =>
-        `Submit corrections through ${String(system)} as amendments.`,
+      obligation(
+        "amendments",
+        pack.amendmentTransport,
+        (system) =>
+          `Submit corrections through ${String(system)} as amendments.`,
       ),
-      obligation("contribution-limit", pack.contributionLimitMinorUnits, () =>
-        "A current contribution limit is known.",
+      obligation(
+        "contribution-limit",
+        pack.contributionLimitMinorUnits,
+        () => "A current contribution limit is known.",
       ),
     ],
     documents: committeeViewer

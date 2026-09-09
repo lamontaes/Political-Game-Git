@@ -78,7 +78,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Minnesota",
     instrumentKind: "constitution",
     instrumentTitle: "The Minnesota Constitution",
-    localPath: "data/source/state-office-qualifications/raw/mn-constitution.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mn-constitution.html",
     provisions: [
       {
         locator: "Minn. Const. art. IV, § 4",
@@ -119,8 +120,7 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
       {
         locator: "Minn. Const. art. VII, § 6",
         region: {
-          beginsWith:
-            "Sec. 6. Eligibility to hold office.",
+          beginsWith: "Sec. 6. Eligibility to hold office.",
           endsWith:
             "is eligible for any office elective by the people in the district wherein he has resided 30 days previous to the election, except as otherwise provided in this constitution, or the constitution and law of the United States.",
         },
@@ -133,32 +133,6 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     },
   },
   {
-    artifactId: "mn-statutes-10a-105",
-    url: "https://www.revisor.mn.gov/statutes/cite/10A.105",
-    provider: "Minnesota Office of the Revisor of Statutes",
-    jurisdictionKey: "US-MN",
-    enactingBody: "the Minnesota Legislature",
-    instrumentKind: "statute",
-    instrumentTitle: "Minnesota Statutes",
-    localPath: "data/source/state-office-qualifications/raw/mn-statutes-10a-105.html",
-    provisions: [
-      {
-        locator: "Minn. Stat. § 10A.105, subd. 1",
-        region: {
-          beginsWith:
-            "A candidate must not accept contributions from a source, other than self, in aggregate in excess of $750",
-          endsWith:
-            "However, a candidate may be involved in the direct or indirect control of a party unit.",
-        },
-      },
-    ],
-    enacted: {
-      length: 547,
-      sha256:
-        "4819e233a583bf67d44007cadf81132d5c9255935679cbff3f5442c028a9749d",
-    },
-  },
-  {
     artifactId: "mo-constitution-art-3-sec-2",
     url: "https://revisor.mo.gov/main/OneSection.aspx?section=III+++2",
     provider: "Missouri Revisor of Statutes",
@@ -166,7 +140,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-2.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-2.html",
     provisions: [
       {
         locator: "Mo. Const. art. III, § 2",
@@ -192,13 +167,13 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-4.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-4.html",
     provisions: [
       {
         locator: "Mo. Const. art. III, § 4",
         region: {
-          beginsWith:
-            "Each representative shall be twenty-four years of age",
+          beginsWith: "Each representative shall be twenty-four years of age",
           endsWith:
             "then of the county or district from which the same shall have been taken.",
         },
@@ -218,13 +193,13 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-6.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-6.html",
     provisions: [
       {
         locator: "Mo. Const. art. III, § 6",
         region: {
-          beginsWith:
-            "Each senator shall be thirty years of age",
+          beginsWith: "Each senator shall be thirty years of age",
           endsWith:
             "then of the district or districts from which the same shall have been taken.",
         },
@@ -244,15 +219,15 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-8.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-8.html",
     provisions: [
       {
         locator: "Mo. Const. art. III, § 8",
         region: {
           beginsWith:
             "No one shall be elected to serve more than eight years total in any one house of the General Assembly",
-          endsWith:
-            "shall not be counted.",
+          endsWith: "shall not be counted.",
         },
       },
     ],
@@ -270,7 +245,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-1.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-1.html",
     provisions: [
       {
         locator: "Mo. Const. art. IV, § 1",
@@ -296,13 +272,13 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-3.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-3.html",
     provisions: [
       {
         locator: "Mo. Const. art. IV, § 3",
         region: {
-          beginsWith:
-            "The governor shall be at least thirty years old",
+          beginsWith: "The governor shall be at least thirty years old",
           endsWith:
             "a resident of this state at least ten years next before election.",
         },
@@ -322,7 +298,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Missouri",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Missouri, 1945",
-    localPath: "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-17.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-17.html",
     provisions: [
       {
         locator: "Mo. Const. art. IV, § 17",
@@ -348,15 +325,15 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the Missouri General Assembly",
     instrumentKind: "statute",
     instrumentTitle: "Revised Statutes of Missouri",
-    localPath: "data/source/state-office-qualifications/raw/mo-statutes-27-010.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/mo-statutes-27-010.html",
     provisions: [
       {
         locator: "RSMo 27.010",
         region: {
           beginsWith:
             "The attorney general for the state of Missouri shall be elected",
-          endsWith:
-            "shall not engage in the practice of law.",
+          endsWith: "shall not engage in the practice of law.",
         },
       },
     ],
@@ -374,15 +351,15 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-1.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-1.html",
     provisions: [
       {
         locator: "Neb. Const. art. III, § 1",
         region: {
           beginsWith:
             "The legislative authority of the state shall be vested in a Legislature consisting of one chamber.",
-          endsWith:
-            "which power shall be called the power of referendum.",
+          endsWith: "which power shall be called the power of referendum.",
         },
       },
     ],
@@ -400,13 +377,13 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-7.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-7.html",
     provisions: [
       {
         locator: "Neb. Const. art. III, § 7",
         region: {
-          beginsWith:
-            "At the general election to be held in November 1964",
+          beginsWith: "At the general election to be held in November 1964",
           endsWith:
             "employees of the Legislature shall receive no compensation other than their salary or per diem.",
         },
@@ -426,15 +403,15 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-8.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-8.html",
     provisions: [
       {
         locator: "Neb. Const. art. III, § 8",
         region: {
           beginsWith:
             "No person shall be eligible to the office of member of the Legislature",
-          endsWith:
-            "after he shall have removed from such district.",
+          endsWith: "after he shall have removed from such district.",
         },
       },
     ],
@@ -452,15 +429,15 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-12.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-12.html",
     provisions: [
       {
         locator: "Neb. Const. art. III, § 12",
         region: {
           beginsWith:
             "(1) No person shall be eligible to serve as a member of the Legislature for four years next after the expiration of two consecutive terms",
-          endsWith:
-            "shall be deemed service for a term.",
+          endsWith: "shall be deemed service for a term.",
         },
       },
     ],
@@ -478,7 +455,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-1.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-1.html",
     provisions: [
       {
         locator: "Neb. Const. art. IV, § 1",
@@ -504,7 +482,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     enactingBody: "the people of Nebraska",
     instrumentKind: "constitution",
     instrumentTitle: "Constitution of the State of Nebraska",
-    localPath: "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-2.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-2.html",
     provisions: [
       {
         locator: "Neb. Const. art. IV, § 2",
@@ -537,8 +516,7 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
         region: {
           beginsWith:
             "No person shall be eligible to the Office of Attorney General unless the person:",
-          endsWith:
-            "Is a member of the State Bar of Nevada in good standing.",
+          endsWith: "Is a member of the State Bar of Nevada in good standing.",
         },
       },
     ],
@@ -577,12 +555,14 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-2-1",
     url: "https://codes.ohio.gov/ohio-constitution/section-2.1",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-2-1.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-2-1.html",
     provisions: [
       {
         locator: "Ohio Const. art. II, § 1",
@@ -603,12 +583,14 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-2-2",
     url: "https://codes.ohio.gov/ohio-constitution/section-2.2",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-2-2.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-2-2.html",
     provisions: [
       {
         locator: "Ohio Const. art. II, § 2",
@@ -629,20 +611,21 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-2-3",
     url: "https://codes.ohio.gov/ohio-constitution/section-2.3",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-2-3.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-2-3.html",
     provisions: [
       {
         locator: "Ohio Const. art. II, § 3",
         region: {
           beginsWith:
             "Senators and representatives shall have resided in their respective districts one year next preceding their election",
-          endsWith:
-            "or of this State.",
+          endsWith: "or of this State.",
         },
       },
     ],
@@ -655,18 +638,19 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-3-1",
     url: "https://codes.ohio.gov/ohio-constitution/section-3.1",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1.html",
     provisions: [
       {
         locator: "Ohio Const. art. III, § 1",
         region: {
-          beginsWith:
-            "The executive department shall consist of a governor",
+          beginsWith: "The executive department shall consist of a governor",
           endsWith:
             "at the places of voting for members of the General Assembly.",
         },
@@ -681,20 +665,21 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-3-1b",
     url: "https://codes.ohio.gov/ohio-constitution/section-3.1b",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1b.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1b.html",
     provisions: [
       {
         locator: "Ohio Const. art. III, § 1b",
         region: {
           beginsWith:
             "The lieutenant governor shall perform such duties in the executive department",
-          endsWith:
-            "as are prescribed by law.",
+          endsWith: "as are prescribed by law.",
         },
       },
     ],
@@ -707,12 +692,14 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-3-2",
     url: "https://codes.ohio.gov/ohio-constitution/section-3.2",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-3-2.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-3-2.html",
     provisions: [
       {
         locator: "Ohio Const. art. III, § 2",
@@ -733,12 +720,14 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-constitution-sec-15-4",
     url: "https://codes.ohio.gov/ohio-constitution/section-15.4",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the people of Ohio",
     instrumentKind: "constitution",
     instrumentTitle: "The Ohio Constitution",
-    localPath: "data/source/state-office-qualifications/raw/oh-constitution-sec-15-4.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-constitution-sec-15-4.html",
     provisions: [
       {
         locator: "Ohio Const. art. XV, § 4",
@@ -759,12 +748,14 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
     artifactId: "oh-revised-code-109-02",
     url: "https://codes.ohio.gov/ohio-revised-code/section-109.02",
-    provider: "Ohio Laws and Administrative Rules, Legislative Service Commission",
+    provider:
+      "Ohio Laws and Administrative Rules, Legislative Service Commission",
     jurisdictionKey: "US-OH",
     enactingBody: "the Ohio General Assembly",
     instrumentKind: "statute",
     instrumentTitle: "Ohio Revised Code",
-    localPath: "data/source/state-office-qualifications/raw/oh-revised-code-109-02.html",
+    localPath:
+      "data/source/state-office-qualifications/raw/oh-revised-code-109-02.html",
     provisions: [
       {
         locator: "R.C. 109.02",
@@ -781,7 +772,8 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
       sha256:
         "81cf4198453023bef34f47443296b64c6c9f83b0e5a038f8096f60f2fa2cad63",
     },
-  },];
+  },
+];
 
 /** Find one declared source, or nothing. Never guesses from an id prefix. */
 export function qualificationSource(
@@ -831,22 +823,20 @@ export const QUALIFICATION_ACQUISITION: {
   readonly requests: readonly AcquisitionRequest[];
 } = {
   domain: "state-office-qualifications",
-  requests: QUALIFICATION_SOURCES.map(
-    (spec): AcquisitionRequest => ({
-      artifactId: spec.artifactId,
-      provider: spec.provider,
-      url: spec.url,
-      method: "GET",
-      mediaType: "text/html",
-      publisher: {
-        statedVintage: null,
-        releaseDate: null,
-        schemaVersion: null,
-        documentationUrl: spec.url,
-      },
-      rights: edictRights(spec),
-      storage: "committed",
-      localPath: spec.localPath,
-    }),
-  ),
+  requests: QUALIFICATION_SOURCES.map((spec): AcquisitionRequest => ({
+    artifactId: spec.artifactId,
+    provider: spec.provider,
+    url: spec.url,
+    method: "GET",
+    mediaType: "text/html",
+    publisher: {
+      statedVintage: null,
+      releaseDate: null,
+      schemaVersion: null,
+      documentationUrl: spec.url,
+    },
+    rights: edictRights(spec),
+    storage: "committed",
+    localPath: spec.localPath,
+  })),
 };

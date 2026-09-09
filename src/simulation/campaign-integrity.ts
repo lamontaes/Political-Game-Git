@@ -131,7 +131,9 @@ function assertCampaignRoots(
     campaign.compliancePackId !== null &&
     campaign.compliancePackId.trim().length === 0
   ) {
-    throw new Error(`Campaign compliance pack identity is invalid: ${campaign.id}`);
+    throw new Error(
+      `Campaign compliance pack identity is invalid: ${campaign.id}`,
+    );
   }
 
   const organization = world.history.organizations.find(
@@ -592,55 +594,63 @@ export function assertCampaignIntegrity(
   assertCampaignActionResults(world, ids, campaignById, actionById);
 
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
-  for (const document of complianceDocuments) {
-    assertIdentity(
-      ids,
-      world,
-      document,
-      "campaign-compliance-document",
-    );
-    const campaign = campaignById.get(document.campaignId);
+  for (const filingRecord of complianceDocuments) {
+    assertIdentity(ids, world, filingRecord, "campaign-compliance-document");
+    const campaign = campaignById.get(filingRecord.campaignId);
     if (
       !campaign ||
-      campaign.sequence >= document.sequence ||
-      document.committeeOrganizationId !== campaign.organizationId ||
-      document.rulePackId !== campaign.compliancePackId
+      campaign.sequence >= filingRecord.sequence ||
+      filingRecord.committeeOrganizationId !== campaign.organizationId ||
+      filingRecord.rulePackId !== campaign.compliancePackId
     ) {
-      throw new Error(`Campaign compliance document linkage is invalid: ${document.id}`);
+      throw new Error(
+        `Campaign compliance document linkage is invalid: ${filingRecord.id}`,
+      );
     }
     if (
-      (document.status === "draft" &&
-        (document.visibility !== "committee-private" ||
-          document.transport !== null ||
-          document.filedAt !== null)) ||
-      (document.status === "filed" &&
-        (document.visibility !== "public-record" ||
-          document.transport !== "KEFMS" ||
-          document.filedAt === null))
+      (filingRecord.status === "draft" &&
+        (filingRecord.visibility !== "committee-private" ||
+          filingRecord.transport !== null ||
+          filingRecord.filedAt !== null)) ||
+      (filingRecord.status === "filed" &&
+        (filingRecord.visibility !== "public-record" ||
+          filingRecord.transport !== "KEFMS" ||
+          filingRecord.filedAt === null))
     ) {
-      throw new Error(`Campaign compliance document state is invalid: ${document.id}`);
+      throw new Error(
+        `Campaign compliance document state is invalid: ${filingRecord.id}`,
+      );
     }
     if (
-      document.kind === "amendment" &&
-      (!document.amendsDocumentId ||
-        !document.correctionReason?.trim() ||
-        document.schedule !== "correction")
+      filingRecord.kind === "amendment" &&
+      (!filingRecord.amendsDocumentId ||
+        !filingRecord.correctionReason?.trim() ||
+        filingRecord.schedule !== "correction")
     ) {
-      throw new Error(`Campaign compliance amendment is incomplete: ${document.id}`);
+      throw new Error(
+        `Campaign compliance amendment is incomplete: ${filingRecord.id}`,
+      );
     }
-    if (document.kind !== "amendment" && document.amendsDocumentId !== null) {
-      throw new Error(`Non-amendment document claims an amended filing: ${document.id}`);
+    if (
+      filingRecord.kind !== "amendment" &&
+      filingRecord.amendsDocumentId !== null
+    ) {
+      throw new Error(
+        `Non-amendment document claims an amended filing: ${filingRecord.id}`,
+      );
     }
-    if (document.amendsDocumentId) {
-      const prior = complianceById.get(document.amendsDocumentId);
+    if (filingRecord.amendsDocumentId) {
+      const prior = complianceById.get(filingRecord.amendsDocumentId);
       if (
         !prior ||
-        prior.campaignId !== document.campaignId ||
+        prior.campaignId !== filingRecord.campaignId ||
         prior.status !== "filed"
       ) {
-        throw new Error(`Campaign compliance amendment target is invalid: ${document.id}`);
+        throw new Error(
+          `Campaign compliance amendment target is invalid: ${filingRecord.id}`,
+        );
       }
     }
-    complianceById.set(document.id, document);
+    complianceById.set(filingRecord.id, filingRecord);
   }
 }

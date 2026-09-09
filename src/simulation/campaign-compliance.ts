@@ -13,9 +13,16 @@ import type {
 import { assertWorldIntegrity } from "./world";
 
 export type ComplianceValue<T> =
-  | { readonly state: "KNOWN"; readonly value: T; readonly source: ComplianceSourceRef }
+  | {
+      readonly state: "KNOWN";
+      readonly value: T;
+      readonly source: ComplianceSourceRef;
+    }
   | { readonly state: "UNKNOWN"; readonly reason: string }
-  | { readonly state: "NO_REQUIREMENT_FOUND"; readonly source: ComplianceSourceRef }
+  | {
+      readonly state: "NO_REQUIREMENT_FOUND";
+      readonly source: ComplianceSourceRef;
+    }
   | { readonly state: "NOT_APPLICABLE"; readonly reason: string };
 
 export interface ComplianceSourceRef {
@@ -32,7 +39,9 @@ export interface CampaignComplianceRulePack {
   readonly jurisdictionKey: string;
   readonly statementOfIntentWithinDays: ComplianceValue<number>;
   readonly reportingThresholdMinorUnits: ComplianceValue<number>;
-  readonly reportSchedules: ComplianceValue<readonly CampaignComplianceDocumentRecord["schedule"][]>;
+  readonly reportSchedules: ComplianceValue<
+    readonly CampaignComplianceDocumentRecord["schedule"][]
+  >;
   readonly electronicFilingSystem: ComplianceValue<"KEFMS">;
   readonly publicUponReceipt: ComplianceValue<boolean>;
   readonly amendmentTransport: ComplianceValue<"KEFMS">;
@@ -43,20 +52,24 @@ export interface CampaignComplianceRulePack {
 
 const KRS_121_180: ComplianceSourceRef = {
   sourceTitle: "Kentucky Revised Statutes § 121.180",
-  sourceUrl: "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58071",
+  sourceUrl:
+    "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58071",
   legalLocator: "KRS 121.180(1), (3), (4), (8), and (9)",
   retrievedAt: "2026-09-08",
   effectiveDate: "2026-07-15" as IsoDate,
-  researchLineage: "92M/KY verified against the current first-party statute after HB 139",
+  researchLineage:
+    "92M/KY verified against the current first-party statute after HB 139",
 };
 
 const KREF_FAQ: ComplianceSourceRef = {
-  sourceTitle: "Kentucky Registry of Election Finance — Frequently Asked Questions",
+  sourceTitle:
+    "Kentucky Registry of Election Finance — Frequently Asked Questions",
   sourceUrl: "https://kref.ky.gov/Pages/Frequently-Asked-Questions.aspx",
   legalLocator: "Candidate FAQs: amending spending intent and candidate funds",
   retrievedAt: "2026-09-08",
   effectiveDate: null,
-  researchLineage: "45 Part 1 and 92M/KY verified against current Registry guidance",
+  researchLineage:
+    "45 Part 1 and 92M/KY verified against current Registry guidance",
 };
 
 function known<T>(value: T, source: ComplianceSourceRef): ComplianceValue<T> {
@@ -94,8 +107,9 @@ export function campaignCompliancePackFor(
   campaignId: EntityId,
 ): CampaignComplianceRulePack | null {
   const campaign = requireCampaign(world, campaignId);
-  const stateKey = lifePlaceByJurisdictionId(campaign.jurisdictionId)
-    ?.stateJurisdictionKey;
+  const stateKey = lifePlaceByJurisdictionId(
+    campaign.jurisdictionId,
+  )?.stateJurisdictionKey;
   return stateKey === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.jurisdictionKey &&
     campaign.compliancePackId === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.packId
     ? KENTUCKY_CAMPAIGN_COMPLIANCE_PACK
@@ -177,18 +191,30 @@ export function recordCampaignComplianceDocument(
   const campaign = requireCampaign(world, input.campaignId);
   const pack = campaignCompliancePackFor(world, campaign.id);
   if (!pack) {
-    throw new Error("No accepted campaign-compliance pack covers this campaign.");
+    throw new Error(
+      "No accepted campaign-compliance pack covers this campaign.",
+    );
   }
   if (input.stableKey.trim().length === 0) {
     throw new Error("A compliance document needs a stable key.");
   }
-  if (campaignComplianceDocuments(world).some((r) => r.stableKey === input.stableKey)) {
-    throw new Error(`Campaign-compliance stable key already exists: ${input.stableKey}`);
+  if (
+    campaignComplianceDocuments(world).some(
+      (r) => r.stableKey === input.stableKey,
+    )
+  ) {
+    throw new Error(
+      `Campaign-compliance stable key already exists: ${input.stableKey}`,
+    );
   }
   if ((input.periodStart === null) !== (input.periodEnd === null)) {
     throw new Error("A reporting period requires both a start and an end.");
   }
-  if (input.periodStart && input.periodEnd && input.periodEnd < input.periodStart) {
+  if (
+    input.periodStart &&
+    input.periodEnd &&
+    input.periodEnd < input.periodStart
+  ) {
     throw new Error("A reporting period cannot end before it starts.");
   }
   if (input.status === "filed" && input.transport !== "KEFMS") {
@@ -206,17 +232,22 @@ export function recordCampaignComplianceDocument(
   }
   if (input.kind === "statement-of-spending-intent") {
     if (input.schedule !== "initial" || input.amendsDocumentId !== null) {
-      throw new Error("An initial spending-intent statement must use the initial schedule.");
+      throw new Error(
+        "An initial spending-intent statement must use the initial schedule.",
+      );
     }
     if (daysBetween(campaign.filedAt, input.dueOn) > 5) {
-      throw new Error("The spending-intent statement deadline exceeds five days after candidacy filing.");
+      throw new Error(
+        "The spending-intent statement deadline exceeds five days after candidacy filing.",
+      );
     }
   }
   let amended: CampaignComplianceDocumentRecord | null = null;
   if (input.kind === "amendment") {
-    amended = campaignComplianceDocuments(world).find(
-      (record) => record.id === input.amendsDocumentId,
-    ) ?? null;
+    amended =
+      campaignComplianceDocuments(world).find(
+        (record) => record.id === input.amendsDocumentId,
+      ) ?? null;
     if (
       !amended ||
       amended.campaignId !== campaign.id ||
@@ -224,9 +255,14 @@ export function recordCampaignComplianceDocument(
       input.schedule !== "correction" ||
       !input.correctionReason?.trim()
     ) {
-      throw new Error("An amendment must identify a filed document in this campaign and explain the correction.");
+      throw new Error(
+        "An amendment must identify a filed document in this campaign and explain the correction.",
+      );
     }
-  } else if (input.amendsDocumentId !== null || input.correctionReason !== null) {
+  } else if (
+    input.amendsDocumentId !== null ||
+    input.correctionReason !== null
+  ) {
     throw new Error("Only an amendment may identify a corrected filing.");
   }
 
@@ -246,7 +282,8 @@ export function recordCampaignComplianceDocument(
     periodEnd: input.periodEnd,
     dueOn: input.dueOn,
     status: input.status,
-    visibility: input.status === "filed" ? "public-record" : "committee-private",
+    visibility:
+      input.status === "filed" ? "public-record" : "committee-private",
     transport: input.transport,
     filedAt: input.status === "filed" ? world.currentDate : null,
     amendsDocumentId: amended?.id ?? null,
@@ -282,7 +319,8 @@ export interface CampaignContributionInput {
 
 export interface CampaignContributionAssessment {
   readonly acceptableForRecording: boolean;
-  readonly classification: "candidate-contribution" | "individual-contribution" | null;
+  readonly classification:
+    "candidate-contribution" | "individual-contribution" | null;
   readonly requiresItemization: boolean;
   readonly refusals: readonly string[];
 }
@@ -292,15 +330,24 @@ export function assessKentuckyCampaignContribution(
   input: CampaignContributionInput,
 ): CampaignContributionAssessment {
   const refusals: string[] = [];
-  if (!Number.isSafeInteger(input.amountMinorUnits) || input.amountMinorUnits <= 0) {
-    refusals.push("A contribution amount must be a positive integer of minor currency units.");
+  if (
+    !Number.isSafeInteger(input.amountMinorUnits) ||
+    input.amountMinorUnits <= 0
+  ) {
+    refusals.push(
+      "A contribution amount must be a positive integer of minor currency units.",
+    );
   }
   if (input.currency !== "USD") {
-    refusals.push("The accepted Kentucky pack states amounts in U.S. dollars only.");
+    refusals.push(
+      "The accepted Kentucky pack states amounts in U.S. dollars only.",
+    );
   }
   const requiresItemization = input.amountMinorUnits > 20_000;
   if (input.contributorKind === "unknown") {
-    refusals.push("The contributor is unknown; the game cannot infer an eligible source or a contribution limit.");
+    refusals.push(
+      "The contributor is unknown; the game cannot infer an eligible source or a contribution limit.",
+    );
   }
   if (
     requiresItemization &&
@@ -309,7 +356,9 @@ export function assessKentuckyCampaignContribution(
       !input.employer?.trim() ||
       !input.occupation?.trim())
   ) {
-    refusals.push("A contribution over $200 lacks the contributor details required for itemization.");
+    refusals.push(
+      "A contribution over $200 lacks the contributor details required for itemization.",
+    );
   }
   return {
     acceptableForRecording: refusals.length === 0,

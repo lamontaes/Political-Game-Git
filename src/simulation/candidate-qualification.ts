@@ -85,17 +85,12 @@ export function candidateQualificationRuleSet(
 }
 
 export type CandidateQualificationRefusalKind =
-  | "minimum-age"
-  | "state-residence"
-  | "district-residence"
-  | "unresolved-rule";
+  "minimum-age" | "state-residence" | "district-residence" | "unresolved-rule";
 
 export interface CandidateQualificationRefusal {
   readonly kind: CandidateQualificationRefusalKind;
   readonly field:
-    | "minimumAge"
-    | "stateResidenceYears"
-    | "districtResidenceYears";
+    "minimumAge" | "stateResidenceYears" | "districtResidenceYears";
   readonly reason: string;
   readonly source: QualificationSourceRef | null;
 }
@@ -123,11 +118,19 @@ function durationRefusal(
   since: IsoDate | null,
   onDate: IsoDate,
 ): CandidateQualificationRefusal | null {
-  if (value.state === "NOT_APPLICABLE" || value.state === "NO_REQUIREMENT_FOUND") {
+  if (
+    value.state === "NOT_APPLICABLE" ||
+    value.state === "NO_REQUIREMENT_FOUND"
+  ) {
     return null;
   }
   if (value.state === "UNKNOWN") {
-    return { kind: "unresolved-rule", field, reason: value.reason, source: null };
+    return {
+      kind: "unresolved-rule",
+      field,
+      reason: value.reason,
+      source: null,
+    };
   }
   if (since === null) {
     return {

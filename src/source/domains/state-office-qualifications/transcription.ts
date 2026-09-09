@@ -73,9 +73,11 @@ export function locatorNames(
   provisionLocator: string,
 ): boolean {
   const wanted = normalizeLocator(provisionLocator);
-  return researchLocator
-    .split(";")
-    .some((part) => normalizeLocator(part) === wanted);
+  if (wanted === "") return false;
+  const escaped = wanted.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?:^|;\\s*)${escaped}(?:\\s*;|$)`).test(
+    normalizeLocator(researchLocator),
+  );
 }
 
 export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
@@ -126,8 +128,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "STATE_RESIDENCE",
     artifactId: "mn-constitution",
     locator: "Minn. Const. art. IV, § 6",
-    excerpt:
-      "shall have resided one year in the state",
+    excerpt: "shall have resided one year in the state",
   },
   {
     batch: "31C",
@@ -136,8 +137,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "TERM_LENGTH",
     artifactId: "mn-constitution",
     locator: "Minn. Const. art. IV, § 4",
-    excerpt:
-      "Senators shall be chosen for a term of four years",
+    excerpt: "Senators shall be chosen for a term of four years",
   },
   {
     batch: "31C",
@@ -146,8 +146,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "mo-constitution-art-4-sec-3",
     locator: "Mo. Const. art. IV, § 3",
-    excerpt:
-      "The governor shall be at least thirty years old",
+    excerpt: "The governor shall be at least thirty years old",
   },
   {
     batch: "31C",
@@ -156,8 +155,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "OFFICE_EXISTENCE",
     artifactId: "mo-constitution-art-4-sec-1",
     locator: "Mo. Const. art. IV, § 1",
-    excerpt:
-      "The supreme executive power shall be vested in a governor.",
+    excerpt: "The supreme executive power shall be vested in a governor.",
   },
   {
     batch: "31C",
@@ -166,8 +164,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "STATE_RESIDENCE",
     artifactId: "mo-constitution-art-4-sec-3",
     locator: "Mo. Const. art. IV, § 3",
-    excerpt:
-      "a resident of this state at least ten years next before election",
+    excerpt: "a resident of this state at least ten years next before election",
   },
   {
     batch: "31C",
@@ -176,8 +173,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "US_CITIZENSHIP",
     artifactId: "mo-constitution-art-4-sec-3",
     locator: "Mo. Const. art. IV, § 3",
-    excerpt:
-      "a citizen of the United States for at least fifteen years",
+    excerpt: "a citizen of the United States for at least fifteen years",
   },
   {
     batch: "31C",
@@ -186,8 +182,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "TERM_LIMIT",
     artifactId: "mo-constitution-art-4-sec-17",
     locator: "Mo. Const. art. IV, § 17",
-    excerpt:
-      "No person shall be elected governor or treasurer more than twice",
+    excerpt: "No person shall be elected governor or treasurer more than twice",
   },
   {
     batch: "31C",
@@ -196,8 +191,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "mo-constitution-art-3-sec-4",
     locator: "Mo. Const. art. III, § 4",
-    excerpt:
-      "Each representative shall be twenty-four years of age",
+    excerpt: "Each representative shall be twenty-four years of age",
   },
   {
     batch: "31C",
@@ -216,8 +210,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "mo-constitution-art-3-sec-6",
     locator: "Mo. Const. art. III, § 6",
-    excerpt:
-      "Each senator shall be thirty years of age",
+    excerpt: "Each senator shall be thirty years of age",
   },
   {
     batch: "31C",
@@ -226,8 +219,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "ne-constitution-art-4-sec-2",
     locator: "Neb. Const. art. IV, § 2",
-    excerpt:
-      "who shall not have attained the age of thirty years",
+    excerpt: "who shall not have attained the age of thirty years",
   },
   {
     batch: "31C",
@@ -316,8 +308,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "ne-constitution-art-3-sec-8",
     locator: "Neb. Const. art. III, § 8",
-    excerpt:
-      "has attained the age of twenty-one years",
+    excerpt: "has attained the age of twenty-one years",
   },
   {
     batch: "31C",
@@ -336,8 +327,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "TERM_LENGTH",
     artifactId: "ne-constitution-art-3-sec-7",
     locator: "Neb. Const. art. III, § 7",
-    excerpt:
-      "thereafter all members shall be elected for a term of four years",
+    excerpt: "thereafter all members shall be elected for a term of four years",
   },
   {
     batch: "31C",
@@ -356,8 +346,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "nv-nrs-228",
     locator: "NRS 228.010",
-    excerpt:
-      "Has attained the age of 30 years at the time of such election",
+    excerpt: "Has attained the age of 30 years at the time of such election",
   },
   {
     batch: "31C",
@@ -366,8 +355,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "PROFESSIONAL_QUALIFICATION",
     artifactId: "nv-nrs-228",
     locator: "NRS 228.010",
-    excerpt:
-      "Is a member of the State Bar of Nevada in good standing",
+    excerpt: "Is a member of the State Bar of Nevada in good standing",
   },
   {
     batch: "31C",
@@ -386,8 +374,7 @@ export const QUALIFICATION_TRANSCRIPTIONS: readonly ReviewedTranscription[] = [
     field: "MINIMUM_AGE",
     artifactId: "nv-nrs-218a",
     locator: "NRS 218A.200",
-    excerpt:
-      "has attained the age of 21 years",
+    excerpt: "has attained the age of 21 years",
   },
   {
     batch: "31C",

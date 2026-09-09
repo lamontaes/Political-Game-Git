@@ -3034,7 +3034,8 @@ export interface CampaignComplianceDocumentRecord {
   readonly campaignId: EntityId;
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
-  readonly kind: "statement-of-spending-intent" | "periodic-report" | "amendment";
+  readonly kind:
+    "statement-of-spending-intent" | "periodic-report" | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"

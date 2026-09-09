@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { compileCampaignComplianceResearchTransport } from "../../src/source/domains/campaign-compliance-research/index";
+import { compileCampaignComplianceResearchTransport } from "../../src/source/research/campaign-compliance";
 
 const PATH = resolve(
   import.meta.dirname,
@@ -18,7 +18,9 @@ describe("92M campaign-compliance research transport", () => {
     );
     const compiled = compileCampaignComplianceResearchTransport(bytes);
     expect(compiled.recordCount).toBe(1_020);
-    expect(new Set(compiled.claims.map((claim) => claim.jurisdictionId)).size).toBe(51);
+    expect(
+      new Set(compiled.claims.map((claim) => claim.jurisdictionId)).size,
+    ).toBe(51);
     expect(new Set(compiled.claims.map((claim) => claim.field)).size).toBe(20);
     expect(
       compiled.claims.filter((claim) => claim.status === "KNOWN"),

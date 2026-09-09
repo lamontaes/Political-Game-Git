@@ -11,6 +11,11 @@ import {
   assessCandidateQualification,
   candidateQualificationRuleSet,
 } from "./candidate-qualification";
+import {
+  assessOfficeQualifications,
+  officeFamilyForChamberKey,
+} from "./office-qualification-rules";
+import type { QualificationAssessment } from "./office-qualification-rules";
 import type { EntityId, World } from "./types";
 
 /**
@@ -112,12 +117,15 @@ export type CandidacyBlockKind =
   | "sourced-minimum-age"
   | "sourced-state-residence"
   | "unproved-district-residence"
+  | "office-does-not-exist"
+  | "unproved-sourced-qualification"
   | "lives-elsewhere"
   | "already-a-candidate";
 
 export interface CandidacyBlock {
   readonly kind: CandidacyBlockKind;
   readonly reason: string;
+  readonly citation?: string;
 }
 
 /**
@@ -145,6 +153,8 @@ export interface CandidacyEligibility {
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
   readonly office: ElectiveOfficeOption | null;
+  /** Every production-compiled field checked for this candidate. */
+  readonly qualificationAssessments: readonly QualificationAssessment[];
   readonly blocks: readonly CandidacyBlock[];
 }
 
@@ -196,21 +206,37 @@ export function candidacyEligibility(
     pack && option
       ? candidateQualificationRuleSet(pack.packId, option.officeKey)
       : null;
+  const activeStateResidence = factsForPerson(person)
+    .filter(
+      (fact) =>
+        fact.kind === "residence" &&
+        fact.endedAt === null &&
+        fact.occurredAt <= world.currentDate &&
+        lifePlaceByJurisdictionId(fact.jurisdictionId)?.stateJurisdictionKey ===
+          authority.stateJurisdictionKey,
+    )
+    .sort((left, right) => left.occurredAt.localeCompare(right.occurredAt))[0];
+  const chamberKey = option?.officeKey.split(":").at(-1) ?? null;
+  const officeFamily =
+    chamberKey === null ? null : officeFamilyForChamberKey(chamberKey);
+  const qualificationAssessments =
+    qualificationRules !== null || officeFamily === null
+      ? []
+      : assessOfficeQualifications({
+          person,
+          stateJurisdictionKey: authority.stateJurisdictionKey,
+          officeFamily,
+          stateResidenceSince: activeStateResidence?.occurredAt ?? null,
+          // The office carries no district identity, so state residence cannot
+          // be reused as proof of district residence.
+          districtResidenceSince: null,
+          onDate: world.currentDate,
+        });
   if (qualificationRules) {
-    const activeResidence = factsForPerson(person)
-      .filter(
-        (fact) =>
-          fact.kind === "residence" &&
-          fact.endedAt === null &&
-          fact.occurredAt <= world.currentDate &&
-          lifePlaceByJurisdictionId(fact.jurisdictionId)
-            ?.stateJurisdictionKey === qualificationRules.jurisdictionKey,
-      )
-      .sort((left, right) => left.occurredAt.localeCompare(right.occurredAt))[0];
     const assessment = assessCandidateQualification(qualificationRules, {
       birthDate: person.birthDate,
       onDate: world.currentDate,
-      stateResidenceSince: activeResidence?.occurredAt ?? null,
+      stateResidenceSince: activeStateResidence?.occurredAt ?? null,
       // The current office is deliberately an unnumbered seat. A state-level
       // residence fact cannot prove residence in a district that has no ID.
       districtResidenceSince: null,
@@ -226,7 +252,27 @@ export function candidacyEligibility(
         reason: refusal.reason,
       });
     }
-  } else if (age < GAME_ADULT_CANDIDACY_AGE) {
+  } else {
+    for (const assessment of qualificationAssessments) {
+      if (assessment.verdict === "meets") continue;
+      blocks.push({
+        kind:
+          assessment.field === "OFFICE_EXISTENCE"
+            ? "office-does-not-exist"
+            : "unproved-sourced-qualification",
+        reason: assessment.reason,
+        citation: assessment.source?.citation,
+      });
+    }
+  }
+  const sourcedMinimumAge = qualificationAssessments.some(
+    (assessment) => assessment.field === "MINIMUM_AGE",
+  );
+  if (
+    qualificationRules === null &&
+    !sourcedMinimumAge &&
+    age < GAME_ADULT_CANDIDACY_AGE
+  ) {
     blocks.push({
       kind: "below-game-adult-age",
       reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
@@ -251,6 +297,7 @@ export function candidacyEligibility(
     personId: input.personId,
     pack,
     office: option,
+    qualificationAssessments,
     blocks,
   };
 }

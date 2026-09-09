@@ -550,13 +550,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // main (P1 narration, the accepted executive modules, the R3J Kentucky
     // Sec. 88 operative-text source notes and the merged #128 anchor history)
     // composed with PR79's bargaining dialogue, subjects, floor surface,
-    // member-seat resolver and prior-work evidence classifier. Neither side's
-    // pin was chosen; the combined tree was scanned and these are what it
-    // measures.
+    // member-seat resolver, prior-work evidence classifier, and the bounded
+    // qualification/compliance source and adapter modules. Neither side's pin
+    // was chosen; the combined tree was scanned and these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51732);
+    expect(coverage.totalLiterals).toBe(52285);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(340);
+    expect(coverage.scannedFiles).toBe(349);
   });
 });
 

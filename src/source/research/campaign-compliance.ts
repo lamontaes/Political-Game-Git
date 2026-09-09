@@ -1,10 +1,7 @@
-import { corpusCanonicalDigest } from "../../core/index";
+import { corpusCanonicalDigest } from "../core/index";
 
 export type CampaignComplianceResearchStatus =
-  | "KNOWN"
-  | "UNKNOWN"
-  | "NO_REQUIREMENT_FOUND"
-  | "NOT_APPLICABLE";
+  "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
 
 export interface CampaignComplianceResearchClaim {
   readonly recordId: string;
@@ -66,7 +63,9 @@ export function compileCampaignComplianceResearchTransport(
   const root = object(parsed, "92M root");
   const jurisdictions = object(root.jurisdictions, "92M jurisdictions");
   const claims: CampaignComplianceResearchClaim[] = [];
-  for (const [jurisdictionKey, rawJurisdiction] of Object.entries(jurisdictions)) {
+  for (const [jurisdictionKey, rawJurisdiction] of Object.entries(
+    jurisdictions,
+  )) {
     const jurisdiction = object(rawJurisdiction, jurisdictionKey);
     const jurisdictionId = requiredString(
       jurisdiction.jurisdiction_id,
@@ -83,7 +82,9 @@ export function compileCampaignComplianceResearchTransport(
         `${jurisdictionKey}.${field}.status`,
       );
       if (!STATUSES.has(status as CampaignComplianceResearchStatus)) {
-        throw new Error(`${jurisdictionKey}.${field} has unsupported status ${status}.`);
+        throw new Error(
+          `${jurisdictionKey}.${field} has unsupported status ${status}.`,
+        );
       }
       claims.push({
         recordId: `${jurisdictionId}:${field}`,
@@ -119,7 +120,9 @@ export function compileCampaignComplianceResearchTransport(
   }
   claims.sort((left, right) => left.recordId.localeCompare(right.recordId));
   if (new Set(claims.map((claim) => claim.recordId)).size !== claims.length) {
-    throw new Error("The 92M research transport contains duplicate jurisdiction/field rows.");
+    throw new Error(
+      "The 92M research transport contains duplicate jurisdiction/field rows.",
+    );
   }
   return {
     documentId: requiredString(root.document_id, "92M document_id"),

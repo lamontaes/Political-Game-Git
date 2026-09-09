@@ -1,0 +1,30 @@
+{
+  "asOf": "2026-01-01",
+  "canonicalSha256": "4384516bb85db2393fda9fead9610f8478ce0aedec32567d10f349a34f56938b",
+  "compiler": {
+    "name": "state-campaign-compliance",
+    "version": "1.0.0"
+  },
+  "corpusId": "state-campaign-compliance",
+  "coverage": {
+    "boundedSampleReason": "Two regimes. Nebraska because it is the state the game can actually hold a legislative election in, so the rule reaches a real campaign; Minnesota because a second state's differently-shaped obligation is what stops one statute's structure being mistaken for the shape of campaign law. No other state's campaign-finance law has been read, and none is implied by these.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Three obligations: two from Minn. Stat. § 10A.105, subd. 1, and one from Neb. Rev. Stat. § 49-1446. Two states, two provisions."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "mn-statutes-10a-105",
+      "sha256": "4819e233a583bf67d44007cadf81132d5c9255935679cbff3f5442c028a9749d"
+    },
+    {
+      "artifactId": "ne-statutes-49-1446",
+      "sha256": "69c1bc4bbe57d82aa56b78fa91e715d8ee428eff63c9a25fa487df45baad04e4"
+    }
+  ],
+  "parser": {
+    "name": "enacted-text-excerpt",
+    "version": "1.0.0"
+  },
+  "recordCount": 3
+}

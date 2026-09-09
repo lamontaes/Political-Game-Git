@@ -1,0 +1,105 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "mn-statutes-10a-105",
+      "bytes": {
+        "length": 63481,
+        "sha256": "65913f12e96ec7bc8ed1a3bbeeced7f07f12ec85899292db26ddecb1fa7a6460"
+      },
+      "localPath": "data/source/state-campaign-compliance/raw/mn-statutes-10a-105.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/statutes/cite/10A.105",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 63481,
+        "retrievedAt": "2026-09-09T02:19:04.966Z",
+        "url": "https://www.revisor.mn.gov/statutes/cite/10A.105"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Minnesota Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Minnesota Statutes, Chapter 10A — Campaign Finance and Public Disclosure",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 547,
+              "sha256": "4819e233a583bf67d44007cadf81132d5c9255935679cbff3f5442c028a9749d"
+            },
+            "regions": [
+              {
+                "beginsWith": "A candidate must not accept contributions from a source, other than self, in aggregate in excess of $750",
+                "endsWith": "However, a candidate may be involved in the direct or indirect control of a party unit."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-statutes-49-1446",
+      "bytes": {
+        "length": 25091,
+        "sha256": "383b533bb5d5bbe394a366afc1d64a2fa43bd732e6fd087e3631cf7ae466d401"
+      },
+      "localPath": "data/source/state-campaign-compliance/raw/ne-statutes-49-1446.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=49-1446",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 25091,
+        "retrievedAt": "2026-09-09T02:19:05.414Z",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nebraska Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nebraska Revised Statutes, Chapter 49 — Nebraska Political Accountability and Disclosure Act",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1238,
+              "sha256": "69c1bc4bbe57d82aa56b78fa91e715d8ee428eff63c9a25fa487df45baad04e4"
+            },
+            "regions": [
+              {
+                "beginsWith": "(1) Each committee shall have a treasurer who is a qualified elector of this state.",
+                "endsWith": "The contributions received or expenditures made by a candidate or an agent of a candidate shall be considered received or made by the candidate committee."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-campaign-compliance"
+}

@@ -22,13 +22,13 @@ Status: active
 
 ## Work
 
-- [ ] Preserve and validate the exact recovered 31D transport with full accounting.
-- [ ] Compile every qualification row that clears the existing first-party source gate; retain exact blocked reasons for all others.
-- [ ] Add typed qualification consumers with explicit accepted/refused results and no name-based inference.
-- [ ] Normalize the supported campaign-compliance subset through a source domain with exact first-party artifacts.
-- [ ] Add canonical committee obligations, filing/reporting constraints, contribution/committee rules, and amendment/correction behavior without a second money or clock system.
-- [ ] Add feature-local projections/adapters only; do not write municipal procedure or global UI roots.
-- [ ] Prove deterministic replay, success/refusal, private/public access, zero-write refusals, save/reload, and unchanged campaign clock behavior.
+- [x] Preserve and validate the exact recovered 31D transport with full accounting.
+- [x] Compile every qualification row that clears the existing first-party source gate; retain exact blocked reasons for all others.
+- [x] Add typed qualification consumers with explicit accepted/refused results and no name-based inference.
+- [x] Normalize the supported campaign-compliance subset through a source domain with exact first-party artifacts.
+- [x] Add canonical committee obligations, filing/reporting constraints, contribution/committee rules, and amendment/correction behavior without a second money or clock system.
+- [x] Add feature-local projections/adapters only; do not write municipal procedure or global UI roots.
+- [x] Prove deterministic replay, success/refusal, private/public access, zero-write refusals, save/reload, and unchanged campaign clock behavior.
 - [ ] Update architecture/system/acceptance documentation, run validation, perform LEARN, publish one draft PR, and stop.
 
 ## Coordination
@@ -36,3 +36,19 @@ Status: active
 - MUNI-PLAY1 owns governing/meeting actions. The shared boundary uses explicit canonical jurisdiction/government/office/role IDs.
 - UI owners retain global navigation and root wiring. This branch supplies feature-local read models and typed checks.
 - PR #135 remains the campaign-clock owner and is not modified or merged here.
+
+## Shared Recovery H transfer
+
+- Recovery authority: Drive document
+  `1nbpDGFdmOvlyQxUtLSEMOVE2Ih5hoIaf_PeZk1BEsHk`, section H.
+- Stopped source checkout:
+  `/Users/lamontae/Documents/Political-Game-QUAL-COMPLIANCE1`, branch
+  `claude/qual-compliance1-qualification-campaign-rules`, commit
+  `2c3ebc0aaf706999cab43ce17c9610c825f7bef5`.
+- The unique first-party acquisition, transcription, compiler, generated
+  adapter, and ledger work was recovered read-only and replayed here. The
+  duplicate 31D copy and duplicate progress plan were omitted after their
+  content was compared and accounted for.
+- Recovery snapshots are preserved outside the repository under
+  `/private/tmp/qual-compliance-build-artifacts/`; their hashes are recorded in
+  `docs/research/QUAL-COMPLIANCE1-ACCOUNTING.md`.
