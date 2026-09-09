@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5089 |
-| DIAGNOSTIC_OR_TEST | 3827 |
-| **NEEDS_CLASSIFICATION** | **3599** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5115 |
+| DIAGNOSTIC_OR_TEST | 3868 |
+| **NEEDS_CLASSIFICATION** | **3634** |
 
-Scanned 365 files holding 54832 string
+Scanned 367 files holding 55127 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -35,7 +35,7 @@ literals in total; the table counts only those that read like a sentence.
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 66 | `src/player/PlayerGame.tsx` |
-| 62 | `src/simulation/press-interviews.ts` |
+| 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
@@ -54,6 +54,7 @@ literals in total; the table counts only those that read like a sentence.
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
+| 36 | `src/simulation/press-interview-producers.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/person-stress-harness.ts` |

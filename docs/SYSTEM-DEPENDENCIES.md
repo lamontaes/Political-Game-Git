@@ -843,6 +843,23 @@ See [Canonical Public Information](systems/public-information.md).
 - **ENV handoff:** screen geometry, slot access, anchors and fallbacks stay in
   ENV. Unknown jurisdiction remains a real `null` locality filter.
 
+### NEWS-PRODUCERS6 extension
+
+- **Consumes:** existing people, active work relationships, reporter/adviser
+  event knowledge, ordinary claims and relationship interactions, canonical
+  time/work, the accepted PRESS4 loop, and the single NEWS publication writer.
+- **Produces:** explicit request, reporter-response and adviser-response records;
+  pure reporter/adviser eligibility projections; an accepted-arrangement
+  adapter; knowledge-backed preparation; and publication-backed fallible
+  feedback.
+- **Consent boundary:** requesting is not agreement. A reporter refusal, missing
+  response, adviser refusal, or family/household relationship without current
+  shared work cannot create an arrangement or work item.
+- **UI boundary:** UI #144's existing `PressWorkspace` and
+  `PressInterviewPanel` remain the consumer and sole global placement path.
+  NEWS supplies action adapters only and adds no root, panel, headline generator
+  or publication writer.
+
 ---
 
 ## Reserved Future Cross-System Contracts

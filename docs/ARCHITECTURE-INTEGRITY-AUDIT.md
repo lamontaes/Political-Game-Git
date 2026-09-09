@@ -910,3 +910,24 @@ LEARN: an accepted arrangement must cite the recorded conversational pitch,
 not merely repeat pitch text in a later event. Exact claim identity plus a
 negative missing-claim regression keeps the conversation-to-schedule boundary
 inspectable.
+
+## NEWS-PRODUCERS6 Producer Audit — 2026-09-09
+
+This re-audit covers the normal request and staffing producers added in front
+of the accepted PRESS4 loop. It does not reopen the separately repaired N-1
+baseline.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                  |
+| ------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Producer purity          | Preserved             | Reporter and adviser choices are pure projections over existing people, current work and saved knowledge. Opening or rendering a screen calls no writer and creates no request, event, schedule, work or publication.                                   |
+| Knowledge and consent    | Fail-closed           | The request, reporter response and adviser response are separate canonical records. Only the requested reporter's affirmative response and a current colleague's affirmative assignment response can reach arrangement.                                 |
+| Staffing                 | Canonical reuse       | Adviser eligibility requires an active work relationship in an organization shared with the source. Family and household records grant neither employment nor willingness. The existing work item retains the accepted adviser as its assignee.         |
+| Preparation and feedback | Subjective, evidenced | Preparation cites the assigned adviser's own knowledge records and projects believed summaries. Feedback requires the actual publication plus media knowledge acquired by that adviser; its claim remains explicitly fallible and non-polling.          |
+| Terms and wording        | Preserved             | The request retains exact channel, record terms, background attribution, pitch, question and bases. PRESS4 still owns private draft, byte-exact confirmation, completion and off-record refusal. Condensed play changes presentation only.              |
+| Publication              | Single path           | The producer adapter delegates to accepted PRESS4, whose story transition calls the existing NEWS writer. The test observes that publication through the shared digest and typed person references; no headline generator or second publisher is added. |
+| Persistence              | Existing path         | All producer evidence uses existing event, claim, knowledge, relationship, schedule, work and publication families, and the complete normal path round-trips through the existing World serializer.                                                     |
+| UI/ENV ownership         | Preserved             | No `PlayerGame`, global navigation, scene geometry, slot, anchor, fallback, `PressWorkspace` or `PressInterviewPanel` edit is made. UI #144 remains the sole mounting/placement owner; ENV remains the physical-screen owner.                           |
+
+LEARN: a normal producer should save each person's decision before it creates
+downstream work. Request identity plus separate affirmative response records
+makes consent auditable without inventing agreement in a scheduling adapter.

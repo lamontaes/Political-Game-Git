@@ -1906,6 +1906,40 @@ truth. Feature-local browser tests cover keyboard and touch activation, help
 focus/return, Escape layering, typed-person routing, condensed selection and
 the exact wording handed to confirmation.
 
+### PRODUCERS-001 — Reporter eligibility is canonical and read-only
+
+The eligible-reporter projection returns only existing people with a current
+`profession:journalism` role who know every non-future question-basis event or
+can access its actual publication. Missing, future, unknown and non-journalist
+candidates are absent. Repeating the projection leaves serialized World
+byte-for-byte unchanged.
+
+### PRODUCERS-002 — Request, reporter agreement and adviser willingness are distinct
+
+An explicit request writes the source's exact limited claim and a normal contact
+record. It does not schedule anything. A separate response from the requested
+reporter must accept the saved channel and terms. A current colleague must
+separately accept the preparation assignment. Refusal, no response, the wrong
+person, or family/household status without shared current work leaves schedule
+and work history unchanged.
+
+### PRODUCERS-003 — Preparation and feedback use actual knowledge
+
+Prepared facts are derived only from saved knowledge records belonging to the
+assigned adviser after the work item is ready. Unknown, other-person and future
+knowledge is rejected. Feedback cannot exist before the story's actual
+publication; its producer records the assigned adviser's media knowledge of
+that publication and then the adviser's fallible interpretation, never a poll
+or automatic effect.
+
+### PRODUCERS-004 — The normal loop reaches the one publication path and survives reload
+
+The production-world proof follows request → reporter consent → adviser consent
+→ arrangement → assigned work → preparation → condensed written answer → exact
+confirmation → completion → existing publication writer → digest/typed person
+link → correction → actual-adviser feedback → save/reload. Condensed play carries
+no refusal or penalty, and the digest/correction identities survive unchanged.
+
 ### NEWS-N1 — Unknown screen locality fails closed
 
 A room with unknown jurisdiction receives only an unlocated publication. It
