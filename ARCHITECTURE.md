@@ -60,7 +60,18 @@ Source substrate (src/source), Node-only, excluded from the browser app
   The first such adapter is the bounded ACS PUMS coherent-household donor
   bridge: it selects an intact weighted household in the Node-only source
   layer, then submits only supported fictional initialization intents through
-  `CharacterHistoryPlan`. `src/simulation/`, `src/presentation/`,
+  `CharacterHistoryPlan`. The `economic-context` adapter is a second, read-only
+  bridge: exact provider geography codes select dated BEA, LAUS, and HUD
+  observations for analyst and presentation read models. Its browser projection
+  is a generated exact-code manifest with lazy product shards; browser code does
+  not import the Node-only source layer. It neither writes the World nor
+  publishes news. Source-to-World projection fails unavailable when the locked
+  product has no distinct release date, while the display-only read model uses
+  artifact retrieval as a declared conservative availability fallback rather
+  than treating an observation period as publication evidence. Its graph model
+  keeps observations, simulated history, drafts, forecasts and outturn as
+  distinct record classes and has no economy or policy-effect writer.
+  `src/simulation/`, `src/presentation/`,
   `src/player/`, `src/ui/`, `src/persistence/`, `src/cli/` and
   `src/environment/` may not import `src/source/**`, enforced by an eslint rule
   and by a test that reads the import graph.

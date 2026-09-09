@@ -543,13 +543,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which composes current
-    // accepted main with the MUNI-PLAY1 municipal corpus and
-    // public-meeting modules. The generator was re-run; these are the
-    // numbers it reports.
+    // accepted main with the ECON-GRAPHS4 read-model and browser-shard modules. The generator was re-run;
+    // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(57124);
-    expect(coverage.counts.INVENTORIED).toBe(2105);
-    expect(coverage.scannedFiles).toBe(390);
+    expect(coverage.totalLiterals).toBe(57736);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(399);
   });
 });
 
