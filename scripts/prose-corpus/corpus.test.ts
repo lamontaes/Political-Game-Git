@@ -546,20 +546,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual combined tree: current main
-    // (P1 narration, the accepted executive modules, the R3J Kentucky Sec. 88
-    // operative-text source notes, the merged #128 anchor history and PR79's
-    // bargaining dialogue, subjects, floor surface, member-seat resolver and
-    // prior-work evidence classifier) composed with R3I's two development-time
-    // executive-authority reconciliation modules under src/. Neither side's pin
-    // was chosen; the combined tree was scanned and these are what it measures.
-    // R3I introduces no player-facing prose — its reviewer-facing `reason`
-    // strings classify as non-player-facing — so only the raw literal and file
-    // totals move relative to main.
+    // Re-measured by corpus:prose on the actual LAND-WAVE4 combined tree after
+    // #90, #132, #139, and #129 landed, with the P01 campaign-clock regression
+    // tests composed on top. Neither side's pin was chosen; the combined tree
+    // was scanned and these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(53312);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(345);
+    expect(coverage.totalLiterals).toBe(54213);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(360);
   });
 });
 

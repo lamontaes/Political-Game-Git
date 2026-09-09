@@ -1,0 +1,208 @@
+
+> political-life-rpg@0.2.0 validate
+> npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art
+
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> political-life-rpg@0.2.0 lint
+> eslint .
+
+
+> political-life-rpg@0.2.0 typecheck
+> tsc -b
+
+
+> political-life-rpg@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-production
+
+ ❯ src/presentation/life-narration.test.ts (11 tests | 1 failed) 342ms
+     × narrates thread movement concisely, citing the moved records 64ms
+ ❯ src/simulation/pennywise-adaptive-life.test.ts (45 tests | 1 failed) 355ms
+     × offers a sparse life less than a full one, from world state alone 25ms
+ ❯ src/presentation/adaptive-life.test.ts (18 tests | 6 failed) 725ms
+     × offers a different sequence to a life that was calibrated differently 83ms
+     × moves an axis the setup leaned on, and keeps the setup answers on the record 22ms
+     × updates the model and schedules nothing 25ms
+     × schedules, comes due, and leaves a reason either way 45ms
+     × does not let an option say whether it will come back 26ms
+     × does not make every beat a hard one 39ms
+ ❯ src/presentation/campaign-integration.test.ts (4 tests | 1 failed) 724ms
+     × resolves it while an ordinary story choice advances time 51ms
+(node:81943) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/presentation/narrative-life.test.ts (35 tests | 1 failed) 862ms
+     × separates composed connective text from the authored scene 38ms
+ ❯ scripts/prose-corpus/corpus.test.ts (39 tests | 1 failed) 5005ms
+     × report what each seed actually demonstrated 785ms
+(node:81984) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82006) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82008) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82698) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:84019) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > transcripts > report what each seed actually demonstrated
+AssertionError: expected [ 'age-band:childhood', …(18) ] to include 'election-won'
+ ❯ scripts/prose-corpus/corpus.test.ts:418:20
+    416|       "legislative-measure-briefing",
+    417|     ]) {
+    418|       expect(seen).toContain(claim);
+       |                    ^
+    419|     }
+    420|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 1 — the same life happens in the same order > offers a different sequence to a life that was calibrated differently
+AssertionError: expected [ 'adult.ordinary-good-day', …(9) ] to not deeply equal [ 'adult.ordinary-good-day', …(9) ]
+
+Compared values have no visual difference.
+
+ ❯ src/presentation/adaptive-life.test.ts:347:33
+    345|     const first = playAdultLife(one.world, one.personId, 10);
+    346|     const second = playAdultLife(other.world, other.personId, 10);
+    347|     expect(second.sequence).not.toEqual(first.sequence);
+       |                                 ^
+    348|   });
+    349|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 3 — a played life outruns the questionnaire > moves an axis the setup leaned on, and keeps the setup answers on the record
+AssertionError: expected 1 to be greater than 4
+ ❯ src/presentation/adaptive-life.test.ts:398:36
+    396|       (entry) => entry.strength === "enacted",
+    397|     );
+    398|     expect(gameplayEntries.length).toBeGreaterThan(4);
+       |                                    ^
+    399|
+    400|     // Every setup answer is still in the trail, unaltered.
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 7 — a hard choice may leave nothing behind > updates the model and schedules nothing
+Error: This adult situation is not available in the current world.
+ ❯ chooseAdultOption src/presentation/adult-life.ts:353:11
+    351|     )
+    352|   ) {
+    353|     throw new Error(
+       |           ^
+    354|       "This adult situation is not available in the current world.",
+    355|     );
+ ❯ src/presentation/adaptive-life.test.ts:425:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 12 — a callback is canonical, replayable and traceable > schedules, comes due, and leaves a reason either way
+AssertionError: expected 0 to be greater than 0
+ ❯ src/presentation/adaptive-life.test.ts:460:24
+    458|       item.transitionKey.startsWith("life:"),
+    459|     );
+    460|     expect(due.length).toBeGreaterThan(0);
+       |                        ^
+    461|
+    462|     const settled = due.filter((item) =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 12 — a callback is canonical, replayable and traceable > does not let an option say whether it will come back
+Error: This adult situation is not available in the current world.
+ ❯ chooseAdultOption src/presentation/adult-life.ts:353:11
+    351|     )
+    352|   ) {
+    353|     throw new Error(
+       |           ^
+    354|       "This adult situation is not available in the current world.",
+    355|     );
+ ❯ src/presentation/adaptive-life.test.ts:508:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 13 — ordinary life is still there > does not make every beat a hard one
+AssertionError: expected 1 to be greater than 2
+ ❯ src/presentation/adaptive-life.test.ts:557:64
+    555|       });
+    556|     }
+    557|     expect(tiers.filter((tier) => tier === "ordinary").length).toBeGre…
+       |                                                                ^
+    558|       2,
+    559|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  src/presentation/campaign-integration.test.ts > every adult story route carries the world's pending election > resolves it while an ordinary story choice advances time
+AssertionError: Target cannot be null or undefined.
+ ❯ expectResolvedOnce src/presentation/campaign-integration.test.ts:54:5
+     52|       (result) => result.contestId === campaign.contestId,
+     53|     ),
+     54|   ).toHaveLength(1);
+       |     ^
+     55|   expect(after.currentDate > before.currentDate).toBe(true);
+     56|   expect(after.people[personId]).toStrictEqual(before.people[personId]…
+ ❯ src/presentation/campaign-integration.test.ts:86:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  src/presentation/life-narration.test.ts > A real change still gets said > narrates thread movement concisely, citing the moved records
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/presentation/life-narration.test.ts:143:25
+    141|       });
+    142|     }
+    143|     expect(sawMovement).toBe(true);
+       |                         ^
+    144|   });
+    145| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  src/presentation/narrative-life.test.ts > A beat can be explained without guessing > separates composed connective text from the authored scene
+AssertionError: expected null not to be null
+ ❯ src/presentation/narrative-life.test.ts:1114:33
+    1112|     );
+    1113|     const trace = narrativeBeatTrace(life.world, life.personId);
+    1114|     expect(trace.chosenKey).not.toBeNull();
+       |                                 ^
+    1115|     // Composed sentences are listed separately from the scene's own c…
+    1116|     // each carries the records behind it or is named as date arithmet…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  src/simulation/pennywise-adaptive-life.test.ts > Acceptance 10 — adult situations are keyed to opportunity, never to a rate > offers a sparse life less than a full one, from world state alone
+AssertionError: expected 0 to be greater than 4
+ ❯ src/simulation/pennywise-adaptive-life.test.ts:857:30
+    855|     const populated = buildAdultLifeContext(world, world.personOrder[0…
+    856|     const available = availableAdultSituations(populated);
+    857|     expect(available.length).toBeGreaterThan(4);
+       |                              ^
+    858|
+    859|     // The same bank against a context with nothing in it: only the si…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  6 failed | 161 passed (167)
+      Tests  11 failed | 3160 passed | 2 skipped (3173)
+   Start at  11:10:49
+   Duration  26.59s (transform 10.49s, setup 0ms, import 40.40s, tests 119.00s, environment 14ms)
+
