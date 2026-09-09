@@ -1,6 +1,6 @@
 # Canonical Public Information
 
-Status: **NEWS-HELP2 implementation contract; UI-core placement pending**
+Status: **NEWS-PRESS4 implementation contract; UI-core placement pending**
 
 ## Boundary
 
@@ -49,6 +49,10 @@ references, and canonical source IDs.
   still applies the scene's information-access declaration, so ENV retains all
   physical geometry and placement authority.
 
+An unknown room jurisdiction stays `null` through that adapter. It selects only
+unlocated publications; it does not become an omitted filter that can pull a
+headline from an unrelated jurisdiction.
+
 Reading either projection is pure. Opening, rendering, closing, focusing, or
 reopening a digest or screen never calls the publication writer.
 
@@ -74,6 +78,46 @@ Person references are a separate typed shape containing canonical `personId`.
 Activating one calls UI-core's person route callback. A person's name never
 becomes a glossary key.
 
+The same glossary now includes explicit `on-record`, `on-background`, and
+`off-record` concepts. They describe agreed attribution and use, not truth,
+accuracy, approval rights, or guaranteed treatment. The background definition
+also states that terminology varies and that the saved agreement controls.
+These neutral summaries follow the Associated Press's published interview
+ground rules and anonymous-source explanation and Reuters' published standards:
+
+- [What to expect when you're interviewed by AP](https://www.ap.org/the-definitive-source/announcements/what-to-expect-when-youre-interviewed-by-ap/)
+- [AP: Telling the story](https://www.ap.org/about/news-values-and-principles/telling-the-story/)
+- [Reuters Journalistic Standards](https://reutersagency.com/about/standards-values/)
+
+## Arranged press exchanges
+
+NEWS-PRESS4 adds no parallel press database. A source's request must already be
+an exact `ClaimRecord` made to the actual reporter in a canonical conversation
+event. Arrangement then appends an ordinary limited event, a fixed scheduled
+activity, and one preparation work item assigned to an actual current colleague.
+The reporter must be an existing person with a current journalism role. Every
+question basis must be an existing non-future event that the reporter learned
+or that was actually published.
+
+Preparation is recorded only after the assigned work item is ready for review.
+Known facts, likely follow-ups, and response options remain the named adviser's
+fallible guidance. Interactive and condensed presentation routes write the same
+event shapes; condensed play is explicitly neither refusal nor an outcome
+modifier.
+
+The source chooses an intent and reviews consequential wording. A claim is
+written only after the confirmed text exactly matches that displayed wording.
+This confirmation governs what the source said; it never grants the outlet
+prepublication review or approval of a later story.
+
+Completion uses the existing scheduled-activity transition and clock. An
+on-record or on-background story becomes public only through an explicit
+`press.story-published` event followed by the existing `publishPublicEvent`
+writer. On-background copy exposes only the negotiated attribution descriptor;
+off-record material has no interview-publication path. Later adviser feedback
+requires the actual saved publication and is stored as an expressly fallible
+claim, never as polling, sentiment, causal effect, or omniscient reception.
+
 ## Integration adapters
 
 - **UI-core:** call `projectPublicInformationPanel(world, jurisdictionId)` and
@@ -84,11 +128,15 @@ becomes a glossary key.
   `dynamicSurfacePayloads`. The NEWS-HELP2 headline owner now supplies only
   canonical published copy. Scene slots, access classes, rectangles, z-order,
   fallbacks, and anchors are unchanged.
+- **UI-core press handoff:** call `projectPressInterview(world, activityId)`
+  and render the feature-local `PressInterviewPanel` with the existing person
+  route and canonical action callbacks. UI-core remains the only global root
+  and placement owner.
 
 ## Deliberate limits
 
-This is not a press simulation, media ownership or bias system, advertising
-market, audience model, live-news service, public-opinion model, or automatic
-knowledge propagation path. A public record is not automatically a broadcast;
-an external observation is not automatically published; a correction does not
-rewrite the edition it corrects.
+This is not a media ownership or bias system, advertising market, audience
+model, live-news service, public-opinion model, favorable-coverage mechanic, or
+automatic knowledge propagation path. A public record is not automatically a
+broadcast; an external observation is not automatically published; a
+correction does not rewrite the edition it corrects.

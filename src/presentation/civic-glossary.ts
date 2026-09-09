@@ -43,6 +43,39 @@ export const CIVIC_GLOSSARY: Readonly<Record<string, CivicGlossaryEntry>> = {
     sourceUrl:
       "https://docs.google.com/document/d/1BQTTAZlOLQBVKQpzVGPfqEH8iD5kuH08aB8nIfibamc/edit",
   },
+  "on-record": {
+    conceptId: "on-record",
+    label: "On the record",
+    shortExplanation:
+      "The information may be published and attributed to the source by name.",
+    fullDefinition:
+      "For this interview, on-record terms mean the agreed answer may be published and attributed to the source by name. Ground rules are agreed before the answer; opening this explanation does not create an agreement.",
+    sourceLabel: "Associated Press: interview ground rules",
+    sourceUrl:
+      "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+  },
+  "on-background": {
+    conceptId: "on-background",
+    label: "On background",
+    shortExplanation:
+      "The information may be published only with the attribution agreed in advance.",
+    fullDefinition:
+      "For this interview, background terms mean the information may be published only under the attribution negotiated with the source before the answer. News organizations can use different terminology, so the saved agreement—not this label alone—controls the simulated exchange.",
+    sourceLabel: "AP and Reuters: explicit sourcing ground rules",
+    sourceUrl:
+      "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+  },
+  "off-record": {
+    conceptId: "off-record",
+    label: "Off the record",
+    shortExplanation:
+      "The information may not be published from this exchange.",
+    fullDefinition:
+      "For this interview, off-record terms mean the information may not be published from the exchange. The label does not erase independently obtained public facts, and it does not become effective merely because this explanation was opened.",
+    sourceLabel: "Associated Press: interview ground rules",
+    sourceUrl:
+      "https://www.ap.org/about/news-values-and-principles/telling-the-story/",
+  },
 };
 
 export function civicGlossaryEntry(

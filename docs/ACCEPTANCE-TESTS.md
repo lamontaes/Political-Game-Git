@@ -1873,3 +1873,41 @@ Explicit civic-term buttons support keyboard and touch activation. Help focuses
 its close control; Escape closes it and returns focus to the trigger. Reading
 does not change World or time. A typed person button calls the canonical person
 route with `personId` and never opens glossary content.
+
+### PRESS-001 — A request is an actual conversation record
+
+Arrangement requires an exact existing source claim made in an event with the
+actual reporter. A missing/mismatched claim, nonexistent person, stale
+non-journalism role, nonexistent adviser relationship, or unknown/future
+question basis fails before schedule or work records are appended.
+
+### PRESS-002 — Preparation and completion use canonical work and time
+
+Preparation cannot be recorded until the assigned staff work is ready for
+review. Interactive and condensed routes preserve the same selected intent,
+follow-up and confirmed exact wording. Condensed projection explicitly carries
+no refusal or automatic penalty. Completing the exchange performs the existing
+scheduled activity and advances the canonical clock.
+
+### PRESS-003 — Terms constrain publication
+
+On-record publication may expose typed source and reporter references.
+On-background publication uses the negotiated attribution and does not expose
+the source as a typed person. Off-record material cannot enter the press-story
+publication path. No claim exists before exact-wording confirmation, and a
+changed confirmation is rejected.
+
+### PRESS-004 — Publication, feedback, help and persistence remain honest
+
+An eligible completed story uses the existing public-information writer and
+retains correction history across save/reload. Adviser feedback requires that
+actual publication and stays a fallible claim rather than polling or causal
+truth. Feature-local browser tests cover keyboard and touch activation, help
+focus/return, Escape layering, typed-person routing, condensed selection and
+the exact wording handed to confirmation.
+
+### NEWS-N1 — Unknown screen locality fails closed
+
+A room with unknown jurisdiction receives only an unlocated publication. It
+does not omit the jurisdiction filter and select a newer publication from an
+unrelated jurisdiction. Projection remains read-only.

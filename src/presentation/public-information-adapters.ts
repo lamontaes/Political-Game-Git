@@ -70,5 +70,14 @@ function conceptIdsFor(
       ? ["committee-referral", "published-information"]
       : ["published-information"];
   }
+  const sourceEvent = world.history.events.find(
+    (event) => event.id === item.sourceEventId,
+  );
+  if (sourceEvent?.type === "press.story-published") {
+    const terms = ["on-record", "on-background", "off-record"].find((term) =>
+      sourceEvent.tags.includes(`press.terms:${term}`),
+    );
+    return terms ? [terms, "published-information"] : ["published-information"];
+  }
   return ["published-information"];
 }

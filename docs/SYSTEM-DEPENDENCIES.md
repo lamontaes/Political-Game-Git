@@ -825,6 +825,24 @@ See D-050 and
 
 See [Canonical Public Information](systems/public-information.md).
 
+### NEWS-PRESS4 extension
+
+- **Consumes:** an existing source-to-reporter pitch claim, current journalism
+  and adviser work relationships, reporter event knowledge or actual
+  publications, scheduled activity/work writers, the canonical clock, and the
+  NEWS-HELP2 publication writer.
+- **Produces:** arranged/prepared/drafted/confirmed/completed/story/feedback
+  events over those existing record families plus one feature-local press
+  projection and component.
+- **Terms:** on-record can name the source; on-background uses only the exact
+  negotiated attribution; off-record has no direct publication transition.
+- **UI handoff:** UI-core PR #144 retains the sole root, global navigation and
+  final placement. It consumes the frozen press projection/component and keeps
+  its existing legislative publication connection; NEWS-PRESS4 adds no second
+  legislative publication caller.
+- **ENV handoff:** screen geometry, slot access, anchors and fallbacks stay in
+  ENV. Unknown jurisdiction remains a real `null` locality filter.
+
 ---
 
 ## Reserved Future Cross-System Contracts
