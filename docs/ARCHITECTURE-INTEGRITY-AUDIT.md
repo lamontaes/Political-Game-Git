@@ -887,3 +887,23 @@ the frozen Stage 6 economy, the accepted Stage 6.5 work, and later-stage gates.
 LEARN: a source product's observation as-of date is not evidence of its release
 date. Typed unavailability at the adapter boundary is the smallest durable guard
 against silently converting an observed period into a publication event.
+
+## ECON-GRAPHS4 Browser and Graph Extension Audit — 2026-09-09
+
+This extension rechecks the ECON-CONTEXT2 boundary against the source substrate,
+D-042 observation separation, frozen economy ownership, and the UI/LEG/FISCAL
+coordination boundaries.
+
+| Concern                 | Disposition                 | Evidence and rationale                                                                                                                                                                                                                               |
+| ----------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historical availability | Confirmed conservative      | Normal presentation requires a simulation date. Publisher release dates remain null; the locked artifact retrieval date is separately labeled as the fallback date on which the observation is known available. Earlier simulations withhold it.     |
+| Browser corpus          | Confirmed bounded           | A deterministic manifest indexes all 58,106 committed BEA/LAUS/HUD records into exact-code lazy shards. A query downloads only matching shards and never joins by name. The absent full LAUS parent remains unavailable with its checksum disclosed. |
+| Graph semantics         | Confirmed separated         | Graph points carry one of five record classes. Missing values remain gaps and exact-value rows. No observation becomes simulation history, a draft, forecast or outturn.                                                                             |
+| Economy ownership       | Confirmed unchanged         | The extension is a read model and renderer. The locked BEA tables have no GDP series; no slider, elasticity, metric writer, budget engine or policy-effect engine is added.                                                                          |
+| LEG/FISCAL inputs       | Confirmed typed/fail-closed | The frozen LEG incremental-outlay projection is adapted as a conditional forecast with its qualification and interval. FISCAL supplied no typed history/outturn producer, so fiscal history remains unavailable.                                     |
+| Replay and mutation     | Confirmed                   | A temp-directory replay reproduces all 293 browser files byte-for-byte. Provider tests prove fresh returned projections and unchanged cached shards.                                                                                                 |
+| UI ownership            | Pending integration proof   | Feature-local panel code and an exact post-Begin registration handoff are supplied. UI-core retains `PlayerGame.tsx`, combined prose corpus, and browser-route proof.                                                                                |
+
+LEARN: source availability is a property that must travel with every browser
+record. A static asset being deployable does not make its observations known to
+an earlier simulated date.

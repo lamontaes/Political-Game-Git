@@ -18,6 +18,7 @@
     "source:validate": "node --import tsx scripts/source/validate.ts",
     "source:replay": "node --import tsx scripts/source/replay.ts",
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
+    "export:economic-context-browser": "node --import tsx scripts/source/export-economic-context-browser.ts",
     "coverage:state-legislatures": "node --import tsx scripts/source/state-legislature-coverage.ts",
     "export:life-places": "node --import tsx scripts/source/export-life-places.ts",
     "test": "vitest run",

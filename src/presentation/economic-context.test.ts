@@ -24,10 +24,15 @@ describe("player economic context projection", () => {
       null,
       null,
     ]);
-    expect(lines.map((line) => line.sourceObservedBy)).toEqual([
-      "2024-12-31",
-      "2026-07-31",
-      "2025-09-30",
+    expect(lines.map((line) => line.knownAvailableOn)).toEqual([
+      "2026-09-03",
+      "2026-09-03",
+      "2026-09-03",
+    ]);
+    expect(lines.map((line) => line.sourceRetrievedAt)).toEqual([
+      "2026-09-03T04:21:17.858Z",
+      "2026-09-03T04:30:39.876Z",
+      "2026-09-03T04:25:50.389Z",
     ]);
   });
 
@@ -42,14 +47,14 @@ describe("player economic context projection", () => {
       playerEconomicContextLines("lexington-fayette", "2024-06-30"),
     ).toEqual([]);
 
-    const afterBeaSnapshot = playerEconomicContextLines(
+    const beforeRetrieval = playerEconomicContextLines(
       "lexington-fayette",
-      "2025-01-01",
+      "2026-09-02",
     );
-    expect(afterBeaSnapshot.map((line) => line.sourceProduct)).toEqual([
-      "bea-regional",
-    ]);
-    expect(afterBeaSnapshot[0]?.period).toBe("2024");
+    expect(beforeRetrieval).toEqual([]);
+    expect(
+      playerEconomicContextLines("lexington-fayette", "2026-09-03"),
+    ).toHaveLength(3);
   });
 
   it("returns fresh values so reads cannot mutate the generated source", () => {

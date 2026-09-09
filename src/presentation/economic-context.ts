@@ -6,8 +6,10 @@ export interface PlayerEconomicContextLine {
   readonly sourceProduct: "bea-regional" | "bls-laus" | "hud-fair-market-rent";
   readonly period: string;
   readonly providerGeographyCode: string;
-  /** The conservative date by which the committed corpus proves this row existed. */
-  readonly sourceObservedBy: string;
+  /** The conservative first date on which the locked source proves this row was available. */
+  readonly knownAvailableOn: string;
+  readonly knownAvailableOnBasis: "retrieval-date-fallback";
+  readonly sourceRetrievedAt: string;
   /** Null because none of the three locked products establishes a release date. */
   readonly sourceReleaseDate: null;
   readonly interpretationBoundary:
@@ -28,6 +30,9 @@ interface GeneratedObservation {
   };
   readonly vintage: {
     readonly corpusAsOf: string;
+    readonly knownAvailableOn: string;
+    readonly knownAvailableOnBasis: "retrieval-date-fallback";
+    readonly sourceRetrievedAt: string;
     readonly adjustment: string;
     readonly release: string | null;
   };
@@ -68,7 +73,9 @@ export function playerEconomicContextLines(
       sourceProduct: "bea-regional",
       period: income.period,
       providerGeographyCode: income.geography.providerCode,
-      sourceObservedBy: income.vintage.corpusAsOf,
+      knownAvailableOn: income.vintage.knownAvailableOn,
+      knownAvailableOnBasis: income.vintage.knownAvailableOnBasis,
+      sourceRetrievedAt: income.vintage.sourceRetrievedAt,
       sourceReleaseDate: null,
       interpretationBoundary: "observation-not-wallet",
     },
@@ -78,7 +85,9 @@ export function playerEconomicContextLines(
       sourceProduct: "bls-laus",
       period: unemployment.period,
       providerGeographyCode: unemployment.geography.providerCode,
-      sourceObservedBy: unemployment.vintage.corpusAsOf,
+      knownAvailableOn: unemployment.vintage.knownAvailableOn,
+      knownAvailableOnBasis: unemployment.vintage.knownAvailableOnBasis,
+      sourceRetrievedAt: unemployment.vintage.sourceRetrievedAt,
       sourceReleaseDate: null,
       interpretationBoundary: "area-rate-not-person-probability",
     },
@@ -88,12 +97,14 @@ export function playerEconomicContextLines(
       sourceProduct: "hud-fair-market-rent",
       period: rent.period,
       providerGeographyCode: rent.geography.providerCode,
-      sourceObservedBy: rent.vintage.corpusAsOf,
+      knownAvailableOn: rent.vintage.knownAvailableOn,
+      knownAvailableOnBasis: rent.vintage.knownAvailableOnBasis,
+      sourceRetrievedAt: rent.vintage.sourceRetrievedAt,
       sourceReleaseDate: null,
       interpretationBoundary: "benchmark-not-transaction",
     },
   ];
-  return lines.filter((line) => line.sourceObservedBy <= simulationDate);
+  return lines.filter((line) => line.knownAvailableOn <= simulationDate);
 }
 
 function requireIsoDate(value: string): void {

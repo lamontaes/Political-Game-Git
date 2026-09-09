@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import type {
+  ArtifactLock,
   CompiledCorpus,
   NormalizedCorpus,
 } from "../../src/source/core/index";
@@ -40,7 +41,21 @@ function corpora(): EconomicContextCorpora {
     bea: corpus<BeaObservationRecord>("bea-regional"),
     laus: corpus<LausObservationRecord>("bls-laus"),
     hud: corpus<HudRecord>("hud-housing"),
+    locks: {
+      bea: lock("bea-regional"),
+      laus: lock("bls-laus"),
+      hud: lock("hud-housing"),
+    },
   };
+}
+
+function lock(domain: string): ArtifactLock {
+  return JSON.parse(
+    readFileSync(
+      resolve(REPO, "data/source", domain, "artifact-lock.json"),
+      "utf8",
+    ),
+  ) as ArtifactLock;
 }
 
 const LEXINGTON_BINDING: EconomicContextGeographyBinding = {
@@ -97,6 +112,14 @@ describe("ECON-CONTEXT2 — exact, dated economic context", () => {
       unit: "Dollars",
       period: "2024",
       interpretationBoundary: "observation-not-forecast",
+      vintage: {
+        publisherReleaseDate: null,
+        sourceRetrievedAt: "2026-09-03T04:21:17.858Z",
+        knownAvailableOn: "2026-09-03",
+        knownAvailableOnBasis: "retrieval-date-fallback",
+        validityPeriod: null,
+        validityBasis: "not-established-by-locked-product",
+      },
     });
 
     const unemploymentRate = model.observations.find(
@@ -216,6 +239,7 @@ describe("ECON-CONTEXT2 — exact, dated economic context", () => {
           (record) => record.area.hudFipsCode === "2106799999",
         ),
       },
+      locks: SOURCE_CORPORA.locks,
     };
     const beforeSources = JSON.stringify(sources);
     const world = createDemoWorld("econ-context2-read-purity");
