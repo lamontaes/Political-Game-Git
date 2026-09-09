@@ -80,5 +80,7 @@ The full run overlapped another owner's validator despite the earlier slot
 handoff. It is not isolated evidence of a load-related cause. Source checks,
 build/demo, all three art commands and one exact-head CI observation remain
 pending at this checkpoint. LAND requested no new broad checks; the orchestrator
-is paused and has no active test child. The feature proof does not substitute
+was paused while the unit child finished, then removed with no child remaining.
+Its cleanup exit 137 is not the completed unit suite’s exit code. No task-owned
+background process remains. The feature proof does not substitute
 for those remaining gates.
