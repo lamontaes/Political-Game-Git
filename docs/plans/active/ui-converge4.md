@@ -72,3 +72,5 @@ Latest checkpoint: clean8c18cd8 format/lint/typecheck and all three required art
 - ENV a1912c5 exact renderer correction applied at2a4fafa. Person-pixel masking replaces furniture repainting; source geometry unchanged. Focused scene/placement tests pass. Donor four-case visual proof remains donor-specific.
 
 These checkpoints preserve the original31 browser bank, staff/anchor correction and historical identities. New final composition still requires full validation and normal browser proof, then independent/human gates. No main merge or release activation.
+
+MUNI final normal proof: owner reports2/2 passed in16.6s on production8c18cd8 plus its exact test-only selector/error-recording patch. Citizen attendance/current room grants no member authority; authored saved member work spends20minutes and preserves completion/reload/duplicate purity. UI0f3da6c already contains equivalent optional query/scope selection; the remaining exact favicon404 recording is consumed separately. Other application errors remain fatal. This is not latest-head combined browser acceptance; optional missing favicon remains a visible recorded defect.

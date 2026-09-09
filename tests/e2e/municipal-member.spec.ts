@@ -58,9 +58,17 @@ test("normal saved municipal member completes work once and reloads without acqu
 }, info) => {
   test.setTimeout(120_000);
   const errors: string[] = [];
+  const missingOptionalAssets: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
-    if (message.type() === "error") errors.push(message.text());
+    if (message.type() !== "error") return;
+    if (
+      new URL(message.location().url || "http://unknown.invalid").pathname ===
+        "/favicon.ico" &&
+      message.text().includes("404")
+    )
+      missingOptionalAssets.push("favicon.ico returned 404");
+    else errors.push(message.text());
   });
   await page.goto("/?seed=muni-finish4-member");
   await startLife(page, {
@@ -167,6 +175,7 @@ test("normal saved municipal member completes work once and reloads without acqu
     contentType: "application/json",
     body: JSON.stringify({
       seed: completed.seed,
+      missingOptionalAssets,
       governmentKey: view.government.key,
       personId,
       worldId: completed.id,
