@@ -103,3 +103,29 @@ scene consumers. A metadata-complete plan is not finished art.
 LEARN: check-mode output writing and using raw silhouette residuals as acceptance
 are recurring process risks. Encode the former in corrupt-output tests and the
 latter beside the actual review metrics, not a larger root prompt.
+
+## Transfer validation and delivery
+
+The recovered engineering checkpoint and final evidence remain on existing PR #134,
+unmerged. Full validation passes: 180 files, 3,252 tests passed and two skipped.
+Required art validation, inventory (409), QA, admission preservation and wardrobe
+check pass. Seven existing character/office browser tests and ten candidate/R1
+browser tests pass. Pointer and keyboard operations exercise real controls.
+See [the evidence report](../../agent/evidence/people1-r1/README.md) and six saved
+screenshots for exact results, initial failures and corrections, and visible defects.
+Final corpus is 52,133 literals / 1,914 inventoried / 345 files.
+
+Screenshot inspection rejects a stronger readiness claim: real candidates still
+have visible collar/body/shoe alignment defects, and the inherited review framing
+clips parts of some figures. Those are engineering/fit defects, not proof of
+missing source pixels. DEV fixture combinations and existing authored office
+appearances remain usable in their authorized roles. There is no new approved
+Wave A person, no art generation, no changed acceptance bound, no self-approval,
+no merge, deployment or monitor. This plan remains active for explicit unresolved
+art/fit/review needs, not because the recovered code was abandoned.
+
+The first full run exposed stale corpus output and sandbox-denied server binding;
+the corrected full run passes with original timeouts and seeds. Browser test
+assumptions were corrected to native select typeahead and actual canonical people
+on the initial screen. Final post-browser corpus check, typecheck and targeted lint
+pass. The shared validation slot was released to ENV, then SKILL-OPS.

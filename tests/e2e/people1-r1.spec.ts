@@ -4,48 +4,64 @@ import { expect, test } from "@playwright/test";
 
 const evidence = path.resolve("docs/agent/evidence/people1-r1");
 
-test("saved world keeps identity across actual wardrobe changes, pointer and keyboard", async ({
-  page,
-}) => {
-  await page.goto("/?view=character-proof&set=dev");
-  const person = page.getByTestId("character-proof-stage-character").first();
-  const identity = await person.getAttribute("data-recipe-key");
-  const stableLayers = () =>
-    person
-      .locator(
-        'img[data-kind="body"],img[data-kind="head"],img[data-kind^="hair"]',
-      )
-      .evaluateAll((nodes) =>
-        nodes.map((n) => n.getAttribute("data-asset-id")),
-      );
-  const stable = await stableLayers();
-  const select = page.getByTestId("character-proof-wardrobe");
-  await select.selectOption("casual");
-  const casualTop = await person
-    .locator('img[data-kind="top"]')
-    .getAttribute("data-asset-id");
-  await page.getByTestId("character-proof-save").click();
-  await page.getByTestId("character-proof-reload").focus();
-  await page.keyboard.press("Enter");
-  await expect(page.getByTestId("character-proof")).toHaveAttribute(
-    "data-world-source",
-    "restored-snapshot",
-  );
-  await select.focus();
-  await page.keyboard.press("End");
-  await page.keyboard.press("Enter");
-  await expect(select).toHaveValue("formal");
-  await expect(person).toHaveAttribute("data-recipe-key", identity!);
-  expect(await stableLayers()).toEqual(stable);
-  expect(
-    await person.locator('img[data-kind="top"]').getAttribute("data-asset-id"),
-  ).not.toBe(casualTop);
-  await expect(person).toHaveAttribute("data-complete", "true");
-  fs.mkdirSync(evidence, { recursive: true });
-  await page
-    .getByTestId("character-proof-stage")
-    .screenshot({ path: path.join(evidence, "saved-formal-dev.png") });
-});
+for (const set of ["dev", "real"]) {
+  test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
+    page,
+  }) => {
+    await page.goto(`/?view=character-proof&set=${set}`);
+    const authored = page
+      .getByTestId("people1-dossier-consumers")
+      .locator('[data-likeness="authored"] img');
+    await expect(authored).toHaveCount(2);
+    for (const portrait of await authored.all()) {
+      await expect(portrait).toBeVisible();
+      expect(
+        await portrait.evaluate(
+          (node) => (node as HTMLImageElement).naturalWidth,
+        ),
+      ).toBeGreaterThan(0);
+    }
+    const person = page.getByTestId("character-proof-stage-character").first();
+    const identity = await person.getAttribute("data-recipe-key");
+    const stableLayers = () =>
+      person
+        .locator(
+          'img[data-kind="body"],img[data-kind="head"],img[data-kind^="hair"]',
+        )
+        .evaluateAll((nodes) =>
+          nodes.map((n) => n.getAttribute("data-asset-id")),
+        );
+    const stable = await stableLayers();
+    const select = page.getByTestId("character-proof-wardrobe");
+    await select.selectOption("casual");
+    const casualTop = await person
+      .locator('img[data-kind="top"]')
+      .getAttribute("data-asset-id");
+    await page.getByTestId("character-proof-save").click();
+    await page.getByTestId("character-proof-reload").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("character-proof")).toHaveAttribute(
+      "data-world-source",
+      "restored-snapshot",
+    );
+    await select.focus();
+    await page.keyboard.press("f");
+    await page.keyboard.press("Enter");
+    await expect(select).toHaveValue("formal");
+    await expect(person).toHaveAttribute("data-recipe-key", identity!);
+    expect(await stableLayers()).toEqual(stable);
+    expect(
+      await person
+        .locator('img[data-kind="top"]')
+        .getAttribute("data-asset-id"),
+    ).not.toBe(casualTop);
+    await expect(person).toHaveAttribute("data-complete", "true");
+    fs.mkdirSync(evidence, { recursive: true });
+    await page
+      .getByTestId("character-proof-stage")
+      .screenshot({ path: path.join(evidence, `saved-formal-${set}.png`) });
+  });
+}
 
 test("normalized candidate states name head and fit limitations beside the actual layers", async ({
   page,
@@ -90,7 +106,7 @@ test("normalized candidate states name head and fit limitations beside the actua
     .screenshot({ path: path.join(evidence, "seated-candidate-gaps.png") });
 });
 
-test("normal play uses the canonical person's portrait fallback and scene presence", async ({
+test("normal play uses the canonical person's portrait fallback and named people", async ({
   page,
 }) => {
   const { startLife, enterLife } = await import("./support/creator");
@@ -107,6 +123,11 @@ test("normal play uses the canonical person's portrait fallback and scene presen
   await expect(portrait).toHaveAttribute("data-likeness", "none");
   await expect(portrait.locator("img")).toHaveCount(0);
   await expect(portrait.locator("strong")).not.toHaveText("");
+  const people = page.getByRole("complementary", {
+    name: "People in this life",
+  });
+  await expect(people).toBeVisible();
+  await expect(people.getByRole("listitem")).toHaveCount(2);
   await page.getByTestId("elsewhere-people").click();
   fs.mkdirSync(evidence, { recursive: true });
   await page.screenshot({

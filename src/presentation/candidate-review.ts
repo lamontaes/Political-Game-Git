@@ -296,6 +296,14 @@ export function findReviewAppearanceForBody(
   limit = 4096,
   offset = 0,
 ): PersonAppearance | null {
+  if (
+    !Number.isSafeInteger(offset) ||
+    offset < 0 ||
+    !Number.isSafeInteger(limit) ||
+    limit < 0 ||
+    !Number.isSafeInteger(offset + limit)
+  )
+    return null;
   for (let index = offset; index < offset + limit; index += 1) {
     const appearance = derivePersonAppearance(
       `${CANDIDATE_REVIEW_PERSON_PREFIX}-${index}`,

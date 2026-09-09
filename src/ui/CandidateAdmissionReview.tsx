@@ -298,11 +298,15 @@ export function CandidateAdmissionReview() {
               <input
                 type="number"
                 min="0"
+                max={Number.MAX_SAFE_INTEGER - 4096}
                 step="1"
                 value={variationOffset}
                 onChange={(event) =>
                   setVariationOffset(
-                    Math.max(0, Math.floor(Number(event.target.value) || 0)),
+                    Math.min(
+                      Number.MAX_SAFE_INTEGER - 4096,
+                      Math.max(0, Math.floor(Number(event.target.value) || 0)),
+                    ),
                   )
                 }
               />

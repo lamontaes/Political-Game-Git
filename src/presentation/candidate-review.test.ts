@@ -442,3 +442,17 @@ describe("candidate registry file", () => {
     expect(candidateRegistry.production_pixels_released).toBe(false);
   });
 });
+
+it("rejects unsafe review identity search offsets without an unbounded loop", () => {
+  for (const offset of [Infinity, NaN, -1, 0.5, Number.MAX_SAFE_INTEGER]) {
+    expect(
+      findReviewAppearanceForBody(
+        WAVE_A_REVIEW_CHARACTER_LIBRARY,
+        "absent",
+        "standing-neutral",
+        4096,
+        offset,
+      ),
+    ).toBeNull();
+  }
+});

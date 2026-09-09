@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 1914,
     "INTENTIONALLY_NON_PLAYER_FACING": 4745,
-    "DIAGNOSTIC_OR_TEST": 3673,
+    "DIAGNOSTIC_OR_TEST": 3675,
     "NEEDS_CLASSIFICATION": 3283
   },
   "needsClassification": [
@@ -3961,7 +3961,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 476,
+      "line": 484,
       "text": "'{bodyAssetId}' declares no rig root, so its sole cannot be placed on a floor line.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3969,7 +3969,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 477,
+      "line": 485,
       "text": "'{bodyAssetId}' declares no foot contacts — the sole band did not resolve two feet — so it is placed by its rig root and its ground contact is unverified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24497,7 +24497,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 371,
+      "line": 375,
       "text": " — {subject.placement.note}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24505,7 +24505,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 388,
+      "line": 392,
       "text": "released for review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24513,7 +24513,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 438,
+      "line": 442,
       "text": "not measured",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24521,7 +24521,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 449,
+      "line": 453,
       "text": "This body; candidate evidence only",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24529,7 +24529,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 450,
+      "line": 454,
       "text": "Different crop in family; exact pairing unmeasured",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24537,7 +24537,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 490,
+      "line": 494,
       "text": " — {selectedRow.observation.note}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24545,7 +24545,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 497,
+      "line": 501,
       "text": " — {selectedRow.priorClaimDisagreements.join(\"\")}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24553,7 +24553,7 @@
     {
       "sourcePath": "src/ui/CandidateAdmissionReview.tsx",
       "enclosingSymbol": "CandidateAdmissionReview",
-      "line": 498,
+      "line": 502,
       "text": " — agrees with the reviewed observation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28076,7 +28076,7 @@
       "sourcePath": "src/presentation/people1-r1.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
+      "count": 7
     },
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
@@ -28490,7 +28490,7 @@
       "sourcePath": "src/presentation/candidate-review.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 28
+      "count": 29
     },
     {
       "sourcePath": "src/presentation/campaign-projection.test.ts",

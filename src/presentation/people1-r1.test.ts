@@ -3,9 +3,13 @@ import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import {
   createCharacterProofWorld,
   composeCharacterProof,
+  CHARACTER_PROOF_SEED,
+  CHARACTER_PROOF_REAL_SEED,
   CHARACTER_PROOF_SCENE,
 } from "./character-proof";
 import {
+  CANDIDATE_REVIEW_CHARACTER_LIBRARY,
+  CANDIDATE_REVIEW_VISUAL_LIBRARY,
   PRODUCTION_CHARACTER_LIBRARY as library,
   PRODUCTION_VISUAL_LIBRARY as visuals,
 } from "./visual-integration";
@@ -29,60 +33,80 @@ const formal = {
 };
 
 describe("PEOPLE1-R1 consumers", () => {
-  it("serializes a real world and changes wardrobe without changing saved person, face, hair, body or generation", () => {
-    const world = createCharacterProofWorld(library);
-    const before = serializeWorld(world);
-    const casualPlans = composeCharacterProof(
-      world,
+  it.each([
+    {
+      name: "DEV",
       library,
       visuals,
-      CHARACTER_PROOF_SCENE,
+      seed: CHARACTER_PROOF_SEED,
       casual,
-    );
-    const reloaded = deserializeWorld(before);
-    const formalPlans = composeCharacterProof(
-      reloaded,
-      library,
-      visuals,
-      CHARACTER_PROOF_SCENE,
       formal,
-    );
-    expect(serializeWorld(reloaded)).toBe(before);
-    for (let i = 0; i < casualPlans.stage.length; i++) {
-      const a = casualPlans.stage[i]!.plan,
-        b = formalPlans.stage[i]!.plan;
-      expect(a.complete).toBe(true);
-      expect(b.complete).toBe(true);
-      expect(b.identity).toEqual(a.identity);
-      expect(b.recipeKey).toBe(a.recipeKey);
-      const ids = (plan: typeof a, clothing: boolean) =>
-        plan.layers
-          .filter((layer) =>
-            clothing
-              ? layer.kind === "top"
-              : [
-                  "body",
-                  "head",
-                  "hair-front",
-                  "hair-back",
-                  "facial-hair",
-                  "eyewear",
-                ].includes(layer.kind),
-          )
-          .map((layer) => layer.assetId);
-      expect(ids(a, false)).toEqual(ids(b, false));
-      expect(ids(a, true)).not.toEqual(ids(b, true));
-    }
-    expect(
-      composeCharacterProof(
-        reloaded,
+    },
+    {
+      name: "real candidates",
+      library: CANDIDATE_REVIEW_CHARACTER_LIBRARY,
+      visuals: CANDIDATE_REVIEW_VISUAL_LIBRARY,
+      seed: CHARACTER_PROOF_REAL_SEED,
+      casual: { id: "casual-v1", families: { top: ["pg-top-001"] } },
+      formal: { id: "formal-v1", families: { top: ["pg-top-005"] } },
+    },
+  ])(
+    "serializes $name world and changes wardrobe without changing saved person, face, hair, body or generation",
+    ({ library, visuals, seed, casual, formal }) => {
+      const world = createCharacterProofWorld(library, seed);
+      const before = serializeWorld(world);
+      const casualPlans = composeCharacterProof(
+        world,
         library,
         visuals,
         CHARACTER_PROOF_SCENE,
         casual,
-      ),
-    ).toEqual(casualPlans);
-  });
+      );
+      const reloaded = deserializeWorld(before);
+      const formalPlans = composeCharacterProof(
+        reloaded,
+        library,
+        visuals,
+        CHARACTER_PROOF_SCENE,
+        formal,
+      );
+      expect(serializeWorld(reloaded)).toBe(before);
+      for (let i = 0; i < casualPlans.stage.length; i++) {
+        const a = casualPlans.stage[i]!.plan,
+          b = formalPlans.stage[i]!.plan;
+        expect(a.complete).toBe(true);
+        expect(b.complete).toBe(true);
+        expect(b.identity).toEqual(a.identity);
+        expect(b.recipeKey).toBe(a.recipeKey);
+        const ids = (plan: typeof a, clothing: boolean) =>
+          plan.layers
+            .filter((layer) =>
+              clothing
+                ? layer.kind === "top"
+                : [
+                    "body",
+                    "head",
+                    "hair-front",
+                    "hair-back",
+                    "facial-hair",
+                    "eyewear",
+                  ].includes(layer.kind),
+            )
+            .map((layer) => layer.assetId);
+        expect(ids(a, false)).toEqual(ids(b, false));
+        expect(ids(a, true)).not.toEqual(ids(b, true));
+      }
+      expect(
+        composeCharacterProof(
+          reloaded,
+          library,
+          visuals,
+          CHARACTER_PROOF_SCENE,
+          casual,
+        ),
+      ).toEqual(casualPlans);
+    },
+  );
 
   it("fails closed for an unavailable contextual wardrobe without rerolling identity", () => {
     const appearance =

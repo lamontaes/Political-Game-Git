@@ -1,5 +1,5 @@
 {
-  "totalItems": 329,
+  "totalItems": 409,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -1016,6 +1016,326 @@
     {
       "filePath": "generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
       "hash": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_average_man_standing_neutral_front_a_v1_rt960.png",
+      "hash": "decd1c4d446653fe1232be4a622071620480d4220d0923c3a641c41cc8c27557"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_average_man_standing_neutral_front_b_v1_rt960.png",
+      "hash": "fa0e7ba81d86db3d98aaaa82eda7ba1bd04599d0a0483508ae578cccdcd57eff"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_average_woman_seated_front_neutral_v1_rt960.png",
+      "hash": "976b5350108a0a416a1d72e84b11c531d9acbdfe3b159068d686c38690ff2012"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_average_woman_standing_neutral_front_a_v1_rt960.png",
+      "hash": "5d09698f20dcf0a6b0ddae96cdce5d3bd5d78ad649454fd0a34db54d23bfb60b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_average_woman_standing_neutral_front_b_v1_rt960.png",
+      "hash": "ed094d7e37d1df090458e56b9c5374fd0e9c6c5cbcfa0e54abaefbba634cd5bb"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_fat_man_standing_neutral_front_a_v1_rt960.png",
+      "hash": "d0811a3bf4f7ede0737d927898a943f46d6ba7bf9afc3c3ff39c870b35fb3197"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_older_woman_standing_neutral_front_a_v1_rt960.png",
+      "hash": "fe536e1cec2ee6b197fcdf50dcff3aa95c5688857bc07e1b7e9747b00e8ce5ed"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_older_woman_standing_neutral_front_b_v1_rt960.png",
+      "hash": "133e43f3bc00ae4a8a2a69207452d160e0a4a171d492aaeb357455cb7f30791b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_skinny_man_standing_neutral_front_a_v1_rt960.png",
+      "hash": "9bad8d8f89711444f0ad1c585f1fb21e26032a081eadc94f24c4c6070de0db23"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_skinny_woman_seated_front_neutral_v1_rt960.png",
+      "hash": "7b7dae87f81ab2cb4bac0a19d244d518c7ddab9b3fbf9a8759ec9a158cffd467"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_skinny_woman_standing_neutral_front_a_v1_rt960.png",
+      "hash": "a79689028238e185af38bcedd21db35507da12de104571433adb30c6d806f92c"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-runtime/wave_a_skinny_woman_standing_neutral_front_b_v1_rt960.png",
+      "hash": "8b9987ec1bff1924a6ae9724d61207577e2654dba79d566c17a04cbc7823059e"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "7f89f5ec11f2c6cb34dbfcdd7fc04547d74e98d8b6377096f5103930360685cd"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "d18c71ded22358707afb9a16601ca76215c8a6ea1e43b33c262aa6a3557cee59"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "00e88d0145c86b0aab54e62af3eb95e60fad655accfb0cd554b631728f0b600a"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "5cbb31b80e7545bb8bb5e0483ee5f8c65e976b4bbd5623a97e3a0d6e1ea756ec"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "f527c3195f176351a8c33028905497f1da7d97f59fa4271211128af2546c1434"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_001_straight_leg_blue_jeans_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "18e0730d91336a57117cb5a424be35e9cf52558e679f19c299d556dfcde9f41a"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "ea0fed04eac38ca27cb4d2a439975a512429018f48c4a3780db8977ced25e25f"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "4f5d7bfab76062426152a8af93c1ffcf0d49e015aa05afde93e8b81cdd2f535b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "2988fae19fd5a5401d1ed66e1bf1874fc32433d0bcf16d0dc9c3b56ab0e10267"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "feef30e83b167d2e384831b3d8ebe2f4bdf715ba6fbab0f1f8394bec9a2e0351"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "c3ca05d29ae0c3ddbe7696076ad654e0caa9a4f406cfda3e984c890ca8d0984d"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_005_dress_trousers_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "925e12349f9f84b971fac72d17ce437a11d57ffcf9e4603a4fcb55c1ffce1d7e"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "6f1662ff53063f453f11519a019db0358693987d191b42cbec884f05eca57776"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "b43afee0f0d8f074bc02b647d491127c501e4c6046b0c54c50bde5b2a3440dfe"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "dd488458ce94203afdd4438c3ca87e1447ad399b04deb6b74f1914a5e539bf91"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "6440c90fe94169bab797bff60aee575d69b26e7e6613267a7b0ce06a6fefffd9"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "bacfff1321452b260a32cfc0bca209752e4cb2c6a75e82c69672a16eaf6442fa"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_bottom_010_a_line_knee_skirt_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "7b85755746433971fb9e3939ec4215953480ff3f85a58078625fea93c3dd7808"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "b5af0c72eb69b5f4e98349f436fdd0e23b9d1cf43e33232d2cb9b34697517554"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "6761ce3c93ff4eb2e0e6f58fe7ae7732b50d148148c17b7294421d17ffa43322"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "cf474e28cc4e56712adfadde7feacc22398933aedc737c8e73c2d06ba443c71a"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "4043ff0f8f92c67db2c63a137342f67d9b7b3fb2e34a8cd7bd16f40fe5b10d47"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "66030b042238d2e6a73ba22468bcc610cb24f241e2d087912c933c0077056ab8"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_001_low_top_sneakers_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "ee1243fb20fe16526f67f669fa8e97656297b6d4c747e864995fcd8e1263d0fc"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "455d01f2e2fdd6010ee90654bf0cc510299a9d96e4a57d81f7d7f1c84519723c"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "f9e5bbda0228a7520cdab4163c727438191e69da0c71c846fb1e2d26fd3fa17d"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "ba8873c0fe3d6cece56df8d6be98303637a953c1c1af9f43c5c006bc366e8213"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "c352ebf00a1060dce16ae5d2b041d725739610c919cae5ea5cba8f8a2eb70298"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "ea04d1882875ef6dbdcb4da094069af38263f6264e7601eafccb27e012672904"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_004_leather_loafers_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "55b978c78e9c4e8cd78f377bfcd49247bf15df8a04f5d40a18e4b0562cd3b7f5"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "93fb02a915be2f001bb714927de109a21aa15d1e3a057b7714eda520546fd690"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "0c97ad2636f32364c4f629fd19002ecf6d07a17ea854dcc6875a4fdb51ded33f"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "ffac34d882418b957e4f83c8565b7dd49508672028f2dd4b9ab7daa4c92a57d1"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "d5007b023670a9aa81e65d95509787998c5f6f1e9c434fa50eab6ffe3eb1f9c0"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "dbc3f410f9afa9592ba78c6ea47755c36672a3de2e0b0d28f080c2b83023004b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_shoe_009_low_practical_flats_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "0f74e849b8536e81ba0c4bb1107fc7ede275af5bfe35f96635c0920df690cdf5"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "f50d747d08f0db6bb367bb5b413b61bf2babf985c7ad9b5c2aaa546a9081acdf"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_average_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "43d218f70ccec105a473364dfa815f8fea3b8c11554e1592c0244a985c7069ef"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "b6c4a0799194782cd57fadcadf1d4737697c48fca00a088162434284ecce91fe"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "db6111fc61f2f6d6e57840f6bf6ef9b550461b87cd515e60753e72751a6804c0"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "53b6a450755758cbe37b4261f0aab2636b73ef876b6e6bdf8a320350742b09b8"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "c6509f72590191c4195849e1bbccd69adbc5a43e076e172bc329a7e61174858e"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_skinny_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "906280667fffce578a3aa58478f3eb11e7f444bafad8f9b6ea7c83542b97edba"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_001_short_sleeve_crew_tee_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "5c362fbf6cd7c28c77df6a303585d4ae4d0c49a7336e2e06a4a44d6d9ba9e9c5"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "298f6383e9644ba8e1fd6c213b5c4a34271442b3e767d94f0777bdaae03e55a9"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_average_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "9ceb1e4ee015418761bf2d717220fcee29e569bf70980899336ac900d0eba6b1"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "878e77c09c9e1a96767412874a58ad3cdce899c58a30d954ffed88df98d944ba"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "eb2020311c314bf0c08f49a8dcb9d68ed36620f0b915a08b841085e1cc86dd65"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "ee536363e73a0cc627697431d09a775c00639efb22d39fb09f270c7b3ad338fd"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "d8e383f510e762ab60d3cc71fc9e35b4a001cddba1cbf95bbd2d01f0d9efea6f"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_skinny_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "12109bfb59e4971f58b273bb8eae3476f08197d81dd592a9351bf76e271cfaae"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_005_long_sleeve_button_shirt_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "38bfc072e80efc6682a0b19be4e38effea0785712c77a20a85cd61ea4a6e25cb"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "b2b1c7ba4b06135079c6d0466c9be1a391205d6443a620052a61dbbb3d583428"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_average_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "cf08635ba704d4dcbc170b927d916c765b2b37977f024f3d44c5cb13a91e8681"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "4a2be6adebdd862d4f1071c2425f591fdd521a5658dc09ea34309aab6dfed968"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "27c5da3ad72b53f27fce9fe346320c8c2fd317d1858a040970b089d1624c2add"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "abb687f4dd9e97cfe306aa0c2e0cadc8f10fb6dccf226776656ebb0573273d4e"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "3ecc9c155caade92da012801ab29f8a1bb7b95eef7cb4ebc0adb06313dc56d4f"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_skinny_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "914399e7511661f2ffe1c9515765d8ab89d66d8a1330f1026e87fa5e847abdd6"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_006_pullover_sweater_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "7c459dc415f4c87ea045b1e5522ea227121f3692593ceeca5661e19d571b4b3b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_average_man_rt960_standing_neutral_v1.png",
+      "hash": "c70042db4aa59fc8853945ff81e53dcc0b4793e9a933467865bac3917a5d3dbd"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_average_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "30415d57f4187899d314ec5d1f74cb6169c22377438257dd1c7cc506774ce361"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_average_woman_rt960_standing_neutral_v1.png",
+      "hash": "4059c28754256cc6b7159727a6ec05e00af5c07688722b53940eb831fd61d5da"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_fat_man_rt960_standing_neutral_v1.png",
+      "hash": "71e6dc1e2c032eafb44c14fdd59cbe1101ced68944d057b681d56468ad5f0a19"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_older_woman_rt960_standing_neutral_v1.png",
+      "hash": "6531f50ed28c41e4b7aef80c801db252d199e09a3cdbc9709333477eb7d0950b"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_skinny_man_rt960_standing_neutral_v1.png",
+      "hash": "373645f50b4957c3d414aca9bcfde302df09a062b550f9a8db4959f45a6321e3"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_skinny_woman_rt960_seated_guest_neutral_v1.png",
+      "hash": "7800bb5dd26750dc8efa9521984508e48ea840ae8a29e2146483dbf3232cd7b1"
+    },
+    {
+      "filePath": "generated/candidates/wave-a-wardrobe/pg_top_011_structured_blazer_wave_a_skinny_woman_rt960_standing_neutral_v1.png",
+      "hash": "490bd43436c27121e39e25dda835148afdb47da9c9d2477004e2c04cfd836f65"
     },
     {
       "filePath": "qa/p95-recent-drive-sweep/drive-visual-review/page-01.png",
