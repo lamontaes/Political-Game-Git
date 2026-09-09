@@ -542,13 +542,20 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // Re-measured with corpus:prose after composing the frozen UI, DEV,
-    // LIFE, EXEC, JUD, PEOPLE, ENV and LEG sources. Anchor identities and
-    // inventory membership are unchanged; generated reports carry this count.
+    // Compare the committed report to the live scanner, not a count pinned to
+    // an older source tree. Adding a valid feature must regenerate the report;
+    // it must not require silently weakening or refreshing a magic test number.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(60306);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(423);
+    const report = readFileSync(
+      "docs/prose-inventory/coverage-report.md",
+      "utf8",
+    );
+    expect(report).toContain(
+      `Scanned ${coverage.scannedFiles} files holding ${coverage.totalLiterals} string`,
+    );
+    expect(report).toContain(
+      `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
+    );
   });
 });
 

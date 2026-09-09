@@ -1,0 +1,46 @@
+{
+  "asOf": "2026-09-08",
+  "canonicalSha256": "92e0a61acb28f90a028b3d46bd797e9baae175232947c17b0d951af17b856388",
+  "compiler": {
+    "name": "municipal-governance",
+    "version": "3.0.0"
+  },
+  "corpusId": "municipal-governance",
+  "coverage": {
+    "boundedSampleReason": "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Three municipal governments — Charlottesville and Richmond in Virginia and Carson City in Nevada — compiled from the enacted text of their own charters and, where the charter delegates the rule, the Code of Virginia sections that carry it. Chosen for structural difference: a manager plan whose council elects its own mayor, an elected chief-executive mayor with a veto, and a consolidated municipality whose board contains its mayor."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "or-portland-charter-2-102",
+      "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+    },
+    {
+      "artifactId": "va-charlottesville-charter",
+      "sha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183"
+    },
+    {
+      "artifactId": "va-richmond-charter",
+      "sha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366"
+    },
+    {
+      "artifactId": "va-code-15-2-1427",
+      "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff"
+    },
+    {
+      "artifactId": "va-code-15-2-1415",
+      "sha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f"
+    },
+    {
+      "artifactId": "nv-carson-city-charter",
+      "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad"
+    }
+  ],
+  "parser": {
+    "name": "municipal-governance-enacted-text",
+    "version": "1.0.0"
+  },
+  "recordCount": 4
+}

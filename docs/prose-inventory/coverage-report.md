@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5039 |
-| DIAGNOSTIC_OR_TEST | 4049 |
-| **NEEDS_CLASSIFICATION** | **5185** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5086 |
+| DIAGNOSTIC_OR_TEST | 4078 |
+| **NEEDS_CLASSIFICATION** | **5285** |
 
-Scanned 423 files holding 60306 string
+Scanned 432 files holding 60908 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -34,7 +34,7 @@ literals in total; the table counts only those that read like a sentence.
 | 221 | `src/presentation/run-b-conversation.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 135 | `src/simulation/executive-authority-rule-packs.ts` |
-| 124 | `src/simulation/legislation.ts` |
+| 126 | `src/simulation/legislation.ts` |
 | 93 | `src/player/PlayerGame.tsx` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -54,7 +54,9 @@ literals in total; the table counts only those that read like a sentence.
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
+| 40 | `src/simulation/municipal-public-work.ts` |
 | 39 | `src/simulation/episode-bank.ts` |
+| 39 | `src/simulation/municipal-government.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 38 | `src/player/DocketWorkspace.tsx` |
@@ -122,6 +124,7 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/incidents.ts` |
+| 13 | `src/player/MunicipalWorkspace.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/simulation/election-contests.ts` |
@@ -205,6 +208,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |
+| 3 | `src/presentation/municipal-workspace.ts` |
 | 3 | `src/presentation/production-office.ts` |
 | 3 | `src/presentation/venue-activity.ts` |
 | 3 | `src/simulation/candidacy.ts` |
@@ -224,6 +228,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/simulation/evidence-integrity.ts` |
 | 2 | `src/simulation/executive-work-context.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
+| 2 | `src/simulation/municipal-governments.generated.ts` |
 | 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/LifeStartTransition.tsx` |
@@ -234,6 +239,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/life-scene-people.ts` |
+| 1 | `src/presentation/municipal-venue.ts` |
 | 1 | `src/presentation/people-directory.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |
