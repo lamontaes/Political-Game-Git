@@ -1,9 +1,9 @@
 {
   "counts": {
-    "INVENTORIED": 1914,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5017,
-    "DIAGNOSTIC_OR_TEST": 3695,
-    "NEEDS_CLASSIFICATION": 3426
+    "INVENTORIED": 1927,
+    "INTENTIONALLY_NON_PLAYER_FACING": 5021,
+    "DIAGNOSTIC_OR_TEST": 3754,
+    "NEEDS_CLASSIFICATION": 3480
   },
   "needsClassification": [
     {
@@ -3697,7 +3697,7 @@
     {
       "sourcePath": "src/presentation/adult-life.ts",
       "enclosingSymbol": "projectAdultLife",
-      "line": 139,
+      "line": 175,
       "text": "Nothing this week that needs deciding. Most weeks are like this, and the record is allowed to say so.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6808,56 +6808,8 @@
     },
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "next",
-      "line": 154,
-      "text": "Saw the posted agenda",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "next",
-      "line": 161,
-      "text": "A public meeting was posted on the local calendar with its agenda attached.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "next",
-      "line": 164,
-      "text": "Public meeting room",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "openOrdinaryLife",
-      "line": 178,
-      "text": "Posted public meeting",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "openOrdinaryLife",
-      "line": 180,
-      "text": "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "enclosingSymbol": "openOrdinaryLife",
-      "line": 188,
-      "text": "Public meeting room",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "where",
-      "line": 304,
+      "line": 184,
       "text": " in {placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6865,7 +6817,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "who",
-      "line": 305,
+      "line": 185,
       "text": " {companionName} is in the next room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6873,7 +6825,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "openingLine",
-      "line": 307,
+      "line": 187,
       "text": "A day{where} with nothing on it that anyone is waiting for.{who}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6881,7 +6833,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "openingLine",
-      "line": 309,
+      "line": 189,
       "text": "A day{where}, and a short list of things nobody else is going to do.{who}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6889,7 +6841,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "clockTime",
-      "line": 336,
+      "line": 207,
       "text": "{hour}:{minute.toString().padStart(2,\"0\")} {suffix}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6897,7 +6849,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "householdConversationRoom",
-      "line": 400,
+      "line": 271,
       "text": "{others.slice(1).map((other)=>other!.givenName).join(\"and\")} {others.length>2?\"are\":\"is\"} in the house too, and the rooms here do not really close.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6905,7 +6857,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "neighborhoodConversationRoom",
-      "line": 453,
+      "line": 324,
       "text": "The street",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6913,7 +6865,7 @@
     {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "enclosingSymbol": "neighborhoodConversationRoom",
-      "line": 465,
+      "line": 336,
       "text": "You are standing on a doorstep with the street behind you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10993,7 +10945,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 489,
+      "line": 537,
       "text": "Keeping the peace, against saying what you are actually carrying.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11001,7 +10953,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 561,
+      "line": 600,
+      "text": "The scene depends on a specific broken household object, and the world keeps no record that could name one. Until a canonical household object or repair record exists, an unnamed broken 'something' cannot be grounded, and a prettier synonym for 'thing' would not ground it either.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 609,
       "text": "Sorting it now, against leaving it and finding out.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11009,7 +10969,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 619,
+      "line": 657,
+      "text": "The scene depends on the month's arithmetic having moved, and the world keeps no monthly income or spending record that could say so. Grounded money pressure lives in adult.debt-call and adult.housing-cost-change, which read recorded obligations.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 666,
       "text": "Cutting back where it shows, against cutting back where it costs somebody else.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11017,7 +10985,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 720,
+      "line": 758,
+      "text": "Kinship does not establish a two-week request or a conflicting plan. The request and its terms need an actual record.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 769,
       "text": "The people you came from, against the thing you were building.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11025,7 +11001,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 727,
+      "line": 776,
       "text": "Carrying it, against what carrying it costs the rest of the month.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11033,7 +11009,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 815,
+      "line": 851,
+      "text": "Kinship and no current care responsibility do not establish a care need or a discussion. A named recipient and actual care request are missing; a commitment written after choosing cannot establish them.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 862,
       "text": "Being the one who does it, against the rest of what you were doing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11041,15 +11025,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 838,
-      "text": "Looking after somebody at home",
+      "line": 886,
+      "text": "Looking after somebody in the family",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 893,
+      "line": 933,
+      "text": "A partnership does not establish two conflicting plans or an imminent decision. The plans and the partner proposal are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 944,
       "text": "Where the two of you are, against where the work is.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11057,7 +11049,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 963,
+      "line": 1002,
+      "text": "Employment and a colleague do not establish a conflicting work rule or a senior request. The rule, conflict and request are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1013,
       "text": "The rule as written, against the people who work around it every day.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11065,7 +11065,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1037,
+      "line": 1088,
       "text": "What the job would notice, against what home would.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11073,7 +11073,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1044,
+      "line": 1095,
       "text": "Taking it on, against keeping the week the shape it was.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11081,7 +11081,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1105,
+      "line": 1145,
+      "text": "Shared employment does not establish authorship, misattributed credit or who heard the claim. Those occurrences need records.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1156,
       "text": "Being seen to have done it, against what correcting it does to them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11089,7 +11097,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1179,
+      "line": 1219,
+      "text": "Shared employment does not establish a colleague difficulty, a disclosure, or the player knowing about it. Those facts are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1230,
       "text": "Covering for them, against what covering costs you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11097,7 +11113,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1252,
+      "line": 1292,
+      "text": "Employment does not establish another offer, better terms or coworkers being unaware. An actual offer and the player knowledge of it are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1303,
       "text": "The move, against the ground you are standing on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11105,7 +11129,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1259,
+      "line": 1310,
       "text": "What it would do for you, against what it would do to everyone arranged around you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11113,7 +11137,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1372,
+      "line": 1375,
+      "text": "Employment does not establish a successful week, completed work or available time. The achievements and circumstances are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1410,
+      "text": "Tenure and a housing payment do not establish an increase. Changed payment terms and notice to the player are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1421,
       "text": "The place itself, against everything that is arranged around it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11121,7 +11161,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1431,
+      "line": 1474,
+      "text": "The scene depends on a specific unrepaired defect and a recorded repair-responsible counterpart, and the world contains neither: dwellings carry no defect records and tenures name no landlord. Withheld rather than rewritten around an unnamed broken 'something'.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1483,
       "text": "Doing it the proper way, against how long the proper way takes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11129,7 +11177,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1490,
+      "line": 1530,
+      "text": "A resource obligation need not be debt and establishes no payment demand or call. Debt terms, a demand and the resources needed by the payment choices are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1541,
       "text": "Dealing with it, against who has to find out that it exists.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11137,7 +11193,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1636,
+      "line": 1591,
+      "text": "The scene depends on a specific object having broken and on the month's arithmetic, and the world records neither objects nor monthly amounts. An unnamed broken 'something' with an unstated cost cannot be grounded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1625,
+      "text": "A money scene needs the amount, the source and whether anything already claims it, and the world records no receipt this could read. Money that arrives from nowhere in no amount cannot be grounded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1688,
       "text": "Helping, against what helping puts your name to.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11145,7 +11217,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1703,
+      "line": 1743,
+      "text": "Dependency does not establish an offer of help or the concrete problem it would solve. The offer and terms are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1754,
       "text": "Having the problem gone, against owing it to somebody who is already owed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11153,7 +11233,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1710,
+      "line": 1761,
       "text": "Taking the help, against being somebody who took the help.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11161,7 +11241,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1788,
+      "line": 1841,
       "text": "Keeping what you were told, against what the rest of it says you should do with it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11169,7 +11249,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 1901,
+      "line": 1905,
+      "text": "Prior interaction does not establish good news or an invitation. The actual news and invitation are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1944,
+      "text": "A posted meeting and another household do not establish a proposal or its cost to that household. The agenda item and effects are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 1955,
       "text": "Settling it through the meeting, against settling it with the people themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11177,7 +11273,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2022,
+      "line": 2009,
+      "text": "A posted work item does not establish a meeting tonight, an available agenda item for these decisions or completed minutes to read. The meeting and document states needed by the choices are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2055,
+      "text": "A posted meeting and no civic participation do not establish a staffing shortage or a Saturday request. The organization and actual request must precede the option; joining an organization afterwards is not evidence.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2076,
       "text": "Local volunteer group",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11185,7 +11297,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2066,
+      "line": 2110,
+      "text": "Group participation does not establish a building closure, an expiring charge or who pays. The building decision and payment terms are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2121,
       "text": "Who ends up paying, against the place the people you know actually meet in.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11193,7 +11313,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2073,
+      "line": 2128,
       "text": "Keeping the thing that is there, against having said the charge would stop.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11201,7 +11321,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2154,
+      "line": 2214,
       "text": "Keeping your own counsel, against thinking somebody ought to say it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11209,7 +11329,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2218,
+      "line": 2268,
+      "text": "Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2279,
       "text": "Staying out of it, against the person asking.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11217,7 +11345,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2288,
+      "line": 2351,
       "text": "Wanting the job, against everything having your name on it would cost.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11225,7 +11353,7 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2295,
+      "line": 2358,
       "text": "Standing, against what standing does to everybody arranged around you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11233,7 +11361,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2371,
+      "line": 2420,
+      "text": "An active incident anywhere in the World does not establish local impact, recovery, or player knowledge. The affected household, recovery state and acquired knowledge are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2431,
       "text": "Helping with the clearing up, against getting your own back in order.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11241,7 +11377,23 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2476,
+      "line": 2482,
+      "text": "An active incident and another household do not establish comparative damage or a request for help. The impact, request and player knowledge are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2524,
+      "text": "An active player commitment does not establish that it is due or conflicts with something else. The due terms and actual conflict are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2535,
       "text": "Having said you would, against what doing it now actually costs.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -11249,7 +11401,15 @@
     {
       "sourcePath": "src/simulation/adult-situations.ts",
       "enclosingSymbol": "ADULT_SITUATIONS",
-      "line": 2538,
+      "line": 2588,
+      "text": "An earlier favour-family choice may be a refusal. It does not establish help given, a new larger request or a recurrence count. The actual prior action and new request are missing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.ts",
+      "enclosingSymbol": "ADULT_SITUATIONS",
+      "line": 2599,
       "text": "What you did once, against what it is now being read as meaning.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -18161,7 +18321,7 @@
     {
       "sourcePath": "src/simulation/life-callbacks.ts",
       "enclosingSymbol": "applied",
-      "line": 454,
+      "line": 491,
       "text": "The person it came back to",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -18169,7 +18329,7 @@
     {
       "sourcePath": "src/simulation/life-callbacks.ts",
       "enclosingSymbol": "evaluation",
-      "line": 572,
+      "line": 609,
       "text": "Say something about what happened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -18177,7 +18337,7 @@
     {
       "sourcePath": "src/simulation/life-callbacks.ts",
       "enclosingSymbol": "evaluation",
-      "line": 577,
+      "line": 614,
       "text": "Let it stay where it is.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -18827,6 +18987,278 @@
       "enclosingSymbol": "optionalStrength",
       "line": 1460,
       "text": "fatigue strength for {recordId}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 340,
+      "text": "Saw the posted agenda",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 347,
+      "text": "A public meeting was posted on the local calendar with its agenda attached.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 350,
+      "text": "Public meeting room",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "openOrdinaryLifeRecords",
+      "line": 364,
+      "text": "Posted public meeting",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "openOrdinaryLifeRecords",
+      "line": 366,
+      "text": "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "openOrdinaryLifeRecords",
+      "line": 374,
+      "text": "Public meeting room",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 653,
+      "text": "The evening was left free at home, and the person they live with said they would be in for it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 654,
+      "text": "Said they would be in",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 656,
+      "text": "The evening is free at home and the other person will be in.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 662,
+      "text": "An evening in",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 664,
+      "text": "The evening at home, with the person who lives here saying they would be in for it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 687,
+      "text": "Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 688,
+      "text": "Asked them to come",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 690,
+      "text": "There is something on Saturday they were asked to, and nobody needs them there.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 692,
+      "text": "Something on Saturday",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 694,
+      "text": "An occasion somebody local asked them to. Attendance was invited, not required.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 698,
+      "text": "The neighbourhood",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 717,
+      "text": "Somebody they already know asked them for a hand with one specific thing, and said it mattered to them.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 718,
+      "text": "Asked for a hand with one thing",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 720,
+      "text": "They have been asked for a hand with one specific thing, and told it matters to the person asking.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 736,
+      "text": "Somebody they know told them what they had got themselves into, and told nobody else.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 737,
+      "text": "Told them, and nobody else",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 739,
+      "text": "They know what this person has got into, and they are the only one who was told.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 758,
+      "text": "Somebody they work with asked whether they could put in extra hours for a stretch, and said what the terms were.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 759,
+      "text": "Asked for extra hours, with terms",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 761,
+      "text": "They have been asked to work extra hours for a stretch, on stated terms.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 779,
+      "text": "One item on the posted agenda was published in full, and they read it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 780,
+      "text": "They have read the agenda item in full.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 803,
+      "text": "Somebody they take part in something with asked, in as many words, whether they would ever stand for election to public office.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 804,
+      "text": "Asked whether they would ever stand",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "eligibleOpportunities",
+      "line": 806,
+      "text": "They have been asked outright whether they would ever run for public office.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 915,
+      "text": "Was asked",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 1012,
+      "text": "Read the item in full",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "enclosingSymbol": "next",
+      "line": 1023,
+      "text": "Public meeting room",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -28029,6 +28461,12 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/person-identity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/person-foundation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28041,18 +28479,6 @@
       "count": 9
     },
     {
-      "sourcePath": "src/simulation/life-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTimeDemand. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/life-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/people.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -28063,6 +28489,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 75
+    },
+    {
+      "sourcePath": "src/simulation/p2r1-callbacks.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 10
     },
     {
       "sourcePath": "src/simulation/narrative-threads.ts",
@@ -28163,6 +28595,12 @@
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
       "count": 17
     },
@@ -28170,12 +28608,6 @@
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -28265,6 +28697,18 @@
     {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOrganizationProfile. Play fails closed rather than showing it.",
       "count": 2
     },
@@ -28299,27 +28743,9 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -28347,10 +28773,40 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/life-places.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/life-opportunities.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 18
+    },
+    {
+      "sourcePath": "src/simulation/life-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTimeDemand. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/life-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/life-integrity.ts",
@@ -28647,12 +29103,6 @@
       "count": 46
     },
     {
-      "sourcePath": "src/simulation/executive-governing-kernels.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 11
-    },
-    {
       "sourcePath": "src/simulation/executive-governing-kernels.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28809,6 +29259,12 @@
       "count": 11
     },
     {
+      "sourcePath": "src/simulation/executive-governing-kernels.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 11
+    },
+    {
       "sourcePath": "src/simulation/demo.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -28923,6 +29379,24 @@
       "count": 64
     },
     {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/canonical-json.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -29005,6 +29479,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/adult-situations.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 11
     },
     {
       "sourcePath": "src/presentation/visual-integration.ts",
@@ -29235,24 +29715,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/production-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -29263,6 +29725,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 27
+    },
+    {
+      "sourcePath": "src/presentation/production-office.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/prior-work-evidence.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 19
     },
     {
       "sourcePath": "src/presentation/pose-families.ts",
@@ -29283,16 +29757,34 @@
       "count": 44
     },
     {
+      "sourcePath": "src/presentation/player-capabilities.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/p2r2-sustained-play.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 11
+    },
+    {
       "sourcePath": "src/presentation/player-capabilities.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 11
     },
     {
+      "sourcePath": "src/presentation/p2r1-grounding.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
       "sourcePath": "src/presentation/ordinary-life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/new-game-identity.test.ts",
@@ -29331,6 +29823,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/presentation/p2r1-action-memory.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/presentation/life-narration.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -29343,21 +29841,9 @@
       "count": 19
     },
     {
-      "sourcePath": "src/presentation/prior-work-evidence.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 19
-    },
-    {
       "sourcePath": "src/presentation/legislative-member-seat.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/player-capabilities.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -29373,16 +29859,16 @@
       "count": 91
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/presentation/legislative-bargaining.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 49
+    },
+    {
+      "sourcePath": "src/presentation/formative-play.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 7
     },
     {
       "sourcePath": "src/presentation/legislative-bargaining-world.ts",
@@ -29397,13 +29883,13 @@
       "count": 13
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-no-fixture.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 5
+      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
+      "sourcePath": "src/presentation/legislative-bargaining.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 4
@@ -29439,10 +29925,10 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/production-office.ts",
+      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
     },
     {
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
@@ -29451,21 +29937,15 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/person-identity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-no-fixture.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
     },
     {
@@ -29493,6 +29973,12 @@
       "count": 5
     },
     {
+      "sourcePath": "src/presentation/legislation-session.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/presentation/legislation-routes.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -29517,16 +30003,10 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/legislation-session.ts",
+      "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
+      "count": 6
     },
     {
       "sourcePath": "src/presentation/garment-fit.ts",
@@ -29553,15 +30033,15 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/garment-fit.ts",
+      "sourcePath": "src/simulation/history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateGarmentFitBounds. Play fails closed rather than showing it.",
-      "count": 6
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in validateGarmentFitBounds. Play fails closed rather than showing it.",
       "count": 6
     },
     {
@@ -29569,18 +30049,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 87
-    },
-    {
-      "sourcePath": "src/presentation/formative-play.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/formative-play.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 7
     },
     {
       "sourcePath": "src/presentation/formative-context.test.ts",
@@ -29598,6 +30066,12 @@
       "sourcePath": "src/presentation/conversation-consequences.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/formative-play.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -29655,18 +30129,6 @@
       "count": 26
     },
     {
-      "sourcePath": "src/presentation/campaign-integration.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
-    },
-    {
-      "sourcePath": "src/presentation/campaign-projection.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 6
-    },
-    {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -29682,7 +30144,19 @@
       "sourcePath": "src/presentation/adult-life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/campaign-integration.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
     },
     {
       "sourcePath": "src/presentation/adult-grounding.test.ts",

@@ -196,9 +196,9 @@ _Present: Megan Hodges, who is in your class_
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 66 realized lines, 51 linked back to a template.
+16 beats, 64 realized lines, 46 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, age-band:adult, connective-narration, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
@@ -368,27 +368,25 @@ There is a rule at work that nobody follows, and today somebody older is telling
 - Say nobody does that
 - Do it, then say something after
 
-#### Beat 14 — 2028-10-08, age 18 (adult)
+#### Beat 14 — 2028-10-08, age 18 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
 > Half a year on, and you're 18 now.
 
-There is more work than week, and somebody has decided the difference is yours.
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
 
-- **Take the hours** ← chosen
-- Keep your week
-- Take some, trade the rest
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
 
-#### Beat 15 — 2028-11-03, age 18 (adult)
+_Grounded by: Age 18; needs at least 18._
+
+#### Beat 15 — 2028-11-11, age 18 (ordinary-stretch)
 
 
 
-The looking-after that has been shared out is about to stop being shared out, and everyone is waiting to see who says something first.
 
-- **Take it on** ← chosen
-- Say what you can manage
-- Wait for somebody else
 
-_Present: Caleb Merritt, your mom_
+- **Let the weeks run on** ← chosen
 
 
 ---
@@ -398,7 +396,7 @@ _Present: Caleb Merritt, your mom_
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 90 realized lines, 70 linked back to a template.
+20 beats, 106 realized lines, 47 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -423,62 +421,41 @@ _Present: Kayla Terrell, who you live with_
 
 _Grounded by: household-peer is Kayla Terrell: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
 
-#### Beat 1 — 2026-02-08, age 34 (adult)
+#### Beat 1 — 2026-02-08, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
 
 
-The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
 
-- **Keep the charge going** ← chosen
-- Move somewhere cheaper
-- Pay for it out of something else
-- Go and find the money
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
 
-#### Beat 2 — 2026-03-21, age 34 (adult)
+_Grounded by: Age 34; needs at least 18._
 
-
-
-Nothing is owed to anybody this evening, and the other person is in.
-
-- **Spend it together** ← chosen
-- Keep the evening
-
-_Present: Kayla Terrell, who you live with_
-
-#### Beat 3 — 2026-04-02, age 34 (adult)
+#### Beat 2 — 2026-03-14, age 34 (ordinary-stretch)
 
 
 
-Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
-
-- **Give the two weeks** ← chosen
-- Stay with what you had
-- Split the two weeks
-- Find somebody else to go
-
-_Present: Edward Todd, your dad_
-
-#### Beat 4 — 2026-05-13, age 35 (adult)
-
-> A month later, and you're 35 now.
-
-A small amount of money has arrived that nothing is already claiming.
-
-- **Put it away** ← chosen
-- Spend it on something good
-- Give it to somebody who needs it
-
-#### Beat 5 — 2026-05-25, age 35 (adult)
 
 
+- **Let the weeks run on** ← chosen
 
-The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
+#### Beat 3 — 2026-05-31, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
-- **Cut back quietly** ← chosen
-- Say the month is tight
-- Find the difference
+> Half a year on, and you're 35 now.
+> You saw Kayla Terrell.
+> You and Edward Todd were in and out of each other's business more than once.
 
-#### Beat 6 — 2026-06-20, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
+The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
+
+- **Take the title** ← chosen
+- Do the work without the title
+- Stop at the building
+
+_Grounded by: At the-meeting they chose go, on 2026-02-08.; civic.participation: An active participation in a local organization.; 112 day(s) since the-meeting; needs 60._
+
+#### Beat 4 — 2026-08-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
 
 
 
@@ -489,145 +466,188 @@ Five months on, the parts you took are still yours, and nobody has had to mentio
 
 _Present: Kayla Terrell, who you live with_
 
-_Grounded by: household-peer is Kayla Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 166 day(s) since the-first-time-it-is-said; needs 150._
+_Grounded by: household-peer is Kayla Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 217 day(s) since the-first-time-it-is-said; needs 150._
 
-#### Beat 7 — 2026-07-24, age 35 (adult)
-
-
-
-Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
-
-- **Fix it this afternoon** ← chosen
-- Leave it for now
-- Ask someone who knows
-
-#### Beat 8 — 2026-08-05, age 35 (adult)
+#### Beat 5 — 2026-09-13, age 35 (adult)
 
 
 
-There is a thing on at the weekend that you would probably enjoy and have no obligation to attend.
+Somebody you know has got themselves into something, and they have told you rather than anybody else.
 
-- **Say you will come** ← chosen
-- Keep the weekend
-
-#### Beat 9 — 2026-08-17, age 35 (adult)
-
-
-
-The same thing has gone undone three weeks running, and it is not going to be mentioned again unless you mention it.
-
-- **Say it plainly** ← chosen
-- Do it yourself again
-- Work out who does what
-
-_Present: Kayla Terrell, who you live with_
-
-#### Beat 10 — 2026-09-12, age 35 (adult)
-
-
-
-The looking-after that has been shared out is about to stop being shared out, and everyone is waiting to see who says something first.
-
-- **Take it on** ← chosen
-- Say what you can manage
-- Wait for somebody else
+- **Tell nobody else** ← chosen
+- Push them to sort it
+- Keep your distance
 
 _Present: Edward Todd, your dad_
 
-#### Beat 11 — 2026-10-23, age 35 (adult)
+#### Beat 6 — 2026-10-24, age 35 (adult)
 
 
 
-Something you said you would do has arrived, and it is less convenient than it was when you said it.
+Somebody you know has asked you for a hand with one thing, and said it matters to them.
 
-- **Do it anyway** ← chosen
-- Ask to move it
-- Leave it unsaid
+- **Say yes and do it** ← chosen
+- Do it, with conditions
+- Tell them you cannot
 
-#### Beat 12 — 2026-12-03, age 35 (adult)
+_Present: Edward Todd, your dad_
 
-> A month later.
-> What you said you'd do about Kayla Terrell came up.
-
-A day with nothing owed on it, and weather that makes staying indoors feel like a waste.
-
-- **Go out into it** ← chosen
-- Get things done
-- Do nothing at all
-
-#### Beat 13 — 2026-12-15, age 35 (adult)
-
-> A couple of weeks on.
-> What you said you'd do about Edward Todd came up.
-
-Something has broken that has to be replaced, and it was not in the month's arithmetic.
-
-- **Replace it now** ← chosen
-- Go without it
-
-#### Beat 14 — 2027-01-10, age 35 (adult)
+#### Beat 7 — 2026-11-19, age 35 (adult)
 
 > A month later.
-> What you said you'd do about Looking after somebody at home came up.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
 
-Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
+The evening is free, and the person you live with said they would be in for it.
 
-- **Fix it this afternoon** ← chosen
-- Leave it for now
-- Ask someone who knows
+- **Spend it together** ← chosen
+- Keep the evening
 
-#### Beat 15 — 2027-01-22, age 35 (adult)
+_Present: Kayla Terrell, who you live with_
 
+#### Beat 8 — 2026-12-18, age 35 (adult)
 
+> A month later.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
 
-A small amount of money has arrived that nothing is already claiming.
-
-- **Put it away** ← chosen
-- Spend it on something good
-- Give it to somebody who needs it
-
-#### Beat 16 — 2027-02-03, age 35 (adult)
-
-
-
-There is a thing on at the weekend that you would probably enjoy and have no obligation to attend.
+Somebody local asked you to something on Saturday. Nobody needs you there.
 
 - **Say you will come** ← chosen
 - Keep the weekend
 
-#### Beat 17 — 2027-02-15, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+_Present: Edward Todd, your dad_
 
+#### Beat 9 — 2026-12-30, age 35 (ordinary-stretch)
 
-
-There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
-
-- **Go on Tuesday** ← chosen
-- Read the notice properly
-- Leave it to whoever turns up
-
-_Grounded by: Age 35; needs at least 18._
-
-#### Beat 18 — 2027-03-21, age 35 (ordinary-stretch)
-
-> A month later.
-> What you said you'd do about Kayla Terrell came up.
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
 
 
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 19 — 2027-07-23, age 36 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
+#### Beat 10 — 2027-03-18, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/the-issue-got-bigger)
+
+> A couple of months on.
+> Things came up at home with Kayla Terrell more than once in that time.
+> You and Edward Todd were in and out of each other's business more than once.
+
+It is not one building now. The same decision is being made about four streets, and somebody has asked you to put your name to a position on it in public. You have read enough by now to have one. That is not the same as wanting it attached to you.
+
+- **Put your name to it** ← chosen
+- Give it to somebody who wants it
+- Hold it to the one building
+
+_Grounded by: At you-said-something they chose take-the-role, on 2026-05-31.; 291 day(s) since you-said-something; needs 240.; civic.participation: An active participation in a local organization._
+
+#### Beat 11 — 2027-07-24, age 36 (ordinary-stretch)
 
 > Half a year on, and you're 36 now.
-> What you said you'd do about Kayla Terrell came up.
+> What you said you'd do about Edward Todd came up.
 
-The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
-- **Take the title** ← chosen
-- Do the work without the title
-- Stop at the building
 
-_Grounded by: At the-meeting they chose go, on 2027-02-15.; civic.participation: An active participation in a local organization.; 158 day(s) since the-meeting; needs 60._
+- **Let the weeks run on** ← chosen
+
+#### Beat 12 — 2027-10-10, age 36 (adult)
+
+> A year on, and you're 36 now.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+Somebody local asked you to something on Saturday. Nobody needs you there.
+
+- **Say you will come** ← chosen
+- Keep the weekend
+
+_Present: Edward Todd, your dad_
+
+#### Beat 13 — 2027-10-22, age 36 (adult)
+
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+The evening is free, and the person you live with said they would be in for it.
+
+- **Spend it together** ← chosen
+- Keep the evening
+
+_Present: Kayla Terrell, who you live with_
+
+#### Beat 14 — 2027-11-03, age 36 (ordinary-stretch)
+
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+
+
+- **Let the weeks run on** ← chosen
+
+#### Beat 15 — 2028-01-20, age 36 (adult)
+
+> A couple of months on.
+> Things came up at home with Kayla Terrell more than once in that time.
+> You and Edward Todd were in and out of each other's business more than once.
+
+Somebody local asked you to something on Saturday. Nobody needs you there.
+
+- **Say you will come** ← chosen
+- Keep the weekend
+
+_Present: Edward Todd, your dad_
+
+#### Beat 16 — 2028-02-01, age 36 (adult)
+
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+The evening is free, and the person you live with said they would be in for it.
+
+- **Spend it together** ← chosen
+- Keep the evening
+
+_Present: Kayla Terrell, who you live with_
+
+#### Beat 17 — 2028-02-13, age 36 (ordinary-stretch)
+
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+
+
+- **Let the weeks run on** ← chosen
+
+#### Beat 18 — 2028-03-15, age 36 (adult)
+
+> A month later.
+> Things came up at home with Kayla Terrell more than once in that time.
+> You and Edward Todd were in and out of each other's business more than once.
+
+Somebody local asked you to something on Saturday. Nobody needs you there.
+
+- **Say you will come** ← chosen
+- Keep the weekend
+
+_Present: Edward Todd, your dad_
+
+#### Beat 19 — 2028-03-27, age 36 (adult)
+
+> A couple of weeks on.
+> You saw Kayla Terrell.
+> You saw Edward Todd.
+
+The evening is free, and the person you live with said they would be in for it.
+
+- **Spend it together** ← chosen
+- Keep the evening
+
+_Present: Kayla Terrell, who you live with_
 
 
 ---
@@ -637,9 +657,9 @@ _Grounded by: At the-meeting they chose go, on 2027-02-15.; civic.participation:
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 150 realized lines, 96 linked back to a template.
+40 beats, 150 realized lines, 92 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-cast-across-years, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:school.the-thing-you-got-blamed-for, persistent-cast-across-years, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
@@ -1036,31 +1056,18 @@ There is a notice on the door of the building at the end of the road about what 
 
 _Grounded by: Age 18; needs at least 18._
 
-#### Beat 37 — 2036-10-14, age 18 (adult)
+#### Beat 37 — 2036-10-14, age 18 (ordinary-stretch)
 
 
 
-There is more work than week, and somebody has decided the difference is yours.
-
-- **Take the hours** ← chosen
-- Keep your week
-- Take some, trade the rest
-
-#### Beat 38 — 2036-11-09, age 18 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
 
 
+- **Let the weeks run on** ← chosen
 
-The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
+#### Beat 38 — 2036-11-30, age 18 (episode, home.someone-is-not-all-right/it-got-worse)
 
-- **Take the title** ← chosen
-- Do the work without the title
-- Stop at the building
-
-_Grounded by: At the-meeting they chose go, on 2036-09-10.; civic.participation: An active participation in a local organization.; 60 day(s) since the-meeting; needs 60._
-
-#### Beat 39 — 2037-01-19, age 18 (episode, home.someone-is-not-all-right/it-got-worse)
-
-
+> A couple of months on.
+> Things came up at home with Aisha Fleming more than once in that time.
 
 There is a phone call at an hour when phone calls are never good, and it is about Caleb Fleming. By the time anybody explains it to you properly, the part where you could have said something has been over for a year.
 
@@ -1070,7 +1077,19 @@ There is a phone call at an hour when phone calls are never good, and it is abou
 
 _Present: Caleb Fleming, your younger sister_
 
-_Grounded by: household-peer is Caleb Fleming: Resident on the same household record, with no authority either way between them.; Stage noticing was played on 2035-10-14.; 463 day(s) since noticing; needs 400.; tell-someone was not chosen at noticing, as required._
+_Grounded by: household-peer is Caleb Fleming: Resident on the same household record, with no authority either way between them.; Stage noticing was played on 2035-10-14.; 413 day(s) since noticing; needs 400.; tell-someone was not chosen at noticing, as required._
+
+#### Beat 39 — 2037-04-07, age 18 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
+
+
+
+The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
+
+- **Take the title** ← chosen
+- Do the work without the title
+- Stop at the building
+
+_Grounded by: At the-meeting they chose go, on 2036-09-10.; civic.participation: An active participation in a local organization.; 209 day(s) since the-meeting; needs 60._
 
 
 ---
@@ -1080,58 +1099,27 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
-6 beats, 30 realized lines, 25 linked back to a template.
+6 beats, 28 realized lines, 16 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, legislative-measure-briefing, person-introduction, scene:adult, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the House of Representatives
-- Sessions: 5
-- Resolved: true (won)
+- Sessions: 2
+- Resolved: true (lost)
 
-### Legislative surface reached
-
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2026-09-06. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+_No legislative surface: the capability layer did not open one for this run._
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 34 (adult)
+#### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Malik Mullins.
 > You belong to Community Service Club.
-
-The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
-
-- **Keep the charge going** ← chosen
-- Move somewhere cheaper
-- Pay for it out of something else
-- Go and find the money
-
-#### Beat 1 — 2026-02-15, age 34 (adult)
-
-
-
-Nothing is owed to anybody this evening, and the other person is in.
-
-- **Spend it together** ← chosen
-- Keep the evening
-
-_Present: Malik Mullins, who you live with_
-
-#### Beat 2 — 2026-02-27, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
-
-
 
 Malik Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
 
@@ -1144,38 +1132,64 @@ _Present: Malik Mullins, who you live with_
 
 _Grounded by: household-peer is Malik Mullins: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
 
-#### Beat 3 — 2026-04-02, age 35 (adult)
+#### Beat 1 — 2026-02-08, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
-> A month later, and you're 35 now.
 
-Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
 
-- **Give the two weeks** ← chosen
-- Stay with what you had
-- Split the two weeks
-- Find somebody else to go
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
+
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
+
+_Grounded by: Age 34; needs at least 18._
+
+#### Beat 2 — 2026-03-14, age 34 (ordinary-stretch)
+
+
+
+
+
+- **Let the weeks run on** ← chosen
+
+#### Beat 3 — 2026-05-31, age 35 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
+
+> Half a year on, and you're 35 now.
+> You saw Malik Mullins.
+> You and Emily Vance were in and out of each other's business more than once.
+
+The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
+
+- **Take the title** ← chosen
+- Do the work without the title
+- Stop at the building
+
+_Grounded by: At the-meeting they chose go, on 2026-02-08.; civic.participation: An active participation in a local organization.; 112 day(s) since the-meeting; needs 60._
+
+#### Beat 4 — 2026-08-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
+
+
+
+Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Malik Mullins asks whether you would rather swap two of them.
+
+- **Trade the jobs** ← chosen
+- Keep it as it is
+
+_Present: Malik Mullins, who you live with_
+
+_Grounded by: household-peer is Malik Mullins: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 217 day(s) since the-first-time-it-is-said; needs 150._
+
+#### Beat 5 — 2026-09-13, age 35 (adult)
+
+
+
+Somebody you know has got themselves into something, and they have told you rather than anybody else.
+
+- **Tell nobody else** ← chosen
+- Push them to sort it
+- Keep your distance
 
 _Present: Emily Vance, your mom_
-
-#### Beat 4 — 2026-05-13, age 35 (adult)
-
-
-
-Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
-
-- **Fix it this afternoon** ← chosen
-- Leave it for now
-- Ask someone who knows
-
-#### Beat 5 — 2026-05-25, age 35 (adult)
-
-
-
-The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
-
-- **Cut back quietly** ← chosen
-- Say the month is tight
-- Find the difference
 
 
 ---
@@ -1185,84 +1199,98 @@ The month does not add up the way it did. Nothing has gone wrong; the numbers ha
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 29 realized lines, 26 linked back to a template.
+6 beats, 28 realized lines, 17 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, person-introduction, scene:adult, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the House of Representatives
-- Sessions: 5
-- Resolved: true (lost)
+- Sessions: 2
+- Resolved: true (won)
 
-_No legislative surface: the capability layer did not open one for this run._
+### Legislative surface reached
+
+- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
+  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Filed on 2026-10-25. Filed in the House of Representatives.
+  - Committee on Committees
+  - Committee on Committees decides which committee takes the measure.
+  - Ask for the bill to be sent to a committee
+  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 41 (adult)
+#### Beat 0 — 2026-01-05, age 41 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
 
 > You're 41, and you live in Lexington, Kentucky.
 > You belong to Community Service Club.
 
-The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it.
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
 
-- **Keep the charge going** ← chosen
-- Move somewhere cheaper
-- Pay for it out of something else
-- Go and find the money
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
 
-#### Beat 1 — 2026-02-15, age 41 (adult)
+_Grounded by: Age 41; needs at least 18._
 
-
-
-A day with nothing owed on it, and weather that makes staying indoors feel like a waste.
-
-- **Go out into it** ← chosen
-- Get things done
-- Do nothing at all
-
-#### Beat 2 — 2026-02-27, age 41 (adult)
+#### Beat 1 — 2026-02-08, age 41 (ordinary-stretch)
 
 
 
-Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else.
 
-- **Give the two weeks** ← chosen
-- Stay with what you had
-- Split the two weeks
-- Find somebody else to go
+
+- **Let the weeks run on** ← chosen
+
+#### Beat 2 — 2026-03-11, age 41 (episode, civic.the-thing-nobody-else-turned-up-for/you-said-something)
+
+> A couple of months on.
+> You and Kelly Tillman were in and out of each other's business more than once.
+
+The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
+
+- **Take the title** ← chosen
+- Do the work without the title
+- Stop at the building
+
+_Grounded by: At the-meeting they chose go, on 2026-01-05.; civic.participation: An active participation in a local organization.; 65 day(s) since the-meeting; needs 60._
+
+#### Beat 3 — 2026-05-21, age 42 (adult)
+
+> A couple of months on, and you're 42 now.
+
+Somebody you know has asked you for a hand with one thing, and said it matters to them.
+
+- **Say yes and do it** ← chosen
+- Do it, with conditions
+- Tell them you cannot
 
 _Present: Kelly Tillman, your dad_
 
-#### Beat 3 — 2026-04-09, age 42 (adult)
-
-> A month later, and you're 42 now.
-
-A small amount of money has arrived that nothing is already claiming.
-
-- **Put it away** ← chosen
-- Spend it on something good
-- Give it to somebody who needs it
-
-#### Beat 4 — 2026-04-21, age 42 (adult)
+#### Beat 4 — 2026-06-16, age 42 (adult)
 
 
 
-The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.
+Somebody you know has got themselves into something, and they have told you rather than anybody else.
 
-- **Cut back quietly** ← chosen
-- Say the month is tight
-- Find the difference
+- **Tell nobody else** ← chosen
+- Push them to sort it
+- Keep your distance
 
-#### Beat 5 — 2026-05-17, age 42 (adult)
+_Present: Kelly Tillman, your dad_
 
+#### Beat 5 — 2026-07-27, age 42 (adult)
 
+> A month later.
+> You saw Kelly Tillman.
 
-Something in the place has stopped working properly. It is not urgent, and it will not fix itself.
+Somebody local asked you to something on Saturday. Nobody needs you there.
 
-- **Fix it this afternoon** ← chosen
-- Leave it for now
-- Ask someone who knows
+- **Say you will come** ← chosen
+- Keep the weekend
+
+_Present: Kelly Tillman, your dad_
 

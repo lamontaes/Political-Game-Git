@@ -1,0 +1,539 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/simulation/p2r1-callbacks.test.ts --maxWorkers=2
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-production
+
+ ❯ src/simulation/p2r1-callbacks.test.ts (120 tests | 96 failed) 2622ms
+     × adult.household-standing/say-it: callback adds no unsupported outcome 75ms
+     × adult.household-standing/absorb-it: callback adds no unsupported outcome 32ms
+     × adult.household-standing/set-it-out: callback adds no unsupported outcome 29ms
+     × adult.household-standing/missing-option: callback adds no unsupported outcome 27ms
+     × adult.household-money-shortfall/cut-back: callback adds no unsupported outcome 24ms
+     × adult.household-money-shortfall/say-so: callback adds no unsupported outcome 24ms
+     × adult.household-money-shortfall/take-the-work: callback adds no unsupported outcome 23ms
+     × adult.household-money-shortfall/missing-option: callback adds no unsupported outcome 23ms
+     × adult.household-quiet-evening/spend-it-together: callback adds no unsupported outcome 23ms
+     × adult.household-quiet-evening/keep-it-yours: callback adds no unsupported outcome 22ms
+     × adult.household-quiet-evening/missing-option: callback adds no unsupported outcome 23ms
+     × adult.family-request/go: callback adds no unsupported outcome 24ms
+     × adult.family-request/stay: callback adds no unsupported outcome 25ms
+     × adult.family-request/split-it: callback adds no unsupported outcome 23ms
+     × adult.family-request/find-someone-else: callback adds no unsupported outcome 22ms
+     × adult.family-request/missing-option: callback adds no unsupported outcome 22ms
+     × adult.care-request/take-it-on: callback adds no unsupported outcome 22ms
+     × adult.care-request/name-the-limit: callback adds no unsupported outcome 22ms
+     × adult.care-request/wait: callback adds no unsupported outcome 22ms
+     × adult.care-request/missing-option: callback adds no unsupported outcome 22ms
+     × adult.partner-plan/their-way: callback adds no unsupported outcome 23ms
+     × adult.partner-plan/your-way: callback adds no unsupported outcome 22ms
+     × adult.partner-plan/postpone: callback adds no unsupported outcome 22ms
+     × adult.partner-plan/missing-option: callback adds no unsupported outcome 22ms
+     × adult.work-rule-pressure/by-the-book: callback adds no unsupported outcome 23ms
+     × adult.work-rule-pressure/the-usual-way: callback adds no unsupported outcome 22ms
+     × adult.work-rule-pressure/raise-it: callback adds no unsupported outcome 23ms
+     × adult.work-rule-pressure/missing-option: callback adds no unsupported outcome 23ms
+     × adult.work-extra-hours/take-them: callback adds no unsupported outcome 25ms
+     × adult.work-extra-hours/decline: callback adds no unsupported outcome 21ms
+     × adult.work-extra-hours/trade: callback adds no unsupported outcome 21ms
+     × adult.work-extra-hours/missing-option: callback adds no unsupported outcome 21ms
+     × adult.work-colleague-struggling/cover: callback adds no unsupported outcome 21ms
+     × adult.work-colleague-struggling/ask-them: callback adds no unsupported outcome 22ms
+     × adult.work-colleague-struggling/tell-someone: callback adds no unsupported outcome 22ms
+     × adult.work-colleague-struggling/missing-option: callback adds no unsupported outcome 22ms
+     × adult.work-offer-elsewhere/go-for-it: callback adds no unsupported outcome 22ms
+     × adult.work-offer-elsewhere/stay: callback adds no unsupported outcome 22ms
+     × adult.work-offer-elsewhere/use-it: callback adds no unsupported outcome 22ms
+     × adult.work-offer-elsewhere/say-nothing: callback adds no unsupported outcome 21ms
+     × adult.work-offer-elsewhere/missing-option: callback adds no unsupported outcome 22ms
+     × adult.debt-call/pay-it: callback adds no unsupported outcome 20ms
+     × adult.debt-call/negotiate: callback adds no unsupported outcome 20ms
+     × adult.debt-call/borrow: callback adds no unsupported outcome 21ms
+     × adult.debt-call/missing-option: callback adds no unsupported outcome 23ms
+     × adult.small-windfall/put-it-away: callback adds no unsupported outcome 21ms
+     × adult.small-windfall/spend-it: callback adds no unsupported outcome 20ms
+     × adult.small-windfall/give-it: callback adds no unsupported outcome 21ms
+     × adult.small-windfall/missing-option: callback adds no unsupported outcome 26ms
+     × adult.friend-favour/do-it: callback adds no unsupported outcome 21ms
+     × adult.friend-favour/conditions: callback adds no unsupported outcome 22ms
+     × adult.friend-favour/decline: callback adds no unsupported outcome 22ms
+     × adult.friend-favour/missing-option: callback adds no unsupported outcome 21ms
+     × adult.friend-good-news/go: callback adds no unsupported outcome 21ms
+     × adult.friend-good-news/send-word: callback adds no unsupported outcome 20ms
+     × adult.friend-good-news/missing-option: callback adds no unsupported outcome 20ms
+     × adult.local-dispute/speak-at-the-meeting: callback adds no unsupported outcome 19ms
+     × adult.local-dispute/talk-to-them: callback adds no unsupported outcome 19ms
+     × adult.local-dispute/let-it-run: callback adds no unsupported outcome 20ms
+     × adult.local-dispute/missing-option: callback adds no unsupported outcome 21ms
+     × adult.volunteer-ask/sign-up: callback adds no unsupported outcome 20ms
+     × adult.volunteer-ask/once: callback adds no unsupported outcome 20ms
+     × adult.volunteer-ask/no: callback adds no unsupported outcome 20ms
+     × adult.volunteer-ask/missing-option: callback adds no unsupported outcome 20ms
+     × adult.community-building/keep-the-charge: callback adds no unsupported outcome 20ms
+     × adult.community-building/move-it: callback adds no unsupported outcome 19ms
+     × adult.community-building/cut-something-else: callback adds no unsupported outcome 20ms
+     × adult.community-building/find-the-money: callback adds no unsupported outcome 19ms
+     × adult.community-building/missing-option: callback adds no unsupported outcome 20ms
+     × adult.petition-ask/sign: callback adds no unsupported outcome 20ms
+     × adult.petition-ask/help-quietly: callback adds no unsupported outcome 20ms
+     × adult.petition-ask/refuse: callback adds no unsupported outcome 19ms
+     × adult.petition-ask/missing-option: callback adds no unsupported outcome 19ms
+     × adult.candidacy-approach/say-maybe: callback adds no unsupported outcome 20ms
+     × adult.candidacy-approach/say-no: callback adds no unsupported outcome 19ms
+     × adult.candidacy-approach/ask-what-for: callback adds no unsupported outcome 20ms
+     × adult.candidacy-approach/missing-option: callback adds no unsupported outcome 19ms
+     × adult.incident-aftermath/sort-your-own: callback adds no unsupported outcome 20ms
+     × adult.incident-aftermath/help-clear-up: callback adds no unsupported outcome 19ms
+     × adult.incident-aftermath/push-for-answers: callback adds no unsupported outcome 19ms
+     × adult.incident-aftermath/missing-option: callback adds no unsupported outcome 19ms
+     × adult.incident-neighbour-help/help: callback adds no unsupported outcome 20ms
+     × adult.incident-neighbour-help/keep-yours: callback adds no unsupported outcome 20ms
+     × adult.incident-neighbour-help/missing-option: callback adds no unsupported outcome 20ms
+     × adult.promise-comes-due/keep-it: callback adds no unsupported outcome 19ms
+     × adult.promise-comes-due/renegotiate: callback adds no unsupported outcome 20ms
+     × adult.promise-comes-due/drop-it: callback adds no unsupported outcome 21ms
+     × adult.promise-comes-due/missing-option: callback adds no unsupported outcome 21ms
+     × adult.old-favour-returns/help-again: callback adds no unsupported outcome 20ms
+     × adult.old-favour-returns/name-the-difference: callback adds no unsupported outcome 21ms
+     × adult.old-favour-returns/no: callback adds no unsupported outcome 20ms
+     × adult.old-favour-returns/missing-option: callback adds no unsupported outcome 20ms
+     × adult.weekend-invitation/say-yes: callback adds no unsupported outcome 20ms
+     × adult.weekend-invitation/stay-in: callback adds no unsupported outcome 19ms
+     × adult.weekend-invitation/missing-option: callback adds no unsupported outcome 19ms
+     × a petition refusal never becomes a signature in its callback 20ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 96 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-standing/say-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-standing/absorb-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-standing/set-it-out: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-standing/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The business about the week\'s errand…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The business about the week's errands was raised again, and this time not by you."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-money-shortfall/cut-back: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-money-shortfall/say-so: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-money-shortfall/take-the-work: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-money-shortfall/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The extra work you took on to cover t…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The extra work you took on to cover the month came up again."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-quiet-evening/spend-it-together: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-quiet-evening/keep-it-yours: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.household-quiet-evening/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'An evening at home you had not though…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"An evening at home you had not thought twice about turned out to have been remembered."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.family-request/go: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.family-request/stay: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.family-request/split-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.family-request/find-someone-else: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.family-request/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The two weeks you did or did not give…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The two weeks you did or did not give came up again, in a conversation that was about something else."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.care-request/take-it-on: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.care-request/name-the-limit: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.care-request/wait: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.care-request/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you took on came round again, on…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you took on came round again, on a week that had no room for it."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.partner-plan/their-way: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.partner-plan/your-way: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.partner-plan/postpone: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.partner-plan/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The plan you settled on stopped being…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The plan you settled on stopped being settled."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-rule-pressure/by-the-book: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-rule-pressure/the-usual-way: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-rule-pressure/raise-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-rule-pressure/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The business with the rule at work ca…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The business with the rule at work came back, from a direction you had not expected."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-extra-hours/take-them: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-extra-hours/decline: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-extra-hours/trade: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-extra-hours/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The hours you took, or did not take, …' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The hours you took, or did not take, turned out to have been counted."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-colleague-struggling/cover: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-colleague-struggling/ask-them: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-colleague-struggling/tell-someone: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-colleague-struggling/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you did about the colleague who …' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you did about the colleague who was not managing turned out to have been noticed."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-offer-elsewhere/go-for-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-offer-elsewhere/stay: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-offer-elsewhere/use-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-offer-elsewhere/say-nothing: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.work-offer-elsewhere/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you did about the offer turned o…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you did about the offer turned out to have been talked about."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.debt-call/pay-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.debt-call/negotiate: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.debt-call/borrow: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.debt-call/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you still owed came back up, on …' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you still owed came back up, on somebody else's schedule again."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.small-windfall/put-it-away: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.small-windfall/spend-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.small-windfall/give-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.small-windfall/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The money you passed on turned out to…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The money you passed on turned out to have been remembered."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-favour/do-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-favour/conditions: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-favour/decline: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-favour/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The favour turned out to have been re…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The favour turned out to have been remembered rather more precisely than you remembered it."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-good-news/go: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-good-news/send-word: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.friend-good-news/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'Whether you turned up that evening tu…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"Whether you turned up that evening turned out to have been remembered."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.local-dispute/speak-at-the-meeting: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.local-dispute/talk-to-them: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.local-dispute/let-it-run: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.local-dispute/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The business with the other household…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The business with the other household was not over, whatever the meeting had decided."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.volunteer-ask/sign-up: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.volunteer-ask/once: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.volunteer-ask/no: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.volunteer-ask/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The Saturdays you gave, or kept, came…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The Saturdays you gave, or kept, came up again."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.community-building/keep-the-charge: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.community-building/move-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.community-building/cut-something-else: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.community-building/find-the-money: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.community-building/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What was decided about the building c…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What was decided about the building came back round, and the people it had cost were still there."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.petition-ask/sign: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.petition-ask/help-quietly: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.petition-ask/refuse: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.petition-ask/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'Your name on that list turned out to …' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"Your name on that list turned out to have been read and remembered."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.candidacy-approach/say-maybe: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.candidacy-approach/say-no: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.candidacy-approach/ask-what-for: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.candidacy-approach/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The question about standing for somet…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The question about standing for something came back, and this time it was not casual."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-aftermath/sort-your-own: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-aftermath/help-clear-up: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-aftermath/push-for-answers: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-aftermath/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you did in the days afterwards c…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you did in the days afterwards came up again, long after everybody else had stopped talking about it."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-neighbour-help/help: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-neighbour-help/keep-yours: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.incident-neighbour-help/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you gave, or kept, when the othe…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you gave, or kept, when the other household needed it turned out to have been noticed."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.promise-comes-due/keep-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.promise-comes-due/renegotiate: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.promise-comes-due/drop-it: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.promise-comes-due/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'What you said you\'d do came round a …' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"What you said you'd do came round a second time, and there was less room to move it."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.old-favour-returns/help-again: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.old-favour-returns/name-the-difference: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.old-favour-returns/no: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.old-favour-returns/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'The same favour came back a third tim…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"The same favour came back a third time."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.weekend-invitation/say-yes: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.weekend-invitation/stay-in: callback adds no unsupported outcome
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > adult.weekend-invitation/missing-option: callback adds no unsupported outcome
+AssertionError: expected 'Whether you came that Saturday turned…' not to match /your name on|turned out|third time|a…/i
+
+- Expected:
+/your name on|turned out|third time|a second time|this time|counted|had cost|you took on|you passed on|you settled on|you still owed|you handed over|you agreed to|less room|no room|Saturdays|that Saturday|nobody|everybody|whatever the meeting|from a direction|conversation that was about something else/i
+
++ Received:
+"Whether you came that Saturday turned out to have been noticed."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:46:26
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/96]⎯
+
+ FAIL  src/simulation/p2r1-callbacks.test.ts > P2R1 every historical originating option, including withheld keys > a petition refusal never becomes a signature in its callback
+AssertionError: expected 'Your name on that list turned out to …' not to match /your name on|you signed|your signatu…/i
+
+- Expected:
+/your name on|you signed|your signature/i
+
++ Received:
+"Your name on that list turned out to have been read and remembered."
+
+ ❯ src/simulation/p2r1-callbacks.test.ts:52:108
+     50|   it("a petition refusal never becomes a signature in its callback", (…
+     51|     const scene = adultSituationBank().find(s => s.key === "adult.peti…
+     52|     for (const option of scene.options) expect(historicalReturn(scene.…
+       |                                                                                                            ^
+     53|   });
+     54| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/96]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  96 failed | 24 passed (120)
+   Start at  10:10:36
+   Duration  3.54s (transform 700ms, setup 0ms, import 818ms, tests 2.62s, environment 0ms)
+

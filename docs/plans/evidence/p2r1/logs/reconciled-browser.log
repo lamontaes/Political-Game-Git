@@ -1,0 +1,208 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/p2r1-editorial.spec.ts --workers=1
+
+[WebServer] (node:79774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:79775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [chromium] › tests/e2e/p2r1-editorial.spec.ts:4:1 › P2R1 retained adult choices activate by pointer and keyboard on the player surface
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+
+[WebServer] 11:08:45 AM [vite] Internal server error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+[WebServer]       at TransformPluginContext._formatLog (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:31147:39)
+[WebServer]       at TransformPluginContext.error (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:31144:14)
+[WebServer]       at normalizeUrl (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:28083:18)
+[WebServer]       at async file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:28153:30
+[WebServer]       at async Promise.all (index 254)
+[WebServer]       at async TransformPluginContext.transform (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:28119:4)
+[WebServer]       at async EnvironmentPluginContainer.transform (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:30932:14)
+[WebServer]       at async loadAndTransform (file:///Users/lamontae/Documents/Political%20Game/node_modules/vite/dist/node/chunks/node.js:20671:26)
+
+[WebServer] 11:08:45 AM [vite] (client) Pre-transform error: Failed to resolve import "../../art/qa/asset-readiness-escape-fixture/128a2-audit/art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url" from "src/presentation/visual-integration.ts". Does the file exist?
+[WebServer]   Plugin: vite:import-analysis
+[WebServer]   File: /private/tmp/p2r1-production/src/presentation/visual-integration.ts:1:26
+[WebServer]   1  |  ...r_v1.png?url";import { default as __vite_glob_0_254 } from "../../art/qa/asset-readiness-escape-fixture/128a2-audi...
+[WebServer]      |                                                                 ^
+[WebServer]   2  |  import characterCatalog from "../../art/manifest/character_catalog.json";
+[WebServer]   3  |  import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+
+[2/2] [chromium] › tests/e2e/p2r1-editorial.spec.ts:51:1 › P2R1 preserves and reloads the old age-32 calibrated fixture when its next beat is quiet
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/SceneBackdrop.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/SceneGalleryView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/CharacterProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/ProductionOfficeProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/SceneAuthoringProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/OfficeScene.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/TitleScreen.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/TitleTableau.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/ScenePresentationProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/PlayerGame.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/PersonPortrait.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/PoseContactProof.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/CharacterProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/SceneAuthoringProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/ProductionOfficeProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/ScenePresentationProofView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/SceneGalleryView.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/OfficeScene.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/SceneBackdrop.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/TitleScreen.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/PersonPortrait.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/ui/PoseContactProof.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/TitleTableau.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+[WebServer] 11:09:17 AM [vite] (client) [console.error] [vite] Failed to reload /src/player/PlayerGame.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+
+  1) [chromium] › tests/e2e/p2r1-editorial.spec.ts:51:1 › P2R1 preserves and reloads the old age-32 calibrated fixture when its next beat is quiet 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.goto: Test timeout of 30000ms exceeded.
+    Call log:
+      - navigating to "http://127.0.0.1:4197/", waiting until "load"
+
+
+      55 |   // persistence proof. Keep its lost-scene evidence; add proof of the actual
+      56 |   // quiet-state save/reload path instead of changing its seed or assertions.
+    > 57 |   await page.goto("/");
+         |              ^
+      58 |   await startLife(page, { age: 32, calibration: "short" });
+      59 |   for (let asked = 0; asked < 60; asked += 1) {
+      60 |     if ((await page.getByTestId("questionnaire-screen").count()) === 0) break;
+        at /private/tmp/p2r1-production/tests/e2e/p2r1-editorial.spec.ts:57:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/p2r1-editorial-P2R1-preser-0f73f-when-its-next-beat-is-quiet-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/p2r1-editorial-P2R1-preser-0f73f-when-its-next-beat-is-quiet-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/p2r1-editorial-P2R1-preser-0f73f-when-its-next-beat-is-quiet-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/p2r1-editorial-P2R1-preser-0f73f-when-its-next-beat-is-quiet-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › tests/e2e/p2r1-editorial.spec.ts:51:1 › P2R1 preserves and reloads the old age-32 calibrated fixture when its next beat is quiet 
+  1 passed (38.1s)
