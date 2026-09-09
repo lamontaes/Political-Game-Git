@@ -221,6 +221,37 @@ describe("Acceptance 2 — an answer may shape a family and may never author one
     }
   });
 
+  it.each([5, 10, 16])(
+    "preserves actual family topology across calibration at age %i",
+    (startAge) => {
+      for (let seedIndex = 0; seedIndex < 8; seedIndex++) {
+        const setup = {
+          ...CHILD,
+          startAge,
+          seed: `repair6-topology-${seedIndex}`,
+        };
+        const first = createNewGameWorld(calibrate(setup, 0)).world;
+        const second = createNewGameWorld(calibrate(setup, 3)).world;
+        // Compare real relationship kinds and roles, rather than undefined `.kind`
+        // projections of household memberships. IDs/draws may use the bounded seam.
+        const topology = (world: World) => ({
+          people: world.personOrder.length,
+          memberships: world.history.householdMembershipStates.map((state) => ({
+            kind: state.kind,
+            role: state.residenceRole,
+            status: state.status,
+          })),
+          kinship: world.history.kinshipRelationships.map(
+            (entry) => entry.kind,
+          ),
+          authority: world.history.childAuthorities.map((entry) => entry.kind),
+          deaths: world.history.personDeaths.length,
+        });
+        expect(topology(second)).toEqual(topology(first));
+      }
+    },
+  );
+
   it("keeps the whole of the seam to two bounded leans", () => {
     // The claim above rests on there being nothing else in the seam, so the
     // shape of the seam is itself asserted. A future field added here without

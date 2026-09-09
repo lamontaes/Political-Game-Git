@@ -235,7 +235,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "finish-first",
-        label: "Ask to finish first",
+        label: "Ask to finish coloring first",
         aftermath: "You ask {person} to wait while you finish coloring.",
         approach: "ask",
       },
@@ -316,7 +316,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "continue",
-        label: "Keep playing",
+        label: "Keep playing with the bedtime toy",
         aftermath: "You keep playing with the toy.",
       },
     ],
@@ -488,12 +488,12 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "rest",
-        label: "Take a quiet break",
+        label: "Rest for a few minutes",
         aftermath: "You take a quiet break.",
       },
       {
         key: "draw",
-        label: "Draw something",
+        label: "Spend time sketching",
         aftermath: "You spend a little time drawing.",
       },
     ],
@@ -514,7 +514,7 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "listen",
-        label: "Let them choose a topic",
+        label: "Leave the topic to your housemate",
         aftermath: "You let {person} choose a topic.",
         approach: "listen",
       },
@@ -575,13 +575,378 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
       },
       {
         key: "back",
-        label: "Go back to them",
+        label: "Walk back beside them",
         aftermath: "You turn back and walk beside {person}.",
       },
     ],
     5,
   ),
 ];
+
+/** Authored continuations require the actual earlier choice, never a inferred outcome. */
+export const OPENING_LIFE_FOLLOWUPS: Readonly<
+  Record<
+    string,
+    {
+      readonly afterChoice: string;
+      readonly premise: string;
+      readonly choices: readonly LifeSceneChoice[];
+    }
+  >
+> = {
+  "early.school.lunchbox-swap": {
+    afterChoice: "make-secret-swap",
+    premise:
+      "You traded snacks with {person} despite the lunch rule. The exchanged snack is still in front of you.",
+    choices: [
+      {
+        key: "return",
+        label: "Offer to undo the snack trade",
+        aftermath: "You offer {person} their snack back and ask for yours.",
+      },
+      {
+        key: "keep",
+        label: "Keep the exchanged snack",
+        aftermath: "You keep the snack you received from {person}.",
+      },
+    ],
+  },
+  "early.peer.sidewalk-game": {
+    afterChoice: "compromise-rule",
+    premise:
+      "You suggested a trial round to {person}; you have not yet agreed to keep the new rule.",
+    choices: [
+      {
+        key: "trial",
+        label: "Play the proposed trial round",
+        aftermath: "You play one round with the new rule alongside {person}.",
+      },
+      {
+        key: "original",
+        label: "Withdraw the trial and use the agreed rules",
+        aftermath:
+          "You tell {person} you want to stick with the rules you agreed first.",
+      },
+    ],
+  },
+  "early.peer.secret-whisper": {
+    afterChoice: "question-story",
+    premise:
+      "You asked {person} how they knew the story. You still have no evidence that it happened.",
+    choices: [
+      {
+        key: "leave",
+        label: "Leave the unverified story alone",
+        aftermath:
+          "You stop asking about the story and turn back to the reading.",
+      },
+      {
+        key: "boundary",
+        label: "Say you will not repeat an unverified story",
+        aftermath:
+          "You tell {person} you will not repeat the story without knowing it is true.",
+      },
+    ],
+  },
+  "early.peer.dropped-treat": {
+    afterChoice: "comfort-words",
+    premise:
+      "You stayed beside {person} after their snack fell. Your own snack is still yours.",
+    choices: [
+      {
+        key: "offer",
+        label: "Offer a piece after comforting them",
+        aftermath: "You offer {person} a piece of your snack.",
+      },
+      {
+        key: "stay",
+        label: "Stay beside them without offering food",
+        aftermath: "You stay with {person} and keep your snack.",
+      },
+    ],
+  },
+  "early.peer.roughhouse-line": {
+    afterChoice: "state-boundary",
+    premise:
+      "You told {person} that you do not want pushing during tag. You can decide whether to join another round.",
+    choices: [
+      {
+        key: "return",
+        label: "Rejoin tag with the no-pushing boundary",
+        aftermath:
+          "You rejoin the game and repeat that you do not want pushing.",
+      },
+      {
+        key: "end",
+        label: "End your tag game after naming the boundary",
+        aftermath: "You tell {person} you are done with tag for now.",
+      },
+    ],
+  },
+  "early.community.library-quiet": {
+    afterChoice: "laugh-out-loud",
+    premise:
+      "You laughed with {person} during the quiet reading. The reading is still going on.",
+    choices: [
+      {
+        key: "settle",
+        label: "Settle down and listen to the reading",
+        aftermath: "You stop laughing and listen to the reading.",
+      },
+      {
+        key: "move",
+        label: "Choose a quieter spot for the reading",
+        aftermath: "You move away from {person} and listen from another spot.",
+      },
+    ],
+  },
+  "early.school.crayon-sharing": {
+    afterChoice: "hand-over",
+    premise:
+      "You handed the blue crayon to {person} and chose another color. Your drawing is still in front of you.",
+    choices: [
+      {
+        key: "other",
+        label: "Continue the drawing in the other color",
+        aftermath: "You keep drawing with the color you chose after sharing.",
+      },
+      {
+        key: "ask",
+        label: "Ask for the blue crayon when they finish",
+        aftermath:
+          "You ask {person} to pass the blue crayon back when they finish.",
+      },
+    ],
+  },
+  "early.school.playground-turn": {
+    afterChoice: "ask-turn",
+    premise:
+      "You asked {person} for a turn on the swing. Asking has not given you a turn yet.",
+    choices: [
+      {
+        key: "wait",
+        label: "Wait after asking for the swing",
+        aftermath: "You stay beside the swing to wait for a turn.",
+      },
+      {
+        key: "leave",
+        label: "Leave the swing after asking",
+        aftermath: "You tell {person} you are going to play somewhere else.",
+      },
+    ],
+  },
+  "early.school.spilled-paint": {
+    afterChoice: "apologize",
+    premise:
+      "You apologized and blotted the wet drawing. The spill still happened; you cannot undo it by apologizing.",
+    choices: [
+      {
+        key: "offer",
+        label: "Offer a fresh sheet for the drawing",
+        aftermath: "You offer {person} a fresh sheet of paper.",
+      },
+      {
+        key: "ask",
+        label: "Ask what help they want with the drawing",
+        aftermath: "You ask {person} what they want you to do next.",
+      },
+    ],
+  },
+  "early.home.bedtime-delay": {
+    afterChoice: "ask",
+    premise:
+      "You asked {person} for more time with the toy. You have not been given permission to stay up.",
+    choices: [
+      {
+        key: "put-away",
+        label: "Put the toy away while the request stands",
+        aftermath:
+          "You put away the toy rather than treating your request as permission.",
+      },
+      {
+        key: "clarify",
+        label: "Ask whether they can give you a few minutes",
+        aftermath: "You ask {person} whether a few more minutes are possible.",
+      },
+    ],
+  },
+  "early.home.broken-mug": {
+    afterChoice: "tell",
+    premise:
+      "You told {person} how the mug broke. Pieces are still on the floor.",
+    choices: [
+      {
+        key: "step",
+        label: "Step away from the broken mug pieces",
+        aftermath: "You step away from the pieces and leave them for an adult.",
+      },
+      {
+        key: "warn",
+        label: "Point out where the mug pieces fell",
+        aftermath:
+          "You point out the broken pieces to {person} without touching them.",
+      },
+    ],
+  },
+  "early.home.food-refusal": {
+    afterChoice: "try",
+    premise: "You tried a bite of broccoli. There is still some on your plate.",
+    choices: [
+      {
+        key: "another",
+        label: "Choose another bite of broccoli",
+        aftermath: "You take another bite of broccoli.",
+      },
+      {
+        key: "enough",
+        label: "Say one bite is enough for now",
+        aftermath:
+          "You tell {person} you have tried it and do not want another bite.",
+      },
+    ],
+  },
+  "early.home.closet-fear": {
+    afterChoice: "lamp",
+    premise:
+      "You turned on the lamp. You can see the closet door while the branch moves outside.",
+    choices: [
+      {
+        key: "look",
+        label: "Look at the branch with the lamp on",
+        aftermath:
+          "You look from the window to the door and watch the shadow move.",
+      },
+      {
+        key: "leave-on",
+        label: "Leave the lamp on and settle back down",
+        aftermath: "You leave the lamp on and settle back down.",
+      },
+    ],
+  },
+  "early.peer.toy-damage-accidental": {
+    afterChoice: "show",
+    premise:
+      "You showed {person} the broken wheel and apologized. The toy is still broken.",
+    choices: [
+      {
+        key: "help",
+        label: "Ask before trying to repair their truck",
+        aftermath:
+          "You ask {person} whether they want you to try putting the wheel back.",
+      },
+      {
+        key: "return",
+        label: "Return the truck and loose wheel together",
+        aftermath: "You give {person} the truck and its loose wheel.",
+      },
+    ],
+  },
+  "young.home.choose-activity": {
+    afterChoice: "draw",
+    premise:
+      "You spent some time drawing. You can decide what to do with the picture you made.",
+    choices: [
+      {
+        key: "add",
+        label: "Add one more detail to your picture",
+        aftermath: "You add another detail to your drawing.",
+      },
+      {
+        key: "keep",
+        label: "Put your picture somewhere safe",
+        aftermath: "You put your drawing aside to keep it.",
+      },
+    ],
+  },
+  "young.home.ask-about-childhood": {
+    afterChoice: "ask",
+    premise:
+      "You asked {person} about school. Your question does not establish any facts about their childhood.",
+    choices: [
+      {
+        key: "space",
+        label: "Give them room to answer the school question",
+        aftermath: "You leave space for {person} to answer if they want to.",
+      },
+      {
+        key: "change",
+        label: "Ask if they would prefer a different subject",
+        aftermath:
+          "You ask {person} whether they would rather talk about something else.",
+      },
+    ],
+  },
+  "adult.home.free-time": {
+    afterChoice: "read",
+    premise:
+      "You spent some of your free time reading. You can keep going or put the book aside.",
+    choices: [
+      {
+        key: "more",
+        label: "Read a little more before putting the book down",
+        aftermath: "You spend a few more minutes reading.",
+      },
+      {
+        key: "mark",
+        label: "Mark your place and put the book aside",
+        aftermath: "You mark your place and put the book aside.",
+      },
+    ],
+  },
+  "adult.home.shared-time": {
+    afterChoice: "quiet",
+    premise:
+      "You asked {person} for quiet time. You have stated what you need, not made a shared agreement.",
+    choices: [
+      {
+        key: "alone",
+        label: "Take a few quiet minutes on your own",
+        aftermath: "You take a few quiet minutes on your own.",
+      },
+      {
+        key: "explain",
+        label: "Explain that you would like to talk another time",
+        aftermath: "You tell {person} you would like to talk another time.",
+      },
+    ],
+  },
+  "early.community.lost-pet-flyer": {
+    afterChoice: "show",
+    premise:
+      "You pointed out the cat and flyer to {person}. A resemblance does not establish that this is the missing cat.",
+    choices: [
+      {
+        key: "watch",
+        label: "Watch the cat without approaching it",
+        aftermath:
+          "You stay beside {person} and watch the cat from a distance.",
+      },
+      {
+        key: "compare",
+        label: "Ask them to compare the cat with the flyer",
+        aftermath:
+          "You ask {person} to look at the flyer and the cat together.",
+      },
+    ],
+  },
+  "early.community.sidewalk-curb": {
+    afterChoice: "wait",
+    premise:
+      "You stopped at the curb and {person} caught up. You are still on the sidewalk.",
+    choices: [
+      {
+        key: "beside",
+        label: "Continue along the sidewalk beside them",
+        aftermath: "You continue along the sidewalk beside {person}.",
+      },
+      {
+        key: "hand",
+        label: "Ask to hold their hand at the curb",
+        aftermath: "You ask {person} to hold your hand before going farther.",
+      },
+    ],
+  },
+};
 
 /** Retain accepted 92C stages; only genuinely additional kernels enter this bank. */
 export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
@@ -645,6 +1010,35 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
             key: choice.key,
             label: choice.label,
             description: `${scene.minutes} minutes`,
+            memory: choice.aftermath.replaceAll("{person}", slot),
+            nudges: [],
+            aftermath: null,
+          })),
+        },
+        {
+          key: "follow-through",
+          requires: [
+            ...requirements,
+            {
+              kind: "after-choice",
+              stage: "moment",
+              option: OPENING_LIFE_FOLLOWUPS[scene.key]!.afterChoice,
+            },
+          ],
+          recordSceneContext: true,
+          lines: [
+            OPENING_LIFE_FOLLOWUPS[scene.key]!.premise.replaceAll(
+              "{person}",
+              slot,
+            ),
+          ],
+          stakes: "ordinary",
+          tensions: [],
+          mayLeadTo: [],
+          options: OPENING_LIFE_FOLLOWUPS[scene.key]!.choices.map((choice) => ({
+            key: choice.key,
+            label: choice.label,
+            description: "5 minutes",
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],
             aftermath: null,

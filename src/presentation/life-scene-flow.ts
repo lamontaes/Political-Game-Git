@@ -23,6 +23,7 @@ import {
   OPENING_LIFE_SCENES,
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
+  OPENING_LIFE_FOLLOWUPS,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -119,6 +120,22 @@ function castFor(
     );
 }
 
+function definitionAtStage(
+  definition: LifeSceneDefinition,
+  stageKey: string,
+): LifeSceneDefinition {
+  if (stageKey === "moment") return definition;
+  const followup = OPENING_LIFE_FOLLOWUPS[definition.key];
+  if (stageKey !== "follow-through" || !followup)
+    throw new Error("Unknown opening stage.");
+  return {
+    ...definition,
+    minutes: 5,
+    premise: followup.premise,
+    choices: followup.choices,
+  };
+}
+
 /** All eligible definitions are inspectable without creating a person or event. */
 export function availableOpeningLifeScenes(world: World, personId: EntityId) {
   const person = world.people[personId];
@@ -151,7 +168,13 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
     if (counterpartPersonId !== (beat.bindings[0]?.personId ?? null)) return [];
     return counterpartPersonId === undefined
       ? []
-      : [{ definition, counterpartPersonId, beat }];
+      : [
+          {
+            definition: definitionAtStage(definition, beat.stageKey),
+            counterpartPersonId,
+            beat,
+          },
+        ];
   });
 }
 
@@ -184,8 +207,13 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
   )
     return null;
   const key = opened.tags.find((tag) => tag.startsWith("family:"))?.slice(7);
-  const definition = OPENING_LIFE_SCENES.find((entry) => entry.key === key);
-  if (!definition) return null;
+  const baseDefinition = OPENING_LIFE_SCENES.find((entry) => entry.key === key);
+  if (!baseDefinition) return null;
+  const stageKey =
+    opened.tags
+      .find((tag) => tag.startsWith("opening-stage:"))
+      ?.slice("opening-stage:".length) ?? "moment";
+  const definition = definitionAtStage(baseDefinition, stageKey);
   const counterpartPersonId =
     opened.participants.find((p) => p.role === "coordination:counterpart")
       ?.personId ?? null;
@@ -195,6 +223,7 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
       .map((participant) => participant.personId)
       .filter((id) => alive(world, id)),
     eventId: opened.id,
+    stageKey,
     definition,
     counterpartPersonId,
     prose: opened.summary,
@@ -235,26 +264,19 @@ export function openNextLifeScene(
     throw new Error(
       "A new backdrop is not travel. A place transition is required.",
     );
-  const used = new Set(
-    world.history.events
-      .filter(
-        (event) =>
-          event.type === OPEN && event.involvedEntityIds.includes(personId),
-      )
-      .flatMap((event) => event.tags),
-  );
   const eligible = availableOpeningLifeScenes(world, personId).filter(
-    ({ definition }) =>
+    ({ definition, beat }) =>
       definition.setting === setting &&
-      (definition.recurrence === "daily"
-        ? !world.history.events.some(
-            (event) =>
-              event.type === OPEN &&
-              event.involvedEntityIds.includes(personId) &&
-              event.occurredAt === world.currentDate &&
-              event.tags.includes(`family:${definition.key}`),
-          )
-        : !used.has(`family:${definition.key}`)),
+      !world.history.events.some(
+        (event) =>
+          event.type === OPEN &&
+          event.involvedEntityIds.includes(personId) &&
+          event.tags.includes(`family:${definition.key}`) &&
+          (event.tags.find((tag) => tag.startsWith("opening-stage:")) ??
+            "opening-stage:moment") === `opening-stage:${beat.stageKey}` &&
+          (definition.recurrence !== "daily" ||
+            event.occurredAt === world.currentDate),
+      ),
   );
   if (!eligible.length) return world;
   const index =
@@ -279,7 +301,7 @@ export function openNextLifeScene(
         : "In your neighborhood";
   const summary = beat.prose;
   let next = recordWorldEvent(world, {
-    stableKey: `opening-life:scene:${personId}:${definition.key}${definition.recurrence === "daily" ? `:${world.currentDate}` : ""}`,
+    stableKey: `opening-life:scene:${personId}:${definition.key}${definition.recurrence === "daily" ? `:${world.currentDate}` : ""}${beat.stageKey === "moment" ? "" : `:${beat.stageKey}`}`,
     type: OPEN,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
@@ -313,6 +335,7 @@ export function openNextLifeScene(
     tags: [
       "opening-life-v1",
       `family:${definition.key}`,
+      `opening-stage:${beat.stageKey}`,
       "provenance:authored-premise",
       `moment:${JSON.stringify(world.currentMoment)}`,
     ],
@@ -371,7 +394,9 @@ export function chooseOpeningLifeScene(
     personId,
     families: OPENING_LIFE_FAMILIES,
   }).beats.find(
-    (beat) => beat.episodeKey === `opening.${scene.definition.key}`,
+    (beat) =>
+      beat.episodeKey === `opening.${scene.definition.key}` &&
+      beat.stageKey === scene.stageKey,
   );
   if (!beat) throw new Error("The episode's prerequisites changed.");
   const played = playEpisodeOption(world, {

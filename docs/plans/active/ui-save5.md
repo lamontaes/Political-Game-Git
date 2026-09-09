@@ -59,3 +59,18 @@ qualification delta is requested separately. OPENING's pending four-file repair
 will be consumed only after publication. LAND holds the heavy/browser slot;
 no local heavy/browser run starts before explicit release. Combined corpus and
 affected validation follow composition; prior donor counts remain attributed.
+
+## OPENING-REPAIR6 consumption
+
+Published donor8fdbe588d5dfcba1544524f3cebe9a58dd0c8232, base
+e890e4d1822481a00a8111a021e66b0c177ca3d1: applied exact four-source delta
+(new-game, production-world, life-scene-flow, opening-life-content), new
+20-family branch tests, scene-stage traversal checks, and additive topology
+checks across three ages/eight seeds. The original preference comparison and
+conversation control/fixture files are unchanged. Household topology now uses
+the existing pre-calibration identity seed; calibrated draws remain separate.
+
+Owner-reported isolated68/68 on UI1119e890 is preserved as donor proof, not
+relabeled as this combined LEG/OPENING composition. Local heavy/browser tests
+remain paused for LAND. Combined generation, QUAL consumption and final gates
+remain pending; no new acceptance claim.
