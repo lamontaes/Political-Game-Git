@@ -44,6 +44,6 @@ test("EDU real institution search, explicit offer, study, interruption and save"
   await page.getByRole("button", { name: "Save study journey" }).click();
   await page.reload();
   await expect(
-    page.getByText("Active. 2 attended sessions.", { exact: true }),
+    page.getByText("active. 2 attended sessions.", { exact: true }),
   ).toBeVisible();
 });

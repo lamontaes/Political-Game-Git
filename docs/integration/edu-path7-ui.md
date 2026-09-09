@@ -15,3 +15,11 @@ Normal route acceptance must include institution search, compare/detail, request
 `tests/e2e/edu-path7.spec.ts` exercises the feature diagnostic at `/edu-path7-proof.html`; this is a synthetic2026 world with real locked source data, not a normal-route acceptance claim. It must not be relabeled as normal production proof.
 
 All degree/grade capabilities remain browseable with missing exact program/admission/prerequisite fields stated. Only reported noncredit categories create explicitly game-authored offers. No degree/license is conferred by these completion records. Historical founding, exact tuition and individualized admission remain unknown.
+
+## Published checkpoint
+
+EDU code/source head: `89a0049ecf7f952a657a2b73acfa5896f0a42b48`, draft PR 153. UI owner acknowledged initial mount at `2da3404325b1041cde2bdcb0c22bd8b79a6cb3da` and received the current-edition delta. This is an application receipt for the initial mount, not completed normal-route proof.
+
+Current validation: 24 source/provider/LIFE tests passed in the combined run. One existing prose test exceeded its five-second timeout; the isolated single-worker prose rerun passed all 40 tests without a code change. App and Node TypeScript, lint, source replay, art validation, art inventory and art QA passed. The source replay is byte-identical. The feature browser diagnostic passed 1/1 in Chromium (run `edu-path7-20260909-r2`, 11.2 seconds), including pointer/keyboard request, acceptance, study, interruption, save/reload, return and another attended session/save/reload. The first run reached the correct state but failed a test-only uppercase `Active` expectation; existing LIFE renders `active`, and the corrected assertion passed. The normal player Save/reload journey remains pending UI integration proof. The shared browser slot was explicitly released to UI after this finite run. Human visual acceptance remains open.
+
+The isolated branch is clean at the code checkpoint. The original detached workspace and its pre-existing image changes were not modified. No merge or monitoring was performed. The active plan stays active until the remaining journey proof is recorded.
