@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { planLifeScenePeople } from "../src/presentation/life-scene-people";
-import { DOMESTIC_CANONICAL_SCENE_ID } from "../src/presentation/scene-registry";
+import {
+  DOMESTIC_CANONICAL_SCENE_ID,
+  SCENE_REGISTRY,
+} from "../src/presentation/scene-registry";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import type { ScenePerson } from "../src/presentation/life-story";
 import type { EntityId, NewGameSetup } from "../src/simulation";
@@ -109,6 +112,57 @@ describe("The generated people stand in the room", () => {
     // Never more people than the room has places, and no anchor used twice.
     const anchors = once.map((p) => p.anchorId);
     expect(new Set(anchors).size).toBe(anchors.length);
-    expect(once.length).toBeLessThanOrEqual(3);
+    const scene = SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!;
+    const usable = [...scene.anchors.values()].filter(
+      (anchor) =>
+        (anchor.kind === "seat" || anchor.kind === "floor-standing") &&
+        (anchor.footprintPercent ?? scene.standardBodyWidthPercent ?? 0) > 0,
+    );
+    expect(usable.length).toBeGreaterThan(3);
+    expect(once).toHaveLength(Math.min(scenePeople(8).length, usable.length));
+    for (const person of once) {
+      const anchor = usable.find(
+        (candidate) => candidate.id === person.anchorId,
+      );
+      expect(anchor).toBeDefined();
+      expect(person.seated).toBe(anchor!.kind === "seat");
+      expect(scenePeople(8)).toContainEqual(
+        expect.objectContaining({
+          personId: person.personId,
+          name: person.name,
+          relationship: person.relationship,
+        }),
+      );
+    }
+    // Both under-capacity and overflow input obey the authored room contract.
+    for (const count of [
+      0,
+      1,
+      usable.length,
+      usable.length + 1,
+      usable.length + 7,
+    ]) {
+      const placed = planLifeScenePeople(
+        world,
+        scenePeople(count),
+        scene.sceneId,
+      );
+      expect(placed).toHaveLength(Math.min(count, usable.length));
+      expect(new Set(placed.map((person) => person.anchorId)).size).toBe(
+        placed.length,
+      );
+      expect(new Set(placed.map((person) => person.personId)).size).toBe(
+        placed.length,
+      );
+    }
   });
+});
+
+it("keeps uncalibrated named presence distinct from real art", () => {
+  const { world } = aWorld();
+  const scene = SCENE_REGISTRY.scenes.get(DOMESTIC_CANONICAL_SCENE_ID)!;
+  expect(scene.floorCalibration).toBeNull();
+  const placed = planLifeScenePeople(world, scenePeople(2), scene.sceneId);
+  expect(placed).toHaveLength(2);
+  expect(placed.every((person) => !person.hasArt)).toBe(true);
 });

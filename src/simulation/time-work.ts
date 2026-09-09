@@ -1134,7 +1134,8 @@ function projectStaffProgress(
   const occupiedMinutes = new Map<EntityId, Set<number>>();
   for (const item of world.history.workItems) {
     // A linked employment/volunteer engagement is authority for this work.
-    // Legacy unbound items retain their existing semantics.
+    // Legacy unbound items retain their eligibility; the single-minute
+    // capacity budget below applies to every assignment, including those.
     const engagements = world.history.workRelationships.filter((work) =>
       item.sourceEntityIds.includes(work.id),
     );

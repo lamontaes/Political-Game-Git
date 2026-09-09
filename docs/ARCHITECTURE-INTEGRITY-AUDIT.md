@@ -901,3 +901,31 @@ registries/compositors/anchors and normal-player navigation are preserved.
 
 Validation and exact final head are recorded in the DEV-LAB2 owning plan and
 PR. Human visual and independent acceptance are not implied by this audit.
+
+## UI transfer adapter composition audit — 2026-09-08
+
+The exclusive UI recipient composes the frozen LIFE, EXEC, JUD, PEOPLE, ENV and
+LEG adapters with the recovered production shell. One canonical World, person,
+clock and save repository remain authoritative. Shell references use the existing
+database's additive interface store; navigation and record reads do not advance
+simulation time. No Stage 6 policy/mind rule or probability model is changed.
+
+- **Corrected expectations:** LIFE-PATHS2's supplied contention regression explicitly
+  requires one assignee minute across all assignments, including unbound legacy
+  WorkItems. The older D-Lite fixture expected 65 minutes on the meeting brief and
+  another 50 minutes on the same person's summary during one 65-minute interval.
+  Its timing assertions now verify the earlier task's 65 minutes, zero concurrent
+  summary work, and both tasks' 140 total minutes after 140 elapsed minutes. Player
+  activity timing and subsequent travel/meeting assertions are preserved. The
+  new shared-capacity rule is not scoped away to grandfather double execution.
+- **Corrected expectations:** PEOPLE's owner-supplied placement test uses the
+  registered room's actual anchor capacity and retains uniqueness/determinism,
+  with an added no-real-art-without-calibration guard. The old arbitrary cap of
+  three does not override authored room geometry.
+- **Confirmed compatible:** exact selected-person/document IDs, eligible Talk,
+  save/reload reference order/size, actual completed-attendance place/presence,
+  and released-art gates have bounded normal-route browser proof.
+- **Dependency-bound:** OPENING/MUNI final root integration and complete composed
+  proof remain pending their immutable deliveries. Historical raster decode-error
+  and placeholder-consumer findings remain explicit UI follow-ups. Automated proof
+  does not constitute human visual acceptance.
