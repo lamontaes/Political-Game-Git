@@ -1,6 +1,6 @@
 # FISCAL-ACTIVATE1 production activation
 
-Status: active
+Status: complete
 Owner: Codex `codex/fiscal-activate1`
 Base: `1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b`
 
@@ -107,3 +107,30 @@ Current-authority exercise refuses at this legislative boundary.
   seated legislature may open Work to analyze a proposed change while the
   current-law result remains `UNESTABLISHED`; no proposal action converts it to
   `PERMITTED` or creates a fiscal forecast.
+
+## Final verification — 2026-09-09
+
+- First full validation on the recovered pre-reconciliation tree recorded its
+  exact non-green result: 3,208 tests passed, 15 failed, 6 skipped, plus one
+  failed suite. The actionable fiscal defects were an edict-domain allowlist
+  assertion and stale deterministic prose counts/artifacts; other failures were
+  five-second timeouts during an overlapping heavy-run window. The allowlist
+  was extended only for this rights-scoped legal-source domain, the canonical
+  prose generator was rerun, and the exact failed corpus/legal-source controls
+  then passed 70/70 serially.
+- After the shared validation queue released FISCAL, fresh `origin/main`
+  `fc8a4c8d7beec1d82ba049b4d091c260e7de4d7e` was merged. The only conflicts were
+  five deterministically generated prose files/counts; they were regenerated
+  on the combined tree rather than choosing either side's stale output.
+- Full `npm run validate` passed on clean reconciled head
+  `a715bd28de62f34d4eb76f564e7ae567783f5386`: 181 test files passed, 3,272 tests
+  passed, 2 skipped; source validation reported 12 fiscal records and no fiscal
+  errors; source replay was byte-identical; build, deterministic demo, and art
+  validation passed. The build retained the repository's existing chunk-size
+  warning and source validation retained its declared non-fiscal gates/warnings.
+- `npm run inventory:art` passed with 329 items and `npm run qa:art` generated
+  the existing contact sheet/report. Focused fiscal verification passed 84/84;
+  all three fiscal artifacts rehashed exactly and the corpus replayed cleanly.
+- No player UI root, treasury, balance store, forecast, release activation,
+  deployment, merge, or background monitor was added or started. The delivery
+  is one draft, unmerged implementation PR.
