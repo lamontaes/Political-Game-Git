@@ -25,7 +25,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
-  await expect(paths.getByRole("status")).toHaveText(
+  await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "You already have a commitment at that time.",
   );
   await page
@@ -37,7 +37,7 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
-  await expect(paths.getByRole("status")).toHaveText(
+  await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "The session is on your calendar.",
   );
   await goTo(page, "nav-calendar");
@@ -112,7 +112,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
-  await expect(paths.getByRole("status")).toHaveText(
+  await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "You already have a commitment at that time.",
   );
   await page
@@ -124,7 +124,7 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
-  await expect(paths.getByRole("status")).toHaveText(
+  await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "The session is on your calendar.",
   );
   await goTo(page, "nav-calendar");

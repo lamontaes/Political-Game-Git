@@ -70,7 +70,11 @@ test("normal dated education offer, attendance, interruption and repeated saving
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
     .click();
-  await expect(page.getByTestId("venue-activity-completed")).toBeVisible();
+  await expect(
+    page
+      .getByTestId("ordinary-section")
+      .getByTestId("venue-activity-completed"),
+  ).toBeVisible();
   await openElsewhere(page, "work");
   await study
     .getByRole("button", { name: "Schedule next session", exact: true })

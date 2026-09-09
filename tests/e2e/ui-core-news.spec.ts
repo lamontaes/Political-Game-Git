@@ -121,7 +121,9 @@ test("opening the normal press request form creates no request or consent", asyn
     form.getByRole("button", { name: "Send request" }),
   ).toBeDisabled();
   await expect(
-    form.getByLabel("Reporter", { exact: true }).locator("option"),
+    form
+      .getByRole("combobox", { name: "Reporter", exact: true })
+      .locator("option"),
   ).toHaveCount(1);
   await form
     .getByLabel("Your pitch")
