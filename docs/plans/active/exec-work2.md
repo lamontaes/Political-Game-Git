@@ -89,7 +89,10 @@ requirements instead of claiming an unavailable route is accepted.
 - Earlier CI passed repository format/lint and identified two test record/state
   property mistakes, corrected. Subsequent focused tests caught two real pending
   Work invariant errors, also corrected without weakening shared invariants.
-- Full unit-suite run and final exact-head CI result remain to be recorded.
+- Full unit-suite attempt (one worker) canceled after approximately nine minutes
+  without a summary; its known worker was idle for several minutes. Full-suite
+  validation is incomplete. Exact-head CI observation at `f9e023a` was in progress.
+  No full-validation green or human acceptance is claimed.
 
 Single draft PR: https://github.com/lamontaes/Political-Game-Git/pull/140 .
 No merge, automation, or monitoring. Acceptance remains **incomplete / draft**
