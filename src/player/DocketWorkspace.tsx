@@ -1,3 +1,13 @@
+import { projectMeasureBriefing } from "../presentation/legislation-projection";
+import { regularSessionWindow } from "../presentation/legislative-session-window";
+import { legislativeBlueprint } from "../simulation";
+import {
+  currentCompositionDraft,
+  previewBillComposition,
+  saveBillComposition,
+  savedBillComposition,
+} from "../presentation/legislation-composition";
+import { projectLegislativeOfficeContext } from "../presentation/legislative-office-context";
 import { useMemo, useState } from "react";
 
 import type { EntityId, World } from "../simulation";
@@ -21,7 +31,7 @@ import {
   docketBill,
   availableAuthorities,
   availableDraftOptions,
-  fileDraft,
+  fileDraftFromOffice as fileDraft,
   previewDraft,
   queryDocket,
   resolveAuthority,
@@ -82,6 +92,7 @@ export function DocketWorkspace({
   const [selectedKey, setSelectedKey] = useState<string | null>(() =>
     selectedDocketKey(world, scenarioKey, playerPersonId),
   );
+  const officeContext = projectLegislativeOfficeContext(world, playerPersonId);
   const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -100,9 +111,41 @@ export function DocketWorkspace({
     setSelectedKey(null);
   }
 
+  const sessionWindow = regularSessionWindow(
+    legislativeBlueprint(scenarioKey).pack,
+    world.currentDate,
+  );
   return (
     <section className="docket" data-testid="docket">
       <h3 className="docket-heading">The bills this office is carrying</h3>
+      {officeContext.member.kind === "member" ? (
+        <details data-testid="docket-office-record">
+          <summary>{officeContext.member.label}</summary>
+          <p>
+            Work recorded from {officeContext.member.recordedWorkStartedAt}. The
+            legal term dates are not established by that work record.
+          </p>
+          <p>{officeContext.committeeMembership.reason}</p>
+        </details>
+      ) : null}
+
+      {sessionWindow.kind === "past-outer-limit" ? (
+        <p data-testid="docket-session-limit">
+          The configured regular-session deadline was {sessionWindow.deadline}.
+          No exceptional-session record is available for procedural work.{" "}
+          {sessionWindow.source.sourceUrl ? (
+            <a
+              href={sessionWindow.source.sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {sessionWindow.source.citation}
+            </a>
+          ) : (
+            sessionWindow.source.citation
+          )}
+        </p>
+      ) : null}
 
       {page.total === 0 ? (
         <p className="docket-empty" data-testid="docket-empty">
@@ -382,6 +425,15 @@ function FiledBillPanel({
     () => currentMeasureProvisions(world, bill.measureId),
     [world, bill.measureId],
   );
+  const briefing = useMemo(
+    () => projectMeasureBriefing(world, bill.measureId),
+    [world, bill.measureId],
+  );
+  const officeRecord = projectLegislativeOfficeContext(
+    world,
+    playerPersonId,
+    bill.measureId,
+  );
   const analysis = useMemo(() => billAnalysis(world, bill), [world, bill]);
   const [startsOn, setStartsOn] = useState<string>(world.currentDate);
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
@@ -477,6 +529,28 @@ function FiledBillPanel({
           </dd>
         </div>
       </dl>
+
+      <details data-testid="docket-recorded-history">
+        <summary>Recorded bill history</summary>
+        {officeRecord.measure.kind === "measure" &&
+        officeRecord.measure.lastRecordedReferral ? (
+          <p>
+            {officeRecord.measure.lastRecordedReferral.label}. Recorded{" "}
+            {officeRecord.measure.lastRecordedReferral.referredAt}.
+          </p>
+        ) : null}
+        <ol>
+          {briefing.history.map((line, index) => (
+            <li key={`${line.when}:${index}`}>
+              <strong>
+                {line.when}: {line.headline}
+              </strong>
+              <p>{line.detail}</p>
+              {line.voteSummary ? <p>{line.voteSummary}</p> : null}
+            </li>
+          ))}
+        </ol>
+      </details>
 
       <h5 className="docket-subheading">The bill as it currently reads</h5>
       <ol className="docket-clauses" data-testid="docket-clauses">
@@ -598,12 +672,157 @@ function FiledBillPanel({
       >
         Take {bill.designation} to the members&rsquo; room
       </button>
+      <BillCompositionEditor
+        key={`${bill.docketKey}:${provisions.map((p) => p.id).join(":")}`}
+        world={world}
+        bill={bill}
+        personId={playerPersonId}
+        onWorldChange={onWorldChange}
+      />
       {floorNote ? (
         <p className="docket-error" data-testid="docket-floor-note">
           {floorNote}
         </p>
       ) : null}
     </article>
+  );
+}
+
+/** Existing typed controls compare all affected sections before one explicit offer. */
+function BillCompositionEditor({
+  world,
+  bill,
+  personId,
+  onWorldChange,
+}: {
+  readonly world: World;
+  readonly bill: DocketBill;
+  readonly personId: EntityId;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const base = useMemo(() => {
+    try {
+      return { draft: currentCompositionDraft(world, bill, personId) };
+    } catch (error) {
+      return {
+        reason:
+          error instanceof Error
+            ? error.message
+            : "This bill cannot be recomposed.",
+      };
+    }
+  }, [world, bill, personId]);
+  const [values, setValues] = useState<
+    Readonly<Record<string, ProgramParameterValue>>
+  >(() => savedBillComposition(world, bill, personId) ?? {});
+  const [message, setMessage] = useState<string | null>(null);
+  const preview = useMemo(() => {
+    if (!base.draft) return null;
+    try {
+      return { value: previewBillComposition(world, bill, personId, values) };
+    } catch (error) {
+      return {
+        reason:
+          error instanceof Error
+            ? error.message
+            : "These changes cannot be combined.",
+      };
+    }
+  }, [base, world, bill, personId, values]);
+  const canOffer =
+    projectLegislativeOfficeContext(world, personId).member.kind === "member";
+  return (
+    <details className="docket-composition" data-testid="docket-composition">
+      <summary>Compare changes to this bill</summary>
+      {!base.draft ? (
+        <p>{base.reason}</p>
+      ) : (
+        <>
+          <p>
+            Save a private working copy of compatible changes and read every
+            affected section. The bill's current text changes only after a
+            recorded amendment adopts these proposed changes.
+          </p>
+          <div className="drafting-controls">
+            {base.draft.parameters.map((spec) => (
+              <ParameterControl
+                key={spec.key}
+                idPrefix="amend-param"
+                spec={spec}
+                value={
+                  values[spec.key] ?? base.draft.parameterValues[spec.key]!
+                }
+                onChange={(value) =>
+                  setValues((previous) => ({ ...previous, [spec.key]: value }))
+                }
+              />
+            ))}
+          </div>
+          {preview?.reason ? <p role="alert">{preview.reason}</p> : null}
+          {preview?.value ? (
+            <div data-testid="composition-comparison">
+              {preview.value.changes.length === 0 ? (
+                <p>No section changes selected.</p>
+              ) : (
+                preview.value.changes.map((change) => (
+                  <section key={change.before.provisionKey}>
+                    <h5>
+                      Section {change.after.sectionNumber}:{" "}
+                      {change.after.heading}
+                    </h5>
+                    <p>
+                      <strong>Current:</strong> {change.before.text}
+                    </p>
+                    <p>
+                      <strong>Proposed:</strong> {change.after.text}
+                    </p>
+                  </section>
+                ))
+              )}
+              <button
+                type="button"
+                data-testid="save-composed-amendment"
+                className="ui-action"
+                disabled={!canOffer || preview.value.changes.length === 0}
+                onClick={() => {
+                  try {
+                    const result = saveBillComposition(world, {
+                      scenarioKey: bill.scenarioKey,
+                      docketKey: bill.docketKey,
+                      playerPersonId: personId,
+                      parameterValues: values,
+                      expectedProvisionIds: currentMeasureProvisions(
+                        world,
+                        bill.measureId,
+                      ).map((p) => p.id),
+                    });
+                    onWorldChange(result.world);
+                    setMessage(
+                      "Proposed changes saved. The bill’s text is unchanged.",
+                    );
+                  } catch (error) {
+                    setMessage(
+                      error instanceof Error
+                        ? error.message
+                        : "The amendment could not be offered.",
+                    );
+                  }
+                }}
+              >
+                Save these proposed changes
+              </button>
+              {!canOffer ? (
+                <p>
+                  A supported member seat is required to save proposed changes
+                  for this legislature.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+          {message ? <p role="status">{message}</p> : null}
+        </>
+      )}
+    </details>
   );
 }
 
@@ -793,7 +1012,7 @@ function DraftingTable({
                 <p className="docket-error" data-testid="drafting-no-authority">
                   There is nothing here for this bill to act on yet.{" "}
                   {option.requiresSpendingAuthority
-                    ? "An appropriation has to name a programme that is already authorized to spend — pass one first, or choose a different kind of bill."
+                    ? "An appropriation has to name a program that is already authorized to spend — pass one first, or choose a different kind of bill."
                     : "It has to name something that already exists."}
                 </p>
               ) : (
@@ -943,15 +1162,17 @@ function DraftingTable({
  * of the value, never its source.
  */
 function ParameterControl({
+  idPrefix = "draft-param",
   spec,
   value,
   onChange,
 }: {
+  readonly idPrefix?: string;
   readonly spec: ProgramParameterSpec;
   readonly value: ProgramParameterValue;
   readonly onChange: (value: ProgramParameterValue) => void;
 }) {
-  const controlId = `draft-param-${spec.key}`;
+  const controlId = `${idPrefix}-${spec.key}`;
   if (spec.kind === "money" && value.kind === "money") {
     const step = niceMoneyStep(spec.maxMinorUnits - spec.minMinorUnits);
     return (

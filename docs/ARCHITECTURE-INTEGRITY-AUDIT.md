@@ -990,3 +990,21 @@ coordination boundaries.
 LEARN: source availability is a property that must travel with every browser
 record. A static asset being deployable does not make its observations known to
 an earlier simulated date.
+
+### LEG-FINISH4 — targeted composition and calendar boundary review
+
+The delta retains one World, the existing clock, existing vote records and the
+existing adopted-provision writer. Typed working copies use explicit private
+history events; comparison/read/reload does not write. Batch adoption validates
+all current section references before appending and preserves original filed
+text and identities. The consumer requires exact proposal-to-recorded-vote
+provenance rather than inferring adoption from conversation or unrelated votes.
+
+Ordinary filing resolves the member's existing election/work chain, sponsor and
+origin chamber. Employment, sponsorship, referral and committee appointment are
+kept distinct. No term dates, staffing authority, committee appointments,
+economic effects or production catalogs are synthesized. P12 adds sourced
+regular-session outer-limit data and production action-time refusal; it does not
+create a second calendar or mark pending bills dead. UI's refusal handler is
+consumed from its owner's exact `5df86b856d946fddfb8e63ad682a43cb076f8b4a`
+patch. Final tests and human/independent acceptance are reported separately.

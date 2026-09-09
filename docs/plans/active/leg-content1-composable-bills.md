@@ -295,3 +295,88 @@ LEARN: a native select must be exercised using a keyboard path proven on the
 actual browser; on this macOS Chrome run, type-ahead plus Tab changes the value,
 while arrow/Enter did not even on an isolated native select. Do not seed fixture
 catalogs into the normal route to turn an honest unavailable result into a pass.
+
+### AMERICAN-ENGLISH1 owner correction
+
+Continuing the same recipient branch from `80801a9`; no new branch or feature.
+The updated Task B packet directs American English for authored player copy.
+`INSTRUMENT_RULES` now displays **Program authorization** while retaining the
+persisted `programme-authorization` token. Authored bank descriptions, clause
+renderers, help and nearby legislative dialogue use **program**, **favor** and
+**canceled**. No governmental title was globally replaced.
+
+Affected family versions advance through the existing lineage guard. Old saved
+text is not normalized. The regression fixture was captured with the original
+`80801a9` fileDraft writer before correction: deserialization, docket reading,
+refused recompilation and another save/load preserve the serialized World,
+including old spelling, identity and history. Supplied citation text remains
+verbatim; source transports, source-example references, constitutional quotations
+and internal keys/field names are unchanged. The original three-clause new-draft
+expectation now explicitly asserts the authorized American spelling, rather than
+claiming unchanged historical text.
+
+Role investigation: complete local word-boundary searches of LEG production
+player/presentation/simulation sources found no authored minister title. The
+Ministers occurrence in the executive rule pack is an Article II quotation and
+remains untouched. Secretary occurrences are jurisdiction-specific rule/source
+records (including Secretary of State and chamber secretary), not generic
+substitutions. Generated Worlds for all nine legislative scenario keys contain
+no minister/secretary string. On UI #144 `2cc6188`, the player/presentation search
+also found no minister/secretary occurrence; its scenario-constructor file equals
+the pre-correction LEG file. This does not clear an unidentified runtime surface:
+the owner's earlier misuse remains unreproduced and needs that specific context.
+
+SKILL-OPS1 retains exclusive ownership of synchronized civic-prose guidance and
+the shared scoped en-US rule. Coordination delivered to PR #147 comment
+`5595345298`; no shared skill/checker edits here. LEG contributes feature output,
+protected citation/token and old-save regressions. UI #144 receives the frozen
+correction and owns composed drafting/document/help verification. No new audit,
+automatic merge or monitoring.
+
+Checks: 128 tests passed across eight focused files before the additional citation
+case; the final preservation/corpus run passed 44 tests across two files. Native
+Chrome docket cases 4/4 passed, including an explicit visible Program authorization
+assertion. Typecheck, scoped lint, prose hygiene, corpus regeneration/check and all
+three art commands passed. Corpus pins are remeasured from generated output.
+Full-suite and human expanded acceptance remain pending from the prior checkpoint;
+this copy correction does not transfer banked acceptance to a new head.
+
+### LEG-FINISH4 active continuation
+
+Resumed green `b62df683`; shared execution contract and M read in full. Completed
+recovery, spelling, key and version repairs remain banked. This checkpoint adds
+multiple compatible typed changes in an actor-private working copy, with a
+current/proposed section comparison and save/reload through the existing World.
+The existing provision writer now carries multiple sections atomically. The
+consumer requires an already-adopted amendment whose recorded vote references
+the exact working-copy event; an unrelated vote cannot authorize substituted
+text. Original filed sections and draft lineage remain immutable. No new voting
+scores, forecasts, synthetic production catalogs or enactment effects are added.
+
+New ordinary filings use the actual member's sponsorship and origin chamber.
+An office job alone cannot introduce a bill. The office projection reconciles
+existing election/work membership and reports sponsorship and referral
+separately. It does not infer term dates or committee appointments.
+
+P12 is now identified exactly in [PLAYTEST-PORK-01](https://docs.google.com/document/d/1HhEloK5fN08KNzLc0ma2LuJxNisUUQHpgg7Imz1nSKA/edit):
+March 31, 2037 procedural work appeared beside the regular-session explanation.
+The [operative Section 42](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46),
+read on 2026-09-09, states the odd/even-year adjournment boundaries; [Section 80](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=88)
+provides for extraordinary sessions by proclamation with specified subjects.
+The rule now carries a sourced outer calendar limit. Production filing,
+procedure commands and action-time member guards refuse work past that limit,
+including a requested hearing whose future date would cross it. The exact
+2037-03-31 refusal and inclusive deadline controls pass without writing or
+expiring a bill. A date within the outer limit does not establish convening.
+No canonical extraordinary-session proclamation or typed session identity exists;
+such authority stays unavailable. P12 technical delta is covered; owner normal
+play replay remains a separate closure gate.
+
+UI owns the shared root. LIFE/FISCAL/QUAL/OPENING/ECON interfaces are coordinated
+through native task messages. LIFE's worker selector requires real active
+relationships; integrating staffing cannot synthesize a sponsoring member.
+FISCAL's proposed/current distinction and missing-input refusal remain intact.
+The American English checker is supplied by SKILL-OPS1 (#147), not duplicated
+here. The full expanded N ledger remains requested; the accessible owner return
+links to an external ledger and is not a full expanded acceptance verdict.
+Final checkpoint validation passed: 190 files / 3,385 tests, two skipped; all remaining validation stages and ordinary Chrome proofs passed. See [exact gate evidence](../../agent/evidence/leg-content1/finish4-checkpoint.md). The owned server is stopped and the heavy slot was released to ENV. Expanded human acceptance and the documented record/interface gaps remain open.

@@ -1,3 +1,6 @@
+import { regularSessionActionRefusal } from "./legislative-session-window";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
+import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
   applyCharacterHistoryPlan,
   currentMeasureProvisions,
@@ -539,7 +542,7 @@ export function availableAuthorities(
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: "An explicitly fictional standing programme in this content bank.",
+    note: "An explicitly fictional standing program in this content bank.",
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];
@@ -559,7 +562,7 @@ export function availableAuthorities(
       authorityKey: `${DOCKET_AUTHORITY_PREFIX}${bill.docketKey}`,
       kind: "docket-measure",
       citationLabel: `${bill.designation} (${bill.shortTitle})`,
-      programmeLabel: `the programme described in ${bill.designation}`,
+      programmeLabel: `the program described in ${bill.designation}`,
       authorizesSpending:
         rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
       authorizedCeilingMinorUnits: reading,
@@ -637,7 +640,7 @@ export function resolveAuthority(
         : "proposed",
     authorityKey,
     citationLabel: `${bill.designation} (${bill.shortTitle})`,
-    programmeLabel: `the programme described in ${bill.designation}`,
+    programmeLabel: `the program described in ${bill.designation}`,
     authorizesSpending:
       rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
     authorizedCeilingMinorUnits: ceiling,
@@ -826,9 +829,21 @@ export function fileDraft(
     }
   }
 
+  const membership = resolveActiveMemberSeat(world, input.playerPersonId);
+  const actualSeat = membership.kind === "seated" ? membership.seat : null;
+  if (
+    actualSeat &&
+    (actualSeat.governingJurisdictionId !== input.jurisdictionId ||
+      actualSeat.legislativeRulePackId !== blueprint.pack.packId)
+  ) {
+    throw new BillConfigurationError(
+      "This member's seat belongs to a different legislature.",
+    );
+  }
   const sequence = nextDocketSequence(world, input.scenarioKey);
   const measureStableKey = docketMeasureStableKey(input.scenarioKey, sequence);
-  const chamberKey = blueprint.pack.chambers[0]?.chamberKey ?? "house";
+  const chamberKey =
+    actualSeat?.chamberKey ?? blueprint.pack.chambers[0]?.chamberKey ?? "house";
   const draft = compileBillDraft({
     familyKey: input.familyKey,
     variantKey: input.variantKey,
@@ -842,10 +857,12 @@ export function fileDraft(
   });
 
   // The member the office serves. Reused from the accepted route rather than
-  // invented here, so a docket bill is sponsored by the same colleague the
-  // single-assignment route already established for this legislature.
+  // invented here. An actual member sponsors their own new bill; trusted
+  // staff fixtures retain the colleague established by the assignment route.
   const sponsorKey = `legislative-work:${input.scenarioKey}:member`;
-  const sponsorPersonId = characterHistoryContextPersonId(world, sponsorKey);
+  const sponsorPersonId = actualSeat
+    ? input.playerPersonId
+    : characterHistoryContextPersonId(world, sponsorKey);
   let next = world;
   if (!next.people[sponsorPersonId]) {
     const rng = new SeededRng(next.seed).fork(
@@ -881,6 +898,7 @@ export function fileDraft(
     origin: "member-introduction",
     subjectClass: draft.subjectClass,
     sponsorPersonId,
+    originChamberKey: chamberKey,
   });
 
   const measureId = createStableId(
@@ -930,7 +948,7 @@ export function fileDraft(
       ? { authorityMeasureId: authority.measureId as EntityId }
       : {}),
     provenanceNote:
-      "Authored programme parameters chosen in play. Not a statute, not a measurement, and not a claim about any real programme.",
+      "Authored program parameters chosen in play. Not a statute, not a measurement, and not a claim about any real program.",
   });
 
   // The docket entry the Work surface reads. A work item focused on
@@ -965,6 +983,35 @@ export function fileDraft(
     throw new Error("The filed bill did not appear on the docket.");
   }
   return { world: next, bill, draft };
+}
+
+/** Player-facing filing gate; trusted content fixtures retain the lower-level writer. */
+export function fileDraftFromOffice(
+  world: World,
+  input: FileDraftInput,
+): FileDraftResult {
+  const capability = resolvePlayerCapabilities(world);
+  if (
+    capability.personId !== input.playerPersonId ||
+    !capability.office ||
+    capability.legislativeScenarioKey !== input.scenarioKey ||
+    capability.legislativeJurisdictionId !== input.jurisdictionId
+  ) {
+    throw new BillConfigurationError(
+      "This character has no active office for filing in this legislature.",
+    );
+  }
+  if (resolveActiveMemberSeat(world, input.playerPersonId).kind !== "seated") {
+    throw new BillConfigurationError(
+      "Filing requires a supported member seat. An office job alone does not establish authority to introduce a bill.",
+    );
+  }
+  const sessionRefusal = regularSessionActionRefusal(
+    legislativeBlueprint(input.scenarioKey).pack,
+    world.currentDate,
+  );
+  if (sessionRefusal) throw new BillConfigurationError(sessionRefusal);
+  return fileDraft(world, input);
 }
 
 /**

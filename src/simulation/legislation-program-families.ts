@@ -44,7 +44,7 @@ export function programFamilyKeys(): readonly string[] {
 export function programFamily(familyKey: string): ProgramFamily {
   const family = FAMILIES.find((entry) => entry.familyKey === familyKey);
   if (!family) {
-    throw new Error(`No programme family is defined for '${familyKey}'.`);
+    throw new Error(`No program family is defined for '${familyKey}'.`);
   }
   return family;
 }

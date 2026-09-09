@@ -1,3 +1,4 @@
+import { regularSessionActionRefusal } from "./legislative-session-window";
 import {
   applyCharacterHistoryPlan,
   chamberByKey,
@@ -144,6 +145,11 @@ export function openLegislativeBargaining(
     };
   }
   const blueprint = legislativeBlueprint(scenarioKey);
+  const sessionRefusal = regularSessionActionRefusal(
+    blueprint.pack,
+    world.currentDate,
+  );
+  if (sessionRefusal) return { kind: "unavailable", reason: sessionRefusal };
 
   // A docket bill carries its own content, so the sitting is about whichever
   // bill the player opened rather than about the one authored measure.

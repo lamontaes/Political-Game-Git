@@ -102,10 +102,10 @@ export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
     provisionKey: "eligibility",
     sectionNumber: 2,
     heading: "Eligible riders",
-    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance programme administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
+    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance program administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
     beneficiary: {
       kind: "general-application",
-      appliesToLabel: "every rider enrolled in a state assistance programme",
+      appliesToLabel: "every rider enrolled in a state assistance program",
     },
   },
   {
@@ -214,7 +214,7 @@ export function bargainingSubjectFacts(input: {
     programSectionLabel: "Section 3",
     programHeading: "Pilot support limit",
     programReach:
-      "language reaching every rider enrolled in a state assistance programme",
+      "language reaching every rider enrolled in a state assistance program",
     billAmountLabel: "$8,000,000",
 
     requestedProvisionKey: REQUESTED_PROVISION_KEY,

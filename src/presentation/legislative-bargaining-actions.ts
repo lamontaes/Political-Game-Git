@@ -1,3 +1,4 @@
+import { regularSessionActionRefusal } from "./legislative-session-window";
 import {
   adoptProvisionRevision,
   bodyForChamber,
@@ -67,6 +68,12 @@ function resolveActionAuthority(
     const position = measurePosition(world, seat.measureId);
     return { chamberKey: position.chamberKey ?? "house", position };
   }
+
+  const sessionRefusal = regularSessionActionRefusal(
+    seat.scenario.pack,
+    world.currentDate,
+  );
+  if (sessionRefusal) refuse(sessionRefusal);
 
   // 1. Who is this person right now? Not who the context says they were.
   const resolution = resolveActiveMemberSeat(world, seat.playerPersonId);

@@ -49,7 +49,7 @@ const RURAL_TRANSIT_FUND: PredicateAuthority = {
   authorizedCeilingMinorUnits: 4_000_000_000,
   currency: "USD",
   evidence: authored(
-    "An authored standing programme. No real transit fund, statute or appropriation is described, and its ceiling is a design choice rather than a figure read from anywhere.",
+    "An authored standing program. No real transit fund, statute or appropriation is described, and its ceiling is a design choice rather than a figure read from anywhere.",
   ),
 };
 
@@ -62,7 +62,7 @@ const SCHOOL_FACILITIES_FUND: PredicateAuthority = {
   authorizedCeilingMinorUnits: 12_000_000_000,
   currency: "USD",
   evidence: authored(
-    "An authored standing programme. The game asserts no real school construction fund and no real balance in one.",
+    "An authored standing program. The game asserts no real school construction fund and no real balance in one.",
   ),
 };
 
@@ -104,10 +104,10 @@ const APPROPRIATION_SOURCE: ProgramContentEvidence = IIJA_FISCAL_TREATMENT;
  */
 const APPROPRIATIONS: ProgramFamily = {
   familyKey: "appropriations",
-  familyVersion: "v2",
+  familyVersion: "v3",
   title: "Appropriations",
   mechanism:
-    "Provides money for a programme that is already authorized, up to what that authority allows.",
+    "Provides money for a program that is already authorized, up to what that authority allows.",
   acceptedDimensions: [
     "authority-reference",
     "funding-cap",
@@ -136,14 +136,14 @@ const APPROPRIATIONS: ProgramFamily = {
     {
       variantKey: "single-programme",
       instrument: "appropriation",
-      label: "Appropriation to a single programme",
+      label: "Appropriation to a single program",
       synopsis:
-        "Provides money for one programme that is already authorized. It creates no programme and widens no eligibility.",
-      shortTitle: "Programme Appropriation",
+        "Provides money for one program that is already authorized. It creates no program and widens no eligibility.",
+      shortTitle: "Program Appropriation",
       subjectClass: "appropriation",
       authorizesAppropriation: true,
       declaredLimits: [
-        "It provides money. It does not change who qualifies, what the programme does, or how long it runs.",
+        "It provides money. It does not change who qualifies, what the program does, or how long it runs.",
         "It cannot provide more than the authority it names allows.",
         "Money provided is not money spent. Nothing here records an obligation or an outlay.",
       ],
@@ -214,7 +214,7 @@ const APPROPRIATIONS: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme funded",
+          heading: "Program funded",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -224,7 +224,7 @@ const APPROPRIATIONS: ProgramFamily = {
               );
             }
             return {
-              text: `The appropriation made by this Act is for ${authority.programmeLabel} as authorized by ${authority.citationLabel}. This Act establishes no programme and changes no requirement of ${authority.citationLabel}.`,
+              text: `The appropriation made by this Act is for ${authority.programmeLabel} as authorized by ${authority.citationLabel}. This Act establishes no program and changes no requirement of ${authority.citationLabel}.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} already reaches`,
@@ -251,7 +251,7 @@ const APPROPRIATIONS: ProgramFamily = {
               text: `There is appropriated ${amount} for the purposes of ${authority?.citationLabel ?? "the authority named in this Act"}. This appropriation is in addition to any other amount provided for that purpose and does not increase the amount that Act authorizes.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: `the programme ${authority?.citationLabel ?? "named in this Act"} authorizes`,
+                appliesToLabel: `the program ${authority?.citationLabel ?? "named in this Act"} authorizes`,
               },
               fiscalExposureLabel: `${amount} appropriated`,
               fiscalExposureMinorUnits: minorUnits,
@@ -321,7 +321,7 @@ const APPROPRIATIONS: ProgramFamily = {
       subjectClass: "appropriation",
       authorizesAppropriation: true,
       declaredLimits: [
-        "It is a top-up. It provides money and changes nothing else about the programme.",
+        "It is a top-up. It provides money and changes nothing else about the program.",
         "Its availability is short by design, and what is not obligated lapses.",
       ],
       defaults: {
@@ -386,7 +386,7 @@ const APPROPRIATIONS: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme funded",
+          heading: "Program funded",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -422,7 +422,7 @@ const APPROPRIATIONS: ProgramFamily = {
               text: `There is appropriated ${amount}, in addition to amounts previously appropriated, for the purposes of the Act named in Section 1.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: "the programme named in Section 1",
+                appliesToLabel: "the program named in Section 1",
               },
               fiscalExposureLabel: `${amount} appropriated`,
               fiscalExposureMinorUnits: minorUnits,
@@ -495,7 +495,7 @@ const APPROPRIATIONS: ProgramFamily = {
       authorizesAppropriation: true,
       declaredLimits: [
         "A local government that cannot raise the match draws nothing, however much is appropriated.",
-        "The match requirement is a condition on the money, not a change to who is eligible under the programme itself.",
+        "The match requirement is a condition on the money, not a change to who is eligible under the program itself.",
       ],
       defaults: {
         appropriation: {
@@ -545,7 +545,7 @@ const APPROPRIATIONS: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme funded",
+          heading: "Program funded",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -581,7 +581,7 @@ const APPROPRIATIONS: ProgramFamily = {
               text: `There is appropriated ${amount} for the purpose named in Section 1, to be disbursed only as the condition in Section 3 is satisfied.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: "the programme named in Section 1",
+                appliesToLabel: "the program named in Section 1",
               },
               fiscalExposureLabel: `${amount} appropriated`,
               fiscalExposureMinorUnits: minorUnits,
@@ -604,7 +604,7 @@ const APPROPRIATIONS: ProgramFamily = {
                 kind: "general-application",
                 appliesToLabel:
                   share === 0
-                    ? "every local government the programme reaches"
+                    ? "every local government the program reaches"
                     : "every local government able to commit the required share",
               },
               fiscalExposureLabel: null,
@@ -668,7 +668,7 @@ const APPROPRIATIONS: ProgramFamily = {
  */
 const PROGRAM_SUNSET: ProgramFamily = {
   familyKey: "program-sunset",
-  familyVersion: "v2",
+  familyVersion: "v3",
   title: "Sunset and repeal",
   mechanism:
     "Ends, shortens or extends an authority that already exists, without providing or withdrawing a dollar.",
@@ -838,7 +838,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
       authorizesAppropriation: false,
       declaredLimits: [
         "It sets a date for the authority to end. It appropriates nothing.",
-        "It does not change who qualifies or what the programme may do.",
+        "It does not change who qualifies or what the program may do.",
       ],
       defaults: {
         "extension-term": { kind: "duration-years", years: 6 },
@@ -1090,10 +1090,10 @@ const PROGRAM_SUNSET: ProgramFamily = {
         provisionKey: "transition-assistance",
         sectionNumber: 4,
         heading: "Transition for the places that relied on it",
-        beneficiaryLabel: "the communities the repealed programme was serving",
+        beneficiaryLabel: "the communities the repealed program was serving",
         placeLabel: "the places that built a budget around it",
         statedGround:
-          "This programme is a line in somebody's budget, and repealing it in twelve months without a word to them is how a county ends up cutting a service it had no warning about.",
+          "This program is a line in somebody's budget, and repealing it in twelve months without a word to them is how a county ends up cutting a service it had no warning about.",
         segmentKey: "finance.repeal-transition",
         requestedMinorUnits: 0,
         cappedMinorUnits: 0,

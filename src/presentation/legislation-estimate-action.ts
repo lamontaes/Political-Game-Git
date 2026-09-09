@@ -230,7 +230,7 @@ export function requestBillEstimate(
     provisions.some((p) => "fiscalPeriod" in p && p.fiscalPeriod === "annual")
   )
     return refuse(
-      "This bill states annual amounts. A whole-programme spending scenario cannot be calculated from them.",
+      "This bill states annual amounts. A whole-program spending scenario cannot be calculated from them.",
     );
   const reading = billFiscalReading(world, bill);
   const amount = reading.statedCeilingMinorUnits;

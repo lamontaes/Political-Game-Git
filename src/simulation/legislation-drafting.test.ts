@@ -430,12 +430,12 @@ describe("acting on something that already exists is refused when it does not", 
   });
 });
 
-describe("the accepted transit content is unchanged by being described", () => {
-  it("reproduces HB 214's filed sections exactly", () => {
+describe("transit v2 retains its clauses with the authorized American English correction", () => {
+  it("compiles the three transit clauses with American English", () => {
     const draft = compile("transit-access", "enrollment-fare-relief");
     expect(draft.clauses.map((clause) => clause.text)).toEqual([
       "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
-      "A rider is eligible under this Act if the rider is enrolled in a state assistance programme at the time of boarding. A participating provider shall not require a separate application.",
+      "A rider is eligible under this Act if the rider is enrolled in a state assistance program at the time of boarding. A participating provider shall not require a separate application.",
       "There is appropriated for the two-year pilot a sum not to exceed $8,000,000, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
     ]);
     expect(draft.clauses[2]!.fiscalExposureMinorUnits).toBe(800_000_000);
@@ -627,7 +627,7 @@ describe("a family refuses combinations it cannot carry", () => {
 
   it("refuses an unknown family or configuration", () => {
     expect(() => compile("housing-vouchers", "any")).toThrow(
-      /No programme family is defined/,
+      /No program family is defined/,
     );
     expect(() => compile("transit-access", "moon-base")).toThrow(
       /has no 'moon-base' configuration/,

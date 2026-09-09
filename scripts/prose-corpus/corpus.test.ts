@@ -422,7 +422,10 @@ describe("transcripts", () => {
       "campaign-sessions",
       "election-won",
       "election-lost",
-      "legislative-measure-briefing",
+      // P12: this inherited campaign fixture reaches its first introduction
+      // after the sourced session deadline. Preserve its actual refusal;
+      // valid-window briefing behavior remains covered by the LEG route tests.
+      "legislative-session-unavailable",
     ]) {
       expect(seen).toContain(claim);
     }

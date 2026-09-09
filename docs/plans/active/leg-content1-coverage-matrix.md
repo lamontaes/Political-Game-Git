@@ -117,3 +117,34 @@ prospective clause. A record's label must not select its mechanics: revenue uses
 the instrument; annual amounts carry typed period metadata; existing-versus-
 proposed authority comes from canonical stage. The new boundary regressions
 encode these recurring errors instead of adding more launcher instructions.
+
+## LEG-FINISH4 consumer checkpoint
+
+- Every supported configuration retains its typed controls. Multiple compatible
+  edits produce one comparison of all affected sections. Explicit save creates
+  an actor-private working-copy event; reload retains it without rewriting the
+  filed bill. No freeform cross-instrument mixture bypasses predicate authority.
+- `carryAdoptedBillComposition` consumes an existing recorded adopted amendment
+  only when vote provenance identifies the exact working-copy event. Current
+  section IDs, parameters, version, actor and chamber must agree. The existing
+  provision writer validates and carries the entire section package atomically.
+  Existing voting/evaluation behavior remains unchanged.
+- New ordinary filings name the actual member as sponsor and use that member's
+  origin chamber. Office employment alone is insufficient introduction authority.
+  `projectLegislativeOfficeContext` exposes actual election/work linkage and
+  sponsorship/referral separately; unsupported term and committee facts stay
+  unavailable.
+- The P12 action-time deadline guard and its official source are recorded in the
+  [active plan](leg-content1-composable-bills.md). Working documents and history
+  survive a procedural refusal; this does not declare a bill dead or invent an
+  exceptional session.
+- Production vote consumption of a saved typed working copy still requires the
+  existing procedural caller to supply its recorded amendment/vote linkage.
+  The normal UI can compare and save; it does not manufacture adoption.
+- Staff service assignment awaits a real active employment/principal linkage;
+  fiscal effects await legitimate catalogs/inputs. Those absences do not impose
+  a family/configuration ceiling. Shared root consumers remain UI #144's lane.
+
+LEARN: working text, recorded adoption, institutional membership and employment
+are separate facts. Regressions now protect their boundaries rather than relying
+on a label or a generic office capability.

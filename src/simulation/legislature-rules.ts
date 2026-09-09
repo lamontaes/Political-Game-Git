@@ -446,6 +446,12 @@ export interface EnactmentRule {
 }
 
 export interface SessionRule {
+  /** Outer regular-session boundary only; not proof of convening or bill expiration. */
+  readonly regularSessionLatestAdjournment?: KnownRuleValue<{
+    readonly oddYear: { readonly month: number; readonly day: number };
+    readonly evenYear: { readonly month: number; readonly day: number };
+  }>;
+
   readonly sessionLabel: string;
   readonly adjournmentRule: RuleValue<string>;
   readonly measuresDieAtAdjournment: RuleValue<boolean>;

@@ -479,7 +479,7 @@ const DISASTER_RECOVERY: ProgramFamily = {
  */
 const UTILITY_RESILIENCE: ProgramFamily = {
   familyKey: "utility-resilience",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Utility resilience",
   mechanism:
     "Reaches a utility because of what it operates, and either funds hardening or requires it.",
@@ -538,7 +538,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
           minMinorUnits: 200_000_000,
           maxMinorUnits: 9_000_000_000,
           currency: "USD",
-          evidence: authored("An authored ceiling for a fictional programme."),
+          evidence: authored("An authored ceiling for a fictional program."),
         },
         {
           key: "customer-threshold",
@@ -559,7 +559,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
           label: "Awards may be made for",
           minYears: 2,
           maxYears: 10,
-          evidence: authored("An authored programme term."),
+          evidence: authored("An authored program term."),
         },
         {
           key: "outage-reporting",
@@ -627,7 +627,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
         {
           provisionKey: "hardening-term",
           dimension: "timing",
-          heading: "Period of the programme",
+          heading: "Period of the program",
           parameterKey: "programme-term",
           render: (resolved) => ({
             text:
@@ -845,7 +845,7 @@ const UTILITY_RESILIENCE: ProgramFamily = {
  */
 const CRITICAL_INFRASTRUCTURE: ProgramFamily = {
   familyKey: "critical-infrastructure",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Critical infrastructure assistance",
   mechanism:
     "Assists operators of systems the state depends on, reaching them by what they operate rather than by where they are.",
@@ -939,7 +939,7 @@ const CRITICAL_INFRASTRUCTURE: ProgramFamily = {
           label: "Assistance available for",
           minYears: 2,
           maxYears: 8,
-          evidence: authored("An authored programme term."),
+          evidence: authored("An authored program term."),
         },
         {
           key: "disclosure-rule",
@@ -1010,7 +1010,7 @@ const CRITICAL_INFRASTRUCTURE: ProgramFamily = {
         {
           provisionKey: "assistance-term",
           dimension: "timing",
-          heading: "Period of the programme",
+          heading: "Period of the program",
           parameterKey: "programme-term",
           render: (resolved) => ({
             text:

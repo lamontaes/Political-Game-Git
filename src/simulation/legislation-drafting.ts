@@ -275,7 +275,7 @@ function validateValue(
       if (term.years === null) {
         if (spec.maxYears !== null) {
           throw new BillConfigurationError(
-            `${spec.label} must state a term; this configuration does not support an ongoing programme.`,
+            `${spec.label} must state a term; this configuration does not support an ongoing program.`,
           );
         }
         return;
@@ -643,7 +643,7 @@ function resolveTiming(
   const endsOn = addYears(startsOn, value.years);
   if (endsOn <= startsOn) {
     throw new BillConfigurationError(
-      `${timingSpec.label} would end the programme on ${endsOn}, on or before it starts on ${startsOn}.`,
+      `${timingSpec.label} would end the program on ${endsOn}, on or before it starts on ${startsOn}.`,
     );
   }
   return { startsOn, endsOn };

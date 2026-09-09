@@ -90,12 +90,12 @@ const HOUSEHOLD_ASSISTANCE_ACT: PredicateAuthority = {
   kind: "standing-statute",
   authorityKey: "standing:household-assistance",
   citationLabel: "the Household Utility Assistance Act",
-  programmeLabel: "the household utility assistance programme",
+  programmeLabel: "the household utility assistance program",
   authorizesSpending: true,
   authorizedCeilingMinorUnits: 1_800_000_000,
   currency: "USD",
   evidence: authored(
-    "An authored standing programme. No real assistance programme, eligibility rule or caseload is described.",
+    "An authored standing program. No real assistance program, eligibility rule or caseload is described.",
   ),
 };
 
@@ -114,10 +114,10 @@ const HOUSEHOLD_ASSISTANCE_ACT: PredicateAuthority = {
  */
 const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
   familyKey: "assistance-eligibility",
-  familyVersion: "v2",
+  familyVersion: "v3",
   title: "Assistance eligibility",
   mechanism:
-    "Changes who qualifies under an assistance programme that already exists, without providing a dollar.",
+    "Changes who qualifies under an assistance program that already exists, without providing a dollar.",
   acceptedDimensions: [
     "authority-reference",
     "eligibility-scope",
@@ -135,7 +135,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
       kind: "forecast-claim",
       note: "Widening eligibility changes who may apply. How many do is a behaviour, and how many are served depends on money this Act does not provide.",
       unavailableReason:
-        "Nothing in this world counts the households the programme reaches, so the number who would newly qualify cannot be reported.",
+        "Nothing in this world counts the households the program reaches, so the number who would newly qualify cannot be reported.",
     },
   },
   variants: [
@@ -149,7 +149,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
       subjectClass: "general-policy",
       authorizesAppropriation: false,
       declaredLimits: [
-        "It states no amount and provides no money. The programme's funding is whatever it already was.",
+        "It states no amount and provides no money. The program's funding is whatever it already was.",
         "Qualifying is not receiving. If more households qualify and nothing is appropriated, the queue gets longer.",
       ],
       defaults: {
@@ -174,7 +174,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
           key: "effective-term",
           dimension: "timing",
           kind: "duration-years",
-          label: "Applies from the next programme year, for",
+          label: "Applies from the next program year, for",
           minYears: 1,
           maxYears: 8,
           evidence: authored("An authored duration for the change."),
@@ -211,7 +211,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme amended",
+          heading: "Program amended",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -257,8 +257,8 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
           render: (resolved) => ({
             text:
               resolved.endsOn === null
-                ? "This Act applies to determinations made in and after the next programme year and continues until amended."
-                : `This Act applies to determinations made in and after the next programme year and has no effect on a determination made after ${formatStatutoryDate(resolved.endsOn)}, when the requirement it amends resumes as it stood before.`,
+                ? "This Act applies to determinations made in and after the next program year and continues until amended."
+                : `This Act applies to determinations made in and after the next program year and has no effect on a determination made after ${formatStatutoryDate(resolved.endsOn)}, when the requirement it amends resumes as it stood before.`,
             beneficiary: {
               kind: "general-application",
               appliesToLabel: "every applicant within the period",
@@ -347,7 +347,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
             },
           ],
           evidence: authored(
-            "An authored category. It is a design choice about who a fictional programme should reach, not a finding about who needs help.",
+            "An authored category. It is a design choice about who a fictional program should reach, not a finding about who needs help.",
           ),
         },
         {
@@ -385,7 +385,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme amended",
+          heading: "Program amended",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -563,7 +563,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Programme amended",
+          heading: "Program amended",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -646,7 +646,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
       amendmentInvitation: {
         provisionKey: "floor-on-revision",
         sectionNumber: 5,
-        heading: "A floor, so a revision cannot take the programme backwards",
+        heading: "A floor, so a revision cannot take the program backwards",
         beneficiaryLabel: "households who would lose eligibility on a revision",
         placeLabel: "the areas where the published limit has fallen before",
         statedGround:
@@ -678,7 +678,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
  */
 const AGENCY_REPORTING: ProgramFamily = {
   familyKey: "agency-reporting",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Reporting and oversight",
   mechanism:
     "Requires a public body to report, publish or submit to audit. It changes what is known, not what is spent.",
@@ -731,8 +731,8 @@ const AGENCY_REPORTING: ProgramFamily = {
           options: [
             {
               value: "administering-agency",
-              label: "The agency that runs the programme",
-              clausePhrase: "the agency administering the programme",
+              label: "The agency that runs the program",
+              clausePhrase: "the agency administering the program",
             },
             {
               value: "every-recipient-government",
@@ -744,7 +744,7 @@ const AGENCY_REPORTING: ProgramFamily = {
               value: "agency-and-recipients",
               label: "Both the agency and the recipients",
               clausePhrase:
-                "the agency administering the programme, and every local government that received an award in the reporting period",
+                "the agency administering the program, and every local government that received an award in the reporting period",
             },
           ],
           evidence: ADMINISTRATIVE_REPORTING_PRODUCT,
@@ -852,7 +852,7 @@ const AGENCY_REPORTING: ProgramFamily = {
         beneficiaryLabel: "the counties that suspect they are being missed",
         placeLabel: "the counties that never appear in a statewide total",
         statedGround:
-          "A statewide total tells you the programme spent its money. It does not tell you that the same nine counties have had none of it for six years.",
+          "A statewide total tells you the program spent its money. It does not tell you that the same nine counties have had none of it for six years.",
         segmentKey: "administration.county-breakdown",
         requestedMinorUnits: 0,
         cappedMinorUnits: 0,
@@ -868,7 +868,7 @@ const AGENCY_REPORTING: ProgramFamily = {
       instrument: "oversight-reporting",
       label: "Independent audit",
       synopsis:
-        "Requires an audit by somebody who does not run the programme, and says what happens to the findings.",
+        "Requires an audit by somebody who does not run the program, and says what happens to the findings.",
       shortTitle: "Audit Requirement",
       subjectClass: "general-policy",
       authorizesAppropriation: false,
@@ -894,13 +894,13 @@ const AGENCY_REPORTING: ProgramFamily = {
             {
               value: "accounts-only",
               label: "The accounts",
-              clausePhrase: "the accounts of the programme",
+              clausePhrase: "the accounts of the program",
             },
             {
               value: "programme-and-awards",
               label: "The accounts, and how awards were decided",
               clausePhrase:
-                "the accounts of the programme and the basis on which each award was decided",
+                "the accounts of the program and the basis on which each award was decided",
             },
           ],
           evidence: ADMINISTRATIVE_REPORTING_PRODUCT,
@@ -952,10 +952,10 @@ const AGENCY_REPORTING: ProgramFamily = {
           render: (resolved) => {
             const choice = resolved.choice("audit-scope");
             return {
-              text: `An audit under this Act shall examine ${choice.clausePhrase}. The audit shall be conducted by a person who is not employed by, and does not report to, the agency administering the programme.`,
+              text: `An audit under this Act shall examine ${choice.clausePhrase}. The audit shall be conducted by a person who is not employed by, and does not report to, the agency administering the program.`,
               beneficiary: {
                 kind: "general-application",
-                appliesToLabel: "the programme and everyone it awards to",
+                appliesToLabel: "the program and everyone it awards to",
               },
               fiscalExposureLabel: null,
               fiscalExposureMinorUnits: null,
@@ -1005,14 +1005,14 @@ const AGENCY_REPORTING: ProgramFamily = {
         heading: "Who pays for the audit",
         beneficiaryLabel:
           "the agency required to procure an audit with no money for it",
-        placeLabel: "the programme that will pay for it out of awards",
+        placeLabel: "the program that will pay for it out of awards",
         statedGround:
-          "An audit requirement with no money attached is paid for out of the programme, which means it is paid for by whoever would have had the last award.",
+          "An audit requirement with no money attached is paid for out of the program, which means it is paid for by whoever would have had the last award.",
         segmentKey: "administration.audit-cost",
         requestedMinorUnits: 0,
         cappedMinorUnits: 0,
         render: () =>
-          "The cost of an audit required by this Act shall not be charged against the programme audited, and the agency shall report the cost separately.",
+          "The cost of an audit required by this Act shall not be charged against the program audited, and the agency shall report the cost separately.",
         evidence: authored(
           "An authored request from a fictional member. It reallocates a cost rather than appropriating one.",
         ),

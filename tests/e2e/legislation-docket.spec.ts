@@ -121,6 +121,8 @@ test.describe("the docket, from the ordinary route", () => {
     );
 
     // Two genuinely different proposals, compared by reading them.
+    await expect(options).toContainText("Program authorization");
+    await expect(options).not.toContainText("Programme authorization");
     await expect(options).toContainText("Transit access");
     await expect(options).toContainText("Bridge and culvert maintenance");
     await expect(options).toContainText("Broadband access");
@@ -279,6 +281,77 @@ test.describe("the docket, from the ordinary route", () => {
     await expectNoDeveloperLeak(page);
     expect(errors).toEqual([]);
   });
+});
+
+test("saves compatible proposed changes through ordinary Work without rewriting the bill", async ({
+  page,
+}) => {
+  const errors = watchForErrors(page);
+  await wonSeatWithWorkOpen(page);
+  const office = page.getByTestId("docket-office-record");
+  await office.locator("summary").click();
+  await expect(office).toContainText("No committee appointment record");
+  await page.getByTestId("open-drafting-table").click();
+  await page
+    .getByTestId(
+      "drafting-option-education-facilities-school-repair-authorization",
+    )
+    .click();
+  await page.getByTestId("file-the-draft").click();
+  await expect(page.getByTestId("docket-role")).toContainText(
+    "You are the sponsor of record",
+  );
+  const history = page.getByTestId("docket-recorded-history");
+  await history.locator("summary").click();
+  await expect(history.locator("li")).not.toHaveCount(0);
+  const clauses = page.getByTestId("docket-clauses");
+  const originalText = await clauses.innerText();
+  const composition = page.getByTestId("docket-composition");
+  await composition.locator("summary").focus();
+  await page.keyboard.press("Space");
+  const choice = page.getByTestId("amend-param-operative-choice");
+  await choice.focus();
+  await choice.press("p");
+  await choice.press("Tab");
+  await expect(choice).toHaveValue("prevent-closure");
+  const money = page.getByTestId("amend-param-programme-ceiling");
+  await money.focus();
+  await money.press("Home");
+  const comparison = page.getByTestId("composition-comparison");
+  await expect(comparison.locator("section")).toHaveCount(2);
+  await expect(comparison).toContainText("keep teaching spaces usable");
+  const save = page.getByTestId("save-composed-amendment");
+  await save.focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    composition
+      .getByRole("status")
+      .filter({ hasText: "Proposed changes saved" }),
+  ).toContainText("Proposed changes saved");
+  expect(await clauses.innerText()).toBe(originalText);
+  await page.getByTestId("keep-world").click();
+  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await openElsewhere(page, "work");
+  await page.getByTestId("docket-composition").locator("summary").click();
+  await expect(page.getByTestId("amend-param-operative-choice")).toHaveValue(
+    "prevent-closure",
+  );
+  await expect(
+    page.getByTestId("composition-comparison").locator("section"),
+  ).toHaveCount(2);
+  expect(await page.getByTestId("docket-clauses").innerText()).toBe(
+    originalText,
+  );
+  await page.getByTestId("composition-comparison").scrollIntoViewIfNeeded();
+  await page.screenshot({
+    fullPage: true,
+    path: "docs/agent/evidence/leg-content1/finish4-private-comparison.png",
+  });
+  await expectNoDeveloperLeak(page);
+  expect(errors).toEqual([]);
 });
 
 test("new service clauses, saved selection and unavailable scenario refusal work through Work", async ({

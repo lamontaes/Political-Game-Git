@@ -140,6 +140,16 @@ const KY_SEC_42 = source(
   "partial",
   "Session length and adjournment deadlines. This section fixes how long a session runs; it does not by itself say what becomes of a measure that is still pending when the session ends.",
 );
+const KY_REGULAR_SESSION_LIMIT: RuleSourceRef = {
+  authority: "constitution",
+  citation: "Ky. Const. Sec. 42",
+  sourceTitle: "Kentucky Constitution, Section 42 (operative text)",
+  sourceUrl:
+    "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+  retrievedAt: "2026-09-09",
+  verification: "verified",
+  note: "Regular-session outer calendar limits only. This does not establish convening, legislative days used, extraordinary-session authority, or disposition of pending bills.",
+};
 const KY_SEC_47 = source(
   "constitution",
   "Ky. Const. Sec. 47",
@@ -473,6 +483,10 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     source: KY_SEC_46,
   },
   session: {
+    regularSessionLatestAdjournment: knownRule(
+      { oddYear: { month: 3, day: 30 }, evenYear: { month: 4, day: 15 } },
+      KY_REGULAR_SESSION_LIMIT,
+    ),
     sessionLabel: "Regular session",
     adjournmentRule: knownRule(
       "Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.",
@@ -487,6 +501,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     KY_SEC_46,
     KY_SEC_88,
     KY_SEC_88_OPERATIVE,
+    KY_REGULAR_SESSION_LIMIT,
     KY_SEC_42,
     KY_SEC_47,
     KY_HOUSE_RULE_37,
