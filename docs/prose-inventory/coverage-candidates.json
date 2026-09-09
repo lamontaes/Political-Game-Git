@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1927,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5089,
-    "DIAGNOSTIC_OR_TEST": 3827,
-    "NEEDS_CLASSIFICATION": 3599
+    "INTENTIONALLY_NON_PLAYER_FACING": 5116,
+    "DIAGNOSTIC_OR_TEST": 3857,
+    "NEEDS_CLASSIFICATION": 3662
   },
   "needsClassification": [
     {
@@ -23639,9 +23639,521 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 219,
+      "text": "Press request stable key",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 220,
+      "text": "Press pitch",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 221,
+      "text": "Press question",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 222,
+      "text": "press channel",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 223,
+      "text": "press terms",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 225,
+      "text": "Background attribution",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 261,
+      "text": "Made a press request",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 266,
+      "text": "Received the request without yet accepting it",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 278,
+      "text": "A source asked an eligible reporter to arrange a press exchange.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 305,
+      "text": "I made this press request.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 312,
+      "text": "I received this press request and its proposed terms.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequest",
+      "line": 322,
+      "text": "A source made a normal press request to a reporter.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequestResponse",
+      "line": 343,
+      "text": "Reporter already answered this press request.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressRequestResponse",
+      "line": 349,
+      "text": "Reporter response",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 365,
+      "text": "Accepted the proposed terms",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 366,
+      "text": "Declined the request",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 371,
+      "text": "Received the reporter's response",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 381,
+      "text": "The reporter accepted the proposed press request and terms.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 382,
+      "text": "The reporter declined the press request.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 462,
+      "text": "Accept the request",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 463,
+      "text": "Accept the saved channel, terms, question and basis.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 467,
+      "text": "Decline the request",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 468,
+      "text": "Do not create an interview arrangement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 478,
+      "text": "The reporter cannot take this action at the current frontier.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 479,
+      "text": "The reporter no longer has the saved eligible role and knowledge basis.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 493,
+      "text": "The request matches the reporter's current role and existing knowledge.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "channel",
+      "line": 507,
+      "text": "press channel",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "terms",
+      "line": 513,
+      "text": "press terms",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 516,
+      "text": "I accept the {channel} exchange under the proposed {terms} terms.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 518,
+      "text": "I cannot take this request at the current time.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 519,
+      "text": "I cannot accept a request that no longer matches my role or knowledge.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressAdviserResponse",
+      "line": 539,
+      "text": "An adviser already answered this preparation request.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "recordPressAdviserResponse",
+      "line": 544,
+      "text": "Adviser response",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 557,
+      "text": "Accepted the preparation assignment",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 558,
+      "text": "Declined the assignment",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 563,
+      "text": "Received the adviser's response",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 573,
+      "text": "A current colleague accepted the press preparation assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 574,
+      "text": "A current colleague declined the press preparation assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 647,
+      "text": "Take the assignment",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 648,
+      "text": "Accept the saved press preparation assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 652,
+      "text": "Decline the assignment",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 653,
+      "text": "Do not become the assigned press adviser.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 663,
+      "text": "The adviser cannot take this action at the current frontier.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 664,
+      "text": "The person is not a current colleague of the source.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "evaluation",
+      "line": 678,
+      "text": "The assignment belongs to the person's current shared workplace.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 689,
+      "text": "I accept the preparation assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 691,
+      "text": "I cannot take this preparation assignment at the current time.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "statement",
+      "line": 692,
+      "text": "I cannot accept an assignment from an office where I do not work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "reporterResponse",
+      "line": 714,
+      "text": "Reporter consent is required before arranging an interview.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "adviserResponse",
+      "line": 722,
+      "text": "An actual adviser's accepted assignment is required before arranging an interview.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "channel",
+      "line": 757,
+      "text": "press channel",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "terms",
+      "line": 763,
+      "text": "press terms",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "arrangeAcceptedPressInterview",
+      "line": 786,
+      "text": "background attribution",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "arrangeAcceptedPressInterview",
+      "line": 792,
+      "text": "press question",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "likelyFollowUps",
+      "line": 823,
+      "text": "What in “{summary}” is established, and what remains open?",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "responseOptions",
+      "line": 826,
+      "text": "Answer from the adviser's current understanding: {believedSummaries[0]??\"Nosavedunderstandingisavailable.\"}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "responseOptions",
+      "line": 827,
+      "text": "Separate the recorded development from any outcome that has not happened.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "confirmedWording",
+      "line": 877,
+      "text": "confirmed press wording",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "interpretation",
+      "line": 880,
+      "text": "I reviewed “{publication.headline}”. My reading is that the report used the confirmed answer “{confirmedWording}”; ",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "interpretation",
+      "line": 881,
+      "text": "that is my interpretation, not measured public opinion.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "next",
+      "line": 887,
+      "text": "The adviser reviewed “{publication.headline}”.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "termsExplanation",
+      "line": 1102,
+      "text": "The answer may be published and attributed by name.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "termsExplanation",
+      "line": 1104,
+      "text": "The answer may be published only under the negotiated attribution.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "enclosingSymbol": "termsExplanation",
+      "line": 1105,
+      "text": "The answer may not be published from this exchange.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 167,
+      "line": 181,
       "text": "Press arrangement stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23649,7 +24161,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 168,
+      "line": 182,
       "text": "Press pitch",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23657,7 +24169,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 169,
+      "line": 183,
       "text": "Press question",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23665,7 +24177,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 170,
+      "line": 184,
       "text": "press channel",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23673,7 +24185,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 171,
+      "line": 185,
       "text": "press terms",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23681,7 +24193,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 173,
+      "line": 187,
       "text": "Background attribution",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23689,7 +24201,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 235,
+      "line": 249,
       "text": "Accepted an interview arrangement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23697,7 +24209,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 240,
+      "line": 254,
       "text": "Agreed the channel and ground rules",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23705,7 +24217,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 245,
+      "line": 259,
       "text": "Assigned to prepare the source",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23713,7 +24225,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 260,
+      "line": 274,
       "text": "{input.channel===\"written\"?\"Awrittenexchange\":\"Aninterview\"} was arranged with agreed ground rules.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23721,7 +24233,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 266,
+      "line": 280,
       "text": "Press arrangement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23729,7 +24241,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 271,
+      "line": 285,
       "text": "Channel: {input.channel}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23737,7 +24249,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 282,
+      "line": 296,
       "text": "Written questions from {personName(next.people[input.reporterPersonId]!)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23745,7 +24257,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 283,
+      "line": 297,
       "text": "Interview with {personName(next.people[input.reporterPersonId]!)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23753,7 +24265,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 284,
+      "line": 298,
       "text": "An arranged {input.channel} press exchange under {input.terms} terms.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23761,7 +24273,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 305,
+      "line": 319,
       "text": "Prepare for press questions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23769,23 +24281,15 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "arrangePressInterview",
-      "line": 307,
+      "line": 321,
       "text": "Review known facts, likely follow-ups and response options without promising reception or coverage.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/simulation/press-interviews.ts",
-      "enclosingSymbol": "knownFacts",
-      "line": 347,
-      "text": "Known press facts",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "likelyFollowUps",
-      "line": 350,
+      "line": 388,
       "text": "Likely press follow-ups",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23793,7 +24297,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "responseOptions",
-      "line": 354,
+      "line": 392,
       "text": "Press response options",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23801,7 +24305,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressPreparation",
-      "line": 372,
+      "line": 410,
       "text": "Prepared fallible briefing guidance",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23809,7 +24313,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressPreparation",
-      "line": 377,
+      "line": 415,
       "text": "Reviewed preparation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23817,7 +24321,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressPreparation",
-      "line": 383,
+      "line": 425,
       "text": "The assigned adviser prepared the arranged interview.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23825,7 +24329,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressPreparation",
-      "line": 390,
+      "line": 432,
       "text": "Prepare choices and relevant facts without guaranteeing how an answer will be received.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23833,7 +24337,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressPreparation",
-      "line": 392,
+      "line": 434,
       "text": "The guidance is an adviser's fallible reading, not a promised outcome.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23841,7 +24345,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 405,
+      "line": 447,
       "text": "press play mode",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23849,7 +24353,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 406,
+      "line": 448,
       "text": "press response intent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23857,7 +24361,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 407,
+      "line": 449,
       "text": "Press follow-up question",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23865,7 +24369,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 408,
+      "line": 450,
       "text": "Proposed press wording",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23873,7 +24377,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 420,
+      "line": 462,
       "text": "Selected an intent and drafted consequential wording",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23881,7 +24385,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 430,
+      "line": 472,
       "text": "A press response was drafted for exact-wording confirmation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23889,7 +24393,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 438,
+      "line": 480,
       "text": "Use the condensed presentation route without refusing the interview or changing outcome rules.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23897,7 +24401,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "draftPressResponse",
-      "line": 439,
+      "line": 481,
       "text": "Answer through the interactive presentation route.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23905,7 +24409,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "proposedWording",
-      "line": 458,
+      "line": 500,
       "text": "drafted press wording",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23913,7 +24417,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "mode",
-      "line": 465,
+      "line": 507,
       "text": "press mode",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23921,7 +24425,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "intent",
-      "line": 470,
+      "line": 512,
       "text": "press intent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23929,7 +24433,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 487,
+      "line": 529,
       "text": "Confirmed the exact consequential wording",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23937,7 +24441,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 492,
+      "line": 534,
       "text": "Received the confirmed answer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23945,7 +24449,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 503,
+      "line": 545,
       "text": "The source confirmed the exact wording of the press answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23953,7 +24457,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "completePressInterview",
-      "line": 558,
+      "line": 600,
       "text": "Completed the arranged exchange",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23961,7 +24465,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "completePressInterview",
-      "line": 563,
+      "line": 605,
       "text": "Completed the arranged exchange",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23969,7 +24473,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "completePressInterview",
-      "line": 573,
+      "line": 615,
       "text": "The arranged {press.channel} press exchange concluded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23977,7 +24481,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "completePressInterview",
-      "line": 579,
+      "line": 621,
       "text": "Complete the agreed press exchange.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23985,7 +24489,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "wording",
-      "line": 609,
+      "line": 651,
       "text": "confirmed press wording",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23993,7 +24497,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 633,
+      "line": 675,
       "text": "Published the report",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24001,7 +24505,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 640,
+      "line": 682,
       "text": "Quoted under on-record terms",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24009,7 +24513,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 648,
+      "line": 690,
       "text": "{attribution} said: “{wording}”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24017,7 +24521,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 651,
+      "line": 693,
       "text": "Reported from an arranged {press.channel} exchange.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24025,7 +24529,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 654,
+      "line": 696,
       "text": "Publish a report under the negotiated attribution terms.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24033,7 +24537,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "recordPressAdviserFeedback",
-      "line": 689,
+      "line": 746,
       "text": "Adviser interpretation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24041,7 +24545,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 706,
+      "line": 763,
       "text": "Offered a fallible interpretation of the published story",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24049,7 +24553,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 711,
+      "line": 768,
       "text": "Received the adviser's interpretation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24057,7 +24561,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 717,
+      "line": 774,
       "text": "The assigned adviser discussed the published story.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24065,7 +24569,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 722,
+      "line": 779,
       "text": "This is an adviser's fallible interpretation, not measured public opinion or proof of causation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24073,7 +24577,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "next",
-      "line": 724,
+      "line": 781,
       "text": "Review an actual published story.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24081,7 +24585,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "projectPressInterview",
-      "line": 790,
+      "line": 847,
       "text": "press mode",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24089,7 +24593,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "projectPressInterview",
-      "line": 793,
+      "line": 850,
       "text": "press intent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24097,7 +24601,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "terms",
-      "line": 857,
+      "line": 914,
       "text": "press terms",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24105,7 +24609,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "channel",
-      "line": 863,
+      "line": 920,
       "text": "press channel",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24113,7 +24617,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "termsExplanation",
-      "line": 1000,
+      "line": 1057,
       "text": "The answer may be published and attributed by name.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24121,7 +24625,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "termsExplanation",
-      "line": 1003,
+      "line": 1060,
       "text": "The answer may be published only under the negotiated attribution.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24129,7 +24633,7 @@
     {
       "sourcePath": "src/simulation/press-interviews.ts",
       "enclosingSymbol": "termsExplanation",
-      "line": 1005,
+      "line": 1062,
       "text": "The answer may not be published from this exchange.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28867,6 +29371,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateStateRecord. Play fails closed rather than showing it.",
@@ -29121,7 +29631,13 @@
     {
       "sourcePath": "src/simulation/setup-opening-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -29182,18 +29698,6 @@
       "sourcePath": "src/simulation/resource-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -29290,13 +29794,25 @@
       "sourcePath": "src/simulation/press-interviews.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 32
+      "count": 38
     },
     {
       "sourcePath": "src/simulation/press-interviews.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 49
+      "count": 46
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 21
+    },
+    {
+      "sourcePath": "src/simulation/press-interview-producers.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 33
     },
     {
       "sourcePath": "src/simulation/portability-fixture.ts",
@@ -29439,6 +29955,12 @@
     {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertPolicySemanticsIntegrity. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/simulation/policy-semantics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 113
     },
@@ -29446,12 +29968,6 @@
       "sourcePath": "src/simulation/person-stress-harness.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 6
-    },
-    {
-      "sourcePath": "src/simulation/policy-semantics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertPolicySemanticsIntegrity. Play fails closed rather than showing it.",
       "count": 6
     },
     {
@@ -29609,6 +30125,36 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/history.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -30085,34 +30631,10 @@
       "count": 20
     },
     {
-      "sourcePath": "src/presentation/production-world.ts",
+      "sourcePath": "src/simulation/ids.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
+      "reason": "Identifier construction.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/future-transitions.ts",
@@ -31366,12 +31888,6 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/ids.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Identifier construction.",
       "count": 1
     },
     {

@@ -26,11 +26,11 @@ import {
   JOURNALISM_OCCUPATION_CLASSIFICATION,
   projectPressInterview,
   publishPressInterview,
-  recordPressAdviserFeedback,
   recordPressPreparation,
   type PressPlayMode,
   type PressRecordTerms,
 } from "./press-interviews";
+import { producePressAdviserFeedback } from "./press-interview-producers";
 import type { EntityId, World } from "./types";
 
 const AUTHORED = {
@@ -46,6 +46,7 @@ interface PressFixture {
   readonly reporterWorkRoleId: EntityId;
   readonly basisEventId: EntityId;
   readonly pitchClaimId: EntityId;
+  readonly adviserBasisKnowledgeId: EntityId;
   readonly jurisdictionId: EntityId;
 }
 
@@ -135,6 +136,18 @@ function pressFixture(seed: string): PressFixture {
     confidence: "high",
     source: { kind: "direct" },
   });
+  world = recordEventKnowledge(world, {
+    stableKey: `${seed}:adviser-knows-briefing`,
+    personId: adviserPersonId,
+    eventId: basisEventId,
+    learnedAt: world.currentDate,
+    believedSummary:
+      "The proposal was discussed at a recorded public briefing.",
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "public-record", reference: basisEventId },
+  });
+  const adviserBasisKnowledgeId = world.history.knowledge.at(-1)!.id;
 
   const pitch = "Discuss the proposal already raised at the public briefing.";
   world = recordWorldEvent(world, {
@@ -190,6 +203,7 @@ function pressFixture(seed: string): PressFixture {
     reporterWorkRoleId,
     basisEventId,
     pitchClaimId,
+    adviserBasisKnowledgeId,
     jurisdictionId,
   };
 }
@@ -227,7 +241,7 @@ function arrange(seed: string, terms: PressRecordTerms, mode: PressPlayMode) {
     stableKey: `${seed}:preparation-recorded`,
     activityId: arranged.activityId,
     adviserPersonId: fixture.adviserPersonId,
-    knownFacts: ["The proposal was discussed at a recorded public briefing."],
+    sourceKnowledgeIds: [fixture.adviserBasisKnowledgeId],
     likelyFollowUps: ["Which details are not yet decided?"],
     responseOptions: [
       "Answer the question directly.",
@@ -272,12 +286,10 @@ describe("press interviews over canonical people, time, work and publication", (
       body: `${publication.body} The interview remained under on-record terms.`,
       correctionNote: "Clarified the description of the agreed ground rules.",
     });
-    world = recordPressAdviserFeedback(world, {
+    world = producePressAdviserFeedback(world, {
       stableKey: "news-press4-interactive:feedback",
       activityId: completed.activityId,
       adviserPersonId: completed.adviserPersonId,
-      interpretation:
-        "My read is that the story foregrounded the unresolved vote, but that is an interpretation rather than measured public reaction.",
     });
 
     const view = projectPressInterview(world, completed.activityId);
@@ -456,7 +468,7 @@ describe("press interviews over canonical people, time, work and publication", (
         stableKey: "news-press4-controls:early-prep",
         activityId: arranged.activityId,
         adviserPersonId: fixture.adviserPersonId,
-        knownFacts: ["One fact"],
+        sourceKnowledgeIds: [fixture.adviserBasisKnowledgeId],
         likelyFollowUps: ["One follow-up"],
         responseOptions: ["One option"],
       }),
@@ -466,7 +478,7 @@ describe("press interviews over canonical people, time, work and publication", (
       stableKey: "news-press4-controls:prep",
       activityId: arranged.activityId,
       adviserPersonId: fixture.adviserPersonId,
-      knownFacts: ["One fact"],
+      sourceKnowledgeIds: [fixture.adviserBasisKnowledgeId],
       likelyFollowUps: ["One follow-up"],
       responseOptions: ["One option"],
     });

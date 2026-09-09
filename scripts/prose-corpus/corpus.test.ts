@@ -547,12 +547,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
     // Re-measured by corpus:prose after current main was merged with
-    // NEWS-HELP2/PRESS4. Neither side's pin was chosen; the composed tree was
-    // scanned and these are what it measures.
+    // NEWS-HELP2/PRESS4 and the producer layer. Neither side's pin was chosen;
+    // the composed tree was scanned and these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(54832);
+    expect(coverage.totalLiterals).toBe(55191);
     expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(365);
+    expect(coverage.scannedFiles).toBe(367);
   });
 });
 
