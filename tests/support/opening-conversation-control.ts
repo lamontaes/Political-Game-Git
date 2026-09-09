@@ -1,5 +1,5 @@
 import delta from "../fixtures/opening-conversation-delta.json";
-import { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
+import type { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
 
 /** Undo only the inspected, source-accounted OPENING delta before comparing
  * the immutable accepted-main split controls. Every candidate value must match;
