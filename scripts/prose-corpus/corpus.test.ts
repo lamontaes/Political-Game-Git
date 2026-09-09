@@ -550,10 +550,11 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // main (P1 narration, the accepted executive modules, the R3J Kentucky
     // Sec. 88 operative-text source notes and the merged #128 anchor history)
     // composed with PR79's bargaining dialogue and NEWS-HELP2's canonical
-    // publication, digest, screen-adapter, and civic-help files. The combined
-    // tree was scanned and these are what it measures.
+    // publication, digest, screen-adapter, and civic-help files. Re-measured
+    // after the accepted N-1 null-locality regression; the tree was scanned and
+    // these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51976);
+    expect(coverage.totalLiterals).toBe(51995);
     expect(coverage.counts.INVENTORIED).toBe(1914);
     expect(coverage.scannedFiles).toBe(346);
   });
