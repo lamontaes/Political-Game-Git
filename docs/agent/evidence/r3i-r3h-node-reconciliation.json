@@ -1,0 +1,1590 @@
+{
+  "packet": "R3I — bounded runtime compilation from the accepted R3H node set",
+  "acceptedUniverse": {
+    "nodes": 142,
+    "jurisdictions": ["US", "US-KY", "US-NE", "US-AK", "US-MN", "US-IL"],
+    "categoryCounts": {
+      "branch_structure": 6,
+      "appointments": 19,
+      "administrative_powers": 4,
+      "emergency_powers": 7,
+      "clemency": 16,
+      "budget": 8,
+      "plural_executive_constraints": 6,
+      "guard": 12,
+      "identity_selection": 28,
+      "legislative_powers": 36
+    },
+    "excluded": "The 356 queued rows and the 45 quarantined jurisdictions are outside the accepted universe and are not represented here or in any pack."
+  },
+  "summary": {
+    "newly-compiled": 51,
+    "already-represented": 29,
+    "deferred-to-r3j": 30,
+    "no-exact-consumer": 31,
+    "blocked-by-contract-mismatch": 1
+  },
+  "summaryByJurisdiction": {
+    "US": {
+      "no-exact-consumer": 6,
+      "already-represented": 11,
+      "deferred-to-r3j": 4,
+      "newly-compiled": 4
+    },
+    "US-KY": {
+      "no-exact-consumer": 5,
+      "blocked-by-contract-mismatch": 1,
+      "deferred-to-r3j": 5,
+      "already-represented": 3,
+      "newly-compiled": 5
+    },
+    "US-NE": {
+      "no-exact-consumer": 6,
+      "newly-compiled": 9,
+      "deferred-to-r3j": 5,
+      "already-represented": 3
+    },
+    "US-AK": {
+      "no-exact-consumer": 5,
+      "already-represented": 6,
+      "newly-compiled": 9,
+      "deferred-to-r3j": 6
+    },
+    "US-MN": {
+      "no-exact-consumer": 4,
+      "newly-compiled": 9,
+      "deferred-to-r3j": 4,
+      "already-represented": 3
+    },
+    "US-IL": {
+      "no-exact-consumer": 5,
+      "newly-compiled": 15,
+      "deferred-to-r3j": 6,
+      "already-represented": 3
+    }
+  },
+  "runtimeCheck": true,
+  "packs": [
+    {
+      "packId": "us-federal-executive-v1",
+      "jurisdictionKey": "US",
+      "displayName": "President of the United States",
+      "unresolvedGaps": [
+        "Presentment and the veto (Art. I, Sec. 7) belong to a federal legislative pack that has not been compiled.",
+        "Presidential removal doctrine is unresolved.",
+        "Whether the convening power limits Congress's agenda is unresolved; Article II is silent, and silence is not a rule.",
+        "Federal directive/executive-order authority and general supervisory authority are unresolved: Article II has no express clause for either, and neither is inferred from the vesting clause.",
+        "Statutory reorganization authority is unresolved; the accepted R3H reorganization rows for the federal executive are themselves UNKNOWN.",
+        "The emergency-powers regime is resolved only as to the declaration power and congressional termination (50 U.S.C. Secs. 1621, 1622). No accepted node states an initial duration or a presidential extension mechanism, so both stay unknown."
+      ]
+    },
+    {
+      "packId": "us-ky-governor-v1",
+      "jurisdictionKey": "US-KY",
+      "displayName": "Governor of Kentucky",
+      "unresolvedGaps": [
+        "Removal, executive orders, reorganization, emergency declarations, budget submission and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+        "Kentucky's general appointment power, and whether appointments require legislative confirmation, are both unresolved. The accepted R3H appointment node cites Ky. Const. Sec. 76, a vacancy-filling clause narrower than the general power this contract's field describes, so it does not fill it.",
+        "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here."
+      ]
+    },
+    {
+      "packId": "us-ne-governor-v1",
+      "jurisdictionKey": "US-NE",
+      "displayName": "Governor of Nebraska",
+      "unresolvedGaps": [
+        "Removal, executive orders, reorganization, emergency declarations and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+        "The Nebraska budget-submission duty is established, but no accepted node states its deadline.",
+        "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here."
+      ]
+    },
+    {
+      "packId": "us-ak-governor-v1",
+      "jurisdictionKey": "US-AK",
+      "displayName": "Governor of Alaska",
+      "unresolvedGaps": [
+        "Executive orders, emergency declarations and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+        "Alaska's clemency model is unresolved. The accepted value subjects the gubernatorial power to procedure prescribed by law, which may install a board, so neither executive-sole nor a board model is established.",
+        "Whether Alaska's reorganization authority itself sunsets is unresolved; the accepted node states a disapproval window over an order, which is a different thing.",
+        "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here.",
+        "Alaska's Attorney General is appointed and confirmed by the Legislature in joint session (Art. III, Sec. 25) rather than elected, which is what makes the branch unitary here. The separate history by which the office of Secretary of State ceased to exist was not read to a pinpoint provision and is not cited as authority."
+      ]
+    },
+    {
+      "packId": "us-mn-governor-v1",
+      "jurisdictionKey": "US-MN",
+      "displayName": "Governor of Minnesota",
+      "unresolvedGaps": [
+        "Removal, executive orders, reorganization and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+        "Minnesota clemency is unresolved. The accepted R3H clemency rows for Minnesota are themselves UNKNOWN, and no clemency mapping is carried: the mapping that appeared in rejected national research rested on a source that does not support it.",
+        "The special-session convening power is held by an accepted R3H node but routed to R3J; no accepted node states an agenda restriction."
+      ]
+    },
+    {
+      "packId": "us-il-governor-v1",
+      "jurisdictionKey": "US-IL",
+      "displayName": "Governor of Illinois",
+      "unresolvedGaps": [
+        "Executive orders and the administrative duty stay unknown: the accepted R3H rows for them are themselves UNKNOWN.",
+        "Illinois's clemency model is unresolved. The accepted value subjects the gubernatorial power to regulation of the manner of application, which may install a review board, so neither executive-sole nor a board model is established.",
+        "Whether Illinois's reorganization authority itself sunsets is unresolved; the accepted node states a disapproval window over an order, which is a different thing.",
+        "How an Illinois disaster proclamation is extended, and how the General Assembly may terminate one, are unresolved.",
+        "Special-session convening and agenda scope are held by accepted R3H nodes but routed to R3J, not compiled here."
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "jurisdictionKey": "US",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 1, cl. 2; amend. XII",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "NOT_APPLICABLE",
+      "citation": "U.S. Const. art. II, § 1, cl. 1; art. I, § 3, cl. 4",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 1, cl. 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "identity_selection",
+      "node": "term_limits",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. amend. XXII, § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "3 U.S.C. § 19(a)(1), (b), (d)(1); U.S. Const. amend. XXV, § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "appointments",
+      "node": "cabinet_department_heads",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 2",
+      "disposition": "already-represented",
+      "targetFields": [
+        "appointment.executiveAppoints",
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Already carried by the federal pack from U.S. Const. Art. II, Sec. 2, cl. 2."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "appointments",
+      "node": "appointment_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 2",
+      "disposition": "already-represented",
+      "targetFields": [
+        "appointment.executiveAppoints",
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Already carried by the federal pack from U.S. Const. Art. II, Sec. 2, cl. 2."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "appointments",
+      "node": "recess_interim_appointments",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 3",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no recess or interim appointment field. The node is recorded and left uncompiled; no schema is added to consume it."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. I, § 7, cl. 2",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "NOT_APPLICABLE",
+      "citation": "524 U.S. 417, 438 (1998)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. I, § 7, cl. 2",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 3",
+      "disposition": "already-represented",
+      "targetFields": ["specialSession.executiveMayConvene"],
+      "reason": "Already carried: the federal pack resolves specialSession.executiveMayConvene from U.S. Const. Art. II, Sec. 3, which is the same convening power this node states."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "legislative_powers",
+      "node": "other_presentment_powers",
+      "acceptedStatus": "NOT_APPLICABLE",
+      "citation": "462 U.S. 919, 957-958 (1983)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "emergency_powers",
+      "node": "declaration_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "50 U.S.C. § 1621(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.executiveMayDeclare"],
+      "reason": "Compiled directly: the accepted node establishes the declaration power."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "emergency_powers",
+      "node": "legislative_extension_termination",
+      "acceptedStatus": "KNOWN",
+      "citation": "50 U.S.C. § 1622(a)(1)",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.legislativeTermination"],
+      "reason": "Compiled into legislativeTermination only. The accepted value establishes how the legislature terminates a declaration; it does not establish how the executive extends one, so emergencyDeclaration.extension is not filled from it."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "clemency",
+      "node": "pardon",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "Already carried: the federal pack resolves clemency as executive-sole with its scope from U.S. Const. Art. II, Sec. 2, cl. 1. The accepted board-constraint node is NOT_APPLICABLE in the research; it enters runtime only as part of that composite executive-sole model, never as a not-applicable value, which this contract refuses."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "clemency",
+      "node": "commutation",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "Already carried: the federal pack resolves clemency as executive-sole with its scope from U.S. Const. Art. II, Sec. 2, cl. 1. The accepted board-constraint node is NOT_APPLICABLE in the research; it enters runtime only as part of that composite executive-sole model, never as a not-applicable value, which this contract refuses."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "clemency",
+      "node": "reprieve",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "Already carried: the federal pack resolves clemency as executive-sole with its scope from U.S. Const. Art. II, Sec. 2, cl. 1. The accepted board-constraint node is NOT_APPLICABLE in the research; it enters runtime only as part of that composite executive-sole model, never as a not-applicable value, which this contract refuses."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "clemency",
+      "node": "board_recommendation_constraints",
+      "acceptedStatus": "NOT_APPLICABLE",
+      "citation": "71 U.S. (4 Wall.) 333, 380 (1866)",
+      "disposition": "already-represented",
+      "targetFields": ["clemency.model"],
+      "reason": "Already carried: the federal pack resolves clemency as executive-sole with its scope from U.S. Const. Art. II, Sec. 2, cl. 1. The accepted board-constraint node is NOT_APPLICABLE in the research; it enters runtime only as part of that composite executive-sole model, never as a not-applicable value, which this contract refuses."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "budget",
+      "node": "executive_budget_submission_duty",
+      "acceptedStatus": "KNOWN",
+      "citation": "31 U.S.C. § 1105(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.executiveMustSubmit"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "budget",
+      "node": "timing",
+      "acceptedStatus": "KNOWN",
+      "citation": "31 U.S.C. § 1105(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.submissionDeadline"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 1, cl. 1; art. II, § 2, cl. 2; amend. XII; Buckley v. Valeo, 424 U.S. 1, 126 (1976)",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Already carried by the federal pack from the operative text of U.S. Const. Art. II, Sec. 2, cl. 1."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 2, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["guard.scope"],
+      "reason": "Already carried by the federal pack from the operative text of U.S. Const. Art. II, Sec. 2, cl. 1."
+    },
+    {
+      "jurisdictionKey": "US",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "U.S. Const. art. II, § 1, cl. 1",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 70",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 70",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 70",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "identity_selection",
+      "node": "term_limits",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 71",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 84",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "appointments",
+      "node": "appointment_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 76",
+      "disposition": "blocked-by-contract-mismatch",
+      "targetFields": [],
+      "reason": "Blocked by contract mismatch. Ky. Const. Sec. 76 is a vacancy-filling clause; appointment.executiveAppoints asks whether the executive appoints the principal officers of the branch. The accepted node is narrower than the contract field, and the compiled pack already refuses to widen a specific appointment into a general power, so the field stays unknown."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 88",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 88",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 88",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 80",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "special_session_agenda_restriction",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 80",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "legislative_powers",
+      "node": "legislative_rule_pack_cross_reference",
+      "acceptedStatus": "KNOWN",
+      "citation": "src/simulation/legislature-rule-packs.ts#us-ky-general-assembly-v1",
+      "disposition": "already-represented",
+      "targetFields": ["presentment.legislativeRulePackId"],
+      "reason": "The accepted cross-reference names exactly the legislative pack the compiled executive pack already resolves through presentment.legislativeRulePackId."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "clemency",
+      "node": "pardon",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 77",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (sole gubernatorial power), which establishes the composite executive-sole model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "clemency",
+      "node": "commutation",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 77",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (sole gubernatorial power), which establishes the composite executive-sole model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "clemency",
+      "node": "reprieve",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 77",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (sole gubernatorial power), which establishes the composite executive-sole model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 91",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 75",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 75",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.scope"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ky. Const. § 69, 91",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "identity_selection",
+      "node": "term_limits",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 16",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "appointments",
+      "node": "cabinet_department_heads",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 10",
+      "disposition": "newly-compiled",
+      "targetFields": ["appointment.executiveAppoints"],
+      "reason": "Compiled directly: the accepted node establishes a general power to appoint the principal officers of the executive branch, which is exactly this field."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "appointments",
+      "node": "appointment_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 10",
+      "disposition": "newly-compiled",
+      "targetFields": ["appointment.executiveAppoints"],
+      "reason": "Compiled directly: the accepted node establishes a general power to appoint the principal officers of the executive branch, which is exactly this field."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "appointments",
+      "node": "confirmation_requirement",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 10",
+      "disposition": "newly-compiled",
+      "targetFields": [
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Compiled directly. The accepted value names the confirming body and that confirmation is required; its vote threshold has no contract field and is carried in the source note."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "appointments",
+      "node": "recess_interim_appointments",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV, § 12",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no recess or interim appointment field. The node is recorded and left uncompiled; no schema is added to consume it."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 15",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 15",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 15",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 8",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "special_session_agenda_restriction",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 8",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "legislative_powers",
+      "node": "legislative_rule_pack_cross_reference",
+      "acceptedStatus": "KNOWN",
+      "citation": "src/simulation/legislature-rule-packs.ts#us-ne-legislature-v1",
+      "disposition": "already-represented",
+      "targetFields": ["presentment.legislativeRulePackId"],
+      "reason": "The accepted cross-reference names exactly the legislative pack the compiled executive pack already resolves through presentment.legislativeRulePackId."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "clemency",
+      "node": "pardon",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 13",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (a Board of Pardons composed of the Governor, Attorney General and Secretary of State), which establishes the composite board-exclusive model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "clemency",
+      "node": "commutation",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 13",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (a Board of Pardons composed of the Governor, Attorney General and Secretary of State), which establishes the composite board-exclusive model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "clemency",
+      "node": "reprieve",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 13",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.model", "clemency.scope"],
+      "reason": "The three accepted component grants agree and affirmatively name who holds the power (a Board of Pardons composed of the Governor, Attorney General and Secretary of State), which establishes the composite board-exclusive model. Scope carries the accepted component names and the accepted value verbatim."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "budget",
+      "node": "executive_budget_submission_duty",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 7",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.executiveMustSubmit"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 14",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 14",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.scope"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "Neb. Const. art. IV § 1",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 3",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 8",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 4",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "identity_selection",
+      "node": "term_limits",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 5",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III, §§ 9, 11, 12",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "appointments",
+      "node": "cabinet_department_heads",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 25",
+      "disposition": "already-represented",
+      "targetFields": [
+        "appointment.executiveAppoints",
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Already carried by the Alaska pack from Alaska Const. Art. III, Sec. 25."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "appointments",
+      "node": "appointment_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 25",
+      "disposition": "already-represented",
+      "targetFields": [
+        "appointment.executiveAppoints",
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Already carried by the Alaska pack from Alaska Const. Art. III, Sec. 25."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "appointments",
+      "node": "confirmation_requirement",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 25",
+      "disposition": "already-represented",
+      "targetFields": [
+        "appointment.executiveAppoints",
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Already carried by the Alaska pack from Alaska Const. Art. III, Sec. 25."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "appointments",
+      "node": "removal_method",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 25",
+      "disposition": "newly-compiled",
+      "targetFields": ["removal.mode"],
+      "reason": "Compiled directly: the accepted value states appointees serve at the Governor's pleasure, which is exactly removal.mode 'at-pleasure'."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 17",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 15",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 16",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 9",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "special_session_agenda_restriction",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 9",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "other_presentment_powers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. II § 15",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "legislative_powers",
+      "node": "legislative_rule_pack_cross_reference",
+      "acceptedStatus": "KNOWN",
+      "citation": "src/simulation/legislature-rule-packs.ts#us-ak-legislature-v1",
+      "disposition": "already-represented",
+      "targetFields": ["presentment.legislativeRulePackId"],
+      "reason": "The accepted cross-reference names exactly the legislative pack the compiled executive pack already resolves through presentment.legislativeRulePackId."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "administrative_powers",
+      "node": "reorganization_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 23",
+      "disposition": "newly-compiled",
+      "targetFields": ["reorganization.executiveMayReorganize"],
+      "reason": "Compiled directly: the accepted node establishes that the executive may reorganize."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "administrative_powers",
+      "node": "reorganization_sunset_ratification",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 23",
+      "disposition": "newly-compiled",
+      "targetFields": ["reorganization.legislativeDisapprovalAvailable"],
+      "reason": "Compiled into legislativeDisapprovalAvailable only. The accepted value establishes a legislative disapproval window over a reorganization order; it does not establish that the grant of reorganization authority itself expires, so reorganization.sunset stays unknown, and the window's day count has no contract field."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "clemency",
+      "node": "pardon",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 21",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "clemency",
+      "node": "commutation",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 21",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "clemency",
+      "node": "reprieve",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 21",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "budget",
+      "node": "executive_budget_submission_duty",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. IX § 12",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.executiveMustSubmit"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III, §§ 1, 8, 22, 25, 26",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 19",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 19",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.scope"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "Alaska Const. art. III § 1",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 2",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 5",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "appointments",
+      "node": "cabinet_department_heads",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 15.06 subd. 1 & 2; Minn. Stat. § 15.066",
+      "disposition": "newly-compiled",
+      "targetFields": ["appointment.executiveAppoints"],
+      "reason": "Compiled directly: the accepted node establishes a general power to appoint the principal officers of the executive branch, which is exactly this field."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "appointments",
+      "node": "confirmation_requirement",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 15.066 subd. 1 & 3; Minn. Stat. § 15.06 subd. 2; Minn. Const. art. V § 3",
+      "disposition": "newly-compiled",
+      "targetFields": [
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Compiled directly. The accepted value names the confirming body and that confirmation is required; its vote threshold has no contract field and is carried in the source note."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. IV § 23",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. IV § 23",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. IV § 23",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. IV § 12",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "legislative_powers",
+      "node": "legislative_rule_pack_cross_reference",
+      "acceptedStatus": "KNOWN",
+      "citation": "src/simulation/legislature-rule-packs.ts#us-mn-legislature-v1",
+      "disposition": "already-represented",
+      "targetFields": ["presentment.legislativeRulePackId"],
+      "reason": "The accepted cross-reference names exactly the legislative pack the compiled executive pack already resolves through presentment.legislativeRulePackId."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "emergency_powers",
+      "node": "declaration_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 12.31 subd. 2",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.executiveMayDeclare"],
+      "reason": "Compiled directly: the accepted node establishes the declaration power."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "emergency_powers",
+      "node": "duration",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 12.31 subd. 2",
+      "disposition": "newly-compiled",
+      "targetFields": [
+        "emergencyDeclaration.initialDurationDays",
+        "emergencyDeclaration.extension"
+      ],
+      "reason": "The accepted value states an exact five-day initial duration and the mechanism by which it is extended, so both fields are resolved from it."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "emergency_powers",
+      "node": "legislative_extension_termination",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 12.31 subd. 2",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.legislativeTermination"],
+      "reason": "Compiled into legislativeTermination only. The accepted value establishes how the legislature terminates a declaration; it does not establish how the executive extends one, so emergencyDeclaration.extension is not filled from it."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "budget",
+      "node": "executive_budget_submission_duty",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 16A.11 subd. 1",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.executiveMustSubmit"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "budget",
+      "node": "timing",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Stat. § 16A.11 subd. 1",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.submissionDeadline"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 1",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 3",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 3",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.scope"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "Minn. Const. art. V § 1",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "identity_selection",
+      "node": "governor_selection",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 1",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "identity_selection",
+      "node": "lt_governor_relationship",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 4",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "identity_selection",
+      "node": "term_years",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 2",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "identity_selection",
+      "node": "succession_basics",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 6(a)",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no election, term-length, term-limit, lieutenant-governor or succession field. R3I adds no schema to consume this node; it is recorded and left uncompiled."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "appointments",
+      "node": "cabinet_department_heads",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 9(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["appointment.executiveAppoints"],
+      "reason": "Compiled directly: the accepted node establishes a general power to appoint the principal officers of the executive branch, which is exactly this field."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "appointments",
+      "node": "appointment_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 9(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["appointment.executiveAppoints"],
+      "reason": "Compiled directly: the accepted node establishes a general power to appoint the principal officers of the executive branch, which is exactly this field."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "appointments",
+      "node": "confirmation_requirement",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 9(a)",
+      "disposition": "newly-compiled",
+      "targetFields": [
+        "appointment.legislativeConfirmationRequired",
+        "appointment.confirmingBody"
+      ],
+      "reason": "Compiled directly. The accepted value names the confirming body and that confirmation is required; its vote threshold has no contract field and is carried in the source note."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "appointments",
+      "node": "recess_interim_appointments",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 9(b)",
+      "disposition": "no-exact-consumer",
+      "targetFields": [],
+      "reason": "The accepted executive-authority contract carries no recess or interim appointment field. The node is recorded and left uncompiled; no schema is added to consume it."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "appointments",
+      "node": "removal_method",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 10",
+      "disposition": "newly-compiled",
+      "targetFields": ["removal.mode"],
+      "reason": "Compiled directly: the accepted value states removal requires stated cause, which is exactly removal.mode 'for-cause'."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "regular_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 9(b)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "item_partial_veto",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 9(d)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "override_threshold",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 9(c)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "special_session_call",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 5(b)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "special_session_agenda_restriction",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 5(b)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here even though specialSession.* is an executive-authority field with an exact consumer, because category ownership, not contract shape, withholds it."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "other_presentment_powers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. IV § 9(e)",
+      "disposition": "deferred-to-r3j",
+      "targetFields": [],
+      "reason": "R3H routes the legislative_powers category to R3J. This node is not compiled here because LegislativeRulePack owns presentment, veto and override."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "legislative_powers",
+      "node": "legislative_rule_pack_cross_reference",
+      "acceptedStatus": "KNOWN",
+      "citation": "src/simulation/legislature-rule-packs.ts#us-il-general-assembly-v1",
+      "disposition": "already-represented",
+      "targetFields": ["presentment.legislativeRulePackId"],
+      "reason": "The accepted cross-reference names exactly the legislative pack the compiled executive pack already resolves through presentment.legislativeRulePackId."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "administrative_powers",
+      "node": "reorganization_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 11",
+      "disposition": "newly-compiled",
+      "targetFields": ["reorganization.executiveMayReorganize"],
+      "reason": "Compiled directly: the accepted node establishes that the executive may reorganize."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "administrative_powers",
+      "node": "reorganization_sunset_ratification",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 11",
+      "disposition": "newly-compiled",
+      "targetFields": ["reorganization.legislativeDisapprovalAvailable"],
+      "reason": "Compiled into legislativeDisapprovalAvailable only. The accepted value establishes a legislative disapproval window over a reorganization order; it does not establish that the grant of reorganization authority itself expires, so reorganization.sunset stays unknown, and the window's day count has no contract field."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "emergency_powers",
+      "node": "declaration_authority",
+      "acceptedStatus": "KNOWN",
+      "citation": "20 ILCS 3305/7",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.executiveMayDeclare"],
+      "reason": "Compiled directly: the accepted node establishes the declaration power."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "emergency_powers",
+      "node": "duration",
+      "acceptedStatus": "KNOWN",
+      "citation": "20 ILCS 3305/7",
+      "disposition": "newly-compiled",
+      "targetFields": ["emergencyDeclaration.initialDurationDays"],
+      "reason": "The accepted value states an exact thirty-day duration per proclamation. It states no extension mechanism, so emergencyDeclaration.extension stays unknown."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "clemency",
+      "node": "pardon",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 12",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "clemency",
+      "node": "commutation",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 12",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "clemency",
+      "node": "reprieve",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 12",
+      "disposition": "newly-compiled",
+      "targetFields": ["clemency.scope"],
+      "reason": "Scope only. The accepted value states the power is gubernatorial but subject to procedure or application rules prescribed by law, which does not settle whether a statutory board may block or hold the power; clemency.model therefore stays unknown rather than being promoted to executive-sole from silence about a board."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "budget",
+      "node": "executive_budget_submission_duty",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. VIII § 2(a)",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.executiveMustSubmit"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "budget",
+      "node": "timing",
+      "acceptedStatus": "KNOWN",
+      "citation": "15 ILCS 20/50-5",
+      "disposition": "newly-compiled",
+      "targetFields": ["budgetSubmission.submissionDeadline"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "plural_executive_constraints",
+      "node": "independently_elected_officers",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 1",
+      "disposition": "already-represented",
+      "targetFields": ["pluralExecutive"],
+      "reason": "The accepted independently-elected officer set is already carried by the pack's pluralExecutive list (empty for a unitary branch), and agrees with the accepted node."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "guard",
+      "node": "commands_militia",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. XII § 4",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.commandsMilitia"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "guard",
+      "node": "scope",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. XII § 4",
+      "disposition": "newly-compiled",
+      "targetFields": ["guard.scope"],
+      "reason": "Compiled directly: the accepted node resolves this field exactly, at the field's own shape."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "category": "branch_structure",
+      "node": "branch_structure",
+      "acceptedStatus": "KNOWN",
+      "citation": "Ill. Const. art. V § 1",
+      "disposition": "already-represented",
+      "targetFields": ["office.branchStructure"],
+      "reason": "The accepted branch structure is already carried by office.branchStructure on the compiled pack, at the same value; no runtime change is required."
+    }
+  ]
+}

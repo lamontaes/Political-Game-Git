@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4782 |
-| DIAGNOSTIC_OR_TEST | 3676 |
-| **NEEDS_CLASSIFICATION** | **3380** |
+| INVENTORIED | 1927 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5068 |
+| DIAGNOSTIC_OR_TEST | 3798 |
+| **NEEDS_CLASSIFICATION** | **3598** |
 
-Scanned 349 files holding 52429 string
+Scanned 365 files holding 54750 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -28,16 +28,18 @@ literals in total; the table counts only those that read like a sentence.
 | Candidates | File |
 | --- | --- |
 | 221 | `src/presentation/run-b-conversation.ts` |
-| 135 | `src/simulation/executive-authority-rule-packs.ts` |
+| 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 126 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 66 | `src/player/PlayerGame.tsx` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
+| 59 | `src/simulation/adult-situations.ts` |
 | 57 | `src/simulation/municipal-public-work.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
+| 50 | `src/simulation/judicial-office-content.ts` |
 | 50 | `src/simulation/life.ts` |
 | 49 | `src/simulation/campaigns.ts` |
 | 49 | `src/simulation/life-sources.ts` |
@@ -58,10 +60,10 @@ literals in total; the table counts only those that read like a sentence.
 | 35 | `src/ui/PoliticalProfile.tsx` |
 | 34 | `src/presentation/scene-consumers.ts` |
 | 34 | `src/simulation/life-episodes.ts` |
+| 34 | `src/simulation/life-opportunities.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 33 | `src/presentation/legislative-bargaining-brief.ts` |
 | 33 | `src/presentation/life-diagnostics.ts` |
-| 33 | `src/simulation/adult-situations.ts` |
 | 32 | `src/content/adapters/legislative-blueprints.ts` |
 | 31 | `src/content/adapters/life-episodes.ts` |
 | 31 | `src/simulation/people.ts` |
@@ -72,6 +74,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 25 | `src/simulation/judicial-office-work.ts` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
@@ -102,7 +105,6 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
-| 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/simulation/incidents.ts` |
 | 13 | `src/player/OfficeScene.tsx` |
@@ -130,6 +132,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/surface-binding.ts` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
+| 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |
@@ -138,6 +141,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
+| 7 | `src/simulation/judicial-office-start.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/formative-context.ts` |
@@ -167,6 +171,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
+| 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |
