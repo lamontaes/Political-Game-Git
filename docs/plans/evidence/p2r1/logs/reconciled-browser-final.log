@@ -1,0 +1,17 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/p2r1-editorial.spec.ts --workers=1
+
+[WebServer] (node:81722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:81723) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [chromium] › tests/e2e/p2r1-editorial.spec.ts:4:1 › P2R1 retained adult choices activate by pointer and keyboard on the player surface
+[2/2] [chromium] › tests/e2e/p2r1-editorial.spec.ts:51:1 › P2R1 preserves and reloads the old age-32 calibrated fixture when its next beat is quiet
+  2 passed (7.5s)

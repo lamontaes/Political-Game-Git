@@ -117,6 +117,7 @@ export * from "./adult-situations";
 export * from "./situation-selection";
 export * from "./situation-profiles";
 export * from "./life-callbacks";
+export * from "./life-opportunities";
 export * from "./life-choice-evidence";
 export * from "./commitment-seam";
 export * from "./relationship-leverage";

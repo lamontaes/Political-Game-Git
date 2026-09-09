@@ -1,0 +1,2013 @@
+[
+  {
+    "key": "adult.household-standing",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.householdCompanionIds.length>0&&context.hasHouseholdWorkItem",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": true,
+    "missing": "No prior three-week burden or others’ silence.",
+    "subsequentOptionWrites": [
+      {
+        "option": "say-it",
+        "writes": null,
+        "aftermath": "grievance"
+      },
+      {
+        "option": "absorb-it",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "set-it-out",
+        "writes": null,
+        "aftermath": "obligation"
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.housing-cost-change",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 55,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 1,
+      "hasHousingObligation": true,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": true,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.hasHousingTenure&&context.hasHousingObligation",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "One unchanged payment; no increase or notice.",
+    "subsequentOptionWrites": [
+      {
+        "option": "absorb",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "move",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "push-back",
+        "writes": null,
+        "aftermath": "standing"
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [
+        {
+          "id": "housing-tenure_4e511b35fee70621",
+          "stableKey": "p2r1:tenure",
+          "sequence": 49,
+          "holder": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "dwellingId": "dwelling_1b4767feef7a86af",
+          "startedAt": "2026-01-05",
+          "kind": "lease:residential",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "flows": [
+        {
+          "id": "resource-flow_865cde26f3019e91",
+          "stableKey": "p2r1:rent",
+          "sequence": 51,
+          "source": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "recipient": {
+            "kind": "person",
+            "personId": "person_32612bcaf1a039a7"
+          },
+          "recordedAt": "2026-01-05",
+          "startsAt": "2026-01-05",
+          "basisKind": "housing:rent",
+          "basisReference": {
+            "kind": "general"
+          },
+          "restrictionKind": "purpose:housing",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "obligations": [
+        {
+          "id": "resource-obligation_f1e9f74c02939d1a",
+          "stableKey": "p2r1:obligation",
+          "sequence": 53,
+          "resourceFlowId": "resource-flow_865cde26f3019e91",
+          "establishedAt": "2026-01-05",
+          "basisKind": "housing:rent",
+          "principal": null,
+          "careResponsibilityId": null,
+          "housingTenureId": "housing-tenure_4e511b35fee70621",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.work-extra-hours",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.workCount>0",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "Existing work only; no extra-hours request.",
+    "subsequentOptionWrites": [
+      {
+        "option": "take-them",
+        "writes": null,
+        "aftermath": "goodwill"
+      },
+      {
+        "option": "decline",
+        "writes": null,
+        "aftermath": "grievance"
+      },
+      {
+        "option": "trade",
+        "writes": null,
+        "aftermath": "obligation"
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.work-offer-elsewhere",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.workCount>0",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "Existing work only; no other offer or disclosure state.",
+    "subsequentOptionWrites": [
+      {
+        "option": "go-for-it",
+        "writes": null,
+        "aftermath": "standing"
+      },
+      {
+        "option": "stay",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "use-it",
+        "writes": null,
+        "aftermath": "standing"
+      },
+      {
+        "option": "say-nothing",
+        "writes": null,
+        "aftermath": null
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.care-request",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.kinIds.length>0&&context.careCount===0",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "Kin exists and zero care responsibilities; no care request or need.",
+    "subsequentOptionWrites": [
+      {
+        "option": "take-it-on",
+        "writes": {
+          "kind": "take-on-commitment",
+          "label": "Looking after somebody in the family",
+          "commitmentKind": "personal:care",
+          "weeklyHours": [6, 14]
+        },
+        "aftermath": "obligation"
+      },
+      {
+        "option": "name-the-limit",
+        "writes": null,
+        "aftermath": "obligation"
+      },
+      {
+        "option": "wait",
+        "writes": null,
+        "aftermath": "grievance"
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.volunteer-ask",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "context=>context.hasPostedMeeting&&context.civicParticipationCount===0",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "Posted meeting and no group membership; no volunteer organization, shortage or request.",
+    "subsequentOptionWrites": [
+      {
+        "option": "sign-up",
+        "writes": {
+          "kind": "join-community-organization",
+          "organizationLabel": "Local volunteer group",
+          "participationKind": "membership:volunteer",
+          "roleKind": "member:volunteer"
+        },
+        "aftermath": "obligation"
+      },
+      {
+        "option": "once",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "no",
+        "writes": null,
+        "aftermath": null
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  },
+  {
+    "key": "adult.incident-aftermath",
+    "personId": "person_abe2d2e882c85e27",
+    "worldId": "world_b7b971033057581e",
+    "date": "2026-01-05",
+    "nextSequence": 5,
+    "context": {
+      "personId": "person_abe2d2e882c85e27",
+      "asOfDate": "2026-01-05",
+      "age": 59,
+      "householdIds": [],
+      "householdCompanionIds": [],
+      "kinIds": [],
+      "partnerIds": [],
+      "colleagueIds": [],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": [],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 0,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": false,
+      "hasHouseholdWorkItem": false,
+      "activeIncidentCount": 1,
+      "playedKeys": [],
+      "recallableKeys": []
+    },
+    "exactLegacyPredicate": "context=>context.activeIncidentCount>0",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "One active World incident; no local impact, recovery or personal knowledge.",
+    "subsequentOptionWrites": [
+      {
+        "option": "sort-your-own",
+        "writes": null,
+        "aftermath": null
+      },
+      {
+        "option": "help-clear-up",
+        "writes": null,
+        "aftermath": "goodwill"
+      },
+      {
+        "option": "push-for-answers",
+        "writes": null,
+        "aftermath": "standing"
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [],
+      "workItemStates": [],
+      "kinship": [],
+      "work": [],
+      "commitments": [],
+      "care": [],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": [
+        {
+          "id": "incident_2a206ea01083dcad",
+          "stableKey": "p2r1:incident",
+          "sequence": 2,
+          "definitionId": "incident-definition_c7b7c2526b99a6d0",
+          "incidentKind": "incident:natural-hazard",
+          "scope": {
+            "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+            "segmentKey": null
+          },
+          "onsetAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "rootCausalProcessId": "causal-process_31fca503e5fbf50c",
+          "onsetEventId": "event_75b18d26aafbcc82",
+          "occurrence": {
+            "definitionId": "incident-definition_c7b7c2526b99a6d0",
+            "evaluationKey": "p2r1:incident-evaluation",
+            "scope": {
+              "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+              "segmentKey": null
+            },
+            "evaluatedAt": "2026-01-05",
+            "cutoff": {
+              "asOfDate": "2026-01-05",
+              "historySequenceExclusive": 0
+            },
+            "prerequisiteResults": [],
+            "blockerResults": [],
+            "baseLikelihood": {
+              "numerator": 1,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "appliedLikelihoodModifiers": [],
+            "likelihood": {
+              "numerator": 1,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "rng": {
+              "key": "[\"incident-evaluation-v1\",\"p2r1-active-incident\",\"incident.p2r1\",\"p2r1:incident-evaluation\",{\"jurisdictionId\":\"jurisdiction_a4a6991ef3dd5879\",\"segmentKey\":null},\"2026-01-05\",{\"asOfDate\":\"2026-01-05\",\"historySequenceExclusive\":0}]",
+              "draw": 2357812134,
+              "drawRangeExclusive": 4294967296,
+              "occurred": true
+            },
+            "exposure": {
+              "numerator": 1,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "vulnerability": {
+              "numerator": 1,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "resilience": {
+              "numerator": 0,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "impactShare": {
+              "numerator": 1,
+              "denominator": 1,
+              "unit": "rate:share"
+            },
+            "consequences": [],
+            "occurred": true
+          },
+          "provenance": {
+            "kind": "simulated",
+            "sourceEntityIds": ["event_75b18d26aafbcc82"]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "key": "adult.weekend-invitation",
+    "personId": "person_32612ccaf1a03b5a",
+    "worldId": "world_82241636f2553811",
+    "date": "2026-01-05",
+    "nextSequence": 48,
+    "context": {
+      "personId": "person_32612ccaf1a03b5a",
+      "asOfDate": "2026-01-05",
+      "age": 55,
+      "householdIds": ["household_930bb63ac1a487c2"],
+      "householdCompanionIds": ["person_32612dcaf1a03d0d"],
+      "kinIds": ["person_32612acaf1a037f4"],
+      "partnerIds": [],
+      "colleagueIds": ["person_32612dcaf1a03d0d"],
+      "communityMemberIds": [],
+      "otherHouseholdMemberIds": ["person_32612bcaf1a039a7"],
+      "familiarPersonIds": [],
+      "strongestDependency": 0,
+      "reliedOnPersonId": null,
+      "workCount": 1,
+      "careCount": 0,
+      "commitmentCount": 0,
+      "playerMadeCommitmentCount": 0,
+      "obligationCount": 0,
+      "hasHousingObligation": false,
+      "civicParticipationCount": 0,
+      "hasDwelling": false,
+      "hasHousingTenure": false,
+      "hasPostedMeeting": true,
+      "hasHouseholdWorkItem": true,
+      "activeIncidentCount": 0,
+      "playedKeys": [],
+      "recallableKeys": ["person.generated", "simulation.fixture"]
+    },
+    "exactLegacyPredicate": "()=>true",
+    "legacyPredicatePass": true,
+    "offeredAfterRepair": false,
+    "missing": "No invitation or event time; old predicate always true.",
+    "subsequentOptionWrites": [
+      {
+        "option": "say-yes",
+        "writes": null,
+        "aftermath": "goodwill"
+      },
+      {
+        "option": "stay-in",
+        "writes": null,
+        "aftermath": null
+      }
+    ],
+    "preOfferRecords": {
+      "workItems": [
+        {
+          "id": "work-item_436d7adbf302b831",
+          "stableKey": "ordinary-life:household-errands",
+          "sequence": 44,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "The week's errands",
+          "summary": "The shopping and the two appointments after it still have to be covered by somebody.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        },
+        {
+          "id": "work-item_aa628f24c4345511",
+          "stableKey": "ordinary-life:public-meeting",
+          "sequence": 46,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "Whether to go to the meeting",
+          "summary": "The agenda is posted.",
+          "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
+          "sourceEntityIds": ["event_cf80b91fe7a8f311"],
+          "focus": {
+            "kind": "person",
+            "personId": "person_32612ccaf1a03b5a"
+          },
+          "effort": {
+            "kind": "authored-duration",
+            "requiredMinutes": 150
+          },
+          "access": {
+            "kind": "private",
+            "personIds": ["person_32612ccaf1a03b5a"]
+          }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c13d45ad5fdb6daa",
+          "stableKey": "ordinary-life:household-errands:state:active",
+          "sequence": 45,
+          "workItemId": "work-item_436d7adbf302b831",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        },
+        {
+          "id": "work-item-state_29deb83e6b10bc6a",
+          "stableKey": "ordinary-life:public-meeting:state:active",
+          "sequence": 47,
+          "workItemId": "work-item_aa628f24c4345511",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_32612ccaf1a03b5a"],
+          "playerRequirement": "none",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "kinship": [
+        {
+          "id": "kinship_28e4cc61f71cae79",
+          "stableKey": "p2r1:kin",
+          "sequence": 43,
+          "personIds": ["person_32612acaf1a037f4", "person_32612ccaf1a03b5a"],
+          "establishedAt": "2026-01-05",
+          "kind": "collateral:sibling",
+          "provenance": {
+            "kind": "authored",
+            "note": "P2R1 minimal premise fixture"
+          }
+        }
+      ],
+      "work": [
+        {
+          "id": "work-relationship_fb89e26ad59409ec",
+          "stableKey": "initial:work:person_32612dcaf1a03d0d:community-services",
+          "sequence": 24,
+          "personId": "person_32612dcaf1a03d0d",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_2d6aecb548694e73",
+          "stableKey": "initial:work:person_32612ccaf1a03b5a:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_32612ccaf1a03b5a",
+          "organizationId": "organization_55df6198256ea4dc",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "stableKey": "initial:commitment:person_32612dcaf1a03d0d:mutual-aid-circle",
+          "personId": "person_32612dcaf1a03d0d",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": {
+              "minimumHours": 3,
+              "maximumHours": 6
+            },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_da5f4bb79e0cf308",
+          "sequence": 42
+        }
+      ],
+      "care": [
+        {
+          "id": "care-responsibility_4733b0b0559a8142",
+          "stableKey": "initial:care:person_32612dcaf1a03d0d:person_32612bcaf1a039a7",
+          "sequence": 40,
+          "caregiverPersonId": "person_32612dcaf1a03d0d",
+          "recipientPersonId": "person_32612bcaf1a039a7",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "housing": [],
+      "flows": [],
+      "obligations": [],
+      "incidents": []
+    }
+  }
+]
