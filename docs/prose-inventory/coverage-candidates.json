@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1914,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4735,
-    "DIAGNOSTIC_OR_TEST": 3639,
-    "NEEDS_CLASSIFICATION": 3262
+    "INTENTIONALLY_NON_PLAYER_FACING": 4755,
+    "DIAGNOSTIC_OR_TEST": 3668,
+    "NEEDS_CLASSIFICATION": 3381
   },
   "needsClassification": [
     {
@@ -2139,6 +2139,126 @@
       "enclosingSymbol": "MeasureView",
       "line": 435,
       "text": "Show the vote record",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 84,
+      "text": "Education and work",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 101,
+      "text": "You pay ${path.sessionCostMinor/100} after each attended session.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 103,
+      "text": "The employer pays ${path.sessionPayMinor/100} the day after each completed shift.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 104,
+      "text": "This is unpaid volunteer work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 117,
+      "text": "Enroll in",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 130,
+      "text": "A calendar commitment must be resolved first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 132,
+      "text": "One day passed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 160,
+      "text": "{completedStudySessions(world,record.id)} attended sessions.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 325,
+      "text": "Engagement ended or offer declined",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 328,
+      "text": "Accepted; awaiting start",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 330,
+      "text": "Counteroffer pending",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 331,
+      "text": "Awaiting response",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 335,
+      "text": "${amount/100} per completed assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 387,
+      "text": "Ready for review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/LifePathsPanel.tsx",
+      "enclosingSymbol": "LifePathsPanel",
+      "line": 390,
+      "text": "In progress",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -17513,8 +17633,824 @@
     {
       "sourcePath": "src/simulation/life-integrity.ts",
       "enclosingSymbol": "optionalStrength",
-      "line": 1460,
+      "line": 1468,
       "text": "fatigue strength for {recordId}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 45,
+      "text": "Civic Learning College (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 46,
+      "text": "College office administration certificate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 47,
+      "text": "Study records, correspondence and office administration.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 49,
+      "text": "Office administration certificate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 68,
+      "text": "Civic Learning College (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 69,
+      "text": "Associate degree in public administration",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 71,
+      "text": "Study public records, administration and research methods.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 73,
+      "text": "Associate degree in public administration",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 92,
+      "text": "Community Skills Cooperative (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 93,
+      "text": "Repair workshop certificate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 95,
+      "text": "Practice safe workshop procedures and supervised equipment repair.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 97,
+      "text": "Repair workshop certificate",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 116,
+      "text": "Neighborhood Supply Cooperative (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 117,
+      "text": "Shop assistant",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 119,
+      "text": "Receive stock and help customers during a four-hour shift.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 140,
+      "text": "Community Skills Cooperative (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 141,
+      "text": "Repair worker",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 142,
+      "text": "Complete a supervised equipment repair assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 163,
+      "text": "Community Records Cooperative (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 164,
+      "text": "Office assistant",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 165,
+      "text": "Organize records and prepare correspondence for review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 186,
+      "text": "Community Welcome Association (fictional)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 187,
+      "text": "Community volunteer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 188,
+      "text": "Prepare community meeting materials for review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 209,
+      "text": "Your active campaign",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 210,
+      "text": "Campaign volunteer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 212,
+      "text": "Prepare meeting materials for the campaign team to review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 233,
+      "text": "Your active campaign",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 234,
+      "text": "Campaign records assistant",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "enclosingSymbol": "LIFE_PATHS2_CATALOG",
+      "line": 236,
+      "text": "Prepare the campaign correspondence and records for review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "lifePathEntryReason",
+      "line": 148,
+      "text": "This opportunity is for adults.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "lifePathEntryReason",
+      "line": 158,
+      "text": "The person cannot take on this activity now.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "lifePathEntryReason",
+      "line": 163,
+      "text": "The required training has not been completed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "lifePathEntryReason",
+      "line": 165,
+      "text": "Hiring authority and applicable employment restrictions are not established.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 234,
+      "text": "This path is already in your history. Continue or return to it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 239,
+      "text": "This opportunity requires recruitment by the active campaign.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 257,
+      "text": "You enrolled in {path.title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 271,
+      "text": "You enrolled. Schedule a study session to begin.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 273,
+      "text": "You accepted the work. Pay follows completed shifts.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "enterLifePath",
+      "line": 274,
+      "text": "You accepted the volunteer work. This engagement is unpaid.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "scheduleLifePathSession",
+      "line": 388,
+      "text": "This path is not active for you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "scheduleLifePathSession",
+      "line": 396,
+      "text": "A session is already scheduled.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "scheduleLifePathSession",
+      "line": 416,
+      "text": "The session is on your calendar.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "scheduleLifePathSession",
+      "line": 419,
+      "text": "You already have a commitment at that time.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 442,
+      "text": "This session is no longer available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 444,
+      "text": "This session has already ended.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 454,
+      "text": "You do not have enough money for this session.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 457,
+      "text": "Another calendar commitment must be resolved first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 497,
+      "text": "You completed a session of {path.title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 521,
+      "text": "You completed {path.credential}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 529,
+      "text": "You completed a shift as {path.title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 558,
+      "text": "Experienced {path.title.toLowerCase()}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "performLifePathSession",
+      "line": 567,
+      "text": "The session is complete.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "LIFE_PATHS2_HANDLERS",
+      "line": 598,
+      "text": "Unfinished work ended with the engagement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "LIFE_PATHS2_HANDLERS",
+      "line": 617,
+      "text": "Pay awaits completion and the next pay date.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "LIFE_PATHS2_HANDLERS",
+      "line": 647,
+      "text": "Assignment paid.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "LIFE_PATHS2_HANDLERS",
+      "line": 648,
+      "text": "Payment missed: insufficient funds.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "LIFE_PATHS2_HANDLERS",
+      "line": 687,
+      "text": "Completed shift paid.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 700,
+      "text": "This is not your path.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 702,
+      "text": "This path is unavailable.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 708,
+      "text": "Only an interrupted path can be resumed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 714,
+      "text": "This path has already ended.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 716,
+      "text": "This path is already interrupted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 760,
+      "text": "You returned to the path.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 762,
+      "text": "You interrupted the path. Your progress is preserved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "changeLifePathStatus",
+      "line": 763,
+      "text": "You left the path. Your history is preserved.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 790,
+      "text": "This hiring context is not supported.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 794,
+      "text": "You do not have an active campaign.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 796,
+      "text": "You have no established contact with this person.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 802,
+      "text": "These compensation terms are not supported.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 812,
+      "text": "This person already has an engagement on this path.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 848,
+      "text": "You proposed {proposedPay===0?\"volunteerwork\":`$${(proposedPay/100).toFixed(2)}percompletedshift`} as {path.title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 890,
+      "text": "Declined the offer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 890,
+      "text": "Unavailable for this work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 900,
+      "text": "The offer was accepted. Work can start tomorrow.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 902,
+      "text": "The offer was declined.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 903,
+      "text": "The person asked to discuss the compensation before agreeing.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 908,
+      "text": "Accepted; start the engagement tomorrow.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 910,
+      "text": "Declined. No work was assigned.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "recruitLifePathPerson",
+      "line": 911,
+      "text": "Compensation discussion requested. No work was assigned.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "activateLifePathRecruit",
+      "line": 931,
+      "text": "No accepted offer is ready to start.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "activateLifePathRecruit",
+      "line": 933,
+      "text": "The agreed start date has not arrived.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "activateLifePathRecruit",
+      "line": 942,
+      "text": "This campaign engagement no longer has active campaign authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "activateLifePathRecruit",
+      "line": 974,
+      "text": "The engagement has started.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "delegateLifePathWork",
+      "line": 998,
+      "text": "This person is not working for you under an accepted offer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "delegateLifePathWork",
+      "line": 1007,
+      "text": "This campaign engagement no longer has active campaign authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "delegateLifePathWork",
+      "line": 1019,
+      "text": "This person already has an unfinished assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "delegateLifePathWork",
+      "line": 1039,
+      "text": "You assigned the agreed work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "delegateLifePathWork",
+      "line": 1060,
+      "text": "The assignment is with them. It progresses while they are available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "departLifePathRecruit",
+      "line": 1079,
+      "text": "This engagement is not active.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "departLifePathRecruit",
+      "line": 1094,
+      "text": "The engagement ended.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "departLifePathRecruit",
+      "line": 1096,
+      "text": "The engagement ended. No further delegated work will progress.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "acceptLifePathCounteroffer",
+      "line": 1135,
+      "text": "There is no outstanding counteroffer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "acceptLifePathCounteroffer",
+      "line": 1141,
+      "text": "No monetary counteroffer was proposed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "acceptLifePathCounteroffer",
+      "line": 1145,
+      "text": "The revised agreement can begin on the proposed start date.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "acceptLifePathCounteroffer",
+      "line": 1167,
+      "text": "You agreed to ${(amount.minorUnits/100).toFixed(2)} per completed assignment.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "acceptLifePathCounteroffer",
+      "line": 1169,
+      "text": "The revised terms were accepted.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "progressLifePathWork",
+      "line": 1186,
+      "text": "This work is not active for you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "progressLifePathWork",
+      "line": 1198,
+      "text": "Progression is available after ten completed shifts, beginning on a later day.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "progressLifePathWork",
+      "line": 1206,
+      "text": "This volunteer engagement has no paid progression.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "progressLifePathWork",
+      "line": 1226,
+      "text": "You accepted the next pay step for future shifts.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "enclosingSymbol": "progressLifePathWork",
+      "line": 1230,
+      "text": "Your future shifts use the higher pay rate. Earlier earnings are unchanged.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -23105,7 +24041,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 265,
+      "line": 267,
       "text": "Scheduled activity stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23113,7 +24049,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 266,
+      "line": 268,
       "text": "Scheduled activity title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23121,7 +24057,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 267,
+      "line": 269,
       "text": "Scheduled activity summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23129,7 +24065,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 268,
+      "line": 270,
       "text": "Scheduled activity location key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23137,7 +24073,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createScheduledActivity",
-      "line": 269,
+      "line": 271,
       "text": "Scheduled activity location label",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23145,7 +24081,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "participantPersonIds",
-      "line": 280,
+      "line": 282,
       "text": "Scheduled activity participants",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23153,7 +24089,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 306,
+      "line": 308,
       "text": "Scheduled activity sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23161,7 +24097,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 440,
+      "line": 478,
       "text": "Moved {activity.title} to a valid interval",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23169,7 +24105,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 447,
+      "line": 485,
       "text": "{activity.title} was moved to another valid working interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23177,7 +24113,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 452,
+      "line": 490,
       "text": "Scheduled activity planning",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23185,7 +24121,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 454,
+      "line": 492,
       "text": "An explicit schedule change.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23193,7 +24129,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 456,
+      "line": 494,
       "text": "Move a flexible work block.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23201,7 +24137,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 457,
+      "line": 495,
       "text": "Resolve the office agenda without moving fixed commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23209,7 +24145,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 459,
+      "line": 497,
       "text": "The flexible block now occupies the selected interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23217,7 +24153,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 496,
+      "line": 534,
       "text": "Work item stable key",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23225,7 +24161,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 497,
+      "line": 535,
       "text": "Work item title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23233,7 +24169,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "createWorkItem",
-      "line": 498,
+      "line": 536,
       "text": "Work item summary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23241,7 +24177,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "sourceEntityIds",
-      "line": 507,
+      "line": 545,
       "text": "Work item sources",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23249,7 +24185,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "assignedPersonIds",
-      "line": 514,
+      "line": 552,
       "text": "Work item assignees",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23257,7 +24193,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "waitingOnPersonIds",
-      "line": 518,
+      "line": 556,
       "text": "Work item dependencies",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23265,7 +24201,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 639,
+      "line": 677,
       "text": "Assigned {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23273,7 +24209,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 644,
+      "line": 682,
       "text": "Accepted responsibility for {item.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23281,7 +24217,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 650,
+      "line": 688,
       "text": "{item.title} was assigned to staff.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23289,7 +24225,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 655,
+      "line": 693,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23297,7 +24233,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 656,
+      "line": 694,
       "text": "Office work assignment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23305,7 +24241,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 659,
+      "line": 697,
       "text": "An explicit office delegation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23313,7 +24249,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 661,
+      "line": 699,
       "text": "Delegate the bounded work item.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23321,7 +24257,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 663,
+      "line": 701,
       "text": "Allow office work to proceed while the player handles other commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23329,7 +24265,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 665,
+      "line": 703,
       "text": "The assigned staff member can now work independently.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23337,7 +24273,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1056,
+      "line": 1094,
       "text": "Simulation time advanced {minutes} minutes.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23345,7 +24281,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1061,
+      "line": 1099,
       "text": "Primary simulation jurisdiction",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23353,7 +24289,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "advanceCanonicalMinutes",
-      "line": 1065,
+      "line": 1103,
       "text": "Deterministic canonical minute-level time transition.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23361,7 +24297,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1178,
+      "line": 1235,
       "text": "Completed {item.title} for review",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23369,7 +24305,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1183,
+      "line": 1240,
       "text": "{item.title} is ready for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23377,7 +24313,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1188,
+      "line": 1245,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23385,7 +24321,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1189,
+      "line": 1246,
       "text": "Parallel staff work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23393,7 +24329,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1193,
+      "line": 1250,
       "text": "Staff work progressed while the controlled person was occupied elsewhere.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23401,7 +24337,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1196,
+      "line": 1253,
       "text": "Complete an explicitly assigned office task.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23409,7 +24345,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1198,
+      "line": 1255,
       "text": "The result is available to the controlled office for review.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23417,7 +24353,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1270,
+      "line": 1327,
       "text": "Participated in {activity.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23425,7 +24361,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1275,
+      "line": 1332,
       "text": "{activity.title} concluded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23433,7 +24369,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1280,
+      "line": 1337,
       "text": "Scheduled activity",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23441,7 +24377,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1284,
+      "line": 1341,
       "text": "Commit the scheduled activity interval.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23449,7 +24385,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1285,
+      "line": 1342,
       "text": "Carry out a meaningful in-world commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -23457,7 +24393,7 @@
     {
       "sourcePath": "src/simulation/time-work.ts",
       "enclosingSymbol": "next",
-      "line": 1286,
+      "line": 1343,
       "text": "The scheduled interval is complete.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -24967,6 +25903,22 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/ui/LifePaths2Proof.tsx",
+      "enclosingSymbol": "initial",
+      "line": 49,
+      "text": "Seek suitable work.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/LifePaths2Proof.tsx",
+      "enclosingSymbol": "Proof",
+      "line": 72,
+      "text": "2rem auto",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/ui/MindProfile.tsx",
       "enclosingSymbol": "sourceReferenceLabel",
       "line": 25,
@@ -26111,6 +27063,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/ui/LifePaths2Proof.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateSubjectKnowledgeProvenance. Play fails closed rather than showing it.",
@@ -26180,30 +27138,6 @@
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateScope. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world-metrics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/CausalTraceView.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -26285,6 +27219,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
@@ -26294,6 +27234,24 @@
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertUniqueId. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/CausalTraceView.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -26373,24 +27331,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 84
-    },
-    {
-      "sourcePath": "src/simulation/setup-questionnaire.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
@@ -26627,6 +27567,24 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/setup-questionnaire.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
@@ -26729,12 +27687,6 @@
       "count": 9
     },
     {
-      "sourcePath": "src/simulation/life-sources.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/simulation/perception.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -26759,10 +27711,10 @@
       "count": 19
     },
     {
-      "sourcePath": "src/simulation/names-data.ts",
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/municipal-election-rules.ts",
@@ -26819,6 +27771,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
@@ -26839,13 +27797,13 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/names-data.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -26900,12 +27858,6 @@
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/municipal-election-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27017,22 +27969,34 @@
       "count": 81
     },
     {
-      "sourcePath": "src/simulation/life-queries.ts",
+      "sourcePath": "src/simulation/life-sources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/life-places.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 9
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 29
     },
     {
       "sourcePath": "src/simulation/life-integrity.ts",
@@ -27050,6 +28014,12 @@
       "sourcePath": "src/simulation/life-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateLoadResolution. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/life-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27095,6 +28065,18 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 17
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/life-content-92c.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27111,30 +28093,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertRulePackIntegrity. Play fails closed rather than showing it.",
       "count": 30
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislature-rules.ts",
@@ -27173,6 +28131,60 @@
       "count": 46
     },
     {
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2-catalog.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-paths2.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/legislation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27193,12 +28205,6 @@
     {
       "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislation-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 52
     },
@@ -27206,12 +28212,6 @@
       "sourcePath": "src/simulation/jurisdiction-hierarchy.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 17
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 17
     },
     {
@@ -27251,15 +28251,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislation.ts",
+      "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislative-member-decisions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27305,6 +28299,24 @@
       "count": 3
     },
     {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDueProvenance. Play fails closed rather than showing it.",
@@ -27327,12 +28339,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 46
-    },
-    {
-      "sourcePath": "src/simulation/executive-governing-kernels.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 11
     },
     {
       "sourcePath": "src/simulation/executive-governing-kernels.test.ts",
@@ -27419,6 +28425,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/evidence-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateArtifact. Play fails closed rather than showing it.",
@@ -27429,12 +28441,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 22
-    },
-    {
-      "sourcePath": "src/simulation/evidence-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertEvidenceIntegrity. Play fails closed rather than showing it.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/episode-bank.ts",
@@ -27475,6 +28481,18 @@
     {
       "sourcePath": "src/simulation/demo.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/executive-governing-kernels.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 11
     },
@@ -27489,12 +28507,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 12
-    },
-    {
-      "sourcePath": "src/simulation/decisions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
-      "count": 5
     },
     {
       "sourcePath": "src/simulation/decisions.ts",
@@ -27518,6 +28530,18 @@
       "sourcePath": "src/simulation/character-history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/evidence-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertEvidenceIntegrity. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27557,10 +28581,10 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/demo.ts",
+      "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
+      "reason": "A validation message composed in validateCausalProvenance. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/causal-effects.ts",
@@ -27577,8 +28601,8 @@
     {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateCausalProvenance. Play fails closed rather than showing it.",
-      "count": 4
+      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/causal-effects.ts",
@@ -27593,24 +28617,6 @@
       "count": 64
     },
     {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/canonical-json.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27621,12 +28627,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/candidacy-packs.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/campaigns.ts",
@@ -27773,7 +28773,7 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/candidacy.ts",
+      "sourcePath": "src/simulation/candidacy-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -27893,6 +28893,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/candidacy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -27911,34 +28917,22 @@
       "count": 38
     },
     {
-      "sourcePath": "src/presentation/production-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/production-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/production-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 21
     },
     {
-      "sourcePath": "src/presentation/formative-context.test.ts",
+      "sourcePath": "src/presentation/production-release-boundary.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 27
     },
     {
-      "sourcePath": "src/presentation/production-release-boundary.test.ts",
+      "sourcePath": "src/presentation/prior-work-evidence.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 27
+      "count": 19
     },
     {
       "sourcePath": "src/presentation/pose-families.ts",
@@ -27989,6 +28983,18 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/pose-control-plate.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/life-scene.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28019,12 +29025,6 @@
       "count": 19
     },
     {
-      "sourcePath": "src/presentation/prior-work-evidence.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 19
-    },
-    {
       "sourcePath": "src/presentation/legislative-member-seat.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -28043,10 +29043,22 @@
       "count": 23
     },
     {
+      "sourcePath": "src/presentation/legislative-dialogue-motifs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/legislative-commitment-standing.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 91
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/presentation/legislative-bargaining.test.ts",
@@ -28061,49 +29073,7 @@
       "count": 7
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-world.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 13
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/legislative-bargaining-world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/legislative-dialogue-motifs.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/pose-control-plate.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -28115,28 +29085,40 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
+      "sourcePath": "src/presentation/legislative-bargaining-world.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 13
     },
     {
       "sourcePath": "src/presentation/legislative-bargaining-no-fixture.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/legislative-action-authority.test.ts",
@@ -28148,6 +29130,12 @@
       "sourcePath": "src/presentation/legislation-world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 3
     },
     {
@@ -28163,16 +29151,16 @@
       "count": 5
     },
     {
+      "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/presentation/legislation-session.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 3
-    },
-    {
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 10
     },
     {
       "sourcePath": "src/presentation/legislation-routes.test.ts",
@@ -28239,6 +29227,18 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
+    },
+    {
+      "sourcePath": "src/presentation/formative-context.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 27
+    },
+    {
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/conversation-consequences.ts",
@@ -28526,12 +29526,6 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {

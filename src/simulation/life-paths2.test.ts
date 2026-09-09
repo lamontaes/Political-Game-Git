@@ -328,35 +328,40 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
     expect(balance(w)).toBe(179920);
     expect(changeLifePathStatus(w, id, "return").world).toBe(w);
   }, 30000);
-  it("never spends the same worker minute twice across assignments", () => {
-    let w = fixture();
-    const person = w.personOrder[1]!;
-    for (let i = 0; i < 2; i++) {
-      w = createWorkItem(w, {
-        stableKey: `contention-${i}`,
-        title: "Fixture work",
-        summary: "Explicit authored work duration.",
-        jurisdictionId: null,
-        sourceEntityIds: [person],
-        focus: { kind: "person", personId: person },
-        effort: { kind: "authored-duration", requiredMinutes: 120 },
-        access: { kind: "private", personIds: [w.personOrder[0]!, person] },
-        assignedPersonIds: [person],
-        playerRequirement: "none",
-        waitingOnPersonIds: [],
-        blocker: null,
-        scheduledActivityId: null,
-      });
-    }
-    w = advanceWorldMinutes(w, 60, LIFE_PATHS2_HANDLERS);
-    expect(
-      w.history.workItems.reduce(
-        (sum, item) => sum + workItemState(w, item.id).completedEffortMinutes,
-        0,
-      ),
-    ).toBe(60);
-    expect(deserializeWorld(serializeWorld(w))).toEqual(w);
-  });
+  it.each([false, true])(
+    "conserves worker capacity across reload; distinct workers: %s",
+    (distinct) => {
+      let w = fixture();
+      for (let i = 0; i < 2; i++) {
+        const person = w.personOrder[distinct ? i + 1 : 1]!;
+        w = createWorkItem(w, {
+          stableKey: `contention-${i}`,
+          title: "Fixture work",
+          summary: "Explicit authored work duration.",
+          jurisdictionId: null,
+          sourceEntityIds: [person],
+          focus: { kind: "person", personId: person },
+          effort: { kind: "authored-duration", requiredMinutes: 120 },
+          access: { kind: "private", personIds: [w.personOrder[0]!, person] },
+          assignedPersonIds: [person],
+          playerRequirement: "none",
+          waitingOnPersonIds: [],
+          blocker: null,
+          scheduledActivityId: null,
+        });
+      }
+      w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+      w = deserializeWorld(serializeWorld(w));
+      w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+      expect(
+        w.history.workItems.reduce(
+          (sum, item) => sum + workItemState(w, item.id).completedEffortMinutes,
+          0,
+        ),
+      ).toBe(distinct ? 120 : 60);
+      expect(deserializeWorld(serializeWorld(w))).toEqual(w);
+    },
+  );
 });
 
 it("binds campaign compensation to its treasury and refuses absent campaign authority", () => {
