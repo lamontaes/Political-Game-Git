@@ -10,7 +10,10 @@ import {
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
+import { addDays } from "../simulation/dates";
+import { publishPublicEvent } from "../simulation/public-information";
 import type { EntityId, World } from "../simulation";
+import { recordWorldEvent } from "../simulation/world";
 import {
   applyLegislativeCommand,
   openLegislativeWork,
@@ -409,6 +412,75 @@ describe("a room says only what this world knows", () => {
         }
       }
     }
+  });
+
+  it("does not invent locality when a room has no jurisdiction", () => {
+    const opened = openWork("surface-null-jurisdiction");
+    const previousDate = addDays(opened.world.currentDate, -1);
+    const withUnlocatedEvent = recordWorldEvent(opened.world, {
+      stableKey: "surface:null-jurisdiction:unlocated-event",
+      type: "civic.public-forum-held",
+      occurredAt: previousDate,
+      recordedAt: previousDate,
+      jurisdictionId: null,
+      involvedEntityIds: [opened.jurisdictionId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic"],
+      summary: "A public forum concluded without a recorded jurisdiction.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const unlocatedEvent = withUnlocatedEvent.history.events.at(-1)!;
+    const withUnlocatedPublication = publishPublicEvent(withUnlocatedEvent, {
+      stableKey: "surface:null-jurisdiction:unlocated-publication",
+      sourceEventId: unlocatedEvent.id,
+      publishedAt: previousDate,
+      recordedAt: previousDate,
+    });
+    const withLocalEvent = recordWorldEvent(withUnlocatedPublication, {
+      stableKey: "surface:null-jurisdiction:local-event",
+      type: "civic.public-forum-held",
+      occurredAt: opened.world.currentDate,
+      recordedAt: opened.world.currentDate,
+      jurisdictionId: opened.jurisdictionId,
+      involvedEntityIds: [opened.jurisdictionId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic"],
+      summary: "A newer local forum concluded in the named jurisdiction.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const localEvent = withLocalEvent.history.events.at(-1)!;
+    const published = publishPublicEvent(withLocalEvent, {
+      stableKey: "surface:null-jurisdiction:local-publication",
+      sourceEventId: localEvent.id,
+    });
+
+    const projection = projectDynamicSurfaces(published, {
+      jurisdictionId: null,
+    });
+    expect(projection.facts.get("headline")?.text).toBe(
+      unlocatedEvent.summary,
+    );
+    expect(projection.facts.get("headline")?.text).not.toBe(
+      localEvent.summary,
+    );
   });
 
   /**
