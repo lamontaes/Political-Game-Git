@@ -3,7 +3,7 @@
     "INVENTORIED": 2054,
     "INTENTIONALLY_NON_PLAYER_FACING": 5192,
     "DIAGNOSTIC_OR_TEST": 4357,
-    "NEEDS_CLASSIFICATION": 5624
+    "NEEDS_CLASSIFICATION": 5626
   },
   "needsClassification": [
     {
@@ -4643,6 +4643,22 @@
       "enclosingSymbol": "ShellNav",
       "line": 203,
       "text": "Main navigation",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/ShellNav.tsx",
+      "enclosingSymbol": "ShellNav",
+      "line": 256,
+      "text": "Keep this life",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/ShellNav.tsx",
+      "enclosingSymbol": "ShellNav",
+      "line": 256,
+      "text": "Save this life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },

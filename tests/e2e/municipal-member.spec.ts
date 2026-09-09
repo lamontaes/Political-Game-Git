@@ -1,3 +1,4 @@
+import { saveLife } from "./support/creator";
 /** Run on UI-core's identified composed candidate, not the isolated fixture HTML.
  * A real creator save is the control. Only the explicit test office is authored;
  * production controls never grant it and all subsequent actions use normal UI.
@@ -48,7 +49,7 @@ async function savedRecord(page: Page): Promise<StoredBrowserWorldRecord> {
 }
 
 async function save(page: Page) {
-  await goTo(page, "keep-world");
+  await saveLife(page);
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
   return deserializeWorld((await savedRecord(page)).payload);
 }

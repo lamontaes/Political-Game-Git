@@ -1,3 +1,4 @@
+import { saveLife } from "./support/creator";
 import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
@@ -49,7 +50,7 @@ async function savedWorld(page: Page): Promise<World> {
 }
 
 async function save(page: Page) {
-  await goTo(page, "keep-world");
+  await saveLife(page);
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
 }
 

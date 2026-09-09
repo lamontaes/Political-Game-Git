@@ -2132,7 +2132,7 @@ function PlayingScreen({
           placeName={moment.placeName}
           destinations={destinations}
           canSave={!savesUnavailable}
-          unsaved={session.unsavedSeed !== null}
+          unsaved={session.saveId === null}
           onSave={() =>
             onKeep({
               pins: shell.pins,

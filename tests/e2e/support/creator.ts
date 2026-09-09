@@ -215,3 +215,15 @@ export async function openElsewhere(
   }
   await control.click();
 }
+
+/** Explicit initial retention versus an update of the existing save slot. */
+export async function saveLife(page: Page): Promise<void> {
+  await openShellMenu(page);
+  const keep = page.getByTestId("keep-world");
+  if (await keep.count()) await keep.click();
+  else await page.getByTestId("save-world").click();
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await openShellMenu(page);
+  await expect(keep).toHaveCount(0);
+  await expect(page.getByTestId("save-world")).toBeEnabled();
+}

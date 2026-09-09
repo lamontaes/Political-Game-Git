@@ -250,10 +250,10 @@ export function ShellNav({
                 <button
                   type="button"
                   role="menuitem"
-                  data-testid="keep-world"
+                  data-testid={unsaved ? "keep-world" : "save-world"}
                   onClick={onSave}
                 >
-                  Save this life
+                  {unsaved ? "Keep this life" : "Save this life"}
                   {unsaved ? <small>Not saved yet</small> : null}
                 </button>
               ) : null}

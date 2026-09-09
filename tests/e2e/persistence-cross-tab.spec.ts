@@ -152,7 +152,7 @@ test("only one of two tabs may call its own divergent world durable", async ({
     const stored = await onlooker.load(saveId);
 
     const rawRecord = await new Promise<unknown>((resolve, reject) => {
-      const open = indexedDB.open(setup.databaseName, 1);
+      const open = indexedDB.open(setup.databaseName);
       open.onsuccess = () => {
         const read = open.result
           .transaction("worlds", "readonly")

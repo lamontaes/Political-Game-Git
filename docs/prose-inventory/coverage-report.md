@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2054 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5192 |
 | DIAGNOSTIC_OR_TEST | 4357 |
-| **NEEDS_CLASSIFICATION** | **5624** |
+| **NEEDS_CLASSIFICATION** | **5626** |
 
-Scanned 492 files holding 64718 string
+Scanned 492 files holding 64721 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -175,6 +175,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
+| 7 | `src/player/ShellNav.tsx` |
 | 7 | `src/player/ShellPinRail.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
 | 7 | `src/presentation/life-scene-flow.ts` |
@@ -201,7 +202,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
-| 5 | `src/player/ShellNav.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
 | 5 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |

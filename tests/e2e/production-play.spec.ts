@@ -5,6 +5,7 @@ import {
   fillCreator,
   goTo,
   openElsewhere,
+  saveLife,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -497,4 +498,58 @@ test.describe("Nothing on screen is developer vocabulary", () => {
     );
     expect(errors).toEqual([]);
   });
+});
+
+test("initial Keep becomes repeatable Save on the same slot across changes and reload", async ({
+  page,
+}) => {
+  await freshBrowser(page);
+  await startLife(page, { age: 9 });
+  const read = () =>
+    page.evaluate(async () => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const request = indexedDB.open("political-life-worlds");
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      const records = await new Promise<
+        Array<{ saveId: string; payload: string }>
+      >((resolve, reject) => {
+        const request = db
+          .transaction("worlds", "readonly")
+          .objectStore("worlds")
+          .getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      db.close();
+      return records;
+    });
+  await keepAndWait(page);
+  const initial = await read();
+  expect(initial).toHaveLength(1);
+  const world = JSON.parse(initial[0]!.payload).world;
+  await saveLife(page);
+  await saveLife(page);
+  expect((await read()).map((r) => r.saveId)).toEqual(
+    initial.map((r) => r.saveId),
+  );
+  expect(JSON.parse((await read())[0]!.payload).world).toEqual(world);
+  await page.getByTestId("shell-nav-cluster").click();
+  await page.getByTestId("story-options").getByRole("button").first().click();
+  await saveLife(page);
+  const changed = await read();
+  expect(changed).toHaveLength(1);
+  expect(changed[0]!.saveId).toBe(initial[0]!.saveId);
+  const after = JSON.parse(changed[0]!.payload).world;
+  expect(after.id).toBe(world.id);
+  expect(after.control).toEqual(world.control);
+  expect(after.history).not.toEqual(world.history);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await expectNoDestination(page, "keep-world");
+  await saveLife(page);
+  expect((await read())[0]!.saveId).toBe(initial[0]!.saveId);
+  expect(JSON.parse((await read())[0]!.payload).world).toEqual(after);
 });

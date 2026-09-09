@@ -1,3 +1,4 @@
+import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, startLife } from "./support/creator";
 import type { Page } from "@playwright/test";
@@ -25,7 +26,7 @@ async function savedWorld(page: Page) {
 }
 
 async function save(page: Page) {
-  await goTo(page, "keep-world");
+  await saveLife(page);
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
 }
 
