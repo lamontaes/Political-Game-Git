@@ -42,7 +42,10 @@ test("pointer and keyboard decision, actual work, briefing and save/reload", asy
     .click();
   await expect(page.getByTestId("delivery-count")).toHaveText("1 deliveries");
   await page.getByRole("button", { name: "Save diagnostic" }).click();
+  await expect(page.getByTestId("save-status")).toHaveText("saved");
+  await page.reload();
   await page.getByRole("button", { name: "Reload diagnostic" }).click();
+  await expect(page.getByTestId("delivery-count")).toHaveText("1 deliveries");
   await expect(
     page.getByRole("heading", { name: "Follow-up", exact: true }),
   ).toHaveCount(1);

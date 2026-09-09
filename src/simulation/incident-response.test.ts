@@ -37,6 +37,14 @@ function followThrough(
 ) {
   w = decideIncidentResponse(w, reportId, "commission-report", staff);
   const work = w.history.workItems.at(-1)!;
+  expect(
+    w.history.knowledge.some(
+      (k) =>
+        k.personId === staff &&
+        k.eventId === reportId &&
+        k.source.kind === "told-by",
+    ),
+  ).toBe(true);
   w = advanceWorldMinutes(w, 30);
   w = arrangeIncidentBriefing(w, work.id);
   w = attendIncidentBriefing(w, w.history.scheduledActivities.at(-1)!.id);

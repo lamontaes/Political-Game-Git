@@ -9,10 +9,10 @@ import { createRoot } from "react-dom/client";
 import { responseFixture } from "../../src/simulation/incident-response.fixture";
 import { IncidentResponsePanel } from "../../src/player/IncidentResponsePanel";
 import { advanceWorldMinutes } from "../../src/simulation/time-work";
-import {
-  serializeWorld,
-  deserializeWorld,
-} from "../../src/simulation/serialization";
+import { BrowserSaveStore } from "../../src/presentation/browser-world-repository";
+const store = new BrowserSaveStore({
+  databaseName: "incident-response7-proof",
+});
 function Proof() {
   const [world, setWorld] = useState(() => {
     const f = responseFixture();
@@ -38,6 +38,7 @@ function Proof() {
       provenance: { kind: "authored", note: "Diagnostic internal allocation." },
     });
   });
+  const [saveId] = useState(() => store.newSaveId(world));
   const [save, setSave] = useState("");
   return (
     <main>
@@ -52,10 +53,22 @@ function Proof() {
       <p data-testid="delivery-count">
         {world.history.resourceTransferOutcomes.length} deliveries
       </p>
-      <button onClick={() => setSave(serializeWorld(world))}>
+      <button
+        onClick={async () => setSave((await store.save(world, saveId)).status)}
+      >
         Save diagnostic
       </button>
-      <button disabled={!save} onClick={() => setWorld(deserializeWorld(save))}>
+      <p data-testid="save-status">{save}</p>
+      <button
+        onClick={async () => {
+          const listing = await store.list();
+          const id = listing.saves[0]?.saveId;
+          if (id) {
+            const loaded = await store.load(id);
+            if (loaded) setWorld(loaded);
+          }
+        }}
+      >
         Reload diagnostic
       </button>
       <p>

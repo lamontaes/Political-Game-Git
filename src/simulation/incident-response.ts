@@ -323,6 +323,17 @@ export function decideIncidentResponse(
     blocker: null,
     scheduledActivityId: null,
   });
+  if (!knows(next, staffId, report))
+    next = recordEventKnowledge(next, {
+      stableKey: `${key}:report-shared`,
+      personId: staffId,
+      eventId: report.id,
+      learnedAt: next.currentDate,
+      believedSummary: report.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "told-by", sourcePersonId: actor(w), claimId: null },
+    });
   return teach(next, decision, [actor(w), staffId]);
 }
 
