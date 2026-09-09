@@ -323,9 +323,11 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   const save = page.getByTestId("save-composed-amendment");
   await save.focus();
   await page.keyboard.press("Enter");
-  await expect(composition.getByRole("status")).toContainText(
-    "Proposed changes saved",
-  );
+  await expect(
+    composition
+      .getByRole("status")
+      .filter({ hasText: "Proposed changes saved" }),
+  ).toContainText("Proposed changes saved");
   expect(await clauses.innerText()).toBe(originalText);
   await page.getByTestId("keep-world").click();
   await expect(page.getByTestId("keep-world")).toHaveCount(0);
@@ -343,6 +345,7 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   expect(await page.getByTestId("docket-clauses").innerText()).toBe(
     originalText,
   );
+  await page.getByTestId("composition-comparison").scrollIntoViewIfNeeded();
   await page.screenshot({
     fullPage: true,
     path: "docs/agent/evidence/leg-content1/finish4-private-comparison.png",

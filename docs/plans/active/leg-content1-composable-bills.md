@@ -379,4 +379,4 @@ FISCAL's proposed/current distinction and missing-input refusal remain intact.
 The American English checker is supplied by SKILL-OPS1 (#147), not duplicated
 here. The full expanded N ledger remains requested; the accessible owner return
 links to an external ledger and is not a full expanded acceptance verdict.
-Heavy validation is queued behind LIFE/EXEC, OPENING and DEV.
+Final checkpoint validation passed: 190 files / 3,385 tests, two skipped; all remaining validation stages and ordinary Chrome proofs passed. See [exact gate evidence](../../agent/evidence/leg-content1/finish4-checkpoint.md). The owned server is stopped and the heavy slot was released to ENV. Expanded human acceptance and the documented record/interface gaps remain open.
