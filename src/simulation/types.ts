@@ -1068,7 +1068,13 @@ export interface EducationEnrollment {
 }
 
 export type EducationEnrollmentStatus =
-  "expected" | "active" | "completed" | "withdrawn" | "transferred" | "ended";
+  | "expected"
+  | "active"
+  | "temporarily-inactive"
+  | "completed"
+  | "withdrawn"
+  | "transferred"
+  | "ended";
 
 export interface EducationEnrollmentStateRecord {
   readonly id: EntityId;

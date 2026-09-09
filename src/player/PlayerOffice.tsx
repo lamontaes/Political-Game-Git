@@ -1,3 +1,5 @@
+import { useReviewEnvironment, useReviewStorage } from "../ui/review-context";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { useEffect, useMemo, useReducer, useState } from "react";
 
 import type { EntityId } from "../simulation";
@@ -97,12 +99,27 @@ function formatRunATime(minuteOfDay: number): string {
 }
 
 export function PlayerOffice() {
+  const review = useReviewEnvironment();
+  const storage = useReviewStorage();
   const seedParam = new URLSearchParams(window.location.search).get("seed");
   const fixture = useMemo(
     () => createRunDLiteFixture(seedParam ?? undefined),
     [seedParam],
   );
-  const [world, setWorld] = useState(fixture.world);
+  const [world, setWorld] = useState(() =>
+    review
+      ? deserializeWorld(
+          serializeWorld(
+            review?.initialWorld.id === fixture.world.id
+              ? review.initialWorld
+              : fixture.world,
+          ),
+        )
+      : fixture.world,
+  );
+  useEffect(() => {
+    review?.reportWorld(world);
+  }, [world, review]);
   const fixtureState = parseRunAFixtureState(
     new URLSearchParams(window.location.search).get("fixture"),
   );
@@ -112,7 +129,7 @@ export function PlayerOffice() {
       simulationActionSequence: fixture.world.actionSequence,
       scenePersonId: fixture.scenePerson.personId,
       fixtureState,
-      learnedConceptIds: loadLearnedConcepts(window.localStorage),
+      learnedConceptIds: loadLearnedConcepts(storage),
     }),
   );
   const [conversationState, conversationDispatch] = useReducer(
@@ -179,8 +196,8 @@ export function PlayerOffice() {
   }
 
   useEffect(() => {
-    persistLearnedConcepts(window.localStorage, state.learnedConceptIds);
-  }, [state.learnedConceptIds]);
+    persistLearnedConcepts(storage, state.learnedConceptIds);
+  }, [state.learnedConceptIds, storage]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLElement>) {
     if (event.key !== "Escape") return;
