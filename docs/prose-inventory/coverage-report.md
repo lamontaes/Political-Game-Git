@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1919 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5106 |
-| DIAGNOSTIC_OR_TEST | 4114 |
-| **NEEDS_CLASSIFICATION** | **5457** |
+| INVENTORIED | 1932 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5110 |
+| DIAGNOSTIC_OR_TEST | 4173 |
+| **NEEDS_CLASSIFICATION** | **5511** |
 
-Scanned 449 files holding 61909 string
+Scanned 456 files holding 62336 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,6 +42,7 @@ literals in total; the table counts only those that read like a sentence.
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
+| 59 | `src/simulation/adult-situations.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/simulation/judicial-office-content.ts` |
@@ -70,9 +71,9 @@ literals in total; the table counts only those that read like a sentence.
 | 35 | `src/simulation/person-stress-harness.ts` |
 | 35 | `src/ui/PoliticalProfile.tsx` |
 | 34 | `src/simulation/life-episodes.ts` |
+| 34 | `src/simulation/life-opportunities.ts` |
 | 34 | `src/simulation/mind.ts` |
 | 33 | `src/presentation/life-diagnostics.ts` |
-| 33 | `src/simulation/adult-situations.ts` |
 | 32 | `src/content/adapters/legislative-blueprints.ts` |
 | 31 | `src/content/adapters/life-episodes.ts` |
 | 31 | `src/simulation/people.ts` |
@@ -122,7 +123,6 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
-| 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/incidents.ts` |
@@ -156,6 +156,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
 | 8 | `src/presentation/new-game.ts` |
+| 8 | `src/presentation/ordinary-life.ts` |
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/presentation/shell-navigation.ts` |
 | 8 | `src/simulation/future-transitions.ts` |

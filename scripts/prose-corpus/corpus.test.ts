@@ -556,6 +556,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     expect(report).toContain(
       `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
     );
+
   });
 });
 

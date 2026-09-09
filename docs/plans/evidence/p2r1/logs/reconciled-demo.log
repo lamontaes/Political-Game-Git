@@ -1,0 +1,23 @@
+
+> political-life-rpg@0.2.0 demo
+> node --import tsx src/cli/demo.ts validation-seed
+
+{
+  "seed": "validation-seed",
+  "worldId": "world_57ea127c581f9ec2",
+  "snapshotId": "snapshot_3450ed053bd831ba",
+  "reproducible": true,
+  "currentDate": "2026-01-26",
+  "jurisdictionCount": 1,
+  "personCount": 6,
+  "eventCount": 11,
+  "organizationCount": 1,
+  "workRelationshipCount": 2,
+  "householdCount": 2,
+  "careResponsibilityCount": 1,
+  "materializedPerson": {
+    "id": "person_30ade6b1e0913534",
+    "name": "Maya Harris",
+    "detailLevel": "materialized"
+  }
+}
