@@ -1,0 +1,150 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "onet31-occupations",
+      "bytes": {
+        "length": 102540,
+        "sha256": "13b2aa4c08e6c9a3708d5e5ac83e13da5cc184e3798313c8942a266d00593ace"
+      },
+      "localPath": "data/source/career-occupations/raw/occupations.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "USDOL/ETA O*NET",
+      "publisher": {
+        "documentationUrl": "https://www.onetcenter.org/database.html",
+        "releaseDate": null,
+        "schemaVersion": "31.0",
+        "statedVintage": "O*NET 31.0 / O*NET-SOC 2019"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 102540,
+        "retrievedAt": "2026-09-09T17:37:52.478Z",
+        "url": "https://www.onetcenter.org/dl_files/database/db_31_0_excel/Occupation%20Data.xlsx"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "CC BY 4.0; https://www.onetcenter.org/license_db.html",
+        "status": "declared-license"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "onet31-tasks",
+      "bytes": {
+        "length": 1149461,
+        "sha256": "afb7ba3bb00f0355d7d5f07e0a446ce880d72d15d4f3f2087973aa8c0dd102d4"
+      },
+      "localPath": "data/source/career-occupations/raw/tasks.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "USDOL/ETA O*NET",
+      "publisher": {
+        "documentationUrl": "https://www.onetcenter.org/database.html",
+        "releaseDate": null,
+        "schemaVersion": "31.0",
+        "statedVintage": "O*NET 31.0 / O*NET-SOC 2019"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1149461,
+        "retrievedAt": "2026-09-09T17:37:52.769Z",
+        "url": "https://www.onetcenter.org/dl_files/database/db_31_0_excel/Task%20Statements.xlsx"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "CC BY 4.0; https://www.onetcenter.org/license_db.html",
+        "status": "declared-license"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "onet2019-soc2018-crosswalk",
+      "bytes": {
+        "length": 44847,
+        "sha256": "bfc6722a92c2d607e5a99dee88b7826cf5aa91f7c0453182e0c8268e32a20a19"
+      },
+      "localPath": "data/source/career-occupations/raw/crosswalk.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "USDOL/ETA O*NET",
+      "publisher": {
+        "documentationUrl": "https://www.onetcenter.org/database.html",
+        "releaseDate": null,
+        "schemaVersion": "31.0",
+        "statedVintage": "O*NET 31.0 / O*NET-SOC 2019"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 44847,
+        "retrievedAt": "2026-09-09T17:37:54.726Z",
+        "url": "https://www.onetcenter.org/taxonomy/2019/soc/2019_to_SOC_Crosswalk.xlsx?fmt=xlsx"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "CC BY 4.0; https://www.onetcenter.org/license_db.html",
+        "status": "declared-license"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-soc2018-structure",
+      "bytes": {
+        "length": 51367,
+        "sha256": "ade08af40923266f3a854842e888ca3e93c15b26a147c20a2b12a61f4c4f4077"
+      },
+      "localPath": "data/source/career-occupations/raw/soc.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "BLS",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/soc/2018/home.htm",
+        "releaseDate": null,
+        "schemaVersion": "2018",
+        "statedVintage": "2018 SOC"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 51367,
+        "retrievedAt": "2026-09-09T17:37:55.634Z",
+        "url": "https://www.bls.gov/soc/2018/soc_structure_2018.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "bls-oews2025-national",
+      "bytes": {
+        "length": 279525,
+        "sha256": "b5855a37f3e03e779f6fbf173d3bbc94aeeff33426aef32fa95ce6d025bab1af"
+      },
+      "localPath": "data/source/career-occupations/raw/oews.zip",
+      "mediaType": "application/zip",
+      "provider": "BLS",
+      "publisher": {
+        "documentationUrl": "https://www.bls.gov/oes/tables.htm",
+        "releaseDate": null,
+        "schemaVersion": "May 2025 OEWS national",
+        "statedVintage": "May 2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 279525,
+        "retrievedAt": "2026-09-09T17:37:55.849Z",
+        "url": "https://www.bls.gov/oes/special-requests/oesm25nat.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "career-occupations"
+}

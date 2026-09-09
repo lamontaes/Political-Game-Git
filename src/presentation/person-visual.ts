@@ -1,3 +1,4 @@
+import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import type {
   CharacterComponentLibrary,
   CharacterWardrobeContext,
@@ -30,6 +31,7 @@ export interface PersonVisualLibraries {
 export function resolvePersonPortrait(
   person: Person,
   options?: {
+    readonly snapshot?: PersonRenderSnapshot;
     readonly libraries?: PersonVisualLibraries;
     readonly wardrobe?: CharacterWardrobeContext;
   },
@@ -43,6 +45,7 @@ export function resolvePersonPortrait(
     !person.appearance.selection &&
     !options?.libraries &&
     !options?.wardrobe &&
+    !options?.snapshot &&
     Object.values(CHARACTER_VISUAL_RECIPES).find(
       (recipe) => recipe.appearanceSeed === person.appearance!.seed,
     );
@@ -71,6 +74,7 @@ export function resolvePersonPortrait(
       library: characters,
       visualLibrary: visuals,
       wardrobe: options?.wardrobe,
+      snapshot: options?.snapshot,
     });
   } catch {
     return { kind: "placeholder", reason: "appearance-unresolvable" };

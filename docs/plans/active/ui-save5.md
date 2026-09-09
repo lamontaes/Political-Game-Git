@@ -158,3 +158,24 @@ canonical career/social progression establishing the prerequisites. Existing
 CAREER-PATH7 owner received this bounded dependency; no extra scope or stock
 reporter authorized. Domain fixture success is not normal-entry acceptance.
 Final NEWS consumer typecheck completed successfully; browser gates remain pending.
+
+## Published CAREER / MUNI-LOAD6 / PEOPLE-SNAPSHOT6 deltas
+
+Applied CAREER65f0d29 feature-local source/data/compiler/provider/panel/tests
+and its exact LIFE-panel registration patch. Existing combined LIFE/time-work,
+types and staff correction are retained rather than overwritten by donor
+ancestry. Journalism and a second office colleague remain unsupported by this
+career slice. Normal-route browser test is requested as a frozen follow-up.
+
+Applied MUNI15f2611→b60797d compact runtime registry, exporter/parity/corruption
+checks and generated-transport scan exclusion. Full inventory is untouched;
+lookup remains synchronous. Donor runtime/patched027b835 measurements remain
+attributed to those exact compositions, not claimed for this combined UI.
+
+Applied PEOPLE303c7ad→52cb34eb source/test delta. PersonPortrait was composed
+manually with existing saved-wardrobe refusal handling; one ephemeral snapshot
+map is shared by normal portrait and scene consumers. Candidate snapshot tests
+use UI's identity fixture and per-run output convention. Snapshot objects are
+not persisted; production release/fixture/compatibility gates remain intact.
+Current combined typecheck and scoped lint pass. Browser/full/required art gates
+remain pending the shared slot; no human art approval or new acceptance claimed.

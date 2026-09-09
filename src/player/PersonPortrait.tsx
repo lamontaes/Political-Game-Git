@@ -1,4 +1,5 @@
-import { useSavedWardrobe } from "./SavedAppearance";
+import type { PersonRenderSnapshot } from "../presentation/person-render-snapshot";
+import { useSavedRenderSnapshot, useSavedWardrobe } from "./SavedAppearance";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../presentation/visual-integration";
 import type { CharacterWardrobeContext } from "../presentation/character-components";
@@ -9,6 +10,7 @@ import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 
 export interface PersonPortraitProps {
+  readonly snapshot?: PersonRenderSnapshot;
   readonly world: World;
   readonly visualLibraries?: PersonVisualLibraries;
   readonly wardrobe?: CharacterWardrobeContext;
@@ -25,8 +27,10 @@ export function PersonPortrait({
   note = null,
   visualLibraries,
   wardrobe,
+  snapshot,
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
+  const sharedSnapshot = useSavedRenderSnapshot(personId);
   const person = world.people[personId];
   if (!person) return null;
   const name = personName(person);
@@ -47,6 +51,9 @@ export function PersonPortrait({
     : resolvePersonPortrait(person, {
         libraries: visualLibraries,
         wardrobe: resolvedWardrobe,
+        snapshot:
+          snapshot ??
+          (!visualLibraries && !wardrobe ? sharedSnapshot : undefined),
       });
 
   return (

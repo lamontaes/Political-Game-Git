@@ -1,3 +1,7 @@
+import {
+  recipeFromSnapshot,
+  type PersonRenderSnapshot,
+} from "./person-render-snapshot";
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {
   projectCharacterLayers,
@@ -168,6 +172,7 @@ export interface CharacterRenderPlan {
 }
 
 export interface CharacterRenderPlanRequest {
+  readonly snapshot?: PersonRenderSnapshot;
   readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: string;
   readonly appearance: PersonAppearance;
@@ -240,13 +245,22 @@ export function buildCharacterRenderPlan(
       `Scene anchor '${anchor.id}' must declare positive bodyWidthPercent and scale.`,
     );
   }
-  const recipe = resolvePersonCharacterRecipe(
-    appearance,
-    anchor.poseFamily,
-    library,
-    unresolvableRequiredSlots,
-    request.wardrobe,
-  );
+  const recipe = request.snapshot
+    ? recipeFromSnapshot(
+        request.snapshot,
+        personId,
+        appearance,
+        library,
+        anchor.poseFamily,
+        request.wardrobe,
+      )
+    : resolvePersonCharacterRecipe(
+        appearance,
+        anchor.poseFamily,
+        library,
+        unresolvableRequiredSlots,
+        request.wardrobe,
+      );
   const projected = projectCharacterLayers(recipe, library);
   const recipeKey = `${appearance.seed}@${recipe.recipeVersion}#g${recipe.catalogGeneration}:${stableIdentityKey(recipe.identity)}`;
 

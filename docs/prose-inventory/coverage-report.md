@@ -8,15 +8,16 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2297 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5516 |
-| DIAGNOSTIC_OR_TEST | 4483 |
-| **NEEDS_CLASSIFICATION** | **5785** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5521 |
+| DIAGNOSTIC_OR_TEST | 4500 |
+| **NEEDS_CLASSIFICATION** | **5815** |
 
-Scanned 501 files holding 67442 string
+Scanned 509 files holding 67713 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
 
+- `src/simulation/municipal-rule-registry.generated.ts` — Generated admission projection of the municipal source inventory. Authored rule adapter prose remains inventoried at its original source, not duplicated in the transport.
 - `src/simulation/municipal-governments.generated.ts` — Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.
 - `src/source` — The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.
@@ -86,6 +87,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 26 | `src/simulation/career-path7.ts` |
 | 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
@@ -155,9 +157,9 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/presentation/production-world.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/ui/CausalTraceView.tsx` |
+| 10 | `src/ui/PeopleVisual4Review.tsx` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/life-circumstances.ts` |
-| 9 | `src/ui/PeopleVisual4Review.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
@@ -224,6 +226,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
+| 3 | `src/player/CareerPathsPanel.tsx` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/PressWorkspace.tsx` |
 | 3 | `src/presentation/browser-shell-state.ts` |

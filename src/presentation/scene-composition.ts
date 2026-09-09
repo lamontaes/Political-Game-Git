@@ -1,3 +1,7 @@
+import {
+  recipeFromSnapshot,
+  type PersonRenderSnapshot,
+} from "./person-render-snapshot";
 import type { PersonAppearance } from "../simulation/person-appearance";
 import {
   projectCharacterLayers,
@@ -80,6 +84,7 @@ export interface SceneCharacterPresentation {
 }
 
 export interface SceneCharacterRequest {
+  readonly snapshot?: PersonRenderSnapshot;
   readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: string;
   readonly displayName: string;
@@ -194,11 +199,19 @@ export function composeSceneCharacter(
 
   // Identity first, against a provisional pose, so the pose resolver can ask
   // about THIS person's body family rather than about the library in general.
-  const identityProbe = resolvePersonCharacterRecipe(
-    appearance,
-    provisionalPose(anchor),
-    library,
-  );
+  const identityProbe = request.snapshot
+    ? recipeFromSnapshot(
+        request.snapshot,
+        personId,
+        appearance,
+        library,
+        provisionalPose(anchor),
+      )
+    : resolvePersonCharacterRecipe(
+        appearance,
+        provisionalPose(anchor),
+        library,
+      );
   const resolution = resolvePoseForRequest(
     {
       anchorId: anchor.id,
@@ -219,13 +232,22 @@ export function composeSceneCharacter(
   const poseFamilyId =
     resolution.poseFamily?.pose_family_id ?? provisionalPose(anchor);
   const poseFamily = resolution.poseFamily;
-  const recipe = resolvePersonCharacterRecipe(
-    appearance,
-    poseFamilyId,
-    library,
-    undefined,
-    request.wardrobe,
-  );
+  const recipe = request.snapshot
+    ? recipeFromSnapshot(
+        request.snapshot,
+        personId,
+        appearance,
+        library,
+        poseFamilyId,
+        request.wardrobe,
+      )
+    : resolvePersonCharacterRecipe(
+        appearance,
+        poseFamilyId,
+        library,
+        undefined,
+        request.wardrobe,
+      );
   const projected = projectCharacterLayers(recipe, library);
 
   const diagnostics: SceneDiagnostic[] = recipe.context.diagnostics

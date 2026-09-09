@@ -1,4 +1,4 @@
-import { municipalRulePackById } from "./municipal-government";
+import { municipalRulePackById } from "./municipal-rule-registry";
 import {
   fractionOf,
   knownRule,
