@@ -51,7 +51,8 @@ import type {
 // The projection, as the generated file carries it
 // ---------------------------------------------------------------------------
 
-export type MunicipalEvidenceClass = "enacted-text" | "research-transcription";
+export type MunicipalEvidenceClass =
+  "enacted-text" | "research-transcription" | "reference-observation";
 
 export interface MunicipalCompositionValue {
   readonly pattern: string;
@@ -370,8 +371,15 @@ export function municipalMeetingReading(
 ): MunicipalReading {
   const first = primaryReading(government);
   const ordered = [
-    first,
-    ...government.readings.filter((reading) => reading !== first),
+    ...government.readings.filter(
+      (reading) => reading.evidence === "enacted-text",
+    ),
+    ...government.readings.filter(
+      (reading) => reading.evidence === "reference-observation",
+    ),
+    ...government.readings.filter(
+      (reading) => reading.evidence === "research-transcription",
+    ),
   ];
   return (
     ordered.find((reading) =>
@@ -384,6 +392,25 @@ export function municipalMeetingReading(
     ordered.find((reading) => reading.meetingSeries.length > 0) ??
     first
   );
+}
+
+/** Every supported public series, retaining the selected reading's own fields. */
+export function municipalPublicMeetingSeries(
+  government: MunicipalGovernment,
+): readonly MunicipalMeetingSeries[] {
+  const keys = [
+    ...new Set(
+      government.readings.flatMap((reading) =>
+        reading.meetingSeries.map((series) => series.seriesKey),
+      ),
+    ),
+  ];
+  return keys.flatMap((key) => {
+    const series = municipalMeetingReading(government, key).meetingSeries.find(
+      (entry) => entry.seriesKey === key,
+    );
+    return series?.publicAttendance?.openToPublic === true ? [series] : [];
+  });
 }
 
 // ---------------------------------------------------------------------------

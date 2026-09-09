@@ -45,6 +45,17 @@ describe("recovered municipal evidence reaches the consumer without identity gue
       primaryReading(municipalGovernmentByKey("us-nh-new-london")!).form,
     ).toBe("TOWN_MEETING");
   });
+  it("does not turn an unestablished public-comment rule into a prohibition", () => {
+    for (const key of ["us-nd-fargo", "us-wv-morgantown"]) {
+      const reading = municipalGovernmentByKey(key)!.readings.find(
+        (entry) => entry.evidence === "research-transcription",
+      )!;
+      const regular = reading.meetingSeries.find(
+        (entry) => entry.seriesKey === "regular",
+      )!;
+      expect(regular.publicAttendance?.publicCommentOffered).toBe("UNKNOWN");
+    }
+  });
   it("proves the new provision against locked bytes and keeps missing procedure unknown", () => {
     const corpus = compileMunicipalProduction(
       openMunicipalProduction(lock("municipal-governance")),

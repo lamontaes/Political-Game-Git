@@ -1,3 +1,8 @@
+import {
+  MEETING_PRACTICE_FIXTURE,
+  MEETING_PRACTICE_AS_OF,
+  renderMunicipalMeetingPractice,
+} from "./municipal-meeting-practice";
 /**
  * `npm run export:municipal-governments` — the one-way source-to-game seam.
  *
@@ -376,7 +381,7 @@ function verifiedIdentity(
 
 function exportReading(
   record: MunicipalGovernanceRecord,
-  evidence: "enacted-text" | "research-transcription",
+  evidence: "enacted-text" | "research-transcription" | "reference-observation",
   corpusAsOf: string,
 ): Record<string, unknown> {
   const procedure = record.legislativeProcedure;
@@ -487,6 +492,18 @@ function main(): void {
     openMunicipalFixture(MUNICIPAL_NATIONAL_FIXTURE_PATH),
   );
 
+  if (
+    readFileSync(resolve(REPO_ROOT, MEETING_PRACTICE_FIXTURE), "utf8") !==
+    renderMunicipalMeetingPractice()
+  )
+    throw new Error(
+      "Meeting-practice fixture is stale; regenerate from its captured references.",
+    );
+  const practice = compileMunicipalFixture(
+    openMunicipalFixture(MEETING_PRACTICE_FIXTURE),
+    MEETING_PRACTICE_AS_OF,
+  );
+
   const placeNameByKey = new Map<string, string>();
   for (const government of NATIONAL_MUNICIPAL_RESEARCH.governments) {
     if (government.placeCrosswalk) {
@@ -509,6 +526,12 @@ function main(): void {
         exportReading(record, "research-transcription", compiled.corpus.asOf),
       );
     }
+  }
+
+  for (const record of practice.records) {
+    readings.push(
+      exportReading(record, "reference-observation", practice.corpus.asOf),
+    );
   }
 
   const governments = new Map<string, Record<string, unknown>>();
@@ -566,6 +589,8 @@ export const MUNICIPAL_GOVERNMENTS_META = ${JSON.stringify(
       productionCorpusSha256: production.corpus.canonicalSha256,
       productionAsOf: production.corpus.asOf,
       fixtureRecords: kentucky.records.length + national.records.length,
+      referenceObservationRecords: practice.records.length,
+      referenceObservationSha256: practice.corpus.canonicalSha256,
       kentuckyCorpusSha256: kentucky.corpus.canonicalSha256,
       nationalCorpusSha256: national.corpus.canonicalSha256,
       governmentCount: ordered.length,
@@ -574,7 +599,7 @@ export const MUNICIPAL_GOVERNMENTS_META = ${JSON.stringify(
         .join(" "),
       placeCorpus: NATIONAL_PLACES_META.source,
       coverage:
-        "Every government the municipal-governance domain compiles, from either corpus. A government present in both carries two readings and they are never merged.",
+        "All compiled governments retain separate enacted, secondary-report and dated reference-observation readings; inventory counts do not establish complete legal authority.",
     },
     null,
     2,

@@ -93,6 +93,39 @@ function seatWholeBody(
 }
 
 describe("the municipal corpus reaches the game", () => {
+  it("does not grant a reported veto to an authored mayor without enacted authority", () => {
+    const input = cityWorld("3209700");
+    let world = input.world;
+    const jurisdictionId = input.jurisdictionId;
+    const governmentKey = "us-ar-fort-smith";
+    const personId =
+      world.control.kind === "person"
+        ? world.control.personId
+        : world.personOrder[0]!;
+    world = installMunicipalGovernment(world, {
+      governmentKey,
+      jurisdictionId,
+      formedAt: world.currentDate,
+    });
+    world = seatMunicipalMember(world, {
+      governmentKey,
+      personId,
+      startedAt: world.currentDate,
+      role: "mayor",
+      seatLabel: "Authored test mayor",
+    });
+    const before = JSON.stringify(world);
+    const result = municipalActionAuthority(world, {
+      governmentKey,
+      personId,
+      residentPlaceGeoid: null,
+      action: "act-on-adopted-ordinance",
+    });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.kind).toBe("evidence");
+    expect(JSON.stringify(world)).toBe(before);
+  });
+
   it("carries every compiled government across many states", () => {
     const governments = municipalGovernments();
     expect(governments.length).toBeGreaterThanOrEqual(44);

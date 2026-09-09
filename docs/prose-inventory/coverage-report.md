@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 1914 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4782 |
-| DIAGNOSTIC_OR_TEST | 3668 |
-| **NEEDS_CLASSIFICATION** | **3362** |
+| DIAGNOSTIC_OR_TEST | 3676 |
+| **NEEDS_CLASSIFICATION** | **3380** |
 
-Scanned 349 files holding 52334 string
+Scanned 349 files holding 52429 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -35,6 +35,7 @@ literals in total; the table counts only those that read like a sentence.
 | 69 | `src/simulation/character-history.ts` |
 | 66 | `src/player/PlayerGame.tsx` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
+| 57 | `src/simulation/municipal-public-work.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/simulation/life.ts` |
@@ -46,7 +47,6 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/simulation/time-work.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
-| 40 | `src/simulation/municipal-public-work.ts` |
 | 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/municipal-government.ts` |
 | 39 | `src/simulation/player-model.ts` |
@@ -98,13 +98,13 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
+| 15 | `src/player/MunicipalWorkspace.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/simulation/incidents.ts` |
-| 13 | `src/player/MunicipalWorkspace.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/presentation/surface-projection.ts` |
@@ -195,7 +195,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/life-scene-people.ts` |
-| 1 | `src/presentation/municipal-venue.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |

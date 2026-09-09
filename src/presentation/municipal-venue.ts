@@ -1,33 +1,38 @@
-import {
-  municipalGovernmentByKey,
-  reportedReading,
-} from "../simulation/municipal-government";
+import { municipalGovernmentByKey } from "../simulation/municipal-government";
+import { municipalRecognitionEventId } from "../simulation/municipal-public-work";
 import type { EntityId, World } from "../simulation/types";
+import bindings from "./municipal-venue-bindings.json";
 
-/** Feature-local input to ENV's resolveActivityVenueScene. The resolver must
- * still prove completed presence at the current instant and released art.
- * This is a compatible generic room, never a reconstruction of a real chamber.
+/** Source-backed candidate only: ENV still verifies current completed presence,
+ * participant/access, released art and compositor compatibility. No view grants
+ * travel, a seat, authority or a roster. The table is explicitly reviewed data;
+ * no runtime place-name or room-name guessing is used.
  */
 export function municipalVenueForActivity(world: World, activityId: EntityId) {
   const activity = world.history.scheduledActivities.find(
     (row) => row.id === activityId,
   );
   if (!activity) return null;
-  const government = municipalGovernmentByKey("us-nv-carson-city");
-  const report = government && reportedReading(government);
-  const series = report?.meetingSeries.find(
-    (row) => row.seriesKey === "regular",
+  const binding = bindings.find(
+    (row) =>
+      activity.location.locationKey ===
+      `municipal:${row.governmentKey}:${row.seriesKey}`,
   );
-  if (
-    activity.location.locationKey !== "municipal:us-nv-carson-city:regular" ||
-    !series?.venue?.includes("Community Center")
-  )
-    return null;
+  if (!binding) return null;
+  const anchor = municipalRecognitionEventId(world, binding.governmentKey);
+  if (!anchor || !activity.sourceEntityIds.includes(anchor)) return null;
+  const government = municipalGovernmentByKey(binding.governmentKey);
+  const reading = government?.readings.find(
+    (row) => row.evidence === binding.evidence,
+  );
+  const series = reading?.meetingSeries.find(
+    (row) => row.seriesKey === binding.seriesKey,
+  );
+  if (series?.venue !== binding.venue) return null;
   return {
-    locationKey: activity.location.locationKey,
-    sceneId: "civic-community-meeting-room",
+    locationKey: activity.location.locationKey!,
+    sceneId: binding.sceneId,
     isJourney: false,
-    reason:
-      "The attributed municipal report identifies a Community Center board room. ENV may use its released generic civic meeting room after completed attendance; this does not assert an exact historical room or identify the baked audience.",
+    reason: `${binding.representation} Source: ${reading!.evidence}, snapshot ${reading!.asOf}; ${binding.venue}. ENV must verify completed current-instant attendance before rendering.`,
   };
 }

@@ -50,3 +50,9 @@ Validation and the architecture audit are recorded in `../../evidence/muni-play1
 LEARN: excerpt presence proves capture consistency, not that a source entails a declaration. Keep semantic review and exact missing-field refusal tests alongside the mechanical quote check. The shared dependency directory's `.tmp` build cache is isolated per worktree so concurrent TypeScript builds cannot overwrite one another's incremental state.
 
 LEARN: generated prose counts are now checked against the live scanner and committed report instead of numbers pinned to a past feature tree. This preserves the freshness check while avoiding recurring unrelated feature failures.
+
+## MUNI-FINISH4 — 2026-09-09
+
+Resumed on published 93328bd76f6b191a35ec472bc0f6738f44e9c2c8; fresh main is 6b95f3713590f18973e5e54a3da86e6cd66aa734. Existing ownership/process check found no overlapping municipal writer. Read SHARED EXECUTION CONTRACT and G from Drive 1L5NDuhmPzJ5Nio8hnnfQWl6_kZqmS7uL5RjdS5toVfk. No recovery replay or superseded #98 adoption.
+
+Remaining execution: source-verified missing operational content in the existing declared corpus; precise per-field/source dates and scope; normal-route citizen/member work and save/reload through UI-core/ENV; one actual final gate after the stale-count repair; concrete independent ACCEPT-CLOSE4 findings on the same PR. Report counts are inventory, not complete governmental authority. UI-core owns root and combined corpus regeneration; only feature-owned source/runtime/presentation files change here. Independent review requested on PR149; no finding is inferred while absent. LAND holds the current heavy-validation slot; focused work proceeds.

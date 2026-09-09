@@ -3529,7 +3529,7 @@ const GOVERNMENTS: readonly ResearchGovernment[] = [
         venue: "City Commission Chambers",
         publicAttendance: {
           openToPublic: true,
-          publicCommentOffered: false,
+          publicCommentOffered: "UNKNOWN",
           note: "The Board meets publicly in the Commission Chambers; the pass did not establish a public-comment rule.",
         },
         sourceKey: "fargo-commission",
@@ -3773,7 +3773,7 @@ const GOVERNMENTS: readonly ResearchGovernment[] = [
         venue: "City Hall Council Chambers, 389 Spruce Street, second floor",
         publicAttendance: {
           openToPublic: true,
-          publicCommentOffered: false,
+          publicCommentOffered: "UNKNOWN",
           note: "Public seating in the chamber is bounded behind a wooden railing, so the room's geometry separates the public from the members. The pass did not establish a public-comment rule.",
         },
         sourceKey: "morgantown-council",
