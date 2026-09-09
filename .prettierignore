@@ -29,3 +29,6 @@ scripts/prose-corpus/computed-anchor-ledger.json
 src/simulation/municipal-governments.generated.ts
 src/simulation/municipal-capacity.generated.json
 src/simulation/municipal-rule-registry.generated.ts
+
+# Content-addressed education catalogs: regenerate with scripts/source/export-education.ts.
+public/education/catalog-*.json
