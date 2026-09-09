@@ -542,13 +542,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // Re-measured with corpus:prose on the LIFE-EXEC4 combined EXEC donor. These exact
-    // pins match coverage-report.md and retain drift detection; the earlier
-    // 79L combined-tree counts do not describe this donor's added sources.
+    // Re-measured by corpus:prose on the actual LAND-READY6 EXEC combined
+    // tree. Neither side's pin is selected; these values come from the
+    // accepted generator after composing the exact LIFE dependency.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52868);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(352);
+    expect(coverage.totalLiterals).toBe(55350);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(371);
   });
 });
 

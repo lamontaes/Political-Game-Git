@@ -1,4 +1,4 @@
-import { expect, test, type Download, type Page } from "@playwright/test";
+import { expect, test, type Download, type Page } from "./fixtures";
 
 const BROWSER_URL = "/?view=content";
 

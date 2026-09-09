@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 const KENTUCKY = "/?view=legislation&place=kentucky";
 const NEBRASKA = "/?view=legislation&place=nebraska";
@@ -84,7 +84,7 @@ test.describe("Moving a bill through a legislature", () => {
       "House of Representatives",
     );
     await page.screenshot({
-      path: "test-results/legislation/kentucky-concurrence.png",
+      path: test.info().outputPath("legislation/kentucky-concurrence.png"),
       fullPage: true,
     });
 
@@ -105,7 +105,7 @@ test.describe("Moving a bill through a legislature", () => {
       /signs|vetoes/,
     );
     await page.screenshot({
-      path: "test-results/legislation/kentucky-governor-wait.png",
+      path: test.info().outputPath("legislation/kentucky-governor-wait.png"),
       fullPage: true,
     });
 
@@ -142,7 +142,7 @@ test.describe("Moving a bill through a legislature", () => {
     ).toHaveLength(2);
 
     await page.screenshot({
-      path: "test-results/legislation/kentucky-enacted.png",
+      path: test.info().outputPath("legislation/kentucky-enacted.png"),
       fullPage: true,
     });
   });
@@ -175,7 +175,7 @@ test.describe("Moving a bill through a legislature", () => {
       "Wait for the next legislative day",
     );
     await page.screenshot({
-      path: "test-results/legislation/nebraska-separate-days.png",
+      path: test.info().outputPath("legislation/nebraska-separate-days.png"),
       fullPage: true,
     });
     await step(page, "await-next-legislative-day");
@@ -217,7 +217,7 @@ test.describe("Moving a bill through a legislature", () => {
     expect(override?.[6]).toBe("30 of 49");
 
     await page.screenshot({
-      path: "test-results/legislation/nebraska-enacted.png",
+      path: test.info().outputPath("legislation/nebraska-enacted.png"),
       fullPage: true,
     });
   });
@@ -287,7 +287,7 @@ test.describe("Moving a bill through a legislature", () => {
     ).toHaveLength(1);
 
     await page.screenshot({
-      path: "test-results/legislation/alaska-enacted.png",
+      path: test.info().outputPath("legislation/alaska-enacted.png"),
       fullPage: true,
     });
   });
@@ -331,7 +331,7 @@ test.describe("Moving a bill through a legislature", () => {
     await expect(page.getByTestId("legislation-error")).toHaveCount(0);
 
     await page.screenshot({
-      path: "test-results/legislation/kentucky-restored.png",
+      path: test.info().outputPath("legislation/kentucky-restored.png"),
       fullPage: true,
     });
   });

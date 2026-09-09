@@ -166,14 +166,28 @@ export function adultProseRecords(): readonly ProseRecord[] {
         kind: "role",
       });
     }
+    // Withholding is read, never inferred: a situation that declares its own
+    // `withheld` reason is reported with that exact reason, the same way the
+    // episode banks are.
+    if (situation.withheld !== undefined) {
+      grounding.push({
+        key: "withheld",
+        description: situation.withheld,
+        kind: "withheld",
+      });
+    }
     const common = {
       domain: "life" as const,
       bank: "adult",
       stableKey: situation.key,
       sourcePath: ADULT_MODULE,
       sourceSymbol: `adultSituationBank/${situation.key}`,
-      reachability: "PLAYER_REACHABLE" as const,
+      reachability:
+        situation.withheld !== undefined
+          ? ("WITHHELD_BY_GROUNDING" as const)
+          : ("PLAYER_REACHABLE" as const),
       reachabilityReason:
+        situation.withheld ??
         "The adult bank offers this situation when its availability predicate holds.",
       grounding,
       tags: [
