@@ -118,6 +118,7 @@ import {
   type DocketBill,
 } from "../presentation/legislation-docket";
 import { selectedDocketKey } from "../presentation/legislation-docket-selection";
+import { measureById } from "../simulation";
 import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -2627,6 +2628,29 @@ function renderWorkspace({
             docketKey,
           })
         : null;
+      /*
+       * UI9-13: one working measure, said out loud.
+       *
+       * Two selections could sit on this surface at once — the docket
+       * selection the player made, and whatever the older "look at what is
+       * moving" assignment had opened — each with its own pin control, both
+       * presented as equals. The owner's report from that state was "This is
+       * not my bill." Neither selection is removed and nothing is relabelled
+       * as theirs: the docket selection is named as the one being worked on,
+       * and an assignment pointing at a DIFFERENT measure is named separately
+       * as the other document it is, so the two can never be read as one.
+       */
+      const workingName = workingBill
+        ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
+          null)
+        : null;
+      const assignmentName = assignment
+        ? (measureById(session.world, assignment.measureId)?.shortTitle ?? null)
+        : null;
+      const assignmentIsOther =
+        assignment !== null &&
+        workingBill !== null &&
+        assignment.measureId !== workingBill.measureId;
       return frame(
         "The office",
         "office-section",
@@ -2636,6 +2660,22 @@ function renderWorkspace({
             {capabilities.workPlace?.displayName} legislature, so what is in
             front of the chamber is in front of them too.
           </p>
+          {workingBill ? (
+            <p
+              className="game-band"
+              data-testid="active-measure"
+              data-measure-id={workingBill.measureId}
+            >
+              Working on:{" "}
+              {workingName ?? "a measure this world no longer holds"}
+            </p>
+          ) : null}
+          {assignmentIsOther ? (
+            <p className="game-note" data-testid="other-measure-open">
+              Also open, and not the one you are working on:{" "}
+              {assignmentName ?? "another measure"}.
+            </p>
+          ) : null}
           <button
             type="button"
             className="ui-action"
@@ -2675,8 +2715,8 @@ function renderWorkspace({
               }
             >
               {pinnedRef({ kind: "measure", id: workingBill.measureId })
-                ? "Unpin selected document"
-                : "Pin selected document"}
+                ? `Unpin ${workingName ?? "the measure you are working on"}`
+                : `Pin ${workingName ?? "the measure you are working on"}`}
             </button>
           )}
           {assignment ? (
@@ -2702,8 +2742,8 @@ function renderWorkspace({
                 }
               >
                 {pinnedRef({ kind: "measure", id: assignment.measureId })
-                  ? "Unpin this bill"
-                  : "Pin this bill"}
+                  ? `Unpin ${assignmentName ?? "this bill"}`
+                  : `Pin ${assignmentName ?? "this bill"}`}
               </button>
               {floorNote ? (
                 <p data-testid="floor-withheld">{floorNote}</p>
