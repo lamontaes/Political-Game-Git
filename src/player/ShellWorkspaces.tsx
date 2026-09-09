@@ -792,31 +792,57 @@ export function JournalWorkspace({
 
 /* ------------------------------------------------------------ patch notes */
 
+/**
+ * The releases this game has actually had, newest first.
+ *
+ * A player opening patch notes was being shown seven UNRELEASED engineering
+ * sections and a reserved 0.3.0 candidate above the release they were playing.
+ * Normal notes now list accepted releases only, cumulatively — nothing is
+ * deleted, `PATCH_NOTES.md` is untouched, and the pending sections are still
+ * in the file and still exported for development surfaces to read.
+ *
+ * Dates come from the `_Released …._` line the release writer emits. The two
+ * hand-written historical sections predate that and carry no release date, so
+ * the screen says so instead of inventing one — and instead of quietly reusing
+ * 0.2.0's revision date, which is a different fact.
+ */
 export function PatchNotesWorkspace() {
+  const released = PATCH_NOTE_SECTIONS.filter((section) => section.released);
+  const withheld = PATCH_NOTE_SECTIONS.length - released.length;
   return (
     <>
       <p className="game-band" data-testid="patch-notes-version">
         Version {CANONICAL_VERSION}
       </p>
-      {PATCH_NOTE_SECTIONS.map((section) => (
+      {released.map((section) => (
         <section
           key={section.id}
           className="pg-personal-section"
-          data-testid={`patch-note-${section.released ? "released" : "unreleased"}`}
+          data-testid="patch-note-released"
         >
-          <h3>
-            {section.heading}
-            {section.released ? null : (
-              <span className="pg-tag" data-testid="patch-note-unreleased-tag">
-                Not released
-              </span>
-            )}
-          </h3>
+          <h3>{section.heading}</h3>
+          <p
+            className="game-note"
+            data-testid={`patch-note-when-${section.id}`}
+          >
+            {section.version
+              ? `Version ${section.version}`
+              : "Version not stated"}
+            {" · "}
+            {section.releasedOn ?? "Release date not recorded"}
+          </p>
           {section.paragraphs.map((paragraph, index) => (
             <p key={`${section.id}-${index}`}>{paragraph}</p>
           ))}
         </section>
       ))}
+      {withheld > 0 ? (
+        <p className="game-note" data-testid="patch-notes-withheld">
+          {withheld} section
+          {withheld === 1 ? " is" : "s are"} still in development and not listed
+          here.
+        </p>
+      ) : null}
     </>
   );
 }

@@ -24,12 +24,32 @@ export interface PatchNoteSection {
   /** The heading exactly as `PATCH_NOTES.md` writes it. Never reworded. */
   readonly heading: string;
   /**
-   * True only when the source heading does not say UNRELEASED.
+   * True only for a section this repository has actually accepted.
    *
-   * The notes file already distinguishes shipped sections from candidates. The
-   * screen repeats that distinction rather than deciding it.
+   * The release tooling in `scripts/release/notes.ts` already draws this line
+   * twice: a heading beginning UNRELEASED is pending, and a heading containing
+   * CANDIDATE is a reservation rather than a release. This module used to test
+   * only for UNRELEASED, so `PRE-ALPHA 0.3.0 — "A Life, Not a Fixture" —
+   * CANDIDATE, NOT YET ACCEPTED` was being reported to the screen as shipped —
+   * a reserved version number presented to a player as a release they had.
+   * The rule here is now the same rule the release writer applies.
    */
   readonly released: boolean;
+  /** A reserved, not-yet-accepted section. Never shown as a release. */
+  readonly candidate: boolean;
+  /** The version this section names, when its heading names one. */
+  readonly version: string | null;
+  /**
+   * The release date as the notes state it, or null when they do not.
+   *
+   * `renderReleaseSection` writes `_Released 8 September 2026._` as the first
+   * line of every section it creates, so releases made through the tooling
+   * carry one. The two hand-written historical sections do not, and the date is
+   * left null for them rather than guessed at: 0.2.0 carries a REVISION date in
+   * its prose, and reading that as a release date would be inventing history
+   * out of a sentence that says something else.
+   */
+  readonly releasedOn: string | null;
   readonly paragraphs: readonly string[];
 }
 
@@ -53,10 +73,20 @@ function parseSections(markdown: string): readonly PatchNoteSection[] {
       .split(/\n{2,}/)
       .map((paragraph) => paragraph.replace(/\s*\n\s*/g, " ").trim())
       .filter(Boolean);
+    const pending = /^UNRELEASED\b/i.test(heading);
+    const candidate = /\bCANDIDATE\b/i.test(heading);
+    const released = !pending && !candidate;
     sections.push({
       id: `patch-note-${sections.length}`,
       heading,
-      released: !/UNRELEASED/i.test(heading),
+      released,
+      candidate,
+      version: /\d+\.\d+\.\d+/.exec(heading)?.[0] ?? null,
+      // Only the sentence the release writer itself emits counts as a date.
+      releasedOn: released
+        ? (/^_Released ([^._]+)\._$/m.exec(paragraphs[0] ?? "")?.[1]?.trim() ??
+          null)
+        : null,
       paragraphs,
     });
     buffer = [];

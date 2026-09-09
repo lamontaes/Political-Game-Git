@@ -505,11 +505,32 @@ test.describe("the deliberate workspaces", () => {
     /* One source. The corner and the screen cannot disagree. */
     expect(heading).toContain(corner!.replace(/^v/, ""));
 
-    /* A section the file marks unreleased is labelled, not quietly shipped. */
-    const unreleased = page.getByTestId("patch-note-unreleased-tag");
-    if ((await unreleased.count()) > 0) {
-      await expect(unreleased.first()).toHaveText("Not released");
+    /*
+     * UI9-11. Normal notes carry accepted releases only. A section the file
+     * marks UNRELEASED, and a reserved CANDIDATE version, are both kept out of
+     * the player's list rather than labelled inside it — the previous form of
+     * this check went quiet whenever no tag was rendered, which after the
+     * change would have been always.
+     */
+    await expect(page.getByTestId("patch-note-unreleased-tag")).toHaveCount(0);
+    const releasedCount = await page.getByTestId("patch-note-released").count();
+    expect(releasedCount).toBeGreaterThan(0);
+    await expect(page.getByTestId("patch-notes-withheld")).toBeVisible();
+
+    /* Every listed release states a version, and a date or its absence. */
+    const when = await page
+      .locator('[data-testid^="patch-note-when-"]')
+      .allTextContents();
+    expect(when.length).toBe(releasedCount);
+    for (const line of when) {
+      expect(line).toMatch(/Version .+ · .+/);
     }
+
+    /* And the running version is on the title screen, where it was looked for. */
+    await page.goto("/");
+    await expect(page.getByTestId("title-version")).toContainText(
+      corner!.replace(/^v/, ""),
+    );
   });
 
   test("Options only offers settings something reads", async ({ page }) => {

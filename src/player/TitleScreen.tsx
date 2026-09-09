@@ -1,3 +1,4 @@
+import { CANONICAL_VERSION } from "../presentation/release-identity";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import type { BrowserWorldSummary } from "../presentation/browser-world-repository";
@@ -290,6 +291,16 @@ export function TitleScreen({
           <small>Not available in this build.</small>
         </button>
       </div>
+      {/*
+        The running version, on the title screen.
+
+        The owner looked for it here, did not find it, and only came across it
+        much later as small text in the corner of a scene. It is the same
+        canonical value the notes show and the same one `package.json` holds.
+      */}
+      <p className="game-note" data-testid="title-version">
+        Version {CANONICAL_VERSION}
+      </p>
       {savesUnavailable ? (
         <p className="game-note">
           This browser will not let the game store anything, so a game played
