@@ -1,3 +1,4 @@
+import { PressWorkspace } from "./PressWorkspace";
 import {
   SavedAppearanceProvider,
   SavedAppearanceControls,
@@ -2492,11 +2493,18 @@ function renderWorkspace({
       return frame(
         "News",
         "news-workspace",
-        <PublicInformationPanel
-          model={projectPublicInformationPanel(session.world)}
-          onClose={back}
-          onOpenPerson={openPerson}
-        />,
+        <>
+          <PressWorkspace
+            world={session.world}
+            onWorldChange={onWorldChange}
+            onOpenPerson={openPerson}
+          />
+          <PublicInformationPanel
+            model={projectPublicInformationPanel(session.world)}
+            onClose={back}
+            onOpenPerson={openPerson}
+          />
+        </>,
       );
 
     case "journal":

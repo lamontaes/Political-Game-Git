@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
-import { expect, test } from "@playwright/test";
-const dir = path.resolve("docs/agent/evidence/people-visual4");
+import { expect, test } from "./fixtures";
 
 test("selected canonical candidate keeps identity across wardrobe, portrait, scene and keyboard reload", async ({
   page,
 }) => {
+  const dir = test.info().outputPath("people-visual4");
   await page.goto("/?view=character-proof&set=visual4");
   await expect(page.getByTestId("people-visual4-review")).toBeVisible();
   await expect(page.getByTestId("visual4-completeness")).toContainText(
@@ -141,6 +141,7 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
 test("every available body can be selected and framed without changing its geometry", async ({
   page,
 }) => {
+  const dir = test.info().outputPath("people-visual4");
   await page.goto("/?view=character-proof&set=visual4");
   const select = page.getByRole("combobox", {
     name: "Body",

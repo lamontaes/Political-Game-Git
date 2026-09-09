@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2054 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5466 |
-| DIAGNOSTIC_OR_TEST | 4391 |
-| **NEEDS_CLASSIFICATION** | **5705** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5501 |
+| DIAGNOSTIC_OR_TEST | 4440 |
+| **NEEDS_CLASSIFICATION** | **5800** |
 
-Scanned 494 files holding 66158 string
+Scanned 498 files holding 66690 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -40,6 +40,7 @@ literals in total; the table counts only those that read like a sentence.
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
+| 62 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
 | 57 | `src/simulation/municipal-public-work.ts` |
@@ -90,6 +91,7 @@ literals in total; the table counts only those that read like a sentence.
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
+| 24 | `src/presentation/civic-glossary.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
@@ -113,6 +115,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
+| 16 | `src/player/PressInterviewPanel.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
@@ -138,7 +141,6 @@ literals in total; the table counts only those that read like a sentence.
 | 13 | `src/simulation/resource-integrity.ts` |
 | 12 | `src/content/adapters/ordinary-life.ts` |
 | 12 | `src/player/PermanentShell.tsx` |
-| 12 | `src/presentation/civic-glossary.ts` |
 | 12 | `src/simulation/history.ts` |
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
@@ -202,6 +204,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
+| 5 | `src/player/PressWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
 | 5 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
