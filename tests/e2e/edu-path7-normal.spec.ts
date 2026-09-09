@@ -52,6 +52,29 @@ test("normal dated education offer, attendance, interruption and repeated saving
   await study
     .getByRole("button", { name: "Schedule next session", exact: true })
     .press("Enter");
+  await expect(
+    page
+      .getByRole("region", { name: "Education and work", exact: true })
+      .locator(":scope > [role=status]"),
+  ).toContainText("You already have a commitment at that time.");
+  await expect(study).toContainText("0 attended sessions");
+  await expect(
+    study.getByRole("button", {
+      name: "Attend Workforce Education — noncredit study",
+      exact: true,
+    }),
+  ).toHaveCount(0);
+  await openElsewhere(page, "day");
+  await page
+    .getByTestId("venue-activities")
+    .getByRole("button", { name: "Carry out activity", exact: true })
+    .first()
+    .click();
+  await expect(page.getByTestId("venue-activity-completed")).toBeVisible();
+  await openElsewhere(page, "work");
+  await study
+    .getByRole("button", { name: "Schedule next session", exact: true })
+    .click();
   await study
     .getByRole("button", {
       name: "Attend Workforce Education — noncredit study",

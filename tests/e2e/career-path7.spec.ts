@@ -32,6 +32,26 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await career
     .getByRole("button", { name: "Wait one day", exact: true })
     .click();
+  await expect(career.getByRole("status")).toHaveText(
+    "Resolve your current calendar commitment before waiting.",
+  );
+  // The normal start has a real commitment; fulfill it through Day.
+  await openElsewhere(page, "day");
+  const activities = page
+    .getByTestId("day-overlay")
+    .getByTestId("venue-activities");
+  await activities
+    .getByRole("button", { name: "Carry out activity", exact: true })
+    .first()
+    .click();
+  await expect(
+    activities.getByTestId("venue-activity-completed"),
+  ).toBeVisible();
+  await openElsewhere(page, "work");
+  await career
+    .getByRole("button", { name: "Wait one day", exact: true })
+    .click();
+  await expect(career.getByRole("status")).toHaveText("One day passed.");
   await career
     .getByRole("button", { name: "Begin accepted work", exact: true })
     .click();

@@ -684,9 +684,14 @@ export function chooseStoryOption(
   const scene = input.scene;
   switch (scene.kind) {
     case "episode": {
-      const ordinaryMinutes = OPENING_LIFE_ADDITIONS.find(
+      const ordinaryScene = OPENING_LIFE_ADDITIONS.find(
         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
-      )?.minutes;
+      );
+      const ordinaryMinutes = ordinaryScene
+        ? scene.beat.stageKey === "follow-through"
+          ? 5
+          : ordinaryScene.minutes
+        : undefined;
       if (ordinaryMinutes !== undefined) {
         const probe = advanceWorldMinutes(
           world,

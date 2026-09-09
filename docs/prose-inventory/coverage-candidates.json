@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2297,
     "INTENTIONALLY_NON_PLAYER_FACING": 5537,
-    "DIAGNOSTIC_OR_TEST": 4526,
+    "DIAGNOSTIC_OR_TEST": 4528,
     "NEEDS_CLASSIFICATION": 5886
   },
   "needsClassification": [
@@ -49485,12 +49485,6 @@
       "count": 6
     },
     {
-      "sourcePath": "src/presentation/people-visual4-review.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
-    },
-    {
       "sourcePath": "src/presentation/p2r1-action-memory.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -49506,7 +49500,13 @@
       "sourcePath": "src/presentation/opening-repair6.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/people-visual4-review.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 6
     },
     {
       "sourcePath": "src/presentation/opening-officeholders.ts",

@@ -235,3 +235,18 @@ separate. EDU released the finite heavy slot to UI for current combined proof.
 EDU diagnostic assertion correction fromc130c839a4bf96d95e51cdbbbc1136666058e08d
 is applied; production edition remains89a0049. Current combined edition
 TypeScript and scoped lint pass. New normal test is authored but unrun.
+
+Identified clean ce2df91f9ad81a8d6015b1e8c1ce1499f815e35f browser run
+ui-return7-normal-ce2df91:24 passed,2 failed,4.6m. All20 production-play and
+persistence-cross-tab cases pass, including initial Keep, repeated Save,
+complete replay identity and actual two-tab stale-write refusal. CIVIL normal
+preparation, both PEOPLE delayed-load/switch tests and scene/dossier review
+captures pass. CAREER ignored a blocked day wait; EDU scheduled over an actual
+commitment. Both refusal boundaries remain correct and enabled.
+
+Applied OPENINGc5463eb→aa6e91da chronology/duration correction: strict actual
+canonical epoch-minute comparison, unchanged day projections, actual15+5minute
+stage execution. Applied CAREERc119d2b→94a6be85 normal-calendar test correction.
+EDU normal test now asserts the refusal/zero attendance/no scheduled session,
+completes the actual venue activity through Day, then retries through LIFE.
+No calendar/time or eligibility bypass is added. Bounded reruns remain pending.
