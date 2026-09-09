@@ -1,11 +1,11 @@
 # MUNI-PLAY1
 
-Status: ACTIVE — existing Codex owner resumed after explicit user transfer of the stopped Claude counterpart.
+Status: Feature-local implementation delivered for draft review; normal-route integration and human acceptance remain pending with UI-core. Existing Codex ownership continues through publication.
 Codex task: 01a0837d-a9a8-73b2-906d-11477f179bf8.
 Transferred source: `/Users/lamontae/Documents/Political-Game-MUNI-PLAY1`, branch `claude/muni-play1-municipal-public-work`, HEAD `7a8b074f33db44ef217d1d5dd52f8e5472e857fe`. Source checkout is read-only. Process and cwd checks found no active writer; tracked patch and five untracked files were captured with hashes before file-level recovery. No automatic merge was performed; #98 remains superseded and unaccepted.
-Recovery evidence: `/private/tmp/pg-muni-recovery-20260909/{codex,claude}/manifest.json`, both tracked patches, untracked captures, and `replayed-paths.json`. Original Codex WIP is checkpointed at `677bdd2`; transferred committed ancestry is retained at `refs/remotes/recovery/muni-play1`. Recovered content remains under review, not accepted gameplay.
+Recovery evidence: `/private/tmp/pg-muni-recovery-20260909/{codex,claude}/manifest.json`, both tracked patches, untracked captures, and `replayed-paths.json`. Original Codex WIP is checkpointed at `677bdd2`; transferred committed ancestry is retained at `refs/remotes/recovery/muni-play1`. Recovered content has been consolidated and locally verified; this does not constitute human or normal-route acceptance.
 Workspace: /private/tmp/pg-muni-play1; branch codex/muni-play1.
-Base: 1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b (fresh origin/main).
+Base: 1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b (verified origin/main at worktree creation; publication rechecks the remote without merging).
 Activation: Drive 1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA, complete MUNI-PLAY1 and Jobs 6/8.
 
 ## Progress
@@ -45,6 +45,8 @@ The actual 2025 GUS XLSX archive has been recovered from the official publisher.
 
 The local player panel distinguishes home linkage from library inspection. It supports explicit authored public-session planning, canonical attendance/time/history, role-gated meeting preparation in existing Work, and exact-ID historical finance/employment projections. No current balance, office role or legal power is inferred from those observations. ENV receives a feature-local compatible venue request; UI-core must validate completed current-instant presence through ENV's existing resolver and owns the global route.
 
-Validation in progress: focused source/runtime/presentation tests and typecheck passed before final UI edits; browser pointer/keyboard/save tests passed in both contexts but revealed a duplicate React key, subsequently repaired. Full suite, repeat browser console check, required art commands, final source replay/build and publication remain pending. Human visual and normal-route acceptance are not claimed.
+Validation and the architecture audit are recorded in `../../evidence/muni-play1-recovery/VERIFICATION.md`. The isolated browser proof passes in Charlottesville and Carson City, including citizen attendance, current-member work, no-write duplicate refusals, and save/reload. Full-suite results and repaired assertion reruns are reported separately. No human visual or normal-route acceptance is claimed.
 
 LEARN: excerpt presence proves capture consistency, not that a source entails a declaration. Keep semantic review and exact missing-field refusal tests alongside the mechanical quote check. The shared dependency directory's `.tmp` build cache is isolated per worktree so concurrent TypeScript builds cannot overwrite one another's incremental state.
+
+LEARN: generated prose counts are now checked against the live scanner and committed report instead of numbers pinned to a past feature tree. This preserves the freshness check while avoiding recurring unrelated feature failures.

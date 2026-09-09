@@ -29,7 +29,30 @@ export function municipalWorkspaceFor(world: World, inspectionKey?: string) {
     : homeGovernment;
   if (!government) return null;
   const personId = world.control.personId;
+  // Linkification of already compiled research references, not a government,
+  // legal-rule or meeting-occurrence join. A reference grants no capability.
+  const publicReferences = [
+    ...new Set(
+      government.readings.flatMap((reading) => [
+        ...reading.sources.map((source) => source.url),
+        ...reading.facts
+          .filter((fact) => fact.path.startsWith("researchObservations."))
+          .flatMap((fact) =>
+            typeof fact.value === "string"
+              ? (fact.value.match(/https?:\/\/[^\s<>`]+/g) ?? [])
+              : [],
+          ),
+      ]),
+    ),
+  ].filter((url) => {
+    try {
+      return ["http:", "https:"].includes(new URL(url).protocol);
+    } catch {
+      return false;
+    }
+  });
   return {
+    publicReferences,
     government,
     isHomeGovernment: homeGovernment?.key === government.key,
     capacity: municipalCapacityObservations(

@@ -105,6 +105,9 @@ describe("municipal public work shares saved canonical state", () => {
       meeting.id,
     );
     expect(result.ok).toBe(true);
+    expect(deserializeWorld(serializeWorld(result.world))).toEqual(
+      result.world,
+    );
     expect(result.world.history.workItems.length).toBe(
       authorized.history.workItems.length + 1,
     );

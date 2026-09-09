@@ -1,4 +1,4 @@
-> Historical transferred Claude plan, retained as recovery evidence. This is not a second active ownership claim. The sole resumed owner and current status are in `muni-play1.md`.
+> Historical transferred Claude plan, retained as recovery evidence. This is not a second active ownership claim. The sole resumed owner and current status are in `../active/muni-play1.md`.
 
 # MUNI-PLAY1 — municipal research to actual public work
 

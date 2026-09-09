@@ -1,0 +1,21 @@
+.municipal-workspace > * + * {
+  margin-top: 1rem;
+}
+.municipal-workspace details > dl,
+.municipal-workspace details > ul {
+  margin-top: 1rem;
+}
+.municipal-workspace dd + dt,
+.municipal-workspace dl > div + div {
+  margin-top: 0.65rem;
+}
+.municipal-workspace button + button {
+  margin-inline-start: 0.5rem;
+}
+.municipal-workspace select {
+  max-width: 100%;
+  margin-inline-start: 0.5rem;
+}
+.municipal-workspace article {
+  margin-block: 1rem;
+}

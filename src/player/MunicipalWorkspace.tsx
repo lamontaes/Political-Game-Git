@@ -1,3 +1,4 @@
+import "./MunicipalWorkspace.css";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalGovernments } from "../simulation/municipal-government";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
@@ -13,6 +14,11 @@ import {
   municipalWorkspaceFor,
   prepareMunicipalMeetingNotes,
 } from "../presentation/municipal-workspace";
+
+function humanLabel(value: string): string {
+  const words = value.toLowerCase().replace(/[_-]/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
 
 /** Feature-local v1 surface. UI-core owns its navigation and save callback. */
 export function MunicipalWorkspace({
@@ -54,7 +60,10 @@ export function MunicipalWorkspace({
   );
   if (!view)
     return (
-      <section aria-label="Municipal government">
+      <section
+        className="municipal-workspace"
+        aria-label="Municipal government"
+      >
         <h2>Municipal government</h2>
         {directory}
         <p>No verified government link is available for this home's place.</p>
@@ -72,7 +81,27 @@ export function MunicipalWorkspace({
   };
   const canWork = view.standing.roles.some((role) => role !== "resident");
   return (
-    <section aria-label="Municipal government">
+    <section className="municipal-workspace" aria-label="Municipal government">
+      {renderVenue &&
+        world.history.events
+          .filter(
+            (event) =>
+              event.type === "municipal.public-meeting-attended" &&
+              event.tags.includes(`government:${view.government.key}`),
+          )
+          .slice(-1)
+          .map((event) => {
+            const activityId = event.involvedEntityIds.find((id) =>
+              world.history.scheduledActivities.some(
+                (activity) => activity.id === id,
+              ),
+            );
+            const venue =
+              activityId && municipalVenueForActivity(world, activityId);
+            return activityId && venue ? (
+              <div key={event.id}>{renderVenue(world, activityId, venue)}</div>
+            ) : null;
+          })}
       {directory}
       <h2>{view.government.displayName}</h2>
       <p>
@@ -80,7 +109,9 @@ export function MunicipalWorkspace({
           ? "Linked to your saved home place."
           : "Library inspection. This does not change your residence or grant a role."}
       </p>
-      <p>{view.standing.roles.join(", ") || "Public visitor"}</p>
+      <p>
+        {view.standing.roles.map(humanLabel).join(", ") || "Public visitor"}
+      </p>
       <p>
         Census place: {view.government.placeGeoid ?? "Unknown"}. A place
         identifier is not a government-unit or county identifier.
@@ -135,7 +166,7 @@ export function MunicipalWorkspace({
           </summary>
           <dl>
             <dt>Form</dt>
-            <dd>{reading.form ?? "Unknown"}</dd>
+            <dd>{reading.form ? humanLabel(reading.form) : "Unknown"}</dd>
             <dt>Body</dt>
             <dd>{reading.bodyName ?? "Unknown"}</dd>
             <dt>Members</dt>
@@ -143,11 +174,19 @@ export function MunicipalWorkspace({
             <dt>Seat pattern</dt>
             <dd>{reading.composition?.note ?? "Unknown"}</dd>
             <dt>Mayor</dt>
-            <dd>{reading.mayor?.structuralPosition ?? "Unknown"}</dd>
+            <dd>
+              {reading.mayor
+                ? humanLabel(reading.mayor.structuralPosition)
+                : "Unknown"}
+            </dd>
             <dt>Professional manager</dt>
             <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
             <dt>Consolidation</dt>
-            <dd>{reading.consolidationType ?? "Unknown"}</dd>
+            <dd>
+              {reading.consolidationType
+                ? humanLabel(reading.consolidationType)
+                : "Unknown"}
+            </dd>
           </dl>
           <details>
             <summary>All recorded facts and evidence</summary>
@@ -193,6 +232,22 @@ export function MunicipalWorkspace({
           </ul>
         </details>
       ))}
+      <details>
+        <summary>Cited public records and meeting material</summary>
+        <p>
+          These are references in this government's source readings. They are
+          not attached agendas or notices for an authored session in this world.
+        </p>
+        <ul>
+          {view.publicReferences.map((url) => (
+            <li key={url}>
+              <a href={url} target="_blank" rel="noreferrer">
+                {url}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
       <h3>Public meetings</h3>
       {view.meetings.length === 0 && (
         <>
@@ -297,26 +352,6 @@ export function MunicipalWorkspace({
           ))}
         </ul>
       )}
-      {renderVenue &&
-        world.history.events
-          .filter(
-            (event) =>
-              event.type === "municipal.public-meeting-attended" &&
-              event.tags.includes(`government:${view.government.key}`),
-          )
-          .slice(-1)
-          .map((event) => {
-            const activityId = event.involvedEntityIds.find((id) =>
-              world.history.scheduledActivities.some(
-                (activity) => activity.id === id,
-              ),
-            );
-            const venue =
-              activityId && municipalVenueForActivity(world, activityId);
-            return activityId && venue ? (
-              <div key={event.id}>{renderVenue(world, activityId, venue)}</div>
-            ) : null;
-          })}
       <h3>Attendance history</h3>
       {world.history.events
         .filter(

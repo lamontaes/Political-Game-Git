@@ -21,9 +21,14 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
         page.getByText("Linked to your saved home place."),
       ).toBeVisible();
       const roles = await page.getByTestId("roles").textContent();
-      await page
-        .getByRole("button", { name: "Add public session to this world" })
-        .click();
+      const addSession = page.getByRole("button", {
+        name: "Add public session to this world",
+      });
+      if (place === "5114968") await addSession.click();
+      else {
+        await addSession.focus();
+        await page.keyboard.press("Enter");
+      }
       await expect(
         page.getByRole("button", { name: "Prepare meeting notes" }),
       ).toBeDisabled();
@@ -46,14 +51,26 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
         .click();
       await page.reload();
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
-      await page
-        .getByLabel("Inspect a government")
-        .selectOption("us-nh-new-london");
+      const selector = page.getByLabel("Inspect a government");
+      await selector.selectOption({ index: 1 });
       await expect(
         page.getByText("Library inspection.", { exact: false }),
       ).toBeVisible();
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
-      await page.getByLabel("Inspect a government").selectOption("");
+      await selector.selectOption("");
+      const records = page.getByText(
+        "Cited public records and meeting material",
+        { exact: true },
+      );
+      await records.click();
+      await expect(
+        page.getByText(
+          "These are references in this government's source readings.",
+          { exact: false },
+        ),
+      ).toBeVisible();
+      await records.focus();
+      await page.keyboard.press("Enter");
       await page.screenshot({
         path: `docs/evidence/muni-play1-recovery/citizen-${place}.png`,
         fullPage: true,
@@ -70,6 +87,10 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
     await page.keyboard.press("Space");
     await expect(page.getByTestId("work")).toHaveText("1");
     const sequence = await page.getByTestId("sequence").textContent();
+    await page.getByRole("button", { name: "Save verification world" }).focus();
+    await page.keyboard.press("Enter");
+    await page.reload();
+    await expect(page.getByTestId("work")).toHaveText("1");
     await button.click();
     await expect(
       page
