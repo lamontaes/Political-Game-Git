@@ -901,3 +901,21 @@ registries/compositors/anchors and normal-player navigation are preserved.
 
 Validation and exact final head are recorded in the DEV-LAB2 owning plan and
 PR. Human visual and independent acceptance are not implied by this audit.
+
+## QUAL-DATES4 Qualification and Campaign-Compliance Audit — 2026-09-09
+
+This audit applies Game Constitution principles 9, 25, and 31 to the bounded
+QUAL-COMPLIANCE1 source and consumer seams. It rechecks completed candidacy,
+campaign, history, persistence, privacy, and clock behavior without reopening
+the Stage 6 baseline or campaign-clock ownership.
+
+| Concern                         | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                |
+| ------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historical applicability        | Corrected fail-closed | Research date, source retrieval/vintage, provision validity, amendment annotations, and simulation `onDate` are independent fields. Exact intervals require clause-specific primary support; later current observations yield `UNKNOWN` for earlier dates.                                            |
+| Ohio / Nevada reviewer findings | Corrected             | Ohio article XV, section 4 preserves the 1851 research cell but supports the current provision only from the official 1953 date. Nevada NRS 228.010 uses 2021 chapter 199's May 29 approval/effective date for the age, residence, and State Bar clauses; the later 2025 annotation remains separate. |
+| Corpus-wide application         | Confirmed             | All 63 accepted qualification rows and all three Minnesota/Nebraska campaign-obligation rows carry a reviewed temporal classification. Tests cover exact boundaries and later-observation/earlier-life refusal.                                                                                       |
+| Kentucky evidence               | Corrected fail-closed | Ten field rows are loaded from a reviewed transcription tied to exact hashes of the official statute PDF and Registry FAQ. Nine are date-bounded `KNOWN`; the unsupported contribution-limit amount remains `UNKNOWN`. Duplicate fields or parent-hash drift fail validation.                         |
+| Filing semantics                | Corrected             | Reporting points remain period anchors. The seven-business-day receipt constraint is explicit; periodic filings are refused until an exact Kentucky business-day calendar exists, while private drafts remain appendable. Filing never implies approval or absence of a violation.                    |
+| Money and privacy               | Confirmed             | Candidate-origin money may enter only the committee contribution path; no personal treasury is written. Private drafts are absent from public projections, and filed records become public only when the date-bound source supports that boundary.                                                    |
+| Persistence and history         | Confirmed             | Successful statements/corrections are append-only, refused writes are zero-write, and save/reload preserves the exact records.                                                                                                                                                                        |
+| Clock and ownership             | Confirmed unchanged   | Compliance writers retain the world's existing date/moment/action sequence. No #135 clock file, municipal procedure, or global navigation root is changed.                                                                                                                                            |

@@ -1,0 +1,1321 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "mn-constitution",
+      "bytes": {
+        "length": 150014,
+        "sha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mn-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Minnesota Office of the Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://www.revisor.mn.gov/constitution/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 150014,
+        "retrievedAt": "2026-09-09T05:39:31.597Z",
+        "url": "https://www.revisor.mn.gov/constitution/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Minnesota",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Minnesota Constitution",
+          "jurisdictionKey": "US-MN",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1798,
+              "sha256": "90c292cf969f958a4828ea9ed000e9fa73a3316bab5251db9c38a75a93cf082a"
+            },
+            "regions": [
+              {
+                "beginsWith": "Sec. 4. Terms of office of senators and representatives; vacancies.",
+                "endsWith": "Senators shall be chosen for a term of four years, except to fill a vacancy and except there shall be an entire new election of all the senators at the first election of representatives after each new legislative apportionment provided for in this article."
+              },
+              {
+                "beginsWith": "Sec. 6. Qualification of legislators; judging election returns and eligibility.",
+                "endsWith": "shall have resided one year in the state and six months immediately preceding the election in the district from which elected."
+              },
+              {
+                "beginsWith": "ARTICLE V EXECUTIVE DEPARTMENT Section 1. Executive officers.",
+                "endsWith": "The governor and lieutenant governor shall be chosen jointly by a single vote applying to both offices in a manner prescribed by law."
+              },
+              {
+                "beginsWith": "Sec. 2. Term of governor and lieutenant governor; qualifications.",
+                "endsWith": "Each shall have attained the age of 25 years and, shall have been a bona fide resident of the state for one year next preceding his election, and shall be a citizen of the United States."
+              },
+              {
+                "beginsWith": "Sec. 6. Eligibility to hold office.",
+                "endsWith": "is eligible for any office elective by the people in the district wherein he has resided 30 days previous to the election, except as otherwise provided in this constitution, or the constitution and law of the United States."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-2",
+      "bytes": {
+        "length": 34517,
+        "sha256": "8924ad4b23ef33ded6d02048cbe003e35343c68394fa1d62b091daf69fb26b89"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-2.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 34517,
+        "retrievedAt": "2026-09-09T05:39:31.953Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 3741,
+              "sha256": "be0effa2ba1b8db2df6ce186a41f7896bc506a252469c1cab12e6a29ff69b86e"
+            },
+            "regions": [
+              {
+                "beginsWith": "Prohibited activities by General Assembly members and employees",
+                "endsWith": "unless the committee has filed the same financial disclosure reports that would be required of a Missouri political action committee."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-4",
+      "bytes": {
+        "length": 28844,
+        "sha256": "fafe12de09dc9f3c312bec1e437a6ea5cd948e0460c1b881ca5c1a80792169a0"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-4.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++4",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28844,
+        "retrievedAt": "2026-09-09T05:39:34.087Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++4"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 379,
+              "sha256": "9b107854e8db404a69b670f8855554bd547dda9c085ee193f923e9cec0f86649"
+            },
+            "regions": [
+              {
+                "beginsWith": "Each representative shall be twenty-four years of age",
+                "endsWith": "then of the county or district from which the same shall have been taken."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-6",
+      "bytes": {
+        "length": 28528,
+        "sha256": "02aab2b1bab75464c26b344ca8a179215ae4b6c09478acf01a192d1795a64da0"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-6.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++6",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28528,
+        "retrievedAt": "2026-09-09T05:39:36.224Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++6"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 365,
+              "sha256": "3d2abef4709411c22edb74a779bd272ab8006fe58762ca011e202376f6168f80"
+            },
+            "regions": [
+              {
+                "beginsWith": "Each senator shall be thirty years of age",
+                "endsWith": "then of the district or districts from which the same shall have been taken."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-8",
+      "bytes": {
+        "length": 28425,
+        "sha256": "a33bb7bdc5a91b912020b5751a4e40906e14f57a007788151a313c410f2dc4b2"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-8.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++8",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28425,
+        "retrievedAt": "2026-09-09T05:39:38.356Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++8"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 554,
+              "sha256": "06d26e862170905ee17516ca4143612ad8fe2326ae32158711a8ab8630ce9ed5"
+            },
+            "regions": [
+              {
+                "beginsWith": "No one shall be elected to serve more than eight years total in any one house of the General Assembly",
+                "endsWith": "shall not be counted."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-1",
+      "bytes": {
+        "length": 28130,
+        "sha256": "b4892f84f179d3751372892787a062e554c05a63d0df65b70c40397d7ad974ce"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-1.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28130,
+        "retrievedAt": "2026-09-09T05:39:40.487Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 58,
+              "sha256": "a3fff2d12e77b78d0c77335452173dff6be17b910ca35962591a449c10f39e60"
+            },
+            "regions": [
+              {
+                "beginsWith": "The supreme executive power shall be vested in a governor.",
+                "endsWith": "The supreme executive power shall be vested in a governor."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-3",
+      "bytes": {
+        "length": 28353,
+        "sha256": "d381d7d3d120e5e328337afcd7033de0f7d4cd87c858ef315cfbe6ec39458db0"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-3.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28353,
+        "retrievedAt": "2026-09-09T05:39:42.616Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 195,
+              "sha256": "b6c46f81e4294197549e3e5a5d6e23be1ff2842315f2eaad473a39f6196d2cd7"
+            },
+            "regions": [
+              {
+                "beginsWith": "The governor shall be at least thirty years old",
+                "endsWith": "a resident of this state at least ten years next before election."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-17",
+      "bytes": {
+        "length": 29073,
+        "sha256": "5e6ce739c4b6684661ef487c32dec92c55d34904ce083966b4073372b472cdc0"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-17.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++17",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 29073,
+        "retrievedAt": "2026-09-09T05:39:44.777Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++17"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Missouri",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Missouri, 1945",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 941,
+              "sha256": "be7c65231256a3422e1cff5d4725ee87a845465997cfbfe0bebfc7a1ea211064"
+            },
+            "regions": [
+              {
+                "beginsWith": "The governor, lieutenant governor, secretary of state, state treasurer and attorney general shall be elected at the presidential elections",
+                "endsWith": "All appointive officers may be removed by the governor and shall possess the qualifications required by this constitution or by law."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "mo-statutes-27-010",
+      "bytes": {
+        "length": 31230,
+        "sha256": "8798d960a4d8022da94da16b621bd286366feecd57f09bc9dda798d48744283d"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/mo-statutes-27-010.html",
+      "mediaType": "text/html",
+      "provider": "Missouri Revisor of Statutes",
+      "publisher": {
+        "documentationUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=27.010",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 31230,
+        "retrievedAt": "2026-09-09T05:39:46.877Z",
+        "url": "https://revisor.mo.gov/main/OneSection.aspx?section=27.010"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Missouri General Assembly",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Revised Statutes of Missouri",
+          "jurisdictionKey": "US-MO",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1019,
+              "sha256": "acc19669e1784cf1450926bd2b1829ffde9c92c4a9e5ebc01023fdb9218ebd4a"
+            },
+            "regions": [
+              {
+                "beginsWith": "The attorney general for the state of Missouri shall be elected",
+                "endsWith": "shall not engage in the practice of law."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-1",
+      "bytes": {
+        "length": 30389,
+        "sha256": "2ed607f4e464aa948660171723f4de09de3551a4b9da82e0e82353a22d2df084"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-1.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 30389,
+        "retrievedAt": "2026-09-09T05:39:47.405Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 531,
+              "sha256": "082ece96c7a9794bf882ee910ef716c0a335652aaea02edbda92334cc4896bbf"
+            },
+            "regions": [
+              {
+                "beginsWith": "The legislative authority of the state shall be vested in a Legislature consisting of one chamber.",
+                "endsWith": "which power shall be called the power of referendum."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-7",
+      "bytes": {
+        "length": 24404,
+        "sha256": "dcfbeb1eeda13357a669f82bd4ff604bf7172c5758afd6d4b106d1f181aed654"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-7.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-7",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 24404,
+        "retrievedAt": "2026-09-09T05:39:49.501Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-7"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1400,
+              "sha256": "e0b19fe5b8ab18407d3a2645a064cedbcb30737f063371704a806a5b80fbb125"
+            },
+            "regions": [
+              {
+                "beginsWith": "At the general election to be held in November 1964",
+                "endsWith": "employees of the Legislature shall receive no compensation other than their salary or per diem."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-8",
+      "bytes": {
+        "length": 22258,
+        "sha256": "321aa2f39717f7f0e71ce49ebe41f9b47dd678a13500e364683d80b221158c7a"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-8.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-8",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 22258,
+        "retrievedAt": "2026-09-09T05:39:51.595Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-8"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 550,
+              "sha256": "a274888006bee5ac2a98fbcdf7967ed6a189de4ce448347c5043c881b3600918"
+            },
+            "regions": [
+              {
+                "beginsWith": "No person shall be eligible to the office of member of the Legislature",
+                "endsWith": "after he shall have removed from such district."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-12",
+      "bytes": {
+        "length": 21939,
+        "sha256": "d5e79e153f3059ae3eea74e8113b2403c0f586821ee5a7500944b9f5ecc8a281"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-12.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-12",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 21939,
+        "retrievedAt": "2026-09-09T05:39:53.694Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-12"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 475,
+              "sha256": "a8a5156871bfe2e0e8bf0b7bb006b9b670ce98bd60c17b85807c7484dcf55219"
+            },
+            "regions": [
+              {
+                "beginsWith": "(1) No person shall be eligible to serve as a member of the Legislature for four years next after the expiration of two consecutive terms",
+                "endsWith": "shall be deemed service for a term."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-4-sec-1",
+      "bytes": {
+        "length": 28984,
+        "sha256": "3f5aa8fd8fa79ae46f43fc16acc006931866d7bee76c46a7255cf24020534d69"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-1.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28984,
+        "retrievedAt": "2026-09-09T05:39:55.795Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=IV-1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1910,
+              "sha256": "4b0e2978fcf51e911743f7e82ffd083dd99fba2bb3f932fa883b5aa3761a8d3b"
+            },
+            "regions": [
+              {
+                "beginsWith": "The executive officers of the state shall be the Governor",
+                "endsWith": "the heads of the various executive or civil departments shall have power to appoint and remove all subordinate employees in their respective departments."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-constitution-art-4-sec-2",
+      "bytes": {
+        "length": 23636,
+        "sha256": "c0d29d9ddc2545251196a2eadea6bfad01caef552952098271bfc0356c483649"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-2.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/articles.php?article=IV-2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 23636,
+        "retrievedAt": "2026-09-09T05:39:57.892Z",
+        "url": "https://nebraskalegislature.gov/laws/articles.php?article=IV-2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Nebraska",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "Constitution of the State of Nebraska",
+          "jurisdictionKey": "US-NE",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 431,
+              "sha256": "d77dfe7885d2fe586f928383229f445fef514fbe7153fcae2e272053271174de"
+            },
+            "regions": [
+              {
+                "beginsWith": "No person shall be eligible to the office of Governor, or Lieutenant Governor",
+                "endsWith": "eligible to any other state office during the period for which they have been appointed."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-nrs-228",
+      "bytes": {
+        "length": 260368,
+        "sha256": "e906a26ee66c30077ca3abf328d6a42a145328ce8f681b12c086d6f729360111"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-nrs-228.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/NRS/NRS-228.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 260368,
+        "retrievedAt": "2026-09-09T05:39:58.240Z",
+        "url": "https://www.leg.state.nv.us/NRS/NRS-228.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nevada Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nevada Revised Statutes",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 427,
+              "sha256": "2037751332b3b6a1b8fa0bbcdfaacd5f0ab9f3d309e602b128ebe4391a4c0cf5"
+            },
+            "regions": [
+              {
+                "beginsWith": "No person shall be eligible to the Office of Attorney General unless the person:",
+                "endsWith": "Is a member of the State Bar of Nevada in good standing."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-2021-chapter-199-ab236",
+      "bytes": {
+        "length": 913595,
+        "sha256": "2cf36d81887dd99caffc672378d9070f247502eaad3bc931f77d57ba1b55293f"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-2021-chapter-199-ab236.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/Statutes/81st2021/Stats202108.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 913595,
+        "retrievedAt": "2026-09-09T05:40:00.512Z",
+        "url": "https://www.leg.state.nv.us/Statutes/81st2021/Stats202108.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nevada Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "2021 Statutes of Nevada, Chapter 199, Assembly Bill 236",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 551,
+              "sha256": "1fa7afb406235b229871c6cd3d5d389b45d9b6f0a47dc62b3c757d07d865cccf"
+            },
+            "regions": [
+              {
+                "beginsWith": "NRS 228.010 is hereby amended to read as follows:",
+                "endsWith": "This act becomes effective upon passage and approval."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-nrs-218a",
+      "bytes": {
+        "length": 191322,
+        "sha256": "28645d3a4c9022dc43646b2c15b65d5e75cc2df954c9271cb306156b91fa2af3"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-nrs-218a.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/NRS/NRS-218A.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 191322,
+        "retrievedAt": "2026-09-09T05:40:02.920Z",
+        "url": "https://www.leg.state.nv.us/NRS/NRS-218A.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nevada Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Nevada Revised Statutes",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 601,
+              "sha256": "4153e3d848066df1b32c1a7c6b9af68d694822f34aa2e666bb7a5869f50776a8"
+            },
+            "regions": [
+              {
+                "beginsWith": "A person is not eligible to be elected or appointed to office as a Legislator unless the person:",
+                "endsWith": "Meets all other qualifications for the office as required by the Constitution and laws of this State."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-1",
+      "bytes": {
+        "length": 14337,
+        "sha256": "d3b2e8dc45e3cea2127ee08a36014934d095de5812e84e385e869cc4747c7ca1"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-2-1.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-2.1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 14337,
+        "retrievedAt": "2026-09-09T05:40:03.437Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-2.1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 817,
+              "sha256": "620f7ab377e0a7438bd5947dc9d872efa3d5f6f44d97400ba9e114b8a9594b3e"
+            },
+            "regions": [
+              {
+                "beginsWith": "The legislative power of the state shall be vested in a general assembly consisting of a senate and house of representatives",
+                "endsWith": "shall be deemed limitations on the power of the people to enact laws."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-2",
+      "bytes": {
+        "length": 15382,
+        "sha256": "540f8504ae89dd007eb034ddff903450ec1e088c32440c4479d7147d3596b4cc"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-2-2.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-2.2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 15382,
+        "retrievedAt": "2026-09-09T05:40:05.507Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-2.2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1807,
+              "sha256": "33a1992a486be48d3fb08387f5f645582df6fb44207ecf160f4968a0213eaba0"
+            },
+            "regions": [
+              {
+                "beginsWith": "Representatives shall be elected biennially by the electors of the respective house of representatives districts",
+                "endsWith": "shall be considered to have served the full term in that office."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-3",
+      "bytes": {
+        "length": 13755,
+        "sha256": "7d7b95f2f2522798c68a1ab9917fa83384651540e1286542b6d2ac5d021148f6"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-2-3.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-2.3",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13755,
+        "retrievedAt": "2026-09-09T05:40:07.584Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-2.3"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 215,
+              "sha256": "0588dacd1ae83fd205b9206c31202fcfb0b8f27c622f2d877b838b60632e9df6"
+            },
+            "regions": [
+              {
+                "beginsWith": "Senators and representatives shall have resided in their respective districts one year next preceding their election",
+                "endsWith": "or of this State."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-1",
+      "bytes": {
+        "length": 13871,
+        "sha256": "e27beb20b79d707924e2fff413de75411dafb6c7ca10d3b3b0063a53e0f6731a"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-3.1",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13871,
+        "retrievedAt": "2026-09-09T05:40:09.650Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-3.1"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 330,
+              "sha256": "03b439d7c98d214c985b8ff94c6a31f83edd4da14876cbb7caf790d5e8eddb3c"
+            },
+            "regions": [
+              {
+                "beginsWith": "The executive department shall consist of a governor",
+                "endsWith": "at the places of voting for members of the General Assembly."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-1b",
+      "bytes": {
+        "length": 13693,
+        "sha256": "b426c0eb07fb4ab0c926a20294149016bb3db54aaf67fb2e9031fbdc09ab861e"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-3-1b.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-3.1b",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13693,
+        "retrievedAt": "2026-09-09T05:40:11.720Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-3.1b"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 146,
+              "sha256": "f9d7f39d25a9514f0bc2ef02bf06756f4e1557a9e248b506055fa11dd4d2594e"
+            },
+            "regions": [
+              {
+                "beginsWith": "The lieutenant governor shall perform such duties in the executive department",
+                "endsWith": "as are prescribed by law."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-2",
+      "bytes": {
+        "length": 15338,
+        "sha256": "bc59569375c14165ebcc4adbe00a1091d0b775e4d105a8cc1fd2e1d9eaa0ea11"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-3-2.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-3.2",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 15338,
+        "retrievedAt": "2026-09-09T05:40:13.789Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-3.2"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1777,
+              "sha256": "1bd73628c5bc73cb3d3ca398762a11d055a253668b4c57b822b5a0f24fafde25"
+            },
+            "regions": [
+              {
+                "beginsWith": "The governor, lieutenant governor, secretary of state, treasurer of state, and attorney general shall hold their offices for four years",
+                "endsWith": "shall be considered to have served the full term in that office."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-constitution-sec-15-4",
+      "bytes": {
+        "length": 13657,
+        "sha256": "10a67d0f57df124931579e63f7eb38ee04849f6e52b8a317795b2af04e08b2f8"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-constitution-sec-15-4.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-constitution/section-15.4",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 13657,
+        "retrievedAt": "2026-09-09T05:40:15.860Z",
+        "url": "https://codes.ohio.gov/ohio-constitution/section-15.4"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the people of Ohio",
+          "instrumentKind": "constitution",
+          "instrumentTitle": "The Ohio Constitution",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 121,
+              "sha256": "d0eaf41e2c74711ee61e3131f09b5c6194c259c5cb859b867e17bba7c18e68da"
+            },
+            "regions": [
+              {
+                "beginsWith": "No person shall be elected or appointed to any office in this state unless possessed of the qualifications of an elector.",
+                "endsWith": "No person shall be elected or appointed to any office in this state unless possessed of the qualifications of an elector."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "oh-revised-code-109-02",
+      "bytes": {
+        "length": 16752,
+        "sha256": "7bc9daf91ecaa3be278bacdcdde04ed0c860904a8fb6f6c501caf499ef2aec4c"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/oh-revised-code-109-02.html",
+      "mediaType": "text/html",
+      "provider": "Ohio Laws and Administrative Rules, Legislative Service Commission",
+      "publisher": {
+        "documentationUrl": "https://codes.ohio.gov/ohio-revised-code/section-109.02",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 16752,
+        "retrievedAt": "2026-09-09T05:40:18.012Z",
+        "url": "https://codes.ohio.gov/ohio-revised-code/section-109.02"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Ohio General Assembly",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Ohio Revised Code",
+          "jurisdictionKey": "US-OH",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 939,
+              "sha256": "81cf4198453023bef34f47443296b64c6c9f83b0e5a038f8096f60f2fa2cad63"
+            },
+            "regions": [
+              {
+                "beginsWith": "The attorney general is the chief law officer for the state",
+                "endsWith": "the attorney general shall prosecute any person indicted for a crime."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-office-qualifications"
+}
