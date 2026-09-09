@@ -57,61 +57,73 @@ async function loadedProof(page: Page, ids: string[]) {
   for (const selector of surfaces) {
     const images = page.locator(`${selector} img`);
     await expect(images).toHaveCount(ids.length);
-    const rows = [];
-    for (let index = 0; index < ids.length; index++) {
-      const id = ids[index]!;
+    const sources = ids.map((id) => {
       const record = records.find((r) => r.asset_id === id)!;
       const bytes = fs.readFileSync(record.final_path);
       expect(createHash("sha256").update(bytes).digest("hex")).toBe(
         record.hash,
       );
-      const image = images.nth(index);
-      await expect(image).toHaveAttribute(
-        "src",
-        new RegExp(record.final_path.replaceAll(".", "\\.") + "$"),
+      return {
+        id,
+        path: record.final_path,
+        hash: record.hash,
+        base64: bytes.toString("base64"),
+      };
+    });
+    await expect
+      .poll(() =>
+        images.evaluateAll((elements) =>
+          elements.every((element) => {
+            const image = element as HTMLImageElement;
+            return image.complete && image.naturalWidth > 0;
+          }),
+        ),
+      )
+      .toBe(true);
+    const pixels = await images.evaluateAll(async (elements, references) => {
+      async function digest(image: HTMLImageElement) {
+        const canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext("2d")!;
+        context.drawImage(image, 0, 0);
+        const hash = await crypto.subtle.digest(
+          "SHA-256",
+          context.getImageData(0, 0, canvas.width, canvas.height).data,
+        );
+        return [...new Uint8Array(hash)]
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+      return Promise.all(
+        elements.map(async (element, index) => {
+          const actual = element as HTMLImageElement;
+          await actual.decode();
+          const reference = new Image();
+          reference.src = `data:image/png;base64,${references[index]!.base64}`;
+          await reference.decode();
+          return {
+            assetId: actual.dataset.assetId ?? null,
+            src: actual.getAttribute("src"),
+            currentSrc: actual.currentSrc,
+            width: actual.naturalWidth,
+            height: actual.naturalHeight,
+            actualPixels: await digest(actual),
+            expectedPixels: await digest(reference),
+          };
+        }),
       );
-      await expect
-        .poll(() =>
-          image.evaluate(
-            (i) =>
-              (i as HTMLImageElement).complete &&
-              (i as HTMLImageElement).naturalWidth > 0,
-          ),
-        )
-        .toBe(true);
-      const pixels = await image.evaluate(async (element, expectedBase64) => {
-        const actual = element as HTMLImageElement;
-        await actual.decode();
-        const reference = new Image();
-        reference.src = `data:image/png;base64,${expectedBase64}`;
-        await reference.decode();
-        async function digest(image: HTMLImageElement) {
-          const canvas = document.createElement("canvas");
-          canvas.width = image.naturalWidth;
-          canvas.height = image.naturalHeight;
-          const ctx = canvas.getContext("2d")!;
-          ctx.drawImage(image, 0, 0);
-          const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-          const hash = await crypto.subtle.digest("SHA-256", data);
-          return [...new Uint8Array(hash)]
-            .map((b) => b.toString(16).padStart(2, "0"))
-            .join("");
-        }
-        return {
-          assetId: actual.dataset.assetId ?? null,
-          src: actual.getAttribute("src"),
-          currentSrc: actual.currentSrc,
-          width: actual.naturalWidth,
-          height: actual.naturalHeight,
-          actualPixels: await digest(actual),
-          expectedPixels: await digest(reference),
-        };
-      }, bytes.toString("base64"));
-      expect(pixels.currentSrc).toContain(record.final_path);
-      expect(pixels.actualPixels).toBe(pixels.expectedPixels);
-      if (selector !== surfaces[2]) expect(pixels.assetId).toBe(id);
-      rows.push({ expectedAssetId: id, sourceHash: record.hash, ...pixels });
-    }
+    }, sources);
+    const rows = pixels.map((pixel, index) => {
+      const source = sources[index]!;
+      expect(pixel.src).toMatch(
+        new RegExp(source.path.replaceAll(".", "\\.") + "$"),
+      );
+      expect(pixel.currentSrc).toContain(source.path);
+      expect(pixel.actualPixels).toBe(pixel.expectedPixels);
+      if (selector !== surfaces[2]) expect(pixel.assetId).toBe(source.id);
+      return { expectedAssetId: source.id, sourceHash: source.hash, ...pixel };
+    });
     proof.push({ surface: selector, layers: rows });
   }
   return proof;
