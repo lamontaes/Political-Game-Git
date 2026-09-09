@@ -546,19 +546,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual composed tree — not a pin
-    // carried from either side of the merge. The reconciled #129 brings
-    // current main (P1 narration, the accepted executive modules, the R3J
-    // Kentucky Sec. 88 operative-text source notes, the merged #128 anchor
-    // history and PR79's bargaining surfaces) together with P2R2's
-    // `life-opportunities.ts` and sustained adult-life repair; this branch
-    // adds the CAMPAIGN-PORK1 day-advance repair and its regression suite,
-    // whose strings the scanner classifies as test. These are what the
-    // scanner returns with all of that present.
+    // Re-measured by corpus:prose on the actual LAND-WAVE4 combined tree after
+    // #90, #132, #139, and #129 landed, with the P01 campaign-clock regression
+    // tests composed on top. Neither side's pin was chosen; the combined tree
+    // was scanned and these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52181);
+    expect(coverage.totalLiterals).toBe(54053);
     expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(347);
+    expect(coverage.scannedFiles).toBe(356);
   });
 });
 
