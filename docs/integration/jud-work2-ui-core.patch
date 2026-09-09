@@ -76,6 +76,20 @@
      (record.household !== "lives-alone" &&
        record.household !== "shares-a-home") ||
      (record.givenName !== null && typeof record.givenName !== "string") ||
+--- a/src/presentation/setup-questionnaire-flow.ts
++++ b/src/presentation/setup-questionnaire-flow.ts
+@@ -76,7 +76,10 @@
+ export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
+   return setupLifeContext({
+     startAge: setup.startAge,
+-    startingLife: setup.startingLife,
++    startingLife:
++      setup.startingLife === "judicial-office-practice"
++        ? "ordinary-life"
++        : setup.startingLife,
+     household: setup.household,
+   });
+ }
 --- a/src/player/PlayerGame.tsx
 +++ b/src/player/PlayerGame.tsx
 @@ -1,3 +1,5 @@
