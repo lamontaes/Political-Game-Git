@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
 import { GIVEN_NAME_GENERATION_POOLS_V1 } from "../../src/simulation/names-data";

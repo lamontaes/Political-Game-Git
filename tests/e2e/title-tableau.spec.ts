@@ -1,10 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
-import {
-  enterLife,
-  expectNoDestination,
-  goTo,
-  startLife as walkCreator,
-} from "./support/creator";
+import { expect, test, type Page } from "./fixtures";
+import { enterLife, expectNoDestination, goTo, startLife as walkCreator } from "./support/creator";
 
 /**
  * The Home/Title screen, on the route a player actually opens.
