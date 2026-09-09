@@ -1,0 +1,23 @@
+diff --git a/src/presentation/life-scene-flow.ts b/src/presentation/life-scene-flow.ts
+index 6b1b4e9..4ba2c7e 100644
+--- a/src/presentation/life-scene-flow.ts
++++ b/src/presentation/life-scene-flow.ts
+@@ -286,7 +286,17 @@ export function openNextLifeScene(
+       ).slice(0, 8),
+       16,
+     ) % eligible.length;
+-  const { definition, counterpartPersonId, beat } = eligible[index]!;
++  // A direct response to the just-resolved moment belongs before a new topic.
++  // The normal seeded selection remains unchanged when there is no such reply.
++  const previousFamily = previous?.tags
++    .find((tag) => tag.startsWith("family:"))
++    ?.slice(7);
++  const continuation = eligible.find(
++    ({ definition, beat }) =>
++      definition.key === previousFamily && beat.stageKey === "follow-through",
++  );
++  const { definition, counterpartPersonId, beat } =
++    continuation ?? eligible[index]!;
+   const present =
+     definition.setting === "home"
+       ? homePeople(world, personId)

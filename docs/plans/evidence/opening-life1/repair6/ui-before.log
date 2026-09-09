@@ -1,0 +1,99 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /private/tmp/pg-ui-core-release-transfer
+
+ ❯ src/presentation/adaptive-life.test.ts (18 tests | 1 failed) 1404ms
+     × moves the household only through the declared seam 29ms
+ ❯ tests/dialogue-reachability.test.ts (24 tests | 2 failed) 532ms
+     × gives every family at least one branch that turns on an answer 3ms
+     × uses no option label twice 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/dialogue-reachability.test.ts > What a childhood answer does to an adult life > gives every family at least one branch that turns on an answer
+AssertionError: opening.early.school.lunchbox-swap has no stage that turns on an answer: expected 0 to be greater than 0
+ ❯ tests/dialogue-reachability.test.ts:613:9
+    611|         branches.length,
+    612|         `${family.key} has no stage that turns on an answer`,
+    613|       ).toBeGreaterThan(0);
+       |         ^
+    614|     }
+    615|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/dialogue-reachability.test.ts > What the record reads like afterwards > uses no option label twice
+AssertionError: expected [ [ 'Keep playing', 2 ], …(5) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   [
++     "Keep playing",
++     2,
++   ],
++   [
++     "Ask to finish first",
++     2,
++   ],
++   [
++     "Go back to them",
++     2,
++   ],
++   [
++     "Draw something",
++     2,
++   ],
++   [
++     "Take a quiet break",
++     2,
++   ],
++   [
++     "Let them choose a topic",
++     2,
++   ],
++ ]
+
+ ❯ tests/dialogue-reachability.test.ts:698:56
+    696|     const seen = new Map<string, number>();
+    697|     for (const label of labels) seen.set(label, (seen.get(label) ?? 0)…
+    698|     expect([...seen].filter(([, count]) => count > 1)).toEqual([]);
+       |                                                        ^
+    699|   });
+    700| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/presentation/adaptive-life.test.ts > Acceptance 2 — an answer may shape a family and may never author one > moves the household only through the declared seam
+AssertionError: expected [ undefined, undefined, undefined ] to deeply equal [ undefined, undefined ]
+
+- Expected
++ Received
+
+  [
+    undefined,
+    undefined,
++   undefined,
+  ]
+
+ ❯ src/presentation/adaptive-life.test.ts:200:7
+    198|     expect(
+    199|       second.world.history.householdMemberships.map((entry) => entry.k…
+    200|     ).toEqual(
+       |       ^
+    201|       first.world.history.householdMemberships.map((entry) => entry.ki…
+    202|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 39 passed (42)
+   Start at  12:11:15
+   Duration  3.95s (transform 1.39s, setup 0ms, import 1.81s, tests 1.94s, environment 0ms)
+

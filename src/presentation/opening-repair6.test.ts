@@ -13,6 +13,12 @@ import {
 } from "../simulation/opening-life-content";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 
+import {
+  openNextLifeScene,
+  currentOpeningLifeScene,
+  chooseOpeningLifeScene,
+} from "./life-scene-flow";
+
 describe("every authored opening continuation depends on the saved answer", () => {
   it.each(
     OPENING_LIFE_ADDITIONS.map(
@@ -81,4 +87,65 @@ describe("every authored opening continuation depends on the saved answer", () =
       }
     },
   );
+});
+
+it("plays the lunchbox continuation through the saved normal scene consumer", () => {
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    startKind: "custom",
+    household: "shares-a-home",
+    seed: "repair6-lunchbox",
+    startAge: 6,
+  });
+  const personId = game.playerPersonId;
+  let world = game.world;
+  for (let step = 0; step < OPENING_LIFE_ADDITIONS.length * 2; step++) {
+    world = openNextLifeScene(world, personId, "school");
+    const scene = currentOpeningLifeScene(world, personId);
+    expect(scene).not.toBeNull();
+    if (scene!.definition.key !== "early.school.lunchbox-swap") {
+      world = chooseOpeningLifeScene(
+        world,
+        personId,
+        scene!.eventId,
+        scene!.choices[0]!.key,
+      );
+      continue;
+    }
+    expect(scene!.stageKey).toBe("moment");
+    const answered = chooseOpeningLifeScene(
+      world,
+      personId,
+      scene!.eventId,
+      "make-secret-swap",
+    );
+    const restored = deserializeWorld(serializeWorld(answered));
+    const opened = openNextLifeScene(restored, personId, "school");
+    const continuation = currentOpeningLifeScene(opened, personId)!;
+    expect(continuation.definition.key).toBe(scene!.definition.key);
+    expect(continuation.stageKey).toBe("follow-through");
+    expect(continuation.counterpartPersonId).toBe(scene!.counterpartPersonId);
+    expect(continuation.eventId).not.toBe(scene!.eventId);
+    expect(continuation.prose).toContain("snack");
+    expect(continuation.choices.map((choice) => choice.key)).toEqual(
+      OPENING_LIFE_FOLLOWUPS[scene!.definition.key]!.choices.map(
+        (choice) => choice.key,
+      ),
+    );
+    const bytes = serializeWorld(opened);
+    expect(currentOpeningLifeScene(deserializeWorld(bytes), personId)).toEqual(
+      continuation,
+    );
+    expect(openNextLifeScene(opened, personId)).toBe(opened);
+    expect(serializeWorld(opened)).toBe(bytes);
+    const finished = chooseOpeningLifeScene(
+      opened,
+      personId,
+      continuation.eventId,
+      continuation.choices[0]!.key,
+    );
+    expect(currentOpeningLifeScene(finished, personId)).toBeNull();
+    return;
+  }
+  throw new Error("Lunchbox moment was not reached.");
 });

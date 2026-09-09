@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2115,
     "INTENTIONALLY_NON_PLAYER_FACING": 4768,
-    "DIAGNOSTIC_OR_TEST": 3753,
+    "DIAGNOSTIC_OR_TEST": 3755,
     "NEEDS_CLASSIFICATION": 3493
   },
   "needsClassification": [
@@ -6849,7 +6849,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "label",
-      "line": 301,
+      "line": 311,
       "text": "In your neighborhood",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6857,7 +6857,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 314,
+      "line": 324,
       "text": "Present in the authored scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6865,7 +6865,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 321,
+      "line": 331,
       "text": "Present in the authored scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6873,7 +6873,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 330,
+      "line": 340,
       "text": "Present in the authored household scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6881,7 +6881,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 436,
+      "line": 446,
       "text": "Present for the choice",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6889,7 +6889,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "provider",
-      "line": 559,
+      "line": 569,
       "text": "In your neighborhood",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6897,7 +6897,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "provider",
-      "line": 567,
+      "line": 577,
       "text": "OPENING-LIFE1 authored short local walk; no measured distance or travel speed is asserted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -29903,6 +29903,18 @@
       "count": 3
     },
     {
+      "sourcePath": "src/presentation/ordinary-life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/opening-repair6.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 4
+    },
+    {
       "sourcePath": "src/presentation/opening-officeholders.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -29912,18 +29924,6 @@
       "sourcePath": "src/presentation/opening-life.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/opening-repair6.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {

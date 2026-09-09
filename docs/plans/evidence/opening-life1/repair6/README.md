@@ -21,3 +21,9 @@ Existing breadth assertions still require every original moment exactly once. Th
 Acceptance: focused source/combined regression proof, not human visual acceptance or full original-scope completion. LAND retains the heavy/browser slot. UI owns integration and final hosted gates. Original unmapped source kernels and extended officeholder coverage remain unfinished, not external blockers.
 
 LEARN: family topology must consume the pre-calibration identity stream while the approved bounded age draws retain the build stream. Keep both an actual membership-state comparison and the existing calibration controls so undefined property projections cannot hide topology drift.
+
+## Continued normal-player proof
+
+After the blocking publication8fdbe588, an added normal-consumer lunchbox test showed an eligible direct continuation could be postponed by seeded scene selection. A bounded follow-up now prioritizes only an eligible continuation of the previous family; unrelated selection still uses the identical seed/hash path. Saved lunchbox and scene-breadth tests pass30/30. The additional consumer test retains counterpart, distinct stage/event identity, actual choices, save/reload and zero-write reads. Separate combined rerun is recorded in combined-final.log. Final scanner measurement after this addition:53,786 literals /2,115 inventoried /367files. No original identity hash or seed changed.
+
+Art validation, inventory and QA commands ran successfully. These do not constitute human visual acceptance. Logs are explicitly tracked despite the repository's general log ignore rule.

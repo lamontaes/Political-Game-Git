@@ -1,0 +1,46 @@
+
+ RUN  v4.1.1 /private/tmp/pg-opening-life1
+
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 2 failed) 6532ms
+     × report what each seed actually demonstrated 1081ms
+     × reports counts that match a live measurement, not a stale run 1090ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > transcripts > report what each seed actually demonstrated
+AssertionError: expected [ 'age-band:childhood', …(33) ] to include 'election-lost'
+ ❯ scripts/prose-corpus/corpus.test.ts:427:20
+    425|       "legislative-measure-briefing",
+    426|     ]) {
+    427|       expect(seen).toContain(claim);
+       |                    ^
+    428|     }
+    429|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > reports counts that match a live measurement, not a stale run
+AssertionError: expected 53771 to be 53769 // Object.is equality
+
+- Expected
++ Received
+
+- 53769
++ 53771
+
+ ❯ scripts/prose-corpus/corpus.test.ts:550:36
+    548|     // with frozen P2R2/P01; these are observed scanner counts, not pi…
+    549|     const coverage = buildCoverageReport(inventory);
+    550|     expect(coverage.totalLiterals).toBe(53769);
+       |                                    ^
+    551|     expect(coverage.counts.INVENTORIED).toBe(2115);
+    552|     expect(coverage.scannedFiles).toBe(367);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 112 passed (114)
+   Start at  12:21:29
+   Duration  17.16s (transform 1.61s, setup 0ms, import 4.32s, tests 12.17s, environment 0ms)
+
