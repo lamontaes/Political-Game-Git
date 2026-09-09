@@ -12,7 +12,7 @@ Live main verified at `da939329fcc3ae0a2eb9db8016665738b40733d4` — the actual
 `1003095c629785ab8941564bc35702d42b482047`, unchanged from the packet's pinned
 semantically accepted head, so no delta check against a moved head was needed.
 
-## Dependency route
+## Historical initial dependency route (superseded below)
 
 PR79 is not merged, so the packet's explicitly declared stacked development
 route applies: branch from fresh main, merge the pinned accepted PR79 head into
@@ -99,8 +99,9 @@ appear in Work at all.
 **Bargaining binding** — `offerNegotiatedAmendment` reached past its own facts
 to module constants naming a transit authority in Ashland. It now reads the
 facts it was already given. `openLegislativeBargaining` takes an optional
-docket key; without one the legacy authored path is byte-identical, gate
-included.
+docket key; without one the legacy authored gate and adopted-provision identity are
+preserved. The identity and exact persisted-string regressions cover those
+specific contracts; they are not a whole-path byte-equality proof.
 
 **Analysis** — `legislation-analysis.ts`. What a bill commits is arithmetic on
 its current provisions and is always available; what a programme would achieve
@@ -132,3 +133,124 @@ municipal or national expansion, and it does not claim to repair the separate
 March 31 / session-deadline observation, childhood, campaign dates, portraits
 or travel. Remaining authored behaviour is identified in the PR body rather
 than relabelled autonomous.
+
+---
+
+## Continuation: full-release scope and the ACCEPT-RETURN2 repairs
+
+Authority: the same Drive packet, as revised twice — first superseding four
+families and eight configurations as a delivery boundary, then recording the
+owner's independent review of the frozen head `0b4d474`.
+
+### Landing route, corrected
+
+PR #79 merged. The stacked dependency this plan originally declared is now
+ordinary history. Accepted main `0dceca5` was merged in normally. Six conflicts,
+all of them exactly what the reviewer's trial merge predicted: the decision log
+and five regenerable corpus artifacts.
+
+- **Decision log** — main ends at D-083, this branch adds D-085. Disjoint, so
+  both sides stand and D-084 stays reserved for #90. Nothing renumbered.
+- **Corpus artifacts** — both sides carried a pin measured on a different tree.
+  Neither was taken on faith; the corpus was regenerated on the merged tree and
+  re-measured after the content expansion.
+
+`DEPENDS_ON_PR79` is withdrawn as a prerequisite.
+
+### What the reviewer found, and what was done
+
+1. **The legacy adopted provision's stable key had moved.** Real, and a save
+   identity rather than a label: `...:section-4` had become
+   `...:local-project-match` because the amendment producer's suffix followed
+   its provision key once it started reading its own facts. Fixed by carrying
+   the suffix on the facts — the authored sitting pins `section-4`, new content
+   uses its own key. A regression drives the actual legacy route and was
+   verified to fail without the fix. No migration was needed once the identity
+   stopped being derived.
+
+2. **The byte-identical claim was too broad.** Also real. Three of the changed
+   strings reach persisted records: the fiscal exposure label, the question the
+   chamber votes on, and the amendment's own description. Rather than only
+   correcting the sentence, the accepted phrasing is now carried on the facts,
+   so the authored sitting writes exactly what it wrote before and a family
+   supplies its own. A test asserts the exact accepted strings. What differs on
+   the legacy route is now nothing that is written down — the two transient
+   result messages are rebuilt from `requestedSectionLabel`, which for this
+   sitting is "Section 4", so the words are the same.
+
+3. **The D-085 refusal branch was never executed.** Also real: the old test
+   overrode the `DocketBill`'s own `familyKey`, but the lineage is looked up by
+   measure, so the saved record still resolved and the assertion degraded to
+   `expect(answer).toBeDefined()`. Replaced with reproducers that edit the saved
+   lineage and reload through the accepted snapshot writer. Three unavailable
+   branches now execute. The fourth turned out to be unreachable, which is the
+   better fact and is asserted as such: removing a lineage leaves a hole in the
+   history sequence and world integrity refuses to seal the save.
+
+4. **CI on the repaired head** — pending publication. The stopped local
+   continuation was not published; no new-head CI observation has occurred.
+
+### Delivered beyond the first tranche
+
+Thirteen families, thirty-one configurations, eight legal instruments. The
+source-to-content matrix and every excluded row's exact blocker are in
+[`leg-content1-coverage-matrix.md`](leg-content1-coverage-matrix.md).
+
+The architectural change is `LegalInstrument`: what kind of legal act a
+configuration is, enforced by the compiler rather than described in prose. The
+first tranche's real limit was not that it had four subjects; it was that all
+eight configurations were the same kind of act, so the bank could not write an
+appropriation, an eligibility amendment, a repeal, a charge or a reporting duty
+at all.
+
+### Deliberately not done
+
+- **Education, health, environment, procurement, social-service and municipal
+  families.** Each row's exact blocker is named in the matrix. None is excluded
+  as "out of tranche".
+- **Filing performance.** Filing costs ~170ms rising to ~500ms per bill and
+  then flat, because every append runs the accepted world-integrity validation
+  over the whole history. That is a property of the accepted writers, measured
+  here rather than assumed, and changing it would be reopening accepted core
+  semantics this feature has no authority to reopen. Reading — the hot path —
+  is ~1.6ms for a thirty-one-bill docket.
+- **Autonomous vote behaviour.** Still authored outside the modelled members,
+  exactly as before this work. Nothing here makes the legislature dynamic.
+- **The shared shell.** The root navigation patch is still the same 36 additive
+  lines in `PlayerGame.tsx` — one import, one handler, one mount — held for the
+  UI-core owner to take or for a serialized final edit.
+
+## Codex transfer recovery — 2026-09-09
+
+Sole recipient: Codex, `codex/leg-content1-transfer`, isolated checkout
+`/private/tmp/pg-leg-content1-transfer`. Source remains read-only at
+`/Users/lamontae/Documents/Political-Game-LEG-CONTENT1`.
+
+- Recovered source HEAD: `8ff4d67996659d3053619b601c6ab2c75f6652e5`, including
+  expanded `ca3d492` and `56a97f5`, plus this plan's stopped dirty continuation.
+- Published lane remains #137, `claude/legislation-expansion-task-b-h8tai4`,
+  last verified `0b4d474c5ade9b1e5c00e6d8e8df7cb62b938007`.
+- Main last verified `1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b`.
+- User confirmed old writers stopped. Process checks found no remaining source
+  cwd processes or identified owner/validation PIDs; HEAD and patch hash stayed
+  stable. No source reset, stash, cleanup or changes were performed.
+- Binary patch, complete commit bundle and SHA-256 manifest preserved under
+  `/private/tmp/pg-leg-content1-recovery`; no untracked source files existed.
+  Patch SHA-256: `2adf16704440161b754884e132a3d57fff923df87bbbc02640a4b641643b0913`.
+- Banked eight-configuration structural and native Chromium 3/3 acceptance
+  applies to frozen published `0b4d474`, not the recovered expanded head.
+  Interrupted old validation has no completed exit status and is not a pass.
+
+### Remaining recipient work
+
+Verify recovered legacy identity and D-085 regressions, narrow the equality
+claims, reconcile current main and generated corpus through accepted tools,
+and continue every feasible coverage row. Missing empirical forecasts alone
+do not exclude transparently authored drafts. Review instrument/authority and
+saved-version boundaries before extending the bank. Add an actual supported
+policy-estimate action using existing writers, with scope/period/knowledge
+checks and no realization. Preserve the UI owner's shared root and municipal
+owner's rule-engine seams; feature-local typed adapters carry integration.
+Run focused checks during work, final validation/art/prose/browser gates on
+the composed candidate, publish normal fast-forward checkpoints to #137, and
+observe exact-head CI once. No merge or monitoring.
