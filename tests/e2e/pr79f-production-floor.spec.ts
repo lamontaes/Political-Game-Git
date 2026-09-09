@@ -82,8 +82,10 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
 
-  // Before the win there is no Work surface at all: nothing to leak.
-  await expectNoDestination(page, "elsewhere-work");
+  // Ordinary Work is available; it grants no institutional workspace.
+  await goTo(page, "elsewhere-work");
+  await expect(page.getByTestId("personal-work-section")).toBeVisible();
+  await expect(page.getByTestId("office-section")).toHaveCount(0);
 
   await openDay(page);
   await page.getByTestId("file-candidacy").click();

@@ -110,8 +110,8 @@ export function PrivateJournalEditor({
               <label>
                 Group
                 <input
-                  value={note.group}
-                  onChange={(event) =>
+                  defaultValue={note.group}
+                  onBlur={(event) =>
                     edit(note.id, { group: event.target.value })
                   }
                 />

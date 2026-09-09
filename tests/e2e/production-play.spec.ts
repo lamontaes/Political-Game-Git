@@ -177,9 +177,10 @@ test.describe("A new life is not a renamed fixture", () => {
     await freshBrowser(page);
     await startLife(page, { age: 41 });
 
-    // The day is one press away rather than stacked under the moment, and
-    // Work is not in the row at all for somebody who does not work in one.
-    await expectNoDestination(page, "elsewhere-work");
+    // Ordinary education/work is reachable without granting institutional powers.
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("personal-work-section")).toBeVisible();
+    await expect(page.getByTestId("office-section")).toHaveCount(0);
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
