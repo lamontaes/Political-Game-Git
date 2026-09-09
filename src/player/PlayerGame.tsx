@@ -1,3 +1,6 @@
+import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
+import { PublicInformationPanel } from "./PublicInformationPanel";
+import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
 import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
@@ -1635,6 +1638,24 @@ function PlayingScreen({
 
   const view = activeView(shell);
   const openSurface = view.surface;
+  const previousSurface = useRef(openSurface);
+  const newsPersonReturn = useRef<string | null>(null);
+  useEffect(() => {
+    const previous = previousSurface.current;
+    previousSurface.current = openSurface;
+    if (openSurface === "news" && newsPersonReturn.current) {
+      const buttons = document.querySelectorAll<HTMLButtonElement>(
+        ".public-information-people button",
+      );
+      [...buttons]
+        .find((button) => button.dataset.personId === newsPersonReturn.current)
+        ?.focus();
+    } else if (previous === "news" && openSurface === "scene") {
+      document
+        .querySelector<HTMLButtonElement>('[data-testid="nav-cluster"]')
+        ?.focus();
+    }
+  }, [openSurface]);
 
   const destinations = useMemo<readonly ShellDestination[]>(() => {
     const entries: ShellDestination[] = [];
@@ -1682,6 +1703,13 @@ function PlayingScreen({
       open: openSurface === "personal",
     });
     entries.push({
+      surface: "news",
+      label: "News",
+      hint: "Published public records",
+      testid: "nav-news",
+      open: openSurface === "news",
+    });
+    entries.push({
       surface: "journal",
       label: "Life history",
       hint: "Chapters, and what is still open",
@@ -1713,10 +1741,12 @@ function PlayingScreen({
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
+      if (openSurface === "news" && ref.kind === "person")
+        newsPersonReturn.current = ref.id;
       setConversation(null);
       dispatch({ type: "open-entity", ref });
     },
-    [dispatch],
+    [dispatch, openSurface],
   );
 
   const dossierFor = useCallback(
@@ -2126,6 +2156,8 @@ function renderWorkspace({
   const backable = canGoBack(shell);
   const openPerson = (personId: EntityId) =>
     openEntity({ kind: "person", id: personId });
+  const onLegislativeChange = (next: World) =>
+    onWorldChange(publishLegislativeTransition(session.world, next));
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
 
@@ -2315,6 +2347,17 @@ function renderWorkspace({
         />,
       );
 
+    case "news":
+      return frame(
+        "News",
+        "news-workspace",
+        <PublicInformationPanel
+          model={projectPublicInformationPanel(session.world)}
+          onClose={back}
+          onOpenPerson={openPerson}
+        />,
+      );
+
     case "journal":
       return frame(
         "Life history",
@@ -2418,7 +2461,7 @@ function renderWorkspace({
               playerPersonId={session.personId}
               scenarioKey={capabilities.legislativeScenarioKey}
               jurisdictionId={capabilities.legislativeJurisdictionId}
-              onWorldChange={onWorldChange}
+              onWorldChange={onLegislativeChange}
               onGoToFloor={goToTheFloorFor}
               floorNote={floorNote}
             />
@@ -2474,7 +2517,7 @@ function renderWorkspace({
               <LegislationWorkspace
                 world={session.world}
                 assignment={assignment}
-                onWorldChange={onWorldChange}
+                onWorldChange={onLegislativeChange}
               />
             </>
           ) : null}

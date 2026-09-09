@@ -44,6 +44,12 @@ import {
   evidenceHistoryRecords,
 } from "./evidence-integrity";
 import {
+  assertPublicInformationIntegrity,
+  publicInformationEntityAvailableAt,
+  publicInformationEntityExists,
+  publicInformationHistoryRecords,
+} from "./public-information-integrity";
+import {
   EMPTY_FUTURE_TRANSITION_HANDLERS,
   assertFutureTransitionIntegrity,
   futureTransitionEntityAvailableAt,
@@ -572,7 +578,8 @@ export function recordWorldEvent(
       !futureTransitionEntityExists(world, entityId) &&
       !electionContestEntityExists(world, entityId) &&
       !campaignEntityExists(world, entityId) &&
-      !legislationEntityExists(world, entityId)
+      !legislationEntityExists(world, entityId) &&
+      !publicInformationEntityExists(world, entityId)
     ) {
       throw new Error(
         `Historical event references a missing entity: ${entityId}`,
@@ -745,6 +752,19 @@ export function recordWorldEvent(
     ) {
       throw new Error(
         `Historical event references an unavailable resource/housing entity: ${entityId}`,
+      );
+    }
+    if (
+      publicInformationEntityExists(world, entityId) &&
+      !publicInformationEntityAvailableAt(
+        world,
+        entityId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+    ) {
+      throw new Error(
+        `Historical event references an unavailable publication entity: ${entityId}`,
       );
     }
     const involvedPerson = world.people[entityId];
@@ -1018,6 +1038,10 @@ export function resolveEntityLabel(world: World, entityId: EntityId): string {
   );
   if (policyRealization)
     return `Policy realization ${policyRealization.status}`;
+  const publication = (world.history.publications ?? []).find(
+    (candidate) => candidate.id === entityId,
+  );
+  if (publication) return publication.headline;
   return (
     world.policyCatalog.domains[entityId]?.name ??
     world.policyCatalog.issues[entityId]?.name ??
@@ -1434,6 +1458,7 @@ function validateHistoryIntegrity(world: World): void {
     ...legislativePoliticsHistoryRecords(world),
     ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
+    ...publicInformationHistoryRecords(world),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -1480,6 +1505,7 @@ function validateHistoryIntegrity(world: World): void {
   assertSequenceOrdered(history.perceptions, "perception");
   assertSequenceOrdered(history.temporaryStates, "temporary state");
   assertSequenceOrdered(history.decisionTraces, "decision trace");
+  assertSequenceOrdered(history.publications ?? [], "publication");
   assertSequenceOrdered(history.electionContests ?? [], "election contest");
   assertSequenceOrdered(
     history.electionContestResults ?? [],
@@ -1545,6 +1571,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLegislativePoliticsIntegrity(world, ids);
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
+  assertPublicInformationIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");
@@ -1595,6 +1622,7 @@ function validateHistoryIntegrity(world: World): void {
     "executive disposition",
   );
   assertUniqueStableKeys(history.legislativeEnactments ?? [], "enactment");
+  assertUniqueStableKeys(history.publications ?? [], "publication");
   assertUniqueStableKeys(history.principles, "principle record");
   assertUniqueStableKeys(history.subjectKnowledge, "subject knowledge");
 
@@ -1668,7 +1696,8 @@ function validateHistoryIntegrity(world: World): void {
         !futureTransitionEntityExists(world, involvedId) &&
         !electionContestEntityExists(world, involvedId) &&
         !campaignEntityExists(world, involvedId) &&
-        !legislationEntityExists(world, involvedId)
+        !legislationEntityExists(world, involvedId) &&
+        !publicInformationEntityExists(world, involvedId)
       ) {
         throw new Error(
           `Historical event references a missing involved entity: ${event.id}`,
@@ -1841,6 +1870,19 @@ function validateHistoryIntegrity(world: World): void {
       ) {
         throw new Error(
           `Historical event references an unavailable life entity: ${event.id}`,
+        );
+      }
+      if (
+        publicInformationEntityExists(world, involvedId) &&
+        !publicInformationEntityAvailableAt(
+          world,
+          involvedId,
+          event.occurredAt,
+          event.sequence,
+        )
+      ) {
+        throw new Error(
+          `Historical event references an unavailable publication entity: ${event.id}`,
         );
       }
       const involvedPerson = world.people[involvedId];

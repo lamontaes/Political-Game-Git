@@ -929,3 +929,24 @@ simulation time. No Stage 6 policy/mind rule or probability model is changed.
   proof remain pending their immutable deliveries. Historical raster decode-error
   and placeholder-consumer findings remain explicit UI follow-ups. Automated proof
   does not constitute human visual acceptance.
+
+## NEWS-HELP2 Public Information Audit — 2026-09-08
+
+This audit rechecks the new public-information rule against canonical history,
+legislative identity, disclosure, persistence, scene ownership, and the
+accepted Stage 6/6.5 boundaries.
+
+| Concern                                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                             |
+| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Canonical occurrence versus publication | Preserved            | `PublicationRecord` cites one earlier `HistoricalEvent`; event time, publication time, and append sequence remain separate. Projection never invokes the writer.                                                                                                   |
+| Vote truth versus intention             | Fail-closed          | Only a `LegislativeActionRecord.eventId` with an existing canonical `voteId` resolves as `recorded-vote`. Commitments and future questions cannot provide a tally.                                                                                                 |
+| Disclosure and private state            | Fail-closed          | Sources must be public and completed. Private, future, missing, setup, clock, discovery, and publication plumbing are rejected atomically. No mind, appraisal, prior, forecast, or external headline reader is imported.                                           |
+| History and persistence                 | Compatible extension | The optional family joins the existing contiguous sequence and stable-ID set. Root and correction editions are append-only; older snapshots with no family read as an empty digest. Existing JSON, SQLite, and browser payloads remain the only persistence paths. |
+| Shared newspaper/screen truth           | Preserved            | `projectPublicInformationDigest` owns accessible copy. The feature panel and `headline` surface adapter consume that same item; there is no second headline generator.                                                                                             |
+| ENV/UI-core ownership                   | Preserved            | No scene rectangle, z-order, access class, anchor, `PlayerGame`, or permanent-shell file changes. ENV's binder still decides physical receipt; UI-core receives a typed panel model and callbacks for final placement.                                             |
+| Inline help and people                  | Typed and read-only  | Civic concepts are selected by stable IDs and carry official-reference metadata. Person controls carry canonical `personId`; no name matching or glossary fallback exists. Browser tests cover Enter, touch, focus, Escape, and exact World read purity.           |
+| Stage scope                             | Bounded              | No live-news import, media business, audience/opinion system, institution/law rewrite, automatic knowledge propagation, or Stage 7 mechanic is added.                                                                                                              |
+
+LEARN: public visibility and publication are separate states. The durable guard
+is a typed publication source plus negative tests at the writer boundary; an
+empty television is never sufficient reason to widen disclosure.

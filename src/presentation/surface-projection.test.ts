@@ -374,9 +374,11 @@ describe("a room says only what this world knows", () => {
     expect(projection.facts.has("bill-title")).toBe(false);
     expect(projection.facts.has("agenda")).toBe(false);
     expect(projection.facts.has("document-body")).toBe(false);
+    // NEWS-HELP2 owns headlines now, but an un-published world has none.
+    expect(projection.facts.has("headline")).toBe(false);
+    expect(projection.empty.has("headline")).toBe(true);
     // Nothing in this world owns these at all, and nothing here pretends to.
     for (const orphan of [
-      "headline",
       "election-result",
       "campaign-name",
       "candidate-name",

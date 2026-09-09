@@ -94,6 +94,7 @@ export * from "./production-catalog";
 export * from "./policy-decision";
 export * from "./policy-semantics";
 export * from "./politics";
+export * from "./public-information";
 export * from "./political-belief-formation";
 export * from "./quantity";
 export * from "./queries";

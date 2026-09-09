@@ -224,6 +224,14 @@ test("normal activity completion replaces household presence without a second cl
   );
   for (const width of [1440, 960]) {
     await page.setViewportSize({ width, height: 900 });
+    const receipt = await page.getByTestId("activity-aftermath").boundingBox();
+    const identity = await page.getByTestId("nav-cluster").boundingBox();
+    expect(receipt).not.toBeNull();
+    expect(identity).not.toBeNull();
+    expect(
+      receipt!.x >= identity!.x + identity!.width ||
+        receipt!.y + receipt!.height <= identity!.y,
+    ).toBe(true);
     await page.screenshot({
       path: testInfo.outputPath(`venue-aftermath-${width}.png`),
     });

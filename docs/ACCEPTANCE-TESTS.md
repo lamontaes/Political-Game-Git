@@ -1831,3 +1831,45 @@ closes the C119C defect and preserves the grounding, withholding, age, callback,
 persistence, research-accounting, campaign-isolation, bargaining-isolation and
 canonical-ownership controls. Landing onto current main is mechanical. Owner
 visual acceptance is still not implied by passing automated browser tests.
+
+## NEWS-HELP2 — Canonical public information
+
+### NEWS-001 — Publication is explicit and reproducible
+
+An existing public event produces no digest item until `publishPublicEvent`
+appends one stable publication. Reopening and projecting do not append, reroll,
+or alter World. A repeated initial publication for the same event is rejected.
+
+### NEWS-002 — Recorded votes are records, not intentions
+
+A published legislative vote must resolve through the source action's exact
+`voteId` to an existing `LegislativeVoteRecord`. Its copy uses the recorded
+tally and outcome. A vote commitment and a future vote produce no tally or
+final result.
+
+### NEWS-003 — Disclosure fails closed
+
+Private, future, missing, setup, clock, evidence-discovery, and publication
+plumbing events cannot become public-information items. A game with no explicit
+publication has an owned-but-empty `headline` surface and renders the scene's
+declared fallback.
+
+### NEWS-004 — Newspaper and supported screens share one item
+
+The digest and `headline` surface adapter resolve the same root publication ID,
+source event ID, and accessible headline. A domestic television receives it
+only through a declared `public-broadcast` slot; no geometry or anchor is
+created by NEWS-HELP2.
+
+### NEWS-005 — Corrections and saves retain history
+
+A correction appends one later edition linked to the immediately preceding
+edition. The original remains byte-for-byte present, correction history is
+linear, and JSON/browser/SQLite persistence retains the complete chain.
+
+### NEWS-006 — Inline help is local, accessible, and typed
+
+Explicit civic-term buttons support keyboard and touch activation. Help focuses
+its close control; Escape closes it and returns focus to the trigger. Reading
+does not change World or time. A typed person button calls the canonical person
+route with `personId` and never opens glossary content.

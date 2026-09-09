@@ -797,6 +797,36 @@ See D-050 and
 
 ---
 
+## NEWS-HELP2 Public Information and Inline Help
+
+- **Owns:** explicit publication and correction transitions over already
+  recorded public events; one digest read model; feature-local digest/help UI;
+  and the `headline` dynamic-surface owner.
+- **Stable IDs exposed:** root publication, correction edition, source event,
+  canonical source record, jurisdiction, and typed person IDs.
+- **Consumes:** ordinary public `HistoricalEvent`; canonical legislative
+  action/measure/vote records; existing World serialization; the disclosure
+  ladder; ENV surface slots; and stable civic concept IDs.
+- **Produces:** one append-oriented optional `PublicationRecord` family inside
+  `HistoryStore`, deterministic accessible copy, correction history, and one
+  shared digest used by newspaper and supported public screens.
+- **Refusal rule:** private, future, missing, setup/clock/discovery plumbing,
+  and publication-of-publication sources do not publish. A commitment is not a
+  vote, and no tally exists before `LegislativeVoteRecord` exists.
+- **Projection rule:** reading/opening/rendering does not mutate World, advance
+  time, append publication, reroll copy, or mark a concept learned. Person
+  references route by canonical ID and never enter the glossary.
+- **Persistence:** the optional family preserves older save shape and
+  round-trips through existing JSON, SQLite, and browser save payloads without
+  another database or snapshot format.
+- **Integration:** UI-core chooses final global placement through
+  `projectPublicInformationPanel`; ENV retains physical geometry and access
+  through the existing `projectDynamicSurfaces`/binder path.
+
+See [Canonical Public Information](systems/public-information.md).
+
+---
+
 ## Reserved Future Cross-System Contracts
 
 These contracts constrain later stages. Run C implements only the personal/household slice of the shared resource-flow vocabulary; campaign, organization, government, fiscal-law, and civic-data systems remain deferred.

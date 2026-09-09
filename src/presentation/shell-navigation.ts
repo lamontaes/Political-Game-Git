@@ -40,6 +40,7 @@ export type ShellSurface =
   | "calendar"
   | "personal"
   | "work"
+  | "news"
   | "journal"
   | "patch-notes"
   | "options";
