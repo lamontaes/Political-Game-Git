@@ -1082,7 +1082,7 @@ _Grounded by: household-peer is Caleb Fleming: Resident on the same household re
 Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 6 beats, 30 realized lines, 25 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, legislative-measure-briefing, person-introduction, scene:adult, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:home.the-week-that-does-not-balance, legislative-session-unavailable, person-introduction, scene:adult, scene:episode, thread-recap
 
 ### Campaign
 
@@ -1091,16 +1091,7 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 - Sessions: 5
 - Resolved: true (won)
 
-### Legislative surface reached
-
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2026-09-06. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+_Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
 
 
 ### Beats
