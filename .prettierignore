@@ -7,6 +7,10 @@ data/source
 fixtures/source
 data/municipal-elections
 
+# Deterministic compact browser shards; regenerate with
+# npm run export:economic-context-browser.
+public/data/economic-context
+
 # Exact Drive transport. Its byte identity is verified by the source tests;
 # formatting would destroy the recovered artifact's canonical SHA-256.
 docs/research/92M-campaign-finance-ethics-lobbying.json

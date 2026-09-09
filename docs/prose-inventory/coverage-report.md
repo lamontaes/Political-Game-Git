@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2105 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5277 |
-| DIAGNOSTIC_OR_TEST | 4152 |
-| **NEEDS_CLASSIFICATION** | **5239** |
+| INVENTORIED | 2107 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5297 |
+| DIAGNOSTIC_OR_TEST | 4190 |
+| **NEEDS_CLASSIFICATION** | **5301** |
 
-Scanned 422 files holding 62270 string
+Scanned 431 files holding 62882 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -85,6 +85,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
@@ -93,6 +94,7 @@ literals in total; the table counts only those that read like a sentence.
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
+| 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
 | 20 | `src/simulation/candidacy-packs.ts` |
 | 20 | `src/ui/SceneGalleryView.tsx` |
@@ -119,6 +121,7 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/player/LifePathsPanel.tsx` |
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
+| 14 | `src/player/EconomicContextPanel.tsx` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
@@ -197,6 +200,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/vitality-catalog.ts` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/SceneBackdrop.tsx` |
+| 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |

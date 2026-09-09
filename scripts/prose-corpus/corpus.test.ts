@@ -549,9 +549,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the LEG-CONTENT1 bill families and docket modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(62270);
-    expect(coverage.counts.INVENTORIED).toBe(2105);
-    expect(coverage.scannedFiles).toBe(422);
+    expect(coverage.totalLiterals).toBe(62882);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(431);
   });
 });
 
