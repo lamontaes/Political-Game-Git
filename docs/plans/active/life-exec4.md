@@ -41,7 +41,6 @@ unchanged; candidates remain candidates, not editorial approval. Full format,
 lint and both TypeScript projects pass. Shared full/browser slot is queued behind
 LAND; no full or human acceptance is claimed by this isolated repair checkpoint.
 
-
 ## Expanded LIFE proof and measured count repair
 
 The actual scanner measures 52,400 literals, 1,914 inventoried sentences and

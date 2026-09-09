@@ -118,3 +118,27 @@ This repaired donor is published separately from subsequent normal entry and Wor
 completion. Public staffing permission remains separate from capacity. UI144 owns
 roots; QUAL owns eligibility predicates. Full/browser gates remain queued, and
 human/normal-player acceptance is not supplied by these isolated checks.
+
+## FINISH-WAVE4 full donor gate
+
+After normal composition with LIFE 74dbc76, accepted scanner tooling measured
+52,868 literals, 1,914 inventoried sentences and 352 source files. Exact corpus
+count assertions match that actual donor; original seeds, scanner sensitivity
+and source lineage are preserved. Generated merge conflicts were regenerated,
+not manually combined.
+
+Full suite: 178 files passed, 3,264 tests passed, two skipped, no failures,
+318.95 seconds with one worker and ordinary limits. Formatting, lint, both
+TypeScript projects, corpus check, source validation/replay, production
+build/preparation and deterministic demo passed. Art validation and inventory
+passed; art QA passed as well. The one-worker browser proof passed in 2.9
+seconds on port 5193, covering pointer/keyboard work, focus return and snapshot
+reload. It remains explicitly a synthetic review fixture.
+The earlier canceled full suite above is historical, not this verdict.
+
+Actual normal executive entry and non-fixture evidence producers remain open:
+QUAL must provide the dated office qualification consumer, and UI #144 owns
+registration. Explicit requests were sent to both owners, including #146.
+No review initializer was registered as normal entry and no missing public
+staffing permission was inferred. The shared repairs and full gate do not
+constitute human acceptance or closure of those source/integration boundaries.
