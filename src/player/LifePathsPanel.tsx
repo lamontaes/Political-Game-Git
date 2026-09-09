@@ -1,3 +1,4 @@
+import { SocialInvitationPanel } from "../presentation/SocialInvitationPanel";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
@@ -94,6 +95,11 @@ export function LifePathsPanel({
         transitionHandlers={handlers}
       />
       <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
+      <SocialInvitationPanel
+        world={world}
+        personId={actor}
+        onWorldChange={onWorldChange}
+      />
       <h3>Available paths</h3>
       <p>These opportunities and terms are fictional parts of the game.</p>
       {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map((path) => {

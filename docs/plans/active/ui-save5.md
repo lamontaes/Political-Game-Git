@@ -283,3 +283,17 @@ Full evidence, exact provenance values and scene/dossier/candidate wardrobe
 review images are banked at docs/plans/evidence/ui-return7. Human approval,
 QUAL reconciliation, complete press prerequisites and CIVIL legal journey remain
 explicitly unaccepted. No merge, deployment or monitoring.
+
+## Invitation6 explicit response composition
+
+Consumed only the three new presentation files from OPENING39844fcd4ee31ed5d542fd97a309519f6b8fb900;
+donor time-work compatibility code is not copied. SocialInvitationPanel is
+mounted once inside the existing LIFE panel, reaching both normal Day and Work
+through the canonical World callback. It offers explicit source-linked decline
+of the future tentative personal hold; it changes neither clock nor organizer.
+The prior failed attempted venue route is replaced in the study test by this
+owning response. A separate pointer/save/reload test checks unchanged time and
+original activity records; the study route activates decline by keyboard.
+Combined typecheck/scoped lint pass, corpus regenerated2453templates5891
+unclassified/0harderrors270warnings. Browser proof remains pending LAND's
+finite slot release; no donor test is relabeled as normal UI acceptance.

@@ -148,15 +148,17 @@ test("normal dated education offer, attendance, interruption and repeated saving
     "Another calendar commitment must be resolved first.",
   );
   await expect(study).toContainText("1 attended sessions");
-  await openElsewhere(page, "day");
-  await page
-    .getByTestId("ordinary-section")
-    .getByTestId("venue-activities")
-    .getByRole("button", { name: "Carry out activity", exact: true })
-    .filter({ visible: true })
-    .first()
-    .click();
-  await openElsewhere(page, "work");
+  const invitations = page.getByRole("region", {
+    name: "Invitations",
+    exact: true,
+  });
+  await invitations
+    .getByRole("button", {
+      name: "Decline invitation: Something on Saturday",
+      exact: true,
+    })
+    .press("Enter");
+  await expect(invitations).toHaveCount(0);
   await study
     .getByRole("button", {
       name: "Attend Workforce Education — noncredit study",
@@ -170,4 +172,44 @@ test("normal dated education offer, attendance, interruption and repeated saving
   await enterLife(page);
   await openElsewhere(page, "work");
   await expect(study).toContainText("2 attended sessions");
+});
+
+test("normal invitation pointer refusal preserves time and survives saving", async ({
+  page,
+}) => {
+  await page.goto("/?seed=ui-invitation-pointer");
+  await startLife(page, { age: 35, route: "custom", household: "lives-alone" });
+  await enterLife(page);
+  await saveLife(page);
+  const before = await readSavedLegislativeWorld(page);
+  await openElsewhere(page, "work");
+  const invitations = page.getByRole("region", {
+    name: "Invitations",
+    exact: true,
+  });
+  await invitations
+    .getByRole("button", {
+      name: "Decline invitation: Something on Saturday",
+      exact: true,
+    })
+    .click();
+  await expect(invitations).toHaveCount(0);
+  await saveLife(page);
+  const after = await readSavedLegislativeWorld(page);
+  expect(after.currentMoment).toEqual(before.currentMoment);
+  expect(
+    after.history.events.filter(
+      (event) => event.type === "life.social-invitation-declined",
+    ),
+  ).toHaveLength(1);
+  expect(after.history.scheduledActivities).toEqual(
+    before.history.scheduledActivities,
+  );
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await openElsewhere(page, "work");
+  await expect(invitations).toHaveCount(0);
+  await saveLife(page);
+  expect(await readSavedLegislativeWorld(page)).toEqual(after);
 });
