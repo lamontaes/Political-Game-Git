@@ -1,0 +1,90 @@
+{
+  "source": "/Users/lamontae/Documents/Political-Game-OPENING-LIFE1",
+  "head": "5767496180e32d52e101453623103c72cb71d8f6",
+  "branch": "claude/opening-life1-family-world",
+  "remoteBranchPublished": false,
+  "capturedAt": "2026-09-09T01:40:39.898134+00:00",
+  "stoppedProbePid": 43311,
+  "files": [
+    {
+      "path": "src/player/PlayerGame.tsx",
+      "status": "tracked-modified",
+      "bytes": 79268,
+      "sha256": "4d3f0f01e81ef13314602d5318d3c1f10ccb382c9a60b2d28597021246d3f8e7"
+    },
+    {
+      "path": "src/presentation/conversation-subjects.ts",
+      "status": "tracked-modified",
+      "bytes": 60287,
+      "sha256": "8b5adeaddb1ef9b63fc59a4cac59bddb41703fe0bded28c54b3617705ff410ba"
+    },
+    {
+      "path": "src/presentation/ordinary-life.ts",
+      "status": "tracked-modified",
+      "bytes": 18782,
+      "sha256": "bf50954dbd4e05e60478dd8e8f1f1a7850bfe8f7421a6d3211824bb2eba21264"
+    },
+    {
+      "path": "src/presentation/player-conversation.ts",
+      "status": "tracked-modified",
+      "bytes": 10770,
+      "sha256": "09337fa513aef2b4592b0b41ff2c91a80261bcf6b5359136f4335a03c930fa95"
+    },
+    {
+      "path": "src/presentation/run-b-conversation-progress.ts",
+      "status": "tracked-modified",
+      "bytes": 15246,
+      "sha256": "6b06ea90ac6b64b106cb96762c094cbb8445bc282e141aa38c5f1430d48fdf24"
+    },
+    {
+      "path": "src/presentation/run-b-conversation.ts",
+      "status": "tracked-modified",
+      "bytes": 99655,
+      "sha256": "e14a0f6c30ef3f50596a23a85bd6d6e3e13c161e113735bff8e012d8a3724d37"
+    },
+    {
+      "path": "src/simulation/life-circumstances.ts",
+      "status": "tracked-modified",
+      "bytes": 35543,
+      "sha256": "3be0b12374123800b378d673c0cde3dd9a060f48e82ad6e1fa70a17c797ba883"
+    },
+    {
+      "path": "docs/plans/active/OPENING-LIFE1-ui-integration.md",
+      "status": "untracked",
+      "bytes": 5593,
+      "sha256": "eaf8799846e64eee35bf6868074a423bda2ddb0f697dccfb09aa88cec55aa27a"
+    },
+    {
+      "path": "src/presentation/opening-integration.ts",
+      "status": "untracked",
+      "bytes": 3275,
+      "sha256": "ae3e8914c80158db9ccc7e8d29396e8fd17fe419971f2dc003b31620745d1faa"
+    },
+    {
+      "path": "src/presentation/opening-sequence.test.ts",
+      "status": "untracked",
+      "bytes": 9472,
+      "sha256": "a4678acedc2d8d31e0108f4e548fe20d0d93e8979b079d41805dbf7a7f7629ed"
+    },
+    {
+      "path": "src/presentation/ordinary-conversations.ts",
+      "status": "untracked",
+      "bytes": 12332,
+      "sha256": "7cb3ef3ca338bacb720e018ee370560b8d51a131be9618a53ed55ce1a51fcb92"
+    },
+    {
+      "path": "src/simulation/life-circumstances.test.ts",
+      "status": "untracked",
+      "bytes": 5997,
+      "sha256": "0c16e80b5da680366d173d652944a7c2e309f485761068aa1b4c14ce2936c31b"
+    }
+  ],
+  "dirty.patch": {
+    "bytes": 15341,
+    "sha256": "ee78e9375be9ae451267d24928b3d9579a7c3fbfc5d8f112f3060375add3f029"
+  },
+  "committed.patch": {
+    "bytes": 106942,
+    "sha256": "c1166cd60994fe2feb6ecfa035677cea031392ba4033a40034ec8c6007d41951"
+  }
+}

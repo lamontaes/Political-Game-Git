@@ -1,3 +1,5 @@
+import { OPENING_LIFE_ADDITIONS } from "../simulation/opening-life-content";
+import { advanceWorldMinutes } from "../simulation/time-work";
 import {
   describePersonContext,
   introducePerson,
@@ -682,12 +684,35 @@ export function chooseStoryOption(
   const scene = input.scene;
   switch (scene.kind) {
     case "episode": {
+      const ordinaryMinutes = OPENING_LIFE_ADDITIONS.find(
+        (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
+      )?.minutes;
+      if (ordinaryMinutes !== undefined) {
+        const probe = advanceWorldMinutes(
+          world,
+          ordinaryMinutes,
+          createCampaignElectionTransitionRegistry(),
+        );
+        if (probe === world) return world;
+        if (
+          probe.history.events
+            .slice(world.history.events.length)
+            .some((event) => event.type !== "simulation.minutes-advanced")
+        )
+          return probe;
+      }
       const played = playEpisodeOption(world, {
         personId: input.personId,
         beat: scene.beat,
         optionKey: input.optionKey,
         families: EPISODE_FAMILIES,
       });
+      if (ordinaryMinutes !== undefined)
+        return advanceWorldMinutes(
+          played.world,
+          ordinaryMinutes,
+          createCampaignElectionTransitionRegistry(),
+        );
       return advanceWorld(
         played.world,
         EPISODE_STEP_DAYS[scene.beat.stakes],

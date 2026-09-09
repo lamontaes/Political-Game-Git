@@ -546,17 +546,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual 79L combined tree: current
-    // main (P1 narration, the accepted executive modules, the R3J Kentucky
-    // Sec. 88 operative-text source notes and the merged #128 anchor history)
-    // composed with PR79's bargaining dialogue, subjects, floor surface,
-    // member-seat resolver and prior-work evidence classifier. Neither side's
-    // pin was chosen; the combined tree was scanned and these are what it
-    // measures.
+    // Re-measured by corpus:prose on the actual OPENING checkpoint composed
+    // with frozen P2R2/P01; these are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51732);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(340);
+    expect(coverage.totalLiterals).toBe(53323);
+    expect(coverage.counts.INVENTORIED).toBe(1993);
+    expect(coverage.scannedFiles).toBe(366);
   });
 });
 

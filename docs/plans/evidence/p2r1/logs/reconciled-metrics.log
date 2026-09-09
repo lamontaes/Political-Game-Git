@@ -1,0 +1,35 @@
+{
+  rejected: {
+    rows: 427,
+    distinctTexts: 425,
+    exactDuplicateGroups: 1,
+    normalizedDuplicateGroups: 1,
+    nearDuplicateClusters: 2,
+    reachability: { PLAYER_REACHABLE: 380, WITHHELD_BY_GROUNDING: 47 },
+    exactDuplicates: undefined,
+    normalizedDuplicates: undefined,
+    nearDuplicates: undefined
+  },
+  publicationMain: {
+    rows: 416,
+    distinctTexts: 414,
+    exactDuplicateGroups: 1,
+    normalizedDuplicateGroups: 1,
+    nearDuplicateClusters: 2,
+    reachability: { PLAYER_REACHABLE: 416 },
+    exactDuplicates: undefined,
+    normalizedDuplicates: undefined,
+    nearDuplicates: undefined
+  },
+  repaired: {
+    rows: 427,
+    distinctTexts: 425,
+    exactDuplicateGroups: 1,
+    normalizedDuplicateGroups: 1,
+    nearDuplicateClusters: 6,
+    reachability: { WITHHELD_BY_GROUNDING: 360, PLAYER_REACHABLE: 67 },
+    exactDuplicates: undefined,
+    normalizedDuplicates: undefined,
+    nearDuplicates: undefined
+  }
+}

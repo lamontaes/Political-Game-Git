@@ -1,3 +1,4 @@
+import { OPENING_LIFE_FAMILIES } from "./opening-life-content";
 import type {
   EpisodeAuthority,
   EpisodeFamily,
@@ -2369,6 +2370,7 @@ export const EPISODE_FAMILIES: readonly EpisodeFamily[] = [
   NEIGHBOURHOOD,
   POLITICAL_APPROACH,
   ...LIFE_CONTENT_92C_FAMILIES,
+  ...OPENING_LIFE_FAMILIES,
 ];
 
 export function episodeFamily(key: string): EpisodeFamily | null {

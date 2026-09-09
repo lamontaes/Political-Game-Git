@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run scripts/prose-eval src/presentation/new-game-identity.test.ts src/presentation/adult-grounding.test.ts src/simulation/life-content-92c-grounding.test.ts scripts/prose-corpus/identity.test.ts --maxWorkers=2
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-production
+
+
+ Test Files  8 passed (8)
+      Tests  142 passed (142)
+   Start at  10:24:27
+   Duration  2.38s (transform 882ms, setup 0ms, import 1.60s, tests 2.24s, environment 0ms)
+

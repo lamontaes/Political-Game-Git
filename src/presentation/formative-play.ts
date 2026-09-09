@@ -1,3 +1,4 @@
+import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   LIFE_TRANSITION_HANDLERS,
   activeEducationEnrollmentsAt,
@@ -392,7 +393,10 @@ function advanceToNextMoment(
   // With the handler registry, because a life that reaches adulthood may
   // already be carrying a scheduled callback, and time refuses to step over a
   // due item it has no handler for rather than silently losing it.
-  return advanceWorld(world, days, LIFE_TRANSITION_HANDLERS);
+  return refreshLifeCircumstances(
+    advanceWorld(world, days, LIFE_TRANSITION_HANDLERS),
+    personId,
+  );
 }
 
 function daysBetween(from: string, to: string): number {

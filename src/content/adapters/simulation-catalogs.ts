@@ -81,18 +81,18 @@ export function productionCatalogBank(): ContentBank {
     id: PRODUCTION_BANK_ID,
     title: "Production definition catalogs",
     description:
-      "The reference definitions a player's own world starts with. Deliberately empty until sourced content exists: an empty catalog says nothing has been established here, which is true, and assertProductionCatalogBoundary keeps it that way on purpose.",
+      "Versioned game-authored ordinary-life personality and value definitions. Empirical policy, mortality and incident catalogs remain empty until supported content exists.",
     domain: "catalog",
-    authority: "unestablished",
+    authority: "authored",
     status: "production",
     sourceModule: PRODUCTION_MODULE,
     items: catalogItems(
       catalogs,
       PRODUCTION_BANK_ID,
       PRODUCTION_MODULE,
-      "unestablished",
+      "authored",
       "production",
-      "Sourced content for this catalog does not exist yet; production worlds carry none.",
+      "Opening-life mind v1 is authored fictional-life content, not empirical calibration. The production boundary validates its exact definitions and rejects synthetic fixtures.",
     ),
   };
 }

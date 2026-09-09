@@ -886,9 +886,9 @@
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
-      "text": "Something decided a long time earlier turned out to still be there.",
+      "text": "Something from a while back came up again.",
       "occurrence": 0,
-      "textRevision": "f66f4359c3c2"
+      "textRevision": "05a14e8db969"
     },
     {
       "anchor": "PHASE_SENTENCES-0001",
@@ -1006,177 +1006,265 @@
       "anchor": "RETURN_SUMMARY-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "An evening you had not thought about turned out to have counted for something.",
+      "text": "That evening came up between you again.",
       "occurrence": 0,
-      "textRevision": "6cbbf243751d"
+      "textRevision": "53e6679db687"
     },
     {
       "anchor": "RETURN_SUMMARY-0002",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "It came back a third time, which is when a favour stops being a favour.",
+      "text": "The old favour got a mention.",
       "occurrence": 0,
-      "textRevision": "fba7b5a927a9"
+      "textRevision": "12e4eea2c9d2"
     },
     {
       "anchor": "RETURN_SUMMARY-0003",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The business with the other household was not over, whatever the meeting had decided.",
+      "text": "The dispute was put back in front of you.",
       "occurrence": 0,
-      "textRevision": "686b56feee22"
+      "textRevision": "22fec1e434f1"
     },
     {
       "anchor": "RETURN_SUMMARY-0004",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The evening you said you would give came up again, from somebody who had noticed whether you gave it.",
+      "text": "The neighbourhood meeting came up again.",
       "occurrence": 0,
-      "textRevision": "f1a1860c22a9"
+      "textRevision": "1e3c17a10a8f"
     },
     {
       "anchor": "RETURN_SUMMARY-0005",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The favour turned out to have been remembered rather more precisely than you remembered it.",
+      "text": "The favour was put to you once more.",
       "occurrence": 0,
-      "textRevision": "8b4207216426"
+      "textRevision": "aa9a72d6fd47"
     },
     {
       "anchor": "RETURN_SUMMARY-0006",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
+      "text": "The school project was brought up with you again.",
       "occurrence": 0,
-      "textRevision": "523174ee332e"
+      "textRevision": "4d5c020fbb8a"
     },
     {
       "anchor": "RETURN_SUMMARY-0007",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The hours you took, or did not take, turned out to have been counted.",
+      "text": "The extra hours were put to you once more.",
       "occurrence": 0,
-      "textRevision": "adeb6ff3988d"
+      "textRevision": "d10ed3ed6dc3"
     },
     {
       "anchor": "RETURN_SUMMARY-0008",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The morning with the rule and the customer came back, from a direction you had not expected.",
+      "text": "The rule at work is being argued over again.",
       "occurrence": 0,
-      "textRevision": "eb3d10d11e55"
+      "textRevision": "9caa3c7fccea"
     },
     {
       "anchor": "RETURN_SUMMARY-0009",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The plan you settled on stopped being settled.",
+      "text": "The plans were put in front of you again.",
       "occurrence": 0,
-      "textRevision": "0b3d2ac4b703"
+      "textRevision": "0afaf0ac2e90"
     },
     {
       "anchor": "RETURN_SUMMARY-0010",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The question about standing for something came back, and this time it was not casual.",
+      "text": "Somebody asked you about running for office again.",
       "occurrence": 0,
-      "textRevision": "bf42104f8d7c"
+      "textRevision": "ec06edfc7e99"
     },
     {
       "anchor": "RETURN_SUMMARY-0011",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The thing about the week that never gets done was raised again, and this time not by you.",
+      "text": "Who covers what at home is being asked again.",
       "occurrence": 0,
-      "textRevision": "c5c8e64b175c"
+      "textRevision": "2b58acaadc37"
     },
     {
       "anchor": "RETURN_SUMMARY-0012",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The thing about whose work it was had not been dropped after all.",
+      "text": "Whose work it had been came up at work again.",
       "occurrence": 0,
-      "textRevision": "8f005d06d33a"
+      "textRevision": "da49926b81ca"
     },
     {
       "anchor": "RETURN_SUMMARY-0013",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The thing you rearranged came round a second time, and there was less room to rearrange it.",
+      "text": "The promise came back round to you.",
       "occurrence": 0,
-      "textRevision": "57c681052b01"
+      "textRevision": "471b2e5f9cd5"
     },
     {
       "anchor": "RETURN_SUMMARY-0014",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The two weeks you did or did not give came up again, in a conversation that was about something else.",
+      "text": "Your family raised the two weeks they had asked you for.",
       "occurrence": 0,
-      "textRevision": "89a5cedc3953"
+      "textRevision": "ea5bc08df789"
     },
     {
       "anchor": "RETURN_SUMMARY-0015",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The week you handed over turned out to have been counted, and it was raised without much warmth.",
+      "text": "What was said at home about it was raised again.",
       "occurrence": 0,
-      "textRevision": "9ddcca4e3978"
+      "textRevision": "84c0d17a6f00"
     },
     {
       "anchor": "RETURN_SUMMARY-0016",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What was decided about the building came back round, and the people it had cost were still there.",
+      "text": "The building came up for discussion again.",
       "occurrence": 0,
-      "textRevision": "49b0b1cb2ec1"
+      "textRevision": "026243ad24a8"
     },
     {
       "anchor": "RETURN_SUMMARY-0017",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you did about the offer got back to somebody it was not supposed to.",
+      "text": "The other job is on the table again.",
       "occurrence": 0,
-      "textRevision": "8efde7267f66"
+      "textRevision": "54f3f70357eb"
     },
     {
       "anchor": "RETURN_SUMMARY-0018",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
+      "text": "What you did after the incident was brought up with you.",
       "occurrence": 0,
-      "textRevision": "ccff11fcf626"
+      "textRevision": "5aa8a08d12a0"
     },
     {
       "anchor": "RETURN_SUMMARY-0019",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you gave, or kept, after the flooding turned out to have been noticed.",
+      "text": "Helping the neighbours came back to you.",
       "occurrence": 0,
-      "textRevision": "1cf31939a68b"
+      "textRevision": "e3df1ac49c68"
     },
     {
       "anchor": "RETURN_SUMMARY-0020",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you took on came round again, on a week that had no room for it.",
+      "text": "The help that was asked of you was raised again.",
       "occurrence": 0,
-      "textRevision": "e3208d29ec63"
+      "textRevision": "b27f816d166a"
     },
     {
       "anchor": "RETURN_SUMMARY-0021",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "What you were told, and what you did about it, came back up.",
+      "text": "They came back to you about what they had told you.",
       "occurrence": 0,
-      "textRevision": "688f152720b6"
+      "textRevision": "c26ef2747927"
     },
     {
       "anchor": "RETURN_SUMMARY-0022",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "Your name on that list was read by somebody who had not been meant to read it.",
+      "text": "You were asked to sign it after all.",
       "occurrence": 0,
-      "textRevision": "4eee17cf158c"
+      "textRevision": "93639d1a1cac"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0023",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "You were asked to help out again.",
+      "occurrence": 0,
+      "textRevision": "4694c7e35183"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0024",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What it costs to stay came round again.",
+      "occurrence": 0,
+      "textRevision": "d800a3222b96"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0025",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The repairs and the rent are still between you.",
+      "occurrence": 0,
+      "textRevision": "6ffbc959e1ea"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0026",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The shortfall was put in front of you again.",
+      "occurrence": 0,
+      "textRevision": "5adc10808420"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0027",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The repair at home is still being asked about.",
+      "occurrence": 0,
+      "textRevision": "d182781f116a"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0028",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "What happened to the money got mentioned.",
+      "occurrence": 0,
+      "textRevision": "5a2a58ae5b52"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0029",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "The offer of help was put to you once more.",
+      "occurrence": 0,
+      "textRevision": "467e6e5ae4e5"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0030",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Your colleague’s difficulty came up in conversation again.",
+      "occurrence": 0,
+      "textRevision": "95e7eda367b5"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0031",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Repayment came up between you again.",
+      "occurrence": 0,
+      "textRevision": "d042bd1fa6b2"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0032",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "You were asked along again.",
+      "occurrence": 0,
+      "textRevision": "ac387e19d151"
+    },
+    {
+      "anchor": "RETURN_SUMMARY-0033",
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "symbol": "RETURN_SUMMARY",
+      "text": "Their good news was mentioned to you again.",
+      "occurrence": 0,
+      "textRevision": "d6b9f53d7541"
     },
     {
       "anchor": "STEP_COPY-0001",
@@ -1587,14 +1675,6 @@
       "textRevision": "35b5cebde79d"
     },
     {
-      "anchor": "buildGrounding-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildGrounding",
-      "text": "You were raised by {introducePerson(context)}.",
-      "occurrence": 0,
-      "textRevision": "63cc07e9c396"
-    },
-    {
       "anchor": "buildGrounding-0003",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildGrounding",
@@ -1611,20 +1691,28 @@
       "textRevision": "75d1ba529be9"
     },
     {
+      "anchor": "buildGrounding-0005",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You started work at {name} in {yearOf(work.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "b4addf5f87dd"
+    },
+    {
+      "anchor": "buildGrounding-0006",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "{introducePerson(context)} has died.",
+      "occurrence": 0,
+      "textRevision": "a757f0ab51ac"
+    },
+    {
       "anchor": "buildLifeIntroduction-0001",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildLifeIntroduction",
       "text": "At home with you:",
       "occurrence": 0,
       "textRevision": "6a074258f505"
-    },
-    {
-      "anchor": "buildLifeIntroduction-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildLifeIntroduction",
-      "text": "You live on your own.",
-      "occurrence": 0,
-      "textRevision": "b4319fce0ffb"
     },
     {
       "anchor": "buildLifeIntroduction-0003",
@@ -2179,12 +2267,28 @@
       "textRevision": "8e074194b004"
     },
     {
+      "anchor": "householdAbsenceLine-0001",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "No one else is recorded in your current household.",
+      "occurrence": 0,
+      "textRevision": "987c404d9518"
+    },
+    {
+      "anchor": "householdAbsenceLine-0002",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "Your current household is not recorded.",
+      "occurrence": 0,
+      "textRevision": "8d21a6746a69"
+    },
+    {
       "anchor": "lifeCallbackTransitionHandler-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "An earlier choice became relevant again.",
+      "text": "An earlier choice was raised again by somebody who was there.",
       "occurrence": 0,
-      "textRevision": "2cff1b0f1600"
+      "textRevision": "41146630f3e6"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0002",
@@ -2198,41 +2302,41 @@
       "anchor": "lifeCallbackTransitionHandler-0003",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "The life this was owed to is no longer readable.",
+      "text": "Diagnostic: the subject person or the originating event is absent from history.",
       "occurrence": 0,
-      "textRevision": "31c90d573724"
+      "textRevision": "504bde2089b4"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0004",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "The other person is no longer in this life at all.",
+      "text": "Diagnostic: the counterpart person record is absent.",
       "occurrence": 0,
-      "textRevision": "72399415eaf0"
+      "textRevision": "cfade577df28"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0005",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "The person this concerned is no longer living it.",
+      "text": "Diagnostic: the subject person record is absent, or a death is recorded for them.",
       "occurrence": 0,
-      "textRevision": "89021fe63c62"
+      "textRevision": "7985fc1bf600"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0006",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "The two of them stopped having anything to do with each other, and it never came up again.",
+      "text": "Diagnostic: no household, kinship, employer or organization link between the two people is on record.",
       "occurrence": 0,
-      "textRevision": "db44e6f4b30d"
+      "textRevision": "3d7971f1733e"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0007",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "lifeCallbackTransitionHandler",
-      "text": "What was undertaken had already ended before anybody could hold them to it.",
+      "text": "Diagnostic: no active life commitment remains for this follow-up.",
       "occurrence": 0,
-      "textRevision": "09bc2df5a129"
+      "textRevision": "ec2671cf0bcf"
     },
     {
       "anchor": "listOf-0001",

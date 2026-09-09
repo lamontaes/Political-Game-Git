@@ -56,6 +56,19 @@ function groundingFor(stage: EpisodeStage): readonly ProseGroundingRef[] {
   const refs: ProseGroundingRef[] = stage.requires.map(
     (requirement: EpisodeRequirement): ProseGroundingRef => {
       switch (requirement.kind) {
+        case "home-recorded":
+          return {
+            key: "home-recorded",
+            description: "A current household is recorded.",
+            kind: "requirement",
+          };
+        case "local-time-window":
+          return {
+            key: `local-time:${requirement.startMinute}:${requirement.endMinuteExclusive}`,
+            description:
+              "The canonical moment is inside the declared local time window.",
+            kind: "requirement",
+          };
         case "withheld":
           return {
             key: "withheld",

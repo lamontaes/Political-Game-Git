@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 311 review warnings.**
+**0 hard errors. 261 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,21 +13,19 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 181 |
-| and-it-scaffold | 63 |
-| rather-than-scaffold | 35 |
+| vague-referent | 166 |
+| and-it-scaffold | 39 |
+| rather-than-scaffold | 27 |
 | slot-agreement | 12 |
 | label-restated-in-description | 9 |
 | third-person-player | 8 |
-| interpretive-ending | 2 |
-| which-x-which-y | 1 |
 
 ## Repetition
 
-- 1884 templates, 1861 distinct texts.
-- 19 exact duplicate groups.
-- 24 normalized duplicate groups.
-- 8 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2039 templates, 1966 distinct texts.
+- 32 exact duplicate groups.
+- 37 normalized duplicate groups.
+- 14 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -36,50 +34,50 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `in front of` | 21 | 7 |
-| `and it was` | 20 | 5 |
-| `there is a` | 20 | 5 |
-| `it is not` | 17 | 3 |
-| `a long time` | 16 | 5 |
-| `and it is` | 14 | 5 |
-| `you took the` | 14 | 3 |
-| `asked you to` | 13 | 4 |
-| `the two of` | 13 | 4 |
-| `out of the` | 12 | 4 |
+| `in front of` | 23 | 8 |
+| `there is a` | 19 | 5 |
+| `it is not` | 16 | 3 |
+| `asked you to` | 15 | 4 |
+| `a long time` | 14 | 4 |
+| `and it is` | 13 | 5 |
+| `out of the` | 13 | 5 |
 | `proof of income` | 12 | 2 |
+| `the two of` | 12 | 3 |
+| `has asked you` | 11 | 4 |
+| `is on the` | 11 | 6 |
 | `of income form` | 11 | 2 |
 | `proof of income form` | 11 | 2 |
 | `the bill is` | 11 | 2 |
-| `the end of` | 11 | 5 |
-| `and did not` | 10 | 3 |
-| `in the room` | 10 | 4 |
-| `is on the` | 10 | 5 |
-| `put your name` | 10 | 4 |
+| `the end of` | 10 | 4 |
 | `the player asked` | 10 | 1 |
 | `the two of you` | 10 | 3 |
 | `two of you` | 10 | 3 |
 | `you did not` | 10 | 4 |
 | `at the end` | 9 | 3 |
 | `at the end of` | 9 | 3 |
+| `put your name` | 9 | 4 |
+| `the proof of` | 9 | 2 |
+| `the proof of income` | 9 | 2 |
+| `the proof of income form` | 9 | 2 |
 
 ### Most repeated sentence openings
 
 | Opening | Count |
 | --- | --- |
-| `you took the` | 14 |
-| `there is a` | 13 |
+| `there is a` | 12 |
 | `the bill is` | 10 |
 | `the player asked` | 10 |
+| `you took the` | 9 |
 | `say you will` | 8 |
+| `you put the` | 7 |
+| `you told them` | 7 |
 | `it is not` | 6 |
 | `the bill has` | 6 |
-| `you did it` | 6 |
-| `you let it` | 6 |
-| `you went and` | 6 |
+| `you agreed to` | 6 |
+| `you asked for` | 6 |
 | `ask about the` | 5 |
+| `ask for a` | 5 |
 | `say nothing to` | 5 |
-| `you asked for` | 5 |
-| `you put it` | 5 |
-| `you said no` | 5 |
+| `they said they` | 5 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.
