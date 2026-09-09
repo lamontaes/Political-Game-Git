@@ -1,6 +1,6 @@
 # NEWS-HELP2 public information consumer
 
-Status: active
+Status: completed
 
 ## Authority and scope
 
@@ -42,3 +42,21 @@ media ownership/bias/advertising, or a second event/history store.
    focus return, and Escape behavior; run focused and repository gates.
 5. Record final evidence, move this plan to completed, publish one draft PR,
    and leave it unmerged.
+
+## Completion evidence
+
+- Canonical NEWS-HELP2 simulation tests: 5 passed.
+- Existing surface and browser repository regressions: 67 passed.
+- Frozen history-byte and continuity regression run: 78 passed; one unrelated
+  D-Lite test exceeded the shared-host five-second timeout and passed in 1.3
+  seconds when rerun alone.
+- Focused Chromium proof: 2 passed, covering keyboard, touch, initial focus,
+  inline-help focus return, Escape, read purity, and canonical person routing.
+- Prose corpus regenerated deterministically: 1,884 templates, 3,291
+  unclassified candidates, zero hard errors; 40 corpus tests passed.
+- `source:validate`, `source:replay`, production build, deterministic demo,
+  `validate:art`, 329-item `inventory:art`, and `qa:art` passed.
+- Two broad local validation attempts were preserved but collided with other
+  repository-wide jobs on the shared host, producing unrelated five-second
+  timeouts and restricted-port errors. The draft PR's exact-head CI is the
+  uncontended full-suite authority; no polling or monitoring was scheduled.
