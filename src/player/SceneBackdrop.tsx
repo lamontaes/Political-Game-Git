@@ -164,11 +164,48 @@ export function SceneBackdrop({
               (person.heightPercent / 100) *
               plate.height *
               transform.uniformScale;
+            const depth = scene?.anchors.get(person.anchorId)?.zOrder ?? 0;
+            const masks = [
+              ...occluders
+                .filter((o) => o.zOrder > depth)
+                .map((o) => o.asset.url),
+              ...plateClips
+                .filter((o) => o.zOrder > depth)
+                .map((o) => o.maskUrl),
+            ];
+            const masking: CSSProperties = masks.length
+              ? {
+                  maskImage: [
+                    "linear-gradient(black, black)",
+                    ...masks.map((url) => `url("${url}")`),
+                  ].join(", "),
+                  maskMode: "alpha",
+                  maskComposite: ["subtract", ...masks.map(() => "add")].join(
+                    ", ",
+                  ),
+                  maskRepeat: "no-repeat",
+                  maskSize: [
+                    "100% 100%",
+                    ...masks.map(
+                      () =>
+                        `${plate.width * transform.uniformScale}px ${plate.height * transform.uniformScale}px`,
+                    ),
+                  ].join(", "),
+                  maskPosition: [
+                    "0 0",
+                    ...masks.map(
+                      () =>
+                        `${transform.xOffset - topLeft.x}px ${transform.yOffset - topLeft.y}px`,
+                    ),
+                  ].join(", "),
+                }
+              : {};
             return (
               <div
                 key={person.personId}
                 className="scene-person-token"
                 data-testid={`scene-person-${person.personId}`}
+                data-occlusion-count={masks.length}
                 data-has-art={person.hasArt ? "true" : "false"}
                 data-relationship={person.relationship ?? ""}
                 style={
@@ -177,7 +214,8 @@ export function SceneBackdrop({
                     top: `${topLeft.y}px`,
                     width: `${width}px`,
                     height: `${height}px`,
-                    zIndex: scene?.anchors.get(person.anchorId)?.zOrder ?? 0,
+                    zIndex: depth,
+                    ...masking,
                   } satisfies CSSProperties
                 }
               >
@@ -207,43 +245,6 @@ export function SceneBackdrop({
               </div>
             );
           })}
-          {occluders.map((occluder) => (
-            <img
-              key={occluder.id}
-              src={occluder.asset.url}
-              alt=""
-              draggable="false"
-              data-testid="scene-backdrop-occluder"
-              data-occluder-id={occluder.id}
-              style={{
-                position: "absolute",
-                left: transform.xOffset,
-                top: transform.yOffset,
-                width: plate.width * transform.uniformScale,
-                height: plate.height * transform.uniformScale,
-                zIndex: occluder.zOrder,
-              }}
-            />
-          ))}
-          {plateClips.map((clip) => (
-            <img
-              key={clip.id}
-              src={tier.paintedUrl!}
-              alt=""
-              draggable="false"
-              data-testid="scene-backdrop-plate-clip"
-              data-occluder-id={clip.id}
-              style={{
-                position: "absolute",
-                left: transform.xOffset,
-                top: transform.yOffset,
-                width: plate.width * transform.uniformScale,
-                height: plate.height * transform.uniformScale,
-                zIndex: clip.zOrder,
-                clipPath: clip.clipPath,
-              }}
-            />
-          ))}
           {/* Names are interface labels, above the physical depth stack. */}
           {people.map((person) => (
             <div

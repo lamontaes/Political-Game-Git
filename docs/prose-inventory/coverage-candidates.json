@@ -3,7 +3,7 @@
     "INVENTORIED": 1914,
     "INTENTIONALLY_NON_PLAYER_FACING": 4853,
     "DIAGNOSTIC_OR_TEST": 3692,
-    "NEEDS_CLASSIFICATION": 3318
+    "NEEDS_CLASSIFICATION": 3321
   },
   "needsClassification": [
     {
@@ -3355,6 +3355,30 @@
       "enclosingSymbol": "SceneBackdrop",
       "line": 121,
       "text": "translate3d({transform.xOffset}px, {transform.yOffset}px, 0) scale({transform.uniformScale})",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 179,
+      "text": "linear-gradient(black, black)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 191,
+      "text": "{plate.width*transform.uniformScale}px {plate.height*transform.uniformScale}px",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 198,
+      "text": "{transform.xOffset-topLeft.x}px {transform.yOffset-topLeft.y}px",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },

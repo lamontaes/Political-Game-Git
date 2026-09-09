@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 1914 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4853 |
 | DIAGNOSTIC_OR_TEST | 3692 |
-| **NEEDS_CLASSIFICATION** | **3318** |
+| **NEEDS_CLASSIFICATION** | **3321** |
 
-Scanned 355 files holding 52526 string
+Scanned 355 files holding 52533 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -137,6 +137,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
+| 6 | `src/player/SceneBackdrop.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/formative-context.ts` |
@@ -168,7 +169,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
-| 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |
 | 3 | `src/presentation/production-office.ts` |
