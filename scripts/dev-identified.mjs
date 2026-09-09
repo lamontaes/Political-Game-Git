@@ -88,7 +88,7 @@ for (let i = 0; i < rawArgs.length; i++) {
 if (!Number.isInteger(port) || port < 1 || port > 65535)
   throw new Error("Invalid server port");
 
-console.log("OUR CIVIC DUTY DEV SERVER\n");
+console.log("POLITICAL GAME DEV SERVER\n");
 console.log(`Workspace: ${process.cwd()}`);
 console.log(`Branch: ${runCmd("git branch --show-current")}`);
 console.log(`Commit: ${runCmd("git rev-parse HEAD")}`);

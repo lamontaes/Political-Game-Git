@@ -1,9 +1,44 @@
-import { describe, it, expect } from "vitest";
-import { spawn } from "child_process";
+import { afterEach, describe, it, expect } from "vitest";
+import { spawn, type ChildProcess } from "child_process";
 import path from "path";
 import net from "net";
 
 const REPO_ROOT = path.resolve(__dirname, "..");
+const ownedChildren: ChildProcess[] = [];
+const ownedServers: net.Server[] = [];
+afterEach(async () => {
+  for (const child of ownedChildren.splice(0)) {
+    if (child.exitCode !== null || child.signalCode !== null) continue;
+    await new Promise<void>((resolve) => {
+      const timer = setTimeout(() => child.kill("SIGKILL"), 3000);
+      child.once("exit", () => {
+        clearTimeout(timer);
+        resolve();
+      });
+      child.kill("SIGTERM");
+    });
+  }
+  for (const server of ownedServers.splice(0)) {
+    if (server.listening)
+      await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+});
+async function unusedPort() {
+  const server = net.createServer();
+  await new Promise<void>((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", resolve);
+  });
+  const address = server.address();
+  if (!address || typeof address === "string") throw new Error("No test port");
+  await new Promise<void>((resolve) => server.close(() => resolve()));
+  return address.port;
+}
+function spawnOwned(...args: Parameters<typeof spawn>) {
+  const child = spawn(...args);
+  ownedChildren.push(child);
+  return child;
+}
 const SCRIPT_PATH = path.join(REPO_ROOT, "scripts", "dev-identified.mjs");
 
 function checkPortOpen(port: number, host = "127.0.0.1"): Promise<boolean> {
@@ -65,8 +100,8 @@ async function waitForOutput(
 
 describe("dev:identified lifecycle and CLI forwarding", () => {
   it("prints banner and forwards custom arguments like --mode", async () => {
-    const port = 5188;
-    const child = spawn(
+    const port = await unusedPort();
+    const child = spawnOwned(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString(), "--mode", "test-proof-mode"],
       {
@@ -76,10 +111,10 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     );
 
     let output = "";
-    child.stdout.on("data", (data) => {
+    child.stdout!.on("data", (data) => {
       output += data.toString();
     });
-    child.stderr.on("data", (data) => {
+    child.stderr!.on("data", (data) => {
       output += data.toString();
     });
 
@@ -112,8 +147,8 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("handles --host= and --port= syntax without duplicating arguments", async () => {
-    const port = 5194;
-    const child = spawn(
+    const port = await unusedPort();
+    const child = spawnOwned(
       process.execPath,
       [SCRIPT_PATH, `--port=${port}`, "--host=127.0.0.1"],
       {
@@ -123,7 +158,7 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     );
 
     let output = "";
-    child.stdout.on("data", (data) => {
+    child.stdout!.on("data", (data) => {
       output += data.toString();
     });
 
@@ -149,8 +184,8 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("terminates cleanly and frees port on SIGTERM to wrapper", async () => {
-    const port = 5189;
-    const child = spawn(
+    const port = await unusedPort();
+    const child = spawnOwned(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString()],
       {
@@ -180,8 +215,8 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("terminates cleanly and frees port on SIGINT to wrapper", async () => {
-    const port = 5190;
-    const child = spawn(
+    const port = await unusedPort();
+    const child = spawnOwned(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString()],
       {
@@ -211,13 +246,14 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
   });
 
   it("fails with non-zero exit code if requested port is occupied (--strictPort)", async () => {
-    const port = 5196;
+    const port = await unusedPort();
     const dummyServer = net.createServer();
+    ownedServers.push(dummyServer);
     await new Promise<void>((resolve) => {
       dummyServer.listen(port, "127.0.0.1", () => resolve());
     });
 
-    const child = spawn(
+    const child = spawnOwned(
       process.execPath,
       [SCRIPT_PATH, "--port", port.toString()],
       {
@@ -227,10 +263,10 @@ describe("dev:identified lifecycle and CLI forwarding", () => {
     );
 
     let output = "";
-    child.stdout.on("data", (data) => {
+    child.stdout!.on("data", (data) => {
       output += data.toString();
     });
-    child.stderr.on("data", (data) => {
+    child.stderr!.on("data", (data) => {
       output += data.toString();
     });
 

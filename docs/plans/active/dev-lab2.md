@@ -68,3 +68,37 @@ Shared machine: another owner's ENOSPC was confirmed locally at roughly
 removed by this task. Live process evidence also showed full Claude-owned
 validators/browser tests outside the Codex slot queue. Final validation remains
 required; these observations do not reclassify failures as passes.
+
+## CI repair and final local verification
+
+Checkpoint CI `34297582583` at `d269c704dfe6baff9d8e1dc2be3a8d26294bca85`
+ran the full unit suite: 3,207 passed, six failed, six pre-existing skips;
+one additional suite failed during setup. The actionable failures were the
+launcher's legacy banner contract, the explicit developer-route allowlist, and
+source-coverage artifact drift. Restore the banner, retain player-facing
+exclusion checks while registering the hub as a development-only entry, and
+regenerate the existing coverage artifacts without changing corpus authority.
+
+The existing launcher regression itself also had fixed shared ports and no
+failure cleanup. It now allocates ephemeral ports and always cleans up only its
+own child handles and test listener. No assertions or time limits were relaxed.
+
+Final local retry: 56 of 64 focused tests passed; eight hit existing time limits
+(one save test, five launcher tests, source identity, and real-server isolation).
+Both hub browser tests failed under their original limits; one waited on saved
+record evaluation, one on the lazy character-proof view. These are recorded
+failures, not accepted proof. Earlier pose/browser evidence is retained under
+its own run identity and is not relabeled as final-head evidence.
+
+Source validation, byte-identical source replay and deterministic demo passed.
+Formatting, lint, external-output typecheck, art validation and art inventory
+had passed before the small CI repair. Production build (both entries) and
+art QA have now passed without changing tracked art; updated typecheck/lint
+remain pending at this recording. The PR body
+is the final execution/CI status record. Human visual acceptance and optional
+UI-CORE registration remain outstanding; no normal-player reachability claim.
+
+LEARN: shared-machine isolation must cover legacy launcher tests as well as
+Playwright configuration. Dynamic-port allocation, failure cleanup, exact
+source refusal, read-only snapshot tests and historical-evidence hashes encode
+that lesson in executable checks rather than additional operator prompts.
