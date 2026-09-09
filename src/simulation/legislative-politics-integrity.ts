@@ -109,6 +109,13 @@ export function assertLegislativePoliticsIntegrity(
       );
     }
     if (
+      provision.fiscalPeriod !== undefined &&
+      (provision.fiscalPeriod !== "annual" ||
+        provision.fiscalExposureMinorUnits === null)
+    ) {
+      throw new Error("An annual fiscal period requires a stated amount.");
+    }
+    if (
       provision.fiscalExposureMinorUnits !== null &&
       (!Number.isSafeInteger(provision.fiscalExposureMinorUnits) ||
         provision.fiscalExposureMinorUnits < 0)

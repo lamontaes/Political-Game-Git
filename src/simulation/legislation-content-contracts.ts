@@ -418,6 +418,8 @@ export type PredicateAuthority =
       /** The measure on this player's own docket. */
       readonly measureId: string;
       readonly docketKey: string;
+      /** Pending references are conditional proposals, never existing law. */
+      readonly legalStatus?: "proposed" | "enacted";
     };
 
 /** A typed, adjustable value a family exposes to the player. */
@@ -505,6 +507,8 @@ export interface ClauseTemplate {
 }
 
 export interface ClauseRendering {
+  /** Omitted on legacy whole-programme amounts. */
+  readonly fiscalPeriod?: "annual";
   readonly text: string;
   readonly beneficiary: LegislativeProvisionBeneficiary;
   /** Money this section exposes the state to. Null for a non-money clause. */

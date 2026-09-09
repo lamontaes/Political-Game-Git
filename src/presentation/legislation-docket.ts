@@ -145,7 +145,7 @@ function docketKeyOf(scenarioKey: string, sequence: number): string {
 }
 
 function parseDocketSequence(measureStableKey: string): number | null {
-  const match = /^legislative-docket:[^:]+:bill-(\d{3}):measure$/.exec(
+  const match = /^legislative-docket:[^:]+:bill-(\d{3,}):measure$/.exec(
     measureStableKey,
   );
   if (!match) return null;
@@ -261,6 +261,9 @@ export function readDocket(
         lineage.familyKey,
         lineage.variantKey,
       );
+      if (family.familyVersion !== lineage.familyVersion) {
+        throw new Error("The saved family version is unavailable.");
+      }
       familyTitle = family.title;
       variantLabel = variant.label;
       instrument = variant.instrument;
@@ -536,12 +539,16 @@ export function availableAuthorities(
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: "A programme this state already runs.",
+    note: "An explicitly fictional standing programme in this content bank.",
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];
   for (const bill of readDocket(world, input)) {
-    if (bill.instrument === null) continue;
+    if (
+      bill.instrument === null ||
+      measurePosition(world, bill.measureId).phase === "failed"
+    )
+      continue;
     const rule = legalInstrumentRule(bill.instrument);
     // A bill that itself acts on something else is not an authority. An
     // appropriation against an appropriation, or a repeal of a repeal, is a
@@ -552,15 +559,16 @@ export function availableAuthorities(
       authorityKey: `${DOCKET_AUTHORITY_PREFIX}${bill.docketKey}`,
       kind: "docket-measure",
       citationLabel: `${bill.designation} (${bill.shortTitle})`,
-      programmeLabel: `the programme ${bill.designation} establishes`,
+      programmeLabel: `the programme described in ${bill.designation}`,
       authorizesSpending:
         rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
       authorizedCeilingMinorUnits: reading,
       authorizedCeilingLabel:
         reading === null ? null : formatMinorUnits(reading, "USD"),
-      note: bill.concluded
-        ? `Your own bill, filed ${bill.filedOn}. It is no longer moving.`
-        : `Your own bill, filed ${bill.filedOn}.`,
+      note:
+        measurePosition(world, bill.measureId).phase === "enacted"
+          ? `Enactment recorded for ${bill.designation}.`
+          : `${bill.designation} is a proposal, not law. Any linked bill is conditional on its enactment.`,
     });
   }
   return [...standing, ...fromDocket];
@@ -577,7 +585,11 @@ function measureStatedCeiling(
   world: World,
   measureId: EntityId,
 ): number | null {
-  const amounts = currentMeasureProvisions(world, measureId)
+  const provisions = currentMeasureProvisions(world, measureId);
+  // An annual cap cannot be compared with a whole-programme appropriation.
+  if (provisions.some((record) => record.fiscalPeriod === "annual"))
+    return null;
+  const amounts = provisions
     .map((record) => record.fiscalExposureMinorUnits)
     .filter((amount): amount is number => amount !== null);
   if (amounts.length === 0) return null;
@@ -608,15 +620,24 @@ export function resolveAuthority(
   }
   const docketKey = authorityKey.slice(DOCKET_AUTHORITY_PREFIX.length);
   const bill = docketBill(world, { ...input, docketKey });
-  if (!bill || bill.instrument === null) return null;
+  if (
+    !bill ||
+    bill.instrument === null ||
+    measurePosition(world, bill.measureId).phase === "failed"
+  )
+    return null;
   const rule = legalInstrumentRule(bill.instrument);
   if (rule.requiresPredicateAuthority) return null;
   const ceiling = measureStatedCeiling(world, bill.measureId);
   return {
     kind: "docket-measure",
+    legalStatus:
+      measurePosition(world, bill.measureId).phase === "enacted"
+        ? "enacted"
+        : "proposed",
     authorityKey,
     citationLabel: `${bill.designation} (${bill.shortTitle})`,
-    programmeLabel: `the programme ${bill.designation} establishes`,
+    programmeLabel: `the programme described in ${bill.designation}`,
     authorizesSpending:
       rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
     authorizedCeilingMinorUnits: ceiling,
@@ -879,6 +900,9 @@ export function fileDraft(
       sectionNumber: clause.sectionNumber,
       heading: clause.heading,
       text: clause.text,
+      ...(clause.fiscalPeriod !== undefined
+        ? { fiscalPeriod: clause.fiscalPeriod }
+        : {}),
       beneficiary: clause.beneficiary,
       applicationScope: {
         jurisdictionId: input.jurisdictionId,

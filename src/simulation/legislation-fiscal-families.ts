@@ -3,7 +3,6 @@ import {
   IIJA_FISCAL_TREATMENT,
   TARGETED_SECTION_SOURCE,
   formatStatutoryDate,
-  numberWord,
   type PredicateAuthority,
   type ProgramContentEvidence,
   type ProgramFamily,
@@ -105,7 +104,7 @@ const APPROPRIATION_SOURCE: ProgramContentEvidence = IIJA_FISCAL_TREATMENT;
  */
 const APPROPRIATIONS: ProgramFamily = {
   familyKey: "appropriations",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Appropriations",
   mechanism:
     "Provides money for a programme that is already authorized, up to what that authority allows.",
@@ -669,7 +668,7 @@ const APPROPRIATIONS: ProgramFamily = {
  */
 const PROGRAM_SUNSET: ProgramFamily = {
   familyKey: "program-sunset",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Sunset and repeal",
   mechanism:
     "Ends, shortens or extends an authority that already exists, without providing or withdrawing a dollar.",
@@ -831,14 +830,14 @@ const PROGRAM_SUNSET: ProgramFamily = {
     {
       variantKey: "extend-authority",
       instrument: "sunset-repeal",
-      label: "Extension of an expiring authority",
+      label: "Replacement expiration date",
       synopsis:
-        "Pushes back the date an existing authority would otherwise end, and says what must be shown to justify it.",
-      shortTitle: "Extension",
+        "Sets a replacement expiration date and states the reporting conditions. It does not assume the previous expiration is known.",
+      shortTitle: "Authority Expiration",
       subjectClass: "general-policy",
       authorizesAppropriation: false,
       declaredLimits: [
-        "It extends the authority to act. It appropriates nothing to act with.",
+        "It sets a date for the authority to end. It appropriates nothing.",
         "It does not change who qualifies or what the programme may do.",
       ],
       defaults: {
@@ -853,34 +852,36 @@ const PROGRAM_SUNSET: ProgramFamily = {
           key: "extension-term",
           dimension: "timing",
           kind: "duration-years",
-          label: "Years added",
+          label: "Years from filing to the proposed expiration",
           minYears: 1,
           maxYears: 12,
-          evidence: authored("An authored extension length."),
+          evidence: authored(
+            "An authored replacement expiration measured from this draft’s filing date, not an addition to an unknown earlier date.",
+          ),
         },
         {
           key: "condition-of-extension",
           dimension: "oversight",
           kind: "enumerated",
-          label: "What the extension is conditioned on",
+          label: "What continued authority is conditioned on",
           options: [
             {
               value: "unconditional",
-              label: "Nothing; it is extended outright",
+              label: "No additional reporting condition",
               clausePhrase:
-                "The extension made by this Act is not conditioned on any report or finding",
+                "The continued authority under this Act is not conditioned on any report or finding",
             },
             {
               value: "annual-report",
               label: "An annual report on what the authority did",
               clausePhrase:
-                "The administering agency shall report annually on the awards made under the extended authority, and the extension made by this Act ceases if no report is filed for two consecutive years",
+                "The administering agency shall report annually on the awards made under the authority named in Section 1, and the continued authority under this Act ceases if no report is filed for two consecutive years",
             },
             {
               value: "performance-finding",
               label: "A finding that it did what it was for",
               clausePhrase:
-                "The extension made by this Act ceases unless the legislature finds, in the fourth year after enactment, that the authority has been used for the purposes stated in the Act it extends",
+                "The continued authority under this Act ceases unless the legislature finds, in the fourth year after enactment, that the authority has been used for the purposes stated in the Act named in Section 1",
             },
           ],
           evidence: authored("An authored condition."),
@@ -890,7 +891,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
         {
           provisionKey: "authority-named",
           dimension: "authority-reference",
-          heading: "Authority extended",
+          heading: "Authority affected",
           parameterKey: null,
           render: (resolved) => {
             const authority = resolved.authority;
@@ -900,7 +901,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
               );
             }
             return {
-              text: `This Act extends ${authority.citationLabel}. It makes no other change to that Act, to ${authority.programmeLabel}, or to who may draw on it.`,
+              text: `This Act replaces the expiration date of ${authority.citationLabel}. Except for the conditions stated in this Act, it makes no other change to that Act, to ${authority.programmeLabel}, or to who may draw on it.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel: `everyone ${authority.citationLabel} reaches`,
@@ -913,7 +914,7 @@ const PROGRAM_SUNSET: ProgramFamily = {
         {
           provisionKey: "extension-date",
           dimension: "timing",
-          heading: "Extension",
+          heading: "Replacement expiration",
           parameterKey: "extension-term",
           render: (resolved) => {
             const value = resolved.values["extension-term"];
@@ -924,12 +925,12 @@ const PROGRAM_SUNSET: ProgramFamily = {
             return {
               text:
                 resolved.endsOn === null || years === null
-                  ? "The authority named in Section 1 is extended indefinitely."
-                  : `The authority named in Section 1 is extended by ${numberWord(years)} years, and shall have no further effect after ${formatStatutoryDate(resolved.endsOn)}.`,
+                  ? "The authority named in Section 1 has no expiration date under this Act."
+                  : `The expiration date of the authority named in Section 1 is replaced with ${formatStatutoryDate(resolved.endsOn)}. No earlier expiration date is asserted by this section.`,
               beneficiary: {
                 kind: "general-application",
                 appliesToLabel:
-                  "everyone who would otherwise have lost access on the earlier date",
+                  "everyone the authority named in Section 1 reaches",
               },
               fiscalExposureLabel: null,
               fiscalExposureMinorUnits: null,
@@ -955,18 +956,18 @@ const PROGRAM_SUNSET: ProgramFamily = {
       amendmentInvitation: {
         provisionKey: "shorter-extension",
         sectionNumber: 4,
-        heading: "A shorter extension, and a look at it sooner",
+        heading: "An earlier review of the authority",
         beneficiaryLabel: "the members who will have to vote on it again",
         placeLabel: "the chamber itself",
         statedGround:
-          "A twelve-year extension is a decision nobody in this room will be here to revisit, and the shorter one is the version that keeps the question alive.",
+          "The legislature should review the authority before the proposed expiration date.",
         segmentKey: "finance.shorter-extension",
         requestedMinorUnits: 0,
         cappedMinorUnits: 0,
         render: () =>
-          "The extension made by this Act shall be for half the period stated in Section 2, and the authority shall be reviewed by the legislature before any further extension.",
+          "The authority shall be reviewed by the legislature one year before the expiration date stated in Section 2.",
         evidence: authored(
-          "An authored request from a fictional member. It asks for less time rather than for money.",
+          "An authored request from a fictional member. It asks for an earlier review rather than for money.",
         ),
       },
     },

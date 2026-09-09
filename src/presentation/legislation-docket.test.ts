@@ -504,7 +504,9 @@ describe("the content bank cannot restate a bill that is already filed", () => {
     expect(bill!.familyVersion).toBe("v0");
     expect(bill!.designation).toBe(filed.bill.designation);
 
+    const beforeRefusal = serializeWorld(reloaded);
     const answer = recompileSavedBill(reloaded, bill!);
+    expect(serializeWorld(reloaded)).toBe(beforeRefusal);
     expect("unavailable" in answer).toBe(true);
     if ("unavailable" in answer) {
       expect(answer.unavailable).toContain("v0");
@@ -542,7 +544,9 @@ describe("the content bank cannot restate a bill that is already filed", () => {
     expect(bill!.familyTitle).toBe("a-family-this-bank-does-not-carry");
     expect(bill!.instrument).toBeNull();
 
+    const beforeRefusal = serializeWorld(reloaded);
     const answer = recompileSavedBill(reloaded, bill!);
+    expect(serializeWorld(reloaded)).toBe(beforeRefusal);
     expect("unavailable" in answer).toBe(true);
     if ("unavailable" in answer) {
       expect(answer.unavailable).toContain("a-family-this-bank-does-not-carry");

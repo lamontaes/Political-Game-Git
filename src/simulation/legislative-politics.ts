@@ -64,6 +64,7 @@ export interface RecordFiledProvisionInput {
   readonly applicationScope: MetricScope;
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
+  readonly fiscalPeriod?: "annual";
 }
 
 export interface AdoptProvisionRevisionInput {
@@ -81,6 +82,7 @@ export interface AdoptProvisionRevisionInput {
   readonly applicationScope: MetricScope;
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
+  readonly fiscalPeriod?: "annual";
 }
 
 /** Records a section of a measure as filed, before anyone has amended it. */
@@ -936,6 +938,12 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     throw new Error("A provision references a missing jurisdiction.");
   }
   const exposure = input.fiscalExposureMinorUnits ?? null;
+  if (
+    input.fiscalPeriod !== undefined &&
+    (input.fiscalPeriod !== "annual" || exposure === null)
+  ) {
+    throw new Error("An annual fiscal period requires a stated amount.");
+  }
   if (exposure !== null && (!Number.isSafeInteger(exposure) || exposure < 0)) {
     throw new Error("Stated fiscal exposure must be a non-negative integer.");
   }
@@ -1016,6 +1024,9 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     applicationScope: { ...input.applicationScope },
     fiscalExposureLabel: input.fiscalExposureLabel ?? null,
     fiscalExposureMinorUnits: exposure,
+    ...(input.fiscalPeriod !== undefined
+      ? { fiscalPeriod: input.fiscalPeriod }
+      : {}),
     recordedAt: next.currentDate,
     supersedesProvisionId: input.supersedesProvisionId,
     originAmendmentId: input.originAmendmentId,

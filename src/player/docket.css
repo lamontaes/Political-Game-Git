@@ -393,3 +393,31 @@
   font-size: 0.78rem;
   opacity: 0.78;
 }
+
+/* Keep the expanded bank usable beside the document it produces. */
+.drafting-options {
+  max-height: 24rem;
+  overflow-y: auto;
+  padding: 0.2rem;
+  overscroll-behavior: contain;
+}
+
+.docket-estimate-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0.75rem 0;
+  padding: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.docket-estimate-controls p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.docket-estimate-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}

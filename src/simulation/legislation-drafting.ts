@@ -79,6 +79,7 @@ export interface CompileBillDraftInput {
 
 /** One numbered section of a compiled draft. */
 export interface CompiledClause {
+  readonly fiscalPeriod?: "annual";
   readonly provisionKey: string;
   readonly sectionNumber: number;
   readonly dimension: ClauseDimension;
@@ -521,7 +522,13 @@ export function compileBillDraft(
       sectionNumber: index + 1,
       dimension: template.dimension,
       heading: template.heading,
-      text: rendering.text,
+      text:
+        authority?.kind === "docket-measure"
+          ? `This section takes effect only if ${authority.citationLabel} has become law. ${rendering.text}`
+          : rendering.text,
+      ...(rendering.fiscalPeriod !== undefined
+        ? { fiscalPeriod: rendering.fiscalPeriod }
+        : {}),
       beneficiary: rendering.beneficiary,
       fiscalExposureLabel: rendering.fiscalExposureLabel,
       fiscalExposureMinorUnits: rendering.fiscalExposureMinorUnits,
@@ -585,7 +592,9 @@ export function compileBillDraft(
     parameters: variant.parameters,
     authorizedCeilingMinorUnits: ceiling,
     authorizedCeilingLabel:
-      ceiling === null ? null : formatMinorUnits(ceiling, "USD"),
+      ceiling === null
+        ? null
+        : `${formatMinorUnits(ceiling, "USD")}${spendingClauses.some((clause) => clause.fiscalPeriod === "annual") ? " per year" : ""}`,
     authorizesAppropriation: variant.authorizesAppropriation,
     instrument: variant.instrument,
     instrumentRule: rule,

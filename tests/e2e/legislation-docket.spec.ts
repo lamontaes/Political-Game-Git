@@ -1,3 +1,4 @@
+import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -112,10 +113,12 @@ test.describe("the docket, from the ordinary route", () => {
       "Nothing has been filed yet",
     );
 
-    // Open the drafting table: eight configurations, four families.
+    // Every registered configuration is reachable; the original eight remain controls.
     await page.getByTestId("open-drafting-table").click();
     const options = page.getByTestId("drafting-options");
-    await expect(options.getByRole("button")).toHaveCount(8);
+    await expect(options.getByRole("button")).toHaveCount(
+      programConfigurations().length,
+    );
 
     // Two genuinely different proposals, compared by reading them.
     await expect(options).toContainText("Transit access");
@@ -276,4 +279,87 @@ test.describe("the docket, from the ordinary route", () => {
     await expectNoDeveloperLeak(page);
     expect(errors).toEqual([]);
   });
+});
+
+test("new service clauses, saved selection and unavailable scenario refusal work through Work", async ({
+  page,
+}) => {
+  const errors = watchForErrors(page);
+  await wonSeatWithWorkOpen(page);
+  await page.getByTestId("open-drafting-table").click();
+  await page
+    .getByTestId(
+      "drafting-option-education-facilities-school-repair-authorization",
+    )
+    .click();
+  const choice = page.getByTestId("draft-param-operative-choice");
+  await choice.focus();
+  await choice.press("p");
+  await choice.press("Tab");
+  await expect(choice).toHaveValue("prevent-closure");
+  const commencement = page.getByTestId("draft-param-commencement");
+  await commencement.focus();
+  await commencement.press("t");
+  await commencement.press("Tab");
+  await expect(commencement).toHaveValue("next-calendar-year");
+  await expect(page.getByTestId("drafting-compare")).toContainText("January 1");
+  await page.getByTestId("file-the-draft").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("docket-lineage")).toContainText(
+    "Education facilities",
+  );
+  await expect(page.getByTestId("docket-clauses")).toContainText(
+    "separate appropriation",
+  );
+  await page.getByTestId("record-conditional-estimate").focus();
+  await page.keyboard.press("Enter");
+  // The normal life route deliberately has no production metric/mechanism catalog.
+  // It must refuse without importing the richer legislative test fixture.
+  await expect(page.getByRole("alert")).toContainText(
+    "A spending scenario cannot be calculated with the information currently available.",
+  );
+  await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
+  await page.screenshot({
+    fullPage: true,
+    path: "docs/agent/evidence/leg-content1/transfer-unavailable-estimate.png",
+  });
+
+  await page.getByTestId("open-drafting-table").click();
+  await page
+    .getByTestId(
+      "drafting-option-procurement-disclosure-award-reasons-publication",
+    )
+    .click();
+  await page.getByTestId("file-the-draft").click();
+  await expect(page.getByTestId("docket-clauses")).toContainText(
+    "selection criteria",
+  );
+  await expect(page.getByTestId("record-conditional-estimate")).toHaveCount(0);
+  await page
+    .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
+    .click();
+  await page.getByTestId("keep-world").click();
+  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await openElsewhere(page, "work");
+  // The selected bill returns without another selection; refusal created no estimate.
+  await expect(page.getByTestId("docket-lineage")).toContainText(
+    "Education facilities",
+  );
+  await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
+  await page.screenshot({
+    fullPage: true,
+    path: "docs/agent/evidence/leg-content1/transfer-reloaded-selection.png",
+  });
+  await page
+    .getByTestId("docket-open-legislative-docket:kentucky:bill-002")
+    .focus();
+  await page.keyboard.press("Space");
+  await expect(page.getByTestId("docket-lineage")).toContainText(
+    "Procurement disclosure",
+  );
+  await expectNoDeveloperLeak(page);
+  expect(errors).toEqual([]);
 });

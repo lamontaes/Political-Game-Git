@@ -47,6 +47,7 @@ export interface BillSectionReading {
   readonly heading: string;
   readonly exposureLabel: string | null;
   readonly exposureMinorUnits: number | null;
+  readonly fiscalPeriod?: "annual";
   /** True where this section arrived by amendment rather than as filed. */
   readonly addedByAmendment: boolean;
 }
@@ -64,7 +65,8 @@ export type BillMoneyEffect =
   | { readonly kind: "authorizes-ceiling"; readonly label: string }
   | { readonly kind: "provides-money"; readonly label: string }
   | { readonly kind: "collects-charge"; readonly label: string }
-  | { readonly kind: "states-no-amount"; readonly label: string };
+  | { readonly kind: "states-no-amount"; readonly label: string }
+  | { readonly kind: "unclassified-amount"; readonly label: string };
 
 export interface BillFiscalReading {
   readonly designation: string;
@@ -112,6 +114,9 @@ export function billFiscalReading(
     heading: record.heading,
     exposureLabel: record.fiscalExposureLabel,
     exposureMinorUnits: record.fiscalExposureMinorUnits,
+    ...(record.fiscalPeriod !== undefined
+      ? { fiscalPeriod: record.fiscalPeriod }
+      : {}),
     addedByAmendment:
       record.originAmendmentId !== null &&
       amendmentIds.has(record.originAmendmentId),
@@ -152,24 +157,55 @@ export function billFiscalReading(
   }
 
   const total = exposures.reduce((sum, amount) => sum + amount, 0);
-  const label = formatMinorUnits(total, "USD");
+  const periods = new Set(
+    sections
+      .filter((section) => section.exposureMinorUnits !== null)
+      .map((section) => section.fiscalPeriod ?? "whole-programme"),
+  );
+  const label =
+    rule?.instrument === "revenue-measure"
+      ? sections
+          .filter((section) => section.exposureMinorUnits !== null)
+          .map((section) => section.exposureLabel)
+          .join("; ")
+      : `${formatMinorUnits(total, "USD")}${periods.has("annual") ? " per year" : ""}`;
+  if (periods.size > 1 || rule === null) {
+    return {
+      designation: measure.designation,
+      sections,
+      statedCeilingMinorUnits: null,
+      statedCeilingLabel: "Read the amounts in their individual sections.",
+      basis:
+        periods.size > 1
+          ? "Annual and whole-programme amounts are not added together."
+          : "The saved instrument version is unavailable. The filed section labels remain authoritative.",
+      instrumentLabel: rule?.label ?? null,
+      effect: {
+        kind: "unclassified-amount",
+        label: "Read the amounts in their individual sections.",
+      },
+      headroom: null,
+    };
+  }
   return {
     designation: measure.designation,
     sections,
     statedCeilingMinorUnits: total,
     statedCeilingLabel: label,
-    basis: rule?.makesMoneyAvailable
-      ? "Added up from what the bill's own sections provide, as they currently stand. It is money this Act makes available, which is not the same as money that has been spent."
-      : "Added up from the ceilings the bill's own sections state, as they currently stand. It is what the text commits, not a forecast of what would be spent.",
+    basis:
+      rule?.instrument === "revenue-measure"
+        ? "This is a charge per transaction, not total revenue. No transaction count or collection forecast is assumed."
+        : rule?.makesMoneyAvailable
+          ? "Added up from what the bill's own sections provide, as they currently stand. It describes what the proposal would provide if it takes legal effect; filing does not make money available."
+          : "Added up from the ceilings the bill's own sections state, as they currently stand. It is what the text commits, not a forecast of what would be spent.",
     instrumentLabel: rule?.label ?? null,
-    effect: moneyEffect(rule, sections, label),
+    effect: moneyEffect(rule, label),
     headroom,
   };
 }
 
 function moneyEffect(
   rule: LegalInstrumentRule | null,
-  sections: readonly BillSectionReading[],
   label: string,
 ): BillMoneyEffect {
   if (rule?.makesMoneyAvailable) {
@@ -177,14 +213,7 @@ function moneyEffect(
   }
   // A charge is money coming in. It is never described with a verb that means
   // spending, however the arithmetic happens to be stored.
-  const chargeOnly =
-    sections.length > 0 &&
-    sections.every(
-      (section) =>
-        section.exposureMinorUnits === null ||
-        (section.exposureLabel ?? "").includes("per "),
-    );
-  if (rule !== null && !rule.mayAuthorizeAppropriation && chargeOnly) {
+  if (rule?.instrument === "revenue-measure") {
     return { kind: "collects-charge", label: `${label} charged` };
   }
   return { kind: "authorizes-ceiling", label: `up to ${label} authorized` };
@@ -263,6 +292,8 @@ export function billEstimateAvailability(
   let family;
   try {
     family = programFamily(bill.familyKey);
+    if (family.familyVersion !== bill.familyVersion)
+      throw new Error("Saved family version unavailable.");
   } catch {
     return {
       kind: "unavailable",
@@ -301,7 +332,12 @@ export function billEstimateAvailability(
       historySequenceExclusive: world.history.nextSequence,
     },
   );
-  if (!baseline) {
+  if (
+    !baseline ||
+    baseline.metricId !== metricId ||
+    baseline.scope.jurisdictionId !== bill.jurisdictionId ||
+    baseline.scope.segmentKey !== null
+  ) {
     return {
       kind: "unavailable",
       missing: "baseline",
@@ -342,8 +378,11 @@ export function billAnalysis(world: World, bill: DocketBill): BillAnalysis {
   try {
     const family = programFamily(bill.familyKey);
     declaredLimits =
-      family.variants.find((variant) => variant.variantKey === bill.variantKey)
-        ?.declaredLimits ?? [];
+      family.familyVersion !== bill.familyVersion
+        ? []
+        : (family.variants.find(
+            (variant) => variant.variantKey === bill.variantKey,
+          )?.declaredLimits ?? []);
   } catch {
     declaredLimits = [];
   }

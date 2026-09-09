@@ -3515,6 +3515,8 @@ export type LegislativeProvisionBeneficiary =
  * procedural position does, and nothing is quietly rewritten in place.
  */
 export interface LegislativeProvisionRecord {
+  /** Explicit annual amount; omission preserves older whole-programme records. */
+  readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;

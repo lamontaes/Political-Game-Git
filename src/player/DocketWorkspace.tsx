@@ -1,7 +1,12 @@
 import { useMemo, useState } from "react";
 
 import type { EntityId, World } from "../simulation";
-import { currentMeasureProvisions, personName } from "../simulation";
+import {
+  addDays,
+  makeIsoDate,
+  currentMeasureProvisions,
+  personName,
+} from "../simulation";
 import {
   compareDrafts,
   type CompiledBillDraft,
@@ -13,6 +18,7 @@ import {
   type ProgramParameterValue,
 } from "../simulation/legislation-program-families";
 import {
+  docketBill,
   availableAuthorities,
   availableDraftOptions,
   fileDraft,
@@ -23,6 +29,15 @@ import {
   type DocketQuery,
   type DraftAuthorityOption,
 } from "../presentation/legislation-docket";
+import {
+  selectDocketBill,
+  selectedDocketKey,
+} from "../presentation/legislation-docket-selection";
+import {
+  prepareBillEstimateAction,
+  requestBillEstimate,
+  projectBillEstimate,
+} from "../presentation/legislation-estimate-action";
 import { billAnalysis } from "../presentation/legislation-analysis";
 
 /**
@@ -64,12 +79,20 @@ export function DocketWorkspace({
     () => queryDocket(world, { scenarioKey, playerPersonId }, query),
     [world, scenarioKey, playerPersonId, query],
   );
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string | null>(() =>
+    selectedDocketKey(world, scenarioKey, playerPersonId),
+  );
   const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const selected =
-    page.bills.find((bill) => bill.docketKey === selectedKey) ?? null;
+    selectedKey === null
+      ? null
+      : docketBill(world, {
+          scenarioKey,
+          playerPersonId,
+          docketKey: selectedKey,
+        });
 
   /** Changing a filter starts the list again rather than paging into nothing. */
   function narrow(next: Partial<DocketQuery>) {
@@ -201,9 +224,15 @@ export function DocketWorkspace({
                     className="docket-entry-button"
                     data-testid={`docket-open-${bill.docketKey}`}
                     onClick={() => {
-                      setSelectedKey(
-                        bill.docketKey === selectedKey ? null : bill.docketKey,
+                      onWorldChange(
+                        selectDocketBill(
+                          world,
+                          scenarioKey,
+                          playerPersonId,
+                          bill.docketKey,
+                        ),
                       );
+                      setSelectedKey(bill.docketKey);
                       setDrafting(false);
                       setError(null);
                     }}
@@ -280,6 +309,9 @@ export function DocketWorkspace({
 
       {selected ? (
         <FiledBillPanel
+          key={selected.docketKey}
+          playerPersonId={playerPersonId}
+          onWorldChange={onWorldChange}
           world={world}
           bill={selected}
           onGoToFloor={onGoToFloor}
@@ -306,7 +338,14 @@ export function DocketWorkspace({
                 ...(authorityKey !== null ? { authorityKey } : {}),
               });
               setQuery({});
-              onWorldChange(result.world);
+              onWorldChange(
+                selectDocketBill(
+                  result.world,
+                  scenarioKey,
+                  playerPersonId,
+                  result.bill.docketKey,
+                ),
+              );
               setSelectedKey(result.bill.docketKey);
               setDrafting(false);
               setError(null);
@@ -325,6 +364,8 @@ export function DocketWorkspace({
 /* -------------------------------------------------------------------------- */
 
 function FiledBillPanel({
+  playerPersonId,
+  onWorldChange,
   world,
   bill,
   onGoToFloor,
@@ -332,6 +373,8 @@ function FiledBillPanel({
 }: {
   readonly world: World;
   readonly bill: DocketBill;
+  readonly playerPersonId: EntityId;
+  readonly onWorldChange: (world: World) => void;
   readonly onGoToFloor: (bill: DocketBill) => void;
   readonly floorNote: string | null;
 }) {
@@ -340,6 +383,47 @@ function FiledBillPanel({
     [world, bill.measureId],
   );
   const analysis = useMemo(() => billAnalysis(world, bill), [world, bill]);
+  const [startsOn, setStartsOn] = useState<string>(world.currentDate);
+  const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
+  const [estimateError, setEstimateError] = useState<string | null>(null);
+  const privateEstimate = [...world.history.policyEstimates]
+    .reverse()
+    .map((estimate) => projectBillEstimate(world, playerPersonId, estimate.id))
+    .find(
+      (projection) =>
+        projection?.measureId === bill.measureId &&
+        projection.provisionIds.length === provisions.length &&
+        projection.provisionIds.every((id) =>
+          provisions.some((p) => p.id === id),
+        ),
+    );
+  const canEstimate =
+    analysis.fiscal.statedCeilingMinorUnits !== null &&
+    (analysis.fiscal.effect.kind === "authorizes-ceiling" ||
+      analysis.fiscal.effect.kind === "provides-money") &&
+    !provisions.some((p) => p.fiscalPeriod === "annual");
+  function recordEstimate() {
+    try {
+      const result = requestBillEstimate(
+        world,
+        prepareBillEstimateAction(world, bill, playerPersonId, {
+          kind: "interval",
+          startsAt: makeIsoDate(startsOn),
+          endsAt: makeIsoDate(endsOn),
+        }),
+      );
+      if (result.kind === "refused") setEstimateError(result.reason);
+      else {
+        onWorldChange(result.world);
+        setEstimateError(null);
+      }
+    } catch {
+      setEstimateError(
+        "Choose valid start and end dates for the spending scenario.",
+      );
+    }
+  }
+
   const sponsor =
     bill.sponsorPersonId === null
       ? undefined
@@ -411,15 +495,17 @@ function FiledBillPanel({
         ))}
       </ol>
 
-      <h5 className="docket-subheading">What it commits</h5>
+      <h5 className="docket-subheading">What the text proposes</h5>
       <p className="docket-analysis" data-testid="docket-stated-total">
-        {analysis.fiscal.effect.kind === "states-no-amount"
-          ? "This Act states no amount."
-          : analysis.fiscal.effect.kind === "provides-money"
-            ? `The sections provide ${analysis.fiscal.statedCeilingLabel}.`
-            : analysis.fiscal.effect.kind === "collects-charge"
-              ? `The sections charge ${analysis.fiscal.statedCeilingLabel}.`
-              : `The sections authorize up to ${analysis.fiscal.statedCeilingLabel}.`}{" "}
+        {analysis.fiscal.effect.kind === "unclassified-amount"
+          ? analysis.fiscal.effect.label
+          : analysis.fiscal.effect.kind === "states-no-amount"
+            ? "This Act states no amount."
+            : analysis.fiscal.effect.kind === "provides-money"
+              ? `The sections would provide ${analysis.fiscal.statedCeilingLabel} if enacted.`
+              : analysis.fiscal.effect.kind === "collects-charge"
+                ? `The sections propose ${analysis.fiscal.statedCeilingLabel}.`
+                : `The sections propose authorization of up to ${analysis.fiscal.statedCeilingLabel}.`}{" "}
         {analysis.fiscal.basis}
       </p>
       {analysis.fiscal.headroom ? (
@@ -427,7 +513,7 @@ function FiledBillPanel({
           It is written against {analysis.fiscal.headroom.citationLabel}
           {analysis.fiscal.headroom.allowedLabel === null
             ? ", which states no amount of its own."
-            : `, which authorizes ${analysis.fiscal.headroom.allowedLabel}. That leaves ${analysis.fiscal.headroom.remainingLabel} of it unclaimed by this bill.`}
+            : `, which states ${analysis.fiscal.headroom.allowedLabel}. The difference from this bill is ${analysis.fiscal.headroom.remainingLabel}; this is not an available balance.`}
         </p>
       ) : null}
       <p className="docket-analysis" data-testid="docket-estimate">
@@ -435,6 +521,67 @@ function FiledBillPanel({
           ? `${analysis.estimate.statement} That can be estimated: somebody has established where it stands today.`
           : `No estimate is available. ${analysis.estimate.reason}`}
       </p>
+      {canEstimate ? (
+        <fieldset
+          className="docket-estimate-controls"
+          data-testid="docket-conditional-analysis"
+        >
+          <legend>Conditional spending scenario</legend>
+          <p>
+            Assume the full stated amount is funded and spent during these
+            dates. This does not predict service results or establish that money
+            is available.
+          </p>
+          <label>
+            From{" "}
+            <input
+              type="date"
+              data-testid="estimate-start"
+              value={startsOn}
+              onChange={(event) => setStartsOn(event.target.value)}
+            />
+          </label>
+          <label>
+            Through{" "}
+            <input
+              type="date"
+              data-testid="estimate-end"
+              value={endsOn}
+              onChange={(event) => setEndsOn(event.target.value)}
+            />
+          </label>
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="record-conditional-estimate"
+            onClick={recordEstimate}
+          >
+            Record conditional spending scenario
+          </button>
+        </fieldset>
+      ) : null}
+      {privateEstimate ? (
+        <div className="docket-analysis" data-testid="docket-recorded-estimate">
+          <p>
+            Additional spending under these assumptions:{" "}
+            {formatMinorUnits(
+              privateEstimate.addedOutlaysMinorUnits,
+              privateEstimate.currency,
+            )}
+            .
+          </p>
+          <p>
+            Recorded period: {privateEstimate.referencePeriod.startsAt} through{" "}
+            {privateEstimate.referencePeriod.endsAt}.
+          </p>
+          <p>{privateEstimate.qualification}</p>
+        </div>
+      ) : null}
+      {estimateError ? (
+        <p role="alert" className="docket-error">
+          {estimateError}
+        </p>
+      ) : null}
       {analysis.declaredLimits.length > 0 ? (
         <ul className="docket-limits" data-testid="docket-limits">
           {analysis.declaredLimits.map((limit) => (

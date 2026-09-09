@@ -50,15 +50,6 @@ export const REQUESTED_PROVISION_KEY = "local-project-match";
  */
 export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
 
-/**
- * A heading, mid-sentence.
- *
- * Only the first character is lowered, so a heading that begins with a proper
- * noun keeps it. Nothing here title-cases anything or guesses at a word.
- */
-function lowerFirst(text: string): string {
-  return text.length === 0 ? text : text[0]!.toLowerCase() + text.slice(1);
-}
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
   "transit.ashland-boyd-local-match";
 
@@ -505,9 +496,7 @@ export function bargainingSubjectFactsForDraft(input: {
     requestedProvisionStableKeySuffix: invitation.provisionKey,
     requestedExposurePhrase: `under Section ${invitation.sectionNumber}`,
     requestedQuestionSubject: `Section ${invitation.sectionNumber} amendment for ${invitation.beneficiaryLabel}`,
-    requestedDescriptionSubject: `Section ${invitation.sectionNumber}, ${lowerFirst(
-      invitation.heading,
-    )}`,
+    requestedDescriptionSubject: `Section ${invitation.sectionNumber}, ${invitation.heading}`,
     requestedSectionNumber: invitation.sectionNumber,
     requestedSectionLabel: `Section ${invitation.sectionNumber}`,
     requestedHeading: invitation.heading,

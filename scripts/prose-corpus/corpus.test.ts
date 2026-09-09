@@ -556,9 +556,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // narration templates. No pin was carried forward; this is a live
     // measurement on this tree.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(55542);
+    expect(coverage.totalLiterals).toBe(56419);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(355);
+    expect(coverage.scannedFiles).toBe(362);
   });
 });
 

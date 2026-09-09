@@ -1,3 +1,4 @@
+import { SERVICE_FAMILIES } from "./legislation-service-families";
 import { INFRASTRUCTURE_FAMILIES } from "./legislation-infrastructure-families";
 import { FISCAL_INSTRUMENT_FAMILIES } from "./legislation-fiscal-families";
 import { PUBLIC_ADMINISTRATION_FAMILIES } from "./legislation-administration-families";
@@ -29,6 +30,7 @@ const FAMILIES: readonly ProgramFamily[] = [
   ...FISCAL_INSTRUMENT_FAMILIES,
   ...PUBLIC_ADMINISTRATION_FAMILIES,
   ...RESILIENCE_FAMILIES,
+  ...SERVICE_FAMILIES,
 ];
 
 export function programFamilies(): readonly ProgramFamily[] {

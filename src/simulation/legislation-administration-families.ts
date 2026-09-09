@@ -114,7 +114,7 @@ const HOUSEHOLD_ASSISTANCE_ACT: PredicateAuthority = {
  */
 const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
   familyKey: "assistance-eligibility",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Assistance eligibility",
   mechanism:
     "Changes who qualifies under an assistance programme that already exists, without providing a dollar.",
@@ -522,7 +522,9 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
                 "the higher of the income limit published by the administering agency for the area in which the household lives and the statewide income limit it publishes",
             },
           ],
-          evidence: PUBLISHED_LIMIT_PRODUCT,
+          evidence: authored(
+            "Authored eligibility choices; the source establishes only the published-limit structure.",
+          ),
         },
         {
           key: "revision-lag",
@@ -1180,7 +1182,7 @@ const AGENCY_REPORTING: ProgramFamily = {
  */
 const PUBLIC_WORKFORCE: ProgramFamily = {
   familyKey: "public-workforce",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Public posts",
   mechanism:
     "Authorizes counted posts in a public body, or sets the terms on which they are filled.",
@@ -1329,7 +1331,8 @@ const PUBLIC_WORKFORCE: ProgramFamily = {
                 kind: "general-application",
                 appliesToLabel: "the posts this Act authorizes",
               },
-              fiscalExposureLabel: `${amount} authorized in salary`,
+              fiscalPeriod: "annual",
+              fiscalExposureLabel: `${amount} authorized in salary per year`,
               fiscalExposureMinorUnits: minorUnits,
             };
           },
@@ -1656,7 +1659,8 @@ const PUBLIC_WORKFORCE: ProgramFamily = {
                 kind: "general-application",
                 appliesToLabel: "the posts this Act authorizes",
               },
-              fiscalExposureLabel: `${amount} drawn from the fund`,
+              fiscalPeriod: "annual",
+              fiscalExposureLabel: `${amount} drawn from the fund per year`,
               fiscalExposureMinorUnits: minorUnits,
             };
           },

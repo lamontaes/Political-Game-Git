@@ -173,10 +173,11 @@ and five regenerable corpus artifacts.
    chamber votes on, and the amendment's own description. Rather than only
    correcting the sentence, the accepted phrasing is now carried on the facts,
    so the authored sitting writes exactly what it wrote before and a family
-   supplies its own. A test asserts the exact accepted strings. What differs on
-   the legacy route is now nothing that is written down — the two transient
-   result messages are rebuilt from `requestedSectionLabel`, which for this
-   sitting is "Section 4", so the words are the same.
+   supplies its own. Tests assert those exact persisted strings and the legacy
+   adopted-provision stable key. This is bounded identity/string preservation
+   evidence, not a proof that the whole route or all generated outputs are
+   byte-identical. New-family descriptions intentionally retain their own
+   headings.
 
 3. **The D-085 refusal branch was never executed.** Also real: the old test
    overrode the `DocketBill`'s own `familyKey`, but the lineage is looked up by
@@ -190,7 +191,7 @@ and five regenerable corpus artifacts.
 4. **CI on the repaired head** — pending publication. The stopped local
    continuation was not published; no new-head CI observation has occurred.
 
-### Delivered beyond the first tranche
+### Recovered beyond the first tranche (before recipient continuation)
 
 Thirteen families, thirty-one configurations, eight legal instruments. The
 source-to-content matrix and every excluded row's exact blocker are in
@@ -203,7 +204,7 @@ eight configurations were the same kind of act, so the bank could not write an
 appropriation, an eligibility amendment, a repeal, a charge or a reporting duty
 at all.
 
-### Deliberately not done
+### Recovered exclusions (reassessed by recipient below)
 
 - **Education, health, environment, procurement, social-service and municipal
   families.** Each row's exact blocker is named in the matrix. None is excluded
@@ -254,3 +255,43 @@ owner's rule-engine seams; feature-local typed adapters carry integration.
 Run focused checks during work, final validation/art/prose/browser gates on
 the composed candidate, publish normal fast-forward checkpoints to #137, and
 observe exact-head CI once. No merge or monitoring.
+
+### Recipient tested checkpoint
+
+Recovered source and dirty-plan hash were rechecked unchanged. The recipient
+continues the bank to 20 families / 42 configurations / 8 instruments; these
+counts describe this checkpoint, not a delivery ceiling. The coverage matrix
+records each remaining authority, empirical-data or operational-consumer gap.
+
+Legacy stable identity and the actual saved-version refusal are retained and
+asserted; the equality claim is limited to the specifically asserted legacy
+fields, not the complete expanded World. Pending legal predicates are explicitly
+conditional; failed predicates refuse. Annual fiscal metadata is optional and
+validated through the existing provision writers and integrity checks. It does
+not create another legislative, fiscal or scheduling engine. This is the narrow
+architecture-audit result: canonical World/history, existing authority and policy
+writers, immutable refusal, private knowledge, and source/fiction distinctions
+are preserved. ENV/MUNI/UI seams are in the interface handoff.
+
+Verification of the current candidate: 44/44 focused tests across five files;
+4/4 native Chrome docket browser cases through normal life/Work, including actual
+keyboard choices, request refusal, selection and save/reload. Normal life worlds
+lack production metric/mechanism catalogs: successful recording is separately
+covered by the existing catalog-backed fixture, not claimed on the normal route.
+Typecheck passed; targeted lint passed after removing one unused import. Full
+validation passed formatting and stopped at that import before tests; its rerun
+is deferred to the shared-host serial slot (VERSION, then LAND, then LEG).
+No full-suite pass is claimed. Prose hygiene and 21/21 grounding probes passed.
+Corpus regeneration/check passed: 1,884 templates, 56,419 literals, 362 files,
+4,720 unclassified candidates, 311 warnings, zero hard errors. Inventory pins
+were remeasured, not guessed; existing anchors were not renumbered.
+
+Art validation, inventory (329 items) and QA generation passed. Current screenshots preserve the existing shell;
+the inherited lower-left HUD overlap remains with its UI owner. Human visual,
+editorial and expanded playable acceptance remain pending. Banked acceptance
+at `0b4d474` remains historical and is not transferred to this expanded head.
+
+LEARN: a native select must be exercised using a keyboard path proven on the
+actual browser; on this macOS Chrome run, type-ahead plus Tab changes the value,
+while arrow/Enter did not even on an isolated native select. Do not seed fixture
+catalogs into the normal route to turn an honest unavailable result into a pass.

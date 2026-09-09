@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4820 |
-| DIAGNOSTIC_OR_TEST | 3766 |
-| **NEEDS_CLASSIFICATION** | **4466** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4828 |
+| DIAGNOSTIC_OR_TEST | 3841 |
+| **NEEDS_CLASSIFICATION** | **4720** |
 
-Scanned 355 files holding 55542 string
+Scanned 362 files holding 56419 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -27,11 +27,12 @@ literals in total; the table counts only those that read like a sentence.
 
 | Candidates | File |
 | --- | --- |
-| 340 | `src/simulation/legislation-administration-families.ts` |
+| 341 | `src/simulation/legislation-administration-families.ts` |
 | 290 | `src/simulation/legislation-infrastructure-families.ts` |
-| 267 | `src/simulation/legislation-fiscal-families.ts` |
+| 269 | `src/simulation/legislation-fiscal-families.ts` |
 | 236 | `src/simulation/legislation-resilience-families.ts` |
 | 221 | `src/presentation/run-b-conversation.ts` |
+| 199 | `src/simulation/legislation-service-families.ts` |
 | 135 | `src/simulation/executive-authority-rule-packs.ts` |
 | 124 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
@@ -48,12 +49,13 @@ literals in total; the table counts only those that read like a sentence.
 | 45 | `src/simulation/legislation-scenarios.ts` |
 | 45 | `src/simulation/legislative-politics.ts` |
 | 45 | `src/simulation/time-work.ts` |
+| 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
 | 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
-| 37 | `src/presentation/legislative-bargaining-brief.ts` |
+| 38 | `src/player/DocketWorkspace.tsx` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
@@ -79,7 +81,6 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
-| 22 | `src/player/DocketWorkspace.tsx` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
 | 20 | `src/ui/SceneGalleryView.tsx` |
@@ -95,6 +96,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
+| 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
@@ -105,6 +107,7 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
+| 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/ordinary-life.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
@@ -165,7 +168,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/TitleScreen.tsx` |
-| 4 | `src/presentation/legislation-analysis.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
@@ -179,17 +181,18 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/candidacy.ts` |
 | 3 | `src/simulation/demo-jurisdiction-context.ts` |
 | 3 | `src/simulation/judicial-gameplay-kernels.ts` |
+| 3 | `src/simulation/legislation-drafting.ts` |
 | 3 | `src/simulation/life-callbacks.ts` |
 | 3 | `src/simulation/life-choice-evidence.ts` |
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
+| 2 | `src/presentation/legislation-docket-selection.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
-| 2 | `src/simulation/legislation-drafting.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
