@@ -1,3 +1,4 @@
+import { acceptedEducationPath } from "../simulation/education-study-terms";
 import { expandInstitution } from "../education/compact";
 import type {
   CompactInstitution,
@@ -85,11 +86,21 @@ export function EducationOptionsPanel({
       cancelled = true;
     };
   }, [kind]);
+  const availableCatalog = useMemo(() => {
+    const byId = new Map<string, EducationInstitution>();
+    for (const r of catalog) {
+      const prior = byId.get(r.id);
+      const expected =
+        world.currentDate >= "2025-07-01" ? "2025-26" : "2024-25";
+      if (!prior || r.sourceYear === expected) byId.set(r.id, r);
+    }
+    return [...byId.values()];
+  }, [catalog, world.currentDate]);
   const result = useMemo(
-    () => searchInstitutions(catalog, query, kind, offset),
-    [catalog, query, kind, offset],
+    () => searchInstitutions(availableCatalog, query, kind, offset),
+    [availableCatalog, query, kind, offset],
   );
-  const institution = catalog.find((r) => r.id === selected);
+  const institution = availableCatalog.find((r) => r.id === selected);
   const act = (result: { ok: boolean; world: World; message: string }) => {
     setMessage(result.message);
     if (result.ok) onWorldChange(result.world);
@@ -97,10 +108,25 @@ export function EducationOptionsPanel({
   return (
     <section aria-label="Real education options">
       <h3>Find a school or college</h3>
+      {world.history.educationEnrollments
+        .filter(
+          (e) =>
+            world.control.kind === "person" &&
+            e.personId === world.control.personId &&
+            e.programKind.startsWith("postsecondary:edu-path7-") &&
+            !acceptedEducationPath(world, e.id),
+        )
+        .map((e) => (
+          <p key={e.id}>
+            Saved study {e.programKind}: accepted terms unavailable or
+            unsupported. Enrollment history is preserved; progression is
+            unavailable.
+          </p>
+        ))}
       <p>
-        2024–25 NCES directory and reported offerings. A listing establishes
-        neither attendance nor admission. Study fees and schedules shown below
-        are game-authored.
+        NCES school (2024–25) and college (2024–25 / 2025–26) directories and
+        reported offerings. A listing establishes neither attendance nor
+        admission. Study fees and schedules shown below are game-authored.
       </p>
       <label>
         Search institutions{" "}
@@ -176,7 +202,7 @@ export function EducationOptionsPanel({
             </tr>
           </thead>
           <tbody>
-            {catalog
+            {availableCatalog
               .filter((r) => compare.includes(r.id))
               .map((r) => (
                 <tr key={r.id}>

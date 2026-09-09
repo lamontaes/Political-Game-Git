@@ -78,20 +78,6 @@ export function compileEducation(
     for (const field of ["LEAID", "FIPST", "UPDATED_STATUS", "EFFECTIVE_DATE"])
       if (!dictionary.some((r) => r[1] === field))
         throw new Error(`CCD dictionary missing ${field}`);
-  const icDictionary = readZipMember(opened.IC2024_Dict!.bytes, "ic2024.xlsx");
-  const labels = new Map(
-    readXlsxSheet(icDictionary, "Varlist").rows.map((r) => [r[1], r[6]]),
-  );
-  const hdDictionary = readXlsxSheet(
-    readZipMember(opened.HD2024_Dict!.bytes, "hd2024.xlsx"),
-    "Varlist",
-  ).rows;
-  if (!hdDictionary.some((r) => r[1] === "COUNTYCD"))
-    throw new Error("HD dictionary missing COUNTYCD");
-  const capabilities = rows(opened.IC2024!, "ic2024_rv.csv");
-  const byUnit = new Map(capabilities.map((r) => [r.data.UNITID, r]));
-  if (byUnit.size !== capabilities.length)
-    throw new Error("Duplicate IC UNITID");
   const result: EducationInstitution[] = [];
   for (const [member, kind, dictionary] of [
     [LEA, "district", leaDictionary],
@@ -141,79 +127,116 @@ export function compileEducation(
       });
     }
   }
-  const hd = rows(opened.HD2024!, "hd2024.csv");
-  for (const row of hd) {
-    const d = row.data;
-    const ic = byUnit.get(d.UNITID);
-    const caps: EducationCapability[] = [];
-    if (ic)
-      for (const [field, label] of labels)
-        if (field && /^(LEVEL\d|NONCRDT[1-8]$)/.test(field)) {
-          const raw = ic.data[field] ?? "";
-          caps.push({
-            code: field,
-            label: label!,
-            kind: field.startsWith("LEVEL") ? "award" : "noncredit",
-            raw,
-            state:
-              raw === "1"
-                ? "offered"
-                : raw === "0"
-                  ? "not-offered"
-                  : raw === "-2"
-                    ? "not-applicable"
-                    : "unknown",
-          });
-        }
-    result.push({
-      id: `ipeds-unit:${d.UNITID}`,
-      officialId: d.UNITID!,
-      kind: "postsecondary",
-      name: d.INSTNM!,
-      city: d.CITY!,
-      state: d.STABBR!,
-      stateFips: code(d.FIPS, 2),
-      countyGeoid: code(d.COUNTYCD, 5),
-      parentDistrictId: null,
-      sourceYear: "2024-25",
-      release: "HD2024 directory; IC2024 revised member (September 2026)",
-      statusCode: d.ACT!,
-      statusLabel:
-        (
-          {
-            A: "Active",
-            N: "New",
-            R: "Restored",
-            M: "Closed in current year",
-            C: "Combined",
-            D: "Out of business",
-            G: "Child campus",
-          } as Record<string, string>
-        )[d.ACT!] ?? "Unknown status",
-      statusEffectiveDate: null,
-      foundingDate: null,
-      capabilities: caps,
-      openAdmissionPolicy:
-        ic?.data.OPENADMP === "1"
-          ? "reported-yes"
-          : ic?.data.OPENADMP === "2"
-            ? "reported-no"
-            : "unknown",
-      evidence: [
-        evidence(opened.HD2024!, "hd2024.csv", row.line),
-        ...(ic ? [evidence(opened.IC2024!, "ic2024_rv.csv", ic.line)] : []),
-      ],
-    });
+  for (const year of [2024, 2025] as const) {
+    const hdKey = `HD${year}`,
+      icKey = `IC${year}`;
+    const hdMember = `hd${year}.csv`,
+      icMember = year === 2024 ? "ic2024_rv.csv" : "ic2025.csv";
+    const icDictionary = readZipMember(
+      opened[`${icKey}_Dict`]!.bytes,
+      `ic${year}.xlsx`,
+    );
+    const labels = new Map(
+      readXlsxSheet(icDictionary, "Varlist").rows.map((r) => [
+        r[1],
+        r[6]?.replace(/_x000D_/g, "").trim(),
+      ]),
+    );
+    const hdDictionary = readXlsxSheet(
+      readZipMember(opened[`${hdKey}_Dict`]!.bytes, `hd${year}.xlsx`),
+      "Varlist",
+    ).rows;
+    if (!hdDictionary.some((r) => r[1] === "COUNTYCD"))
+      throw new Error("HD dictionary missing COUNTYCD");
+    const capabilities = rows(opened[icKey]!, icMember);
+    const byUnit = new Map(capabilities.map((r) => [r.data.UNITID, r]));
+    if (byUnit.size !== capabilities.length)
+      throw new Error("Duplicate IC UNITID");
+    const hd = rows(opened[hdKey]!, hdMember);
+    for (const row of hd) {
+      const d = row.data;
+      const ic = byUnit.get(d.UNITID);
+      const caps: EducationCapability[] = [];
+      if (ic)
+        for (const [field, label] of labels)
+          if (field && /^(LEVEL\d|NONCRDT[1-8]$)/.test(field)) {
+            const raw = ic.data[field] ?? "";
+            caps.push({
+              code: field,
+              label: label!,
+              kind: field.startsWith("LEVEL") ? "award" : "noncredit",
+              raw,
+              state:
+                raw === "1"
+                  ? "offered"
+                  : raw === "0"
+                    ? "not-offered"
+                    : raw === "-2"
+                      ? "not-applicable"
+                      : "unknown",
+            });
+          }
+      result.push({
+        id: `ipeds-unit:${d.UNITID}`,
+        officialId: d.UNITID!,
+        kind: "postsecondary",
+        name: d.INSTNM!,
+        city: d.CITY!,
+        state: d.STABBR!,
+        stateFips: code(d.FIPS, 2),
+        countyGeoid: code(d.COUNTYCD, 5),
+        parentDistrictId: null,
+        sourceYear: year === 2024 ? "2024-25" : "2025-26",
+        release:
+          year === 2024
+            ? "HD2024 directory; IC2024 revised member (September 2026)"
+            : "HD2025/IC2025 provisional",
+        statusCode: d.ACT!,
+        statusLabel:
+          (
+            {
+              A: "Active",
+              N: "New",
+              R: "Restored",
+              M: "Closed in current year",
+              C: "Combined",
+              D: "Out of business",
+              G: "Child campus",
+            } as Record<string, string>
+          )[d.ACT!] ?? "Unknown status",
+        statusEffectiveDate: null,
+        foundingDate: null,
+        capabilities: caps,
+        openAdmissionPolicy:
+          ic?.data.OPENADMP === "1"
+            ? "reported-yes"
+            : ic?.data.OPENADMP === "2"
+              ? "reported-no"
+              : "unknown",
+        evidence: [
+          evidence(opened[hdKey]!, hdMember, row.line),
+          ...(ic ? [evidence(opened[icKey]!, icMember, ic.line)] : []),
+        ],
+      });
+    }
+    const joined = new Set(hd.map((r) => r.data.UNITID));
+    for (const id of byUnit.keys())
+      if (!joined.has(id))
+        throw new Error(`Unjoined IC${year} institution ${id}`);
   }
   const ids = new Set(result.map((r) => r.id));
-  if (ids.size !== result.length) throw new Error("Duplicate institution ID");
+  if (
+    new Set(result.map((r) => `${r.id}:${r.sourceYear}`)).size !== result.length
+  )
+    throw new Error("Duplicate institution ID");
   for (const r of result)
     if (r.parentDistrictId && !ids.has(r.parentDistrictId))
       throw new Error(`Missing LEA ${r.parentDistrictId}`);
-  for (const id of byUnit.keys())
-    if (!ids.has(`ipeds-unit:${id}`))
-      throw new Error(`Unjoined IC institution ${id}`);
-  result.sort((a, b) => a.id.localeCompare(b.id, "en"));
+  result.sort(
+    (a, b) =>
+      a.id.localeCompare(b.id, "en") ||
+      a.sourceYear.localeCompare(b.sourceYear),
+  );
   const compact = result.map(compactInstitution);
   return {
     corpus: {
@@ -231,7 +254,7 @@ export function compileEducation(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024, joined to every IC2024 revised offerings row. No school-count ceiling.",
+          "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024/HD2025, joined to every IC2024 revised and IC2025 provisional offerings row. No school-count ceiling.",
         boundedSampleReason:
           "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
       },

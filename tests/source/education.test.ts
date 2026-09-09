@@ -82,3 +82,34 @@ describe("acquired NCES source controls", () => {
 });
 // Full replay uses the existing source:replay CLI; no broad timeout increase here.
 void compileEducation;
+
+describe("current IPEDS edition", () => {
+  it("keeps the acquired 2025 edition distinct with a real noncredit capability", () => {
+    const a = openProductionArtifacts("education", lock, {
+      hd: "HD2025",
+      ic: "IC2025",
+      dictionary: "IC2025_Dict",
+    }).artifacts;
+    const hd = parseDelimited(readZipMember(a.hd.bytes, "hd2025.csv"), {
+      delimiter: ",",
+      hasHeaderRow: true,
+    });
+    expect(hd.rows).toHaveLength(5985);
+    const ic = parseDelimited(readZipMember(a.ic.bytes, "ic2025.csv"), {
+      delimiter: ",",
+      hasHeaderRow: true,
+    });
+    const id = ic.header!.indexOf("UNITID"),
+      cap = ic.header!.indexOf("NONCRDT1");
+    expect(ic.rows.find((r) => r.fields[id] === "156392")?.fields[cap]).toBe(
+      "1",
+    );
+    const dictionary = readXlsxSheet(
+      readZipMember(a.dictionary.bytes, "ic2025.xlsx"),
+      "Varlist",
+    ).rows;
+    expect(dictionary.find((r) => r[1] === "NONCRDT1")?.[6]).toContain(
+      "Workforce Education",
+    );
+  });
+});

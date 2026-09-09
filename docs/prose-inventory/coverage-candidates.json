@@ -3,7 +3,7 @@
     "INVENTORIED": 1927,
     "INTENTIONALLY_NON_PLAYER_FACING": 5059,
     "DIAGNOSTIC_OR_TEST": 3805,
-    "NEEDS_CLASSIFICATION": 3656
+    "NEEDS_CLASSIFICATION": 3657
   },
   "needsClassification": [
     {
@@ -1761,15 +1761,15 @@
     {
       "sourcePath": "src/education/catalog.ts",
       "enclosingSymbol": "institutionDateReason",
-      "line": 35,
-      "text": "This directory describes 2024–25. Existence and offerings at this date are not established.",
+      "line": 39,
+      "text": "This directory describes {institution.sourceYear}. Existence and offerings at this date are not established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/education/catalog.ts",
       "enclosingSymbol": "institutionDateReason",
-      "line": 40,
+      "line": 44,
       "text": "The directory does not establish an open institution.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -1777,7 +1777,7 @@
     {
       "sourcePath": "src/education/catalog.ts",
       "enclosingSymbol": "institutionDateReason",
-      "line": 45,
+      "line": 49,
       "text": "The directory does not establish an open school or district.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -1785,7 +1785,15 @@
     {
       "sourcePath": "src/education/compact.ts",
       "enclosingSymbol": "expandInstitution",
-      "line": 66,
+      "line": 68,
+      "text": "HD2025/IC2025 provisional",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/education/compact.ts",
+      "enclosingSymbol": "expandInstitution",
+      "line": 70,
       "text": "HD2024; IC2024 revised September 2026",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -1793,7 +1801,7 @@
     {
       "sourcePath": "src/education/compact.ts",
       "enclosingSymbol": "expandInstitution",
-      "line": 67,
+      "line": 71,
       "text": "CCD preliminary v0a",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2273,7 +2281,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 30,
+      "line": 31,
       "text": "Loading institution directory…",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2281,7 +2289,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 34,
+      "line": 35,
       "text": "Loading institution directory…",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2289,7 +2297,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 81,
+      "line": 82,
       "text": "Directory unavailable",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2297,7 +2305,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 98,
+      "line": 109,
       "text": "Real education options",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2305,7 +2313,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 197,
+      "line": 223,
       "text": "Institution details",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2313,7 +2321,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 203,
+      "line": 229,
       "text": "not supplied",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2321,7 +2329,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 217,
+      "line": 243,
       "text": "Game-authored option: eight two-hour sessions, at least seven days apart; $25 per attended session. Completion records noncredit study, never a degree or license.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2329,7 +2337,7 @@
     {
       "sourcePath": "src/player/EducationOptionsPanel.tsx",
       "enclosingSymbol": "EducationOptionsPanel",
-      "line": 253,
+      "line": 279,
       "text": "Study offer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
