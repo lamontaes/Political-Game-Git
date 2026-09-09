@@ -1,4 +1,4 @@
-/* global console, process, URL, indexedDB, document */
+/* global console, process, indexedDB, document, setTimeout */
 /**
  * Installed A → saved life → installed B → same life.
  *
@@ -33,13 +33,14 @@
 
 import { createHash } from "node:crypto";
 import { mkdtempSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
 
 const require = createRequire(
   path.join(
-    path.dirname(new URL(import.meta.url).pathname),
+    path.dirname(fileURLToPath(import.meta.url)),
     "..",
     "..",
     "package.json",
@@ -187,8 +188,22 @@ async function textOf(page, testId) {
 async function captureStateMatrix(page) {
   const matrix = {};
 
-  const playText = await page.getByTestId("play-screen").innerText();
-  matrix.identity = playText.split("\n").slice(0, 3).join("\n");
+  // Identity, read only once it has settled: three non-empty lines,
+  // identical across two consecutive reads (the household line renders a
+  // beat after the name on a fresh begin).
+  let last = null;
+  for (let i = 0; i < 40; i += 1) {
+    const text = (await page.getByTestId("play-screen").innerText())
+      .split("\n")
+      .slice(0, 3)
+      .join("\n");
+    const settled =
+      text.split("\n").filter((l) => l.trim() !== "").length === 3;
+    if (settled && text === last) break;
+    last = text;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  matrix.identity = last;
 
   // People rail + pin. The rail lives behind the People control.
   const people = page.getByTestId("elsewhere-people");
