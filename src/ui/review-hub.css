@@ -51,7 +51,8 @@
   padding: 9px 12px;
   cursor: pointer;
 }
-.review-header button[aria-pressed="true"] {
+.review-hub .review-header button[aria-pressed="true"],
+.review-hub .review-header button[aria-pressed="true"]:hover {
   background: #eadcb7;
   color: #14242d;
 }
@@ -90,4 +91,9 @@
 }
 .review-content .review-office button {
   margin: 8px;
+}
+
+.review-header .eyebrow,
+.review-header dt {
+  color: #b6c5c4;
 }
