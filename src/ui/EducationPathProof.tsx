@@ -22,7 +22,7 @@ function initial() {
       ...LEXINGTON_DEMO_CONTEXT,
       initialMoment: {
         ...LEXINGTON_DEMO_CONTEXT.initialMoment,
-        date: makeIsoDate("2025-01-06"),
+        date: makeIsoDate("2026-01-05"),
       },
     },
   });

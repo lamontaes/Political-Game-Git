@@ -16,7 +16,7 @@ export interface EducationInstitution {
   readonly stateFips: string | null;
   readonly countyGeoid: string | null;
   readonly parentDistrictId: string | null;
-  readonly sourceYear: "2024-25";
+  readonly sourceYear: "2024-25" | "2025-26";
   readonly release: string;
   readonly statusCode: string;
   readonly statusLabel: string;

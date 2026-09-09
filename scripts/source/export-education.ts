@@ -14,23 +14,28 @@ const lock = JSON.parse(
   readFileSync("data/source/education/artifact-lock.json", "utf8"),
 ) as ArtifactLock;
 const capabilities: Record<string, { label: string; kind: string }> = {};
-const ic = readZipMember(
-  readFileSync("data/source/education/raw/IC2024_Dict.zip"),
-  "ic2024.xlsx",
-);
-for (const r of readXlsxSheet(ic, "Varlist").rows)
-  if (r[1] && /^(LEVEL\d|NONCRDT[1-8]$)/.test(r[1]))
-    capabilities[r[1]] = {
-      label: r[6]!,
-      kind: r[1].startsWith("LEVEL") ? "award" : "noncredit",
-    };
+for (const year of [2024, 2025]) {
+  const ic = readZipMember(
+    readFileSync(`data/source/education/raw/IC${year}_Dict.zip`),
+    `ic${year}.xlsx`,
+  );
+  for (const r of readXlsxSheet(ic, "Varlist").rows)
+    if (r[1] && /^(LEVEL\d|NONCRDT[1-8]$)/.test(r[1]))
+      capabilities[`${year}:${r[1]}`] = {
+        label: r[6]!.replace(/_x000D_/g, "").trim(),
+        kind: r[1].startsWith("LEVEL") ? "award" : "noncredit",
+      };
+}
 const ccd = readZipMember(
   readFileSync("data/source/education/raw/ccd-2024-25.zip"),
   "SY 2024-25 School Directory Companion 2025-046d.xlsx",
 );
 for (const r of readXlsxSheet(ccd, "File Layout").rows)
   if (r[1] && /^G_.+_OFFERED$/.test(r[1]))
-    capabilities[r[1]] = { label: r[6]!, kind: "grade" };
+    capabilities[`2024:${r[1]}`] = {
+      label: r[6]!.replace(/_x000D_/g, "").trim(),
+      kind: "grade",
+    };
 const dictionary = {
   capabilities,
   hashes: Object.fromEntries(

@@ -224,3 +224,14 @@ The manifest omission is corrected here; original assertions are retained.
 OPENING owner received the chronology failure for a bounded semantic correction.
 No current full-suite pass is claimed, and historical browser proof is not
 relabeled to this source composition.
+
+Applied exact EDU831377c→89a0049ecf7f952a657a2b73acfa5896f0a42b48
+edition correction, including locked2025 artifacts and runtime content-addressed
+chunks. Both source editions remain distinct; normal2026 initialization is
+unchanged. Added a normal creator/Work search/compare/offer/attendance/interrupt/
+Save/reload/return/attendance/repeated Save test. Diagnostic provenance remains
+separate. EDU released the finite heavy slot to UI for current combined proof.
+
+EDU diagnostic assertion correction fromc130c839a4bf96d95e51cdbbbc1136666058e08d
+is applied; production edition remains89a0049. Current combined edition
+TypeScript and scoped lint pass. New normal test is authored but unrun.

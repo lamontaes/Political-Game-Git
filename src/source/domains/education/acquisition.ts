@@ -34,14 +34,25 @@ export const educationAcquisition: AcquisitionPlan = {
       "ccd-2024-25.zip",
       "2024-25 preliminary directory v0a",
     ),
-    ...["HD2024", "IC2024", "HD2024_Dict", "IC2024_Dict"].map((id) =>
+    ...[
+      "HD2024",
+      "IC2024",
+      "HD2024_Dict",
+      "IC2024_Dict",
+      "HD2025",
+      "IC2025",
+      "HD2025_Dict",
+      "IC2025_Dict",
+    ].map((id) =>
       request(
         id,
         `https://nces.ed.gov/ipeds/complete-data-files/${id}.zip`,
         `${id}.zip`,
-        id.startsWith("IC")
-          ? "2024-25; archive includes revised member, updated September 2026"
-          : "2024-25 directory",
+        id.includes("2025")
+          ? "2025-26 provisional"
+          : id.startsWith("IC")
+            ? "2024-25; archive includes revised member, updated September 2026"
+            : "2024-25 directory",
       ),
     ),
   ],

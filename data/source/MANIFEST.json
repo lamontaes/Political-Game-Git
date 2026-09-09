@@ -361,21 +361,45 @@
           "sha256": "41474ff1efe01c5362529adf465e6c094c383467769cf725deb33bfd8187ca5e",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "HD2025",
+          "sha256": "aadad9277a2255c85813b6d206475ddbf8a7330d79cc0236c2ecae685b00f1bf",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2025",
+          "sha256": "0f946317717b227609fce0884c80456dc7a9483c1f5d004c4572ebf0d7df61e6",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "HD2025_Dict",
+          "sha256": "dc454aa6fbc246f3d47d773cd02ebe3b5efcedacbd2f71c54ff39f5844215343",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2025_Dict",
+          "sha256": "7821cdc4b923dc8ff78ce4a79c115c6fd2bc003919d539f2e918005ee917a429",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2024-07-01",
       "boundedSampleReason": "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
-      "canonicalSha256": "7c27b818c9b345abe247f9e3bb68947144bc7eb603827753c6640b1194b97ce4",
+      "canonicalSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
       "compiler": {
         "name": "education",
         "version": "1.0.0"
       },
-      "corpusFileSha256": "7c27b818c9b345abe247f9e3bb68947144bc7eb603827753c6640b1194b97ce4",
+      "corpusFileSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
       "corpusId": "education",
       "domain": "education",
       "isCompleteUniverse": false,
-      "recordCount": 126889,
-      "universeDescription": "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024, joined to every IC2024 revised offerings row. No school-count ceiling."
+      "recordCount": 132874,
+      "universeDescription": "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024/HD2025, joined to every IC2024 revised and IC2025 provisional offerings row. No school-count ceiling."
     },
     {
       "artifacts": [

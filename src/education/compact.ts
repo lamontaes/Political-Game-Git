@@ -15,6 +15,7 @@ export type CompactInstitution = readonly [
   string,
   readonly (readonly [string, string])[],
   readonly (readonly [string, string, number])[],
+  "2024-25" | "2025-26",
 ];
 export interface EducationDictionary {
   readonly capabilities: Readonly<
@@ -40,6 +41,7 @@ export function compactInstitution(
     r.openAdmissionPolicy,
     r.capabilities.map((c) => [c.code, c.raw] as const),
     r.evidence.map((e) => [e.artifactId, e.member, e.row] as const),
+    r.sourceYear,
   ];
 }
 export function expandInstitution(
@@ -60,14 +62,16 @@ export function expandInstitution(
     statusLabel: r[9],
     statusEffectiveDate: r[10],
     openAdmissionPolicy: r[11] as EducationInstitution["openAdmissionPolicy"],
-    sourceYear: "2024-25",
+    sourceYear: r[14],
     release:
-      r[1] === "postsecondary"
-        ? "HD2024; IC2024 revised September 2026"
-        : "CCD preliminary v0a",
+      r[14] === "2025-26"
+        ? "HD2025/IC2025 provisional"
+        : r[1] === "postsecondary"
+          ? "HD2024; IC2024 revised September 2026"
+          : "CCD preliminary v0a",
     foundingDate: null,
     capabilities: r[12].map(([code, raw]) => {
-      const definition = d.capabilities[code];
+      const definition = d.capabilities[`${r[14].slice(0, 4)}:${code}`];
       if (!definition) throw new Error(`Missing capability dictionary ${code}`);
       return {
         code,
