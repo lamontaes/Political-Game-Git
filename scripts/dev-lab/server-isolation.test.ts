@@ -34,15 +34,22 @@ async function stop(child: ChildProcess) {
       clearTimeout(timer);
       resolve();
     });
-    const timer = setTimeout(() => child.kill("SIGKILL"), 3000);
+    const timer = setTimeout(() => child.kill("SIGKILL"), 6500);
     child.kill("SIGTERM");
   });
 }
-async function identityAt(port: number) {
+async function identityAt(port: number, signal?: AbortSignal) {
   for (let attempt = 0; attempt < 100; attempt++) {
+    signal?.throwIfAborted();
     try {
-      const response = await fetch(`http://127.0.0.1:${port}/__dev/identity`);
-      if (response.ok) return await response.json();
+      const response = await fetch(`http://127.0.0.1:${port}/__dev/identity`, {
+        signal,
+      });
+      if (response.ok) {
+        const identity = await response.json();
+        signal?.throwIfAborted();
+        return identity;
+      }
     } catch {
       /* Startup has not bound the owned port yet. */
     }
@@ -51,13 +58,26 @@ async function identityAt(port: number) {
   throw new Error(`Owned server did not start on ${port}`);
 }
 
-it("two isolated checkouts identify distinct sources, reject mismatches and clean only their own server", async () => {
+it("two isolated checkouts identify distinct sources, reject mismatches and clean only their own server", async ({
+  signal,
+  onTestFinished,
+}) => {
   const parent = mkdtempSync(join(tmpdir(), "dev-lab-servers-"));
   const children: ChildProcess[] = [];
   const roots: string[] = [];
   const ports: number[] = [];
+  let cleanupPromise: Promise<void> | undefined;
+  const cleanup = () =>
+    (cleanupPromise ??= (async () => {
+      await Promise.all(children.map(stop));
+      rmSync(parent, { recursive: true, force: true });
+    })());
+  // A Vitest timeout races the test body; its finally alone may never run
+  // before the worker exits. The finish hook owns cleanup on every outcome.
+  onTestFinished(cleanup, 8000); // Allows the launcher its 5s owned-child escalation.
   try {
     for (const label of ["first", "second"]) {
+      signal.throwIfAborted();
       const root = mkdtempSync(join(parent, label));
       roots.push(root);
       symlinkSync(resolve("node_modules"), join(root, "node_modules"));
@@ -78,6 +98,7 @@ it("two isolated checkouts identify distinct sources, reject mismatches and clea
       git("add", ".");
       git("commit", "-m", label);
       const port = await freePort();
+      signal.throwIfAborted();
       ports.push(port);
       const child = spawn(
         process.execPath,
@@ -92,7 +113,7 @@ it("two isolated checkouts identify distinct sources, reject mismatches and clea
       child.stderr?.on("data", (data) => {
         log += data;
       });
-      const actual = await identityAt(port).catch((error) => {
+      const actual = await identityAt(port, signal).catch((error) => {
         throw new Error(`${error}\n${log}`);
       });
       assertIdentity(sourceIdentity(root), actual);
@@ -119,8 +140,8 @@ it("two isolated checkouts identify distinct sources, reject mismatches and clea
         expect(listener).toContain(String(port));
       }
     }
-    const first = await identityAt(ports[0]!);
-    const second = await identityAt(ports[1]!);
+    const first = await identityAt(ports[0]!, signal);
+    const second = await identityAt(ports[1]!, signal);
     expect(first.head).not.toBe(second.head);
     await expect(
       verifyServer({
@@ -137,12 +158,11 @@ it("two isolated checkouts identify distinct sources, reject mismatches and clea
       (await fetch(`http://127.0.0.1:${ports[0]}/__dev/identity`)).status,
     ).toBe(409);
     await stop(children[0]!);
-    expect(await identityAt(ports[1]!)).toEqual(second);
+    expect(await identityAt(ports[1]!, signal)).toEqual(second);
     await expect(
       fetch(`http://127.0.0.1:${ports[0]}/__dev/identity`),
     ).rejects.toThrow();
   } finally {
-    for (const child of children) await stop(child);
-    rmSync(parent, { recursive: true, force: true });
+    await cleanup();
   }
 }, 30_000);

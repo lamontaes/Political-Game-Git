@@ -10,7 +10,7 @@ afterEach(async () => {
   for (const child of ownedChildren.splice(0)) {
     if (child.exitCode !== null || child.signalCode !== null) continue;
     await new Promise<void>((resolve) => {
-      const timer = setTimeout(() => child.kill("SIGKILL"), 3000);
+      const timer = setTimeout(() => child.kill("SIGKILL"), 6500);
       child.once("exit", () => {
         clearTimeout(timer);
         resolve();
@@ -22,7 +22,7 @@ afterEach(async () => {
     if (server.listening)
       await new Promise<void>((resolve) => server.close(() => resolve()));
   }
-});
+}, 8000); // Cleanup may outlive the unchanged 5s assertion deadline.
 async function unusedPort() {
   const server = net.createServer();
   await new Promise<void>((resolve, reject) => {

@@ -102,3 +102,14 @@ LEARN: shared-machine isolation must cover legacy launcher tests as well as
 Playwright configuration. Dynamic-port allocation, failure cleanup, exact
 source refusal, read-only snapshot tests and historical-evidence hashes encode
 that lesson in executable checks rather than additional operator prompts.
+
+Cleanup verification found two fixture servers left behind when Vitest timed
+out before the test body's `finally`. Verified their run-owned PIDs/cwds and
+stopped only those wrappers. The isolation test now registers `onTestFinished`
+cleanup and honors Vitest's abort signal before any further launch; cleanup
+gives the wrapper its existing five-second child-escalation window. Assertion
+deadlines stay unchanged. The repaired two-checkout proof passed, followed by
+all 63 remaining focused regressions. Thus all 64 focused checks now pass on
+the repaired source. Updated TypeScript/lint/format and the clean-head build
+also passed before the final test-only cleanup change. Browser failures and
+human/UI-core acceptance remain explicitly separate gates.
