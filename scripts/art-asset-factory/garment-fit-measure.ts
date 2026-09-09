@@ -321,7 +321,9 @@ export interface EdgeError {
   readonly undercoveragePx: number;
   readonly undercoverageAtRow: number;
   /**
-   * The worst error the mode counts, and its share of the body's span there.
+   * The largest pixel error the mode counts. Its row can differ from the row
+   * with the largest proportional error below: a smaller pixel displacement on
+   * a narrower body region can violate the bound first.
    *
    * For `edge-match` this is the per-side PLACEMENT residual against the
    * garment's own ease (see the file header): each edge held to where it would
@@ -335,6 +337,7 @@ export interface EdgeError {
    */
   readonly worstPx: number;
   readonly worstAtRow: number;
+  /** Largest counted error / body span over all comparable rows, independently of worstPx. */
   readonly worstFractionOfBodySpan: number;
   readonly rowsCompared: number;
   readonly rowsInWindow: number;
@@ -721,8 +724,8 @@ export function measureEdgeError(
     if (counted > worst) {
       worst = counted;
       worstAt = y;
-      worstFraction = counted / bodySpan;
     }
+    worstFraction = Math.max(worstFraction, counted / bodySpan);
   }
   if (
     rowsCompared < MINIMUM_COMPARABLE_ROWS ||

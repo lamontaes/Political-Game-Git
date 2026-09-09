@@ -88,6 +88,47 @@ function measure(mapping: FitRowCorrespondence | undefined, dx = 0) {
 }
 
 describe("explicit authored row correspondence", () => {
+  it("rejects a narrow-region proportional failure even when a wider row has more pixel error", () => {
+    const canvas = { width: 600, height: 4 };
+    // Two wide shoulder rows and two narrow waist rows retain the required
+    // four comparable rows. The source pairing has no extra ease.
+    const body: RasterSpans = {
+      ...canvas,
+      rows: [
+        { lo: 50, hi: 549 },
+        { lo: 50, hi: 549 },
+        { lo: 250, hi: 349 },
+        { lo: 250, hi: 349 },
+      ],
+    };
+    const projected = { ...layer(0), left: 0, top: 0, width: 1, height: 1 };
+    const displaced: RasterSpans = {
+      ...canvas,
+      rows: body.rows.map((span, y) => ({
+        lo: span!.lo + (y < 2 ? 8 : 4),
+        hi: span!.hi + (y < 2 ? 8 : 4),
+      })),
+    };
+    const result = measureEdgeError(
+      projected,
+      displaced,
+      body,
+      canvas,
+      { ...METRIC, fromRow: 0, toRow: 3 },
+      measureSourceProportion(projected, body, body, canvas),
+    );
+    expect(result.status).toBe("measured");
+    expect(result.rowsCompared).toBe(4);
+    expect(result.worstPx).toBe(8);
+    expect(result.worstAtRow).toBe(0);
+    // The old calculation returned 8/500 = 1.6%, concealing 4/100 = 4%.
+    expect(result.worstFractionOfBodySpan).toBe(0.04);
+    expect(result.worstFractionOfBodySpan).toBeGreaterThan(
+      GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction,
+    );
+    expect(GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction).toBe(0.03);
+  });
+
   it("preserves ease after padding changes without changing the legacy default", () => {
     const mapped = measure(MAPPING);
     expect(mapped.status).toBe("measured");
