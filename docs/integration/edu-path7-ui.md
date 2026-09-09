@@ -35,3 +35,9 @@ LIFE owner verified that its fixed-time scheduler does not search later free dat
 The next actual normal run resolved the meeting and scheduled study, then correctly refused attendance without $25. A completed Shop assistant shift and next-day advancement exposed a missing personal resource position: transfer outcomes existed but the balance query required an account. LIFE owner supplied `8082d477796606e4e9eb096c484b037a00149d5e`, composed here as `c36c341` with both EDU and resource-helper imports preserved.
 
 The owner repair establishes a zero opening position before new wage transfers. For an already affected save, it records a documented opening checkpoint from actual signed prior transfers, preserving outcomes and avoiding double counting. It does not infer organization accounts, invent initial wealth, alter the generic balance query, or bypass study fees. Refused study discards a candidate account repair. Combined source/provider/LIFE/account tests pass 27/27. The UI owner is rerunning the normal paid-work-to-study journey with the same repair; acceptance remains pending its result.
+
+## Normal paid-study proof receipt
+
+UI owner reports the actual earned-work → first study attendance → interruption → Keep/save and reload → return journey proven at UI `5501b74`, published in clean combined UI `defd15a1882ce08ee7b005e70d884cd8d917dcd7`. Evidence is owned by UI under `docs/plans/evidence/ui-return7`. Its composition includes the 2025 edition and LIFE account repair.
+
+The second session remains blocked by a January 10 tentative invitation with no responsible person. LIFE routed explicit source-linked response/disposition handling to the OPENING owner. EDU does not cancel or complete that activity through an unrelated writer. This is partial actual normal-route acceptance, not completion of the repeated-session journey. The EDU active plan remains open; no monitoring or merge is established.
