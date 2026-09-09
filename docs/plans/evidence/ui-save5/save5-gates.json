@@ -1,0 +1,89 @@
+[
+  {
+    "gate": "format",
+    "command": ["npm", "run", "format"],
+    "exitCode": 0
+  },
+  {
+    "gate": "lint",
+    "command": ["npm", "run", "lint"],
+    "exitCode": 0
+  },
+  {
+    "gate": "typecheck",
+    "command": ["npm", "run", "typecheck"],
+    "exitCode": 0
+  },
+  {
+    "gate": "source-validate",
+    "command": ["npm", "run", "source:validate"],
+    "exitCode": 0
+  },
+  {
+    "gate": "source-replay",
+    "command": ["npm", "run", "source:replay"],
+    "exitCode": 0
+  },
+  {
+    "gate": "municipal-government-replay",
+    "command": ["npm", "run", "export:municipal-governments", "--", "--check"],
+    "exitCode": 0
+  },
+  {
+    "gate": "municipal-capacity-replay",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "scripts/source/export-municipal-capacity.ts",
+      "--check"
+    ],
+    "exitCode": 0
+  },
+  {
+    "gate": "build",
+    "command": ["npm", "run", "build"],
+    "exitCode": 0
+  },
+  {
+    "gate": "demo",
+    "command": ["npm", "run", "demo", "--", "validation-seed"],
+    "exitCode": 0
+  },
+  {
+    "gate": "art-validate",
+    "command": ["npm", "run", "validate:art"],
+    "exitCode": 0
+  },
+  {
+    "gate": "art-inventory",
+    "command": ["npm", "run", "inventory:art"],
+    "exitCode": 0
+  },
+  {
+    "gate": "art-qa",
+    "command": ["npm", "run", "qa:art"],
+    "exitCode": 0
+  },
+  {
+    "gate": "candidate-admission",
+    "command": ["npm", "run", "admit:wave-a-candidates", "--", "--check"],
+    "exitCode": 0
+  },
+  {
+    "gate": "wardrobe-derive",
+    "command": ["npm", "run", "derive:wave-a-wardrobe", "--", "--check"],
+    "exitCode": 0
+  },
+  {
+    "gate": "public-privacy",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "scripts/dev-lab/scan-public-build.ts",
+      "dist"
+    ],
+    "exitCode": 0
+  }
+]

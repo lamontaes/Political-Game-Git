@@ -1,0 +1,26 @@
+[
+  {
+    "file": "normal-scene.png",
+    "sha256": "d5d2618438bf63c63d3653db76100f31c3969bd8c1157a7dbc0681b168930cfb",
+    "testedSource": "3bddebdd74ba1192eff75bb24f72cdede6f62a62",
+    "run": "ui-save5-corrected",
+    "humanAccepted": false,
+    "reviewOnlyCandidate": false
+  },
+  {
+    "file": "normal-dossier-wardrobe.png",
+    "sha256": "7e09817b9afbac0f784422f341464f699b15659d67c61b2c795211de5a2f661c",
+    "testedSource": "3bddebdd74ba1192eff75bb24f72cdede6f62a62",
+    "run": "ui-save5-corrected",
+    "humanAccepted": false,
+    "reviewOnlyCandidate": false
+  },
+  {
+    "file": "selected-person-wardrobe-reload.png",
+    "sha256": "b4c6978d42e4f681e56b6c97345fcf81276fd8f7211611854accabfcb55b6bbe",
+    "testedSource": "3bddebdd74ba1192eff75bb24f72cdede6f62a62",
+    "run": "ui-save5-corrected",
+    "humanAccepted": false,
+    "reviewOnlyCandidate": true
+  }
+]

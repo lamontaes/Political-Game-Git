@@ -36,3 +36,11 @@ fragments and are retained. Focused donor plus OPENING controls: 68 passed.
 LEARN: browser storage inspection must open the existing database without
 pinning an obsolete version and must propagate errors rather than report empty
 records. Presentation timing is not World identity; compare serialized Worlds.
+
+## Return
+
+See [exact proof and remaining gates](../evidence/ui-save5/README.md).
+Persistence repair is verified (20/20 production and cross-tab). Final full unit
+run at5e34a26 is4033pass/3fail/2skip; the preserved OPENING failures and normal
+LEG/NEWS entry gaps keep this integration plan active. All remaining source,
+build, art and privacy gates passed. Human and independent acceptance pending.
