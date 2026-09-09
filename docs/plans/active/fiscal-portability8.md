@@ -93,6 +93,29 @@ and the product's single `0x80`-`0x9F` byte (a `0x92` in
 another domain's decode semantics is outside this role's scope and could move
 evidence this role cannot adjudicate, so it is returned to LAND/D as a finding.
 
+## Result
+
+Hosted run 34398141945 at `0f55e994`, Node 22.13.0, **success end to end**:
+
+|                              | before (`794a29d3`, run 34382678260)     | after (`0f55e994`)                      |
+| ---------------------------- | ---------------------------------------- | --------------------------------------- |
+| test files                   | 3 failed / 194 passed                    | **197 passed**                          |
+| tests                        | 3,584 passed / **11 failed** / 2 skipped | **3,598 passed / 0 failed** / 2 skipped |
+| `source:replay`              | failed in A9                             | **clean; byte-identical**               |
+| Run A / Run B browser proofs | skipped                                  | **287 passed**                          |
+
+`source:validate` 16 domains — state-local-fiscal-authority 12 records / 0
+errors, state-legislatures (QUAL) 50 records / 0 errors.
+`source:check-fiscal-disposition` 50 states / 750 groups / 2,650 claims.
+The total rose from 3,597 to 3,600 by exactly the three controls added below.
+
+Local full `validate` under the same push-mode declaration range: 3,597 passed /
+2 skipped / 1 failed. The single failure is `tests/dev-identified.test.ts`,
+which hard-codes port 5188 — held on this machine by the owner's play server
+(`Political-Game-Play-0deebff6`). That folder is off limits, so it was not
+stopped; the test passes hosted both before and after this change. Reported to
+the dev-server lane, not fixed here.
+
 ## Evidence controls retained and added
 
 Positive: `source:validate` 12 fiscal records / 0 errors; `source:replay` clean;
