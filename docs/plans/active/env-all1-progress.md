@@ -153,3 +153,14 @@ read-only. Its household-only prose still needed gating during activity aftermat
 and was referred to the owning lane. A dirty composed checkout is not final
 normal-play evidence. Keep this plan active until the validation/browser gate and
 owner handoffs are recorded in `docs/agent/evidence/env-all1-recovery/verification.md`.
+
+### Final recovery delivery
+
+See `docs/agent/evidence/env-all1-recovery/verification.md` for executed gate exits,
+normal UI checkpoint identity, pointer/keyboard proof, preserved-source hashes
+and actual screenshots. The posted meeting now has normal-play evidence through
+UI PR #144; courtroom preview remains unreleased. The 960px aftermath/location
+card collision is reported to UI-core. Workplace and other source-dependent venue
+bindings remain explicitly unavailable. Keep this plan active for those integration
+and human-acceptance gaps; recovery and the bounded ENV implementation are delivered
+in draft PR #142, without self-merge.
