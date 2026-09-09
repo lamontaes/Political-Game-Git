@@ -978,3 +978,9 @@
 .title-tableau--art .game-title-actions button:disabled {
   opacity: 0.65;
 }
+
+/* Existing light-page hints need the shell’s dark-surface contrast token. */
+.pg-workspace .game-note,
+.pg-workspace .game-hint {
+  color: var(--pg-ivory-dim);
+}

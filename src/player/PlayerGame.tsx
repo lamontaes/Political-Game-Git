@@ -308,7 +308,11 @@ export function PlayerGame() {
         setProblem(outcome.reason);
         return;
       }
-      setSession({ ...session, unsavedSeed: null, saveId });
+      setSession((current) =>
+        current?.world.id === session.world.id
+          ? { ...current, unsavedSeed: null, saveId }
+          : current,
+      );
       setNotice(
         shellSaved
           ? "Saved."
@@ -540,7 +544,12 @@ export function PlayerGame() {
               // when a formative playthrough reaches eighteen — rather than
               // only at boot, which would leave a grown character with an
               // empty week until they reloaded.
-              { ...current, world: openOrdinaryLife(world, current.personId) }
+              {
+                ...current,
+                world: synchronizeExecutiveInbox(
+                  openOrdinaryLife(world, current.personId),
+                ),
+              }
             : current,
         )
       }
@@ -1560,10 +1569,27 @@ function PlayingScreen({
     [session.world, capabilities.legislativeJurisdictionId, assignment],
   );
 
-  const moment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
-  );
+  const moment = useMemo(() => {
+    const projected = projectStoryMoment(session.world, session.personId);
+    const activity = completedActivityHere(session.world, session.personId);
+    return activity
+      ? {
+          ...projected,
+          placeName: activity.location.label,
+          scene: {
+            ...projected.scene,
+            presentPeople: projected.scene.presentPeople.filter(
+              (person) =>
+                completedActivityHere(
+                  session.world,
+                  person.personId,
+                  activity.id,
+                ) !== null,
+            ),
+          },
+        }
+      : projected;
+  }, [session.world, session.personId]);
 
   const scenePeople = useMemo(
     () =>
@@ -2207,11 +2233,13 @@ function renderWorkspace({
             here beside the directory because both answer "who is in this life",
             and opening one person's record is a click away above.
           */}
-          <PlayerConversations
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
+          {!completedActivityHere(session.world, session.personId) && (
+            <PlayerConversations
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          )}
         </>,
       );
 
@@ -2555,6 +2583,20 @@ function StoryView({
     [session.world, session.personId],
   );
 
+  if (completedActivityHere(session.world, session.personId))
+    return (
+      <section
+        className="game-story life-moment"
+        data-testid="activity-aftermath"
+      >
+        <VenueActivityPanel
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+        />
+      </section>
+    );
+
   return (
     <section className="game-story life-moment" data-testid="story-section">
       {/*
@@ -2801,9 +2843,11 @@ function OrdinaryDayView({
       <p className="game-band" data-testid="day-date">
         {day.dateLabel} · {day.timeLabel}
       </p>
-      <p className="game-scene" data-testid="day-opening">
-        {day.opening}
-      </p>
+      {!completedActivityHere(session.world, session.personId) && (
+        <p className="game-scene" data-testid="day-opening">
+          {day.opening}
+        </p>
+      )}
       {day.pending.length > 0 ? (
         <ul className="game-pending" data-testid="day-pending">
           {day.pending.map((thing) => (

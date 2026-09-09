@@ -14,18 +14,36 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   await goTo(page, "elsewhere-day");
   const paths = page.getByRole("region", { name: "Education and work" });
   await expect(paths).toBeVisible();
+  const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
+  const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
+  await enroll.click();
   await paths
-    .getByRole("button", { name: /^Enroll in/ })
+    .getByRole("button", { name: "Schedule next session", exact: true })
+    .click();
+  await expect(paths.getByRole("status")).toHaveText(
+    "You already have a commitment at that time.",
+  );
+  await page
+    .getByTestId("day-overlay")
+    .getByTestId("venue-activities")
+    .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
     .click();
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
+  await expect(paths.getByRole("status")).toHaveText(
+    "The session is on your calendar.",
+  );
   await goTo(page, "nav-calendar");
   await expect(
     page.locator('[data-testid^="calendar-entry-"]'),
   ).not.toHaveCount(0);
-  await page.locator('[data-testid^="calendar-pin-"]').first().click();
+  await page
+    .locator(".pg-calendar-entry")
+    .filter({ hasText: studyTitle })
+    .locator('[data-testid^="calendar-pin-"]')
+    .click();
   await expect(page.locator('[data-testid^="pin-commitment:"]')).toBeVisible();
 });
 
@@ -66,4 +84,165 @@ test("Custom judicial workplace uses the normal World, Work and save route", asy
       exact: true,
     }),
   ).toBeVisible();
+});
+
+test("mixed person, session and measure pins preserve identity and clear workspace controls", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(120_000);
+  await page.goto("/?seed=ui-core-mixed-adapters");
+  await startLife(page, {
+    age: 35,
+    route: "custom",
+    office: true,
+    household: "shares-a-home",
+  });
+  await enterLife(page);
+  await page.locator('[data-testid^="rail-pin-"]').first().click();
+  await goTo(page, "elsewhere-day");
+  const paths = page.getByRole("region", { name: "Education and work" });
+  const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
+  const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
+  await enroll.click();
+  await paths
+    .getByRole("button", { name: "Schedule next session", exact: true })
+    .click();
+  await expect(paths.getByRole("status")).toHaveText(
+    "You already have a commitment at that time.",
+  );
+  await page
+    .getByTestId("day-overlay")
+    .getByTestId("venue-activities")
+    .getByRole("button", { name: "Carry out activity", exact: true })
+    .first()
+    .click();
+  await paths
+    .getByRole("button", { name: "Schedule next session", exact: true })
+    .click();
+  await expect(paths.getByRole("status")).toHaveText(
+    "The session is on your calendar.",
+  );
+  await goTo(page, "nav-calendar");
+  await page
+    .locator(".pg-calendar-entry")
+    .filter({ hasText: studyTitle })
+    .locator('[data-testid^="calendar-pin-"]')
+    .click();
+  await goTo(page, "elsewhere-work");
+  await page.getByTestId("open-legislation").click();
+  await page.getByTestId("pin-measure").click();
+  const pins = page.locator('[data-testid^="pin-"][data-size]');
+  const ids = await pins.evaluateAll((nodes) =>
+    nodes.map((n) => n.getAttribute("data-testid")!.slice(4)),
+  );
+  expect(ids.map((id) => id.split(":")[0]).sort()).toEqual([
+    "commitment",
+    "measure",
+    "person",
+  ]);
+  const last = ids[2]!;
+  await page.getByTestId(`pin-manage-${last}`).click();
+  await page.getByTestId(`pin-up-${last}`).press("Enter");
+  await page.keyboard.press("Escape");
+  for (const id of ids) {
+    await page.getByTestId(`pin-manage-${id}`).click();
+    await page.getByTestId(`pin-size-expanded-${id}`).press("Enter");
+    await expect(page.getByTestId(`pin-menu-${id}`)).toHaveCount(0);
+  }
+  const order = await pins.evaluateAll((nodes) =>
+    nodes.map((n) => n.getAttribute("data-testid")),
+  );
+  await goTo(page, "nav-journal-entry");
+  for (const width of [1920, 1440, 1200, 1060, 960]) {
+    await page.setViewportSize({ width, height: 900 });
+    const close = page.getByTestId("journal-close");
+    await expect(close).toBeVisible();
+    const box = (await close.boundingBox())!;
+    expect(
+      await page.evaluate(
+        ({ x, y }) =>
+          document
+            .elementFromPoint(x, y)
+            ?.closest('[data-testid="journal-close"]') !== null,
+        { x: box.x + box.width / 2, y: box.y + box.height / 2 },
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: testInfo.outputPath(`mixed-pins-${width}.png`),
+    });
+  }
+  await page.getByTestId("journal-close").press("Enter");
+  await goTo(page, "keep-world");
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await expect(pins).toHaveCount(3);
+  expect(
+    await pins.evaluateAll((nodes) =>
+      nodes.map((n) => n.getAttribute("data-testid")),
+    ),
+  ).toEqual(order);
+  for (const id of ids)
+    await expect(page.getByTestId(`pin-${id}`)).toHaveAttribute(
+      "data-size",
+      "expanded",
+    );
+});
+
+test("normal activity completion replaces household presence without a second clock", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/?seed=env-normal-action");
+  await startLife(page, {
+    age: 34,
+    route: "custom",
+    household: "shares-a-home",
+  });
+  await enterLife(page);
+  await goTo(page, "elsewhere-day");
+  await page
+    .getByTestId("venue-activities")
+    .getByRole("button", { name: "Carry out activity", exact: true })
+    .first()
+    .press("Enter");
+  await expect(page.getByTestId("day-opening")).toHaveCount(0);
+  await expect(page.getByTestId("day-overlay")).toContainText(
+    "You have finished",
+  );
+  await page.getByTestId("day-overlay-close").click();
+  await expect(page.getByTestId("activity-aftermath")).toBeVisible();
+  await expect(page.getByTestId("story-people")).toHaveCount(0);
+  await expect(page.getByTestId("story-options")).toHaveCount(0);
+  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+    "data-scene-id",
+    "civic-community-meeting-room",
+  );
+  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+    "data-has-plate",
+    "true",
+  );
+  for (const width of [1440, 960]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.screenshot({
+      path: testInfo.outputPath(`venue-aftermath-${width}.png`),
+    });
+  }
+  await page.locator('[data-testid^="rail-person-"]').first().click();
+  await page.getByTestId("action-record").click();
+  await expect(page.getByTestId("dossier-talk")).toBeDisabled();
+  await goTo(page, "keep-world");
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await expect(page.getByTestId("activity-aftermath")).toBeVisible();
+  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+    "data-scene-id",
+    "civic-community-meeting-room",
+  );
+  await expect(page.getByTestId("scene-backdrop")).toHaveAttribute(
+    "data-has-plate",
+    "true",
+  );
 });

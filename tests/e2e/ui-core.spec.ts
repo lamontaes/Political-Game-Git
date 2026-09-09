@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 import { enterLife, goTo, openShellMenu, startLife } from "./support/creator";
 

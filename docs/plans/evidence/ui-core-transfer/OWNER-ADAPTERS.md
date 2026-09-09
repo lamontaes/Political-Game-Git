@@ -11,3 +11,9 @@ Preferred component props: `world`, `playerPersonId` (or existing `personId`), `
 - DEV/JUD/EXEC/LIFE: frozen-adapter requests successfully posted on PRs #138–141. Preserve EXEC's actual LIFE-PATHS staff/time dependency.
 
 Native outgoing task-message tools are unavailable in this recipient. This file and PR comment threads are fallback handoff surfaces. No heavy validation running yet.
+
+## Current checkpoint
+
+Supersedes the earlier no-tests-started status. ENV97fbcde is merged; receipt from544d78b is applied. Root now gates household narration/conversations in actual attendance aftermath and derives shell place from the completed activity. Normal proof env06 passes keyboard completion, community-room plate,1440/960 screenshots and save/reload. Evidence under `/private/tmp/ui-core-transfer-recovery/browser/ui-core-transfer-env-06`.
+
+PEOPLE production-only patch fromd9d3afe applied and two portrait boundary tests pass. MUNI's proposed `MunicipalWorkspace({world,onWorldChange})` fits Work; awaiting frozen source. OPENING and recovered LEG exact heads still awaited. Full heavy validation queued after existing owners; no full-green claim. Single draft UI publication follows this checkpoint; root ownership remains here.

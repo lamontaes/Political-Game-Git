@@ -2,6 +2,7 @@ import type { PersonAppearance } from "../simulation/person-appearance";
 import {
   projectCharacterLayers,
   type CharacterComponentKind,
+  type CharacterWardrobeContext,
   type CharacterComponentLibrary,
   type CharacterRecipe,
   type CharacterRecipeDiagnostic,
@@ -79,6 +80,7 @@ export interface SceneCharacterPresentation {
 }
 
 export interface SceneCharacterRequest {
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: string;
   readonly displayName: string;
   readonly appearance: PersonAppearance;
@@ -221,13 +223,16 @@ export function composeSceneCharacter(
     appearance,
     poseFamilyId,
     library,
+    undefined,
+    request.wardrobe,
   );
   const projected = projectCharacterLayers(recipe, library);
 
-  const diagnostics: SceneDiagnostic[] = recipe.context.diagnostics.map(
-    (diagnostic) =>
+  const diagnostics: SceneDiagnostic[] = recipe.context.diagnostics
+    .filter((diagnostic) => diagnostic.code !== "slot-painted-by-body")
+    .map((diagnostic) =>
       fromRecipeDiagnostic(diagnostic, scene.sceneId, anchor.id, personId),
-  );
+    );
   for (const gap of resolution.gaps) {
     const mapped = POSE_GAP_DIAGNOSTIC[gap.code];
     diagnostics.push(

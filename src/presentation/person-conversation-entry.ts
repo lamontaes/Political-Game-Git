@@ -1,3 +1,4 @@
+import { completedActivityHere } from "./scene-venues";
 import {
   availablePlayerConversations,
   type AvailableConversation,
@@ -48,6 +49,14 @@ export function openConversationWith(
 
   if (personId === playerPersonId) {
     return { kind: "unavailable", reason: "That is you." };
+  }
+
+  if (completedActivityHere(world, playerPersonId)) {
+    return {
+      kind: "unavailable",
+      reason:
+        "This conversation belongs to an earlier scene. No conversation is established here yet.",
+    };
   }
 
   const available = availablePlayerConversations(world, playerPersonId);

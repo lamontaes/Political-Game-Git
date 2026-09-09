@@ -7675,6 +7675,23 @@
   }
 }
 
+/*
+ * The review floor line.
+ *
+ * A candidate body is placed by putting its own MEASURED sole on this line, so
+ * the line has to be visible: a reviewer looking at whether a figure stands on
+ * the ground needs to see the ground it was placed against. It is a review
+ * constant, not a calibrated scene floor, and it is drawn as a hairline rather
+ * than as scenery so nobody mistakes it for one.
+ */
+.candidate-review-floor-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgb(40 40 40 / 45%);
+}
+
 /* ------------------------------------------------------------------------- */
 /* The members' room, reached from normal play (79F).                        */
 /* The production floor sits over the life shell while it is open, the same  */

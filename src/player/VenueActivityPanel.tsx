@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { completedActivityHere } from "../presentation/scene-venues";
 import type { EntityId, World } from "../simulation";
 import {
   performVenueActivity,
@@ -17,9 +18,15 @@ export function VenueActivityPanel({
 }) {
   const [problem, setProblem] = useState<string | null>(null);
   const entries = venueActivities(world, personId);
-  if (!entries.length) return null;
+  const completed = completedActivityHere(world, personId);
+  if (!entries.length && !completed) return null;
   return (
     <section aria-label="Planned activities" data-testid="venue-activities">
+      {completed ? (
+        <p role="status" data-testid="venue-activity-completed">
+          You have finished {completed.title} at {completed.location.label}.
+        </p>
+      ) : null}
       {entries.map(({ activity, elapsedMinutes, refusal }) => (
         <div key={activity.id}>
           <p>

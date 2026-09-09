@@ -12,6 +12,7 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
 } from "./visual-integration";
 import { derivePersonAppearance } from "../simulation";
+import type { CharacterWardrobeContext } from "./character-components";
 import type { ScenePerson } from "./life-story";
 import type { World } from "../simulation";
 
@@ -66,14 +67,14 @@ export interface PlacedScenePerson {
 const STANDING_HEIGHT_RATIO = 2.55;
 /** A seated figure occupies less height above its contact line. */
 const SEATED_HEIGHT_RATIO = 1.5;
-const DEFAULT_BODY_WIDTH_PERCENT = 14;
-const MAX_SCENE_PEOPLE = 3;
 
 function placeableAnchors(
   scene: RegisteredScene,
 ): readonly RegisteredSceneAnchor[] {
   const anchors = [...scene.anchors.values()].filter(
-    (anchor) => anchor.kind === "seat" || anchor.kind === "floor-standing",
+    (anchor) =>
+      (anchor.kind === "seat" || anchor.kind === "floor-standing") &&
+      (anchor.footprintPercent ?? scene.standardBodyWidthPercent ?? 0) > 0,
   );
   // Seats first, then floor spots; each group left-to-right, so a fuller room
   // reads front-to-back and the assignment is deterministic.
@@ -88,15 +89,19 @@ function releasedLayers(
   person: { readonly id: string; readonly displayName: string },
   scene: RegisteredScene,
   anchor: RegisteredSceneAnchor,
+  wardrobe?: CharacterWardrobeContext,
 ): readonly ScenePersonLayer[] {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
   // it is made rather than assumed. Any throw from an unresolvable recipe is an
   // absent picture, not a broken screen.
+  if (!scene.floorCalibration || scene.standardBodyWidthPercent === null)
+    return [];
   try {
     const record = world.people[person.id];
     const appearance = record?.appearance ?? derivePersonAppearance(person.id);
     const presentation = composeSceneCharacter({
+      wardrobe,
       personId: person.id,
       displayName: person.displayName,
       appearance,
@@ -107,7 +112,14 @@ function releasedLayers(
       poseRegistry: PRODUCTION_POSE_REGISTRY,
       poseArt: PRODUCTION_POSE_ART,
     });
-    if (!presentation.complete) return [];
+    if (
+      !presentation.complete ||
+      presentation.layers.some(
+        (layer) =>
+          PRODUCTION_CHARACTER_LIBRARY.components.get(layer.assetId)?.fixture,
+      )
+    )
+      return [];
     return presentation.layers
       .filter((layer): layer is typeof layer & { url: string } =>
         Boolean(layer.url),
@@ -136,6 +148,7 @@ export function planLifeScenePeople(
   world: World,
   present: readonly ScenePerson[],
   sceneId: string | null,
+  wardrobe?: CharacterWardrobeContext,
 ): readonly PlacedScenePerson[] {
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
@@ -145,7 +158,7 @@ export function planLifeScenePeople(
 
   const people = [...present]
     .sort((left, right) => left.personId.localeCompare(right.personId))
-    .slice(0, Math.min(MAX_SCENE_PEOPLE, anchors.length));
+    .slice(0, anchors.length);
 
   const plateAspect = scene.plate.width / scene.plate.height;
 
@@ -154,9 +167,7 @@ export function planLifeScenePeople(
     const seated = anchor.kind === "seat";
     const scale = resolvePerspectiveScale(scene, anchor.contactFloorYPercent);
     const bodyWidth =
-      anchor.footprintPercent ??
-      scene.standardBodyWidthPercent ??
-      DEFAULT_BODY_WIDTH_PERCENT;
+      anchor.footprintPercent ?? scene.standardBodyWidthPercent!;
     const widthPercent = Math.min(30, Math.max(6, bodyWidth * scale));
     const ratio = seated ? SEATED_HEIGHT_RATIO : STANDING_HEIGHT_RATIO;
     const heightPercent = widthPercent * plateAspect * ratio;
@@ -167,6 +178,7 @@ export function planLifeScenePeople(
       { id: person.personId, displayName: person.name },
       scene,
       anchor,
+      wardrobe,
     );
     return {
       personId: person.personId,
