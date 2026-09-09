@@ -240,14 +240,31 @@ test("title Patch notes shows every canonical section and real package version w
   await expect(workspace.getByTestId("patch-notes-version")).toHaveText(
     `Version ${version}`,
   );
+  /*
+   * UI9-11: normal notes carry the ACCEPTED releases, in file order.
+   *
+   * This asserted every canonical section including the pending ones, each
+   * tagged "Not released". A player opening patch notes was being shown seven
+   * in-development sections and a reserved candidate version above the release
+   * they were playing. Pending and candidate sections stay in the file and
+   * stay parsed — nothing is deleted — and the screen says how many it is
+   * holding back, which is asserted here so they cannot be quietly dropped.
+   */
+  const released = headings.filter(
+    (heading) =>
+      !/^UNRELEASED\b/i.test(heading) && !/\bCANDIDATE\b/i.test(heading),
+  );
+  expect(headings.length).toBeGreaterThan(released.length);
+  expect(released.length).toBeGreaterThan(0);
+
   const sections = workspace.locator("section.pg-personal-section");
-  expect(headings.length).toBeGreaterThan(1);
-  await expect(sections).toHaveCount(headings.length);
-  for (const [index, heading] of headings.entries()) {
-    await expect(sections.nth(index).getByRole("heading")).toHaveText(
-      `${heading}${/UNRELEASED/i.test(heading) ? "Not released" : ""}`,
-    );
+  await expect(sections).toHaveCount(released.length);
+  for (const [index, heading] of released.entries()) {
+    await expect(sections.nth(index).getByRole("heading")).toHaveText(heading);
   }
+  await expect(workspace.getByTestId("patch-notes-withheld")).toContainText(
+    `${headings.length - released.length}`,
+  );
   await page.screenshot({
     path: info.outputPath("title-cumulative-patch-notes.png"),
   });

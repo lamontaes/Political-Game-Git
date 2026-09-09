@@ -2667,6 +2667,22 @@ function renderWorkspace({
             {capabilities.workPlace?.displayName} legislature, so what is in
             front of the chamber is in front of them too.
           </p>
+          {/*
+            Study and jobs belong to Work for EVERY life, not only the ones
+            without an office. When the day stopped carrying its own copy of
+            these panels, an office-holding character lost the only route to
+            them — holding a seat is not a reason to stop being able to take a
+            course or a shift. Work owning them means Work owning them.
+          */}
+          <LifePathsPanel
+            world={session.world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+          />
+          <CivilPersonnelPanel
+            world={session.world}
+            onWorldChange={onWorldChange}
+          />
           {workingBill ? (
             <p
               className="game-band"

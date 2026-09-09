@@ -16,8 +16,18 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
     household: "shares-a-home",
   });
   await enterLife(page);
+  /*
+   * UI9-01: the day no longer mounts a second copy of the study-and-work
+   * stack; it links into the one workspace that owns it. Following that link
+   * is the player's route, so it is this test's route.
+   */
   await goTo(page, "elsewhere-day");
-  const paths = page.getByRole("region", { name: "Education and work" });
+  await page.getByTestId("day-open-work").click();
+  // The panel's own region, inside the workspace section that frames it —
+  // both carry the same label, so the inner one is named explicitly.
+  const paths = page
+    .getByTestId("personal-work-section")
+    .getByRole("region", { name: "Education and work" });
   await expect(paths).toBeVisible();
   const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
   const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
@@ -28,12 +38,16 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
   await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "You already have a commitment at that time.",
   );
+  // The blocking commitment is carried out on the day, then back to work —
+  // two destinations now instead of one page holding both.
+  await goTo(page, "elsewhere-day");
   await page
     .getByTestId("day-overlay")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
     .click();
+  await page.getByTestId("day-open-work").click();
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
@@ -104,8 +118,13 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   });
   await enterLife(page);
   await page.locator('[data-testid^="rail-pin-"]').first().click();
-  await goTo(page, "elsewhere-day");
-  const paths = page.getByRole("region", { name: "Education and work" });
+  // UI9-01: study and work live in Work; the day links into it. This life
+  // holds an office, so Work frames them as the office rather than as the
+  // personal work section — the panels are the same either way.
+  await goTo(page, "elsewhere-work");
+  const paths = page
+    .getByTestId("office-section")
+    .getByRole("region", { name: "Education and work" });
   const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
   const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
   await enroll.click();
@@ -115,12 +134,14 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   await expect(paths.locator(":scope > [role=status]")).toHaveText(
     "You already have a commitment at that time.",
   );
+  await goTo(page, "elsewhere-day");
   await page
     .getByTestId("day-overlay")
     .getByTestId("venue-activities")
     .getByRole("button", { name: "Carry out activity", exact: true })
     .first()
     .click();
+  await page.getByTestId("day-open-work").click();
   await paths
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
@@ -241,9 +262,23 @@ test("normal activity completion replaces household presence without a second cl
       path: testInfo.outputPath(`venue-aftermath-${width}.png`),
     });
   }
-  await page.locator('[data-testid^="rail-person-"]').first().click();
-  await page.getByTestId("action-record").click();
+  /*
+   * UI9-03 makes this test's own claim visible: the rail carries the people in
+   * the room, so at the meeting room it carries nobody. Household presence is
+   * not merely "replaced" in the prose — there is no one here.
+   */
+  await expect(page.locator('[data-testid^="rail-person-"]')).toHaveCount(0);
+
+  // The household is still reachable, from where contact browsing lives, and
+  // talking to somebody who is not here is still refused.
+  await goTo(page, "elsewhere-people");
+  await page
+    .getByTestId("people-list")
+    .locator('[data-testid^="people-person-"]')
+    .first()
+    .click();
   await expect(page.getByTestId("dossier-talk")).toBeDisabled();
+  await page.getByTestId("person-workspace-close").click();
   await goTo(page, "keep-world");
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
   await page.reload();
