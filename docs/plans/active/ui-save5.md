@@ -179,3 +179,48 @@ use UI's identity fixture and per-run output convention. Snapshot objects are
 not persisted; production release/fixture/compatibility gates remain intact.
 Current combined typecheck and scoped lint pass. Browser/full/required art gates
 remain pending the shared slot; no human art approval or new acceptance claimed.
+
+## EDU-PATH7 mount and CAREER follow-up
+
+Applied frozen EDU831377c840aced71b5e08be4a94b89c124c7ed7f feature-local
+source/compiler/locked artifacts, full lazy runtime catalogs and diagnostic.
+Composed exact three-line accepted enrollment terms seam into existing LIFE;
+registered EducationOptionsPanel beside CareerPathsPanel in normal Day/Work.
+No donor prose count pins copied; combined corpus is regenerated. Diagnostic
+browser uses the existing UI identity fixture and remains a synthetic2025
+proof, not normal production acceptance.
+
+Normal initialization uses selected place initialMoment2026-01-05, with no
+historical start-date choice. The frozen2024–25 catalog therefore correctly
+refuses new offers while retaining browsing. EDU owner is acquiring a distinct
+2025–26 edition to address this normal positive dependency without backdating
+World history or extending the old source validity.
+
+Applied exact CAREER65f0d29→c119d2b8c41ed772f1a60b5105cdcb0ad9721a12
+feature follow-up: provider identity guard, blocked-wait notice, compiler
+coverage/header checks, locked ZIP member digest, actual training/switch test
+and normal creator/offer/work/resignation/save/reload browser specification.
+Donor evidence remains attributed to donor source; combined browser execution
+is pending the shared finite slot. Existing staff, anchor and save repairs are
+preserved. No new approval or normal press prerequisite is implied.
+
+CIVIL preparation-only delta701e68ca→4d4de94b7c9d69fe88144110b9b16d07a8425a93
+is applied with its unchanged registration patch in normal Day and ordinary
+Work, plus the delivered normal-route test. The separate injected component
+proof remains labeled diagnostic and uses the UI identity fixture. Source
+projection, known/unknown boundaries and private canonical Work are preserved.
+No public appointment, disciplinary or review authority is supplied by this
+checkpoint; those legal journeys remain unmet donor requirements.
+
+Current combined CAREER/EDU/CIVIL typecheck and scoped lint pass. Regenerated
+source manifest from discovered domains repairs the omitted CAREER registration;
+source replay itself remains pending. Regenerated prose report records2453
+templates,5885 unclassified candidates,0 hard errors and270 warnings.
+
+Hosted CI34385583872 atff82c80b reported4075 passed,4 failed,2 skipped: missing
+CAREER manifest registration and its replay mismatch, narrative-life household
+lastPlayedAt chronology, and missing demonstrated election-lost transcript.
+The manifest omission is corrected here; original assertions are retained.
+OPENING owner received the chronology failure for a bounded semantic correction.
+No current full-suite pass is claimed, and historical browser proof is not
+relabeled to this source composition.

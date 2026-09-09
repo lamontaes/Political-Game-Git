@@ -53,6 +53,25 @@ export function compileCareerOccupations(
   const occupationRows = sheet(a.occupations.bytes),
     taskRows = sheet(a.tasks.bytes),
     crossRows = sheet(a.crosswalk.bytes);
+  for (const [rows, expected] of [
+    [occupationRows, ["O*NET-SOC Code", "Title", "Description"]],
+    [
+      taskRows,
+      [
+        "O*NET-SOC Code",
+        "Title",
+        "Task ID",
+        "Task",
+        "Task Type",
+        "Incumbents Responding",
+        "Date",
+        "Domain Source",
+      ],
+    ],
+  ] as const) {
+    if (expected.some((name, i) => rows[0]?.[i] !== name))
+      throw new Error("Occupation/task header drift.");
+  }
   const socRows = sheet(a.soc.bytes);
   const hierarchy = new Map<
     string,
@@ -75,6 +94,8 @@ export function compileCareerOccupations(
       .filter((r) => /^\d{2}-\d{4}\.\d{2}$/.test(r[0] ?? ""))
       .map((r) => [r[0]!, r[2]!]),
   );
+  if (cross.size !== 1016 || hierarchy.size !== 867)
+    throw new Error("Official taxonomy coverage mismatch.");
   const wages = sheet(
     readZipMember(a.wages.bytes, "oesm25nat/national_M2025_dl.xlsx"),
   );
@@ -91,7 +112,9 @@ export function compileCareerOccupations(
         (r) =>
           r[wi("O_GROUP")] === "detailed" &&
           r[wi("AREA")] === "99" &&
-          r[wi("OWN_CODE")] === "1235",
+          r[wi("OWN_CODE")] === "1235" &&
+          r[wi("I_GROUP")] === "cross-industry" &&
+          r[wi("NAICS")] === "000000",
       )
       .map((r) => [
         r[wi("OCC_CODE")]!,

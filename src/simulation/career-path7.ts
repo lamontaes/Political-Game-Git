@@ -172,6 +172,7 @@ function owned(w: World, id: EntityId, p: CareerProvider) {
   return w.history.workRelationships.find(
     (r) =>
       r.id === id &&
+      r.stableKey.startsWith(`career-path7:${p.id}:`) &&
       r.personId === actor(w) &&
       pathForRelationship(w, id)?.id === p.pathId &&
       w.history.events.some(

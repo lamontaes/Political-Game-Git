@@ -23,6 +23,7 @@ import {
   type StoredShellState,
 } from "../presentation/browser-shell-state";
 import { LifePathsPanel } from "./LifePathsPanel";
+import { CivilPersonnelPanel } from "./CivilPersonnelPanel";
 import { JudicialOfficeWork } from "./JudicialOfficeWork";
 import { judicialOfficeContexts } from "../simulation/judicial-office-work";
 import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
@@ -2382,11 +2383,17 @@ function renderWorkspace({
         "day-overlay",
         <>
           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-          <LifePathsPanel
-            world={session.world}
-            onWorldChange={onWorldChange}
-            transitionHandlers={createCampaignElectionTransitionRegistry()}
-          />
+          <>
+            <LifePathsPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+              transitionHandlers={createCampaignElectionTransitionRegistry()}
+            />
+            <CivilPersonnelPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+            />
+          </>
           {/*
             Politics is a thing an ordinary life can turn into, so this sits
             below the ordinary day rather than replacing it.
@@ -2590,11 +2597,17 @@ function renderWorkspace({
         return frame(
           "Education and work",
           "personal-work-section",
-          <LifePathsPanel
-            world={session.world}
-            onWorldChange={onWorldChange}
-            transitionHandlers={createCampaignElectionTransitionRegistry()}
-          />,
+          <>
+            <LifePathsPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+              transitionHandlers={createCampaignElectionTransitionRegistry()}
+            />
+            <CivilPersonnelPanel
+              world={session.world}
+              onWorldChange={onWorldChange}
+            />
+          </>,
         );
       }
       const docketKey = selectedDocketKey(

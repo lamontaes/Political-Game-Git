@@ -18,6 +18,7 @@
     "scripts/prose-eval/**/*.ts",
     "scripts/source/**/*.ts",
     "src/cli/**/*.ts",
+    "src/education/**/*.ts",
     "src/content/**/*.ts",
     "src/devtools/**/*.ts",
     "src/environment/**/*.ts",

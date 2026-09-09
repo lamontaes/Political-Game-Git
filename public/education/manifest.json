@@ -1,0 +1,66 @@
+{
+  "chunks": [
+    {
+      "kind": "postsecondary",
+      "path": "catalog-ddffb1c904270386b883b665408eea4d566a6c6cf214af63981cc08a64ae1fc8.json",
+      "recordCount": 6072,
+      "sha256": "ddffb1c904270386b883b665408eea4d566a6c6cf214af63981cc08a64ae1fc8"
+    },
+    {
+      "kind": "school",
+      "path": "catalog-40249773b851999d00ce9834c63a2e82e7a02521bdad20da439ee86e00ccb91d.json",
+      "recordCount": 101333,
+      "sha256": "40249773b851999d00ce9834c63a2e82e7a02521bdad20da439ee86e00ccb91d"
+    },
+    {
+      "kind": "district",
+      "path": "catalog-360583668eabf05dca0d02cc6cf7f6140e7a1f86aedfbf7c1abdc6e261f2f2c1.json",
+      "recordCount": 19484,
+      "sha256": "360583668eabf05dca0d02cc6cf7f6140e7a1f86aedfbf7c1abdc6e261f2f2c1"
+    }
+  ],
+  "recordCount": 126889,
+  "source": {
+    "asOf": "2024-07-01",
+    "canonicalSha256": "7c27b818c9b345abe247f9e3bb68947144bc7eb603827753c6640b1194b97ce4",
+    "compiler": {
+      "name": "education",
+      "version": "1.0.0"
+    },
+    "corpusId": "education",
+    "coverage": {
+      "boundedSampleReason": "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
+      "isCompleteUniverse": false,
+      "universeDescription": "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024, joined to every IC2024 revised offerings row. No school-count ceiling."
+    },
+    "inputClass": "production",
+    "inputs": [
+      {
+        "artifactId": "ccd-2024-25-preliminary",
+        "sha256": "960a1e788a32677cc16399b62fdc7061a830b6d8b8b90b05b875fd50fad27cd1"
+      },
+      {
+        "artifactId": "HD2024",
+        "sha256": "b03acd261382fc92fe793aecac084820eec7a0e543dc9541c271b55d712331d3"
+      },
+      {
+        "artifactId": "IC2024",
+        "sha256": "6dffa230ee9d58322b33d694e28ef640200987e91a675109597c04cc3b1cd2e0"
+      },
+      {
+        "artifactId": "HD2024_Dict",
+        "sha256": "edf79545e900a987263f9e9a6a0420bcc55cb566a83754d87419ca0851cf521a"
+      },
+      {
+        "artifactId": "IC2024_Dict",
+        "sha256": "41474ff1efe01c5362529adf465e6c094c383467769cf725deb33bfd8187ca5e"
+      }
+    ],
+    "parser": {
+      "name": "nces-directory-offerings",
+      "version": "1.0.0"
+    },
+    "recordCount": 126889
+  },
+  "version": 1
+}
