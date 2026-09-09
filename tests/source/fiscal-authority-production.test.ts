@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import type { ArtifactLock } from "../../src/source/core/index";
 import {
+  decodeRetrievedBytes,
   isClean,
   normalizeRetrievedText,
   sha256Hex,
@@ -222,13 +223,133 @@ describe("fiscal production evidence", () => {
     if (!property?.localPath) throw new Error("Expected property-tax bytes.");
     const bytes = readFileSync(resolve(ROOT, property.localPath));
     expect(new TextDecoder("utf-8").decode(bytes)).toContain("�");
-    expect(new TextDecoder("windows-1252").decode(bytes)).toContain(
+    // The repository's own decoder, not the host's: `new TextDecoder(
+    // "windows-1252")` is only as good as the ICU data Node was built with, so
+    // asserting through it tests the runner rather than this substrate.
+    expect(decodeRetrievedBytes(bytes, "windows-1252")).toContain(
       "AS 29.45.550</a>  — 29.45.560",
     );
     const normalized = normalizeRetrievedText(bytes, property.mediaType);
     expect(normalized).toContain("AS 29.45.550 — 29.45.560");
     expect(normalized).not.toContain("�");
     expect(() => sourceDomain.compileProduction(lock())).not.toThrow();
+  });
+
+  it("maps the Windows-1252 upper range without consulting the host", () => {
+    // 0x80-0x9F is the whole disagreement between Windows-1252 and ISO-8859-1,
+    // and it is where a host lacking legacy-encoding data silently substitutes
+    // C1 control characters for punctuation.
+    const upper = Buffer.from(
+      Array.from({ length: 32 }, (_unused, offset) => 0x80 + offset),
+    );
+    expect(decodeRetrievedBytes(upper, "windows-1252")).toBe(
+      "€\u0081‚ƒ„…†‡" +
+        "ˆ‰Š‹Œ\u008dŽ\u008f" +
+        "\u0090‘’“”•–—" +
+        "˜™š›œ\u009džŸ",
+    );
+    expect(decodeRetrievedBytes(upper, "windows-1252")).not.toContain("�");
+    // Every byte outside that range is its own code point, so nothing the
+    // publisher sent is dropped, replaced or reordered.
+    const rest = Buffer.from(
+      Array.from({ length: 224 }, (_unused, offset) =>
+        offset < 128 ? offset : offset + 32,
+      ),
+    );
+    expect(decodeRetrievedBytes(rest, "windows-1252")).toBe(
+      Array.from(rest, (byte) => String.fromCharCode(byte)).join(""),
+    );
+  });
+
+  it("extracts the pinned enacted text on a host with no legacy-encoding data", () => {
+    // Hosted run 34382678260 (Node 22.13.0) failed ten rights-scope checks and
+    // the em-dash assertion because `TextDecoder("windows-1252")` there behaved
+    // as ISO-8859-1. This reproduces that host rather than describing it.
+    const realDecoder = globalThis.TextDecoder;
+    class IcuLessTextDecoder {
+      readonly encoding: string;
+      constructor(label = "utf-8") {
+        this.encoding = String(label).toLowerCase();
+      }
+      decode(input?: ArrayBufferView): string {
+        const bytes =
+          input === undefined
+            ? Buffer.alloc(0)
+            : Buffer.from(
+                new Uint8Array(
+                  input.buffer,
+                  input.byteOffset,
+                  input.byteLength,
+                ),
+              );
+        return this.encoding === "utf-8" || this.encoding === "utf8"
+          ? bytes.toString("utf-8")
+          : bytes.toString("latin1");
+      }
+    }
+
+    const salesTax = lock().artifacts.find(
+      (artifact) =>
+        artifact.artifactId === "ak-municipal-sales-use-tax-statutes",
+    );
+    if (!salesTax?.localPath) throw new Error("Expected sales-tax bytes.");
+    const bytes = readFileSync(resolve(ROOT, salesTax.localPath));
+
+    try {
+      (globalThis as unknown as { TextDecoder: unknown }).TextDecoder =
+        IcuLessTextDecoder;
+
+      // The simulation is faithful: under it the host decoder really does lose
+      // the em dash to a C1 control character, which is the reported symptom.
+      const viaHost = new TextDecoder("windows-1252").decode(bytes);
+      expect(viaHost).not.toContain("—");
+      expect(viaHost).toContain("\u0097");
+
+      // The substrate is unaffected, so the rights-scope digests still hold and
+      // production still opens on that same host.
+      expect(decodeRetrievedBytes(bytes, "windows-1252")).toContain("—");
+      expect(normalizeRetrievedText(bytes, salesTax.mediaType)).not.toContain(
+        "\u0097",
+      );
+      expect(() => sourceDomain.compileProduction(lock())).not.toThrow();
+    } finally {
+      globalThis.TextDecoder = realDecoder;
+    }
+  });
+
+  it("refuses the enacted-text digest a mis-decoding host produced", () => {
+    // 548462…53ab is the digest hosted run 34382678260 reported for the
+    // sales-tax artifact: what these bytes hash to once 0x97 is read as a
+    // control character. It must stay a refusal and never become the pin.
+    const valid = lock();
+    const substituted: ArtifactLock = {
+      ...valid,
+      artifacts: valid.artifacts.map((artifact) =>
+        artifact.artifactId === "ak-municipal-sales-use-tax-statutes" &&
+        artifact.rights.status === "public-domain-government-edict"
+          ? {
+              ...artifact,
+              rights: {
+                ...artifact.rights,
+                edict: {
+                  ...artifact.rights.edict,
+                  scope: {
+                    ...artifact.rights.edict.scope,
+                    extracted: {
+                      length: 10_706,
+                      sha256:
+                        "548462116eb287ad9520491be3d9ad837fa79b3983019cd68aaa0cc8e5bd53ab",
+                    },
+                  },
+                },
+              },
+            }
+          : artifact,
+      ),
+    };
+    expect(() => sourceDomain.compileProduction(substituted)).toThrow(
+      /scope of the edict determination has moved/,
+    );
   });
 
   it("compiles only excerpt-verified first-party declarations", () => {

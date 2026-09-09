@@ -49,15 +49,76 @@ function decodeEntity(entity: string): string {
   return ENTITIES.get(entity) ?? `&${entity};`;
 }
 
+/** The encodings this substrate will decode retrieved publisher bytes in. */
+export type RetrievedTextEncoding = "utf-8" | "windows-1252";
+
 /**
- * The normalized text of a retrieved page.
+ * Windows-1252's upper range, decoded here rather than by the host.
  *
- * Deliberately total: an artifact this substrate cannot decode still produces a
- * string, and the excerpt check then simply fails to find its quotation. A
- * throw here would turn "this page is not what we thought" into a build crash
- * rather than a missing fact.
+ * `TextDecoder` is only required to support UTF-8. Support for the legacy
+ * single-byte encodings depends on the ICU data the running Node was built
+ * with, and when it is absent the degradation is silent: on a full-ICU host
+ * `new TextDecoder("windows-1252")` maps 0x97 to an em dash, while a host
+ * without that data decodes the same byte as U+0097, a C1 control character
+ * that renders as nothing at all. Same bytes, same code, two different texts.
+ *
+ * That is not cosmetic here. An enacted-text scope pins the SHA-256 of the text
+ * its boundary extracts, so a decoder that varies by machine turns a rights
+ * determination into something that holds or fails depending on where it ran —
+ * and the refusal reads "the scope of the edict determination has moved" when
+ * nothing moved except the runtime.
+ *
+ * So the mapping lives here, as data. This is the WHATWG index for 0x80-0x9F,
+ * the only range where Windows-1252 and ISO-8859-1 disagree; every other byte
+ * is its own code point. The five positions Windows-1252 leaves unassigned
+ * decode to their C1 code points, as the standard requires, rather than to
+ * U+FFFD: dropping a byte the publisher actually sent would be its own kind of
+ * silent rewrite.
  */
-function declaredEncoding(mediaType: string | undefined): string {
+const WINDOWS_1252_UPPER_RANGE =
+  "€\u0081‚ƒ„…†‡" + // 0x80-0x87
+  "ˆ‰Š‹Œ\u008dŽ\u008f" + // 0x88-0x8f
+  "\u0090‘’“”•–—" + // 0x90-0x97
+  "˜™š›œ\u009džŸ"; // 0x98-0x9f
+
+function decodeWindows1252(bytes: Uint8Array): string {
+  const units = new Array<string>(bytes.length);
+  for (let index = 0; index < bytes.length; index += 1) {
+    const byte = bytes[index]!;
+    units[index] =
+      byte >= 0x80 && byte <= 0x9f
+        ? WINDOWS_1252_UPPER_RANGE[byte - 0x80]!
+        : String.fromCharCode(byte);
+  }
+  return units.join("");
+}
+
+/**
+ * Decode retrieved bytes the same way on every host.
+ *
+ * UTF-8 goes through `TextDecoder`, which every Node build supports and which
+ * no ICU configuration alters. Windows-1252 goes through the table above.
+ */
+export function decodeRetrievedBytes(
+  bytes: Uint8Array,
+  encoding: RetrievedTextEncoding,
+): string {
+  return encoding === "windows-1252"
+    ? decodeWindows1252(bytes)
+    : new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+}
+
+/**
+ * Which encoding a media type declares.
+ *
+ * `iso-8859-1` resolves to Windows-1252 because that is what the WHATWG
+ * encoding standard requires of it, and because publishers who label a page
+ * ISO-8859-1 overwhelmingly serve Windows-1252 bytes. Anything else is read as
+ * UTF-8 rather than guessed at.
+ */
+function declaredEncoding(
+  mediaType: string | undefined,
+): RetrievedTextEncoding {
   if (!mediaType) return "utf-8";
   const charset = /(?:^|;)\s*charset\s*=\s*["']?([^;"'\s]+)/i.exec(
     mediaType,
@@ -68,13 +129,19 @@ function declaredEncoding(mediaType: string | undefined): string {
     : "utf-8";
 }
 
+/**
+ * The normalized text of a retrieved page.
+ *
+ * Deliberately total: an artifact this substrate cannot decode still produces a
+ * string, and the excerpt check then simply fails to find its quotation. A
+ * throw here would turn "this page is not what we thought" into a build crash
+ * rather than a missing fact.
+ */
 export function normalizeRetrievedText(
   bytes: Uint8Array,
   mediaType?: string,
 ): string {
-  const raw = new TextDecoder(declaredEncoding(mediaType), {
-    fatal: false,
-  }).decode(bytes);
+  const raw = decodeRetrievedBytes(bytes, declaredEncoding(mediaType));
   const withoutScripts = raw
     .replace(/<script\b[\s\S]*?<\/script\s*>/gi, " ")
     .replace(/<style\b[\s\S]*?<\/style\s*>/gi, " ")
