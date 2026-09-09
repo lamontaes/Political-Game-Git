@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1914,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4735,
-    "DIAGNOSTIC_OR_TEST": 3639,
-    "NEEDS_CLASSIFICATION": 3262
+    "INTENTIONALLY_NON_PLAYER_FACING": 4743,
+    "DIAGNOSTIC_OR_TEST": 3661,
+    "NEEDS_CLASSIFICATION": 3347
   },
   "needsClassification": [
     {
@@ -2099,6 +2099,30 @@
       "enclosingSymbol": "ConversationStrip",
       "line": 351,
       "text": "{state.committedTurnCount} committed {state.committedTurnCount===1?\"turn\":\"turns\"}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/JudicialOfficeWork.tsx",
+      "enclosingSymbol": "JudicialOfficeWork",
+      "line": 46,
+      "text": "Judicial office work",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/JudicialOfficeWork.tsx",
+      "enclosingSymbol": "JudicialOfficeWork",
+      "line": 83,
+      "text": "The review takes {a.timing.activityMinutes} minutes, after a {a.timing.waitMinutes}-minute wait.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/JudicialOfficeWork.tsx",
+      "enclosingSymbol": "JudicialOfficeWork",
+      "line": 84,
+      "text": "The scheduled review is {a.activityState.status}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -14983,6 +15007,662 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 23,
+      "text": "Confidential draft transfer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 25,
+      "text": "The access log records a confidential office draft sent from the junior clerk's terminal to an outside account. The clerk and chief judge are included in the review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 29,
+      "text": "Ask the clerk for an account of the transfer",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 30,
+      "text": "Please explain the transfer recorded in the access log.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 32,
+      "text": "Prepare questions about the draft-transfer log",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 36,
+      "text": "Ask the chief judge to review the log",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 38,
+      "text": "Please review this access log with me before any personnel action is considered.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 40,
+      "text": "Prepare the draft-transfer log for review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 46,
+      "text": "Colleague's unfinished office work",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 48,
+      "text": "A colleague has asked for help with overdue office work. The review records difficulty staying alert during office work and includes the overdue-work report. No medical diagnosis has been established.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 52,
+      "text": "Offer a private conversation",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 53,
+      "text": "I can talk through the unfinished office work with you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 55,
+      "text": "Prepare a note about the colleague's reported difficulties",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 59,
+      "text": "Ask for a meeting with the chief judge",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 60,
+      "text": "Let's discuss the office workload with the chief judge.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 62,
+      "text": "Prepare the overdue-work report for review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 68,
+      "text": "Complaint about access to chambers",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 70,
+      "text": "A lawyer's written complaint and an office booking audit describe unequal access to appointments. The judicial assistant is included in the review.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 74,
+      "text": "Ask the assistant to explain the bookings",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 76,
+      "text": "Please explain the appointment entries identified in this complaint.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 78,
+      "text": "Prepare questions about the disputed bookings",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 82,
+      "text": "Ask the lawyer to identify the disputed entries",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 83,
+      "text": "Please identify the booking entries you want reviewed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 85,
+      "text": "Prepare the disputed booking entries for review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 91,
+      "text": "Proposed household political event",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 93,
+      "text": "Your spouse has proposed a political event at your shared home and asked to discuss it with an ethics adviser before making arrangements.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 97,
+      "text": "Ask your spouse to consider another venue",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 98,
+      "text": "Would you consider holding the event somewhere else?",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 100,
+      "text": "Prepare a note about the proposed event venue",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 104,
+      "text": "Ask the adviser for guidance",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 106,
+      "text": "Please advise us about the proposed event before arrangements are made.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 108,
+      "text": "Prepare questions about the proposed household event",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 114,
+      "text": "Confidential professional feedback",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 116,
+      "text": "The bar liaison has supplied a confidential draft of written professional feedback for review with your assistant.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 120,
+      "text": "Review the comments with your assistant",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 121,
+      "text": "Let's review the written comments together.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 123,
+      "text": "Prepare the written feedback for an internal review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 127,
+      "text": "Ask the liaison to discuss the comments",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 128,
+      "text": "I would like to discuss the written comments privately.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 130,
+      "text": "Prepare questions about the written feedback",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 134,
+      "text": "Keep a private note of your review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 136,
+      "text": "I have reviewed the written feedback and am keeping a private note.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 144,
+      "text": "Received conduct inquiry",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 146,
+      "text": "The commission investigator has sent a formal conduct inquiry and a supporting written account, asking you for a response. No finding or deadline has been established.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 150,
+      "text": "Acknowledge receipt and ask to review the account with counsel",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 152,
+      "text": "I have received the inquiry and would like to review the supporting account with counsel.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 154,
+      "text": "Prepare questions for counsel about the received inquiry",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 158,
+      "text": "Request a confidential conversation",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 160,
+      "text": "I would like a confidential conversation about the inquiry received.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-content.ts",
+      "enclosingSymbol": "JUDICIAL_OFFICE_CONTENT",
+      "line": 162,
+      "text": "Prepare questions about the received inquiry",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "JUDICIAL_CUSTOM_START_NOTICE",
+      "line": 23,
+      "text": "Fictional judicial office practice. This start establishes a workplace and working relationships, not an election, appointment, legal term, or authority to decide cases.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 137,
+      "text": "Judicial office principal",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 163,
+      "text": "Explicit fictional judicial office practice premise",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 173,
+      "text": "Judicial office",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 174,
+      "text": "Custom Start",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 178,
+      "text": "Start with fictional judicial office practice",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "enclosingSymbol": "initializeJudicialOfficePractice",
+      "line": 190,
+      "text": "Custom office start failed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "rolesFor",
+      "line": 116,
+      "text": "This workflow requires additional court mechanics.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "rolesFor",
+      "line": 161,
+      "text": "Missing active {requirement.roleKey} relationship{requirement.kind===\"shared-household\"?\"andsharedmaritalhousehold\":\"\"}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "receiveJudicialOfficeWork",
+      "line": 233,
+      "text": "No active judicial office role at this court.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "receiveJudicialOfficeWork",
+      "line": 238,
+      "text": "Unknown workflow.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "receiveJudicialOfficeWork",
+      "line": 241,
+      "text": "This workflow has no supported office response.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "next",
+      "line": 274,
+      "text": "Office correspondence",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "next",
+      "line": 277,
+      "text": "Authored fictional office-practice episode; no legal finding or selection authority.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "adapted",
+      "line": 354,
+      "text": "The participants opened an office review: {content.title}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "receiveJudicialOfficeWork",
+      "line": 381,
+      "text": "Office intake could not be recorded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 450,
+      "text": "No active judicial office role at this court.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 455,
+      "text": "This office work is not available to you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 458,
+      "text": "This office review already has a response.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 462,
+      "text": "That response is not available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 474,
+      "text": "An earlier commitment must be handled first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 476,
+      "text": "The review activity is unavailable.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 492,
+      "text": "Office participants are no longer available at the response time.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 538,
+      "text": "Office review",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "respondToJudicialOfficeWork",
+      "line": 633,
+      "text": "The response could not be recorded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 711,
+      "text": "This follow-up is unavailable.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 720,
+      "text": "An earlier commitment must be handled first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 725,
+      "text": "Office participants are no longer available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 746,
+      "text": "Prepared a private follow-up note: {followUp.item.summary}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 751,
+      "text": "Office preparation",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 755,
+      "text": "Prepare a follow-up note",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-work.ts",
+      "enclosingSymbol": "completeJudicialOfficeFollowUp",
+      "line": 810,
+      "text": "The follow-up could not be completed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/simulation/legislation-scenarios.ts",
       "enclosingSymbol": "AUTHORED_MEASURE_NOTICE",
       "line": 62,
@@ -26185,30 +26865,6 @@
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/ui/CausalTraceView.tsx",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world-metrics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertWorldMetricIntegrity. Play fails closed rather than showing it.",
       "count": 2
     },
@@ -26285,6 +26941,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
@@ -26294,6 +26956,24 @@
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertUniqueId. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/world.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTags. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/CausalTraceView.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -26373,24 +27053,6 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 84
-    },
-    {
-      "sourcePath": "src/simulation/setup-questionnaire.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
@@ -26627,6 +27289,24 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/setup-questionnaire.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/policy-semantics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePolicyProvenance. Play fails closed rather than showing it.",
@@ -26711,12 +27391,6 @@
       "count": 8
     },
     {
-      "sourcePath": "src/simulation/policy-decision.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 8
-    },
-    {
       "sourcePath": "src/simulation/person-foundation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -26727,12 +27401,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 9
-    },
-    {
-      "sourcePath": "src/simulation/life-sources.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
     },
     {
       "sourcePath": "src/simulation/perception.ts",
@@ -26759,10 +27427,10 @@
       "count": 19
     },
     {
-      "sourcePath": "src/simulation/names-data.ts",
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/municipal-election-rules.ts",
@@ -26819,6 +27487,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
@@ -26839,13 +27513,13 @@
     {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/names-data.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -26900,12 +27574,6 @@
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/municipal-election-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27017,16 +27685,10 @@
       "count": 81
     },
     {
-      "sourcePath": "src/simulation/life-queries.ts",
+      "sourcePath": "src/simulation/life-sources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/life-places.ts",
@@ -27050,6 +27712,12 @@
       "sourcePath": "src/simulation/life-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateLoadResolution. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/life-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27095,6 +27763,18 @@
       "count": 8
     },
     {
+      "sourcePath": "src/simulation/policy-decision.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 17
+    },
+    {
       "sourcePath": "src/simulation/life-content-92c.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27111,30 +27791,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertRulePackIntegrity. Play fails closed rather than showing it.",
       "count": 30
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/legislature-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislature-rules.ts",
@@ -27173,6 +27829,36 @@
       "count": 46
     },
     {
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertThresholdRule. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/legislation.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27183,18 +27869,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
-    },
-    {
-      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 20
-    },
-    {
-      "sourcePath": "src/simulation/legislation-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/legislation-integrity.ts",
@@ -27209,10 +27883,28 @@
       "count": 17
     },
     {
-      "sourcePath": "src/simulation/life-content-92c.ts",
+      "sourcePath": "src/simulation/judicial-office-work.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
+    },
+    {
+      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/judicial-office-start.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 17
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/judicial-gameplay-kernels.ts",
@@ -27251,13 +27943,25 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislation.ts",
+      "sourcePath": "src/simulation/judicial-office-work.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislative-member-decisions.ts",
+      "sourcePath": "src/simulation/legislation-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-callbacks.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -27416,6 +28120,12 @@
       "sourcePath": "src/simulation/future-transitions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertHistoryIdentity. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/future-transitions.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27591,24 +28301,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 64
-    },
-    {
-      "sourcePath": "src/simulation/canonical-json.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Serialization machinery.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/causal-effects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/canonical-json.test.ts",
@@ -27923,16 +28615,28 @@
       "count": 2
     },
     {
+      "sourcePath": "src/simulation/canonical-json.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Serialization machinery.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/causal-effects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertCausalEffectIntegrity. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/production-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 21
-    },
-    {
-      "sourcePath": "src/presentation/formative-context.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 27
     },
     {
       "sourcePath": "src/presentation/production-release-boundary.test.ts",
@@ -28049,6 +28753,12 @@
       "count": 91
     },
     {
+      "sourcePath": "src/presentation/legislative-bargaining.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
+    },
+    {
       "sourcePath": "src/presentation/legislative-bargaining.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28067,13 +28777,13 @@
       "count": 13
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
+      "sourcePath": "src/presentation/legislative-bargaining-no-fixture.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 5
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining.ts",
+      "sourcePath": "src/presentation/legislative-bargaining-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 4
@@ -28115,12 +28825,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -28130,12 +28834,6 @@
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/presentation/legislative-bargaining-no-fixture.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 5
     },
     {
@@ -28163,18 +28861,6 @@
       "count": 5
     },
     {
-      "sourcePath": "src/presentation/legislation-session.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 10
-    },
-    {
       "sourcePath": "src/presentation/legislation-routes.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28193,6 +28879,24 @@
       "count": 35
     },
     {
+      "sourcePath": "src/presentation/judicial-office.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislation-session.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/presentation/legislative-bargaining-brief.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 3
+    },
+    {
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateGarmentFitBank. Play fails closed rather than showing it.",
@@ -28208,6 +28912,12 @@
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in checkTranslate. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/judicial-office.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 2
     },
     {
@@ -28239,6 +28949,18 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 7
+    },
+    {
+      "sourcePath": "src/presentation/formative-context.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 27
+    },
+    {
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/conversation-consequences.ts",
@@ -28526,12 +29248,6 @@
       "sourcePath": "src/content/content-registry.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/future-transitions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {

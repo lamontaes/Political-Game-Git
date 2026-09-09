@@ -68,3 +68,23 @@ is `jud-work2-feature-proof`; the production feature panel has no save store of
 its own. The test uses actual BrowserSaveStore save/reload, canonical people,
 pointer and keyboard controls, and read-purity assertions. Passing this proof
 cannot certify that UI-core has adopted the normal-player patch.
+
+## Shared corpus count landing note
+
+The PR includes the mechanical two-pin correction in
+`scripts/prose-corpus/corpus.test.ts`. The unchanged scanner measures 52,167
+literals, 1,914 inventoried entries and 347 files on this feature tree. The base
+pinned 51,732 literals and 340 files before the seven production files were added.
+The exact assertions, membership, anchors and source chronology are preserved.
+The existing `corpus:prose` command also regenerated its four changed derived
+artifacts (coverage report/candidates, README and review-packet head stamp);
+no allocation ledger, anchor sidecar or inventoried template changed.
+UI-CORE-RELEASE, as the serial landing integrator, must re-measure the combined
+landing tree if other feature files have landed; never choose one branch's old
+counts to resolve a conflict.
+
+Measurement: import `buildProseInventory` from `scripts/prose-corpus/inventory.ts`
+and pass it to `buildCoverageReport` from `scripts/prose-corpus/coverage.ts`; read
+`totalLiterals`, `counts.INVENTORIED` and `scannedFiles`. Neither function writes.
+The first full-suite count failure is retained in the delivery evidence; the
+mechanical correction is validated separately rather than relabeling that run.
