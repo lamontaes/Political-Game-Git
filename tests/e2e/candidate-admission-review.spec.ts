@@ -104,7 +104,9 @@ test.describe("Wave A candidate admission review", () => {
     }
     await expect(
       page.getByTestId("candidate-review-diagnostics"),
-    ).toContainText("The garment has never been authored for this morphology");
+    ).toContainText(
+      "Compatibility is undeclared in this library; this does not establish missing pixels",
+    );
   });
 
   test("still finishes a banked pg body in the same surface", async ({

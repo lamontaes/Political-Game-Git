@@ -1,10 +1,12 @@
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
+import wardrobeReport from "../../art/qa/p95-wave-a-morphology/wave-a-wardrobe-report.json";
 import admissionReport from "../../art/qa/p95-wave-a-morphology/wave-a-admission-report.json";
 import {
   admittedCandidateBodies,
   composeCandidateReviewSubject,
   WAVE_A_ADMITTED_ASSET_IDS,
+  WAVE_A_WARDROBE_RECORDS,
   CANDIDATE_REVIEW_FLOOR_Y_PERCENT,
   CANDIDATE_REVIEW_PLATE,
   WAVE_A_REVIEW_CHARACTER_LIBRARY,
@@ -61,6 +63,9 @@ interface ReportRow {
 }
 
 const reportRows = admissionReport.candidates as readonly ReportRow[];
+const derivedIds = new Set(
+  WAVE_A_WARDROBE_RECORDS.map((record) => record.asset_id),
+);
 
 function ReviewStage({
   subject,
@@ -145,7 +150,11 @@ function SlotTable({ subject }: { readonly subject: CandidateReviewSubject }) {
                 "—"
               )}
             </td>
-            <td>{slot.refusal ?? "—"}</td>
+            <td>
+              {slot.paintedByBody
+                ? "Painted by body (not a face acceptance)"
+                : (slot.refusal ?? "—")}
+            </td>
           </tr>
         ))}
       </tbody>
@@ -160,6 +169,10 @@ export function CandidateAdmissionReview() {
   );
   const [debugAnchors, setDebugAnchors] = useState(false);
   const [repeatKey, setRepeatKey] = useState(0);
+  const [variationOffset, setVariationOffset] = useState(0);
+  const [wardrobeFamilies, setWardrobeFamilies] = useState<
+    Partial<Record<"top" | "bottom" | "footwear", readonly string[]>>
+  >({});
 
   const subject = useMemo(() => {
     if (!selected) return null;
@@ -169,9 +182,14 @@ export function CandidateAdmissionReview() {
       library: WAVE_A_REVIEW_CHARACTER_LIBRARY,
       visualLibrary: WAVE_A_REVIEW_VISUAL_LIBRARY,
       bodyAssetId: body.assetId,
+      variationOffset,
+      wardrobe: {
+        id: "candidate-selected-wardrobe-v1",
+        families: wardrobeFamilies,
+      },
       plate: CANDIDATE_REVIEW_PLATE,
     });
-  }, [bodies, selected]);
+  }, [bodies, selected, variationOffset, wardrobeFamilies]);
 
   /**
    * Identity continuity, shown rather than asserted: the same body composed a
@@ -186,12 +204,22 @@ export function CandidateAdmissionReview() {
       library: WAVE_A_REVIEW_CHARACTER_LIBRARY,
       visualLibrary: WAVE_A_REVIEW_VISUAL_LIBRARY,
       bodyAssetId: body.assetId,
+      appearance: subject.appearance,
+      wardrobe: {
+        id: "candidate-selected-wardrobe-v1",
+        families: wardrobeFamilies,
+      },
       plate: CANDIDATE_REVIEW_PLATE,
     });
     const elsewhere = composeCandidateReviewSubject({
       library: WAVE_A_REVIEW_CHARACTER_LIBRARY,
       visualLibrary: WAVE_A_REVIEW_VISUAL_LIBRARY,
       bodyAssetId: body.assetId,
+      appearance: subject.appearance,
+      wardrobe: {
+        id: "candidate-selected-wardrobe-v1",
+        families: wardrobeFamilies,
+      },
       plate: CANDIDATE_REVIEW_PLATE,
       xPercent: 78,
       anchorId: "review-anchor-far",
@@ -199,7 +227,7 @@ export function CandidateAdmissionReview() {
     return { again, elsewhere };
     // `repeatKey` is a deliberate dependency: the Recompose button exists to
     // prove a fresh composition lands on the same identity.
-  }, [bodies, selected, subject, repeatKey]);
+  }, [bodies, selected, subject, repeatKey, wardrobeFamilies]);
 
   const selectedRow = reportRows.find((row) => row.assetId === selected);
 
@@ -228,13 +256,19 @@ export function CandidateAdmissionReview() {
         <select
           data-testid="candidate-review-body-select"
           value={selected}
-          onChange={(event) => setSelected(event.target.value)}
+          onChange={(event) => {
+            setSelected(event.target.value);
+            setVariationOffset(0);
+            setWardrobeFamilies({});
+          }}
         >
           {bodies.map((body) => (
             <option key={body.assetId} value={body.assetId}>
               {WAVE_A_ADMITTED_ASSET_IDS.has(body.assetId)
                 ? "Wave A"
-                : "banked pg"}{" "}
+                : derivedIds.has(body.assetId)
+                  ? "Wave A normalized candidate"
+                  : "banked pg"}{" "}
               · {body.family} · {body.poseFamily} · {body.assetId}
             </option>
           ))}
@@ -257,6 +291,60 @@ export function CandidateAdmissionReview() {
       </button>
       {subject ? (
         <>
+          <fieldset>
+            <legend>Candidate combinations (unapproved)</legend>
+            <label>
+              Identity search offset{" "}
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={variationOffset}
+                onChange={(event) =>
+                  setVariationOffset(
+                    Math.max(0, Math.floor(Number(event.target.value) || 0)),
+                  )
+                }
+              />
+            </label>
+            {(["top", "bottom", "footwear"] as const).map((kind) => {
+              const slot = subject.review.slots.find(
+                (slot) => slot.kind === kind,
+              );
+              const families = [
+                ...new Set(
+                  (slot?.compatible ?? []).map(
+                    (id) =>
+                      WAVE_A_REVIEW_CHARACTER_LIBRARY.components.get(id)!
+                        .definition.family,
+                  ),
+                ),
+              ].sort();
+              return (
+                <label key={kind}>
+                  {kind}{" "}
+                  <select
+                    data-testid={`candidate-select-${kind}`}
+                    value={wardrobeFamilies[kind]?.[0] ?? ""}
+                    onChange={(event) =>
+                      setWardrobeFamilies((prior) => {
+                        const next = { ...prior };
+                        if (event.target.value)
+                          next[kind] = [event.target.value];
+                        else delete next[kind];
+                        return next;
+                      })
+                    }
+                  >
+                    <option value="">Identity default</option>
+                    {families.map((family) => (
+                      <option key={family}>{family}</option>
+                    ))}
+                  </select>
+                </label>
+              );
+            })}
+          </fieldset>
           <ReviewStage subject={subject} debugAnchors={debugAnchors} />
           <dl data-testid="candidate-review-identity">
             <dt>Recipe key</dt>
@@ -282,7 +370,7 @@ export function CandidateAdmissionReview() {
               {subject.placement.basis}
               {subject.placement.note ? ` — ${subject.placement.note}` : ""}
             </dd>
-            <dt>Complete</dt>
+            <dt>Slot-complete (not face, fit, rights or style acceptance)</dt>
             <dd data-testid="candidate-review-complete">
               {String(subject.plan.complete)}
             </dd>
@@ -304,6 +392,70 @@ export function CandidateAdmissionReview() {
             </dd>
           </dl>
 
+          {derivedIds.has(selected) ? (
+            <section data-testid="candidate-fit-evidence">
+              <h3>Candidate fit evidence</h3>
+              <p>
+                49 of 68 historical garment derivatives were enlarged from small
+                masters; they are retained evidence and cannot be regenerated by
+                the corrected pipeline. The baked head contains no facial
+                features. Slot completion does not make this a finished person.
+                Rights and owner style acceptance remain unresolved.
+              </p>
+              <p>
+                {wardrobeReport.summary.within_bound}/
+                {wardrobeReport.summary.measured} representative derivatives
+                meet the reported 3% landmark residual screen. This is not the
+                accepted ease metric: framing, reference proportions, silhouette
+                bounds and attachment-row exclusions limit interpretation. A
+                failed residual does not prove missing pixels.
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Selected garment</th>
+                    <th>Representative body</th>
+                    <th>Residual</th>
+                    <th>Measurement status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subject.plan.layers
+                    .filter((layer) =>
+                      ["top", "bottom", "footwear"].includes(layer.kind),
+                    )
+                    .map((layer) => {
+                      const measured = wardrobeReport.measurements.find(
+                        (entry) => entry.garment_asset_id === layer.assetId,
+                      );
+                      return (
+                        <tr key={layer.assetId}>
+                          <td>
+                            <code>{layer.assetId}</code>
+                          </td>
+                          <td>
+                            <code>
+                              {measured?.body_asset_id ?? "not measured"}
+                            </code>
+                          </td>
+                          <td>
+                            {measured?.worst_coverage_fraction === null ||
+                            measured === undefined
+                              ? "unmeasured"
+                              : `${(measured.worst_coverage_fraction * 100).toFixed(2)}%`}
+                          </td>
+                          <td>
+                            {measured?.body_asset_id === selected
+                              ? "This body; candidate evidence only"
+                              : "Different crop in family; exact pairing unmeasured"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </section>
+          ) : null}
           <h3>Required slots and refusals</h3>
           <SlotTable subject={subject} />
 

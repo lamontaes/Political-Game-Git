@@ -359,3 +359,16 @@ Named, not glossed:
   `npm run validate`.
 - `npm run derive:wave-a-wardrobe -- --check` exists but regeneration
   determinism is not asserted by a test.
+
+---
+
+## PEOPLE1-R1 transfer recipient continuation
+
+The admission-era completion statement above applies to admission only. The R1
+partial checkpoint is preserved and continued in
+[PEOPLE1-R1 transfer](./people1-r1-transfer.md), including recovered unpublished
+merge resolutions, baked-slot/context wardrobe/consumer repairs and current
+validation evidence. Its independent evidence interpretation supersedes the
+claims above that raw residuals establish missing garment pixels. In particular,
+49 historical garment derivatives were enlarged, and the 0/68 landmark screen
+is not the accepted ease-preserving fit verdict. No bounds or approvals changed.

@@ -3,6 +3,7 @@ import {
   projectCharacterLayers,
   resolveCharacterRecipe,
   type CharacterComponentKind,
+  type CharacterWardrobeContext,
   type CharacterRecipeDiagnostic,
   type CharacterComponentLibrary,
   type CharacterRecipe,
@@ -167,6 +168,7 @@ export interface CharacterRenderPlan {
 }
 
 export interface CharacterRenderPlanRequest {
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: string;
   readonly appearance: PersonAppearance;
   readonly anchor: ModularSceneAnchor;
@@ -207,11 +209,13 @@ export function resolvePersonCharacterRecipe(
   poseFamily: string,
   library: CharacterComponentLibrary,
   unresolvableRequiredSlots?: "throw" | "diagnose",
+  wardrobe?: CharacterWardrobeContext,
 ): CharacterRecipe {
   return resolveCharacterRecipe(
     {
       appearance,
       poseFamily,
+      ...(wardrobe ? { wardrobe } : {}),
       catalogGeneration: resolvePersonCatalogGeneration(appearance, library),
       ...(unresolvableRequiredSlots ? { unresolvableRequiredSlots } : {}),
     },
@@ -241,6 +245,7 @@ export function buildCharacterRenderPlan(
     anchor.poseFamily,
     library,
     unresolvableRequiredSlots,
+    request.wardrobe,
   );
   const projected = projectCharacterLayers(recipe, library);
   const recipeKey = `${appearance.seed}@${recipe.recipeVersion}#g${recipe.catalogGeneration}:${stableIdentityKey(recipe.identity)}`;

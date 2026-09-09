@@ -80,6 +80,9 @@ import {
   openLegislativeWork,
   type LegislativeAssignment,
 } from "../presentation/legislation-world";
+import { openLegislativeBargaining } from "../presentation/legislative-bargaining-world";
+import type { LegislativeBargainingSeat } from "../presentation/legislative-bargaining-brief";
+import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { PlayerConversations } from "./PlayerConversation";
@@ -1405,6 +1408,10 @@ function PlayingScreen({
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
   );
+  const [floorSeat, setFloorSeat] = useState<LegislativeBargainingSeat | null>(
+    null,
+  );
+  const [floorNote, setFloorNote] = useState<string | null>(null);
 
   /**
    * Which secondary surface is open, and none to begin with.
@@ -1506,6 +1513,29 @@ function PlayingScreen({
     });
     setAssignment(opened.assignment);
     if (opened.world !== session.world) onWorldChange(opened.world);
+  }
+
+  /**
+   * The members' room, from normal play.
+   *
+   * The entry asks the adapter one question — does this player currently have
+   * a truthful bargaining context in their own world? — and either walks in or
+   * says plainly why not. Nothing here can reach the developer floor fixture,
+   * and losing the election never gets past the adapter's first gate.
+   */
+  function goToTheFloor() {
+    if (!assignment) return;
+    const entry = openLegislativeBargaining(session.world, {
+      playerPersonId: session.personId,
+    });
+    if (entry.kind === "unavailable") {
+      setFloorNote(entry.reason);
+      return;
+    }
+    setFloorNote(null);
+    if (entry.world !== session.world) onWorldChange(entry.world);
+    setFloorSeat(entry.seat);
+    setOpen(null);
   }
 
   return (
@@ -1660,13 +1690,44 @@ function PlayingScreen({
             {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
           {assignment ? (
-            <LegislationWorkspace
-              world={session.world}
-              assignment={assignment}
-              onWorldChange={onWorldChange}
-            />
+            <>
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="open-floor"
+                onClick={goToTheFloor}
+              >
+                Go to the members&rsquo; room
+              </button>
+              {floorNote ? (
+                <p data-testid="floor-withheld">{floorNote}</p>
+              ) : null}
+              <LegislationWorkspace
+                world={session.world}
+                assignment={assignment}
+                onWorldChange={onWorldChange}
+              />
+            </>
           ) : null}
         </LifeOverlay>
+      ) : null}
+
+      {floorSeat ? (
+        <div className="production-floor-layer" data-testid="production-floor">
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="leave-floor"
+            onClick={() => setFloorSeat(null)}
+          >
+            Put the bill down and go back
+          </button>
+          <MeasureFloorSurface
+            world={session.world}
+            seat={floorSeat}
+            onWorldChange={onWorldChange}
+          />
+        </div>
       ) : null}
     </main>
   );

@@ -34,7 +34,7 @@ const REPOSITORY_ROOT = path.resolve(
 
 async function main(): Promise<void> {
   const check = process.argv.includes("--check");
-  const result = await runWaveAWardrobeDerivation(REPOSITORY_ROOT);
+  const result = await runWaveAWardrobeDerivation(REPOSITORY_ROOT, { check });
 
   const records = [...result.bodyRecords, ...result.garmentRecords];
   const candidateErrors = validateCharacterComponentCandidates(records);
@@ -136,7 +136,12 @@ async function main(): Promise<void> {
         );
       }
     }
-    console.log("Wave A wardrobe outputs are up to date.");
+    const retained = result.garments.filter(
+      (garment) => garment.scaleX > 1 || garment.scaleY > 1,
+    ).length;
+    console.log(
+      `Wave A wardrobe metadata is up to date. ${result.bodies.length} downsampled bodies and ${result.garments.length - retained} non-enlarged garments reproduced byte-for-byte; ${retained} historical enlarged candidates checked against banked hashes only, NOT accepted or re-generated.`,
+    );
     return;
   }
 

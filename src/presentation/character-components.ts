@@ -758,6 +758,20 @@ export function validateCharacterComponentLibrary(
     }
 
     const isBody = definition.kind === "body";
+    if (
+      definition.baked_slots !== undefined &&
+      (!isBody ||
+        !Array.isArray(definition.baked_slots) ||
+        definition.baked_slots.some(
+          (kind) =>
+            kind === "body" || !CHARACTER_COMPONENT_KINDS.includes(kind),
+        ) ||
+        new Set(definition.baked_slots).size !== definition.baked_slots.length)
+    ) {
+      errors.push(
+        `${label} baked_slots must be distinct non-body component kinds on a body.`,
+      );
+    }
     if (isBody) {
       if (!isNonEmptyString(definition.pose_family)) {
         errors.push(`${label} (body) must declare 'pose_family'.`);
@@ -1303,7 +1317,16 @@ export function validateCharacterComponentLibrary(
 // Resolution
 // ---------------------------------------------------------------------------
 
+/** Presentation context supplied by a canonical activity consumer. No identity write. */
+export interface CharacterWardrobeContext {
+  readonly id: string;
+  readonly families: Partial<
+    Readonly<Record<"top" | "bottom" | "footwear", readonly string[]>>
+  >;
+}
+
 export interface CharacterRecipeRequest {
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly appearance: PersonAppearance;
   readonly poseFamily: string;
   /** Catalog generation to resolve against; defaults to the library's current. */
@@ -1874,7 +1897,7 @@ export function resolveCharacterRecipe(
           slotId: slot.slot_id,
           kind: slot.kind,
           family: bodyFamily,
-          message: `No ${slot.kind} component declares body family '${bodyFamily}' as compatible at generation ${generation}. The garment has never been authored for this morphology; nothing is stretched onto it.`,
+          message: `No ${slot.kind} component declares body family '${bodyFamily}' as compatible at generation ${generation}. Compatibility is undeclared in this library; this does not establish missing pixels.`,
         });
       }
       slots[slot.slot_id] = null;
@@ -1973,7 +1996,43 @@ export function resolveCharacterRecipe(
     const chosenBySlot = new Map<string, CharacterComponent>();
     for (const slot of library.slots) {
       if (slot.kind === "body") continue;
-      const family = slots[slot.slot_id];
+      // A baked slot is satisfied only by the body actually selected here.
+      if (
+        bakedKinds.has(slot.kind) &&
+        (body.definition.baked_slots ?? []).includes(slot.kind)
+      )
+        continue;
+      const wardrobeFamilies =
+        request.wardrobe?.families[slot.kind as "top" | "bottom" | "footwear"];
+      const wardrobeCandidates = wardrobeFamilies
+        ? available.filter(
+            (component) =>
+              component.definition.kind === slot.kind &&
+              wardrobeFamilies.includes(component.definition.family) &&
+              familyCompatibleWithIdentity(
+                component.definition,
+                bodyFamily,
+                headFamily,
+              ) &&
+              contextCompatible(
+                component.definition,
+                poseFamily,
+                headOrientation ?? "",
+                bodyFamily,
+              ),
+          )
+        : [];
+      const family = wardrobeFamilies
+        ? wardrobeCandidates.length > 0
+          ? pickFamily(
+              rng,
+              `character-wardrobe:${version}:${request.wardrobe!.id}:${slot.slot_id}`,
+              wardrobeCandidates.map(
+                (component) => component.definition.family,
+              ),
+            )
+          : null
+        : slots[slot.slot_id];
       if (!family) {
         if (slot.required) {
           diagnostics.push({

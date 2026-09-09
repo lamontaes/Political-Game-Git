@@ -13,6 +13,7 @@ import {
   type CharacterComponentLibrary,
   type CharacterComponentManifestRecord,
   type CharacterRecipe,
+  type CharacterWardrobeContext,
 } from "./character-components";
 import {
   buildCharacterRenderPlan,
@@ -222,7 +223,7 @@ export function reviewCandidateBody(
         if (ofKind.length === 0) {
           refusal = `No ${slot.kind} component exists in this review library at all.`;
         } else if (forBody.length === 0) {
-          refusal = `No ${slot.kind} declares body family '${bodyFamily}' as compatible: the art has never been drawn for this morphology.`;
+          refusal = `No ${slot.kind} declares body family '${bodyFamily}' as compatible: compatibility is undeclared, not proof of missing pixels.`;
         } else if (forPose.length === 0) {
           refusal = `No ${slot.kind} for this body declares pose family '${poseFamily}'.`;
         } else if (forFacing.length === 0) {
@@ -293,8 +294,9 @@ export function findReviewAppearanceForBody(
   bodyAssetId: string,
   poseFamily: string,
   limit = 4096,
+  offset = 0,
 ): PersonAppearance | null {
-  for (let index = 0; index < limit; index += 1) {
+  for (let index = offset; index < offset + limit; index += 1) {
     const appearance = derivePersonAppearance(
       `${CANDIDATE_REVIEW_PERSON_PREFIX}-${index}`,
     );
@@ -324,6 +326,10 @@ export interface CandidateReviewSubject {
 }
 
 export function composeCandidateReviewSubject(options: {
+  readonly appearance?: PersonAppearance;
+  readonly variationOffset?: number;
+  readonly personId?: string;
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly library: CharacterComponentLibrary;
   readonly visualLibrary: RuntimeVisualLibrary;
   readonly bodyAssetId: string;
@@ -342,13 +348,18 @@ export function composeCandidateReviewSubject(options: {
     CANDIDATE_REVIEW_FLOOR_Y_PERCENT,
     options.anchorId ?? "review-anchor",
   );
-  const appearance = findReviewAppearanceForBody(
-    library,
-    bodyAssetId,
-    placement.anchor.poseFamily,
-  );
+  const appearance =
+    options.appearance ??
+    findReviewAppearanceForBody(
+      library,
+      bodyAssetId,
+      placement.anchor.poseFamily,
+      4096,
+      options.variationOffset ?? 0,
+    );
   if (!appearance) return null;
-  const personId = `${CANDIDATE_REVIEW_PERSON_PREFIX}:${bodyAssetId}`;
+  const personId =
+    options.personId ?? `${CANDIDATE_REVIEW_PERSON_PREFIX}:${bodyAssetId}`;
   const plan = buildCharacterRenderPlan({
     personId,
     appearance,
@@ -357,10 +368,12 @@ export function composeCandidateReviewSubject(options: {
     library,
     visualLibrary,
     unresolvableRequiredSlots: "diagnose",
+    wardrobe: options.wardrobe,
   });
   const recipe = resolveCharacterRecipe(
     {
       appearance,
+      wardrobe: options.wardrobe,
       poseFamily: placement.anchor.poseFamily,
       unresolvableRequiredSlots: "diagnose",
     },

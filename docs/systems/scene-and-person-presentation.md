@@ -287,3 +287,38 @@ and exits non-zero when any candidate fails.
   wide; 4608 is the absolute floor.
 - The top 20% of every landscape plate is expendable on ultrawide, and the
   outer ~15% left and right should hold nothing mandatory.
+
+## Context wardrobe and person consumers (PEOPLE1-R1)
+
+`CharacterWardrobeContext` v1 is optional presentation input: an `id` and allowed
+family lists for `top`, `bottom`, and `footwear`. It does not write a Person or
+change their identity slots, seed, recipe version, or pinned catalog generation.
+The resolver selects context components within that pin and the existing body,
+pose, facing, release, blocked-slot and fit contracts. An unavailable required
+context family fails closed. Omission reproduces the established default.
+Activity/wardrobe meaning is caller-owned; these lists do not invent an activity,
+clothing ownership, profession, demographic identity or new simulation fact.
+
+The same input reaches `buildCharacterRenderPlan`, `composeSceneCharacter`, and
+`planLifeScenePeople`. Scene capacity is the count of declared usable anchors,
+not a global three-person cap. Existing named presence placeholders may use a
+scene's declared footprint/contact with uncalibrated perspective; they do not
+claim approved body art. Real layers require complete placement and non-DEV,
+released components. No width is invented when both footprint and scene body
+width are absent.
+
+`resolvePersonPortrait` / `PersonPortrait` connect normal HUD/person consumers to
+an exact saved authored appearance seed or a complete released modular recipe.
+DEV-only recipes, missing/future catalog generations, and absent appearance stay
+placeholders. Candidate libraries are not accepted by this adapter. Full person
+illustrations in the compact portrait are not claims of a newly authored face.
+
+`baked_slots` states component kinds already painted by every body in a family.
+The context resolver must honour the selected body's declaration too; no duplicate
+head layer and no false empty-head diagnostic. A baked head's geometry is not
+proof of facial features or human acceptance. Candidate review labels structural
+completion, fit evidence, native-resolution limits and missing faces separately.
+
+For recovered derivative limitations and the distinction between raw landmark
+residuals and the accepted ease-preserving fit metric, see the
+[PEOPLE1-R1 transfer plan](../plans/active/people1-r1-transfer.md).

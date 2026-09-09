@@ -250,6 +250,26 @@ Meaningful relationship contact, visits, support, missed opportunities, and reco
 
 Time demand preserves a weekly range plus attention, concurrency, schedule rigidity, interruptibility, and optional location constraint. Life-load assessment derives qualitative pressure from active work, care, and exceptional commitments; it does not subtract all duties from 168 hours or expose a universal life score. A resolved seven-day period can trade immediate output for later fatigue or recovery. Resulting fatigue is an ordinary effective-dated Stage 4 temporary state, not a parallel subsystem or player meter. See [Core Life](docs/systems/life.md).
 
+The political layer over legislation keeps three boundaries. A measure's text
+is append-only provisions: a section changes only by a new version naming the
+one it supersedes and the adopted amendment that carried it, and integrity
+re-derives that on every snapshot, so conversation cannot legislate. A stated
+commitment records the holder, subject, stance, semantic firmness, typed
+conditions, audience, actual listeners, and words; whether it was kept is
+derived from later canonical events and never written back over the statement,
+and a conditional commitment binds in one direction only. Who a provision
+reaches is the existing typed `MetricScope` plus a beneficiary discriminant
+that requires a particularized section to name its beneficiary and its stated
+public ground; there is no `pork` flag and narrow scope is not a verdict.
+Exchange character separates ordinary policy bargaining, reciprocal support,
+coalition coordination, constituent advocacy, public-interest appeal, and
+personal inducement, and only the last means personal benefit to the
+officeholder. One simulated member's vote is derived through the existing
+decision evaluator over what is in the bill, what they have said, and who they
+have worked with — including what a pending amendment would change — while
+unmodelled seats keep authored dispositions. See
+[Legislative Politics](docs/systems/legislative-politics.md).
+
 ## Character Mind, Perception, and Decisions
 
 The shared `MindCatalog` defines extensible personality tendencies and personal values once per world. A person stores only the sparse historical records that exist for them. Tendencies use definition-specific expressions rather than forcing every characteristic into a bipolar axis. Values remain separate from political principles and policy beliefs. Goals retain one stable conceptual ID across append-only state changes.

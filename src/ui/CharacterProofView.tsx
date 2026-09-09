@@ -24,6 +24,7 @@ import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_VISUAL_LIBRARY,
 } from "../presentation/visual-integration";
+import { PersonPortrait } from "../player/PersonPortrait";
 import { CandidateAdmissionReview } from "./CandidateAdmissionReview";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
@@ -334,6 +335,23 @@ function CharacterProofWorldView() {
     initialWorld(setId),
   );
   const [debugAnchors, setDebugAnchors] = useState(false);
+  const [wardrobeMode, setWardrobeMode] = useState("identity");
+  const wardrobe =
+    wardrobeMode === "identity"
+      ? undefined
+      : {
+          id: `proof-${wardrobeMode}-v1`,
+          families: {
+            top:
+              setId === "dev"
+                ? wardrobeMode === "formal"
+                  ? ["dev-blazer-navy", "dev-g2-suit-charcoal"]
+                  : ["dev-tee-teal", "dev-g2-knit-olive"]
+                : wardrobeMode === "formal"
+                  ? ["pg-top-005"]
+                  : ["pg-top-001"],
+          },
+        };
   const [status, setStatus] = useState<string>(
     source === "restored-snapshot"
       ? "Restored the saved world snapshot from browser storage."
@@ -342,8 +360,15 @@ function CharacterProofWorldView() {
 
   const libraries = librariesFor(setId);
   const composition = useMemo(
-    () => composeCharacterProof(world, libraries.characters, libraries.visuals),
-    [world, libraries],
+    () =>
+      composeCharacterProof(
+        world,
+        libraries.characters,
+        libraries.visuals,
+        CHARACTER_PROOF_SCENE,
+        wardrobe,
+      ),
+    [world, libraries, wardrobe],
   );
   const reuse = useMemo(
     () => summarizeComponentReuse([...composition.stage, composition.side]),
@@ -388,6 +413,18 @@ function CharacterProofWorldView() {
           {SET_LINKS}
         </div>
         <div className="character-proof-controls">
+          <label>
+            Review activity wardrobe{" "}
+            <select
+              data-testid="character-proof-wardrobe"
+              value={wardrobeMode}
+              onChange={(event) => setWardrobeMode(event.target.value)}
+            >
+              <option value="identity">Saved default</option>
+              <option value="casual">Casual review</option>
+              <option value="formal">Formal review</option>
+            </select>
+          </label>
           <label>
             <input
               type="checkbox"
@@ -550,6 +587,22 @@ function CharacterProofWorldView() {
           that pose fails closed.
         </p>
         <OfficePathTable />
+        <h3>Actual dossier portrait consumer</h3>
+        {(() => {
+          const fixture = createRunBFixture();
+          return (
+            <div data-testid="people1-dossier-consumers">
+              {fixture.scenePeople.map((person) => (
+                <PersonPortrait
+                  key={person.personId}
+                  world={fixture.world}
+                  personId={person.personId}
+                  size="large"
+                />
+              ))}
+            </div>
+          );
+        })()}
       </section>
 
       <section className="character-proof-reuse">

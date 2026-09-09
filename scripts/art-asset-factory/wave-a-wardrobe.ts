@@ -21,7 +21,8 @@ import {
   GARMENT_FIT_DEFAULT_BOUNDS,
   type BodyFitReference,
 } from "../../src/presentation/garment-fit";
-import type * as PImage from "pureimage";
+import * as PImage from "pureimage";
+import { Writable } from "node:stream";
 
 import {
   PG_BODY_RUNTIME_HEIGHT,
@@ -75,6 +76,27 @@ import { resampleLanczos } from "./resample";
  * measured residual of every derivative is reported beside it — including the
  * ones that miss, and by how many pixels.
  */
+
+/** Check mode verifies deterministic encoded bytes without repairing its own input. */
+export async function writeOrCheckWardrobePng(
+  file: string,
+  bitmap: PImage.Bitmap,
+  check: boolean,
+): Promise<void> {
+  if (!check) return writePng(file, bitmap);
+  const chunks: Buffer[] = [];
+  const stream = new Writable({
+    write(chunk, _encoding, done) {
+      chunks.push(Buffer.from(chunk));
+      done();
+    },
+  });
+  await PImage.encodePNGToStream(bitmap, stream);
+  const expected = Buffer.concat(chunks);
+  if (!fs.existsSync(file) || !fs.readFileSync(file).equals(expected)) {
+    throw new Error(`Wardrobe raster is out of date: ${file}`);
+  }
+}
 
 export const WAVE_A_WARDROBE_VERSION = "wave-a-wardrobe-v1";
 
@@ -380,6 +402,7 @@ export async function deriveRuntimeBody(
   repositoryRoot: string,
   record: CharacterComponentManifestRecord,
   outputDirectory = WAVE_A_RUNTIME_BODY_DIRECTORY,
+  check = false,
 ): Promise<RuntimeBody> {
   const definition = record.candidate_component!;
   const sourcePath = record.final_path!;
@@ -402,7 +425,11 @@ export async function deriveRuntimeBody(
   const assetId = `${record.asset_id}_rt${PG_BODY_RUNTIME_HEIGHT}`;
   const runtimeFamily = `${definition.family}-rt${PG_BODY_RUNTIME_HEIGHT}`;
   const repositoryPath = `${outputDirectory}/${assetId}.png`;
-  await writePng(path.join(repositoryRoot, repositoryPath), bitmap);
+  await writeOrCheckWardrobePng(
+    path.join(repositoryRoot, repositoryPath),
+    bitmap,
+    check,
+  );
   return {
     admittedAssetId: record.asset_id,
     assetId,
@@ -542,6 +569,7 @@ export async function deriveGarment(
   body: RuntimeBody,
   proportion: number,
   outputDirectory = WAVE_A_WARDROBE_DIRECTORY,
+  check = false,
 ): Promise<DerivedGarment> {
   const masterRepositoryPath = `${PG_MASTER_SOURCE_DIRECTORY}/${spec.masterFile}`;
   const masterPath = path.join(repositoryRoot, masterRepositoryPath);
@@ -569,7 +597,20 @@ export async function deriveGarment(
 
   const width = Math.max(1, Math.round(cropped.width * scaleX));
   const height = Math.max(1, Math.round(cropped.height * scaleY));
-  const runtime = resampleLanczos(cropped, width, height, PG_LANCZOS_LOBES);
+  if (
+    !Number.isFinite(scaleX) ||
+    !Number.isFinite(scaleY) ||
+    scaleX <= 0 ||
+    scaleY <= 0
+  ) {
+    throw new Error(`Garment '${spec.idStem}' has invalid dimensions.`);
+  }
+  const enlarges = width > cropped.width || height > cropped.height;
+  if (enlarges && !check) {
+    throw new Error(
+      `Garment '${spec.idStem}' requires enlargement; recover a sufficient native source before deriving new pixels.`,
+    );
+  }
 
   // The pose is part of the id because a morphology can be admitted in more
   // than one pose and a garment is derived per pose: `skinny-woman` has both a
@@ -577,7 +618,33 @@ export async function deriveGarment(
   // for one name.
   const assetId = `${spec.idStem}_${body.family.replace(/-/g, "_")}_${body.poseFamily.replace(/-/g, "_")}_v1`;
   const repositoryPath = `${outputDirectory}/${assetId}.png`;
-  await writePng(path.join(repositoryRoot, repositoryPath), runtime);
+  if (enlarges) {
+    // Historical R1 outputs remain evidence, not reproducible admissible tiers.
+    // Verify their banked hash without generating another enlarged raster.
+    const bank = JSON.parse(
+      fs.readFileSync(
+        path.join(repositoryRoot, WAVE_A_WARDROBE_REGISTRY_PATH),
+        "utf8",
+      ),
+    ) as { assets: CharacterComponentManifestRecord[] };
+    const retained = bank.assets.find((record) => record.asset_id === assetId);
+    if (
+      !retained ||
+      retained.final_path !== repositoryPath ||
+      hashArtFile(path.join(repositoryRoot, repositoryPath)) !== retained.hash
+    ) {
+      throw new Error(
+        `Retained enlarged candidate is missing or changed: ${assetId}`,
+      );
+    }
+  } else {
+    const runtime = resampleLanczos(cropped, width, height, PG_LANCZOS_LOBES);
+    await writeOrCheckWardrobePng(
+      path.join(repositoryRoot, repositoryPath),
+      runtime,
+      check,
+    );
+  }
 
   const definition: CharacterComponentCandidateDefinition = {
     kind: spec.kind,
@@ -1003,6 +1070,7 @@ export function kindsForPose(poseFamily: string): {
 
 export async function runWaveAWardrobeDerivation(
   repositoryRoot: string,
+  options: { readonly check?: boolean } = {},
 ): Promise<WaveAWardrobeResult> {
   const admitted = JSON.parse(
     fs.readFileSync(
@@ -1084,7 +1152,14 @@ export async function runWaveAWardrobeDerivation(
   for (const record of [...admitted.assets].sort((a, b) =>
     a.asset_id < b.asset_id ? -1 : 1,
   )) {
-    bodies.push(await deriveRuntimeBody(repositoryRoot, record));
+    bodies.push(
+      await deriveRuntimeBody(
+        repositoryRoot,
+        record,
+        WAVE_A_RUNTIME_BODY_DIRECTORY,
+        options.check ?? false,
+      ),
+    );
   }
 
   const bodyRecords = bodies.map((body) =>
@@ -1125,6 +1200,8 @@ export async function runWaveAWardrobeDerivation(
         spec,
         body,
         proportion,
+        WAVE_A_WARDROBE_DIRECTORY,
+        options.check ?? false,
       );
       garments.push(garment);
 

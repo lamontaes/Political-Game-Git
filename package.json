@@ -53,7 +53,7 @@
     "fixtures:garment-fit": "node --import tsx scripts/art-asset-factory/cli-garment-fit-fixtures.ts",
     "derive:garment-fit": "node --import tsx scripts/art-asset-factory/cli-garment-fit.ts",
     "intake:pg-modular": "node --import tsx scripts/art-asset-factory/cli-pg-modular-intake.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",
     "stress:persons": "node --import tsx src/cli/stress-persons.ts",
