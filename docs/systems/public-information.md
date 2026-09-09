@@ -91,19 +91,32 @@ ground rules and anonymous-source explanation and Reuters' published standards:
 
 ## Arranged press exchanges
 
-NEWS-PRESS4 adds no parallel press database. A source's request must already be
-an exact `ClaimRecord` made to the actual reporter in a canonical conversation
-event. Arrangement then appends an ordinary limited event, a fixed scheduled
-activity, and one preparation work item assigned to an actual current colleague.
-The reporter must be an existing person with a current journalism role. Every
-question basis must be an existing non-future event that the reporter learned
-or that was actually published.
+NEWS-PRESS4 adds no parallel press database. NEWS-PRODUCERS6 supplies the normal
+writer in front of that accepted loop. `projectEligiblePressReporters` reads
+existing people, current journalism work roles, and actual reporter knowledge;
+it creates nothing. `recordPressRequest` appends the source's limited request,
+exact pitch claim, direct knowledge and ordinary contact interaction. A
+separate `recordPressRequestResponse` records the requested reporter's own
+acceptance or refusal. No response or a refusal cannot arrange an interview.
+
+`projectEligiblePressAdvisers` reads only current colleagues who share the
+source's actual organization. Family or household status grants no staff role
+or willingness. A separate `recordPressAdviserResponse` records that person's
+acceptance or refusal. Only two accepted responses let
+`arrangeAcceptedPressInterview` delegate to the existing arrangement writer,
+which appends the limited arrangement event, fixed scheduled activity and one
+preparation work item assigned to that adviser. Every question basis remains
+an existing non-future event that the reporter learned or that was actually
+published. The request retains the selected written/spoken channel, terms,
+background attribution, exact pitch, question and basis IDs.
 
 Preparation is recorded only after the assigned work item is ready for review.
-Known facts, likely follow-ups, and response options remain the named adviser's
-fallible guidance. Interactive and condensed presentation routes write the same
-event shapes; condensed play is explicitly neither refusal nor an outcome
-modifier.
+Its fact list is derived from named `EventKnowledgeRecord` IDs owned by the
+assigned adviser, including each record's fallible believed summary rather than
+an omniscient read of event truth. Likely follow-ups and response options remain
+that adviser's guidance. Interactive and condensed presentation routes write
+the same event shapes; condensed play is explicitly neither refusal nor an
+outcome modifier.
 
 The source chooses an intent and reviews consequential wording. A claim is
 written only after the confirmed text exactly matches that displayed wording.
@@ -115,8 +128,10 @@ on-record or on-background story becomes public only through an explicit
 `press.story-published` event followed by the existing `publishPublicEvent`
 writer. On-background copy exposes only the negotiated attribution descriptor;
 off-record material has no interview-publication path. Later adviser feedback
-requires the actual saved publication and is stored as an expressly fallible
-claim, never as polling, sentiment, causal effect, or omniscient reception.
+requires the actual saved publication. The explicit feedback producer first
+records that the assigned adviser learned that story from its canonical
+publication, then stores the interpretation as an expressly fallible claim,
+never as polling, sentiment, causal effect, or omniscient reception.
 
 ## Integration adapters
 
@@ -132,6 +147,13 @@ claim, never as polling, sentiment, causal effect, or omniscient reception.
   and render the feature-local `PressInterviewPanel` with the existing person
   route and canonical action callbacks. UI-core remains the only global root
   and placement owner.
+- **UI-core producer handoff:** use `projectEligiblePressReporters` and
+  `projectEligiblePressAdvisers` for choices; call `recordPressRequest`,
+  `recordPressRequestResponse`, `recordPressAdviserResponse`,
+  `arrangeAcceptedPressInterview`, `producePressPreparation`, and
+  `producePressAdviserFeedback` only from explicit actions. The already-mounted
+  panel consumes the resulting saved arrangement through the existing
+  projection; NEWS adds no second panel or publisher.
 
 ## Deliberate limits
 

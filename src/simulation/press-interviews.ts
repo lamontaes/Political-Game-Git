@@ -87,7 +87,8 @@ export interface RecordPressPreparationInput {
   readonly stableKey: string;
   readonly activityId: EntityId;
   readonly adviserPersonId: EntityId;
-  readonly knownFacts: readonly string[];
+  /** Existing knowledge records held by the assigned adviser. */
+  readonly sourceKnowledgeIds: readonly EntityId[];
   readonly likelyFollowUps: readonly string[];
   readonly responseOptions: readonly string[];
 }
@@ -117,6 +118,8 @@ export interface RecordPressAdviserFeedbackInput {
   readonly stableKey: string;
   readonly activityId: EntityId;
   readonly adviserPersonId: EntityId;
+  /** Media knowledge proving this adviser has actually reviewed the story. */
+  readonly publicationKnowledgeId: EntityId;
   /** An adviser's interpretation, not an objective reception or poll result. */
   readonly interpretation: string;
 }
@@ -164,6 +167,17 @@ export function arrangePressInterview(
   const subjectPersonId = controlledPersonId(world);
   requirePerson(world, input.reporterPersonId, "reporter");
   requirePerson(world, input.adviserPersonId, "adviser");
+  if (input.reporterPersonId === subjectPersonId) {
+    throw new Error("A press source cannot also be the reporter.");
+  }
+  if (
+    input.adviserPersonId === subjectPersonId ||
+    input.adviserPersonId === input.reporterPersonId
+  ) {
+    throw new Error(
+      "A press adviser must be a separate person from the source and reporter.",
+    );
+  }
   requireText(input.stableKey, "Press arrangement stable key");
   requireText(input.pitch, "Press pitch");
   requireText(input.primaryQuestion, "Press question");
@@ -344,7 +358,31 @@ export function recordPressPreparation(
   if (!state.assignedPersonIds.includes(input.adviserPersonId)) {
     throw new Error("Press preparation has no actual assigned adviser.");
   }
-  const knownFacts = requireTextList(input.knownFacts, "Known press facts");
+  const knowledgeIds = canonicalIds(input.sourceKnowledgeIds);
+  if (knowledgeIds.length === 0) {
+    throw new Error("Press preparation requires actual adviser knowledge.");
+  }
+  const knownFacts = knowledgeIds.map((knowledgeId) => {
+    const knowledge = world.history.knowledge.find(
+      (candidate) => candidate.id === knowledgeId,
+    );
+    if (
+      !knowledge ||
+      knowledge.personId !== input.adviserPersonId ||
+      knowledge.learnedAt > world.currentDate
+    ) {
+      throw new Error(
+        "Press preparation may use only the assigned adviser's current knowledge.",
+      );
+    }
+    const event = world.history.events.find(
+      (candidate) => candidate.id === knowledge.eventId,
+    );
+    if (!event || event.occurredAt > world.currentDate) {
+      throw new Error("Press preparation cannot use a future or missing fact.");
+    }
+    return knowledge.believedSummary.trim();
+  });
   const likelyFollowUps = requireTextList(
     input.likelyFollowUps,
     "Likely press follow-ups",
@@ -379,7 +417,11 @@ export function recordPressPreparation(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: [PRESS_TAG, "press.preparation"],
+    tags: [
+      PRESS_TAG,
+      "press.preparation",
+      ...knowledgeIds.map((id) => `press.knowledge:${id}`),
+    ],
     summary: "The assigned adviser prepared the arranged interview.",
     context: {
       location: press.arrangement.context.location,
@@ -685,6 +727,21 @@ export function recordPressAdviserFeedback(
   );
   if (!publication) {
     throw new Error("Press feedback requires an actual saved publication.");
+  }
+  const publicationKnowledge = world.history.knowledge.find(
+    (candidate) => candidate.id === input.publicationKnowledgeId,
+  );
+  if (
+    !publicationKnowledge ||
+    publicationKnowledge.personId !== input.adviserPersonId ||
+    publicationKnowledge.eventId !== story.id ||
+    publicationKnowledge.learnedAt > world.currentDate ||
+    publicationKnowledge.source.kind !== "media" ||
+    publicationKnowledge.source.reference !== publication.id
+  ) {
+    throw new Error(
+      "Press feedback requires the assigned adviser's knowledge of this publication.",
+    );
   }
   requireText(input.interpretation, "Adviser interpretation");
   let next = recordWorldEvent(world, {

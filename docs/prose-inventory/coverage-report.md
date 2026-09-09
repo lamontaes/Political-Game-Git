@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2297 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5489 |
-| DIAGNOSTIC_OR_TEST | 4453 |
-| **NEEDS_CLASSIFICATION** | **5724** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5515 |
+| DIAGNOSTIC_OR_TEST | 4494 |
+| **NEEDS_CLASSIFICATION** | **5761** |
 
-Scanned 499 files holding 67031 string
+Scanned 501 files holding 67347 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,7 +42,7 @@ literals in total; the table counts only those that read like a sentence.
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
-| 62 | `src/simulation/press-interviews.ts` |
+| 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
@@ -66,6 +66,7 @@ literals in total; the table counts only those that read like a sentence.
 | 38 | `src/simulation/life-episodes.ts` |
 | 37 | `src/presentation/scene-consumers.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
+| 36 | `src/simulation/press-interview-producers.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/person-stress-harness.ts` |
@@ -172,6 +173,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
+| 7 | `src/player/PressWorkspace.tsx` |
 | 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
@@ -202,7 +204,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
-| 5 | `src/player/PressWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
 | 5 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |

@@ -104,3 +104,37 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   await goTo(page, "nav-news");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
 });
+
+test("opening the normal press request form creates no request or consent", async ({
+  page,
+}) => {
+  await page.goto("/?seed=ui-news-producers-read");
+  await startLife(page, { age: 34, route: "normal" });
+  await enterLife(page);
+  await save(page);
+  const before = await savedWorld(page);
+  await goTo(page, "nav-news");
+  const form = page.getByTestId("press-request-form");
+  await form.locator("summary").press("Enter");
+  await expect(form).toHaveAttribute("open", "");
+  await expect(
+    form.getByRole("button", { name: "Send request" }),
+  ).toBeDisabled();
+  await expect(
+    form.getByLabel("Reporter", { exact: true }).locator("option"),
+  ).toHaveCount(1);
+  await form
+    .getByLabel("Your pitch")
+    .fill("A question about a published story.");
+  await expect(
+    form.getByRole("button", { name: "Send request" }),
+  ).toBeDisabled();
+  await form.locator("summary").click();
+  await save(page);
+  expect(await savedWorld(page)).toEqual(before);
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await save(page);
+  expect(await savedWorld(page)).toEqual(before);
+});

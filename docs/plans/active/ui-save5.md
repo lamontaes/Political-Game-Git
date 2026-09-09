@@ -116,3 +116,21 @@ helper, assertion and default timeout remain unchanged. No runtime change.
 Donor final149dd76e3962be2b8a2481e942827c43f4fd3d56 banks sourcecaed975 proof;
 its normal2/2 remains attributed to UI1119e890, not this newer composition.
 Current UI browser execution of the split cases remains pending final gates.
+
+## NEWS-PRODUCERS6 consumption
+
+Consumed exact source commit5453926d68fe21aeb0193737f858d7fc21c9ac1a against
+its immediate parent: producer module/tests, stricter adviser knowledge and
+feedback references, exports and feature contract. Existing Press panel and
+single legislative publisher preserved. Existing PressWorkspace now offers a
+player-authored request using only published topic IDs and the domain's actual
+eligible reporter/work-role projection. Request writes use the canonical World
+callback; reads and form drafts create no request/consent. Typecheck passes;
+added normal read/no-eligible-reporter/save/reload browser control is not yet run.
+
+Remaining NPC-agency seam is explicitly requested from NEWS: response writers
+still require caller-supplied acceptance and statement; preparation/feedback
+require caller-supplied follow-ups/options/interpretation. UI does not let the
+source invent another person's consent or adviser text. Existing arranged-panel
+callbacks remain; full request-to-feedback normal acceptance is pending that
+feature-owned producer/interaction contract and combined browser proof.
