@@ -1,0 +1,557 @@
+[WebServer] (node:32375) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:32378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 18 tests using 1 worker
+
+(node:32577) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/18] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+  1) [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable 
+
+    Error: page.evaluate: VersionError: The requested version (1) is less than the existing version (2).
+
+      87 |   await freshPage(page);
+      88 |
+    > 89 |   const result = await page.evaluate(async (setup: Harness) => {
+         |                             ^
+      90 |     const repository = (await import(
+      91 |       /* @vite-ignore */ setup.repositoryPath
+      92 |     )) as RepositoryLike;
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/persistence-cross-tab.spec.ts:89:29
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/persistence-cross-tab-only-fca4e-own-divergent-world-durable-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/persistence-cross-tab-only-fca4e-own-divergent-world-durable-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/persistence-cross-tab-only-fca4e-own-divergent-world-durable-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/persistence-cross-tab-only-fca4e-own-divergent-world-durable-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:32670) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/18] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[3/18] [chromium] › tests/e2e/production-play.spec.ts:108:3 › Opening the game opens a game › starts a life from the title screen and shows that life
+[4/18] [chromium] › tests/e2e/production-play.spec.ts:124:3 › Opening the game opens a game › gives three cold boots three different people
+[5/18] [chromium] › tests/e2e/production-play.spec.ts:138:3 › Opening the game opens a game › rebuilds the exact world from a replay address
+[6/18] [chromium] › tests/e2e/production-play.spec.ts:162:3 › A new life is not a renamed fixture › shows a child no adult work, office or developer vocabulary
+[7/18] [chromium] › tests/e2e/production-play.spec.ts:174:3 › A new life is not a renamed fixture › shows an ordinary adult no political surfaces, and no explanation of why
+[8/18] [chromium] › tests/e2e/production-play.spec.ts:197:3 › A new life is not a renamed fixture › gives a staffer the legislature they work in, and no other
+[9/18] [chromium] › tests/e2e/production-play.spec.ts:218:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one
+  2) [chromium] › tests/e2e/production-play.spec.ts:218:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:225:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:33408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/18] [chromium] › tests/e2e/production-play.spec.ts:238:3 › A life is kept, and comes back › keeps two lives apart in the saved games list
+  3) [chromium] › tests/e2e/production-play.spec.ts:238:3 › A life is kept, and comes back › keeps two lives apart in the saved games list 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:241:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--0e962-art-in-the-saved-games-list-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--0e962-art-in-the-saved-games-list-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--0e962-art-in-the-saved-games-list-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--0e962-art-in-the-saved-games-list-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:33583) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/18] [chromium] › tests/e2e/production-play.spec.ts:252:3 › A life is kept, and comes back › deletes a save and does not bring it back
+  4) [chromium] › tests/e2e/production-play.spec.ts:252:3 › A life is kept, and comes back › deletes a save and does not bring it back 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:255:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--267aa--and-does-not-bring-it-back-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--267aa--and-does-not-bring-it-back-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--267aa--and-does-not-bring-it-back-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--267aa--and-does-not-bring-it-back-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:33736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/18] [chromium] › tests/e2e/production-play.spec.ts:272:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one
+  5) [chromium] › tests/e2e/production-play.spec.ts:272:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:275:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--134b4-isible-beside-a-damaged-one-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--134b4-isible-beside-a-damaged-one-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--134b4-isible-beside-a-damaged-one-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-A-life-is--134b4-isible-beside-a-damaged-one-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:33888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/18] [chromium] › tests/e2e/production-play.spec.ts:340:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week
+  6) [chromium] › tests/e2e/production-play.spec.ts:340:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:345:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-daa6a-e-and-no-child-s-adult-week-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-daa6a-e-and-no-child-s-adult-week-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-daa6a-e-and-no-child-s-adult-week-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-daa6a-e-and-no-child-s-adult-week-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:34025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[14/18] [chromium] › tests/e2e/production-play.spec.ts:363:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting
+  7) [chromium] › tests/e2e/production-play.spec.ts:363:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:368:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-c5657-eaves-straight-after-acting-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-c5657-eaves-straight-after-acting-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-c5657-eaves-straight-after-acting-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-is-wr-c5657-eaves-straight-after-acting-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:34175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/18] [chromium] › tests/e2e/production-play.spec.ts:386:3 › What the world records, it keeps › remembers a formative choice through save and reload
+  8) [chromium] › tests/e2e/production-play.spec.ts:386:3 › What the world records, it keeps › remembers a formative choice through save and reload 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:405:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-7ac72-ice-through-save-and-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-7ac72-ice-through-save-and-reload-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-7ac72-ice-through-save-and-reload-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-7ac72-ice-through-save-and-reload-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:34322) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[16/18] [chromium] › tests/e2e/production-play.spec.ts:415:3 › What the world records, it keeps › keeps a household conversation settled after a reload
+  9) [chromium] › tests/e2e/production-play.spec.ts:415:3 › What the world records, it keeps › keeps a household conversation settled after a reload 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:439:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-26677-tion-settled-after-a-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-26677-tion-settled-after-a-reload-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-26677-tion-settled-after-a-reload-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-26677-tion-settled-after-a-reload-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:34624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[17/18] [chromium] › tests/e2e/production-play.spec.ts:453:3 › What the world records, it keeps › keeps a legislative step in the player's own save
+  10) [chromium] › tests/e2e/production-play.spec.ts:453:3 › What the world records, it keeps › keeps a legislative step in the player's own save 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:463:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-4ba18-ep-in-the-player-s-own-save-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-4ba18-ep-in-the-player-s-own-save-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-4ba18-ep-in-the-player-s-own-save-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-What-the-w-4ba18-ep-in-the-player-s-own-save-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:34788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[18/18] [chromium] › tests/e2e/production-play.spec.ts:476:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface
+  11) [chromium] › tests/e2e/production-play.spec.ts:476:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('keep-world')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('keep-world')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+       at support/creator.ts:185
+
+      183 | ): Promise<void> {
+      184 |   await openShellMenu(page);
+    > 185 |   await expect(page.getByTestId(testid)).toHaveCount(0);
+          |                                          ^
+      186 |   await page.keyboard.press("Escape");
+      187 | }
+      188 |
+        at expectNoDestination (/private/tmp/pg-ui-core-release-transfer/tests/e2e/support/creator.ts:185:42)
+        at keepAndWait (/private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:104:3)
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:492:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-Nothing-on-61541-of-every-production-surface-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-Nothing-on-61541-of-every-production-surface-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-Nothing-on-61541-of-every-production-surface-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-before/results/production-play-Nothing-on-61541-of-every-production-surface-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  11 failed
+    [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable 
+    [chromium] › tests/e2e/production-play.spec.ts:218:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one 
+    [chromium] › tests/e2e/production-play.spec.ts:238:3 › A life is kept, and comes back › keeps two lives apart in the saved games list 
+    [chromium] › tests/e2e/production-play.spec.ts:252:3 › A life is kept, and comes back › deletes a save and does not bring it back 
+    [chromium] › tests/e2e/production-play.spec.ts:272:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one 
+    [chromium] › tests/e2e/production-play.spec.ts:340:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week 
+    [chromium] › tests/e2e/production-play.spec.ts:363:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting 
+    [chromium] › tests/e2e/production-play.spec.ts:386:3 › What the world records, it keeps › remembers a formative choice through save and reload 
+    [chromium] › tests/e2e/production-play.spec.ts:415:3 › What the world records, it keeps › keeps a household conversation settled after a reload 
+    [chromium] › tests/e2e/production-play.spec.ts:453:3 › What the world records, it keeps › keeps a legislative step in the player's own save 
+    [chromium] › tests/e2e/production-play.spec.ts:476:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface 
+  7 passed (2.7m)

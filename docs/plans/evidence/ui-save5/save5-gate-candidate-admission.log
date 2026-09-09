@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 admit:wave-a-candidates
+> node --import tsx scripts/art-asset-factory/cli-wave-a-admission.ts --check
+
+Wave A admission outputs are up to date.

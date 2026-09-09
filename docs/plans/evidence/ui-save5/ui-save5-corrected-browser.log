@@ -1,0 +1,280 @@
+[WebServer] (node:66958) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:66961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 76 tests using 1 worker
+
+(node:67160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/76] [chromium] › tests/e2e/life-paths2.spec.ts:2:1 › LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof
+[2/76] [chromium] › tests/e2e/municipal-member.spec.ts:57:1 › normal saved municipal member completes work once and reloads without acquiring further authority
+[3/76] [chromium] › tests/e2e/news-press4.spec.ts:3:1 › keyboard route preserves condensed intent and exact confirmed wording
+[4/76] [chromium] › tests/e2e/news-press4.spec.ts:47:1 › terms help and typed people support touch, focus return and Escape
+[5/76] [chromium] › tests/e2e/people-visual4.spec.ts:5:1 › selected canonical candidate keeps identity across wardrobe, portrait, scene and keyboard reload
+[6/76] [chromium] › tests/e2e/people-visual4.spec.ts:141:1 › every available body can be selected and framed without changing its geometry
+[7/76] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+[8/76] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[9/76] [chromium] › tests/e2e/production-play.spec.ts:139:3 › Opening the game opens a game › starts a life from the title screen and shows that life
+[10/76] [chromium] › tests/e2e/production-play.spec.ts:155:3 › Opening the game opens a game › gives three cold boots three different people
+[11/76] [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address
+  1) [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByTestId('story-who')
+    Timeout: 5000ms
+    - Expected  - 2
+    + Received  + 1
+
+    - Dominic Arnold
+    - 24
+    + Dominic Arnold24
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByTestId('story-who')
+        14 × locator resolved to <h2 class="life-identity" data-testid="story-who">…</h2>
+           - unexpected value "Dominic Arnold24"
+
+
+      190 |     await expect(page.getByTestId("play-screen")).toBeVisible();
+      191 |     await enterLife(page);
+    > 192 |     await expect(page.getByTestId("story-who")).toHaveText(before);
+          |                                                 ^
+      193 |     await saveLife(page);
+      194 |     const replayed = await savedWorlds(page);
+      195 |     expect(replayed).toHaveLength(2);
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:192:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-Opening-th-bc1bc-world-from-a-replay-address-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-Opening-th-bc1bc-world-from-a-replay-address-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-Opening-th-bc1bc-world-from-a-replay-address-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-Opening-th-bc1bc-world-from-a-replay-address-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:67413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[12/76] [chromium] › tests/e2e/production-play.spec.ts:201:3 › A new life is not a renamed fixture › shows a child no adult work, office or developer vocabulary
+[13/76] [chromium] › tests/e2e/production-play.spec.ts:213:3 › A new life is not a renamed fixture › shows an ordinary adult no political surfaces, and no explanation of why
+[14/76] [chromium] › tests/e2e/production-play.spec.ts:236:3 › A new life is not a renamed fixture › gives a staffer the legislature they work in, and no other
+[15/76] [chromium] › tests/e2e/production-play.spec.ts:257:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one
+  2) [chromium] › tests/e2e/production-play.spec.ts:257:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByTestId('story-who')
+    Timeout: 5000ms
+    - Expected  - 2
+    + Received  + 1
+
+    - Caleb Sears
+    - 27
+    + Caleb Sears27
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByTestId('story-who')
+        14 × locator resolved to <h2 class="life-identity" data-testid="story-who">…</h2>
+           - unexpected value "Caleb Sears27"
+
+
+      271 |     // them is session chrome and is allowed to differ.
+      272 |     await enterLife(page);
+    > 273 |     await expect(page.getByTestId("story-who")).toHaveText(before);
+          |                                                 ^
+      274 |   });
+      275 |
+      276 |   test("keeps two lives apart in the saved games list", async ({ page }) => {
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/production-play.spec.ts:273:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/production-play-A-life-is--e6823--and-continues-the-same-one-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:67568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[16/76] [chromium] › tests/e2e/production-play.spec.ts:276:3 › A life is kept, and comes back › keeps two lives apart in the saved games list
+[17/76] [chromium] › tests/e2e/production-play.spec.ts:290:3 › A life is kept, and comes back › deletes a save and does not bring it back
+[18/76] [chromium] › tests/e2e/production-play.spec.ts:310:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one
+[19/76] [chromium] › tests/e2e/production-play.spec.ts:378:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week
+[20/76] [chromium] › tests/e2e/production-play.spec.ts:401:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting
+[21/76] [chromium] › tests/e2e/production-play.spec.ts:424:3 › What the world records, it keeps › remembers a formative choice through save and reload
+[22/76] [chromium] › tests/e2e/production-play.spec.ts:454:3 › What the world records, it keeps › keeps a household conversation settled after a reload
+[23/76] [chromium] › tests/e2e/production-play.spec.ts:492:3 › What the world records, it keeps › keeps a legislative step in the player's own save
+[24/76] [chromium] › tests/e2e/production-play.spec.ts:515:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface
+[25/76] [chromium] › tests/e2e/production-play.spec.ts:541:1 › initial Keep becomes repeatable Save on the same slot across changes and reload
+[26/76] [chromium] › tests/e2e/production-play.spec.ts:595:1 › two normal browser tabs refuse an older World without overwriting the newer save
+[27/76] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 reduce
+[28/76] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 no-preference
+[29/76] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 reduce
+[30/76] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 no-preference
+[31/76] [chromium] › tests/e2e/raster-readiness.spec.ts:76:1 › hook gates actual decode, retains A during resize, ignores stale completion and reuses same width
+[32/76] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial error never claims paint and a later valid tier recovers
+[33/76] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial decode-rejection never claims paint and a later valid tier recovers
+[34/76] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial unavailable never claims paint and a later valid tier recovers
+[35/76] [chromium] › tests/e2e/raster-readiness.spec.ts:167:1 › non-title production office waits for its image response
+[36/76] [chromium] › tests/e2e/raster-readiness.spec.ts:200:1 › cold and warm title paint plus resize sweep never expose an undecoded claimed tier
+[37/76] [chromium] › tests/e2e/raster-readiness.spec.ts:340:1 › decoded title A stays visible while resized B response is held
+[38/76] [chromium] › tests/e2e/raster-readiness.spec.ts:393:1 › same-width new URL waits for decode, ignores stale URL and retains decoded paint after failure
+[39/76] [chromium] › tests/e2e/ui-converge4.spec.ts:63:1 › normal Carson City citizen attends a public session and retains the real venue and World on reload
+[40/76] [chromium] › tests/e2e/ui-converge4.spec.ts:140:1 › private Journal intentions, grouped notes, real person links and history bookmarks survive reload without changing World
+[41/76] [chromium] › tests/e2e/ui-converge4.spec.ts:224:1 › title Patch notes shows every canonical section and real package version with keyboard Back
+[42/76] [chromium] › tests/e2e/ui-converge4.spec.ts:261:1 › normal county selection preserves unspecified town and exact saved jurisdiction
+[43/76] [chromium] › tests/e2e/ui-converge4.spec.ts:301:3 › normal dated economic panel respects canonical place: Lexington, Kentucky
+[44/76] [chromium] › tests/e2e/ui-converge4.spec.ts:301:3 › normal dated economic panel respects canonical place: Carson City, Nevada
+[45/76] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:4:1 › questionnaire Back retains creator identity and the next unanswered question
+[46/76] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:48:1 › normal Begin crosses the presentation fade before the generated life
+[47/76] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:4:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar
+[48/76] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:50:1 › Custom judicial workplace uses the normal World, Work and save route
+[49/76] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:89:1 › mixed person, session and measure pins preserve identity and clear workspace controls
+[50/76] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:193:1 › normal activity completion replaces household presence without a second clock
+[51/76] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:258:1 › frozen docket uses the normal Work shell and keeps its selected document on reload
+  3) [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:258:1 › frozen docket uses the normal Work shell and keeps its selected document on reload 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('docket-bill')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('docket-bill')
+
+
+      267 |   await page.locator('[data-testid^="drafting-option-"]').first().click();
+      268 |   await page.getByTestId("file-the-draft").press("Enter");
+    > 269 |   await expect(page.getByTestId("docket-bill")).toBeVisible();
+          |                                                 ^
+      270 |   const lineage = await page.getByTestId("docket-lineage").innerText();
+      271 |   const pinButton = page.getByTestId("pin-docket-measure");
+      272 |   const measureId = await pinButton.getAttribute("data-measure-id");
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/ui-core-feature-adapters.spec.ts:269:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-feature-adapters-f-dcf7a-selected-document-on-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-feature-adapters-f-dcf7a-selected-document-on-reload-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-feature-adapters-f-dcf7a-selected-document-on-reload-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-feature-adapters-f-dcf7a-selected-document-on-reload-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:67939) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[52/76] [chromium] › tests/e2e/ui-core-news.spec.ts:33:1 › normal completed legislative action publishes News with person Back and unchanged read/save history
+  4) [chromium] › tests/e2e/ui-core-news.spec.ts:33:1 › normal completed legislative action publishes News with person Back and unchanged read/save history 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('docket-bill')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('docket-bill')
+
+
+      47 |   await page.locator('[data-testid^="drafting-option-"]').first().click();
+      48 |   await page.getByTestId("file-the-draft").press("Enter");
+    > 49 |   await expect(page.getByTestId("docket-bill")).toBeVisible();
+         |                                                 ^
+      50 |   await save(page);
+      51 |   const published = await savedWorld(page);
+      52 |   expect(published.history.publications.length).toBeGreaterThan(0);
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/ui-core-news.spec.ts:49:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-news-normal-comple-70693-unchanged-read-save-history-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-news-normal-comple-70693-unchanged-read-save-history-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-news-normal-comple-70693-unchanged-read-save-history-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-save5-corrected/results/ui-core-news-normal-comple-70693-unchanged-read-save-history-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:68034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[53/76] [chromium] › tests/e2e/ui-core.spec.ts:61:3 › the corner cluster › rests small, rises on approach, and rises on keyboard focus alone
+[54/76] [chromium] › tests/e2e/ui-core.spec.ts:91:3 › the corner cluster › holds its size when motion is reduced
+[55/76] [chromium] › tests/e2e/ui-core.spec.ts:102:3 › the corner cluster › opens one submenu level, and it is darker than its parent
+[56/76] [chromium] › tests/e2e/ui-core.spec.ts:122:3 › people, and who was chosen › A then B then A: the record always follows the selection
+[57/76] [chromium] › tests/e2e/ui-core.spec.ts:161:3 › people, and who was chosen › selecting somebody in the room opens a menu about them
+[58/76] [chromium] › tests/e2e/ui-core.spec.ts:188:3 › people, and who was chosen › Talk opens the real conversation with that person, or says why not
+[59/76] [chromium] › tests/e2e/ui-core.spec.ts:222:3 › people, and who was chosen › a dossier reveals nothing the record does not establish
+[60/76] [chromium] › tests/e2e/ui-core.spec.ts:247:3 › mixed pins › keep their identity, order and size across navigation and a reload
+[61/76] [chromium] › tests/e2e/ui-core.spec.ts:315:3 › mixed pins › dragging reorders, and an ordinary click still opens
+[62/76] [chromium] › tests/e2e/ui-core.spec.ts:359:3 › mixed pins › a pin says nothing about who is in the room
+[63/76] [chromium] › tests/e2e/ui-core.spec.ts:383:3 › the deliberate workspaces › the calendar reads the clock and never moves it
+[64/76] [chromium] › tests/e2e/ui-core.spec.ts:404:3 › the deliberate workspaces › Personal states the name and the age and keeps the money apart
+[65/76] [chromium] › tests/e2e/ui-core.spec.ts:434:3 › the deliberate workspaces › the journal links people by their id, not by their name in prose
+[66/76] [chromium] › tests/e2e/ui-core.spec.ts:457:3 › the deliberate workspaces › patch notes and the version come from this checkout
+[67/76] [chromium] › tests/e2e/ui-core.spec.ts:476:3 › the deliberate workspaces › Options only offers settings something reads
+[68/76] [chromium] › tests/e2e/ui-core.spec.ts:499:3 › the click, back and escape contract › Escape closes one layer at a time and never leaves the life
+[69/76] [chromium] › tests/e2e/ui-core.spec.ts:531:3 › the click, back and escape contract › pointer and keyboard reach the same person
+[70/76] [chromium] › tests/e2e/ui-core.spec.ts:547:3 › containment › the normal route does not know the prototype exists
+[71/76] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1920x1080 shows the shell without clipping
+[72/76] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1600x900 shows the shell without clipping
+[73/76] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1366x768 shows the shell without clipping
+[74/76] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1280x720 shows the shell without clipping
+[75/76] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1024x768 shows the shell without clipping
+[76/76] [chromium] › tests/e2e/ui-save5-review.spec.ts:4:1 › current normal scene and saved-person dossier remain available for owner review
+  4 failed
+    [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address 
+    [chromium] › tests/e2e/production-play.spec.ts:257:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one 
+    [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:258:1 › frozen docket uses the normal Work shell and keeps its selected document on reload 
+    [chromium] › tests/e2e/ui-core-news.spec.ts:33:1 › normal completed legislative action publishes News with person Back and unchanged read/save history 
+  72 passed (6.0m)
