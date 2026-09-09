@@ -1,0 +1,54 @@
+[WebServer] (node:24842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:24845) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 1 test using 1 worker
+
+(node:25044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/edu-path7-normal.spec.ts:10:1 › normal dated education offer, attendance, interruption and repeated saving
+  1) [chromium] › tests/e2e/edu-path7-normal.spec.ts:10:1 › normal dated education offer, attendance, interruption and repeated saving 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('ordinary-section').getByTestId('venue-activities').getByRole('button', { name: 'Carry out activity', exact: true }).filter({ visible: true }).first()
+
+
+      158 |     .filter({ visible: true })
+      159 |     .first()
+    > 160 |     .click();
+          |      ^
+      161 |   await openElsewhere(page, "work");
+      162 |   await study
+      163 |     .getByRole("button", {
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/edu-path7-normal.spec.ts:160:6
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-edu-c62b58e/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-edu-c62b58e/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-edu-c62b58e/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-edu-c62b58e/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › tests/e2e/edu-path7-normal.spec.ts:10:1 › normal dated education offer, attendance, interruption and repeated saving 

@@ -1,0 +1,303 @@
+[WebServer] (node:12463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:12466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 59 tests using 1 worker
+
+(node:12666) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/59] [chromium] › tests/e2e/career-path7.spec.ts:4:1 › normal civilian career offer, keyboard consent, work, resignation and save
+[2/59] [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving
+  1) [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('venue-activity-completed')
+    Expected: visible
+    Error: strict mode violation: getByTestId('venue-activity-completed') resolved to 2 elements:
+        1) <p role="status" data-testid="venue-activity-completed">You have finished Posted public meeting at Public…</p> aka getByTestId('activity-aftermath').getByTestId('venue-activity-completed')
+        2) <p role="status" data-testid="venue-activity-completed">You have finished Posted public meeting at Public…</p> aka getByTestId('ordinary-section').getByTestId('venue-activity-completed')
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('venue-activity-completed')
+
+
+      71 |     .first()
+      72 |     .click();
+    > 73 |   await expect(page.getByTestId("venue-activity-completed")).toBeVisible();
+         |                                                              ^
+      74 |   await openElsewhere(page, "work");
+      75 |   await study
+      76 |     .getByRole("button", { name: "Schedule next session", exact: true })
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/edu-path7-normal.spec.ts:73:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:12815) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/59] [chromium] › tests/e2e/life-paths2.spec.ts:2:1 › LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof
+  2) [chromium] › tests/e2e/life-paths2.spec.ts:2:1 › LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "You enrolled"
+    Error: strict mode violation: getByRole('status') resolved to 3 elements:
+        1) <p role="status" aria-live="polite">You enrolled. Schedule a study session to begin.</p> aka getByText('You enrolled. Schedule a')
+        2) <p role="status"></p> aka getByRole('region', { name: 'Career opportunities' }).getByRole('status')
+        3) <p role="status"></p> aka getByRole('region', { name: 'Real education options' }).getByRole('status')
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      13 |     })
+      14 |     .click();
+    > 15 |   await expect(page.getByRole("status")).toContainText("You enrolled");
+         |                                          ^
+      16 |   await page
+      17 |     .getByRole("button", { name: "Schedule next session", exact: true })
+      18 |     .focus();
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/life-paths2.spec.ts:15:42
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/life-paths2-LIFE-PATHS2-po-a32ea-terruption-and-reload-proof-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/life-paths2-LIFE-PATHS2-po-a32ea-terruption-and-reload-proof-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/life-paths2-LIFE-PATHS2-po-a32ea-terruption-and-reload-proof-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/life-paths2-LIFE-PATHS2-po-a32ea-terruption-and-reload-proof-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:12923) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/59] [chromium] › tests/e2e/municipal-member.spec.ts:57:1 › normal saved municipal member completes work once and reloads without acquiring further authority
+[5/59] [chromium] › tests/e2e/news-press4.spec.ts:3:1 › keyboard route preserves condensed intent and exact confirmed wording
+[6/59] [chromium] › tests/e2e/news-press4.spec.ts:47:1 › terms help and typed people support touch, focus return and Escape
+[7/59] [chromium] › tests/e2e/people-visual4.spec.ts:5:1 › selected canonical candidate keeps identity across wardrobe, portrait, scene and keyboard reload
+[8/59] [chromium] › tests/e2e/people-visual4.spec.ts:141:1 › every available body can be selected and framed without changing its geometry
+[9/59] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 reduce
+[10/59] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 no-preference
+[11/59] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 reduce
+[12/59] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 no-preference
+[13/59] [chromium] › tests/e2e/raster-readiness.spec.ts:76:1 › hook gates actual decode, retains A during resize, ignores stale completion and reuses same width
+[14/59] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial error never claims paint and a later valid tier recovers
+[15/59] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial decode-rejection never claims paint and a later valid tier recovers
+[16/59] [chromium] › tests/e2e/raster-readiness.spec.ts:127:3 › initial unavailable never claims paint and a later valid tier recovers
+[17/59] [chromium] › tests/e2e/raster-readiness.spec.ts:167:1 › non-title production office waits for its image response
+[18/59] [chromium] › tests/e2e/raster-readiness.spec.ts:200:1 › cold and warm title paint plus resize sweep never expose an undecoded claimed tier
+[19/59] [chromium] › tests/e2e/raster-readiness.spec.ts:340:1 › decoded title A stays visible while resized B response is held
+[20/59] [chromium] › tests/e2e/raster-readiness.spec.ts:393:1 › same-width new URL waits for decode, ignores stale URL and retains decoded paint after failure
+[21/59] [chromium] › tests/e2e/ui-converge4.spec.ts:63:1 › normal Carson City citizen attends a public session and retains the real venue and World on reload
+[22/59] [chromium] › tests/e2e/ui-converge4.spec.ts:140:1 › private Journal intentions, grouped notes, real person links and history bookmarks survive reload without changing World
+[23/59] [chromium] › tests/e2e/ui-converge4.spec.ts:224:1 › title Patch notes shows every canonical section and real package version with keyboard Back
+[24/59] [chromium] › tests/e2e/ui-converge4.spec.ts:261:1 › normal county selection preserves unspecified town and exact saved jurisdiction
+[25/59] [chromium] › tests/e2e/ui-converge4.spec.ts:301:3 › normal dated economic panel respects canonical place: Lexington, Kentucky
+[26/59] [chromium] › tests/e2e/ui-converge4.spec.ts:301:3 › normal dated economic panel respects canonical place: Carson City, Nevada
+[27/59] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:4:1 › questionnaire Back retains creator identity and the next unanswered question
+[28/59] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:48:1 › normal Begin crosses the presentation fade before the generated life
+[29/59] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:9:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar
+  3) [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:9:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByRole('region', { name: 'Education and work' }).getByRole('status')
+    Expected: "You already have a commitment at that time."
+    Error: strict mode violation: getByRole('region', { name: 'Education and work' }).getByRole('status') resolved to 3 elements:
+        1) <p role="status" aria-live="polite">You already have a commitment at that time.</p> aka getByText('You already have a commitment')
+        2) <p role="status"></p> aka getByRole('region', { name: 'Career opportunities' }).getByRole('status')
+        3) <p role="status"></p> aka getByRole('region', { name: 'Real education options' }).getByRole('status')
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Education and work' }).getByRole('status')
+
+
+      26 |     .getByRole("button", { name: "Schedule next session", exact: true })
+      27 |     .click();
+    > 28 |   await expect(paths.getByRole("status")).toHaveText(
+         |                                           ^
+      29 |     "You already have a commitment at that time.",
+      30 |   );
+      31 |   await page
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/ui-core-feature-adapters.spec.ts:28:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-n-be109-led-sessions-reach-Calendar-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-n-be109-led-sessions-reach-Calendar-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-n-be109-led-sessions-reach-Calendar-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-n-be109-led-sessions-reach-Calendar-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:13494) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[30/59] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:55:1 › Custom judicial workplace uses the normal World, Work and save route
+[31/59] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:94:1 › mixed person, session and measure pins preserve identity and clear workspace controls
+  4) [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:94:1 › mixed person, session and measure pins preserve identity and clear workspace controls 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator: getByRole('region', { name: 'Education and work' }).getByRole('status')
+    Expected: "You already have a commitment at that time."
+    Error: strict mode violation: getByRole('region', { name: 'Education and work' }).getByRole('status') resolved to 3 elements:
+        1) <p role="status" aria-live="polite">You already have a commitment at that time.</p> aka getByText('You already have a commitment')
+        2) <p role="status"></p> aka getByRole('region', { name: 'Career opportunities' }).getByRole('status')
+        3) <p role="status"></p> aka getByRole('region', { name: 'Real education options' }).getByRole('status')
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Education and work' }).getByRole('status')
+
+
+      113 |     .getByRole("button", { name: "Schedule next session", exact: true })
+      114 |     .click();
+    > 115 |   await expect(paths.getByRole("status")).toHaveText(
+          |                                           ^
+      116 |     "You already have a commitment at that time.",
+      117 |   );
+      118 |   await page
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/ui-core-feature-adapters.spec.ts:115:43
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-m-455be-nd-clear-workspace-controls-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-m-455be-nd-clear-workspace-controls-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-m-455be-nd-clear-workspace-controls-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-feature-adapters-m-455be-nd-clear-workspace-controls-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:13631) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[32/59] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:198:1 › normal activity completion replaces household presence without a second clock
+[33/59] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:263:1 › frozen docket uses the normal Work shell and keeps its selected document on reload
+[34/59] [chromium] › tests/e2e/ui-core-news.spec.ts:16:1 › normal completed legislative action publishes News with person Back and unchanged read/save history
+[35/59] [chromium] › tests/e2e/ui-core-news.spec.ts:86:1 › legislative staff can preview but cannot file or publish a member bill
+[36/59] [chromium] › tests/e2e/ui-core-news.spec.ts:108:1 › opening the normal press request form creates no request or consent
+  5) [chromium] › tests/e2e/ui-core-news.spec.ts:108:1 › opening the normal press request form creates no request or consent 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('press-request-form').getByLabel('Reporter', { exact: true }).locator('option')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for getByTestId('press-request-form').getByLabel('Reporter', { exact: true }).locator('option')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      123 |   await expect(
+      124 |     form.getByLabel("Reporter", { exact: true }).locator("option"),
+    > 125 |   ).toHaveCount(1);
+          |     ^
+      126 |   await form
+      127 |     .getByLabel("Your pitch")
+      128 |     .fill("A question about a published story.");
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/ui-core-news.spec.ts:125:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-news-opening-the-n-4b0e0-eates-no-request-or-consent-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-news-opening-the-n-4b0e0-eates-no-request-or-consent-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-news-opening-the-n-4b0e0-eates-no-request-or-consent-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-affected-e9c42a7/results/ui-core-news-opening-the-n-4b0e0-eates-no-request-or-consent-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:13870) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[37/59] [chromium] › tests/e2e/ui-core.spec.ts:61:3 › the corner cluster › rests small, rises on approach, and rises on keyboard focus alone
+[38/59] [chromium] › tests/e2e/ui-core.spec.ts:91:3 › the corner cluster › holds its size when motion is reduced
+[39/59] [chromium] › tests/e2e/ui-core.spec.ts:102:3 › the corner cluster › opens one submenu level, and it is darker than its parent
+[40/59] [chromium] › tests/e2e/ui-core.spec.ts:122:3 › people, and who was chosen › A then B then A: the record always follows the selection
+[41/59] [chromium] › tests/e2e/ui-core.spec.ts:161:3 › people, and who was chosen › selecting somebody in the room opens a menu about them
+[42/59] [chromium] › tests/e2e/ui-core.spec.ts:188:3 › people, and who was chosen › Talk opens the real conversation with that person, or says why not
+[43/59] [chromium] › tests/e2e/ui-core.spec.ts:222:3 › people, and who was chosen › a dossier reveals nothing the record does not establish
+[44/59] [chromium] › tests/e2e/ui-core.spec.ts:247:3 › mixed pins › keep their identity, order and size across navigation and a reload
+[45/59] [chromium] › tests/e2e/ui-core.spec.ts:315:3 › mixed pins › dragging reorders, and an ordinary click still opens
+[46/59] [chromium] › tests/e2e/ui-core.spec.ts:359:3 › mixed pins › a pin says nothing about who is in the room
+[47/59] [chromium] › tests/e2e/ui-core.spec.ts:383:3 › the deliberate workspaces › the calendar reads the clock and never moves it
+[48/59] [chromium] › tests/e2e/ui-core.spec.ts:404:3 › the deliberate workspaces › Personal states the name and the age and keeps the money apart
+[49/59] [chromium] › tests/e2e/ui-core.spec.ts:434:3 › the deliberate workspaces › the journal links people by their id, not by their name in prose
+[50/59] [chromium] › tests/e2e/ui-core.spec.ts:457:3 › the deliberate workspaces › patch notes and the version come from this checkout
+[51/59] [chromium] › tests/e2e/ui-core.spec.ts:476:3 › the deliberate workspaces › Options only offers settings something reads
+[52/59] [chromium] › tests/e2e/ui-core.spec.ts:499:3 › the click, back and escape contract › Escape closes one layer at a time and never leaves the life
+[53/59] [chromium] › tests/e2e/ui-core.spec.ts:531:3 › the click, back and escape contract › pointer and keyboard reach the same person
+[54/59] [chromium] › tests/e2e/ui-core.spec.ts:547:3 › containment › the normal route does not know the prototype exists
+[55/59] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1920x1080 shows the shell without clipping
+[56/59] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1600x900 shows the shell without clipping
+[57/59] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1366x768 shows the shell without clipping
+[58/59] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1280x720 shows the shell without clipping
+[59/59] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1024x768 shows the shell without clipping
+  5 failed
+    [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+    [chromium] › tests/e2e/life-paths2.spec.ts:2:1 › LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof 
+    [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:9:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar 
+    [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:94:1 › mixed person, session and measure pins preserve identity and clear workspace controls 
+    [chromium] › tests/e2e/ui-core-news.spec.ts:108:1 › opening the normal press request form creates no request or consent 
+  54 passed (7.3m)

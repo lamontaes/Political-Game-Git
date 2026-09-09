@@ -1,0 +1,129 @@
+[WebServer] (node:10078) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:10095) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 26 tests using 1 worker
+
+(node:10305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/26] [chromium] › tests/e2e/career-path7.spec.ts:4:1 › normal civilian career offer, keyboard consent, work, resignation and save
+  1) [chromium] › tests/e2e/career-path7.spec.ts:4:1 › normal civilian career offer, keyboard consent, work, resignation and save 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: 'Career opportunities', exact: true }).getByRole('status')
+    Expected substring: "began"
+    Received string:    "Accept the offer and wait until its start date."
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByRole('region', { name: 'Career opportunities', exact: true }).getByRole('status')
+        14 × locator resolved to <p role="status">Accept the offer and wait until its start date.</p>
+           - unexpected value "Accept the offer and wait until its start date."
+
+
+      36 |     .getByRole("button", { name: "Begin accepted work", exact: true })
+      37 |     .click();
+    > 38 |   await expect(career.getByRole("status")).toContainText("began");
+         |                                            ^
+      39 |   await career
+      40 |     .getByRole("button", { name: "Schedule responsibility", exact: true })
+      41 |     .click();
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/career-path7.spec.ts:38:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/career-path7-normal-civili-0eb4c-t-work-resignation-and-save-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/career-path7-normal-civili-0eb4c-t-work-resignation-and-save-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/career-path7-normal-civili-0eb4c-t-work-resignation-and-save-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/career-path7-normal-civili-0eb4c-t-work-resignation-and-save-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:10454) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/26] [chromium] › tests/e2e/civil-work7-normal-route.spec.ts:6:1 › ordinary Day and Work expose private personnel preparation
+[3/26] [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving
+  2) [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for locator('article').filter({ has: getByRole('heading', { name: 'Workforce Education — noncredit study', exact: true }) }).getByRole('button', { name: 'Attend Workforce Education — noncredit study', exact: true })
+
+
+      58 |       exact: true,
+      59 |     })
+    > 60 |     .click();
+         |      ^
+      61 |   await expect(study).toContainText("1 attended sessions");
+      62 |   await study
+      63 |     .getByRole("button", { name: "Interrupt", exact: true })
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/edu-path7-normal.spec.ts:60:6
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-normal-ce2df91/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:10795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/26] [chromium] › tests/e2e/people-snapshot6.spec.ts:132:1 › saved outfit A/B/A keeps captions and decoded layers aligned under delayed loading
+[5/26] [chromium] › tests/e2e/people-snapshot6.spec.ts:262:1 › person A/B/A and rapid reload use the correct canonical portrait and scene during delayed loading
+[6/26] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+[7/26] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[8/26] [chromium] › tests/e2e/production-play.spec.ts:139:3 › Opening the game opens a game › starts a life from the title screen and shows that life
+[9/26] [chromium] › tests/e2e/production-play.spec.ts:155:3 › Opening the game opens a game › gives three cold boots three different people
+[10/26] [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address
+[11/26] [chromium] › tests/e2e/production-play.spec.ts:203:3 › A new life is not a renamed fixture › shows a child no adult work, office or developer vocabulary
+[12/26] [chromium] › tests/e2e/production-play.spec.ts:215:3 › A new life is not a renamed fixture › shows an ordinary adult no political surfaces, and no explanation of why
+[13/26] [chromium] › tests/e2e/production-play.spec.ts:238:3 › A new life is not a renamed fixture › gives a staffer the legislature they work in, and no other
+[14/26] [chromium] › tests/e2e/production-play.spec.ts:259:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one
+[15/26] [chromium] › tests/e2e/production-play.spec.ts:280:3 › A life is kept, and comes back › keeps two lives apart in the saved games list
+[16/26] [chromium] › tests/e2e/production-play.spec.ts:294:3 › A life is kept, and comes back › deletes a save and does not bring it back
+[17/26] [chromium] › tests/e2e/production-play.spec.ts:314:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one
+[18/26] [chromium] › tests/e2e/production-play.spec.ts:382:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week
+[19/26] [chromium] › tests/e2e/production-play.spec.ts:405:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting
+[20/26] [chromium] › tests/e2e/production-play.spec.ts:428:3 › What the world records, it keeps › remembers a formative choice through save and reload
+[21/26] [chromium] › tests/e2e/production-play.spec.ts:458:3 › What the world records, it keeps › keeps a household conversation settled after a reload
+[22/26] [chromium] › tests/e2e/production-play.spec.ts:496:3 › What the world records, it keeps › keeps a legislative step in the player's own save
+[23/26] [chromium] › tests/e2e/production-play.spec.ts:519:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface
+[24/26] [chromium] › tests/e2e/production-play.spec.ts:545:1 › initial Keep becomes repeatable Save on the same slot across changes and reload
+[25/26] [chromium] › tests/e2e/production-play.spec.ts:599:1 › two normal browser tabs refuse an older World without overwriting the newer save
+[26/26] [chromium] › tests/e2e/ui-save5-review.spec.ts:4:1 › current normal scene and saved-person dossier remain available for owner review
+  2 failed
+    [chromium] › tests/e2e/career-path7.spec.ts:4:1 › normal civilian career offer, keyboard consent, work, resignation and save 
+    [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+  24 passed (4.6m)

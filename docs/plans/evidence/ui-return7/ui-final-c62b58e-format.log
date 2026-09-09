@@ -1,0 +1,7 @@
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+[warn] tests/e2e/edu-path7-normal.spec.ts
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.

@@ -250,3 +250,36 @@ stage execution. Applied CAREERc119d2b→94a6be85 normal-calendar test correctio
 EDU normal test now asserts the refusal/zero attendance/no scheduled session,
 completes the actual venue activity through Day, then retries through LIFE.
 No calendar/time or eligibility bypass is added. Bounded reruns remain pending.
+
+## Return7 current evidence
+
+Current runtime5501b743 includes exact LIFE8082d477 earned-pay account correction,
+composed with acceptedEducationPath. Zero initial wealth; prior recorded signed
+transfers only for existing broken saves; no resource query/allocator redesign.
+All20 production-play/persistence-cross-tab cases pass again on5501b743.
+Normal paid work now funds first EDU attendance, interruption, Keep/reload and
+return. Second attendance remains blocked by a FUTURE tentative invitation with
+null responsible actor. Exact saved record and source-linked OPENING response
+correction are pending; an expired-only cleanup would not resolve currentJan7
+versus Jan10 invitation. UI requested explicit Day/Work decline/disposition,
+not load-time writes, invented attendance or organizer responsibility.
+
+Affected browser e9c42a7:54/59, then7111e26 scoped rerun9/10. All non-EDU
+cases passed after selector scoping, including actual member event/publication/
+normal News/person/Back/save and empty press read/save purity. The remaining
+EDU positive is not waived. Browser source identities remain separate.
+
+Full c66407e units4085pass/15fail/2skip; same-source serial seven-file rerun
+87pass/1fail. Only original missing election-lost transcript coverage remains
+in that serial control. Budget and local-port failures passed without changing
+budgets or assertions. Current account/LIFE/venue focused20/20 after withdrawing
+an unsupported social-venue experiment. No current full all-green claim.
+
+c62b58e lint/typecheck/source validation/replay/build/demo/art trio/admission/
+wardrobe allpass. Formatter initially tried content-addressed generated EDU
+catalogs and exhausted heap; declared exporter-owned catalogs are now excluded,
+rawbytes/hash validation preserved. Final authored test formatting passes.
+Full evidence, exact provenance values and scene/dossier/candidate wardrobe
+review images are banked at docs/plans/evidence/ui-return7. Human approval,
+QUAL reconciliation, complete press prerequisites and CIVIL legal journey remain
+explicitly unaccepted. No merge, deployment or monitoring.
