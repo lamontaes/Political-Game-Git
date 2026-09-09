@@ -1,16 +1,25 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   campaignForCandidate,
   campaignState,
   candidacyPacks,
+  deserializeWorld,
+  compareSimulationMoments,
   requireLifePlace,
+  scheduledActivityState,
   searchLifePlaces,
+  serializeWorld,
 } from "../simulation";
 import type { LifePlace } from "../simulation";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { buildProductionWorld } from "./production-world";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import {
+  ORDINARY_DAY_START_MINUTE,
+  openOrdinaryLife,
+  passOrdinaryDays,
+} from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
   fileForOffice,
@@ -383,4 +392,164 @@ describe("campaign work fits into a life that already has things in it", () => {
       )!.unavailable,
     ).toBeNull();
   });
+});
+
+describe("the day a campaign runs out of, and the morning after it", () => {
+  /**
+   * Play the way a player plays: take an offer while one is usable, and get on
+   * with the day when none is. Returns where it got to and what stopped it.
+   */
+  function playUntilNothingIsUsable(seed: string) {
+    const life = adultLife(seed, "kentucky");
+    let world = fileForOffice(life.world, life.personId);
+    let actions = 0;
+    let barrenDays = 0;
+    for (let step = 0; step < 40; step += 1) {
+      const view = projectCampaign(world, life.personId);
+      if (view.phase !== "active") break;
+      const usable = view.offers.filter((offer) => offer.unavailable === null);
+      if (usable.length > 0) {
+        world = spendAnAfternoon(world, life.personId, usable[0]!.kind);
+        actions += 1;
+        barrenDays = 0;
+        continue;
+      }
+      world = passOrdinaryDays(world, 1);
+      barrenDays += 1;
+      // Four days running with nothing usable on any of them is the lockout
+      // this exists to catch, not a busy week.
+      if (barrenDays >= 4) break;
+    }
+    return { world, personId: life.personId, actions, barrenDays };
+  }
+
+  it("does not run out of usable days after a handful of sessions", () => {
+    const played = playUntilNothingIsUsable("player-lockout");
+    // The defect this covers: the character spent the evening, and every later
+    // day opened at that same late hour, so nothing was ever bookable again.
+    expect(played.barrenDays).toBeLessThan(4);
+    // No allowance was added to get there; the count is whatever the days hold.
+    expect(played.actions).toBeGreaterThan(6);
+  }, 60_000);
+
+  it("opens the next day in the morning rather than at last night's hour", () => {
+    const life = adultLife("player-morning", "kentucky");
+    let world = fileForOffice(life.world, life.personId);
+    // Spend the day down to an hour that cannot hold another session.
+    while (
+      projectCampaign(world, life.personId).offers.some(
+        (offer) => offer.unavailable === null,
+      )
+    ) {
+      const usable = projectCampaign(world, life.personId).offers.find(
+        (offer) => offer.unavailable === null,
+      )!;
+      world = spendAnAfternoon(world, life.personId, usable.kind);
+    }
+    const spentEvening = world.currentMoment.minuteOfDay;
+    expect(spentEvening).toBeGreaterThan(17 * 60);
+
+    // Something the character promised somebody and has not done yet is a hard
+    // boundary the day is not allowed to step over, so the morning is only
+    // owed when nothing like that stands between here and it.
+    const unanswered = world.history.scheduledActivities
+      .filter((activity) =>
+        activity.participantPersonIds.includes(life.personId),
+      )
+      .map((activity) => scheduledActivityState(world, activity.id))
+      .some(
+        (state) =>
+          state.status === "scheduled" &&
+          compareSimulationMoments(state.end, world.currentMoment) > 0,
+      );
+
+    const tomorrow = passOrdinaryDays(world, 1);
+    expect(tomorrow.currentDate).toBe(addDays(world.currentDate, 1));
+    expect(tomorrow.currentMoment.date).toBe(tomorrow.currentDate);
+    if (unanswered) {
+      // The commitment wins, and the day still moves rather than doing nothing.
+      expect(tomorrow.currentMoment.minuteOfDay).toBe(spentEvening);
+    } else {
+      expect(tomorrow.currentMoment.minuteOfDay).toBe(
+        ORDINARY_DAY_START_MINUTE,
+      );
+      expect(
+        projectCampaign(tomorrow, life.personId).offers.some(
+          (offer) => offer.unavailable === null,
+        ),
+      ).toBe(true);
+    }
+  }, 60_000);
+
+  it("recovers across a twenty-day advance that is still short of the election", () => {
+    const played = playUntilNothingIsUsable("player-twenty");
+    const far = passOrdinaryDays(played.world, 20);
+    const view = projectCampaign(far, played.personId);
+    // Still a campaign, and still before the day it is decided.
+    expect(view.phase).toBe("active");
+    expect(view.daysLeft).toBeGreaterThan(0);
+    expect(view.offers.some((offer) => offer.unavailable === null)).toBe(true);
+  }, 60_000);
+
+  it("comes back from a save exactly as it went in", () => {
+    const played = playUntilNothingIsUsable("player-reload");
+    const tomorrow = passOrdinaryDays(played.world, 1);
+    const reloaded = deserializeWorld(serializeWorld(played.world));
+    // The saved day advances to the same world the live one did, byte for byte.
+    expect(serializeWorld(passOrdinaryDays(reloaded, 1))).toBe(
+      serializeWorld(tomorrow),
+    );
+    expect(
+      projectCampaign(
+        passOrdinaryDays(reloaded, 1),
+        played.personId,
+      ).offers.some((offer) => offer.unavailable === null),
+    ).toBe(true);
+  }, 60_000);
+
+  it("keeps a commitment the character has not answered yet", () => {
+    const life = adultLife("player-commitment", "kentucky");
+    const world = fileForOffice(life.world, life.personId);
+    const openBefore = world.history.scheduledActivities
+      .filter((activity) =>
+        activity.participantPersonIds.includes(life.personId),
+      )
+      .map((activity) => scheduledActivityState(world, activity.id))
+      .filter((state) => state.status === "scheduled");
+    expect(openBefore.length).toBeGreaterThan(0);
+
+    // Getting on with the day never books over, cancels, or silently discards
+    // something already promised to somebody.
+    const later = passOrdinaryDays(world, 1);
+    for (const state of openBefore) {
+      const still = later.history.scheduledActivities.find(
+        (activity) => activity.id === state.activityId,
+      );
+      expect(still).toBeDefined();
+    }
+    // And a day always moves; the control is never a no-op.
+    expect(later.currentDate).not.toBe(world.currentDate);
+  }, 60_000);
+
+  it("still refuses to book a session that would run past nine at night", () => {
+    const life = adultLife("player-evening", "kentucky");
+    let world = fileForOffice(life.world, life.personId);
+    while (
+      projectCampaign(world, life.personId).offers.some(
+        (offer) => offer.unavailable === null,
+      )
+    ) {
+      const usable = projectCampaign(world, life.personId).offers.find(
+        (offer) => offer.unavailable === null,
+      )!;
+      world = spendAnAfternoon(world, life.personId, usable.kind);
+    }
+    // Every session the day did hold finished by nine.
+    for (const activity of world.history.scheduledActivities) {
+      if (!activity.participantPersonIds.includes(life.personId)) continue;
+      const state = scheduledActivityState(world, activity.id);
+      if (state.status !== "completed") continue;
+      expect(state.end.minuteOfDay).toBeLessThanOrEqual(21 * 60);
+    }
+  }, 60_000);
 });
