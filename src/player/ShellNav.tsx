@@ -206,15 +206,16 @@ export function ShellNav({
           {state.navigation === "primary" ? (
             <>
               <p className="pg-nav-heading">Go to</p>
-              <button
-                type="button"
-                role="menuitem"
-                data-testid="nav-scene"
-                onClick={() => dispatch({ type: "go-to-scene" })}
-              >
-                The room
-                <small>Back to where you are</small>
-              </button>
+              {/*
+                No "The room" entry.
+                
+                Every workspace frame already carries Back and Close, and Close
+                dispatches exactly this. A menu entry that repeats the control
+                sitting at the top of the surface the player is looking at is
+                one more thing to read on the way to the thing they wanted, and
+                from the room itself it did nothing at all. The owner's word for
+                it was "a useless button". Returning to the room is unchanged.
+              */}
               {primary.map((entry) => (
                 <button
                   key={entry.surface}
@@ -282,7 +283,11 @@ export function ShellNav({
                 role="menuitem"
                 data-testid="nav-personal"
                 onClick={() =>
-                  dispatch({ type: "go-to-surface", surface: "personal" })
+                  dispatch({
+                    type: "go-to-surface",
+                    surface: "personal",
+                    section: "identity",
+                  })
                 }
               >
                 Who you are
@@ -293,7 +298,11 @@ export function ShellNav({
                 role="menuitem"
                 data-testid="nav-finances"
                 onClick={() =>
-                  dispatch({ type: "go-to-surface", surface: "personal" })
+                  dispatch({
+                    type: "go-to-surface",
+                    surface: "personal",
+                    section: "finances",
+                  })
                 }
               >
                 Money and property

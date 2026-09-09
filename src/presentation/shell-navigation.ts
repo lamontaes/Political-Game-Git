@@ -23,7 +23,24 @@ export type ShellRef =
   /** A scheduled activity in the player's own calendar. */
   | { readonly kind: "commitment"; readonly id: EntityId }
   /** A measure before a chamber. */
-  | { readonly kind: "measure"; readonly id: EntityId };
+  | { readonly kind: "measure"; readonly id: EntityId }
+  /**
+   * A governing organization the player can reopen.
+   *
+   * This is the ORGANIZATION, not the ground it sits on. "Lexington" the place
+   * and the Lexington-Fayette Urban County Government are different things, and
+   * a shortcut that blurred them would be the first step towards a pin that
+   * quietly implies residence. Reopening one of these selects that government
+   * on the municipal surface and does nothing else: it does not move the
+   * player, change where they live, grant a role, or travel anywhere.
+   *
+   * The id is the government's own key rather than an `EntityId`, because a
+   * government key is what `municipalGovernmentByKey` actually resolves. A
+   * separate geographic place pin is deliberately NOT added: there is no place
+   * surface for one to open, and a reference type with nothing to resolve to
+   * would be a promise the game cannot keep.
+   */
+  | { readonly kind: "government"; readonly id: string };
 
 export function refKey(ref: ShellRef): string {
   return `${ref.kind}:${ref.id}`;
@@ -48,8 +65,19 @@ export type ShellSurface =
   | "patch-notes"
   | "options";
 
+/**
+ * A named part of a surface a destination can land on.
+ *
+ * Two menu entries that dispatch the identical view are two names for one
+ * click, which is what "Who you are" and "Money and property" were: both went
+ * to `personal` with nothing to say which half the player asked for. A section
+ * is how a second entry can be a real destination without becoming a second
+ * page with its own copy of the record.
+ */
+export type ShellSection = "identity" | "finances";
+
 export type ShellView =
-  | { readonly surface: ShellSurface }
+  | { readonly surface: ShellSurface; readonly section?: ShellSection }
   | { readonly surface: "entity"; readonly ref: ShellRef };
 
 export type PinSize = "tiny" | "normal" | "expanded";
@@ -138,7 +166,11 @@ export type ShellAction =
   | { readonly type: "open-nav-submenu"; readonly submenu: "personal" }
   | { readonly type: "open-nav-primary" }
   | { readonly type: "close-navigation" }
-  | { readonly type: "go-to-surface"; readonly surface: ShellSurface }
+  | {
+      readonly type: "go-to-surface";
+      readonly surface: ShellSurface;
+      readonly section?: ShellSection;
+    }
   | { readonly type: "go-to-scene" }
   | { readonly type: "open-entity"; readonly ref: ShellRef }
   | { readonly type: "back" }
@@ -217,12 +249,17 @@ function settled(state: ShellState): ShellState {
   };
 }
 
+function viewSection(view: ShellView): ShellSection | undefined {
+  return view.surface === "entity" ? undefined : view.section;
+}
+
 function pushView(state: ShellState, view: ShellView): ShellState {
   const current = currentView(state);
   const same =
     current.surface === view.surface &&
-    (current.surface !== "entity" ||
-      (view.surface === "entity" && sameRef(current.ref, view.ref)));
+    (current.surface !== "entity"
+      ? viewSection(current) === viewSection(view)
+      : view.surface === "entity" && sameRef(current.ref, view.ref));
   if (same) return settled(state);
   return { ...settled(state), history: [...state.history, view] };
 }
@@ -261,8 +298,11 @@ export function shellReducer(
         return shellReducer(state, { type: "go-to-scene" });
       }
       return {
-        ...pushView(state, { surface: action.surface }),
-        announcement: `Opened ${action.surface}.`,
+        ...pushView(state, {
+          surface: action.surface,
+          ...(action.section ? { section: action.section } : {}),
+        }),
+        announcement: `Opened ${action.section ?? action.surface}.`,
       };
     }
 

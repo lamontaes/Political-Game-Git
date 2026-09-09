@@ -60,8 +60,11 @@ test.describe("A life is played in the room, not on a card", () => {
     expect(plateBox!.width).toBeGreaterThan(1440 * 0.9);
     expect(plateBox!.height).toBeGreaterThan(900 * 0.9);
 
-    // The generated household is on the rail — the family the fourth play never
-    // saw — each named with its relationship, not hidden behind a button.
+    // Whoever is actually in the room is on the rail, named with their
+    // relationship rather than hidden behind a button. UI9-03: the rail no
+    // longer carries the whole generated household — that is contact browsing
+    // and it belongs in People — but the people present in the scene are still
+    // here and still selectable by their real ids.
     const rail = page.getByTestId("people-rail");
     await expect(rail).toBeVisible();
     const people = rail.getByTestId(/^rail-person-/);

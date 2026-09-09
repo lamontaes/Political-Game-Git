@@ -5,8 +5,11 @@ import {
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type { PrivateJournal } from "../presentation/shell-navigation";
-import { useMemo, type ReactNode } from "react";
+import type {
+  PrivateJournal,
+  ShellSection,
+} from "../presentation/shell-navigation";
+import { useEffect, useMemo, useRef, type ReactNode } from "react";
 
 import {
   CATEGORY_LABELS,
@@ -444,10 +447,13 @@ function formatMoney(amount: MoneyAmount): string {
 export function PersonalWorkspace({
   world,
   personId,
+  section,
   onOpenPerson,
 }: {
   readonly world: World;
   readonly personId: EntityId;
+  /** Which half of this record the player asked for, when they said. */
+  readonly section?: ShellSection;
   readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const record = useMemo(
@@ -464,32 +470,33 @@ export function PersonalWorkspace({
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
 
+  /*
+   * "Money and property" asked for the money, so put the money in front of
+   * them. The section is focusable and moved into view when that is the
+   * destination they chose, and left alone when it is not — so the identity
+   * route still opens at the top, on the person, where it should.
+   */
+  const finances = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (section !== "finances") return;
+    const node = finances.current;
+    if (!node) return;
+    node.scrollIntoView({ block: "start", behavior: "auto" });
+    node.focus({ preventScroll: true });
+  }, [section]);
+
+  /*
+   * Who you are, then what you have, then the wider place.
+   *
+   * This record used to open on regional economic observations and a chart,
+   * with the player's own name and age below them. The owner asked "Who am I?"
+   * and got labour statistics, which is the wrong answer to that question no
+   * matter how good the statistics are. The context is kept — it is real,
+   * sourced and worth reading — but it belongs after the person, framed as
+   * being about the place rather than about them.
+   */
   return (
     <>
-      <section
-        aria-label="Economic context"
-        data-testid="personal-economic-context"
-      >
-        <h3>Economic context</h3>
-        <p>
-          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
-        </p>
-        {economicLines.length ? (
-          economicLines.map((line) => <p key={line.key}>{line.text}</p>)
-        ) : (
-          <p>
-            No supported economic observations are available for this place and
-            date.
-          </p>
-        )}
-      </section>
-      {economicPlace?.key === LEXINGTON_ECONOMIC_BINDING.placeKey ? (
-        <EconomicContextPanel
-          binding={LEXINGTON_ECONOMIC_BINDING}
-          simulationDate={world.currentDate}
-        />
-      ) : null}
       <header className="pg-personal-identity">
         <h3 data-testid="personal-name">{record.identity.name}</h3>
         <p className="game-band" data-testid="personal-age">
@@ -547,7 +554,14 @@ export function PersonalWorkspace({
         personal balance as one figure would be a false statement about who owns
         what, and in the campaign case a legally false one.
       */}
-      <section className="pg-personal-section">
+      <section
+        className="pg-personal-section"
+        ref={finances}
+        tabIndex={-1}
+        aria-label="Money and property"
+        data-testid="personal-finances"
+        data-landed={section === "finances" ? "true" : undefined}
+      >
         <h3>Money and property</h3>
         <ul className="pg-purses" data-testid="personal-purses">
           {record.purses.map((purse) => (
@@ -569,6 +583,36 @@ export function PersonalWorkspace({
             </li>
           ))}
         </ul>
+      </section>
+
+      {/*
+        The place, not the person. Same data, same source, stated as what it
+        is: observations about where this life is lived.
+      */}
+      <section
+        className="pg-personal-section"
+        aria-label="Economic context"
+        data-testid="personal-economic-context"
+      >
+        <h3>The place you live</h3>
+        <p className="game-note">
+          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {world.currentDate}
+        </p>
+        {economicLines.length ? (
+          economicLines.map((line) => <p key={line.key}>{line.text}</p>)
+        ) : (
+          <p className="game-note">
+            No supported economic observations are available for this place and
+            date.
+          </p>
+        )}
+        {economicPlace?.key === LEXINGTON_ECONOMIC_BINDING.placeKey ? (
+          <EconomicContextPanel
+            binding={LEXINGTON_ECONOMIC_BINDING}
+            simulationDate={world.currentDate}
+          />
+        ) : null}
       </section>
     </>
   );

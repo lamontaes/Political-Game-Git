@@ -13,6 +13,7 @@ import type {
 import {
   currentOpeningLifeScene,
   chooseOpeningLifeScene,
+  openingNeighborhoodWalkOffer,
   openNextLifeScene,
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
@@ -20,6 +21,8 @@ import {
   projectLifeConversation,
   commitLifeConversation,
 } from "../../presentation/life-conversation";
+import { formatMinute } from "../../presentation/player-calendar";
+import { openingLifeLocation } from "../../presentation/life-scene-flow";
 import {
   lifeReflectionOffer,
   chooseConversationApproach,
@@ -43,6 +46,7 @@ export function LifeScenePanel({
 }) {
   const [selected, setSelected] = useState<EntityId | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  const [outcome, setOutcome] = useState<string | null>(null);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const talk = selected
@@ -65,16 +69,51 @@ export function LifeScenePanel({
     !scene && lastSceneEvent?.type === "life.scene.resolved"
       ? lastSceneEvent.summary
       : null;
+  /*
+   * Say what actually happened to the clock and to where you are.
+   *
+   * The old wrapper had one sentence for every outcome — "No change was made.
+   * Check your current commitments before advancing time." — which was wrong
+   * twice over. It told a player standing at home that their calendar was the
+   * problem, and after a walk that really did move them it said nothing at all,
+   * so the owner had to ask "I assume that means I took a walk?".
+   *
+   * Now a change reports the before and after clock, the date when the date
+   * moved, and where the walk left them. An unchanged world is reported as
+   * nothing having happened, without inventing a cause for it.
+   */
   function commit(run: () => World) {
+    const beforeMoment = world.currentMoment;
+    const beforePlace =
+      openingLifeLocation(world, playerPersonId)?.label ?? null;
     try {
       const next = run();
-      setProblem(
-        next === world
-          ? "No change was made. Check your current commitments before advancing time."
-          : null,
+      if (next === world) {
+        setOutcome(null);
+        setProblem("Nothing changed. No time passed.");
+        onWorldChange(next);
+        return;
+      }
+      const after = next.currentMoment;
+      const afterPlace =
+        openingLifeLocation(next, playerPersonId)?.label ?? null;
+      const clock =
+        after.date === beforeMoment.date
+          ? `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}`
+          : `${formatMinute(beforeMoment.minuteOfDay)} → ${formatMinute(after.minuteOfDay)}, ${after.date}`;
+      const moved =
+        afterPlace && afterPlace !== beforePlace ? ` · ${afterPlace}` : "";
+      setProblem(null);
+      setOutcome(
+        after.date === beforeMoment.date &&
+          after.minuteOfDay === beforeMoment.minuteOfDay &&
+          !moved
+          ? "Done. No time passed."
+          : `${clock}${moved}`,
       );
       onWorldChange(next);
     } catch (error) {
+      setOutcome(null);
       setProblem(
         error instanceof Error
           ? error.message
@@ -89,6 +128,11 @@ export function LifeScenePanel({
         {identity.place}
       </p>
       {problem ? <p role="alert">{problem}</p> : null}
+      {outcome ? (
+        <p role="status" data-testid="life-scene-outcome">
+          {outcome}
+        </p>
+      ) : null}
       {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>
@@ -210,39 +254,50 @@ export function LifeScenePanel({
           Keep using this approach in conversation
         </button>
       ) : null}
-      <div className="game-choices">
-        <button
-          className="ui-action"
-          type="button"
-          onClick={() =>
-            commit(() =>
-              walkOpeningNeighborhood(
-                world,
-                playerPersonId,
-                "neighborhood",
-                transitionHandlers,
-              ),
-            )
-          }
-        >
-          Take a short neighborhood walk · 5 minutes
-        </button>
-        <button
-          className="ui-action"
-          type="button"
-          onClick={() =>
-            commit(() =>
-              walkOpeningNeighborhood(
-                world,
-                playerPersonId,
-                "home",
-                transitionHandlers,
-              ),
-            )
-          }
-        >
-          Walk home · 5 minutes
-        </button>
+      {/*
+        Both walks, each carrying its own answer.
+
+        These were two unconditional buttons, so "Walk home" was offered while
+        standing at home and refused with a message about the calendar. Now the
+        offer says whether it can be taken and why not, and a walk that cannot
+        be taken is disabled with its actual reason beside it rather than
+        pretending to be available.
+      */}
+      <div className="game-choices" data-testid="life-walks">
+        {(["neighborhood", "home"] as const).map((destination) => {
+          const offer = openingNeighborhoodWalkOffer(
+            world,
+            playerPersonId,
+            destination,
+          );
+          return (
+            <p key={destination} className="life-walk">
+              <button
+                className="ui-action"
+                type="button"
+                data-testid={`life-walk-${destination}`}
+                disabled={offer.unavailable !== null}
+                onClick={() =>
+                  commit(() =>
+                    walkOpeningNeighborhood(
+                      world,
+                      playerPersonId,
+                      destination,
+                      transitionHandlers,
+                    ),
+                  )
+                }
+              >
+                {offer.label} · {offer.minutes} minutes
+              </button>
+              {offer.unavailable ? (
+                <small data-testid={`life-walk-${destination}-reason`}>
+                  {offer.unavailable}
+                </small>
+              ) : null}
+            </p>
+          );
+        })}
       </div>
       {canJoinOrdinaryGroup(world, playerPersonId) ? (
         <button

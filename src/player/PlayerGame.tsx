@@ -73,10 +73,6 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import {
-  buildLifeIntroduction,
-  type IntroducedPerson,
-} from "../presentation/life-introduction";
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import { SceneBackdrop } from "./SceneBackdrop";
@@ -1633,18 +1629,6 @@ function PlayingScreen({
     readonly subject: ConversationSubjectKey;
   } | null>(null);
 
-  /**
-   * The generated family, explained before the first beat.
-   *
-   * A normal start writes the parents and the household rather than letting
-   * the player author them, so the game owes an answer to "who are these
-   * people" before it puts them in a scene.
-   */
-  const introduction = useMemo(
-    () => buildLifeIntroduction(session.world, session.personId),
-    [session.world, session.personId],
-  );
-
   const sceneId = useMemo(() => {
     const activity = completedActivityHere(session.world, session.personId);
     const venue =
@@ -2005,12 +1989,7 @@ function PlayingScreen({
             />
           </SceneBackdrop>
 
-          <LifePeopleRail
-            moment={moment}
-            household={introduction?.household ?? []}
-            shell={shell}
-            dispatch={dispatch}
-          />
+          <LifePeopleRail moment={moment} shell={shell} dispatch={dispatch} />
 
           {/*
         The anchored action menu. One click on somebody opens it, and every
@@ -2456,11 +2435,12 @@ function renderWorkspace({
 
     case "personal":
       return frame(
-        "Personal",
+        view.section === "finances" ? "Money and property" : "Who you are",
         "personal-workspace",
         <PersonalWorkspace
           world={session.world}
           personId={session.personId}
+          {...(view.section ? { section: view.section } : {})}
           onOpenPerson={openPerson}
         />,
       );
@@ -2732,12 +2712,10 @@ function renderWorkspace({
  */
 function LifePeopleRail({
   moment,
-  household,
   shell,
   dispatch,
 }: {
   readonly moment: StoryMoment;
-  readonly household: readonly IntroducedPerson[];
   readonly shell: ShellState;
   readonly dispatch: (action: ShellAction) => void;
 }) {
@@ -2749,41 +2727,28 @@ function LifePeopleRail({
     readonly relationship: string | null;
     readonly present: boolean;
   };
-  const people: RailPerson[] = [];
-  const seen = new Set<EntityId>();
-  // Who is literally in the room this moment comes first.
-  for (const person of moment.scene.presentPeople) {
-    seen.add(person.personId);
-    people.push({
-      personId: person.personId,
-      name: person.name,
-      relationship: person.relationship,
-      present: true,
-    });
-  }
-  // The generated household is the life's standing cast, so it is always here
-  // even when nobody is in the current scene.
-  for (const member of household) {
-    if (seen.has(member.personId)) continue;
-    seen.add(member.personId);
-    people.push({
-      personId: member.personId,
-      name: member.introduction.split(", ")[0] ?? member.introduction,
-      relationship: member.relationship,
-      present: false,
-    });
-  }
-  // Then anyone else this life keeps coming back to.
-  for (const person of moment.people) {
-    if (seen.has(person.personId)) continue;
-    seen.add(person.personId);
-    people.push({
-      personId: person.personId,
-      name: person.name,
-      relationship: null,
-      present: false,
-    });
-  }
+  /*
+   * Only the people actually in the room.
+   *
+   * This used to be the whole standing cast: everyone present, then the entire
+   * generated household, then anyone the life kept returning to. That made a
+   * second, automatic, permanent roster sitting above the pin rail — two lists
+   * of people in two corners, one of which the player never asked for. The
+   * owner's note was that the pins and the people should not be separate, and
+   * that these people should not be there.
+   *
+   * So the rail is now what is true of the moment: who is here. Everyone the
+   * player knows is browsable in People, and anyone they want kept to hand goes
+   * on the pin rail deliberately, which is the one rail that persists. Present
+   * people stay selectable by their real ids, which is what the action menu,
+   * the dossier and the conversation routes all need.
+   */
+  const people: RailPerson[] = moment.scene.presentPeople.map((person) => ({
+    personId: person.personId,
+    name: person.name,
+    relationship: person.relationship,
+    present: true,
+  }));
 
   if (people.length === 0) return null;
 
@@ -2791,7 +2756,7 @@ function LifePeopleRail({
     <aside
       className={`life-rail${collapsed ? " life-rail--collapsed" : ""}`}
       data-testid="people-rail"
-      aria-label="People in this life"
+      aria-label="People in the room"
     >
       <button
         type="button"
@@ -2800,7 +2765,7 @@ function LifePeopleRail({
         aria-expanded={!collapsed}
         onClick={() => setCollapsed((value) => !value)}
       >
-        <span className="life-rail-title">People</span>
+        <span className="life-rail-title">In the room</span>
         <span aria-hidden="true">{collapsed ? "▸" : "▾"}</span>
       </button>
       {!collapsed ? (

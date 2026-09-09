@@ -360,22 +360,31 @@ test.describe("mixed pins", () => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
+    /*
+     * UI9-03 changed what this can be written against. The rail used to carry
+     * the whole standing cast, so the claim could be made with somebody the
+     * rail listed as absent. It now carries only the people actually in the
+     * room, so the same claim is made the other way round: pin somebody who IS
+     * here, leave the room, and the pin is still there — because a pin is a
+     * reference the player chose, not a statement about presence.
+     *
+     * The old version quietly returned when it found no absent person, which
+     * after this change would have made it a test that asserts nothing.
+     */
     const people = await railPeople(page);
-    const absent = await page
-      .locator('[data-testid^="rail-person-"][data-present="false"]')
-      .first()
-      .getAttribute("data-testid");
-    if (!absent) return;
-    const personId = absent.replace("rail-person-", "");
-    expect(people).toContain(personId);
+    const personId = people[0]!;
+    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
+      "data-present",
+      "true",
+    );
 
     await page.getByTestId(`rail-pin-${personId}`).click();
     await expect(page.getByTestId(`pin-person:${personId}`)).toBeVisible();
-    /* Pinned, and still not in the room. */
-    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
-      "data-present",
-      "false",
-    );
+
+    /* Away from the room the rail is gone; the pin is not. */
+    await goTo(page, "nav-calendar");
+    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveCount(0);
+    await expect(page.getByTestId(`pin-person:${personId}`)).toBeVisible();
   });
 });
 

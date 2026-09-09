@@ -488,26 +488,37 @@ export function chooseOpeningLifeScene(
 }
 
 /** A chosen short walk writes arrival only after uninterrupted canonical time. */
-export function walkOpeningNeighborhood(
-  world: World,
-  personId: EntityId,
-  destination: "home" | "neighborhood",
-  handlers?: FutureTransitionHandlerRegistry,
-): World {
-  if (
-    world.control.kind !== "person" ||
-    world.control.personId !== personId ||
-    !alive(world, personId) ||
-    !sceneHousehold(world, personId)
-  )
-    return world;
-  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
-  const guardian = activeChildAuthoritiesAt(world, personId).find(
-    (entry) =>
-      entry.authority.holder.kind === "person" &&
-      homePeople(world, personId).includes(entry.authority.holder.personId),
-  );
-  if (age < 5 || (age < 18 && !guardian)) return world;
+/**
+ * What a short walk would need, or the reason it is not on offer.
+ *
+ * This used to live inside `walkOpeningNeighborhood` as a chain of guards that
+ * all did the same thing: hand back the unchanged world. Nine different
+ * situations — too young, no grown-up free to come, nowhere recorded to walk
+ * from, already at the destination — arrived at the screen as one unchanged
+ * world, and the panel could only say "No change was made. Check your current
+ * commitments before advancing time." A player standing in their own front room
+ * was told to go and look at their calendar.
+ *
+ * So the reasons are resolved once, here, and both the action and the offer
+ * that describes it read the same answer. The refusals themselves are
+ * unchanged: a child still cannot wander off without a guardian, and a walk to
+ * where you already are is still not a walk.
+ */
+type OpeningWalkResolution =
+  | { readonly ok: false; readonly reason: string }
+  | {
+      readonly ok: true;
+      readonly origin: NonNullable<
+        ReturnType<typeof openingWalkOrigin>
+      >["origin"];
+      readonly location: NonNullable<
+        ReturnType<typeof openingWalkOrigin>
+      >["location"];
+      readonly householdId: EntityId;
+      readonly companionId: EntityId | null;
+    };
+
+function openingWalkOrigin(world: World, personId: EntityId) {
   const origin = world.history.events
     .filter(
       (event) =>
@@ -518,19 +529,110 @@ export function walkOpeningNeighborhood(
     )
     .at(-1);
   const location = origin?.context.location;
+  return origin && location ? { origin, location } : null;
+}
+
+function resolveOpeningWalk(
+  world: World,
+  personId: EntityId,
+  destination: "home" | "neighborhood",
+): OpeningWalkResolution {
   if (
-    !origin ||
-    !location ||
-    !location.setting ||
-    location.setting === destination ||
-    !["home", "neighborhood"].includes(location.setting)
+    world.control.kind !== "person" ||
+    world.control.personId !== personId ||
+    !alive(world, personId)
   )
-    return world;
-  const householdId = sceneHousehold(world, personId)!.household.id;
-  const companionId =
-    age < 18 && guardian?.authority.holder.kind === "person"
-      ? guardian.authority.holder.personId
-      : null;
+    return { ok: false, reason: "This is not the person you are playing." };
+  const household = sceneHousehold(world, personId);
+  if (!household)
+    return {
+      ok: false,
+      reason: "No household is recorded for this life to set out from.",
+    };
+  const age = ageOnDate(world.people[personId]!.birthDate, world.currentDate);
+  const guardian = activeChildAuthoritiesAt(world, personId).find(
+    (entry) =>
+      entry.authority.holder.kind === "person" &&
+      homePeople(world, personId).includes(entry.authority.holder.personId),
+  );
+  if (age < 5)
+    return { ok: false, reason: "You are too small to go out walking." };
+  if (age < 18 && !guardian)
+    return {
+      ok: false,
+      reason:
+        "Somebody who looks after you would have to come, and nobody can.",
+    };
+  const found = openingWalkOrigin(world, personId);
+  if (!found)
+    return {
+      ok: false,
+      reason: "Nowhere is recorded yet to walk from.",
+    };
+  const { origin, location } = found;
+  if (!location.setting || !["home", "neighborhood"].includes(location.setting))
+    return {
+      ok: false,
+      reason: "There is no short walk from where you are.",
+    };
+  if (location.setting === destination)
+    return {
+      ok: false,
+      reason:
+        destination === "home"
+          ? "You are already home."
+          : "You are already out in your neighborhood.",
+    };
+  return {
+    ok: true,
+    origin,
+    location,
+    householdId: household.household.id,
+    companionId:
+      age < 18 && guardian?.authority.holder.kind === "person"
+        ? guardian.authority.holder.personId
+        : null,
+  };
+}
+
+/** A short walk as the screen should show it: label, cost, and any refusal. */
+export interface OpeningWalkOffer {
+  readonly destination: "home" | "neighborhood";
+  readonly label: string;
+  readonly minutes: number;
+  /** Null when the walk can actually be taken now. */
+  readonly unavailable: string | null;
+  /** Where the walk would start, when the world records it. */
+  readonly fromLabel: string | null;
+}
+
+export function openingNeighborhoodWalkOffer(
+  world: World,
+  personId: EntityId,
+  destination: "home" | "neighborhood",
+): OpeningWalkOffer {
+  const resolved = resolveOpeningWalk(world, personId, destination);
+  return {
+    destination,
+    label: destination === "home" ? "Walk home" : "Take a short walk nearby",
+    minutes: OPENING_WALK_MINUTES,
+    unavailable: resolved.ok ? null : resolved.reason,
+    fromLabel: openingWalkOrigin(world, personId)?.location.label ?? null,
+  };
+}
+
+/** The authored short local walk. Not a measured distance or speed. */
+const OPENING_WALK_MINUTES = 5;
+
+export function walkOpeningNeighborhood(
+  world: World,
+  personId: EntityId,
+  destination: "home" | "neighborhood",
+  handlers?: FutureTransitionHandlerRegistry,
+): World {
+  const resolved = resolveOpeningWalk(world, personId, destination);
+  if (!resolved.ok) return world;
+  const { origin, location, householdId, companionId } = resolved;
   const provider: PlaceTravelProvider = (
     current,
     currentPersonId,
@@ -571,7 +673,7 @@ export function walkOpeningNeighborhood(
           setting: destination,
         },
         duration: {
-          minutes: 5,
+          minutes: OPENING_WALK_MINUTES,
           basis: "authored-scenario",
           evidence:
             "OPENING-LIFE1 authored short local walk; no measured distance or travel speed is asserted.",
