@@ -553,10 +553,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // member-seat resolver and prior-work evidence classifier. Neither side's
     // pin was chosen; the combined tree was scanned and these are what it
     // measures.
+    // ENV recovery adds scene, activity, travel and review modules. Counts below
+    // match the regenerated coverage report; template identities are unchanged.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51732);
+    expect(coverage.totalLiterals).toBe(52450);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(340);
+    expect(coverage.scannedFiles).toBe(352);
   });
 });
 

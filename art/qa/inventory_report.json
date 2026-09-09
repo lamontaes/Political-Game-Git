@@ -1,5 +1,5 @@
 {
-  "totalItems": 329,
+  "totalItems": 331,
   "items": [
     {
       "filePath": "families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png",
@@ -36,6 +36,14 @@
     {
       "filePath": "families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png",
       "hash": "76d9ae5878acbd0050c60695bebd2f3f9f0da36c75ce2e9e392d30254ab64b43"
+    },
+    {
+      "filePath": "families/courtroom/env_courtroom_empty_runtime_2x_v1.png",
+      "hash": "d731c5c1f281ce7c617e57079742eb59eefb8a7096ffbbc2d5eb1b2757317a7c"
+    },
+    {
+      "filePath": "families/courtroom/env_courtroom_empty_v1.png",
+      "hash": "482887a6dc4da8d3879f542c0f6eafa2e39f995ad6c14bcc050f0231bcc8cbc4"
     },
     {
       "filePath": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
