@@ -82,6 +82,9 @@ in `examples/rejected.jsonl`.
 4. **Ordinary political and institutional words.** Say what a person in that
    building would say. In conversation, prefer the natural term where it is
    factually accurate ("library tax", not "library levy").
+   American English and jurisdiction-accurate role terminology apply to every
+   authored surface; follow the explicit provenance boundaries in
+   `references/prose-contract.md` ("American English and role terminology").
 5. **Dialogue sounds spoken, not authored.** People interrupt, state things
    flatly, and leave things out. No epigrams.
 6. **Money is an arrangement, not a label.** "She'll pay you $500 for two

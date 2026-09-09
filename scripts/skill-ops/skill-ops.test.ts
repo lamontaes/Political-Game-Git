@@ -105,6 +105,22 @@ describe("SKILL-OPS1 repository skill discovery contracts", () => {
     );
   });
 
+  it("discovers identical entrypoints in Codex and Claude roots", () => {
+    const claudeRoot = join(REPO_ROOT, ".claude", "skills");
+    const directories = (root: string) =>
+      readdirSync(root, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+        .sort();
+    expect(directories(claudeRoot)).toEqual(directories(SKILL_ROOT));
+    for (const name of directories(SKILL_ROOT)) {
+      expect(
+        readFileSync(join(claudeRoot, name, "SKILL.md"), "utf8"),
+        name,
+      ).toBe(skillText(name));
+    }
+  });
+
   for (const contract of contracts) {
     it(`${contract.name} exposes a discriminating trigger and nontrigger`, () => {
       const metadata = frontmatter(skillText(contract.name));

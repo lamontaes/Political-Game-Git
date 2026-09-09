@@ -19,6 +19,17 @@ classes by name. A general "did I invent anything?" pass is what already failed
 review. The `civic-prose-grounding-reviewer` agent verifies this independently;
 it reports unsupported claims and never rewrites your prose.
 
+Use American English for all authored player-visible copy, including data-driven
+bill labels, descriptions, clauses and tooltips, not only JSX. Use "program"
+and "programs" in authored prose. Preserve stable identifiers such as
+`programme-authorization` and `programmeLabel`, saved history, raw source
+examples, exact quotations and official names; record a specific provenance
+reason for each exception. Match words rather than substrings. Review role and
+institution terms against the canonical role, jurisdiction and date; do not
+replace "minister" globally or reject legitimate "ministerial" actions,
+"administration", clergy, foreign offices or quoted official names. Missing
+role context requires a question or omission, never an invented replacement.
+
 Hard boundaries, non-negotiable:
 
 - The fact packet in your prompt is the complete authority for the moment. Do

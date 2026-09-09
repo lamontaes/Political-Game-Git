@@ -280,3 +280,20 @@ surface are not universal templates. Do not infer that all dialogue should be
 direct or summarized, all transitions omitted, all serious events blunt, or
 all local events mentioned. Every conditional example in the corpus carries its
 condition; apply it only when the packet clearly satisfies it.
+
+## American English and role terminology
+
+Use American English for all authored player-visible copy, including data-driven
+bill labels, descriptions, clauses and tooltips, not only JSX. Use "program"
+and "programs" in authored prose. Preserve stable identifiers such as
+`programme-authorization` and `programmeLabel`, saved history, raw source
+examples, exact quotations and official names; record a specific provenance
+reason for each exception. Match words rather than substrings. Review role and
+institution terms against the canonical role, jurisdiction and date; do not
+replace "minister" globally or reject legitimate "ministerial" actions,
+"administration", clergy, foreign offices or quoted official names. Missing
+role context requires a question or omission, never an invented replacement.
+
+Use `scripts/prose-eval/american-english.ts` for scoped literal and data-field
+checks. Semantic terminology review remains a separate read-only review of
+the packet and output; a word-list pass is not role validation.
