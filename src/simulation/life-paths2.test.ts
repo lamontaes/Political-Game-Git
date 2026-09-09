@@ -28,6 +28,7 @@ import {
   delegateLifePathWork,
   departLifePathRecruit,
   progressLifePathWork,
+  hasLifePathCredential,
 } from "./life-paths2";
 import {
   createWorkItem,
@@ -41,7 +42,7 @@ const provenance = {
   kind: "authored",
   note: "Explicit synthetic LIFE-PATHS2 proof.",
 } as const;
-function fixture(): World {
+function fixture(openingBalance = 100000): World {
   const demo = createDemoWorld("life-paths2-proof");
   let world = createWorld({
     seed: demo.seed,
@@ -54,7 +55,7 @@ function fixture(): World {
     stableKey: "funds",
     owner: { kind: "person", personId: world.personOrder[0]! },
     openedAt: world.currentDate,
-    openingBalance: money(100000, "USD"),
+    openingBalance: money(openingBalance, "USD"),
     provenance,
   });
   return world;
@@ -267,6 +268,56 @@ describe("LIFE-PATHS2 negotiated pay and contention", () => {
     });
     return { world: w, person };
   }
+  it("refuses a willing known person who already holds rigid work", () => {
+    const setup = candidate();
+    const control = setup.world.control;
+    let w = enterLifePath(
+      { ...setup.world, control: { kind: "person", personId: setup.person } },
+      "shop-assistant",
+    ).world;
+    w = { ...w, control };
+    const result = recruitLifePathPerson(
+      w,
+      setup.person,
+      "community-volunteer",
+      0,
+    );
+    expect(result.ok).toBe(true);
+    expect(result.world.history.workStatuses.at(-1)?.status).toBe("ended");
+    expect(result.world.history.workStatuses.at(-1)?.reason).toBe(
+      "Unavailable for this work.",
+    );
+    expect(result.world.history.workItems).toHaveLength(0);
+    expect(
+      recruitLifePathPerson(w, setup.person, "repair-worker", 15000).world,
+    ).toBe(w);
+  });
+  it("lets the same person resign from volunteer work and preserves unfinished output", () => {
+    const setup = candidate();
+    let w = recruitLifePathPerson(
+      setup.world,
+      setup.person,
+      "community-volunteer",
+      0,
+    ).world;
+    const id = w.history.workRelationships.at(-1)!.id;
+    w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+    w = activateLifePathRecruit(w, id).world;
+    w = delegateLifePathWork(w, id).world;
+    const item = w.history.workItems.at(-1)!.id;
+    w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+    const control = w.control;
+    w = changeLifePathStatus(
+      { ...w, control: { kind: "person", personId: setup.person } },
+      id,
+      "leave",
+    ).world;
+    w = deserializeWorld(serializeWorld({ ...w, control }));
+    w = advanceWorldMinutes(w, 30, LIFE_PATHS2_HANDLERS);
+    expect(workItemState(w, item).completedEffortMinutes).toBe(30);
+    expect(workItemState(w, item).status).toBe("active");
+    expect(w.history.resourceTransferOutcomes).toHaveLength(0);
+  });
   it("negotiates a paid offer, makes no payment at acceptance, and pays completed delegation from personal funds", () => {
     const setup = candidate();
     let w = setup.world;
@@ -318,6 +369,9 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
     expect(raised.ok).toBe(true);
     w = raised.world;
     expect(balance(w)).toBe(172000);
+    const savedRaise = deserializeWorld(serializeWorld(w));
+    expect(progressLifePathWork(savedRaise, id).world).toBe(savedRaise);
+    w = savedRaise;
     w = scheduleLifePathSession(w, id).world;
     w = performLifePathSession(
       w,
@@ -452,3 +506,47 @@ it("binds campaign compensation to its treasury and refuses absent campaign auth
   );
   expect(deserializeWorld(serializeWorld(result.world))).toEqual(result.world);
 });
+
+it.each([
+  ["trade-training", 12, 1500, "training:repair-certificate"],
+  [
+    "college-associate",
+    96,
+    4000,
+    "postsecondary:public-administration-associate",
+  ],
+] as const)(
+  "completes the full supported %s program with its actual costs",
+  (path, sessions, fee, program) => {
+    let w = enterLifePath(fixture(1000000), path).world;
+    const id = w.history.educationEnrollments.at(-1)!.id;
+    expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(false);
+    for (let i = 0; i < sessions; i++) {
+      w = scheduleLifePathSession(w, id).world;
+      const result = performLifePathSession(
+        w,
+        w.history.scheduledActivities.at(-1)!.id,
+      );
+      expect(result.ok).toBe(true);
+      w = result.world;
+      if (i === Math.floor(sessions / 2))
+        w = deserializeWorld(serializeWorld(w));
+    }
+    expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(true);
+    expect(balance(w)).toBe(1000000 - sessions * fee);
+    if (path === "trade-training") {
+      w = enterLifePath(w, "repair-worker").world;
+      const work = w.history.workRelationships.at(-1)!.id;
+      w = scheduleLifePathSession(w, work).world;
+      w = performLifePathSession(
+        w,
+        w.history.scheduledActivities.at(-1)!.id,
+      ).world;
+      const earned = balance(w);
+      w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+      expect(balance(w)).toBe(earned + 15000);
+    }
+    expect(deserializeWorld(serializeWorld(w))).toEqual(w);
+  },
+  30000,
+);
