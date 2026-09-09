@@ -1,0 +1,23 @@
+--- a/src/player/PlayerGame.tsx
++++ b/src/player/PlayerGame.tsx
+@@ -2427,13 +2427,13 @@
+         );
+       if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
+         return frame(
+-          "The office",
+-          "office-section",
+-          <p className="game-note" data-testid="no-office">
+-            {capabilities.withheld.find(
+-              (entry) => entry.surface === "legislation",
+-            )?.reason ?? "This life has no office."}
+-          </p>,
++          "Education and work",
++          "personal-work-section",
++          <LifePathsPanel
++            world={session.world}
++            onWorldChange={onWorldChange}
++            transitionHandlers={createCampaignElectionTransitionRegistry()}
++          />,
+         );
+       }
+       const docketKey = selectedDocketKey(

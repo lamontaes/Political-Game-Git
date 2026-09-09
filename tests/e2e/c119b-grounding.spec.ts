@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 import { enterLife, startLife } from "./support/creator";
 
 test("childhood choices commit through pointer and keyboard activation", async ({

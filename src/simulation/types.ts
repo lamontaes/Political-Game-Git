@@ -42,6 +42,7 @@ export type EntityKind =
   | "campaign-state"
   | "campaign-action"
   | "campaign-action-result"
+  | "campaign-compliance-document"
   | "election-contest"
   | "election-contest-result"
   | "executive-disposition"
@@ -1068,7 +1069,13 @@ export interface EducationEnrollment {
 }
 
 export type EducationEnrollmentStatus =
-  "expected" | "active" | "completed" | "withdrawn" | "transferred" | "ended";
+  | "expected"
+  | "active"
+  | "temporarily-inactive"
+  | "completed"
+  | "withdrawn"
+  | "transferred"
+  | "ended";
 
 export interface EducationEnrollmentStateRecord {
   readonly id: EntityId;
@@ -2951,6 +2958,8 @@ export interface CampaignRecord {
   readonly officeKey: string;
   /** The candidacy pack that authorized it, so the claim can be traced back. */
   readonly candidacyPackId: string;
+  /** Feature-local campaign-compliance pack, or null where none is accepted. */
+  readonly compliancePackId: string | null;
   readonly organizationId: EntityId;
   /** Where money comes from: an aggregate supporter pool, not a donor list. */
   readonly donorPoolOrganizationId: EntityId;
@@ -3018,6 +3027,38 @@ export interface CampaignActionResultRecord {
   readonly observationId: EntityId;
   readonly feedbackEventId: EntityId;
   readonly feedbackKnowledgeId: EntityId;
+}
+
+/**
+ * A compliance document is evidence of a filing, never an agency approval.
+ * Drafts stay committee-private; filed copies may be projected as public
+ * records because the governing pack says they become public on receipt.
+ */
+export interface CampaignComplianceDocumentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  readonly committeeOrganizationId: EntityId;
+  readonly rulePackId: string;
+  readonly kind:
+    "statement-of-spending-intent" | "periodic-report" | "amendment";
+  readonly schedule:
+    | "initial"
+    | "60-day-preelection"
+    | "30-day-preelection"
+    | "15-day-preelection"
+    | "30-day-postelection"
+    | "correction";
+  readonly periodStart: IsoDate | null;
+  readonly periodEnd: IsoDate | null;
+  readonly dueOn: IsoDate;
+  readonly status: "draft" | "filed";
+  readonly visibility: "committee-private" | "public-record";
+  readonly transport: "KEFMS" | null;
+  readonly filedAt: IsoDate | null;
+  readonly amendsDocumentId: EntityId | null;
+  readonly correctionReason: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -3119,6 +3160,7 @@ export interface HistoryStore {
   readonly campaignStates?: readonly CampaignStateRecord[];
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
+  readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
   /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
   readonly publications?: readonly PublicationRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];

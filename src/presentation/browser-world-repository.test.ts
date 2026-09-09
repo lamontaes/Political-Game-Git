@@ -1710,3 +1710,29 @@ describe("Content identity is about content, not insertion order", () => {
     factory.control.clearFailures();
   });
 });
+
+describe("Read-only developer snapshots", () => {
+  it("changes neither payload nor metadata nor slot ownership, even after clone mutation", async () => {
+    const { factory, clock, store } = storeWith();
+    const world = playerWorld("dev-lab-save-control");
+    const id = store.newSaveId(world);
+    await store.save(world, id);
+    const before = JSON.stringify([...factory.records]);
+    clock.set("2026-06-01T00:00:00.000Z");
+    const inspector = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      now: clock.now,
+      databaseName: "test-worlds",
+    });
+    const copy = await inspector.inspectSnapshot(id);
+    expect(serializeWorld(copy!)).toBe(serializeWorld(world));
+    advanceDemoWorld(copy!, 7);
+    expect(JSON.stringify([...factory.records])).toBe(before);
+    // Unlike load, inspect did not acquire the generation needed to overwrite.
+    const attempted = await inspector.save(advanceDemoWorld(copy!, 7), id);
+    expect(attempted.status).toBe("conflict");
+    expect(JSON.stringify([...factory.records])).toBe(before);
+    await store.remove(id);
+    expect(await inspector.inspectSnapshot(id)).toBeNull();
+  });
+});

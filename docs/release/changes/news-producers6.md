@@ -1,10 +1,6 @@
 ---
 id: news-producers6
-impact: minor
-section: Added
-title: Press interviews now begin with real requests and agreement.
+impact: none
 ---
 
-Arrange a press interview through a reporter's agreement and an adviser's
-accepted preparation assignment. Prepared facts come from what that adviser
-knows, and their later feedback follows the story that was actually published.
+Public-information publication records and the press-interview producers: reporter agreement, adviser preparation bound to what that adviser actually knows, off-record terms carried on every downstream record, and feedback tied to the story published. The panel has no production importer, so nothing a player can reach changes yet.
