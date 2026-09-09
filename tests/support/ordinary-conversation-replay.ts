@@ -17,8 +17,81 @@ import {
 } from "../../src/presentation/run-b-conversation-progress";
 import { createRunBFixture } from "../../src/presentation/run-b-fixture";
 
+const WORDING_FIELDS = new Set([
+  "choice",
+  "constituentDescription",
+  "detail",
+  "dialogue",
+  "hearingDescription",
+  "immediateReaction",
+  "label",
+  "motivation",
+  "obligation",
+  "officeRole",
+  "playerActionDescription",
+  "playerIntentLabel",
+  "pressure",
+  "proposedOfficeProcedure",
+  "referralDestination",
+  "requiredDocument",
+  "roomNarration",
+  "setting",
+  "shortObligation",
+  "socialContext",
+  "speakerName",
+  "summary",
+]);
+
+type CanonicalLeaf = readonly [path: string, value: unknown];
+
+function splitCanonicalLeaves(
+  value: unknown,
+  path: readonly string[],
+  identity: CanonicalLeaf[],
+  wording: CanonicalLeaf[],
+): void {
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) =>
+      splitCanonicalLeaves(entry, [...path, String(index)], identity, wording),
+    );
+    return;
+  }
+  if (value !== null && typeof value === "object") {
+    for (const [key, entry] of Object.entries(value)) {
+      splitCanonicalLeaves(entry, [...path, key], identity, wording);
+    }
+    return;
+  }
+  const leaf: CanonicalLeaf = [path.join("."), value];
+  (WORDING_FIELDS.has(path.at(-1) ?? "") ? wording : identity).push(leaf);
+}
+
+/**
+ * Keep identity/provenance and player-facing wording independently sensitive.
+ * The W-1 regression was hidden when both were collapsed into one digest.
+ */
+export function ordinaryConversationFingerprint(replay: {
+  readonly records: Readonly<Record<string, readonly unknown[]>>;
+}) {
+  const identity: CanonicalLeaf[] = [];
+  const wording: CanonicalLeaf[] = [];
+  splitCanonicalLeaves(replay.records, [], identity, wording);
+  const digest = (leaves: readonly CanonicalLeaf[]) =>
+    createHash("sha256").update(canonicalJson(leaves)).digest("hex");
+  return {
+    counts: Object.fromEntries(
+      Object.entries(replay.records).map(([key, records]) => [
+        key,
+        records.length,
+      ]),
+    ),
+    identitySha256: digest(identity),
+    wordingSha256: digest(wording),
+  };
+}
+
 /** Same replay runs on the pinned pre-integration main and the reconciled head. */
-export function ordinaryConversationReplay() {
+export function ordinaryConversationReplayRecords() {
   function replay(
     initial: World,
     room: ConversationRoomContext,
@@ -59,17 +132,11 @@ export function ordinaryConversationReplay() {
       landed: world.history.events.slice(initial.history.events.length),
       turns,
     };
-    return Object.fromEntries(
-      Object.entries(groups).map(([key, records]) => [
-        key,
-        {
-          count: records.length,
-          sha256: createHash("sha256")
-            .update(canonicalJson(records))
-            .digest("hex"),
-        },
-      ]),
-    );
+    return {
+      initialNextSequence: initial.history.nextSequence,
+      finalNextSequence: world.history.nextSequence,
+      records: groups,
+    };
   }
   const game = createNewGameWorld({
     startKind: "custom",

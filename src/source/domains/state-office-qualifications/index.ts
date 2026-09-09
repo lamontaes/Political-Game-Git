@@ -1,27 +1,25 @@
 /**
  * The state-office qualifications domain's public API.
  *
- * This domain is wired into the command matrix and compiles **no production
- * records**. That is a decision, not an omission, and 31F §8 records the whole
- * of its reasoning. In short: the substrate compiles production corpora only
- * from artifacts it retrieved and hashed itself, and the 31 research wave is a
- * secondary source. Emitting `KNOWN(7 years)` with evidence pointing at a
- * Massachusetts constitutional article would say this repository read that
- * article. It did not; it read a document reporting it.
+ * This domain preserves the complete 31F and recovered 31D research transports,
+ * but promotes only the bounded claims whose cited provisions were separately
+ * retrieved, hashed, and reviewed. Sixty-three claims currently clear that
+ * gate. Every other research row remains accounted for as staged or refused;
+ * the research document's own `primary` label never substitutes for acquired
+ * first-party bytes.
  *
  * PR #72 contributes nothing here in any form. Not a row, not a citation, not
  * a schema.
  *
- * Everything else is real and exercised. The types, the matrix reader, the
- * normalizer and the validator all work, and the fixtures compile end to end
- * through the same capability boundary every other domain uses — including the
- * cases that matter most, an office that does not exist and an office created
- * but not yet operative. When the gate in 31F §8 clears, production
- * qualifications become a data change rather than a design.
+ * The matrix reader, normalizer, reviewed-transcription compiler, validator,
+ * and fixtures all run through the same capability boundary as other source
+ * domains, including the cases that matter most: an office that does not exist,
+ * an office not yet operative, and an authority that was read but is silent.
  */
 
 import { corpusCanonicalDigest, openFixture } from "../../core/index";
 import type {
+  ArtifactLock,
   CompiledCorpus,
   FixtureInput,
   ProductionInput,
@@ -29,6 +27,12 @@ import type {
   ValidationReport,
 } from "../../core/index";
 import { parseQualificationMatrix } from "./parse";
+import { QUALIFICATION_ACQUISITION } from "./acquisition";
+import {
+  compileQualifications,
+  openQualificationArtifacts,
+  QUALIFICATIONS_COMPILER_VERSION,
+} from "./compile";
 import { normalizeQualifications } from "./normalize";
 import { validateQualificationCorpus } from "./validate";
 import type { QualificationRecord } from "./types";
@@ -37,6 +41,7 @@ export type {
   CitedAuthority,
   OfficeExistence,
   OfficeFamily,
+  ProvisionValidity,
   QualificationClaim,
   QualificationField,
   QualificationRecord,
@@ -45,9 +50,35 @@ export type {
 export { isOfficeExistence } from "./types";
 export {
   QUALIFICATION_COLUMNS,
+  RECOVERED_31D_QUALIFICATION_COLUMNS,
+  QUALIFICATION_COLUMNS_31D,
+  QUALIFICATION_MATRIX_SCHEMAS,
   parseQualificationMatrix,
   matrixField,
 } from "./parse";
+export {
+  QUALIFICATION_ACQUISITION,
+  QUALIFICATION_SOURCES,
+  QUALIFICATION_SOURCED_JURISDICTIONS,
+  qualificationSource,
+} from "./acquisition";
+export {
+  QUALIFICATION_TRANSCRIPTIONS,
+  locatorNames,
+  normalizeLocator,
+  transcriptionFor,
+} from "./transcription";
+export {
+  RESEARCH_MATRICES,
+  compileQualifications,
+  openQualificationArtifacts,
+  QUALIFICATIONS_COMPILER_VERSION,
+} from "./compile";
+export type {
+  QualificationCompileResult,
+  QualificationRefusal,
+  QualificationRefusalKind,
+} from "./compile";
 export { normalizeQualifications, readRequirement } from "./normalize";
 export {
   REJECTED_PLACEHOLDER_CITATIONS,
@@ -55,32 +86,76 @@ export {
   validateQualificationCorpus,
 } from "./validate";
 
-export const QUALIFICATIONS_COMPILER_VERSION = "1.0.0";
-export const QUALIFICATIONS_PARSER_VERSION = "1.0.0";
+export const QUALIFICATIONS_PARSER_VERSION = "2.0.0";
 
 /** The as-of date a fixture corpus is evaluated against. */
-export const QUALIFICATIONS_CORPUS_AS_OF = "2026-01-01";
+export const QUALIFICATIONS_CORPUS_AS_OF = "2026-09-09";
 
 /**
- * Why no production corpus exists.
+ * How far the source boundary reaches, and where it stops.
  *
- * Stated here so that `source:manifest` carries it and an auditor reads the
- * gate rather than discovering an absence.
+ * 31F §8 declared a gate: no production records until either the cited
+ * authorities were retrieved, or a secondary tier was admitted. The first has
+ * now happened for a bounded set of states, so this is no longer a gate — the
+ * domain compiles — but the boundary it describes is real and the states
+ * outside it are outside it for a reason. Stated here so `source:manifest`
+ * carries it and an auditor reads the boundary rather than inferring one from
+ * a record count.
  */
-export const QUALIFICATIONS_PRODUCTION_GATE =
-  "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8.";
+export const QUALIFICATIONS_SOURCE_BOUNDARY =
+  "Partly open. 31F section 8 gated this domain on acquiring the cited state authorities as first-party artifacts; this domain now retrieves and hashes them, and compiles a claim only where its words were found in the enacted text of the provision it cites. The gate therefore still closes over every state whose authorities have not been retrieved, and those remain uncompiled rather than admitted on the research's word. docs/research/qualification-source-ledger.md accounts for every research row, compiled or refused.";
 
 /** The matrix a fixture supplies: its bytes, inline. */
 export interface QualificationFixtureArtifacts {
   readonly matrixTsv: string;
 }
 
+export interface CompiledQualificationResearchTransport {
+  readonly artifactId: string;
+  readonly schema: "31F-compiler-ready" | "31D-recovered";
+  readonly recordCount: number;
+  readonly canonicalSha256: string;
+  readonly records: readonly QualificationRecord[];
+  readonly productionStatus: "staged-secondary-research";
+}
+
+/** Compile exact research rows for review without crossing the production gate. */
+export function compileQualificationResearchTransport(
+  bytes: Uint8Array,
+  artifactId: string,
+  corpusAsOf: string = QUALIFICATIONS_CORPUS_AS_OF,
+): CompiledQualificationResearchTransport {
+  const table = parseQualificationMatrix(bytes);
+  const normalized = normalizeQualifications(
+    table.rows,
+    artifactId,
+    corpusAsOf,
+    table.schema,
+  );
+  if (normalized.defects.length > 0) {
+    throw new Error(
+      `The qualification research transport produced ${normalized.defects.length} defects, the first being: ${normalized.defects[0]?.message}`,
+    );
+  }
+  return {
+    artifactId,
+    schema:
+      table.schema.schemaId === "31D-export-14"
+        ? "31D-recovered"
+        : "31F-compiler-ready",
+    recordCount: normalized.records.length,
+    canonicalSha256: corpusCanonicalDigest(normalized.records),
+    records: normalized.records,
+    productionStatus: "staged-secondary-research",
+  };
+}
+
 /**
  * Compile a qualifications corpus from a fixture matrix.
  *
- * There is deliberately no production counterpart. A caller cannot reach this
- * compiler with a production input because none can be opened for this domain,
- * and cannot reach it with a plain object because `FixtureInput` is branded.
+ * This fixture path remains isolated from production acquisition. A caller
+ * cannot pass it a production input or a plain object because `FixtureInput` is
+ * branded.
  */
 export function compileQualificationFixture(
   input: FixtureInput<QualificationFixtureArtifacts>,
@@ -92,6 +167,7 @@ export function compileQualificationFixture(
     table.rows,
     input.fixtureId,
     corpusAsOf,
+    table.schema,
   );
   if (defects.length > 0) {
     throw new Error(
@@ -125,7 +201,7 @@ export function compileQualificationFixture(
         universeDescription:
           "A fixture exercising the qualifications compiler. It describes no real jurisdiction's law and must never be read as one.",
         boundedSampleReason:
-          "Fixture only. The domain compiles no production records; see 31F section 8 for the gate.",
+          "Fixture only. Production promotion uses separately acquired, locked first-party authorities; see 31F section 8 for the gate.",
       },
     },
     records,
@@ -145,13 +221,15 @@ export function openQualificationFixture(
 export const sourceDomain: SourceDomainModule<QualificationRecord> = {
   domain: "state-office-qualifications",
   compilerVersion: QUALIFICATIONS_COMPILER_VERSION,
-  acquisitionPlan: { domain: "state-office-qualifications", requests: [] },
+  acquisitionPlan: QUALIFICATION_ACQUISITION,
   lockPath: "data/source/state-office-qualifications/artifact-lock.json",
-  productionGate: QUALIFICATIONS_PRODUCTION_GATE,
-  compileProduction(): CompiledCorpus<QualificationRecord, "production"> {
-    throw new Error(
-      `The state-office-qualifications domain compiles no production corpus. ${QUALIFICATIONS_PRODUCTION_GATE}`,
-    );
+  compileProduction(
+    lock: ArtifactLock,
+  ): CompiledCorpus<QualificationRecord, "production"> {
+    return compileQualifications(
+      openQualificationArtifacts(lock),
+      QUALIFICATIONS_CORPUS_AS_OF,
+    ).corpus;
   },
   validateCorpus(
     corpus: CompiledCorpus<QualificationRecord>,

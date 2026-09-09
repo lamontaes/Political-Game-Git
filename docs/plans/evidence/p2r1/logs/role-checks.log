@@ -1,0 +1,72 @@
+{
+  "rows": 133,
+  "semanticPass": 133,
+  "floorFindings": [
+    {
+      "number": 52,
+      "id": "adult.care-request#option:name-the-limit:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "adult.candidacy-approach#option:say-maybe:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "adult.household-money-shortfall#option:say-so:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "adult.family-request#option:stay:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "id": "adult.work-colleague-struggling#option:ask-them:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    {
+      "number": 129,
+      "id": "adult.weekend-invitation#option:say-yes:memory",
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    }
+  ]
+}

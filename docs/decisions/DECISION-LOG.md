@@ -2620,3 +2620,78 @@ Federal presentment remains `unknown`; no federal authority is invented. The
 bounded six-jurisdiction substrate, all six shipped executive packs, every
 jurisdiction fact, and every accepted sourced row are unchanged by this
 documentation reconciliation.
+
+## D-084 — An arm is measured from the alpha that contains it, and the part the alpha does not contain is reported occluded rather than estimated
+
+- Date: 2026-09-04
+- Status: ACCEPTED
+- Supersedes: none
+- Reconciled: renumbered from D-075 while merging current main (89b2f76) into
+  PR #90. Accepted main holds D-075 for causal tracing, and the garment fit
+  contract this decision extends landed as D-079/D-080 rather than the D-074
+  the original branch was written against. D-081 and D-082 are the reservation
+  held by the open PR #79 lane, so the next actually free identifier on main is
+  D-084. The measurement contract is unchanged; only the identifier and the
+  references to the accepted fit decision moved.
+
+D-079/D-080 left sleeves open because their fixtures are armless and nothing in the
+repository had measured an arm. Three arm representations already existed —
+the pose registry's nominal shoulder / elbow / wrist / hand landmarks, derived
+from fixture geometry in a nominal canvas; `measureBodyRig`, which finds rows
+and no arms; and fixture arms drawn as polygons fused to the torso — and none
+of them is a reading of the body that ships.
+
+`arm-measure.ts` is that reading, and the decision is what it refuses to read.
+Where an arm hangs clear of the torso the row carries a separate opaque run,
+both edges are silhouette edges, and the segment's axis, wrist and
+cross-sections come from pixels. Where the arm lies against the torso the row
+is one run; its outer edge is a silhouette edge and its inner edge is a painted
+line, which is colour, and this contract does not read colour. Those rows are
+fused, and every inner measurement over them is `occluded` — not estimated
+from proportion, not borrowed from the other side, not borrowed from the pose
+registry.
+
+Every value carries one of five statuses and an evidence class. `measured` is
+a reading; `partially-measured` locates a region and not a joint — an elbow on
+the outer contour is on the skin, not at the joint centre, and says so;
+`ambiguous` means the silhouette was read and did not decide; `occluded` and
+`unavailable` carry no value at all. Sides are image sides, measured
+independently and never mirrored. Pose is part of the key, and the sleeve
+readiness gate refuses to compare across poses unless a caller declares them
+compatible.
+
+The measurement is deliberately strict about slices. A forearm carried across
+the body joins the torso along its upper rows, and a slice that climbs into
+those rows is declared fused even where both of the forearm's edges are
+visible, because on those rows the alpha holds one run and nothing in it says
+which pixels are forearm. That arm is reported occluded rather than measured
+from a guess about where the torso ends.
+
+What the bodies say: a hanging arm on the two real production candidates and
+the heavy Packet 71 body is measurable from the elbow down; the upper arm is
+fused on every body in the repository; every seated hands-on-thighs arm is
+occluded. So no sleeve transform is derived. A transform anchored on an
+occluded upper arm and a partially-measured elbow is the guess this decision
+exists to refuse, and the evidence names the generation that would change
+that: a lean and a heavy body in the same pose with arms held clear.
+
+Reconciling onto accepted main re-derived all of this rather than copying it,
+and the regenerated report is byte-identical. Accepted main does now carry a
+heavy and a lean body in the same apparent poses, among 51 Wave A morphology
+candidates, and it also carries a despilled copy of all eight Packet 71 bodies.
+Neither is arm evidence here. The despill writes colour and never alpha —
+verified, all eight alpha channels byte-identical to their sources — so the
+despilled copies are the same silhouette. The Wave A candidates are
+`CANDIDATE_REFERENCE_ONLY`, none is production-eligible, none is in the asset
+manifest, and none carries a registered pose family; admitting them would mean
+reading pose identity off a filename. So the limitation stands and its blocker
+moved: from no such art existing, to that art existing unreleased with no
+declared identity that makes it measurable. Registering it is a separate
+authorization from this decision.
+
+Consequence: `art/qa/arm-measurements/` holds a report and overlays regenerated
+by test from the rasters; the pose registry's nominal landmarks stay control
+geometry and are shown beside the measurement as deviations; `assessSleeveFitReadiness`
+fails closed for fifteen of sixteen pairings and returns ratios, never a
+transform, for the one it passes. The runtime, the compositor, every component
+and every fit profile are unchanged.

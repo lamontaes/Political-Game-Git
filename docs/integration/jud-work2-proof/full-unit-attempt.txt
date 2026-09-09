@@ -1,0 +1,265 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run --maxWorkers=1 --no-cache
+
+
+ RUN  v4.1.1 /private/tmp/pg-jud-work2
+
+(node:43886) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44036) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44178) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ scripts/prose-corpus/anchor-cli.test.ts (50 tests | 3 failed) 414524ms
+     × carries membership forward exactly, and records what it cannot know 32339ms
+     × still accepts an ordinary disposable bundle 8755ms
+     × accepts a bundle that merely LIVES under a symlinked directory 6255ms
+(node:50922) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 1 failed) 11840ms
+     × reports counts that match a live measurement, not a stale run 2429ms
+ ❯ src/presentation/legislative-bargaining-world.test.ts (6 tests | 2 failed) 22362ms
+     × carries a Lexington winner into real bargaining in their own world 5218ms
+     × withholds the members' room while the bill is not on the floor 5619ms
+ ❯ scripts/prose-corpus/anchor-crossbranch.test.ts (4 tests | 4 skipped) 17478ms
+ ❯ tests/dev-identified.test.ts (5 tests | 5 failed) 25015ms
+     × prints banner and forwards custom arguments like --mode 5007ms
+     × handles --host= and --port= syntax without duplicating arguments 5002ms
+     × terminates cleanly and frees port on SIGTERM to wrapper 5001ms
+     × terminates cleanly and frees port on SIGINT to wrapper 5001ms
+     × fails with non-zero exit code if requested port is occupied (--strictPort) 5002ms
+(node:62317) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/anchor-crossbranch.test.ts [ scripts/prose-corpus/anchor-crossbranch.test.ts ]
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/prose-corpus/anchor-crossbranch.test.ts:179:25
+    177|   // with it.
+    178|   const sanity = cli("check");
+    179|   expect(sanity.status).toBe(0);
+       |                         ^
+    180| }, 300_000);
+    181|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/12]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > prints banner and forwards custom arguments like --mode
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/dev-identified.test.ts:67:3
+     65|
+     66| describe("dev:identified lifecycle and CLI forwarding", () => {
+     67|   it("prints banner and forwards custom arguments like --mode", async …
+       |   ^
+     68|     const port = 5188;
+     69|     const child = spawn(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/12]⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > handles --host= and --port= syntax without duplicating arguments
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/dev-identified.test.ts:114:3
+    112|   });
+    113|
+    114|   it("handles --host= and --port= syntax without duplicating arguments…
+       |   ^
+    115|     const port = 5194;
+    116|     const child = spawn(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/12]⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > terminates cleanly and frees port on SIGTERM to wrapper
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/dev-identified.test.ts:151:3
+    149|   });
+    150|
+    151|   it("terminates cleanly and frees port on SIGTERM to wrapper", async …
+       |   ^
+    152|     const port = 5189;
+    153|     const child = spawn(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/12]⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > terminates cleanly and frees port on SIGINT to wrapper
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/dev-identified.test.ts:182:3
+    180|   });
+    181|
+    182|   it("terminates cleanly and frees port on SIGINT to wrapper", async (…
+       |   ^
+    183|     const port = 5190;
+    184|     const child = spawn(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/12]⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > fails with non-zero exit code if requested port is occupied (--strictPort)
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/dev-identified.test.ts:213:3
+    211|   });
+    212|
+    213|   it("fails with non-zero exit code if requested port is occupied (--s…
+       |   ^
+    214|     const port = 5196;
+    215|     const dummyServer = net.createServer();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/12]⎯
+
+ FAIL  scripts/prose-corpus/anchor-cli.test.ts > the one-way migration off the id-only schema > carries membership forward exactly, and records what it cannot know
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/prose-corpus/anchor-cli.test.ts:1043:42
+    1041|       // And the project works straight afterwards.
+    1042|       expect(run("anchors", paths).status).toBe(0);
+    1043|       expect(run("check", paths).status).toBe(0);
+       |                                          ^
+    1044|     },
+    1045|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/12]⎯
+
+ FAIL  scripts/prose-corpus/anchor-cli.test.ts > a path override may not reach canonical authority by alias > still accepts an ordinary disposable bundle
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ scripts/prose-corpus/anchor-cli.test.ts:1147:40
+    1145|     const paths = scratch();
+    1146|     const before = repoTrio();
+    1147|     expect(run("check", paths).status).toBe(0);
+       |                                        ^
+    1148|     expect(repoTrio()).toBe(before);
+    1149|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/12]⎯
+
+ FAIL  scripts/prose-corpus/anchor-cli.test.ts > a path override may not reach canonical authority by alias > accepts a bundle that merely LIVES under a symlinked directory
+AssertionError: expected '/private/tmp/pg-jud-work2/scripts/pro…' to be '' // Object.is equality
+
+- Expected
++ Received
+
++ /private/tmp/pg-jud-work2/scripts/prose-corpus/cli.ts:1116
++       throw new Error(
++             ^
++
++ Error: Committed artifacts do not match a fresh regeneration: coverage-report.md. Run `npm run corpus:prose`.
++     at main (/private/tmp/pg-jud-work2/scripts/prose-corpus/cli.ts:1116:13)
++     at <anonymous> (/private/tmp/pg-jud-work2/scripts/prose-corpus/cli.ts:1225:1)
++     at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
++     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
++     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
++
++ Node.js v22.23.2
++
+
+ ❯ scripts/prose-corpus/anchor-cli.test.ts:1171:29
+    1169|       };
+    1170|       const result = run("check", viaLink);
+    1171|       expect(result.stderr).toBe("");
+       |                             ^
+    1172|       expect(result.status).toBe(0);
+    1173|     },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/12]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > reports counts that match a live measurement, not a stale run
+AssertionError: expected 52167 to be 51732 // Object.is equality
+
+- Expected
++ Received
+
+- 51732
++ 52167
+
+ ❯ scripts/prose-corpus/corpus.test.ts:557:36
+    555|     // measures.
+    556|     // JUD-WORK2 adds seven production files. Re-measured with the unc…
+    557|     // scanner on this feature tree; inventoried membership remains 1,…
+       |                                    ^
+    558|     const coverage = buildCoverageReport(inventory);
+    559|     expect(coverage.totalLiterals).toBe(52167);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/12]⎯
+
+ FAIL  src/presentation/legislative-bargaining-world.test.ts > proof A — win, govern, bargain, from the production route > carries a Lexington winner into real bargaining in their own world
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/presentation/legislative-bargaining-world.test.ts:157:3
+    155|
+    156| describe("proof A — win, govern, bargain, from the production route", …
+    157|   it("carries a Lexington winner into real bargaining in their own wor…
+       |   ^
+    158|     const residence = requireLifePlace("lexington-fayette");
+    159|     const state = requireLifePlace("kentucky");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/12]⎯
+
+ FAIL  src/presentation/legislative-bargaining-world.test.ts > proof D — missing content fails closed, never borrows > withholds the members' room while the bill is not on the floor
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/presentation/legislative-bargaining-world.test.ts:363:3
+    361|
+    362| describe("proof D — missing content fails closed, never borrows", () =…
+    363|   it("withholds the members' room while the bill is not on the floor",…
+       |   ^
+    364|     const played = playUntilDecided("p85c-owner-0", 3);
+    365|     expect(projectCampaign(played.world, played.personId).phase).toBe(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/12]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯ Uncaught Exception ⎯⎯⎯⎯⎯
+Error: listen EPERM: operation not permitted 127.0.0.1:5196
+ ❯ Server.setupListenHandle [as _listen2] node:net:1919:21
+ ❯ listenInCluster node:net:1998:12
+ ❯ node:net:2207:7
+ ❯ processTicksAndRejections node:internal/process/task_queues:89:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'EPERM', errno: -1, syscall: 'listen', address: '127.0.0.1', port: 5196 }
+This error originated in "tests/dev-identified.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The latest test that might've caused the error is "fails with non-zero exit code if requested port is occupied (--strictPort)". It might mean one of the following:
+- The error was thrown, while Vitest was running this test.
+- If the error occurred after the test had been completed, this was the last documented test before it was thrown.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  5 failed | 173 passed (178)
+      Tests  11 failed | 3223 passed | 6 skipped (3240)
+     Errors  1 error
+   Start at  21:46:45
+   Duration  1076.10s (transform 15.87s, setup 0ms, import 95.68s, tests 897.27s, environment 100ms)
+

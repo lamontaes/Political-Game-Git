@@ -779,17 +779,23 @@ function RequestRow({ request }: { readonly request: AssetRequest }) {
   );
 }
 
-export function SceneGalleryView() {
+export function SceneGalleryView({
+  selectedSceneId,
+}: { readonly selectedSceneId?: string } = {}) {
   const scenes = useMemo(
     () =>
-      [...SCENE_REGISTRY.scenes.values()].sort((a, b) =>
-        a.presentationStatus === b.presentationStatus
-          ? a.sceneId.localeCompare(b.sceneId)
-          : a.presentationStatus === "production"
-            ? -1
-            : 1,
-      ),
-    [],
+      [...SCENE_REGISTRY.scenes.values()]
+        .filter(
+          (scene) => !selectedSceneId || scene.sceneId === selectedSceneId,
+        )
+        .sort((a, b) =>
+          a.presentationStatus === b.presentationStatus
+            ? a.sceneId.localeCompare(b.sceneId)
+            : a.presentationStatus === "production"
+              ? -1
+              : 1,
+        ),
+    [selectedSceneId],
   );
   const consumers = useMemo(() => reportSceneConsumers(), []);
   const requests = (assetRequestDocument as AssetRequestDocument).requests;

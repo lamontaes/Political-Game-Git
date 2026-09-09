@@ -15,7 +15,7 @@ function files(root: string): string[] {
 const source = ".claude/skills/civic-prose";
 const target = ".agents/skills/civic-prose";
 
-type Role = "writer" | "grounding-reviewer";
+type Role = "writer" | "grounding-reviewer" | "terminology-reviewer";
 
 // Closed provider-only prefixes, including their exact separating newlines.
 // Never infer the allowed wrapper from the file being checked.
@@ -26,13 +26,14 @@ const providerPrefixes: Record<Role, string> = {
     "Read `.agents/skills/civic-prose/SKILL.md` and its referenced contract before working; explicitly use $civic-prose. Codex does not preload Claude skills metadata.\n\n" +
     authorityPrefix,
   "grounding-reviewer": authorityPrefix,
+  "terminology-reviewer": authorityPrefix,
 };
 
 function assertPortability(port: string, role: Role, accepted: string): void {
   // Constrain the portable TOML subset: no unknown fields, duplicate keys,
   // broken quoting, or trailing syntax. The captured body is not trimmed.
   const envelope = port.match(
-    /^name = "(civic-prose-(?:writer|grounding-reviewer))"\ndescription = "([^"\n]+)"\nsandbox_mode = "read-only"\ndeveloper_instructions = '''\n([\s\S]+)\n'''\n$/,
+    /^name = "(civic-prose-(?:writer|grounding-reviewer|terminology-reviewer))"\ndescription = "([^"\n]+)"\nsandbox_mode = "read-only"\ndeveloper_instructions = '''\n([\s\S]+)\n'''\n$/,
   );
   expect(envelope, "valid standalone agent TOML envelope").not.toBeNull();
   expect(envelope?.[1]).toBe(`civic-prose-${role}`);
@@ -64,7 +65,11 @@ describe("civic-prose provider portability", () => {
     }
   });
 
-  for (const role of ["writer", "grounding-reviewer"] as const) {
+  for (const role of [
+    "writer",
+    "grounding-reviewer",
+    "terminology-reviewer",
+  ] as const) {
     const accepted = readFileSync(
       `.claude/agents/civic-prose-${role}.md`,
       "utf8",
@@ -115,6 +120,7 @@ describe("civic-prose provider portability", () => {
       ...files(target),
       ".codex/agents/civic-prose-writer.toml",
       ".codex/agents/civic-prose-grounding-reviewer.toml",
+      ".codex/agents/civic-prose-terminology-reviewer.toml",
     ];
     expect(
       scanHoldoutHygiene(

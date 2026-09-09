@@ -1,4 +1,11 @@
-import { useMemo, useRef, useState, type CSSProperties } from "react";
+import { useReviewEnvironment, useReviewStorage } from "./review-context";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import clippingAfterUrl from "../../docs/agent/evidence/office-clipping-after-1440x900.png";
 import clippingBeforeUrl from "../../docs/agent/evidence/office-clipping-before-1440x900.png";
@@ -66,11 +73,14 @@ function librariesFor(setId: CharacterProofSetId) {
       };
 }
 
-function initialWorld(setId: CharacterProofSetId): {
+function initialWorld(
+  setId: CharacterProofSetId,
+  storage: Storage,
+): {
   readonly world: World;
   readonly source: CharacterProofWorldSource;
 } {
-  const restored = loadCharacterProofSnapshot(window.localStorage, setId);
+  const restored = loadCharacterProofSnapshot(storage, setId);
   if (restored) return { world: restored, source: "restored-snapshot" };
   return {
     world: createCharacterProofSetWorld(
@@ -281,10 +291,12 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
+  const storage = useReviewStorage();
+  const review = useReviewEnvironment();
   const [setId] = useState<CharacterProofSetId>(proofSetFromUrl);
   const set = CHARACTER_PROOF_SETS[setId];
   const [{ world, source }, setWorldState] = useState(() =>
-    initialWorld(setId),
+    initialWorld(setId, storage),
   );
   const [debugAnchors, setDebugAnchors] = useState(false);
   const [status, setStatus] = useState<string>(
@@ -292,6 +304,10 @@ export function CharacterProofView() {
       ? "Restored the saved world snapshot from browser storage."
       : "Created a fresh seeded world.",
   );
+
+  useEffect(() => {
+    review?.reportWorld(world);
+  }, [world, review]);
 
   const libraries = librariesFor(setId);
   const composition = useMemo(
@@ -360,9 +376,11 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-save"
             onClick={() => {
-              saveCharacterProofSnapshot(window.localStorage, world, setId);
+              saveCharacterProofSnapshot(storage, world, setId);
               setStatus(
-                "Saved the world snapshot to browser storage. Reload to restore it.",
+                review
+                  ? "Saved to disposable review memory only; reset or exit discards it."
+                  : "Saved the world snapshot to browser storage. Reload to restore it.",
               );
             }}
           >
@@ -371,7 +389,11 @@ export function CharacterProofView() {
           <button
             type="button"
             data-testid="character-proof-reload"
-            onClick={() => window.location.reload()}
+            onClick={() =>
+              review
+                ? setWorldState(initialWorld(setId, storage))
+                : window.location.reload()
+            }
           >
             Reload page
           </button>
@@ -379,7 +401,7 @@ export function CharacterProofView() {
             type="button"
             data-testid="character-proof-clear"
             onClick={() => {
-              clearCharacterProofSnapshot(window.localStorage, setId);
+              clearCharacterProofSnapshot(storage, setId);
               setWorldState({
                 world: createCharacterProofSetWorld(libraries.characters, set),
                 source: "fresh",
