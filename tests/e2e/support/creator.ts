@@ -19,6 +19,8 @@ export interface CreatorLife {
   readonly familyName?: string;
   /** Matched against the place buttons. Defaults to Kentucky. */
   readonly place?: string;
+  readonly placeQuery?: string;
+  readonly placeScope?: "state" | "county" | "locality";
   /** The explicit route. Defaults to the ordinary generated one. */
   readonly route?: "normal" | "custom";
   /**
@@ -80,12 +82,16 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   const place = life.place ?? "Kentucky";
-  await page.getByTestId("place-search").fill(place);
-  await page
+  await page.getByTestId("place-search").fill(life.placeQuery ?? place);
+  const choices = page
     .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(place, "i") })
-    .first()
-    .click();
+    .getByRole("button", { name: new RegExp(place, "i") });
+  const scoped = life.placeScope
+    ? choices.filter({
+        has: page.locator(`[data-place-scope="${life.placeScope}"]`),
+      })
+    : choices;
+  await scoped.first().click();
   await page.getByTestId("creator-continue-place").click();
 
   if (custom) {

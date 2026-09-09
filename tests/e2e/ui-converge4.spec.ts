@@ -66,6 +66,8 @@ test("normal Carson City citizen attends a public session and retains the real v
   await startLife(page, {
     age: 38,
     place: "Carson City, Nevada",
+    placeScope: "locality",
+    placeQuery: "Carson City",
     route: "normal",
   });
   await enterOpening(page);
@@ -262,6 +264,7 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
   await fillCreator(page, {
     age: 38,
     place: "Fayette County, Kentucky",
+    placeScope: "county",
     route: "normal",
   });
   await page.getByTestId("begin").press("Enter");

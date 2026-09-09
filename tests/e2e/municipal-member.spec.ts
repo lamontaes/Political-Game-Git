@@ -66,6 +66,8 @@ test("normal saved municipal member completes work once and reloads without acqu
   await startLife(page, {
     age: 35,
     place: "Carson City, Nevada",
+    placeScope: "locality",
+    placeQuery: "Carson City",
     route: "normal",
   });
   await enterLife(page);
