@@ -277,9 +277,9 @@ describe("the production gate and command-matrix wiring", () => {
     const govUnits = domains.find((d) => d.domain === "government-units");
     expect(govUnits).toBeDefined();
     expect(govUnits?.productionGate).toBe(GOVERNMENT_UNITS_PRODUCTION_GATE);
-    // The gate names the acquisition blocker so the manifest and validator
+    // The gate names the actual-format blocker so the manifest and validator
     // carry it rather than reporting a silent absence.
-    expect(GOVERNMENT_UNITS_PRODUCTION_GATE).toMatch(/census\.gov/);
+    expect(GOVERNMENT_UNITS_PRODUCTION_GATE).toMatch(/XLSX\/PID6/);
     expect(GOVERNMENT_UNITS_PRODUCTION_GATE.length).toBeGreaterThan(40);
   });
 

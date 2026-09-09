@@ -1,0 +1,139 @@
+{
+  "matched": {
+    "timeoutMs": 30000,
+    "retries": 0,
+    "workers": 1,
+    "port": 5399,
+    "forceDependencyRebuild": true,
+    "loader": "--import=tsx",
+    "harnessSha256": "9a2a38bbd0c72d616c0275c3711f1ac3a56e1d89033e84e8071419f055968ed0"
+  },
+  "runs": {
+    "before": {
+      "identity": {
+        "workspace": "/private/tmp/pg-muni-load6-before",
+        "head": "15f2611b939d6394c30f56946df85226c827cc0c",
+        "branch": "",
+        "dirty": false,
+        "sourceDigest": "50c298d974059a39cb4ffbd04597a99e283f0bb82e84cc9fc1ac7987b85ce61e"
+      },
+      "elapsedMs": 6091,
+      "assertionsCompleted": 6,
+      "navigationCount": 12,
+      "resourceEntries": 3000,
+      "transferBytes": 8422158,
+      "decodedBytes": 49368416,
+      "fullInventoryResources": 0,
+      "fullInventoryTransferBytes": 0,
+      "compactRegistryResources": 0,
+      "compactRegistryTransferBytes": 0,
+      "resourceMeasurementValid": false
+    },
+    "after": {
+      "identity": {
+        "workspace": "/private/tmp/pg-muni-play1",
+        "head": "b60797d2845a960e0b9e6b684f7f1e20325658a6",
+        "branch": "codex/muni-play1",
+        "dirty": false,
+        "sourceDigest": "266fabc2de62a13408dff8c0a3c2f8250c1120d8111d51bc4c659181c61f4985"
+      },
+      "elapsedMs": 6437,
+      "assertionsCompleted": 6,
+      "navigationCount": 12,
+      "resourceEntries": 3000,
+      "transferBytes": 8280546,
+      "decodedBytes": 70754067,
+      "fullInventoryResources": 0,
+      "fullInventoryTransferBytes": 0,
+      "compactRegistryResources": 0,
+      "compactRegistryTransferBytes": 0,
+      "resourceMeasurementValid": false
+    },
+    "before-complete": {
+      "identity": {
+        "workspace": "/private/tmp/pg-muni-load6-before",
+        "head": "cac655efe147bb3bfecfce4796288206b97237f9",
+        "branch": "",
+        "dirty": false,
+        "sourceDigest": "dc690c45999162a96ba8795e63918c06a4e6fec2789009eeb11655b984984f6a"
+      },
+      "elapsedMs": 7895,
+      "assertionsCompleted": 6,
+      "navigationCount": 12,
+      "resourceEntries": 6673,
+      "transferBytes": 80081193,
+      "decodedBytes": 222690053,
+      "fullInventoryResources": 12,
+      "fullInventoryTransferBytes": 56532478,
+      "compactRegistryResources": 0,
+      "compactRegistryTransferBytes": 0,
+      "resourceMeasurementValid": true
+    },
+    "after-complete": {
+      "identity": {
+        "workspace": "/private/tmp/pg-muni-play1",
+        "head": "afd69d4f610258548a3c0075e04e07b30ffcbc9a",
+        "branch": "codex/muni-play1",
+        "dirty": false,
+        "sourceDigest": "b74ab7590fcb8561c91fdfcb079f498fa59adce7cc407814d0c6177464ffc76c"
+      },
+      "elapsedMs": 7136,
+      "assertionsCompleted": 6,
+      "navigationCount": 12,
+      "resourceEntries": 6673,
+      "transferBytes": 23481692,
+      "decodedBytes": 221039924,
+      "fullInventoryResources": 0,
+      "fullInventoryTransferBytes": 0,
+      "compactRegistryResources": 12,
+      "compactRegistryTransferBytes": 5662,
+      "resourceMeasurementValid": true
+    }
+  },
+  "sourceFilesUnchangedFromAccepted149dd76": true,
+  "normalUiBase": "027b835ca5e9a1049fe76a07b935ebb4dd8df7bd",
+  "runtimePatchSource": "b60797d2845a960e0b9e6b684f7f1e20325658a6",
+  "normalUiTests": {
+    "passed": 2,
+    "durationSeconds": 19.7
+  },
+  "inventoryGovernments": 144,
+  "admittedOrdinancePacks": 0,
+  "capacityOverlaps": 0,
+  "runtimePatchSha256": "902ca4bfe2114f9794cdc37a8a0983c6c43609d6a61b26326d2dfe21ec5abf9b",
+  "normalUiServedIdentity": {
+    "workspace": "/private/tmp/pg-muni-load6-ui-proof",
+    "head": "027b835ca5e9a1049fe76a07b935ebb4dd8df7bd",
+    "branch": "",
+    "dirty": true,
+    "sourceDigest": "02a1fe90d6fea54e590b12108a058eb3771ffd03c2a37a9e89c0fe80f175ba31",
+    "pid": 47390,
+    "runId": "muni-load6-normal"
+  },
+  "fullGateSource": "afd69d4f610258548a3c0075e04e07b30ffcbc9a",
+  "fullGate": {
+    "passed": true,
+    "files": 207,
+    "testsPassed": 3654,
+    "testsSkipped": 2,
+    "unitSeconds": 517.86
+  },
+  "lateMain": "c0beb01d976fe93268827b6e7fe4f5bf29513199",
+  "lateMainMerge": "13650b5b653d4d9b511858043de273c065d8e44c",
+  "lateMainChecks": {
+    "testsPassed": 97,
+    "format": true,
+    "lint": true,
+    "types": true,
+    "release": true,
+    "runtimeAndSourceByteIdenticalToFullGate": true
+  },
+  "status": {
+    "implemented": true,
+    "tested": true,
+    "priorSevenRepairsIndependentlyAccepted": true,
+    "loadingSeamIndependentlyAccepted": false,
+    "merged": false
+  },
+  "recordedAt": "2026-09-09T17:45:43.628300+00:00"
+}

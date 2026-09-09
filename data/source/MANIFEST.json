@@ -514,6 +514,59 @@
     {
       "artifacts": [
         {
+          "artifactId": "va-charlottesville-charter",
+          "sha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "va-richmond-charter",
+          "sha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "va-code-15-2-1427",
+          "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "va-code-15-2-1415",
+          "sha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-carson-city-charter",
+          "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "or-portland-charter-2-102",
+          "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-08",
+      "boundedSampleReason": "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
+      "canonicalSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
+      "compiler": {
+        "name": "municipal-governance",
+        "version": "3.0.0"
+      },
+      "corpusFileSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
+      "corpusId": "municipal-governance",
+      "domain": "municipal-governance",
+      "isCompleteUniverse": false,
+      "recordCount": 4,
+      "universeDescription": "Three municipal governments — Charlottesville and Richmond in Virginia and Carson City in Nevada — compiled from the enacted text of their own charters and, where the charter delegates the rule, the Code of Virginia sections that carry it. Chosen for structural difference: a manager plan whose council elects its own mayor, an elected chief-executive mayor with a veto, and a consolidated municipality whose board contains its mayor."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "census-gazetteer-2025-places-zip",
           "sha256": "49644173a453469d9bd77fb7a493b027f87567e209edaf2078aac7543ac2ee29",
           "sliceOfParent": null,
@@ -965,11 +1018,7 @@
   "gatedDomains": [
     {
       "domain": "government-units",
-      "productionGate": "The 2025 Census Government Units listing could not be acquired in this coding environment: the outbound proxy denies census.gov, rejecting the CONNECT to www2.census.gov with an HTTP 403 policy denial, so gov_units_2025.zip cannot be retrieved and hashed here. Production compilation is gated on running source:acquire --domain government-units from a network environment that reaches census.gov, which pins the real artifact through the ordinary source lock and requires no code change to compile. The domain, its compiler, its validator and its capability boundary are complete and exercised by an authoritative fixture."
-    },
-    {
-      "domain": "municipal-governance",
-      "productionGate": "The municipal-governance packs are compiled from the 92I Drive implementation cargo, which is a secondary synthesis even where it labels a field VERIFIED. Current first-party checks found stale claims in that cargo, so no production fact may cite the synthesis as if this repository read the law. Production compilation is gated on independently acquiring, rights-scoping, hashing, and proposition-checking the exact cited statutes, charters, codes, rules, and government-unit artifacts. The Kentucky packs remain audit fixtures until that source/architecture review clears them."
+      "productionGate": "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins."
     },
     {
       "domain": "state-local-fiscal-authority",

@@ -1,0 +1,33 @@
+{
+  "source": "/Users/lamontae/Documents/Political-Game-MUNI-PLAY1",
+  "head": "7a8b074f33db44ef217d1d5dd52f8e5472e857fe",
+  "branch": "claude/muni-play1-municipal-public-work",
+  "trackedPatchSha256": "cb60522916d0a9dc23846bc92288a8f55f98fe0544b47d77b2651d254f8a3c82",
+  "untracked": [
+    {
+      "path": "scripts/source/export-municipal-governments.ts",
+      "sha256": "3b7a32a779b59e84c4a1332da57cab3332b80d40b9b1839f1340736d7174a815",
+      "bytes": 12937
+    },
+    {
+      "path": "src/simulation/municipal-government.ts",
+      "sha256": "eb800484cde6076e2ab1fe97ea2949568294193ab5fbcf8c4f7d71870b9ca989",
+      "bytes": 26373
+    },
+    {
+      "path": "src/simulation/municipal-governments.generated.ts",
+      "sha256": "43fe32ef937e1c6445e49ef92b0bd82c89724ddd55893350cb0d2c62dcc01732",
+      "bytes": 201702
+    },
+    {
+      "path": "src/simulation/municipal-public-work.test.ts",
+      "sha256": "27ea6f925017f09f98b9bb0160742b1aac9cac0b8411a9e6096596dd328bfeff",
+      "bytes": 18043
+    },
+    {
+      "path": "src/simulation/municipal-public-work.ts",
+      "sha256": "85399c01b157cd162443337e38c7c13eaa20cb969cbb1823326fce969fe25dff",
+      "bytes": 33217
+    }
+  ]
+}

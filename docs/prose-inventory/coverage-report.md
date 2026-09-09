@@ -7,16 +7,18 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5144 |
-| DIAGNOSTIC_OR_TEST | 3891 |
-| **NEEDS_CLASSIFICATION** | **3825** |
+| INVENTORIED | 2107 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5174 |
+| DIAGNOSTIC_OR_TEST | 3936 |
+| **NEEDS_CLASSIFICATION** | **3826** |
 
-Scanned 389 files holding 56963 string
+Scanned 399 files holding 57736 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
 
+- `src/simulation/municipal-rule-registry.generated.ts` — Generated admission projection of the municipal source inventory. Authored rule adapter prose remains inventoried at its original source, not duplicated in the transport.
+- `src/simulation/municipal-governments.generated.ts` — Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.
 - `src/source` — The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.
 - `src/devtools` — Developer diagnostics. Reachable only from the developer view, which ordinary play never opens.
@@ -30,7 +32,7 @@ literals in total; the table counts only those that read like a sentence.
 | --- | --- |
 | 221 | `src/presentation/run-b-conversation.ts` |
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
-| 124 | `src/simulation/legislation.ts` |
+| 126 | `src/simulation/legislation.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
@@ -108,9 +110,9 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
-| 15 | `src/player/EconomicContextPanel.tsx` |
 | 15 | `src/player/LifePathsPanel.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
+| 14 | `src/player/EconomicContextPanel.tsx` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
