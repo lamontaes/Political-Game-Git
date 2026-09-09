@@ -171,10 +171,7 @@ export function projectDynamicSurfaces(
     }
   }
 
-  const headline = projectPublicInformationHeadline(
-    world,
-    jurisdictionId,
-  );
+  const headline = projectPublicInformationHeadline(world, jurisdictionId);
   if (headline) {
     facts.set("headline", {
       text: headline.text,

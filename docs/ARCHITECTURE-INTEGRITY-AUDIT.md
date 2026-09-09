@@ -888,3 +888,25 @@ accepted Stage 6/6.5 boundaries.
 LEARN: public visibility and publication are separate states. The durable guard
 is a typed publication source plus negative tests at the writer boundary; an
 empty television is never sufficient reason to widen disclosure.
+
+## NEWS-PRESS4 Press Communication Audit — 2026-09-09
+
+This audit rechecks the repaired public-screen boundary and the bounded press
+loop against canonical history, disclosure, people, time/work, publication and
+UI ownership.
+
+| Concern                    | Disposition     | Evidence and rationale                                                                                                                                                                                                                         |
+| -------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| N-1 locality               | Closed          | The surface projection passes normalized `null` as a real filter. A regression places a newer local publication beside an older unlocated publication and proves an unknown-location room receives only the latter.                            |
+| Conversation and people    | Canonical reuse | Arrangement requires an exact existing pitch claim between the controlled person and an actual current journalist. Preparation and feedback require an actual current colleague assigned to the canonical work item. No person is synthesized. |
+| Time and work              | Canonical reuse | Arrangement creates an existing fixed scheduled activity and work item; readiness and completion use existing state resolvers and clock transitions. No timer, task store or second calendar exists.                                           |
+| Consequential wording      | Fail-closed     | Drafting is private. Confirmation must match the displayed wording exactly before the source claim exists. Confirmation is not editorial approval.                                                                                             |
+| Terms and disclosure       | Fail-closed     | On-record/background/off-record terms are explicit. Background hides the typed source and uses its saved attribution; off-record has no publication route. Question bases require actual reporter knowledge or publication.                    |
+| Publication and correction | Single path     | Press stories call the existing NEWS-HELP2 writer. PR #144's legislative transition remains the sole legislative caller. Digest, supported screen, correction and persistence paths are unchanged.                                             |
+| UI/ENV ownership           | Preserved       | `PressInterviewPanel` is feature-local and unmounted globally. UI-core owns the single root and placement; ENV owns physical screen geometry/access. Native controls and browser tests cover keyboard, touch, focus and Escape.                |
+| Stage scope                | Bounded         | No polling, audience score, predicted reception, favorable-coverage modifier, live headline import, law engine or automatic knowledge propagation is added.                                                                                    |
+
+LEARN: an accepted arrangement must cite the recorded conversational pitch,
+not merely repeat pitch text in a later event. Exact claim identity plus a
+negative missing-claim regression keeps the conversation-to-schedule boundary
+inspectable.

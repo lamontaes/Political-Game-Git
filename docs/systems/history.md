@@ -120,3 +120,12 @@ event truth or person knowledge. `PublicationRecord` is an optional compatible
 history family, so older snapshots project an empty digest while new
 publications and corrections round-trip with the rest of World. See
 [Canonical Public Information](public-information.md).
+
+NEWS-PRESS4 deliberately adds no history family. Its interview loop composes
+existing conversation claims, ordinary events, scheduled activities, staff
+work items, claims, publications and corrections. Negotiated channel/terms,
+selected intent, play mode and exact confirmed wording are stored on those
+canonical records. A draft is private; confirmation creates the source claim;
+completion uses the canonical clock; publication remains a separate explicit
+transition. Save/reload therefore preserves the full loop through the existing
+World snapshot and integrity paths.

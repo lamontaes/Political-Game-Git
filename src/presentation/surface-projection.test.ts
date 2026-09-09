@@ -475,12 +475,8 @@ describe("a room says only what this world knows", () => {
     const projection = projectDynamicSurfaces(published, {
       jurisdictionId: null,
     });
-    expect(projection.facts.get("headline")?.text).toBe(
-      unlocatedEvent.summary,
-    );
-    expect(projection.facts.get("headline")?.text).not.toBe(
-      localEvent.summary,
-    );
+    expect(projection.facts.get("headline")?.text).toBe(unlocatedEvent.summary);
+    expect(projection.facts.get("headline")?.text).not.toBe(localEvent.summary);
   });
 
   /**
