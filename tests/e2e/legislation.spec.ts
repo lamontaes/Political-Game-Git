@@ -359,26 +359,26 @@ test.describe("Moving a bill through a legislature", () => {
     }
   });
 
-  test("says on the page that the bill is written, not sourced", async ({
-    page,
-  }) => {
-    // The procedure is researched; the bills are development content. A player
-    // who cannot tell them apart has been misled, so every scenario says which
-    // is which where the bill is named.
-    for (const url of [
-      KENTUCKY,
-      NEBRASKA,
-      ALASKA,
-      "/?view=legislation&place=kentucky-signage",
-      "/?view=legislation&place=nebraska-credentials",
-      "/?view=legislation&place=alaska-ferry-notice",
-    ]) {
+  // Each independent scenario retains the same provenance assertion and default
+  // timeout. One loop previously spent a single 30-second budget on 12 page
+  // loads, expiring on the last scenario in hosted run 34362727533.
+  for (const url of [
+    KENTUCKY,
+    NEBRASKA,
+    ALASKA,
+    "/?view=legislation&place=kentucky-signage",
+    "/?view=legislation&place=nebraska-credentials",
+    "/?view=legislation&place=alaska-ferry-notice",
+  ]) {
+    test(`says on the page that the bill is written, not sourced: ${url}`, async ({
+      page,
+    }) => {
       await open(page, url);
       await expect(page.getByTestId("legislation-authored")).toHaveText(
         /the bill is not a real one/i,
       );
-    }
-  });
+    });
+  }
 
   test("the office shell offers a way in", async ({ page }) => {
     await page.goto("/?view=office-fixture");
