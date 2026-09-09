@@ -2,6 +2,7 @@ import type { SceneSurfaceContentClass } from "../environment/environment-scene-
 import { measurePosition } from "../simulation/legislation";
 import type { EntityId, World } from "../simulation/types";
 import { projectMeasureBriefing } from "./legislation-projection";
+import { projectPublicInformationHeadline } from "./public-information-adapters";
 
 /**
  * WHAT THE ROOM IS ALLOWED TO KNOW.
@@ -60,13 +61,12 @@ const CHANNEL_RANK: Readonly<Record<DisclosureChannel, number>> = {
 /**
  * The widest channel each kind of surface can receive.
  *
- * `public-broadcast` clears only `published` because this world contains no
- * press: nothing selects a public record and airs it, so a television that
- * showed one would be inventing the broadcaster as well as the broadcast.
- * That is a description of the simulation and changes the day a press system
- * lands. `personal-household` clears the same channel today for an unrelated
- * reason that will not change: a press system does not put one more sheet of
- * paper on somebody's coffee table.
+ * `public-broadcast` clears only `published`. NEWS-HELP2 supplies that channel
+ * from an explicit canonical publication record; a merely public event or
+ * public record still cannot appear on television by itself.
+ * `personal-household` clears the same channel for an unrelated reason: a
+ * publication system does not put one more sheet of paper on somebody's
+ * coffee table.
  */
 const ACCESS_CLEARANCE: Readonly<Record<string, DisclosureChannel>> = {
   "public-broadcast": "published",
@@ -169,6 +169,22 @@ export function projectDynamicSurfaces(
       // owns place names.
       empty.add("jurisdiction-name");
     }
+  }
+
+  const headline = projectPublicInformationHeadline(
+    world,
+    jurisdictionId ?? undefined,
+  );
+  if (headline) {
+    facts.set("headline", {
+      text: headline.text,
+      channel: "published",
+      provenance: `publication '${headline.publicationId}' from event '${headline.sourceEventId}'`,
+    });
+  } else {
+    // NEWS-HELP2 owns this class now. Empty means no explicit publication has
+    // occurred; rendering must not manufacture one to make a television busy.
+    empty.add("headline");
   }
 
   // A selected working document owns this surface. WorkingDocumentFacts has
