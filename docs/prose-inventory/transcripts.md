@@ -1224,7 +1224,7 @@ Seed `p85c-owner-clock`, start age 34, Ethan Vance.
 
 - Filed: true
 - Office: Seat in the House of Representatives
-- Sessions: 2
+- Sessions: 6
 - Resolved: true (won)
 
 _Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
@@ -1326,7 +1326,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 
 - Filed: true
 - Office: Seat in the House of Representatives
-- Sessions: 2
+- Sessions: 6
 - Resolved: true (won)
 
 _Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
@@ -1402,4 +1402,106 @@ Somebody you know has asked you for a hand with one thing, and said it matters t
 - Tell them you cannot
 
 _Present: Kelly Tillman, your dad_
+
+
+---
+
+## campaign-without-the-work
+
+**Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
+
+Seed `p85c-owner-clock`, start age 34, Ethan Vance.
+6 beats, 27 realized lines, 21 linked back to a template.
+
+**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+
+### Campaign
+
+- Filed: true
+- Office: Seat in the House of Representatives
+- Sessions: 0
+- Resolved: true (lost)
+
+_No legislative surface: the capability layer did not open one for this run._
+
+
+### Beats
+
+#### Beat 0 — 2026-01-05, age 34 (episode, home.the-week-that-does-not-balance/the-first-time-it-is-said)
+
+> You're 34, and you live in Lexington, Kentucky.
+> You live with Dennis Mullins.
+> You belong to Community Service Club.
+
+Dennis Mullins says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on.
+
+- **Take some of it back** ← chosen
+- Explain what your week looks like
+- Offer to pay someone
+- Say you'll sort it at the weekend
+
+_Present: Dennis Mullins, who you live with_
+
+_Grounded by: household-peer is Dennis Mullins: Resident on the same household record, with no authority either way between them.; answers-for-themselves: No active parental authority over them.; Age 34; needs at least 18.; household.shared: Somebody else is on the household record._
+
+#### Beat 1 — 2026-02-08, age 34 (episode, opening.adult.home.shared-time/moment)
+
+
+
+You and Dennis Mullins are both at home with time to talk.
+
+- **Ask how their day is going** ← chosen
+- Leave the topic to your housemate
+- Ask for some quiet time
+
+_Present: Dennis Mullins, who you live with_
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Dennis Mullins: Resident on the same household record._
+
+#### Beat 2 — 2026-02-08, age 34 (episode, opening.adult.home.free-time/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Rest for a few minutes
+- Spend time sketching
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 3 — 2026-02-08, age 34 (episode, opening.adult.home.free-time/follow-through)
+
+
+
+You spent some of your free time reading. You can keep going or put the book aside.
+
+- **Read a little more before putting the book down** ← chosen
+- Mark your place and put the book aside
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-02-08._
+
+#### Beat 4 — 2026-02-08, age 34 (episode, civic.the-thing-nobody-else-turned-up-for/the-meeting)
+
+
+
+There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going.
+
+- **Go on Tuesday** ← chosen
+- Read the notice properly
+- Leave it to whoever turns up
+
+_Grounded by: Age 34; needs at least 18._
+
+#### Beat 5 — 2026-03-14, age 34 (episode, opening.adult.home.free-time/moment)
+
+
+
+You have a little free time at home. What would you like to do?
+
+- **Read for a while** ← chosen
+- Rest for a few minutes
+- Spend time sketching
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
