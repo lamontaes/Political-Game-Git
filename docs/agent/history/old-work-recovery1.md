@@ -1,6 +1,6 @@
 # OLD-WORK-RECOVERY1 preservation and disposition packet
 
-Status: recovery packet for an unmerged housekeeping branch. This is historical evidence, not gameplay acceptance, current product authority, or a source of verified legal facts.
+Status: completed recovery packet on unmerged draft PR #145. This is historical evidence, not gameplay acceptance, current product authority, or a source of verified legal facts.
 
 ## Exact recovery baseline
 
@@ -13,12 +13,12 @@ Status: recovery packet for an unmerged housekeeping branch. This is historical 
 
 Exact original heads were fetched into read-only recovery refs. No original branch was rebased, merged, pushed, or deleted.
 
-| PR   | State at recovery | Branch                                           | Exact head                                 | Disposition basis                                                                                                                                     |
-| ---- | ----------------- | ------------------------------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| #92  | OPEN draft        | `claude/overnight-narrative-audit-harness`       | `65ea8fb4aa9f74d5090f3e1c29239696d88b9cd7` | Historical reports/corpus scope preserved below; current tools supersede the old runtime/config package; live findings transferred to current owners. |
-| #98  | OPEN draft        | `claude/municipal-governance-source-80fo19`      | `e3a13d2dc31ed576ba8c649cc1476f590a49307b` | Per-file comparison against merged #120 / merge `2c6723904556a722f3ea17ea0bf7865272bcca14`.                                                           |
-| #100 | OPEN draft        | `claude/judicial-office-selection-domain-haboml` | `5005f912c81104b3267a0346bcf58b5de712f56d` | Per-file comparison against merged #116 / merge `9c36b2fb9f559db8c1cdc45ce98f7305c949f0ad`.                                                           |
-| #106 | OPEN              | `triage-prs-98-100-101-3173115192154108533`      | `7296094673ba3f0f046f18b54c5227d32ca46087` | PR file list remains empty; commit tree delta is empty; external-report recovery is recorded separately below.                                        |
+| PR   | Final state | Branch                                           | Exact head                                 | Disposition basis                                                                                                                                                                    |
+| ---- | ----------- | ------------------------------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #92  | CLOSED      | `claude/overnight-narrative-audit-harness`       | `65ea8fb4aa9f74d5090f3e1c29239696d88b9cd7` | Historical reports/corpus scope preserved below; current tools supersede the old runtime/config package; live findings transferred to current owners. Closed `2026-09-09T02:33:38Z`. |
+| #98  | CLOSED      | `claude/municipal-governance-source-80fo19`      | `e3a13d2dc31ed576ba8c649cc1476f590a49307b` | Per-file comparison against merged #120 / merge `2c6723904556a722f3ea17ea0bf7865272bcca14`. Closed `2026-09-09T02:30:21Z`.                                                           |
+| #100 | CLOSED      | `claude/judicial-office-selection-domain-haboml` | `5005f912c81104b3267a0346bcf58b5de712f56d` | Per-file comparison against merged #116 / merge `9c36b2fb9f559db8c1cdc45ce98f7305c949f0ad`. Closed `2026-09-09T02:30:40Z`.                                                           |
+| #106 | CLOSED      | `triage-prs-98-100-101-3173115192154108533`      | `7296094673ba3f0f046f18b54c5227d32ca46087` | PR file list remains empty; commit tree delta is empty; external-report recovery is recorded separately below. Closed `2026-09-09T02:28:21Z`.                                        |
 
 ## #98 compared with merged #120
 
@@ -91,8 +91,8 @@ Current `docs/systems/prose-corpus.md` (blob `acdffaacca2537555b8b4c045540d5db11
 | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
 | `episodeFacts` / `episodeCapabilities` historical cutoff  | Still reproducible on recovery base for `episodeCapabilities`; `episodeFacts` was independently repaired on the existing OPENING-LIFE1 branch. Exact evidence was transferred to task `01a0837d-93b0-73d2-b6a2-f3d6b42ff77e`, which acknowledged ownership and repaired the remaining capability cutoff with focused proof. No duplicate edit here. |
 | Silent exclusion when a required episode role cannot bind | Still reproducible on recovery base at the stage-binding length guard. OPENING-LIFE1 acknowledged ownership and repaired it in its existing worktree with a focused missing-role diagnostic test. No duplicate edit here.                                                                                                                           |
-| Placeholder-state consumption                             | Still reproducible on recovery base: `ComposedCharacterVisual.isPlaceholder` is produced and tested, but no normal player/UI consumer reads it. Exact evidence transferred to the existing UI production-integration task `01a083ce-50dc-7773-95b6-63d6bed75af8`; no edit here.                                                                     |
-| Raster image-error visibility                             | Still reproducible on recovery base: `src/player/useRasterTier.ts` installs an empty `image.onerror` handler. Exact evidence transferred to the same existing UI integration owner; no edit here.                                                                                                                                                   |
+| Placeholder-state consumption                             | Still reproducible on recovery base: `ComposedCharacterVisual.isPlaceholder` is produced and tested, but no normal player/UI consumer reads it. The UI-CORE-RELEASE owner formally accepted ownership on PR #92 and recorded the follow-up in PR #144 and `docs/plans/evidence/ui-core-transfer/OWNER-ADAPTERS.md`; no edit here.                   |
+| Raster image-error visibility                             | Still reproducible on recovery base: `src/player/useRasterTier.ts` installs an empty `image.onerror` handler. The UI-CORE-RELEASE owner formally accepted ownership on PR #92 and recorded the unresolved follow-up with the placeholder finding; no edit here.                                                                                     |
 | Formative-bank enumeration                                | No longer reproducible. `lifeSituationCatalog()` exposes the current bank and `scripts/prose-corpus/sources/banks.ts` consumes it into the current inventory.                                                                                                                                                                                       |
 
 The OPENING-LIFE1 acknowledgement reported its changes as uncommitted on its own branch and its focused test as 5/5 passing. Those changes are not part of this recovery branch and are not claimed as delivered here.
@@ -111,11 +111,19 @@ Exact Drive searches for `49R1` and the full requested report title returned onl
 
 The exact archive-name search, one alternate name search without the extension, the known nested handoff folder `1zHIsZcJ7pWDbcpZTdPtsUzRJepFyokGz`, the current controls folder `1HwXK20k0-i4vmO3eHUFnlxM98rUhQEEH`, and the repository were checked. Neither the archive nor a file explicitly identifiable as its extracted unique registry/contracts was found. Result: **missing artifact after the packet's finite search boundary**. No unrelated DriveFS/home/browser data was searched and no old ZIP was replayed.
 
-## Closure rule
+## Actual remote closure results
 
-This packet is sufficient preservation for #92 and per-file disposition for #98/#100 while retaining original refs/files. It does not make any old report current, claim that gameplay shipped, or accept external research as verified fact. After this packet is committed and published in one draft recovery PR, the authorized sequence is:
+- #106: disposition comment posted and PR closed; verified CLOSED at unchanged head `7296094673ba3f0f046f18b54c5227d32ca46087`.
+- #98: MUNI-PLAY1 explicitly confirmed it uses accepted main/#120 and does not need the old carrier; disposition comment posted and PR closed at unchanged head `e3a13d2dc31ed576ba8c649cc1476f590a49307b`.
+- #100: JUD-WORK2 explicitly confirmed it uses accepted main/#116 and does not need the old carrier; disposition comment posted and PR closed at unchanged head `5005f912c81104b3267a0346bcf58b5de712f56d`.
+- #92: OPENING-LIFE1 accepted and repaired its two findings with focused 5/5 proof; UI-CORE-RELEASE formally accepted its two unresolved findings on PR #92; disposition comment posted and PR closed at unchanged head `65ea8fb4aa9f74d5090f3e1c29239696d88b9cd7`.
+- All four original branches remain. No implementation PR was merged and no branch was deleted.
 
-1. comment and close unchanged empty carrier #106;
-2. comment and close #98 and #100 once current owners confirm they do not need the carriers;
-3. comment and close #92 after this preservation commit/PR is remotely accessible;
-4. re-read each PR state and exact head after closure.
+## Closure rule executed
+
+This packet is sufficient preservation for #92 and per-file disposition for #98/#100 while retaining original refs/files. It does not make any old report current, claim that gameplay shipped, or accept external research as verified fact. After the initial packet was committed and published in draft PR #145 at `0af075591aa81a7e62449581f8254999c6be0709`, the authorized sequence was executed:
+
+1. commented and closed unchanged empty carrier #106;
+2. obtained explicit current-owner confirmations, then commented and closed #98 and #100;
+3. obtained exact finding ownership/repair acknowledgements, then commented and closed #92;
+4. re-read every PR state and exact head after closure.
