@@ -1,21 +1,22 @@
 import { describe, expect, it } from "vitest";
 import { ordinaryConversationReplay } from "./support/ordinary-conversation-replay";
 
-// Captured by running the identical replay on unmodified main
-// b61abf26118e50be351c09db5b3d0823333fc9ec (post-P1 prose migration), before
-// adding subject consequences.
+// Captured by running the identical replay after the accepted P2R2 prose repair.
+// The PR79 consequence hook still has to preserve the complete records; this
+// checkpoint moves only because those records deliberately carry the repaired
+// player-facing wording.
 // Digests cover complete canonical records, including IDs, provenance and wording.
 const beforeIntegration = {
   household: {
     relationship: {
       count: 2,
       sha256:
-        "86c802e89363ade58a1e546ad34821fcf3af6d25921389aa1a146af92dda5760",
+        "a38cd338b860cfd3560bbf374da5cc6a6f4c41a5d28a62b351a6f10ca231b40b",
     },
     commitment: {
       count: 1,
       sha256:
-        "5513a94417f706cdf4097d7a6dd2d87abee65271ccd9f3f4ba1c00103d36c560",
+        "b3fac7794b75cdc7cbbc6d353dc98769b9d4aa5ebe6c38024e62e3742df55efe",
     },
     aftermath: {
       count: 0,
@@ -25,39 +26,39 @@ const beforeIntegration = {
     landed: {
       count: 2,
       sha256:
-        "f259d4a81682f642e343567dc51e2a432e62e78a555fcdea5cf0a2a19b429a3a",
+        "054a22b12e3478677bb63eed1a495f72767b25e3d81e7c38e16858ae8a1d06c9",
     },
     turns: {
       count: 2,
       sha256:
-        "1fa8b1865fc23d953e1a28f11afbcb67050c2071edf6bca6885d4469077617c6",
+        "e6825bfbcff6d4c848b400c904a8c0629e8efbab9495239b442c4a3a4ce3d5ab",
     },
   },
   householdCallback: {
     relationship: {
       count: 2,
       sha256:
-        "156f35c6096eb2a5c609a362a8f563d8ccfc6a1bc7939455c09312213320cbd4",
+        "5edcc8aefe72b8862aa5d13d0bbf2d522b18132e6d262c8dbe5d877dba280681",
     },
     commitment: {
       count: 1,
       sha256:
-        "83d68caab6d9f2cfb5b73cd345e60d4ee38e1a31b499d10735b38a26c3e304be",
+        "2d70f39f81a7ad4221bc313daf0d40230e4de870183435baf38c0db9a69086af",
     },
     aftermath: {
       count: 1,
       sha256:
-        "c9979ce1dc47ef1d0c8ee06662fb2084d9a950d512b778e6f7830f0eac9c1318",
+        "2c9cec868446574bc144565cdaaaa64ebe5bccc46ecea40dd9abd2789fa8cbaa",
     },
     landed: {
       count: 2,
       sha256:
-        "6e8a68d347b5e794a751c1040b94dd52ae696acddce14c9b2035834ab10a3206",
+        "fcffce4935d7ef7c14258c8df63f720c2438335ab7dc74583786ede4a7f68dfa",
     },
     turns: {
       count: 2,
       sha256:
-        "ec90def8bc4908ff7e6d9ca03567cfd6d4d5d17e93e2ad374f66819739ef9314",
+        "7776acac1f0faff12920e675df24ea07e759c15969befcc208e083762f1fe988",
     },
   },
   office: {
@@ -90,7 +91,7 @@ const beforeIntegration = {
 };
 
 describe("PR79 optional consequence hook preserves ordinary subjects", () => {
-  it("keeps relationship, commitment, aftermath, landed and turn records byte-identical to main", () => {
+  it("keeps relationship, commitment, aftermath, landed and turn records byte-identical to the accepted prose baseline", () => {
     const after = ordinaryConversationReplay();
     expect(after).toEqual(beforeIntegration);
     expect(after.householdCallback.aftermath!.count).toBe(1);
