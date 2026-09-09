@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 1914 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4768 |
 | DIAGNOSTIC_OR_TEST | 3698 |
-| **NEEDS_CLASSIFICATION** | **3297** |
+| **NEEDS_CLASSIFICATION** | **3299** |
 
-Scanned 353 files holding 52459 string
+Scanned 353 files holding 52468 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -139,6 +139,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
+| 6 | `src/player/PersonAppearanceControls.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
@@ -160,7 +161,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
-| 4 | `src/player/PersonAppearanceControls.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/simulation/person-identity.ts` |

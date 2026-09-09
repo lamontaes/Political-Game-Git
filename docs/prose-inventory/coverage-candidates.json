@@ -3,7 +3,7 @@
     "INVENTORIED": 1914,
     "INTENTIONALLY_NON_PLAYER_FACING": 4768,
     "DIAGNOSTIC_OR_TEST": 3698,
-    "NEEDS_CLASSIFICATION": 3297
+    "NEEDS_CLASSIFICATION": 3299
   },
   "needsClassification": [
     {
@@ -2609,7 +2609,7 @@
     {
       "sourcePath": "src/player/PersonAppearanceControls.tsx",
       "enclosingSymbol": "state",
-      "line": 29,
+      "line": 31,
       "text": "This person has no saved appearance.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2617,7 +2617,7 @@
     {
       "sourcePath": "src/player/PersonAppearanceControls.tsx",
       "enclosingSymbol": "choose",
-      "line": 114,
+      "line": 116,
       "text": "Appearance changed. Saved wardrobe choices are retained and checked against this body.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2625,7 +2625,7 @@
     {
       "sourcePath": "src/player/PersonAppearanceControls.tsx",
       "enclosingSymbol": "PersonAppearanceControls",
-      "line": 147,
+      "line": 159,
       "text": "No hair",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2633,8 +2633,24 @@
     {
       "sourcePath": "src/player/PersonAppearanceControls.tsx",
       "enclosingSymbol": "PersonAppearanceControls",
-      "line": 178,
+      "line": 160,
+      "text": "{label} {index+1}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PersonAppearanceControls.tsx",
+      "enclosingSymbol": "PersonAppearanceControls",
+      "line": 191,
       "text": "Wardrobe preference changed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/PersonAppearanceControls.tsx",
+      "enclosingSymbol": "PersonAppearanceControls",
+      "line": 202,
+      "text": "{kind} {index+1}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },

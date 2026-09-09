@@ -1,3 +1,4 @@
+import "./PersonAppearanceControls.css";
 import { useMemo, useState } from "react";
 import type { World } from "../simulation/types";
 import { resolveCharacterRecipe } from "../presentation/character-components";
@@ -15,6 +16,7 @@ export interface PersonAppearanceControlsProps extends PersonVisualSelectionCont
   readonly world: World;
   readonly personId: string;
   readonly preference?: PersonWardrobePreference;
+  readonly familyLabels?: Readonly<Record<string, string>>;
   readonly onWorldChange: (world: World) => void;
   readonly onPreferenceChange: (preference: PersonWardrobePreference) => void;
 }
@@ -118,7 +120,10 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
     }
   }
   return (
-    <div data-testid="person-appearance-controls">
+    <div
+      className="person-appearance-controls"
+      data-testid="person-appearance-controls"
+    >
       <fieldset>
         <legend>Saved appearance</legend>
         {(["bodyFamily", "headFamily", "hairFamily"] as const).map((kind) => {
@@ -131,20 +136,28 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                     o.selection.bodyFamily === current?.bodyFamily,
                 );
           const values = [...new Set(options.map((o) => o.selection[kind]))];
+          const label = {
+            bodyFamily: "Body",
+            headFamily: "Face",
+            hairFamily: "Hairstyle",
+          }[kind];
           return (
             <label key={kind}>
-              {kind}
+              {label}
               <select
-                aria-label={kind}
+                aria-label={label}
+                data-testid={`person-appearance-${kind}`}
                 value={current?.[kind] ?? ""}
                 onChange={(e) => choose({ [kind]: e.target.value || null })}
               >
                 {!current && kind !== "hairFamily" ? (
                   <option value="">Choose appearance</option>
                 ) : null}
-                {values.map((v) => (
+                {values.map((v, index) => (
                   <option key={v ?? "none"} value={v ?? ""}>
-                    {v ?? "No hair"}
+                    {v === null
+                      ? "No hair"
+                      : (props.familyLabels?.[v] ?? `${label} ${index + 1}`)}
                   </option>
                 ))}
               </select>
@@ -184,8 +197,10 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                     Unavailable saved choice: {value}
                   </option>
                 ) : null}
-                {families[kind].map((family) => (
-                  <option key={family}>{family}</option>
+                {families[kind].map((family, index) => (
+                  <option key={family} value={family}>
+                    {props.familyLabels?.[family] ?? `${kind} ${index + 1}`}
+                  </option>
                 ))}
               </select>
             </label>

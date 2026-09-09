@@ -11,13 +11,30 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
   await expect(page.getByTestId("visual4-completeness")).toContainText(
     "Complete candidate combination",
   );
-  for (const name of ["headFamily", "hairFamily", "bottom", "footwear"]) {
+  for (const name of ["Face", "Hairstyle", "bottom", "footwear"]) {
     const control = page.getByRole("combobox", { name, exact: true });
     await control.click();
-    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Escape");
+    await control.focus();
+    const before = await control.inputValue();
+    await page.keyboard.press(name[0]!.toLowerCase());
+    await expect(control).not.toHaveValue(before);
     await page.keyboard.press("Enter");
   }
   const character = page.getByTestId("candidate-review-character");
+  await expect
+    .poll(() =>
+      character
+        .locator("img")
+        .evaluateAll((images) =>
+          images.every(
+            (image) =>
+              (image as HTMLImageElement).complete &&
+              (image as HTMLImageElement).naturalWidth > 0,
+          ),
+        ),
+    )
+    .toBe(true);
   const personId = await character.getAttribute("data-person-id");
   const identity = await character.getAttribute("data-recipe-key");
   const top = page.getByRole("combobox", { name: "top", exact: true });
@@ -33,7 +50,9 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
     .evaluateAll((imgs) => imgs.map((i) => i.getAttribute("data-asset-id")));
   await page.getByRole("button", { name: "Save review", exact: true }).click();
   await top.click();
-  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Escape");
+  await top.focus();
+  await page.keyboard.press("t");
   await page.keyboard.press("Enter");
   await expect(top).not.toHaveValue(choices[0]!);
   const layersB = await character
@@ -59,6 +78,12 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
   await expect(page.getByTestId("visual4-scene-status")).toContainText(
     "Complete candidate",
   );
+  const sceneBox = await page.getByTestId("scene-backdrop").boundingBox();
+  const scenePeopleBox = await page.getByTestId("scene-people").boundingBox();
+  expect(scenePeopleBox!.y).toBeGreaterThanOrEqual(sceneBox!.y - 0.5);
+  expect(scenePeopleBox!.y + scenePeopleBox!.height).toBeLessThanOrEqual(
+    sceneBox!.y + sceneBox!.height + 0.5,
+  );
   const box = await page.getByTestId("candidate-review-stage").boundingBox();
   expect(box).not.toBeNull();
   for (const image of await character.locator("img").all()) {
@@ -70,6 +95,43 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
     expect(b!.y + b!.height).toBeLessThanOrEqual(box!.y + box!.height + 0.5);
   }
   fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(
+    path.join(dir, "saved-identity-wardrobe.json"),
+    JSON.stringify(
+      {
+        codeRevision:
+          process.env.PEOPLE_VISUAL4_PROOF_REVISION ?? "working-tree",
+        personId,
+        identity,
+        layersA,
+        layersB,
+        restoredLayerIds: await character
+          .locator("img")
+          .evaluateAll((imgs) =>
+            imgs.map((i) => i.getAttribute("data-asset-id")),
+          ),
+        selectedBody: await page
+          .getByRole("combobox", { name: "Body", exact: true })
+          .inputValue(),
+        selectedHead: await page
+          .getByRole("combobox", { name: "Face", exact: true })
+          .inputValue(),
+        selectedHair: await page
+          .getByRole("combobox", { name: "Hairstyle", exact: true })
+          .inputValue(),
+        portraitKind: await page
+          .getByTestId("person-portrait")
+          .getAttribute("data-likeness"),
+        sceneStatus: await page
+          .getByTestId("visual4-scene-status")
+          .textContent(),
+        acceptance:
+          "Candidate engineering proof only; no human art acceptance or production promotion.",
+      },
+      null,
+      2,
+    ) + "\n",
+  );
   await page.screenshot({
     path: path.join(dir, "selected-person-wardrobe-reload.png"),
     fullPage: true,
@@ -81,7 +143,7 @@ test("every available body can be selected and framed without changing its geome
 }) => {
   await page.goto("/?view=character-proof&set=visual4");
   const select = page.getByRole("combobox", {
-    name: "bodyFamily",
+    name: "Body",
     exact: true,
   });
   const bodies = await select
@@ -91,7 +153,9 @@ test("every available body can be selected and framed without changing its geome
     );
   expect(bodies.length).toBeGreaterThan(1);
   await select.click();
-  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Escape");
+  await select.focus();
+  await page.keyboard.press("b");
   await page.keyboard.press("Enter");
   for (const body of bodies) {
     await select.selectOption(body);
@@ -122,6 +186,8 @@ test("every available body can be selected and framed without changing its geome
   ).not.toBeChecked();
   const person = page.getByRole("combobox", { name: "Person", exact: true });
   await person.click();
+  await page.keyboard.press("Escape");
+  await person.focus();
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
   fs.mkdirSync(dir, { recursive: true });
