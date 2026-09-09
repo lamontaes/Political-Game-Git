@@ -35,10 +35,7 @@
     "initialAttempt": "Loader startup error; zero cases run. Corrected command restores UI owner confirmed NODE_OPTIONS=--import=tsx."
   },
   "gitCleanAfterChecks": true,
-  "serversStopped": [
-    5397,
-    5398
-  ],
+  "serversStopped": [5397, 5398],
   "inventoryGovernments": 144,
   "operativeOrdinancePacks": 0,
   "capacityOverlaps": 0,
