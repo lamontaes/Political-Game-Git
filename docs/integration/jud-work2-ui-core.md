@@ -13,6 +13,8 @@ It is an exact, `git apply --check`-verified patch against base
   boundary, canonical office initialization after the existing world builder;
 - `src/presentation/new-game-identity.ts`: round-trip the new starting-life
   token; existing setup encodings stay byte-identical;
+- `src/presentation/setup-questionnaire-flow.ts`: retain ordinary-life calibration
+  context for the authored practice start; no invented judicial questionnaire;
 - `src/player/PlayerGame.tsx`: Custom option, canonical role-based Work entry,
   and feature panel inside the existing close/Escape overlay and save owner.
 
@@ -50,3 +52,19 @@ Normal-player reachability is **awaiting UI-core integration**. Feature-local
 browser proof establishes panel interaction only. Applying a patch in a test
 copy is integration-candidate evidence, not proof the active owner's branch
 has adopted it. Human visual/play acceptance remains required.
+
+## Reproduce the feature proof
+
+Run `node node_modules/@playwright/test/cli.js test --config tests/judicial-office/playwright.config.ts`
+from this worktree during the coordinated browser slot. It starts the existing
+identified launcher on port 5196 (`PLAYWRIGHT_PORT` overrides it), refuses to
+reuse another server, uses one browser worker, and writes only under
+`test-results/jud-work2/browser`. The launcher prints checkout, branch and head.
+The route is `/tests/judicial-office/index.html` and is labeled developer proof.
+
+`node_modules/.bin/tsc -p tests/judicial-office/tsconfig.json` checks that proof
+under the repository's strict compiler settings. Its separate IndexedDB database
+is `jud-work2-feature-proof`; the production feature panel has no save store of
+its own. The test uses actual BrowserSaveStore save/reload, canonical people,
+pointer and keyboard controls, and read-purity assertions. Passing this proof
+cannot certify that UI-core has adopted the normal-player patch.
