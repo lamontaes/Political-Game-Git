@@ -5,6 +5,7 @@ import { App } from "./App";
 import "./styles.css";
 import "./player/player.css";
 import "./player/shell.css";
+import "./player/docket.css";
 
 const rootElement = document.getElementById("root");
 

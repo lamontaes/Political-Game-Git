@@ -105,6 +105,33 @@ export interface LegislativeBargainingSubjectFacts {
 
   /** The narrower section one member wants written in. */
   readonly requestedProvisionKey: string;
+  /**
+   * The suffix the adopted provision's stable key is built from.
+   *
+   * Held apart from `requestedProvisionKey` on purpose, and it is a save
+   * identity rather than a label. The authored Kentucky sitting has written
+   * `...:section-4` since it existed, and saves carry provisions under that
+   * key; deriving the suffix from the provision key instead would silently
+   * rename that record to `...:local-project-match` and break the identity for
+   * every save already holding one. New content declares its own suffix, which
+   * is normally its provision key, so the two only differ where history made
+   * them differ.
+   */
+  readonly requestedProvisionStableKeySuffix: string;
+  /**
+   * How this amendment is described where the description is written down.
+   *
+   * Three phrases rather than three sentences, because the sentences around
+   * them are the accepted #79 wording and the point is to keep them. The
+   * fiscal exposure label, the question the chamber votes on and the
+   * amendment's own description are all persisted records; generalising them
+   * by rebuilding the sentence changed what a legacy sitting writes into
+   * history. Carrying the phrase instead means the authored sitting writes
+   * exactly what it always wrote, and a family supplies its own.
+   */
+  readonly requestedExposurePhrase: string;
+  readonly requestedQuestionSubject: string;
+  readonly requestedDescriptionSubject: string;
   readonly requestedSectionNumber: number;
   readonly requestedSectionLabel: string;
   readonly requestedHeading: string;

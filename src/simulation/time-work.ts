@@ -12,6 +12,10 @@ import {
 } from "./dates";
 import { createStableId } from "./ids";
 import {
+  legislationEntityAvailableAt,
+  legislationEntityExists,
+} from "./legislation";
+import {
   policySemanticsEntityAvailableAt,
   policySemanticsEntityExists,
 } from "./policy-semantics";
@@ -1499,6 +1503,11 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     world.history.events.some((record) => record.id === id) ||
     lifeEntityExists(world, id) ||
     policySemanticsEntityExists(world, id) ||
+    // A work item focused on legislative material needs the measure it is
+    // about to count as canonical provenance. The `legislative-material` focus
+    // kind already existed; nothing legislative could satisfy it, so a docket
+    // of bills had no way to appear in Work at all.
+    legislationEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -1523,6 +1532,9 @@ function canonicalSourceAvailable(
   }
   if (lifeEntityExists(world, id))
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  if (legislationEntityExists(world, id)) {
+    return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;
 }

@@ -98,6 +98,8 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
 import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { DocketWorkspace } from "./DocketWorkspace";
+import type { DocketBill } from "../presentation/legislation-docket";
 import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -1749,6 +1751,21 @@ function PlayingScreen({
     dispatch({ type: "go-to-scene" });
   }
 
+  function goToTheFloorFor(bill: DocketBill) {
+    const entry = openLegislativeBargaining(session.world, {
+      playerPersonId: session.personId,
+      docketKey: bill.docketKey,
+    });
+    if (entry.kind === "unavailable") {
+      setFloorNote(entry.reason);
+      return;
+    }
+    setFloorNote(null);
+    if (entry.world !== session.world) onWorldChange(entry.world);
+    setFloorSeat(entry.seat);
+    dispatch({ type: "go-to-scene" });
+  }
+
   const selectedDossier =
     shell.quickDossierPersonId === null
       ? null
@@ -1787,6 +1804,7 @@ function PlayingScreen({
     talkTo,
     openTheBill,
     goToTheFloor,
+    goToTheFloorFor,
     setConversation,
   });
 
@@ -2050,6 +2068,7 @@ function renderWorkspace({
   talkTo,
   openTheBill,
   goToTheFloor,
+  goToTheFloorFor,
   setConversation,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -2069,6 +2088,7 @@ function renderWorkspace({
   readonly talkTo: (personId: EntityId) => void;
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
+  readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly setConversation: (value: null) => void;
 }): ReactNode {
   if (view.surface === "scene") return null;
@@ -2352,6 +2372,17 @@ function renderWorkspace({
           >
             {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
+          {capabilities.legislativeJurisdictionId ? (
+            <DocketWorkspace
+              world={session.world}
+              playerPersonId={session.personId}
+              scenarioKey={capabilities.legislativeScenarioKey}
+              jurisdictionId={capabilities.legislativeJurisdictionId}
+              onWorldChange={onWorldChange}
+              onGoToFloor={goToTheFloorFor}
+              floorNote={floorNote}
+            />
+          ) : null}
           {assignment ? (
             <>
               <button
