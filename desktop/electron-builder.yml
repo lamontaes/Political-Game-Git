@@ -1,0 +1,60 @@
+# Our Civic Duty desktop packaging.
+#
+# Stable identity: appId and productName fix the userData directory and
+# therefore the storage origin / save profile across installs and updates.
+# Never change either casually — doing so silently abandons player saves.
+appId: com.ourcivicduty.desktop
+productName: Our Civic Duty
+copyright: © 2026 Our Civic Duty
+
+directories:
+  output: release-artifacts
+  buildResources: build
+
+# The app itself is the tiny shell; the compiled game rides alongside as
+# plain resources so large art loads without asar indirection.
+files:
+  - "**/*"
+  - "!staged/**"
+  - "!release-artifacts/**"
+  - "!scripts/**"
+  - "!*.yml"
+  - "!*.md"
+extraResources:
+  - from: staged/client
+    to: client
+  - from: staged/build-identity.json
+    to: build-identity.json
+  - from: staged/update-config.json
+    to: update-config.json
+
+# No publish provider: packaging must never upload anywhere. Direct-update
+# metadata files (latest*.yml) are still generated for a future manually
+# authorized feed.
+publish: null
+
+mac:
+  category: public.app-category.simulation-games
+  target:
+    - target: dmg
+    - target: zip
+  # Unsigned/ad-hoc internal builds until signing credentials exist. Hooks:
+  # set CSC_LINK/CSC_KEY_PASSWORD (or identity below) and notarize to enable.
+  identity: null
+  hardenedRuntime: false
+  notarize: false
+
+dmg:
+  writeUpdateInfo: false
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  # Installs and updates must never wipe the profile; uninstall keeps the
+  # save data unless the player deletes it themselves.
+  deleteAppDataOnUninstall: false
