@@ -543,11 +543,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on the actual LAND-CLOSE8 tree composing
-    // current accepted main with the ECON-GRAPHS4 browser provider, graph
-    // read models and player panel. Neither side's pin was selected; the
-    // combined tree was scanned by the accepted generator.
+    // Re-measured by corpus:prose on this tree, which composes current
+    // accepted main (with #146 landed) and the ECON-GRAPHS4 browser
+    // provider, graph read models and player panel.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(55962);
+    expect(coverage.totalLiterals).toBe(56963);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(389);
     expect(coverage.counts.INVENTORIED).toBe(1927);
     expect(coverage.scannedFiles).toBe(380);
   });
