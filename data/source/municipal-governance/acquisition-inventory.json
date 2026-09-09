@@ -1,0 +1,3822 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact cited URLs extracted from municipal portions of 43A and the complete 44/45/46/92I cargo. Source roots, retrieval success and research labels do not establish operative law.",
+  "inputClass": "evidence-inventory",
+  "rightsPolicy": "Capture rights remain UNKNOWN until individually reviewed. This inventory grants no production capability.",
+  "retrieved": 222,
+  "failed": 69,
+  "artifacts": [
+    {
+      "key": "cf1af16a10901fe9",
+      "url": "https://agenda.savannahga.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.932858+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://agenda.savannahga.gov/login?ReturnUrl=%2f",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 6004,
+      "sha256": "cfc4c7656746b45e4c46d12867e80eefb7562239d761de958a28593bd7b46b30"
+    },
+    {
+      "key": "e6156fe2cb09e551",
+      "url": "https://amv.siouxfalls.gov/OnBaseAgendaOnline/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.934970+00:00",
+      "rights": "UNKNOWN",
+      "error": "<urlopen error [Errno 54] Connection reset by peer>"
+    },
+    {
+      "key": "45b06f6aae5a8cdb",
+      "url": "https://archive.miamigov.com/miamicapital/docs/ProjectPages/ProcurementOpportunities/Dinner_Key_Design_Build_Repairs/Addend2/6DinnerKeyMarina_AssessmentReport.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.935576+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://archive.miamigov.com/miamicapital/docs/ProjectPages/ProcurementOpportunities/Dinner_Key_Design_Build_Repairs/Addend2/6DinnerKeyMarina_AssessmentReport.pdf",
+      "mime": "application/pdf",
+      "bytes": 16277452,
+      "sha256": "56543dc204848650d6f5855e936a30cd0f562e41b84ffe29ab889ddd5f62a8b5"
+    },
+    {
+      "key": "f9e6c24c0d302a0d",
+      "url": "https://baltimorecitycouncil.com/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.935769+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.baltimorecity.gov/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 187732,
+      "sha256": "53ca8c4240365542ba591fe06f6e253a4b65ee8bec22ec9ae8a3ed2aa81cbe21"
+    },
+    {
+      "key": "f0cfdefbd65713fe",
+      "url": "https://bangormaine.gov/446/City-Council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.935970+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://bangormaine.gov/446/City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 107921,
+      "sha256": "2bd1c1428ebebaac45301a3b69b811fc9aa9a2f07f422c8bd26756052abc6a5f"
+    },
+    {
+      "key": "2c1339ea1902db69",
+      "url": "https://bloomington.in.gov/node/16",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.936374+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://bloomington.in.gov/departments/clerk",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 32101,
+      "sha256": "78879c16d30140a7fbd8c7923514189302e85abca37f9960d598fe13ebec909e"
+    },
+    {
+      "key": "4fd2b8ff54468c6a",
+      "url": "https://bluehillme.gov/2026/03/2026-annual-town-meeting-materials/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.936717+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://bluehillme.gov/2026/03/2026-annual-town-meeting-materials/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 70044,
+      "sha256": "adfc837c91db310aefbeea6c536b48219bc41d4ad0129b1f6cf18123284d63d2"
+    },
+    {
+      "key": "528bd3af9c483cd4",
+      "url": "https://bluehillme.gov/events/2026-annual-town-meeting-open-session/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:54.941008+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://bluehillme.gov/events/2026-annual-town-meeting-open-session/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 68528,
+      "sha256": "42e3803cdb1e39926bebb302cf1e02c8d2fbdcdd2519da16bd82ed7efac8b213"
+    },
+    {
+      "key": "11183328d9b6a517",
+      "url": "https://bradfordnh.gov/uploads/voters-guide-2026.pdf",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:55.336198+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://bradfordnh.gov/uploads/voters-guide-2026.pdf",
+      "mime": "application/pdf",
+      "bytes": 2080794,
+      "sha256": "55ff17b315afa7c76ebeca243bba88030666eb7ed989264ef301ab71735023b8"
+    },
+    {
+      "key": "a89f466b0f8ab046",
+      "url": "https://calendar.indy.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:55.846129+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://calendar.indy.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 90651,
+      "sha256": "4a95c8b8059071f6b1072556ba5c8d8cc801742c1148e843f2b9ec0b72bc6114"
+    },
+    {
+      "key": "9323165a168da633",
+      "url": "https://calendar.indy.gov/location/06f77ee5-a704-4b7e-82e6-d550ed7e354c/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:55.942047+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://calendar.indy.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 90651,
+      "sha256": "c5e39d4fc00905edaebb3bb4fb9588c5e290e14c5b722c55b881cc1849b94703"
+    },
+    {
+      "key": "b4bfaaf9229e6de0",
+      "url": "https://calendar.indy.gov/location/eb7a5fd4-de8d-4764-b57f-c188e418757a/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.170994+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://calendar.indy.gov/location/eb7a5fd4-de8d-4764-b57f-c188e418757a/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 68473,
+      "sha256": "418e2679ff9877f20b368acfb3421d6291cc1404547617ae90bd3bdf0a24f88d"
+    },
+    {
+      "key": "b20d7ecbf1dc0e08",
+      "url": "https://city.milwaukee.gov/cityclerk/MilwaukeeHistory",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.335472+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "15a301ad47b5bd98",
+      "url": "https://city.milwaukee.gov/commoncouncil",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.400281+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "048796c680daf13f",
+      "url": "https://cityclerk.springfield.il.us/Government/AddressCouncil.aspx",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.414939+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cityclerk.springfield.il.us/Government/AddressCouncil.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 22722,
+      "sha256": "2863dace364de0cf7c1e1adb75b2ba42d9759f49a88c1e5ac3c6cfa88bece81d"
+    },
+    {
+      "key": "13b9d7556fe35ee6",
+      "url": "https://cityclerk.springfield.il.us/Government/GovernmentDefault.aspx",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.450083+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cityclerk.springfield.il.us/Government/GovernmentDefault.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 25165,
+      "sha256": "a8c1d465a084ce84490fae2c853ce4b0d5f5588ac80678ac70bb35998e27ccae"
+    },
+    {
+      "key": "0c24efd77db3910f",
+      "url": "https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.584344+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 67486,
+      "sha256": "182e85d64200bf3ad90aa3461d9b6fe6b15bb543a74d01224a375d8af8b765a0"
+    },
+    {
+      "key": "8a379c4329ddc9ff",
+      "url": "https://citycouncil.atlantaga.gov/",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.616211+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "eddecdb4dd801ac9",
+      "url": "https://cityview.springfieldmo.gov/city-council-live",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.682195+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cityview.springfieldmo.gov/city-council-live",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 110580,
+      "sha256": "0080cc46f6219d1a223fe579bf939b9122d64789262c9df668100ac216eda220"
+    },
+    {
+      "key": "18528087e923a26a",
+      "url": "https://cityview.springfieldmo.gov/city-council-meetings-1",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:56.915971+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cityview.springfieldmo.gov/city-council-meetings-1",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 165581,
+      "sha256": "509c9d2deb7375994d35a8b553461d88c166b8ae153e9f359668c6d0cdd17ee1"
+    },
+    {
+      "key": "97c927673ca830c3",
+      "url": "https://codes.baltimorecity.gov/us/md/cities/baltimore/charter/III/1",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.089144+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://codes.baltimorecity.gov/us/md/cities/baltimore/charter/III/1",
+      "mime": "text/html",
+      "bytes": 12335,
+      "sha256": "c727fa6e6aa3a7830027b6702688ac3b80c33f280b2bc6c24be5361ae9a3e7f4"
+    },
+    {
+      "key": "92f8de7f86319300",
+      "url": "https://codes.baltimorecity.gov/us/md/cities/baltimore/council/sessions/2024/rules/council-rules-2024.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.150496+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://codes.baltimorecity.gov/us/md/cities/baltimore/council/sessions/2024/rules/council-rules-2024.pdf",
+      "mime": "application/pdf",
+      "bytes": 787590,
+      "sha256": "ddba2592700c086d59efa6ae6fc73761b03394fa820bacb68da62a6b4757fd67"
+    },
+    {
+      "key": "26dfa8d566bc855e",
+      "url": "https://columbiasc.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.181827+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "a1e5c6c0e686f64a",
+      "url": "https://cot-lecis.talgov.com/transparency/budget-fy26",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.212852+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://cot-lecis.talgov.com/transparency/budget-fy26",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 750964,
+      "sha256": "1013d73248516a3e80aa56c35051155831a9aa3c028e311bf5d558d86ca9dc14"
+    },
+    {
+      "key": "b2840c95c9a421fe",
+      "url": "https://council.nola.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.246267+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://council.nola.gov/home/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 54178,
+      "sha256": "356f149a916ac6c7bfa82f2437eb4cc553bd99f92cd94066e939eb16fe53a03a"
+    },
+    {
+      "key": "59d35757d0103aaa",
+      "url": "https://council.nyc.gov/about/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.277025+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://council.nyc.gov/about/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 55479,
+      "sha256": "e1626996e52724007f0333ff85814c26dd8bd1c71df225bf25bfe510508f3ab5"
+    },
+    {
+      "key": "33f5d500f51ff336",
+      "url": "https://council.nyc.gov/districts/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.292928+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://council.nyc.gov/districts/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 166635,
+      "sha256": "9ef3c532bbafc194bc773951dac4717faa1598bb3673d03dd51a3266cc244ae6"
+    },
+    {
+      "key": "fb67e503992ba50c",
+      "url": "https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.434449+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf",
+      "mime": "application/pdf",
+      "bytes": 545711,
+      "sha256": "6c1cb53b8ba430baea265c73b5f87bfc8837ac106929bfdc557b6c946d789dc9"
+    },
+    {
+      "key": "599b1190b764436d",
+      "url": "https://council.providenceri.gov/wp-content/uploads/2026/02/2007-160.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.541558+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://council.providenceri.gov/wp-content/uploads/2026/02/2007-160.pdf",
+      "mime": "application/pdf",
+      "bytes": 1534942,
+      "sha256": "1083f36a909144626daf0c915f253db01c784cd6db5afac8664663b926d30b59"
+    },
+    {
+      "key": "19d5bdb128bb2312",
+      "url": "https://councildocs.dsm.city/agendas/2026/20260209CouncilWorkSession.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.602875+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://councildocs.dsm.city/agendas/2026/20260209CouncilWorkSession.pdf",
+      "mime": "application/pdf",
+      "bytes": 152945,
+      "sha256": "d55c5d7b6b4fab054d615e9d077b6317422fa8431d428b7377732a85f611ee93"
+    },
+    {
+      "key": "d235b9039b99718a",
+      "url": "https://councildocs.dsm.city/resolutions/20260406/45.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.635988+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://councildocs.dsm.city/resolutions/20260406/45.pdf",
+      "mime": "application/pdf",
+      "bytes": 2794213,
+      "sha256": "dcd27ae7c7c3ec33518cd199046a572cc7b3c51fe0b4e25cf2226061803c8bc5"
+    },
+    {
+      "key": "bc4f30d5b5d2ee7a",
+      "url": "https://danvillevt.gov/town-meeting/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:57.948073+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "230771bc1b0db807",
+      "url": "https://data.bloomington.in.gov/Elections-Politics/City-Council-Districts/bbv8-zsj5",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.100746+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://data.bloomington.in.gov/Elections-Politics/City-Council-Districts/bbv8-zsj5",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 541195,
+      "sha256": "f8d43aed501ecda39cef606194b79f8c7410029ba68245b3f825b787354efc1b"
+    },
+    {
+      "key": "318ac7b414fe146e",
+      "url": "https://dccouncil.gov/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.184805+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://dccouncil.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 78545,
+      "sha256": "c5e167728e38a0584a7f2d407631793caf9a9ebfa609b8f71f8eb491c4a08ad4"
+    },
+    {
+      "key": "ee2a0b9d2ca650ab",
+      "url": "https://detroitmi.gov/departments/office-chief-financial-officer/ocfo-divisions/office-budget/how-your-budget-works",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.229807+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "5cc461ad0c525225",
+      "url": "https://detroitmi.gov/events/regular-historic-district-commission-hdc-meeting-06102026",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.246697+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "7392ecf6d6bdccbb",
+      "url": "https://detroitmi.gov/government/city-council/city-council-district-4/district-4-community-advisory-council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.404871+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "649f760bf29ca7b6",
+      "url": "https://detroitmi.gov/node/1531",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.463171+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "ef52ea0d5403b8d8",
+      "url": "https://documents.miamigov.com/WebLink/DocView.aspx?dbid=0&id=1490455&repo=Administration",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.557004+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://documents.miamigov.com:443/WebLink/DocView.aspx?dbid=0&id=1490455&repo=Administration&cr=1",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 1897,
+      "sha256": "f898e94eb2b5dc03adddc24f4c46630e4eb5ece3f81b71c3fb3b1a407da7145c"
+    },
+    {
+      "key": "a3ef30902bd15963",
+      "url": "https://documents.miamigov.com/WebLink/DocView.aspx?dbid=0&id=1490457&repo=Administration",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.585178+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://documents.miamigov.com:443/WebLink/DocView.aspx?dbid=0&id=1490457&repo=Administration&cr=1",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 1897,
+      "sha256": "f898e94eb2b5dc03adddc24f4c46630e4eb5ece3f81b71c3fb3b1a407da7145c"
+    },
+    {
+      "key": "29e0d63d41142323",
+      "url": "https://download.fargond.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.601091+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://download.fargond.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 2,
+      "sha256": "843ac01149cced785dfebd0028d3b03ba78e286e1c6f9517ebfcdb609d97af4c"
+    },
+    {
+      "key": "8db345c5beae0437",
+      "url": "https://duluthmn.gov/boards-commissions/regional-authorities-boards/duluth-transit-authority/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.665779+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://duluthmn.gov/boards-commissions/regional-authorities-boards/duluth-transit-authority/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 45712,
+      "sha256": "a895f293898b4e32741ff788cc6c007d1cff988dd0637e35e77c695127911af1"
+    },
+    {
+      "key": "a6a85ac87e25be01",
+      "url": "https://duluthmn.gov/city-council/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:58.825092+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://duluthmn.gov/city-council/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 48109,
+      "sha256": "89fb3b1c3d3405190a33fdf5ebff336d73d5fcc435e9b43772e181069a5af52f"
+    },
+    {
+      "key": "f618e1d747add3c0",
+      "url": "https://engage.cityoffortwayne.org/neighborhood-presidents-meeting",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.119505+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://engage.cityoffortwayne.org/neighborhood-presidents-meeting",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 210374,
+      "sha256": "7e9f8f499c4a0d54ad1e63388b8199e072bb0e518114ef9beeee449dc2bb20a1"
+    },
+    {
+      "key": "9ea987e101a1eb88",
+      "url": "https://engage.pittsburghpa.gov/city-council-rac",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.201392+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://engage.pittsburghpa.gov/city-council-rac",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 185865,
+      "sha256": "5b64b897c4bae1b0b69416a46d7c7685b2ddf14d48ca06e53af9541acb70831e"
+    },
+    {
+      "key": "a654a0145628673b",
+      "url": "https://jacksonms.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.223036+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://jacksonms.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 232194,
+      "sha256": "8a5cdb6e906c70ed5e306f059e83e77fb50af75ece7fc5cc88f0ae8787989462"
+    },
+    {
+      "key": "8266c25a34bd7dff",
+      "url": "https://jacksonms.gov/government/city-council/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.365434+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://jacksonms.gov/government/city-council/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 171684,
+      "sha256": "b3ac564079357848c67dede9f8778a41b73a171dc3dc46654a7080b4eb1f44b9"
+    },
+    {
+      "key": "6f8dc3d719a3d93e",
+      "url": "https://jacksonms.gov/government/city-council/meeting-schedule/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.870330+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://jacksonms.gov/government/city-council/meeting-schedule/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 127394,
+      "sha256": "c2596c43a8e6fc2b11922d828369f0ca0f8d688b84693d294d14ca66932334d5"
+    },
+    {
+      "key": "69a974b1a9c420bb",
+      "url": "https://juneau.org/clerk/boards-committees",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.905987+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://juneau.org/clerk/boards-committees",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 1176297,
+      "sha256": "fb06f9f411c1b4565d2967d32c01bba6d99a12ab459ed8177037a447f971bb16"
+    },
+    {
+      "key": "7c916c0ffcc440d3",
+      "url": "https://juneau.org/clerk/notice-of-public-hearing",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:15:59.967587+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://juneau.org/clerk/notice-of-public-hearing",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 1059677,
+      "sha256": "65033eaa28846a03795977b1e45b2fad36bfafbfeb4e1529ee6d9ec2d1fa06ac"
+    },
+    {
+      "key": "a6b6744cb8166fae",
+      "url": "https://juneau.org/manager/cbj-municipal-offices",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:00.208638+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://juneau.org/manager/cbj-municipal-offices",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 1099235,
+      "sha256": "120a4476c53e356cd09cf3ce4205a79ef3f4d6e3d7734a732832854da19e5894"
+    },
+    {
+      "key": "8a54e71785d3757e",
+      "url": "https://juneau.org/manager/contact-information",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:00.570765+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://juneau.org/manager/contact-information",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 1054011,
+      "sha256": "3719cf2e0dc8663efd3b09a9cfe5cfc0493537690227b3a41e1035730189ca09"
+    },
+    {
+      "key": "07524b938b71210e",
+      "url": "https://lacity.gov/government/boards-commissions",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:00.941568+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://lacity.gov/government/boards-commissions",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 79271,
+      "sha256": "3112ac03a7720badd59988bf45f9281423a0ea532e4265611170dc98da6025d9"
+    },
+    {
+      "key": "af339f11d0b02c60",
+      "url": "https://lacity.gov/government/city-charter-rules-and-codes",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:01.085694+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://lacity.gov/government/city-charter-rules-and-codes",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 34211,
+      "sha256": "361eb60c872440f89683d797524e00dab4a9a56f4e111786b39dba5667ddcf42"
+    },
+    {
+      "key": "a68c89981cfb948a",
+      "url": "https://lacity.gov/government/elected-officials/city-council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:01.412799+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://lacity.gov/government/elected-officials/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 36495,
+      "sha256": "9e1f9ea12a6652d0ac79fa5e3cfa361ea7a9f044ffc362fd129dcad509376e46"
+    },
+    {
+      "key": "949c9fe106d9aa43",
+      "url": "https://legislativereference.baltimorecity.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:01.516898+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.baltimorecity.gov/legislative-reference",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 184605,
+      "sha256": "3a9c6a4eaa8f39207794c2ba7a0fbc92e2ce4a8cc651a3db3ad8437e20fb3bf6"
+    },
+    {
+      "key": "aa568f3aa55f8002",
+      "url": "https://legistar.council.nyc.gov/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:02.721467+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://legistar.council.nyc.gov/Calendar.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 876353,
+      "sha256": "f12a5044d8a43fc1a71cc201ba66aeccacb0ec8df2b7bfe91a865e96e490422b"
+    },
+    {
+      "key": "8d0c9e4a559a925e",
+      "url": "https://library.austintexas.gov/peoples",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:02.764670+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://library.austintexas.gov/peoples",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 34973,
+      "sha256": "e3e3edf193d46db1480d85b50b73af9b8b9b89d86e5d8d4b6d9164a1b3079f43"
+    },
+    {
+      "key": "62f5ddabea05f8ce",
+      "url": "https://lims.minneapolismn.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:02.841633+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "a74b264a99a12914",
+      "url": "https://lims.minneapolismn.gov/Download/FileV2/52978/2026%20Charter%20Commission%20Handbook.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:02.889378+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "71378a9048adf8eb",
+      "url": "https://littlerock.gov/delphone-hubbard-named-city-manager/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:03.097756+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://littlerock.gov/delphone-hubbard-named-city-manager/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 123095,
+      "sha256": "5b4f834fa15e1c5fa2b80f411f19f3aa2ae9b4a564f6e2f85d848c07bf200f79"
+    },
+    {
+      "key": "9bce5638e9bfd022",
+      "url": "https://littlerock.gov/government/board-of-directors/board-meeting-calendar/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:03.115748+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://littlerock.gov/government/board-of-directors/board-meeting-calendar/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 120484,
+      "sha256": "55f960341405735196bb134eb7b67eb99f59edcc265140cbafeefef20e26fff8"
+    },
+    {
+      "key": "9ce13334cba08f10",
+      "url": "https://littlerock.gov/government/city-managers-office/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:03.490983+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://littlerock.gov/government/city-managers-office/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 123454,
+      "sha256": "f0053d797df3c9ad8286572000e9a6bbef19afc3c7d0c343743d62d40c5a18b3"
+    },
+    {
+      "key": "18bb96f096c1a2b6",
+      "url": "https://louisvilleky.gov/government/mayor",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:03.891259+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "c9a24570541a2f8f",
+      "url": "https://louisvilleky.gov/government/metro-council",
+      "research": [
+        "matrix43",
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.383558+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "61b82223b4cd6ae1",
+      "url": "https://louisvilleky.gov/government/metro-council/art-city-hall-2026-2027",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.564550+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "ed5b13379fd407ed",
+      "url": "https://louisvilleky.gov/government/metro-council/metro-council-policies-procedures",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.661529+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "af5deab8a044dd55",
+      "url": "https://meetings.muni.org/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.722714+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://meetings.muni.org/",
+      "mime": "text/html",
+      "bytes": 1682,
+      "sha256": "248a72100903682a6787e676a828f304c6f316fbfd85811815cfc938dcd5917c"
+    },
+    {
+      "key": "26c883a9649a68d6",
+      "url": "https://meetings.muni.org/AgendaOnline/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.768492+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://meetings.muni.org/AgendaOnline/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 108623,
+      "sha256": "e47ae7235e566b229df84738081b3e273419c55c82489f6a53267863e3733b74"
+    },
+    {
+      "key": "0d785e62f32cf468",
+      "url": "https://meridiancity.org/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:04.830986+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "cef0a6b20b8c58b8",
+      "url": "https://my.spokanecity.org/directory/officials/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:05.068452+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://my.spokanecity.org/directory/officials/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 64126,
+      "sha256": "467a84c9553becc3a610c8b947872ad1232328e8a560f7e02cc55d03fe669681"
+    },
+    {
+      "key": "d32cec99731d9c91",
+      "url": "https://newark.legistar.com/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:05.336450+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://newark.legistar.com/Calendar.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 177913,
+      "sha256": "80a24bf3a3a923785813d609000023048cc3c331b2ed066101d146539d994598"
+    },
+    {
+      "key": "5bf45b32a28ee4dc",
+      "url": "https://newarkde.gov/Archive/ViewFile/Item/8541",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:05.525017+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://newarkde.gov/Archive/ViewFile/Item/8541",
+      "mime": "application/pdf",
+      "bytes": 255296,
+      "sha256": "32e53424d80bfc721129c83c20d3119e5f7099cfd1c7b2f7ff5b64d8b98dfd7e"
+    },
+    {
+      "key": "0974379477004d1a",
+      "url": "https://newarkde.gov/DocumentCenter/View/1671/New-Resident-Booklet",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:05.557879+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://newarkde.gov/DocumentCenter/View/1671/New-Resident-Booklet",
+      "mime": "application/pdf",
+      "bytes": 423964,
+      "sha256": "0506652d2a64a3725c77459029c2ea653819e21b47cd2848fbf61bc078b0f8cf"
+    },
+    {
+      "key": "cc3ec2ed7b202958",
+      "url": "https://newlondon.nh.gov/townmeeting",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:06.201141+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://newlondon.nh.gov/townmeeting",
+      "mime": "text/html",
+      "bytes": 43156,
+      "sha256": "afaad358c9104e1b58150b0582480ff6423835fc9732cfc4f0c6275a140bc1ba"
+    },
+    {
+      "key": "e803bc4077292f7b",
+      "url": "https://nola.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:06.269743+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://nola.gov/home/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 96735,
+      "sha256": "cd28571520fa8d53dd8afd46b33b175566b96dc938ec912aa24537fdbf2c1ca5"
+    },
+    {
+      "key": "e4c0e6cfadb074d0",
+      "url": "https://oag.dc.gov/about-oag/our-structure-divisions/legal-counsel-division/opinions-attorney-general",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:06.319473+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://oag.dc.gov/about-oag/our-structure-divisions/legal-counsel-division/opinions-attorney-general",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 89621,
+      "sha256": "2cbbc757cdb9f2ccc31668b5bd97c6073fd273c3eb1f9dc16ba8b934f8ebcbbb"
+    },
+    {
+      "key": "a8fc0f2510495d86",
+      "url": "https://online.encodeplus.com/regs/overlandpark-ks-gbp/doc-viewer.aspx?secid=51",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:06.362963+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://online.encodeplus.com/regs/overlandpark-ks-gbp/doc-viewer.aspx?secid=51",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 48527,
+      "sha256": "f52dc3793ffca106cd93ac00defd99b4e8d70e2e42ff0c615f8eefbf32563c5c"
+    },
+    {
+      "key": "9bb74656f8768111",
+      "url": "https://opkansas.civicweb.net/portal/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:06.846168+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://opkansas.civicweb.net/portal/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 65568,
+      "sha256": "59e7d5d210224a03360077ec06f0c44d375a22282ab0b3199581b888f79052b1"
+    },
+    {
+      "key": "54cb77617f41dc8c",
+      "url": "https://page.alertsense.com/content/1680/139213",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:07.284655+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://page.alertsense.com/content/1680/139213",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 116513,
+      "sha256": "800b5c7a1046bd6c017ee2347b59e370d0d7e54a211ab8cabdb81119ca50c5a2"
+    },
+    {
+      "key": "82eb6e0f2af0a535",
+      "url": "https://pch.tncourts.gov/CaseDetails.aspx?id=92054",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:07.378310+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://pch.tncourts.gov/CaseDetails.aspx?id=92054",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 58432,
+      "sha256": "fbd83283626c50411b691c339f36082ad3d31f9a05c0340cc4422d16f8bc637b"
+    },
+    {
+      "key": "136de94b47d839ef",
+      "url": "https://peoriagov.org/Calendar.aspx?EID=3098&calType=0&day=14&month=7&year=2026",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:07.667593+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://peoriagov.org/Calendar.aspx?EID=3098&calType=0&day=14&month=7&year=2026",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 125187,
+      "sha256": "ad46ede0bec6f6c03d9ae9c11d59b2539851778381430f00ac572fdfda1d7f29"
+    },
+    {
+      "key": "b1b4821a7881df05",
+      "url": "https://permits.cityofboise.org/CitizenAccess/contactus.aspx",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:07.974802+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://permits.cityofboise.org/CitizenAccess/contactus.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 72440,
+      "sha256": "a356abdb0f2727a19a45fcd0d26a858dd546b883f447d13fd09281c40a85ca70"
+    },
+    {
+      "key": "a150104c9014f6de",
+      "url": "https://phlcouncil.com/about-phl-council/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.178186+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://phlcouncil.com/about-phl-council/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 145955,
+      "sha256": "8f0879630710dff22604ce569df9e1d34b3745d4743cce8e053c986160d839c8"
+    },
+    {
+      "key": "8d801bd627ce0746",
+      "url": "https://phlcouncil.com/council-members/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.396915+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://phlcouncil.com/council-members/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 168453,
+      "sha256": "0a7d8a1ae0498c68903c996fc53e0561c4c2b697b89d2067d76ce901a35b51a1"
+    },
+    {
+      "key": "111aa68df2a79afe",
+      "url": "https://planning.lacity.gov/plndoc/Staff_Reports/2026/03-12-2026/CPC_2023_5444.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.570578+00:00",
+      "rights": "UNKNOWN",
+      "error": "Artifact exceeds acquisition bound; requires individual retrieval"
+    },
+    {
+      "key": "6c516376ade21087",
+      "url": "https://raleighnc.gov/city-hall",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.634542+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "002be41e3d8ee9f3",
+      "url": "https://raleighnc.gov/government/services/city-council-meetings",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.645940+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "4002b9e09d6076d0",
+      "url": "https://records.hawaiicounty.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.730456+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://records.hawaiicounty.gov/",
+      "mime": "text/html",
+      "bytes": 703,
+      "sha256": "557b5e9015b4963a130c7039e077b3ec0306d401b6ee13d631721d5d969d2917"
+    },
+    {
+      "key": "201266bc287be976",
+      "url": "https://reno.gov/government/departments/city-clerk/elections/2026-election.php",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.871697+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://reno.gov/government/departments/city-clerk/elections/2026-election.php",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 254956,
+      "sha256": "fa49418b7f723215109a35adea1bf477145067e9f143577b26874749460fe4a5"
+    },
+    {
+      "key": "c37509600e95dca1",
+      "url": "https://santafenm.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.911478+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://santafenm.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 98020,
+      "sha256": "2b1e611c071f8902e0e007eea03506594d2e4fb710fae86408e3193606d141be"
+    },
+    {
+      "key": "9043769ff134d00d",
+      "url": "https://savannahga.gov/458/Council-Meeting-Schedule",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:08.955740+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://savannahga.gov/458/Council-Meeting-Schedule",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 96756,
+      "sha256": "451f8821751df8f2076a952de75db3b88a75387bfd7f3aed7d95b5e0ce9dd44c"
+    },
+    {
+      "key": "8258b1558debf982",
+      "url": "https://sfbos.org/about-board",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:09.451362+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.sf.gov/about-board-of-supervisors",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 189874,
+      "sha256": "25da5e121e7b28b4455623c6e5f3345861de66056b4b00186ef399103c717472"
+    },
+    {
+      "key": "3c81999b8aae280d",
+      "url": "https://sfbos.org/sites/default/files/bag013026_260021_notice.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:09.527710+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://sfbos.archive.sf.gov/sites/default/files/bag013026_260021_notice.pdf",
+      "mime": "application/pdf",
+      "bytes": 211473,
+      "sha256": "0dec13bcd415fefb2637dfba5219a77aa69005ebcd36a1dc2fd0bdbe7c4abfa7"
+    },
+    {
+      "key": "da157bd0bdf3fb58",
+      "url": "https://sfplanning.org/civic-center-cultural-landscape-inventory",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:09.720701+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://sfplanning.org/civic-center-cultural-landscape-inventory",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 90742,
+      "sha256": "5f0967833d1dbc178efaf12a41ad39f4bcda24c99b9fad08800e9bcd3391c8e4"
+    },
+    {
+      "key": "e5e30b1e41e7f258",
+      "url": "https://sfplanning.org/sites/default/files/documents/preserv/bulletins/CivicCenterCLI_WalkingTourGuide.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:10.110197+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "34ee7bcd80bc6613",
+      "url": "https://statehood.dc.gov/page/congressional-intervention",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:10.697579+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://statehood.dc.gov/page/congressional-intervention",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 127181,
+      "sha256": "41914d9fc50408dd3955e93ac11ac63e58a3c126f9d682df6926c737f4a03a2c"
+    },
+    {
+      "key": "e6dd7b0bf8980d93",
+      "url": "https://statehood.dc.gov/page/dc-governance",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:10.828259+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://statehood.dc.gov/page/dc-governance",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 131565,
+      "sha256": "974b8b8ab81b28ed71bd2f0d6ea146069e6716ac999b7e48dcfbc281b4766a17"
+    },
+    {
+      "key": "faba3402a98398e6",
+      "url": "https://swagit-attachments.granicus.com/uploads/video/agenda_file/374708/2026-02-10_Agenda.pdf",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:10.839992+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://swagit-attachments.granicus.com/uploads/video/agenda_file/374708/2026-02-10_Agenda.pdf",
+      "mime": "application/pdf",
+      "bytes": 204425,
+      "sha256": "c21145acb4f9237d578631b7f6ab9c43426e517df8e4f9bb5c333596ba1f1093"
+    },
+    {
+      "key": "bdb0f6aec4f7ab1e",
+      "url": "https://topeka.granicus.com/ViewPublisher.php?view_id=1",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.040187+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://topeka.granicus.com/ViewPublisher.php?view_id=1",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 409868,
+      "sha256": "ff42a7b9c91cb95a3b527711861dc29fe68910fdf7681bf796a727593391bc39"
+    },
+    {
+      "key": "0e1fe7d0273c31c6",
+      "url": "https://www.aberdeen.sd.us/AgendaCenter/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.070219+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.aberdeen.sd.us/AgendaCenter/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 300192,
+      "sha256": "3f1e0b1d7525140f0e9424a4639e88fb4b9ad467fdb137d8eb6c62a5d52f295e"
+    },
+    {
+      "key": "ed50763ef832e1ac",
+      "url": "https://www.annapolis.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.341709+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.annapolis.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 170233,
+      "sha256": "597b5f577216b70a3582bcb1c871453cdffcf9c7e281b758821eb9a2d1b91324"
+    },
+    {
+      "key": "a751e86250db752b",
+      "url": "https://www.augustaga.gov/DocumentCenter/View/19408/Complete-Augusta-Charter-Book",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.400181+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.augustaga.gov/DocumentCenter/View/19408/Complete-Augusta-Charter-Book",
+      "mime": "application/pdf",
+      "bytes": 1839288,
+      "sha256": "990a705f7f24c998bf08d936d357edd6e5b98d1c11482ad11775d7699db9d6af"
+    },
+    {
+      "key": "be8b9be440474e3c",
+      "url": "https://www.augustaga.gov/DocumentCenter/View/21007/Complete-Draft-March-6-2026-with-reinserted-ethics-language",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.522185+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.augustaga.gov/DocumentCenter/View/21007/Complete-Draft-March-6-2026-with-reinserted-ethics-language",
+      "mime": "application/pdf",
+      "bytes": 1158436,
+      "sha256": "14db31e0edabbb7d1b8cbbe0df7cf0b872b75318a0fa072078fb881a31f0ec65"
+    },
+    {
+      "key": "320ac0d5d4b2ec68",
+      "url": "https://www.austintexas.gov/city-manager/city-hall",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.752745+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.austintexas.gov/city-manager/city-hall",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 82006,
+      "sha256": "3959a1d7406fe2bc4fdd09ab107b97307c08080c32686a86db83af3f5981dd1f"
+    },
+    {
+      "key": "24546d3a2351a588",
+      "url": "https://www.austintexas.gov/ps-af/arts-culture/art-public-places/open-calls",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:11.778112+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.austintexas.gov/ps-af/arts-culture/art-public-places/open-calls",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 99586,
+      "sha256": "3a09eaf98fb594b01d1eb9f8a5cf62e2ea028056cee0395c8080f299f00e71e4"
+    },
+    {
+      "key": "beba56f2de9153dc",
+      "url": "https://www.austintexas.gov/sites/default/files/files/BOE/Budget/FY2025-2026_Proposed_Budget.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.053114+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "5c1f354593265838",
+      "url": "https://www.baltimorecity.gov/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.237855+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.baltimorecity.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 195940,
+      "sha256": "bc2ff3e29ea15b024705df07b34e004c40ecfdf0a2ab8cbb16d572416d614176"
+    },
+    {
+      "key": "12a2d7f4f8ac7293",
+      "url": "https://www.bangormaine.gov/209/City-Manager",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.259491+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bangormaine.gov/209/City-Manager",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 87763,
+      "sha256": "ad1b896bc74b2fe019d62d4ca2143096eadac23785c20d7be29e11a55d071ad6"
+    },
+    {
+      "key": "7b2983c9831ce35c",
+      "url": "https://www.bangormaine.gov/facilities/facility/details/Council-Chambers-111",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.348255+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bangormaine.gov/facilities/facility/details/Council-Chambers-111",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 89446,
+      "sha256": "9b11e4a3a4e608231f85e7e0665a099329239304ecd0c9a0fd633c3752a13c2d"
+    },
+    {
+      "key": "2af5b3c378ea1550",
+      "url": "https://www.bgky.org/government",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.580537+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bgky.org/government",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 24961,
+      "sha256": "630db9ff58e929b0f7c7eb3e5c0291f5799283a917a0bcf640f425a3288029be"
+    },
+    {
+      "key": "31aaaabdcb41db4f",
+      "url": "https://www.billingsmt.gov/Directory.aspx?DID=3",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.698278+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.billingsmt.gov/m/directory/department?did=3",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 111038,
+      "sha256": "1a48e1b09d4be8b11defe37ca1aa89bbfb852f62a4e36931504b6aa5e9c917d3"
+    },
+    {
+      "key": "136eba6da550e00f",
+      "url": "https://www.billingsmt.gov/calendar.aspx?CID=55&view=list&year=2026",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:12.746524+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.billingsmt.gov/calendar.aspx?CID=55&view=list&year=2026",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 136858,
+      "sha256": "1834fb29a8458f6cb78ea6abcdfb1d8c686602130f7d62de5163ccd8b94ed407"
+    },
+    {
+      "key": "f3f520c79014de4d",
+      "url": "https://www.birminghamal.gov/government/city-council/council",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.038891+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.birminghamal.gov/government/city-council/council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 56291,
+      "sha256": "d22092418605aec267eba51aa6180432f0a8c2ac1ac74671397c0e13b68a4950"
+    },
+    {
+      "key": "8ef55a25c1b8ec51",
+      "url": "https://www.birminghamal.gov/government/city-council/council/council-committees-2025-2027",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.152733+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.birminghamal.gov/government/city-council/council/council-committees-2025-2027",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 67034,
+      "sha256": "2fddf8d322b197ec332e4e6316227f0c8ab797b47b64a6a71191c3f7d9ef3211"
+    },
+    {
+      "key": "d655e5ce78b24262",
+      "url": "https://www.bismarcknd.gov/Directory.aspx?DID=21",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.207755+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bismarcknd.gov/m/directory/department?did=21",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 120789,
+      "sha256": "ff058c382ba59fce80a411739eeaf4be58fc735a2a9d0d8ba12e477f1a16c099"
+    },
+    {
+      "key": "80fa8d60b6f6118d",
+      "url": "https://www.boston.gov/departments/city-council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.449307+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.boston.gov/departments/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 195046,
+      "sha256": "f1440a164b2676e8b45ae039c0363d5b996a91672df38013492e19f0e5730014"
+    },
+    {
+      "key": "c0029a34c0e270d7",
+      "url": "https://www.boston.gov/public-notices/16552766",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.478817+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.boston.gov/public-notices/16552766",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 68904,
+      "sha256": "d9c07fe6beb7ba4e90de57feea4922abfd2659dab846d93c317af7c518a06b2a"
+    },
+    {
+      "key": "06949ce25227e991",
+      "url": "https://www.boston.gov/sites/default/files/file/2024/11/224.07%20Boston%20City%20Hall%20final%20report%20November%202024.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.773047+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.boston.gov/sites/default/files/file/2024/11/224.07%20Boston%20City%20Hall%20final%20report%20November%202024.pdf",
+      "mime": "application/pdf",
+      "bytes": 14413404,
+      "sha256": "f18807959e9b8b282a8217be140b9c4ec62132091037075713b35792c701783e"
+    },
+    {
+      "key": "8fd24f49d934d1ba",
+      "url": "https://www.bridgeportct.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:13.995507+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bridgeportct.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 38545,
+      "sha256": "9fbb59325401d77640d372fbb9117ce3569d8968da94321c73ebe15df12d3791"
+    },
+    {
+      "key": "b9f7f3cbe6cb6aad",
+      "url": "https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.057442+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 31406,
+      "sha256": "924cc2160c3db4ad455b9294642fa90d4c3fbd7787e62015c8f1d7647539437a"
+    },
+    {
+      "key": "6536d62b1c8decf8",
+      "url": "https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council/city-council-meeting-minutes-agendas-and-notices",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.219412+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bridgeportct.gov/government/boards-and-commissions/city-council/city-council/city-council-meeting-minutes-agendas-and-notices",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 178037,
+      "sha256": "c183e9ac070932dd7c5718f5ada9abf6f428d11185f1be6d98785a402c4d0d54"
+    },
+    {
+      "key": "bfe3b217c5e605e8",
+      "url": "https://www.bridgeportct.gov/government/departments/city-council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.285035+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.bridgeportct.gov/government/departments/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 32951,
+      "sha256": "1699046fc948fad39b6fa0cd172062fbd292cc9f72e9f6d0bb8d95a0c07a86c9"
+    },
+    {
+      "key": "cd62bca3bec7528b",
+      "url": "https://www.brla.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.421724+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.brla.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 821326,
+      "sha256": "d207cd6483b7a94d914cf8d8a8130bacf9df6387eb8b201313b946f968a3e2e3"
+    },
+    {
+      "key": "e18f81fb724f707e",
+      "url": "https://www.brla.gov/561/Metropolitan-Council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.446170+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.brla.gov/561/Metropolitan-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 140966,
+      "sha256": "95a7dc4754221a5e10716292346a254fd28ceb75cb10ac9ab79dbed00073809c"
+    },
+    {
+      "key": "e8ca35dbe3daeb28",
+      "url": "https://www.buffalony.gov/362/Common-Council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.638024+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.buffalony.gov/362/Common-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 106191,
+      "sha256": "217ff828b2b50cf8f79895e83d51f8382d4b2eb9b3ec5bb4eef8427694c6e004"
+    },
+    {
+      "key": "ebccc19523e07e6b",
+      "url": "https://www.buffalony.gov/Calendar.aspx",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.681268+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.buffalony.gov/Calendar.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 361216,
+      "sha256": "9fb4a13d0cd7f50c79f4669b21c853ed7dbd5e67fda6d5a83f53fe5025042bed"
+    },
+    {
+      "key": "2e73e1b2f89db5d4",
+      "url": "https://www.buffalony.gov/DocumentCenter/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.711860+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.buffalony.gov/DocumentCenter/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 82848,
+      "sha256": "fe14ee250891b978975f4fa70b29ce599201e2b59a1940a7ea7f72776a056955"
+    },
+    {
+      "key": "658e3d2c4be53657",
+      "url": "https://www.burlingtonvt.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.778463+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.burlingtonvt.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 117992,
+      "sha256": "62e1ef9f0bd34483580880bf2437f61f04cb2bbad9be85b34fb98f3b13a50ed0"
+    },
+    {
+      "key": "186ce68b60d7338a",
+      "url": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:14.963450+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cabq.gov/council/council-meeting-schedules/council-committee-schedules",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 118936,
+      "sha256": "205b75f027efde82ed04e181cab00f419553fa0c41b4390f7956e4d42d11767b"
+    },
+    {
+      "key": "24542c267feffad5",
+      "url": "https://www.cabq.gov/council/current-events/council-meeting-schedules/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.247773+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cabq.gov/council/current-events/council-meeting-schedules/",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 113134,
+      "sha256": "16f4557d151b71ffa7eaef20bf9b5d7ce9bfd939f5b4138e7fe0c5c601e80ec4"
+    },
+    {
+      "key": "f44cb1012d350a32",
+      "url": "https://www.cambridgema.gov/departments/cityclerksoffice/calendar",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.280777+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cambridgema.gov/departments/cityclerksoffice/calendar",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 132868,
+      "sha256": "77ec9dc014d1dc720919117d19507beaf713f4d40bd90c3c360e0ae6a1e9501f"
+    },
+    {
+      "key": "c4f91bd49b5934a2",
+      "url": "https://www.cambridgema.gov/departments/electioncommission/cambridgemunicipalelections",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.293209+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cambridgema.gov/departments/electioncommission/cambridgemunicipalelections",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 69735,
+      "sha256": "5987bc8baf5347e2778f616620d29596e3f4b1b110c40ceb4c3b5bac08adabab"
+    },
+    {
+      "key": "99958b817dfa537f",
+      "url": "https://www.canterburynh.gov/2026/02/17/sample-ballot-warrant-and-budget-released/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.376707+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.canterburynh.gov/2026/02/17/sample-ballot-warrant-and-budget-released/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 75093,
+      "sha256": "23caa6a3c2369bf39de5a6ba39ead21e678578002abe65644079d8b6bef69c2e"
+    },
+    {
+      "key": "b8e0738df4eff984",
+      "url": "https://www.carsoncity.gov/government/board-of-supervisors",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.509770+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "b3a453efd1e10f2c",
+      "url": "https://www.casperwy.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.719100+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.casperwy.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 207641,
+      "sha256": "c22f0c3a5f4b9989b62860b5e7d3657148f4e9a24f57f7b4dfc93e39bd3b1a25"
+    },
+    {
+      "key": "40f8146008ffe8c1",
+      "url": "https://www.charleston-sc.gov/DocumentCenter/View/3734/City-of-Charleston-2026-Boards-and-Commissions-Meeting-Schedule",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.849466+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.charleston-sc.gov/DocumentCenter/View/3734/City-of-Charleston-2026-Boards-and-Commissions-Meeting-Schedule",
+      "mime": "application/pdf",
+      "bytes": 34996,
+      "sha256": "005efd08d3c0d38d9436b615d80ff4b9d08c0d16825bc1a02af91fac2fc1ea5e"
+    },
+    {
+      "key": "2dc55c1aa6bc26c0",
+      "url": "https://www.charleston-sc.gov/DocumentCenter/View/8627/City-of-Charleston-City-Council-Meetings-for-2025",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.923195+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.charleston-sc.gov/DocumentCenter/View/8627/City-of-Charleston-City-Council-Meetings-for-2026?bidId=",
+      "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 15239,
+      "sha256": "3154b6d00e7ed03910ba8d0e101e7adc8ddd5228300a9b03dc558cebde9b912c"
+    },
+    {
+      "key": "d53c50f7ec406656",
+      "url": "https://www.charlestonwv.gov/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:15.978011+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.charlestonwv.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 77539,
+      "sha256": "e1b7b314cb7d0d824b3a4e711411030d65aa144e75b2de529e67f02677bf5db4"
+    },
+    {
+      "key": "d20b5170ff1a8a7e",
+      "url": "https://www.charlottenc.gov/City-Government/Council-Meetings/Upcoming-Meetings",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.014274+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "bf0bc9361d5f2766",
+      "url": "https://www.cheyennecity.org/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.073596+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "fab54b5b032f1350",
+      "url": "https://www.chicityclerk.com/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.379488+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.chicityclerk.com/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 54753,
+      "sha256": "1aee26bc138d882758c5aae795903a912765b9bb6f8f97e53655b9a547409c6f"
+    },
+    {
+      "key": "f24a1ed3d74ca1f6",
+      "url": "https://www.chicityclerk.com/about-city-government-chicago-city-council/rules-order",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.503983+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.chicityclerk.com/about-city-government-chicago-city-council/rules-order",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 100023,
+      "sha256": "c566b1b15c1d5a6e17b1b58861ec2237a938b1a4377b018f2288ccf9b43c3014"
+    },
+    {
+      "key": "f1b839f422d7fd98",
+      "url": "https://www.chicityclerk.com/attending-city-council-meetings",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.641297+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.chicityclerk.com/attending-city-council-meetings",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 27387,
+      "sha256": "cb3d8027d40f0844da2b3445228fb2ed048697f2335676664fd298f3b2a47bdf"
+    },
+    {
+      "key": "d50d2d029a13270d",
+      "url": "https://www.ci.missoula.mt.us/314/City-Council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.694509+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.ci.missoula.mt.us/314/City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 122071,
+      "sha256": "80d90326c48cd1a75ca3c12b02d4c03bfb5f07ec0d991cad35c458eaeba9ea0e"
+    },
+    {
+      "key": "8f7cbe23b44e16a2",
+      "url": "https://www.ci.missoula.mt.us/calendar.aspx",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.713628+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.ci.missoula.mt.us/calendar.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 184073,
+      "sha256": "0a25e9892b6e67033e921a9d9d2bf86441b0b2617f7ba82ddac95749c1b1f8b4"
+    },
+    {
+      "key": "898efa6c39fcc384",
+      "url": "https://www.cincinnati-oh.gov/council/contact-us/council-list/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:16.964435+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cincinnati-oh.gov/council/contact-us/council-list/",
+      "mime": "application/pdf;charset=UTF-8",
+      "bytes": 164404,
+      "sha256": "164f0151188b93b2785663462a6d046b416ce3fa232fe56de75a42af5e11fb03"
+    },
+    {
+      "key": "fee1e6d01b106bdf",
+      "url": "https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:17.269312+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/",
+      "mime": "application/pdf;charset=UTF-8",
+      "bytes": 467626,
+      "sha256": "344bf67417a64f74a9e71dd650c1da6915c0340e0e1549ab96cbbe43792e62f8"
+    },
+    {
+      "key": "26ae3862848e68e6",
+      "url": "https://www.cincinnati-oh.gov/council/welcome-to-city-hall/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:17.321214+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cincinnati-oh.gov/council/welcome-to-city-hall/",
+      "mime": "text/html;charset=UTF-8",
+      "bytes": 55782,
+      "sha256": "62a5b205ce7e0c265200e998076db47c3093c9efcdfda2e0ad863bffb279cb5a"
+    },
+    {
+      "key": "350b1b05f713c963",
+      "url": "https://www.cityofboise.org/media/20517/fy-26-adopted-budget-ada-compliant.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:17.412872+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofboise.org/media/20517/adopted-budget-2026.pdf",
+      "mime": "application/pdf",
+      "bytes": 10804147,
+      "sha256": "a0ca611f888d9b616675b9f59d7f63373f36a22d383ff4cc28edc13852aa2327"
+    },
+    {
+      "key": "709771f8125ab2da",
+      "url": "https://www.cityoffortwayne.org/city-council-home/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:17.669687+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "d91d4debc5593002",
+      "url": "https://www.cityofhuntington.com/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:17.688831+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofhuntington.com/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 44225,
+      "sha256": "8e56b5008e4d926e48bf0412522dea42ab0b6e71d1ba2c263d554eb9d3f0cf3d"
+    },
+    {
+      "key": "8898de7315d6ba84",
+      "url": "https://www.cityoflaramie.org/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:18.306692+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityoflaramie.org/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 142238,
+      "sha256": "20eef9b0e69479e6ae10b45076bea48b83ae710685d1ef83c3b81e38b9c75ef5"
+    },
+    {
+      "key": "9baf0a9c0628b422",
+      "url": "https://www.cityofmadison.com/council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:18.526384+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofmadison.com/council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 123733,
+      "sha256": "ad8258fa743a35218c7589c39537663163f68d0a605d89be6dc05c12a20bd56d"
+    },
+    {
+      "key": "07b647e8986a607c",
+      "url": "https://www.cityofmobile.org/city-council",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:18.716841+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofmobile.gov/city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 89018,
+      "sha256": "27b11c2aa98d32f6c0c919d466eb3d802399754879e1910071ff4ace217cceca"
+    },
+    {
+      "key": "c4800efd675b9fde",
+      "url": "https://www.cityofsacramento.gov/clerk/meetings-and-agendas",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:18.886020+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofsacramento.gov/clerk/meetings-and-agendas",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 3506539,
+      "sha256": "44ed65db63375eaee5b20fa71ebf84f4206eba97eb492125a7b76d3cb4eb9022"
+    },
+    {
+      "key": "eb58578716c4eed5",
+      "url": "https://www.cityofsacramento.gov/clerk/meetings-and-agendas/legislative-bodies",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:18.979151+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofsacramento.gov/clerk/meetings-and-agendas/legislative-bodies",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 3497321,
+      "sha256": "b66ec25963294211bdc864b1edf77ac2a84bd657c7ac5997f61b3f74bcbe5555"
+    },
+    {
+      "key": "f26172c4d90e40b3",
+      "url": "https://www.cityofsacramento.gov/content/dam/portal/city-government/policies-procedures/Council_Rules_of_Procedure_Adopted.pdf",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:19.113966+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.cityofsacramento.gov/content/dam/portal/city-government/policies-procedures/Council_Rules_of_Procedure_Adopted.pdf",
+      "mime": "application/pdf",
+      "bytes": 2230981,
+      "sha256": "0a2a8beca44cb1160d89b37e1e8aebecb996b17227713c82c64cf881fa993bfe"
+    },
+    {
+      "key": "fa9de1b01073e3b9",
+      "url": "https://www.clevelandcitycouncil.org/resources/public-comment",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:19.139381+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.clevelandcitycouncil.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 60182,
+      "sha256": "05e474892375036c2ffbe435c7342a0ac99bede315b2e0318ded7935687c2e64"
+    },
+    {
+      "key": "32332442d0fb2b38",
+      "url": "https://www.clevelandcitycouncil.org/sites/default/files/2023%20Year%20End.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:19.198079+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.clevelandcitycouncil.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 60182,
+      "sha256": "05e474892375036c2ffbe435c7342a0ac99bede315b2e0318ded7935687c2e64"
+    },
+    {
+      "key": "3306ed3332c47ce7",
+      "url": "https://www.columbus.gov/files/sharedassets/city/v/1/city-council/documents/city-bulletins/2026/bulletin20260414.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:19.902135+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "73daaa19563965b2",
+      "url": "https://www.columbus.gov/files/sharedassets/city/v/1/finance/budget/2026/012-2026.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.038765+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "81dca6915384542e",
+      "url": "https://www.concordnh.gov/DocumentCenter/View/24363/FY26-Adopted-Budget",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.067544+00:00",
+      "rights": "UNKNOWN",
+      "error": "Artifact exceeds acquisition bound; requires individual retrieval"
+    },
+    {
+      "key": "6adc474f6fe84ffe",
+      "url": "https://www.davenportiowa.com/government/departments/city_administration",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.283202+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.davenportiowa.com/government/departments/city_administration",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 124811,
+      "sha256": "5084ef361120993798bf66bbd6575190d32bcf9f210ae3059028024c338ef51f"
+    },
+    {
+      "key": "90993706a3c83df7",
+      "url": "https://www.davenportiowa.com/government/mayor_council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.317495+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.davenportiowa.com/government/mayor_council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 133968,
+      "sha256": "450296fbf4cc1b10f913d374496979cda4cd7282e00a81ac07d05acf14f58e25"
+    },
+    {
+      "key": "3a3022df37fe498f",
+      "url": "https://www.davenportiowa.com/news/what_s_new/tim_gleason_selected_as_city_administrator",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.336755+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.davenportiowa.com/news/what_s_new/tim_gleason_selected_as_city_administrator",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 125565,
+      "sha256": "be921bbd7e85e943e68d09f93eb1fce3c70e3144bc8eb22d1b2f6df199a485da"
+    },
+    {
+      "key": "1b1aba3e694e6b01",
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-City-Council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.352743+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Denver-City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 184660,
+      "sha256": "b186ed4a0c7f291e1cc8bd3fc48a46a6dbfebce1d6e35c1f8dd21dae32b218a8"
+    },
+    {
+      "key": "e69e69521a6c32bd",
+      "url": "https://www.enfieldnh.gov/administration-town-manager/page/2026-annual-town-meeting-0",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.404938+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "2c6465855ea59ef1",
+      "url": "https://www.fayetteville-ar.gov/247/City-Council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:20.629407+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.fayetteville-ar.gov/247/City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 134931,
+      "sha256": "89acbf1f3799718771acbe4ecce91dc7d78cd41f70bbb6bbf20855fb8607cc67"
+    },
+    {
+      "key": "96ddd718e25a1200",
+      "url": "https://www.fnsb.gov/415/Stay-Connected-with-the-Assembly",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.231419+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.fnsb.gov/415/Stay-Connected-with-the-Assembly",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 101167,
+      "sha256": "ccf5fa277cc5c640bb9c6e00d3d25bfecf208734b88b2121641e2ba5f97e4ff2"
+    },
+    {
+      "key": "c28b764c0d70dc75",
+      "url": "https://www.fortsmithar.gov/government/about-the-city-municipality",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.265586+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "f0266ccb1fdc13de",
+      "url": "https://www.fortsmithar.gov/government/leadership/board-of-directors",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.281720+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "eab8cc9dcadcf3e2",
+      "url": "https://www.fortsmithar.gov/government/meetings-agendas/board-of-directors-meeting-information",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.435179+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "9c72be8730bdbc67",
+      "url": "https://www.grand-island.com/page/city-council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.693843+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.grand-island.com/page/city-council",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 1749229,
+      "sha256": "878fa449a3cb801b848d4315ca2628581cc859bcf9188796be15f146ba6277c4"
+    },
+    {
+      "key": "7cf41a9ed03e014d",
+      "url": "https://www.grand-island.com/page/ward-5-haase-lanfear",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.788233+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.grand-island.com/page/ward-5-haase-lanfear",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 1825707,
+      "sha256": "814e1d5a91cced0fe49d7d4d3d24226af6dad249153748af153ee82caf560e5c"
+    },
+    {
+      "key": "3dd29957033ed15f",
+      "url": "https://www.grandforksgov.com/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.802901+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "6c155466d45d7d2a",
+      "url": "https://www.grandrapidsmi.gov/Government/City-Commission",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.828551+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.grandrapidsmi.gov/Government/City-Commission",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 86250,
+      "sha256": "d29a1ef5d818f640f6718f8125233caf3259e80aee31ba0761a359fef211f00c"
+    },
+    {
+      "key": "b501aa74f123f7a3",
+      "url": "https://www.grandrapidsmi.gov/departments/executive-office/city-manager/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:21.864352+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.grandrapidsmi.gov/departments/executive-office/city-manager/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 62497,
+      "sha256": "07fb43ab9a4a4ead4bad63fdc0b88ac5afcaaa5888cb4c8ab15a45f8030c495b"
+    },
+    {
+      "key": "4dd4c9ee1e866f7f",
+      "url": "https://www.gulfport-ms.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.144859+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.gulfport-ms.gov/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 88821,
+      "sha256": "a4edd87a37d4843faa110bfa124cefb85da203151faa34a13a108c2f07343d60"
+    },
+    {
+      "key": "77d62e3e9b0892c4",
+      "url": "https://www.hartfordct.gov/Government",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.195418+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "53d3c0fbb8c065e6",
+      "url": "https://www.hartfordct.gov/Government/Departments/OMBG",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.462586+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "228222b275626d1d",
+      "url": "https://www.hartfordct.gov/Government/Departments/OMBG/Mgmt-Divisions/Bud-Dev-Ctrl",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.536073+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "63ffb1dd2f2d9b79",
+      "url": "https://www.hartfordct.gov/Government/Town-and-City-Clerk",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.561516+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "12cc81786f435895",
+      "url": "https://www.hartfordct.gov/files/assets/public/town-clerk/town-clerk-documents/hartford-charter.07.elector-approval-of-charter.8-november-2022.annotated-with-footnotes-003.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.576638+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "8a2cb21655909a7b",
+      "url": "https://www.hawaiicounty.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.646587+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "5b767775b0c822b2",
+      "url": "https://www.hawaiicounty.gov/our-county/legislative/county-council/attend-meetings-submit-testimony",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.699098+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "f3230ebedc372e73",
+      "url": "https://www.helenamt.gov/",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.726906+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "11f5bd34313c376a",
+      "url": "https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.795962+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.honolulu.gov/cor/wp-content/uploads/sites/17/2025/01/Charter-FINAL-1-16-2025.pdf",
+      "mime": "application/pdf",
+      "bytes": 1407219,
+      "sha256": "278e8bc463b4284d670cb4855026c468ee6d7bc5448bf1ac20b82a180454bf49"
+    },
+    {
+      "key": "712a64518dbe8248",
+      "url": "https://www.honolulu.gov/events/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.817985+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.honolulu.gov/events/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 445963,
+      "sha256": "50e6c30159d823a47f067579b40e980886dd04f52ef1bac7b3d6f011cacbf558"
+    },
+    {
+      "key": "df306eedf728606f",
+      "url": "https://www.honolulucitycouncil.org/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:22.851468+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.honolulucitycouncil.org/",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 440862,
+      "sha256": "5441023d9753dc43c7644b77c8560d1c92c9f5699cfe622ee29d6da195e1c84b"
+    },
+    {
+      "key": "b6918d50dfb8e127",
+      "url": "https://www.icgov.org/Home/Components/Calendar/Event/6182/394",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.001130+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "dba821b8a4008df2",
+      "url": "https://www.icgov.org/Home/Components/News/News/2422/390",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.022610+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "3d5cdec3d11e4cb6",
+      "url": "https://www.icgov.org/government/city-council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.095121+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "6495733f1c0057f7",
+      "url": "https://www.indy.gov/workflow/city-county-council-proposals",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.305817+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.indy.gov/workflow/city-county-council-proposals",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 4634,
+      "sha256": "62edbf6f2691e30771f4fbc9af4e47f8f1cbc0d447f81f9676a19dff51ab1a66"
+    },
+    {
+      "key": "1e63a6f22fa3e367",
+      "url": "https://www.jacksonville.gov/city-council/events",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.315286+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.jacksonville.gov/city-council/events",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 156442,
+      "sha256": "161b4b5d95f68acd3010231beecfd795718183765f47a6848bad3e3bf48223c1"
+    },
+    {
+      "key": "7e2cb7fcf9ecaacb",
+      "url": "https://www.jacksonville.gov/city-council/standing-committees",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.329103+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.jacksonville.gov/city-council/standing-committees",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 114019,
+      "sha256": "07b90a70dc4db6ad3331c4b1e98295e03e0d529207b0b830affcb04f808449be"
+    },
+    {
+      "key": "518f3bd4042b67df",
+      "url": "https://www.jacksonville.gov/getContentAsset/00ca4efe-dac2-4994-a6b5-1c2b757c5848/135b97c9-84fa-4e82-b956-0fbccec4aa1f/FY26-Approved-Budget-web.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.632147+00:00",
+      "rights": "UNKNOWN",
+      "error": "Artifact exceeds acquisition bound; requires individual retrieval"
+    },
+    {
+      "key": "81ece389577c129d",
+      "url": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:23.956570+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.jerseycitynj.gov/CityHall/CityCouncil/CityCouncilMeetings",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 88684,
+      "sha256": "76258f296db6c5bb3cba2066992a7893daf1ea9c00421fbb6d76140ea22b72d2"
+    },
+    {
+      "key": "fb227a4a3b3cad64",
+      "url": "https://www.jerseycitynj.gov/cityhall/citycouncil",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:24.389603+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.jerseycitynj.gov/cityhall/citycouncil",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 92443,
+      "sha256": "c13ad01ee4dbcb3a48918fd54ba15fbb9b7b69fc40a28fdf022df85ccdf3b064"
+    },
+    {
+      "key": "6d8ab11851a7f822",
+      "url": "https://www.jerseycitynj.gov/cityhall/citycouncil/citycouncilmeetings",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:24.503593+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.jerseycitynj.gov/cityhall/citycouncil/citycouncilmeetings",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 88684,
+      "sha256": "a13dc4e55f4f4144b3ddf3f801570732b1a11793452d9949ba6c682b37dd2138"
+    },
+    {
+      "key": "73b4da28fc802bb0",
+      "url": "https://www.kcmo.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:24.549051+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "50ee92f51eb0b8ae",
+      "url": "https://www.kcmo.gov/city-hall/clerk",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:24.835099+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "45d09d1fb7fab1c4",
+      "url": "https://www.lasvegasnevada.gov/Government/Departments/City-Managers-Office",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.033111+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lasvegasnevada.gov/Government/Departments/City-Managers-Office",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 63069,
+      "sha256": "5c4afb99169ec03774d171360556f3a7c82730736059c66e3c8be6509d7a4af4"
+    },
+    {
+      "key": "e56ba59128278c78",
+      "url": "https://www.lewistonmaine.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.101035+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lewistonmaine.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 122246,
+      "sha256": "82d1d673fac3ac2744a92ea0c7467ebb3021320dcb9fdaf5a3c9f1585becd4a4"
+    },
+    {
+      "key": "e6fd099eb1a8685c",
+      "url": "https://www.lewistonmaine.gov/calendar.aspx?CID=23",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.284078+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lewistonmaine.gov/calendar.aspx?CID=23",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 117499,
+      "sha256": "813a13094300cc86a3905f2537afec324bb26a91e60f2fe3962bb3049f86b1e3"
+    },
+    {
+      "key": "2c84fe49d4b920e0",
+      "url": "https://www.lexingtonky.gov/government",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.403108+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lexingtonky.gov/government",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 62844,
+      "sha256": "52db9ee10e63c3f34717af29f25256f22a32b2b7f873ece6d477db46992dadb9"
+    },
+    {
+      "key": "1a0fb791184779ac",
+      "url": "https://www.lexingtonky.gov/government/council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.648059+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "de06bae40b9cd418",
+      "url": "https://www.lexingtonky.gov/government/council/council-office",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:25.861017+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "key": "5c2766d2aac5c361",
+      "url": "https://www.lexingtonky.gov/government/initiatives/government-center-development",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.553306+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lexingtonky.gov/government/initiatives/government-center-development",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 84520,
+      "sha256": "8e90481f65de3b8fc0be7e6cd1abf4479f8420bb41c18a0b1c25cbd5622a1e15"
+    },
+    {
+      "key": "4f2a72d2bf2d6c02",
+      "url": "https://www.lexingtonky.gov/government/office-urban-county-council/councilmembers",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.588268+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lexingtonky.gov/government/office-urban-county-council/councilmembers",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 106796,
+      "sha256": "82c81e2f2087b86c930e9a04677d6b0acf5d486717b3498569ee672d3e4346c0"
+    },
+    {
+      "key": "ea095a382b59e898",
+      "url": "https://www.lexingtonky.gov/government/visiting-downtown-city-government-buildings",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.615134+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lexingtonky.gov/government/visiting-downtown-city-government-buildings",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 41425,
+      "sha256": "2125e8a2637596cd36705782179136152f83608b92476cd6ba16a608041f7413"
+    },
+    {
+      "key": "ca533df459176d89",
+      "url": "https://www.lexingtonma.gov/town-meeting",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.650842+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.lexingtonma.gov/2499/2026-Annual-Town-Meeting",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 219327,
+      "sha256": "71420ca6471b350d28d0c4b3a92daff2bc237740618ed5ece797722bc620135a"
+    },
+    {
+      "key": "294bee4eec0942ab",
+      "url": "https://www.lincoln.ne.gov/City/City-Council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.840043+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "248fa5677c2f1b53",
+      "url": "https://www.lincoln.ne.gov/City/Departments/PDS/Planning/Boards-and-Commissions/Planning-Commission",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.861870+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "06d6c85993273753",
+      "url": "https://www.manchesternh.gov/Government/Mayor-and-Aldermen",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.888202+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.manchesternh.gov/Government/Mayor-and-Aldermen",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 197152,
+      "sha256": "fd8f419bb39f2da039e9c7864782e6a1131b6b05c1237ebe9c637a88c91631dd"
+    },
+    {
+      "key": "7af264b0b1add213",
+      "url": "https://www.manchesternh.gov/Government/Mayor-and-Aldermen/Aldermen",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:26.899723+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.manchesternh.gov/Government/Mayor-and-Aldermen/Aldermen",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 199811,
+      "sha256": "62090547c9f120a6769fe730f6f5b13392b94432b7715c0dba4a8ee00637be31"
+    },
+    {
+      "key": "2ea563873c48becd",
+      "url": "https://www.mauicounty.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:27.144323+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.mauicounty.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 177275,
+      "sha256": "131bdb1affdacd8294422b9808fb8fe6e7f4ce02efecb0763f5f63d2e5c58d47"
+    },
+    {
+      "key": "02e857ed88183e9b",
+      "url": "https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:27.154463+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf",
+      "mime": "application/pdf",
+      "bytes": 646697,
+      "sha256": "f772a207b5bc6acecb5c579aa4060b971857093d61390e31ebeab2c60ee2210a"
+    },
+    {
+      "key": "557d3e6b3a4988c3",
+      "url": "https://www.montgomeryal.gov/government/city-government/city-council",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:27.583935+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "9d982c0541a27e90",
+      "url": "https://www.montgomeryal.gov/government/city-government/city-departments/city-clerk-s-office",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:27.878335+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "99698ca1375b4ada",
+      "url": "https://www.morgantownwv.gov/285/Procedures-for-Meeting",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:28.104368+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.morgantownwv.gov/285/Procedures-for-Meeting",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 131293,
+      "sha256": "f164b80758c27d7c4838cbd356aa65c81227126aeaed2f541d90cf6f1d3284bd"
+    },
+    {
+      "key": "b4800a37375086c4",
+      "url": "https://www.muni.org/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:28.179683+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.muni.org/pages/default.aspx",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 114117,
+      "sha256": "984d168ea515dbe2be35b305c0ecdcf2c6e46fe4eb0ef95cd96e92482402ea68"
+    },
+    {
+      "key": "e1a11bdc063e4136",
+      "url": "https://www.nashuanh.gov/514/Board-of-Aldermen",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:28.320657+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nashuanh.gov/514/Board-of-Aldermen",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 143957,
+      "sha256": "050a5df28eeb204f195e279e192ceb04463d1670ec325826298838af9f86218f"
+    },
+    {
+      "key": "de88dfd836542ba4",
+      "url": "https://www.nashuanh.gov/DocumentCenter/View/194/City-Charter-PDF",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:28.551096+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nashuanh.gov/DocumentCenter/View/194/City-Charter-PDF",
+      "mime": "application/pdf",
+      "bytes": 526792,
+      "sha256": "3300f54fd80539bac32630480b00e3773a22842a6b3b26792438a383ef3a823a"
+    },
+    {
+      "key": "0fcd1b19dca48aac",
+      "url": "https://www.nashville.gov/departments/council/boards/metro-council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:28.879622+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nashville.gov/departments/council/boards/metro-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 68217,
+      "sha256": "11fffe7d8b8d9d0c9698c2f75fc4b3a92d1747d3a116544b19cb2bb5c080e552"
+    },
+    {
+      "key": "f3543aea975cf206",
+      "url": "https://www.nashville.gov/departments/council/boards/metro-council/meetings/metropolitan-council-meeting-july-7-2026",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.128386+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nashville.gov/departments/council/boards/metro-council/meetings/metropolitan-council-meeting-july-7-2026",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 88836,
+      "sha256": "6f885dcf048cc4ae3d28a2f80fc62849ad34ff333055261a6c883f31276c22ed"
+    },
+    {
+      "key": "50bd8e256e50bb5c",
+      "url": "https://www.nashville.gov/departments/government/history-metro",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.260309+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nashville.gov/departments/government/history-metro",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 67780,
+      "sha256": "4b4130f489ddc4a4a8ce87fcc7cd90b008ef6d042d4f9ebbe65b90bccb98c24d"
+    },
+    {
+      "key": "817a0ab482372e52",
+      "url": "https://www.newarknj.gov/160/Council-Members",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.281929+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.newarknj.gov/160/Council-Members",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 120673,
+      "sha256": "4cfaccd7c24ca6ddc4c7cfb51e6200490f3ce3e860f2617a53b11841008cc377"
+    },
+    {
+      "key": "59441648337f5524",
+      "url": "https://www.newarknj.gov/166/Office-of-the-City-Clerk",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.354185+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.newarknj.gov/166/Office-of-the-City-Clerk",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 108761,
+      "sha256": "af2feb2471ab1178e49573083fae55074181eaff909d915c4343581d3890d62a"
+    },
+    {
+      "key": "07ec2b81727ffde5",
+      "url": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.415437+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.newarknj.gov/DocumentCenter/View/882/Municipal-Council-Rules-PDF",
+      "mime": "application/pdf",
+      "bytes": 173394,
+      "sha256": "e734c9a5895df378e1f7d57b05855694618ad375fa31abee45128ae0cad08411"
+    },
+    {
+      "key": "8b977bda8ce21d36",
+      "url": "https://www.newhavenct.gov/government/departments-divisions/board-of-alders",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.471621+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "4c27b84783e97a5f",
+      "url": "https://www.newhavenct.gov/government/departments-divisions/board-of-alders/committees",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.831765+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "a9599aead66764a1",
+      "url": "https://www.nyc.gov/assets/designcommission/downloads/pdf/design-awards-program-31.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.934736+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.nyc.gov/assets/designcommission/downloads/pdf/design-awards-program-31.pdf",
+      "mime": "application/pdf",
+      "bytes": 1913845,
+      "sha256": "f495b78fad5fb6eefaccedebc6980195ca6929314dc3f2676f1415300b2b28e6"
+    },
+    {
+      "key": "7ae016a15f2f55ff",
+      "url": "https://www.oaklandca.gov/Government/Meetings-Agendas/City-Council-Meeting-Information",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:29.983479+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "bbe065a17b7d6739",
+      "url": "https://www.okc.gov/Events-directory/City-Council-2026",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.000727+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "c0acc89120b997e5",
+      "url": "https://www.orlando.gov/files/sharedassets/public/v/4/documents/city-hall/2025_cityhallfloormap.pdf",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.041602+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.orlando.gov/files/sharedassets/public/v/4/documents/city-hall/2025_cityhallfloormap.pdf",
+      "mime": "application/pdf",
+      "bytes": 1707908,
+      "sha256": "eda1420b864d35fe15aefc00a291982ddb34593d6cdaa8441cd837344246c815"
+    },
+    {
+      "key": "23d4b95beb6a383b",
+      "url": "https://www.peoriagov.org/157/Mayor-and-City-Council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.129654+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.peoriagov.org/157/Mayor-and-City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 112323,
+      "sha256": "b2209423b48c232d4663bbb31c88ece8e61c5ccd0c380dcea51707e54d2c4ed4"
+    },
+    {
+      "key": "bf62e2235b1ba719",
+      "url": "https://www.peoriagov.org/DocumentCenter/View/7078",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.268611+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.peoriagov.org/DocumentCenter/View/7078/2024-City-of-Peoria-Annual-Report-?bidId=",
+      "mime": "application/pdf",
+      "bytes": 2466025,
+      "sha256": "63c40425c9a23b33d668befec75bc70ccbe1bede37495818ee58a1c8d8ef5000"
+    },
+    {
+      "key": "89342356843e631a",
+      "url": "https://www.phila.gov/2025-03-31-mayor-cherelle-l-parkers-public-schedule-for-monday-march-24-2025/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.297017+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.phila.gov/2025-03-31-mayor-cherelle-l-parkers-public-schedule-for-monday-march-24-2025/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 49899,
+      "sha256": "fa9f3e6793f38ff9ca8954438c10f060580291f9f819a5ec752d1eb6cfc94847"
+    },
+    {
+      "key": "529e16705f4250a1",
+      "url": "https://www.phila.gov/documents/philadelphia-register-of-historic-places/",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.546803+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.phila.gov/documents/philadelphia-register-of-historic-places/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 46992,
+      "sha256": "25b1170851ffc8ce74ff60ae99e9a20b4d5757a3cc69aa533878348c5c6229f2"
+    },
+    {
+      "key": "8c58d83ac48d9b19",
+      "url": "https://www.phoenix.gov/administration/departments/cityclerk/programs-services/city-council-meetings/about.html",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.740473+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.phoenix.gov/administration/departments/cityclerk/programs-services/city-council-meetings/about.html",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 227380,
+      "sha256": "3efe19cbe0aafdf40c73d2371d325c7f028a026ef5baeb8e796fcf2b53acef2b"
+    },
+    {
+      "key": "e3b27000db16f496",
+      "url": "https://www.phoenix.gov/administration/departments/cityclerk/programs-services/elections.html",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.795714+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.phoenix.gov/administration/departments/cityclerk/programs-services/elections.html",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 267725,
+      "sha256": "a09911e15e1baf0d9437c3c16f61431c9587881c28502fdb0239299d2705a265"
+    },
+    {
+      "key": "dff8b92a579fb49e",
+      "url": "https://www.phoenix.gov/administration/departments/citymanager.html",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.814687+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.phoenix.gov/administration/departments/citymanager.html",
+      "mime": "text/html;charset=utf-8",
+      "bytes": 282338,
+      "sha256": "32f89bcb7f6eda864fb555e9b4378ace977b881eb6fd6d551a78d8d1070f6617"
+    },
+    {
+      "key": "3aa686da6a1a33ea",
+      "url": "https://www.pittsburghpa.gov/City-Government/The-City-Council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:30.830393+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "e229a22e1100e9ca",
+      "url": "https://www.pittsburghpa.gov/City-Government/The-City-Council/Legislative-Information/Council-Re-Apportionment-Committee",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.029316+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "e449fad62dc58676",
+      "url": "https://www.pittsburghpa.gov/News-articles/Homepage/MEDIA-ADVISORY-MAYOR-ED-GAINEY-Portrait-Unveiling",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.212082+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "fa68f0484dd21a46",
+      "url": "https://www.portland.gov/charter/2/1/102",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.253645+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.portland.gov/charter/2/1/102",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 54808,
+      "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+    },
+    {
+      "key": "710c5b4cb462f76d",
+      "url": "https://www.portland.gov/service-locations/city-council-chambers",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.332633+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.portland.gov/service-locations/city-council-chambers",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 63179,
+      "sha256": "7a08ddaf78d9f916ae0d9f430ea229c93d2e4d209cb9777aea2b4a719191d5cf"
+    },
+    {
+      "key": "4c2fbfa6cf08e340",
+      "url": "https://www.portland.gov/vote/questions/governance",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.424828+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.portland.gov/vote/questions/governance",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 63895,
+      "sha256": "3569f783483d2fe6b4d17348833a8f460181a5d1025a739473687847681703f9"
+    },
+    {
+      "key": "a2ad400d041d6657",
+      "url": "https://www.portlandmaine.gov/city-council",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.550338+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.portlandmaine.gov/city-council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 350206,
+      "sha256": "9e3b37330de7581ac9e53731f9c9bb903325c087b0c0025b45863baece00facb"
+    },
+    {
+      "key": "53c16d89a6f61886",
+      "url": "https://www.portlandmaine.gov/your-government",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.655487+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.portlandmaine.gov/your-government",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 581889,
+      "sha256": "5f232369ec7188aa8a615eb4d7351a3d5c7c840524296783dae9f34a35c874cf"
+    },
+    {
+      "key": "9f864c44e7ebd500",
+      "url": "https://www.providenceri.gov/wp-content/uploads/2019/11/City-Hall-Guide.pdf",
+      "research": [
+        "matrix43",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:31.889220+00:00",
+      "rights": "UNKNOWN",
+      "error": "Artifact exceeds acquisition bound; requires individual retrieval"
+    },
+    {
+      "key": "d618ede5aefa62f2",
+      "url": "https://www.provincetown-ma.gov/TownMeeting",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:32.399227+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.provincetown-ma.gov/TownMeeting",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 109334,
+      "sha256": "331590b19e5db2599815b596fc4181b050e370f3d7cc9c8cf15948139a5d03c1"
+    },
+    {
+      "key": "f2335a48df67040d",
+      "url": "https://www.reno.gov/government/city-council/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:32.464526+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.reno.gov/government/city-council/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 205909,
+      "sha256": "fcc78618cf81f6aeee94af15bef11a0406a7f663def3730b1e5b4a32bcdf3038"
+    },
+    {
+      "key": "b2159ada87996421",
+      "url": "https://www.rockvillemd.gov/mayorcouncil",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:32.546914+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.rockvillemd.gov/government/mayor-and-council/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 271078,
+      "sha256": "46bf83d018e08462c798721b35213738a55d4f2e4c17fc378d2f525126a8ae87"
+    },
+    {
+      "key": "ff7328fea6082bd8",
+      "url": "https://www.rockvillemd.gov/wp-content/uploads/2025/09/Fiscal-Year-2026-Adopted-Budget.pdf",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:32.992224+00:00",
+      "rights": "UNKNOWN",
+      "error": "Artifact exceeds acquisition bound; requires individual retrieval"
+    },
+    {
+      "key": "f9724d55b84c6da2",
+      "url": "https://www.rva.gov/richmond-city-council",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:33.189433+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.rva.gov/richmond-city-council",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 671980,
+      "sha256": "c92cc046b4bc8c073a3db8cb9e69f30a2d4c256c891a476090649173af70e870"
+    },
+    {
+      "key": "174a1cd495da66a8",
+      "url": "https://www.rva.gov/sites/default/files/2023-07/Richmond%20Voter%20District%20Maps%20BIG%20Package%20for%202024%207.24.2023.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:33.519102+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.rva.gov/sites/default/files/2023-07/Richmond%20Voter%20District%20Maps%20BIG%20Package%20for%202024%207.24.2023.pdf",
+      "mime": "application/pdf",
+      "bytes": 4030245,
+      "sha256": "5392c39048baf2c9f26711cea26971958a5c823670948192070068013222cf47"
+    },
+    {
+      "key": "519b142b042b3e62",
+      "url": "https://www.savannahga.gov/458/Council-Meeting-Schedule",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:33.824611+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.savannahga.gov/458/Council-Meeting-Schedule",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 96756,
+      "sha256": "451f8821751df8f2076a952de75db3b88a75387bfd7f3aed7d95b5e0ce9dd44c"
+    },
+    {
+      "key": "ff2a721119164f18",
+      "url": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:33.867081+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.savannahga.gov/DocumentCenter/View/29582/5--SIGNED_COUNCIL-PROCEDURES-AND-RULES_Beginning-01-02-2024",
+      "mime": "application/pdf",
+      "bytes": 4793769,
+      "sha256": "095afabbad7b73be29773468dee988e2bd548eab6645a490f1b3d1e9fd6eb81f"
+    },
+    {
+      "key": "69c55faa672b2d41",
+      "url": "https://www.seattle.gov/council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.007011+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.seattle.gov/council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 82698,
+      "sha256": "78e7373ace9f0f73ee11c4c9c76f92f56c79b3ac67d4399e7ea6c96c2fb370c9"
+    },
+    {
+      "key": "69b2a4888afe591a",
+      "url": "https://www.shreveportla.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.088663+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.shreveportla.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 163327,
+      "sha256": "b74663f0bc504b1c4412379837edc1f4082e04a67006b6b001232ba1c9e6cee9"
+    },
+    {
+      "key": "9bd195459b8b93a4",
+      "url": "https://www.shreveportla.gov/1501/City-Council-Meeting-Schedule-2026",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.163350+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.shreveportla.gov/1501/City-Council-Meeting-Schedule-2026",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 107846,
+      "sha256": "cb5f9df7d1755790c3ac56a88480fb09918fcacead7606cdb30bdea97fafe4c9"
+    },
+    {
+      "key": "419b3823743b8fd9",
+      "url": "https://www.shreveportla.gov/201/City-Council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.298446+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.shreveportla.gov/201/City-Council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 125092,
+      "sha256": "e3d91977c63ce2fc0021f210fc26666fb47b68f8439ede8791b3e2efa6940fbd"
+    },
+    {
+      "key": "6dabe2a90cfc2a78",
+      "url": "https://www.slc.gov/council/",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.599904+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.slc.gov/council/",
+      "mime": "text/html; charset=UTF-8",
+      "bytes": 53677,
+      "sha256": "65528b5ea59a7e9ccb1a78d248e650524ecbf56160d4961b34887840c535f51a"
+    },
+    {
+      "key": "2cb5ffa9db19b05f",
+      "url": "https://www.springfield-ma.gov/cos/city-council-members",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.806808+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.springfield-ma.gov/cos/city-council-members",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 55971,
+      "sha256": "6738afb7e8678d96a6ced80b912837d326ed53fa5ebc183f51b4db79b8a75d1a"
+    },
+    {
+      "key": "e3db7ae186e96f14",
+      "url": "https://www.springfield-ma.gov/elections/ward-representation",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.912269+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.springfield-ma.gov/elections/ward-representation",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 40597,
+      "sha256": "cdbd398d4cc8acbc21a818f8d40a19709647d8ff45834b695e68f391775d8e26"
+    },
+    {
+      "key": "dda7c7693f015ef7",
+      "url": "https://www.springfieldmo.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:34.961494+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.springfieldmo.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 223600,
+      "sha256": "3bf08f172efa68aac5dd8253de914a423a333a04924b2edcbdcec2be91a734d6"
+    },
+    {
+      "key": "fa91b6d33e9ab239",
+      "url": "https://www.stlouis-mo.gov/events/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.006763+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.stlouis-mo.gov/events/",
+      "mime": "text/html;charset=UTF-8",
+      "bytes": 37766,
+      "sha256": "94f8ef0373fee53e47d97d82c7cad41cc54ffb8052a14f2faec4323a9c218c1f"
+    },
+    {
+      "key": "2aba7def1820aaa8",
+      "url": "https://www.stlouis-mo.gov/government/departments/aldermen/",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.036908+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.stlouis-mo.gov/government/departments/aldermen/",
+      "mime": "text/html;charset=UTF-8",
+      "bytes": 49396,
+      "sha256": "76d437aefbf2dfa944e91de9785352e3ef81219c6a6eca64260e53ee39b6c495"
+    },
+    {
+      "key": "b1e0b87f784792fa",
+      "url": "https://www.stpaul.gov/department/city-council",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.074013+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.stpaul.gov/department/city-council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 192243,
+      "sha256": "f78e86a041b39626b9f3e374c95cc6c3456a5c2c04cc1028268781cacc99ebfa"
+    },
+    {
+      "key": "120ef92017de8cad",
+      "url": "https://www.stpaul.gov/sites/default/files/2022-08/2001%20Context%20Study%20-%20Downtown%20St.%20Paul.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.159167+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.stpaul.gov/sites/default/files/2022-08/2001%20Context%20Study%20-%20Downtown%20St.%20Paul.pdf",
+      "mime": "application/pdf",
+      "bytes": 10780223,
+      "sha256": "7eaa193b28341714a428d9fed5d5a63781654f7188eb7d9d8c73a123ebe84d1b"
+    },
+    {
+      "key": "7cd5f0a7c26a4f4b",
+      "url": "https://www.stpaul.gov/sites/default/files/2025-08/2026%20Proposed%20CIB%20Budget-%20City%20of%20Saint%20Paul.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.372626+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.stpaul.gov/sites/default/files/archive/2026-proposed-cib-budget-city-saint-paul.pdf",
+      "mime": "application/pdf",
+      "bytes": 1788784,
+      "sha256": "5299aaf36ad3677270f60f314ea9293a34a2483914bd839d454d7586ff051ff6"
+    },
+    {
+      "key": "49d3c4e6efaa2dda",
+      "url": "https://www.talgov.com/Main/News/6034",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.604003+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.talgov.com/Main/News/6034",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 103016,
+      "sha256": "80fffb456ddefac1789d63d01eb4bd92d11ae46a9a12e5e30d7f73f666dad698"
+    },
+    {
+      "key": "6ff30afc55e9e23e",
+      "url": "https://www.talgov.com/cityleadership/citizeninput",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:35.953673+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.talgov.com/cityleadership/citizeninput",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 108089,
+      "sha256": "4ae44e1a056ae866ea142bbd6c1526a9c4fa71dda24bf15f77cf59b3d3d6e782"
+    },
+    {
+      "key": "3b4708996efd845e",
+      "url": "https://www.talgov.com/cityleadership/city-commission",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.067536+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.talgov.com/cityleadership/city-commission",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 169302,
+      "sha256": "5bafb8718be9973cce1b9b6b4a7ee09b683ef21df30b8d70beec3d00255d1325"
+    },
+    {
+      "key": "bf403a5b633d851e",
+      "url": "https://www.trentonnj.org/476/Meetings",
+      "research": [
+        "matrix44",
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.140185+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.trentonnj.org/476/Meetings",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 83064,
+      "sha256": "70a59fb2f8d67aaf2e45c5e2338ad0c8374b930dbeba4990bb872c08213e93cb"
+    },
+    {
+      "key": "fb955b3fb9e79068",
+      "url": "https://www.trentonnj.org/DocumentCenter/View/11032/2026-Candidate-Packet",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.152889+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.trentonnj.org/DocumentCenter/View/11032/2026-Candidate-Packet",
+      "mime": "application/pdf",
+      "bytes": 904514,
+      "sha256": "c1edae09808555c71aba07616de5df28888aecf45818c155b2fce7b27c86b8a2"
+    },
+    {
+      "key": "1f341431e3543eca",
+      "url": "https://www.tucsonaz.gov/Departments/Clerks/Mayor-Council-Agendas",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.240695+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "fe0d33d624c715d9",
+      "url": "https://www.tucsonaz.gov/Government/City-Information/Frequently-Asked-Questions-FAQ-about-City-Government",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.504741+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "de88b0a9100fee3e",
+      "url": "https://www.tucsonaz.gov/Government/Local-Government",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.555067+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "7fb402c9cfc386df",
+      "url": "https://www.tucsonaz.gov/Government/Mayor-Council-and-City-Manager/City-Council-Wards",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.652804+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "dbab32d9dc6b033e",
+      "url": "https://www.tucsonaz.gov/Government/Office-of-the-City-Manager",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.709843+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "13b88663c34ef97e",
+      "url": "https://www.tulsacouncil.org/_files/ugd/555e67_62bf7b075056414bb0aa540a062990d9.pdf",
+      "research": [
+        "matrix45"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.760699+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.tulsacouncil.org/_files/ugd/555e67_62bf7b075056414bb0aa540a062990d9.pdf",
+      "mime": "application/pdf",
+      "bytes": 472366,
+      "sha256": "2c5350be846f86c19ff131a19da4361cc4ce7c86e23c5163224a0c9a2cb6da32"
+    },
+    {
+      "key": "2da4011c5fb82712",
+      "url": "https://www.wichita.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.883297+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.wichita.gov/",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 171211,
+      "sha256": "deeba9a826de3654b36b78004ec28d982412550007c55f1e80bfe4cc7f1b6cf9"
+    },
+    {
+      "key": "3e56a9ad3f4e1769",
+      "url": "https://www.wilmingtonde.gov/",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.921977+00:00",
+      "rights": "UNKNOWN",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "d14f2a75fd6d279c",
+      "url": "https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition",
+      "research": [
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:36.992512+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.worcesterma.gov/city-clerk/public-meetings/file-a-petition",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 76242,
+      "sha256": "d9a9396749337e18b303f1a8b1b43e62a5ee3aa5746b6a8c6634385aa323cca9"
+    },
+    {
+      "key": "c9c57678e802b03f",
+      "url": "https://www.worcesterma.gov/city-council",
+      "research": [
+        "matrix43",
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:37.032966+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.worcesterma.gov/city-council",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 113720,
+      "sha256": "5d1fdc67993cf4d3abfa6111aece7adef355d290087af0f53999d83d602b2ede"
+    },
+    {
+      "key": "76594c99198a8a00",
+      "url": "https://www.worcesterma.gov/city-manager",
+      "research": [
+        "matrix43",
+        "matrix44"
+      ],
+      "retrievedAt": "2026-09-09T00:16:37.034246+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.worcesterma.gov/city-manager",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 103775,
+      "sha256": "ae695855b0686289baeac9b5a0d25b6e1e916472f02ff2137583fe8150762b05"
+    },
+    {
+      "key": "bec5af0bf2334d1a",
+      "url": "https://www.worcesterma.gov/mayor",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:37.163035+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www.worcesterma.gov/mayor",
+      "mime": "text/html; charset=utf-8",
+      "bytes": 104272,
+      "sha256": "b11eabe745a140634681028e4c040e813160f469debd7a8134cae51de18078d9"
+    },
+    {
+      "key": "e0729ed71424b6bd",
+      "url": "https://www2.census.gov/programs-surveys/popest/about/challenge-program/appendix-c.-county-level-statistical-equivalents.pdf",
+      "research": [
+        "matrix43"
+      ],
+      "retrievedAt": "2026-09-09T00:16:37.353876+00:00",
+      "rights": "UNKNOWN",
+      "status": 200,
+      "finalUrl": "https://www2.census.gov/programs-surveys/popest/about/challenge-program/appendix-c.-county-level-statistical-equivalents.pdf",
+      "mime": "application/pdf",
+      "bytes": 219450,
+      "sha256": "31d5fea5d90e60e1424b0c027d4208e4a73278d0cde3f4524dc6881dd1a4934e"
+    }
+  ]
+}

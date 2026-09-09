@@ -297,9 +297,14 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
     }
   });
 
-  it("confines edict rights to the declared legal-source domains", async () => {
+  it("confines edict rights to the explicitly declared legal-source domains", async () => {
+    // The union of both sides, not a choice between them. Dropping the two
+    // qualification/compliance domains would lose the scope main already
+    // enforces; dropping municipal-governance would assert that enacted
+    // municipal provisions carry no edict claim, which is false.
     const legalSourceDomains = new Set([
       "civil-service-labor",
+      "municipal-governance",
       "state-campaign-compliance",
       "state-office-qualifications",
     ]);
@@ -322,7 +327,7 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
           // Statistical and federal-product domains do not acquire an edict claim.
           expect("edict" in entry.rights).toBe(false);
         } else {
-          // 92P state statutes use the same structured, pinned boundary.
+          // 92P statutes and municipal enacted provisions use the same pinned boundary.
           expect(entry.rights.edict.contentScope).toBe(
             "enacted-legal-text-only",
           );

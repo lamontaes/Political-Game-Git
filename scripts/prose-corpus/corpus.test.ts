@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the CIVIL-WORK7 personnel modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(56648);
-    expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(384);
+    expect(coverage.totalLiterals).toBe(57421);
+    expect(coverage.counts.INVENTORIED).toBe(2105);
+    expect(coverage.scannedFiles).toBe(394);
   });
 });
 

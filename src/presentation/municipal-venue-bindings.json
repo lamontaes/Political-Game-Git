@@ -1,0 +1,138 @@
+[
+  {
+    "governmentKey": "us-ca-sacramento",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "City Hall Council Chamber, 915 I Street, First Floor, Sacramento, California",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-ga-savannah",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Council Chambers, City Hall, 2 East Bay Street, Savannah, Georgia 31401",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-il-chicago",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Council Chambers, second floor, City Hall, 121 North LaSalle Street",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-ma-worcester",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Council Chamber, third floor, City Hall",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-mn-minneapolis",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Council chamber (Room 380), City Hall",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nd-fargo",
+    "seriesKey": "regular",
+    "evidence": "research-transcription",
+    "venue": "City Commission Chambers",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nj-jersey-city",
+    "seriesKey": "caucus",
+    "evidence": "reference-observation",
+    "venue": "Anna Cucci Memorial Council Chambers, City Hall, 280 Grove Street, Second Floor",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nj-newark",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Council Chamber, second floor, City Hall",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nj-newark",
+    "seriesKey": "special",
+    "evidence": "reference-observation",
+    "venue": "Council Chamber, second floor, City Hall",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nm-albuquerque",
+    "seriesKey": "regular",
+    "evidence": "reference-observation",
+    "venue": "Vincent E. Griego Council Chambers, basement level, City of Albuquerque Government Center, 1 Civic Plaza NW",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nm-albuquerque",
+    "seriesKey": "committee-of-the-whole",
+    "evidence": "reference-observation",
+    "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nm-albuquerque",
+    "seriesKey": "finance-government-operations",
+    "evidence": "reference-observation",
+    "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nm-albuquerque",
+    "seriesKey": "land-use-planning-zoning",
+    "evidence": "reference-observation",
+    "venue": "Vincent E. Griego Chambers, Basement Level, City of Albuquerque Government Center, One Civic Plaza NW",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-wv-morgantown",
+    "seriesKey": "regular",
+    "evidence": "research-transcription",
+    "venue": "City Hall Council Chambers, 389 Spruce Street, second floor",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-wv-morgantown",
+    "seriesKey": "workshop",
+    "evidence": "reference-observation",
+    "venue": "City Hall Council Chambers, 389 Spruce Street, Morgantown, West Virginia",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-wy-laramie",
+    "seriesKey": "public-hearing",
+    "evidence": "research-transcription",
+    "venue": "City Hall Council Chambers, 406 Ivinson Avenue",
+    "sceneId": "legislative-chamber-production",
+    "representation": "Generic atmospheric chamber only. The reference names a chamber but does not establish this pictured layout, dimensions, seating count or roster. No canonical seat assignments or people are inferred from the picture."
+  },
+  {
+    "governmentKey": "us-nv-carson-city",
+    "seriesKey": "regular",
+    "evidence": "research-transcription",
+    "venue": "Robert “Bob” Crowell Board Room, Community Center, 851 East William Street",
+    "sceneId": "civic-community-meeting-room",
+    "representation": "Generic civic meeting-room representation of the reported Community Center setting, not an exact reconstruction of its board room or its attendees."
+  }
+]
