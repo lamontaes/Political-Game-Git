@@ -1,3 +1,4 @@
+import type { PersonRenderSnapshot } from "../presentation/person-render-snapshot";
 import type { CharacterWardrobeContext } from "../presentation/character-components";
 import type { PersonVisualLibraries } from "../presentation/person-visual";
 import { resolvePersonPortrait } from "../presentation/person-visual";
@@ -6,6 +7,7 @@ import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 
 export interface PersonPortraitProps {
+  readonly snapshot?: PersonRenderSnapshot;
   readonly world: World;
   readonly visualLibraries?: PersonVisualLibraries;
   readonly wardrobe?: CharacterWardrobeContext;
@@ -22,6 +24,7 @@ export function PersonPortrait({
   note = null,
   visualLibraries,
   wardrobe,
+  snapshot,
 }: PersonPortraitProps) {
   const person = world.people[personId];
   if (!person) return null;
@@ -29,6 +32,7 @@ export function PersonPortrait({
   const visual = resolvePersonPortrait(person, {
     libraries: visualLibraries,
     wardrobe,
+    snapshot,
   });
 
   return (

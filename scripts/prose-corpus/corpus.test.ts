@@ -558,9 +558,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // pin was chosen; the combined tree was scanned and these are what it
     // measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52468);
+    expect(coverage.totalLiterals).toBe(52539);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(353);
+    expect(coverage.scannedFiles).toBe(355);
   });
 });
 

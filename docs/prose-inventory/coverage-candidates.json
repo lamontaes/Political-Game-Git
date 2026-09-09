@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1914,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4768,
-    "DIAGNOSTIC_OR_TEST": 3698,
-    "NEEDS_CLASSIFICATION": 3299
+    "INTENTIONALLY_NON_PLAYER_FACING": 4769,
+    "DIAGNOSTIC_OR_TEST": 3702,
+    "NEEDS_CLASSIFICATION": 3300
   },
   "needsClassification": [
     {
@@ -2657,7 +2657,7 @@
     {
       "sourcePath": "src/player/PersonPortrait.tsx",
       "enclosingSymbol": "PersonPortrait",
-      "line": 36,
+      "line": 40,
       "text": "person-portrait person-portrait--{size}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3969,7 +3969,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 224,
+      "line": 228,
       "text": "No {slot.kind} component exists in this review library at all.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3977,7 +3977,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 226,
+      "line": 230,
       "text": "No {slot.kind} declares body family '{bodyFamily}' as compatible: compatibility is undeclared, not proof of missing pixels.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3985,7 +3985,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 228,
+      "line": 232,
       "text": "No {slot.kind} for this body declares pose family '{poseFamily}'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3993,7 +3993,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 230,
+      "line": 234,
       "text": "No {slot.kind} for this body and pose is drawn facing '{headOrientation}'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4001,7 +4001,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 239,
+      "line": 243,
       "text": "Every candidate {slot.kind} attaches to an anchor this body does not declare ({wanted.join(\",\")}); the measured silhouette carries {[...anchorIds].sort().join(\",\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4009,7 +4009,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 484,
+      "line": 499,
       "text": "'{bodyAssetId}' declares no rig root, so its sole cannot be placed on a floor line.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4017,7 +4017,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 485,
+      "line": 500,
       "text": "'{bodyAssetId}' declares no foot contacts — the sole band did not resolve two feet — so it is placed by its rig root and its ground contact is unverified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6801,7 +6801,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "probe",
-      "line": 102,
+      "line": 105,
       "text": "{person.givenName} {person.familyName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6809,7 +6809,7 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "placed",
-      "line": 279,
+      "line": 285,
       "text": "{person.name}, {person.relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10233,7 +10233,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "composeSceneCharacter",
-      "line": 258,
+      "line": 280,
       "text": "Scene '{scene.sceneId}' declares no standard body width, so a modular body cannot be sized on this plate.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10241,7 +10241,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "composeSceneCharacter",
-      "line": 297,
+      "line": 319,
       "text": "{displayName} is here, but there is no picture of them yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10249,7 +10249,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "layers",
-      "line": 330,
+      "line": 352,
       "text": "Component '{layer.assetId}' ({layer.kind}) is not runtime approved, so its layer is not drawn.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10257,7 +10257,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "describeHonestly",
-      "line": 382,
+      "line": 404,
       "text": "{displayName} is shown in part; some of their appearance is still being drawn.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10265,7 +10265,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "describeHonestly",
-      "line": 387,
+      "line": 409,
       "text": "{displayName} is shown, though their outfit is not finished.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10273,7 +10273,7 @@
     {
       "sourcePath": "src/presentation/scene-composition.ts",
       "enclosingSymbol": "describeHonestly",
-      "line": 389,
+      "line": 411,
       "text": "{displayName} is shown, though their picture does not sit quite right here yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25432,8 +25432,16 @@
     },
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
+      "enclosingSymbol": "preferenceText",
+      "line": 44,
+      "text": "No explicit preference; seeded defaults apply.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 49,
+      "line": 63,
       "text": "Unapproved candidate review. Save is isolated from ordinary games.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25441,7 +25449,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "sceneStatus",
-      "line": 133,
+      "line": 157,
       "text": "No registered calibrated standing anchor.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25449,7 +25457,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 150,
+      "line": 174,
       "text": "Complete candidate through the registered scene compositor.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25457,7 +25465,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 221,
+      "line": 246,
       "text": "Saved canonical identity and wardrobe preferences.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25465,7 +25473,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 230,
+      "line": 255,
       "text": "No review save.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25473,7 +25481,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 247,
+      "line": 273,
       "text": "Reloaded the saved people and wardrobe.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25481,7 +25489,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 250,
+      "line": 276,
       "text": "Saved selection refused: {einstanceofError?e.message:String(e)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25489,7 +25497,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 271,
+      "line": 298,
       "text": "Complete candidate combination",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25497,7 +25505,7 @@
     {
       "sourcePath": "src/ui/PeopleVisual4Review.tsx",
       "enclosingSymbol": "PeopleVisual4Review",
-      "line": 272,
+      "line": 299,
       "text": "Incomplete combination",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26475,18 +26483,6 @@
     {
       "sourcePath": "src/simulation/world-metrics.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/world-metrics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertWorldMetricIntegrity. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/world-metrics.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertWorldMetricCatalogIntegrity. Play fails closed rather than showing it.",
       "count": 7
     },
@@ -26563,6 +26559,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateFactProvenance. Play fails closed rather than showing it.",
@@ -26602,6 +26604,12 @@
       "sourcePath": "src/simulation/taxonomy.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The dotted content-key vocabulary itself.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/world-metrics.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertWorldMetricIntegrity. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -26671,24 +26679,6 @@
       "count": 84
     },
     {
-      "sourcePath": "src/simulation/setup-questionnaire.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-young-life-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/setup-questionnaire-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -26708,6 +26698,24 @@
     },
     {
       "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-questionnaire.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
@@ -26749,18 +26757,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/setup-opening-bank.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/resources.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -26782,6 +26778,12 @@
       "sourcePath": "src/simulation/resource-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOutcome. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-opening-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -26848,6 +26850,12 @@
       "sourcePath": "src/simulation/portability-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/setup-young-life-bank.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 1
     },
     {
@@ -26995,12 +27003,6 @@
       "count": 113
     },
     {
-      "sourcePath": "src/simulation/policy-decision.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 8
-    },
-    {
       "sourcePath": "src/simulation/person-stress-harness.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
@@ -27010,6 +27012,12 @@
       "sourcePath": "src/simulation/person-stress-harness.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/policy-decision.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
     },
     {
@@ -27025,16 +27033,10 @@
       "count": 9
     },
     {
-      "sourcePath": "src/simulation/life-integrity.ts",
+      "sourcePath": "src/simulation/perception.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTimeDemand. Play fails closed rather than showing it.",
-      "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/life-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 3
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 4
     },
     {
       "sourcePath": "src/simulation/people.ts",
@@ -27055,6 +27057,18 @@
       "count": 19
     },
     {
+      "sourcePath": "src/simulation/life-queries.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/municipal-election-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
       "sourcePath": "src/simulation/municipal-election-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -27073,10 +27087,40 @@
       "count": 92
     },
     {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/simulation/mind.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 54
+    },
+    {
       "sourcePath": "src/simulation/municipal-election-rule-packs-matrix.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 54
+    },
+    {
+      "sourcePath": "src/simulation/mind-queries.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 33
+    },
+    {
+      "sourcePath": "src/simulation/life-places.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
+      "count": 1
     },
     {
       "sourcePath": "src/simulation/mind.ts",
@@ -27091,6 +27135,24 @@
       "count": 1
     },
     {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
+      "count": 17
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
+      "count": 5
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/mind.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertTags. Play fails closed rather than showing it.",
@@ -27101,6 +27163,24 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/simulation/mind-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/mind.ts",
@@ -27127,40 +27207,16 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateMindSourceReferences. Play fails closed rather than showing it.",
-      "count": 10
-    },
-    {
-      "sourcePath": "src/simulation/mind.ts",
+      "sourcePath": "src/simulation/person-identity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 54
-    },
-    {
-      "sourcePath": "src/simulation/mind-queries.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 33
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionContext. Play fails closed rather than showing it.",
-      "count": 17
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateRelationshipSources. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateFamilyIdentities. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/mind-integrity.ts",
@@ -27193,33 +27249,9 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/perception.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/simulation/mind-catalog.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertMindCatalogIntegrity. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionHistory. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDecisionTrace. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/municipal-election-rules.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertMunicipalElectionRulePack. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -27249,6 +27281,18 @@
     {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateOrganizationProfile. Play fails closed rather than showing it.",
       "count": 2
     },
@@ -27271,39 +27315,9 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validatePerceptionSource. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateTrustedCue. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/simulation/mind-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/life.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateCareState. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in assertUniqueStableKey. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -27319,22 +27333,22 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/life-queries.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/life-places.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/life-places.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 12
+    },
+    {
+      "sourcePath": "src/simulation/life-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateTimeDemand. Play fails closed rather than showing it.",
+      "count": 3
+    },
+    {
+      "sourcePath": "src/simulation/life-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateProvenance. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/life-integrity.ts",
@@ -27417,6 +27431,18 @@
     {
       "sourcePath": "src/simulation/legislature-rules.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/life-content-92c.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislature-rules.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 52
     },
@@ -27445,22 +27471,16 @@
       "count": 41
     },
     {
-      "sourcePath": "src/simulation/legislation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 46
-    },
-    {
-      "sourcePath": "src/simulation/legislation.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/simulation/legislative-member-decisions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/legislation.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 46
     },
     {
       "sourcePath": "src/simulation/legislation.test.ts",
@@ -27475,27 +27495,27 @@
       "count": 7
     },
     {
+      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 20
+    },
+    {
       "sourcePath": "src/simulation/legislation-integrity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertLegislationIntegrity. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/legislature-rules.ts",
+      "sourcePath": "src/simulation/legislation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in requireFormalSeatCount. Play fails closed rather than showing it.",
+      "reason": "A validation message composed in requirePhase. Play fails closed rather than showing it.",
       "count": 1
     },
     {
       "sourcePath": "src/simulation/life-callbacks.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/life-content-92c.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
       "count": 1
     },
     {
@@ -27565,22 +27585,10 @@
       "count": 20
     },
     {
-      "sourcePath": "src/simulation/legislation-origination-integrity.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 20
-    },
-    {
       "sourcePath": "src/simulation/ids.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 3
-    },
-    {
-      "sourcePath": "src/simulation/history.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
     },
     {
       "sourcePath": "src/simulation/future-transitions.ts",
@@ -27619,7 +27627,7 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/person-identity.ts",
+      "sourcePath": "src/simulation/history.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
@@ -27673,10 +27681,28 @@
       "count": 26
     },
     {
+      "sourcePath": "src/simulation/campaigns.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/simulation/evidence.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 8
+    },
+    {
+      "sourcePath": "src/simulation/evidence-integrity.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A validation message composed in validateDiscovery. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/simulation/evidence-integrity.ts",
@@ -27699,11 +27725,11 @@
     {
       "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/executive-authority-rule-packs.ts",
+      "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -27739,16 +27765,16 @@
       "count": 2
     },
     {
-      "sourcePath": "src/simulation/evidence-integrity.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateDiscovery. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/simulation/election-contests.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertElectionContestIntegrity. Play fails closed rather than showing it.",
       "count": 7
+    },
+    {
+      "sourcePath": "src/simulation/election-contests.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 3
     },
     {
       "sourcePath": "src/simulation/election-contests.ts",
@@ -27771,8 +27797,20 @@
     {
       "sourcePath": "src/simulation/demo.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 11
+    },
+    {
+      "sourcePath": "src/simulation/demo.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 12
     },
     {
       "sourcePath": "src/simulation/demo-jurisdiction-context.ts",
@@ -27781,10 +27819,10 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/demo.ts",
+      "sourcePath": "src/simulation/decisions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
+      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
+      "count": 5
     },
     {
       "sourcePath": "src/simulation/decisions.ts",
@@ -27823,12 +27861,6 @@
       "count": 12
     },
     {
-      "sourcePath": "src/simulation/demo.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 12
-    },
-    {
       "sourcePath": "src/simulation/character-history.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -27853,12 +27885,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/simulation/election-contests.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 3
-    },
-    {
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateCausalProcess. Play fails closed rather than showing it.",
@@ -27874,12 +27900,6 @@
       "sourcePath": "src/simulation/causal-effects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in assertCausalMechanismCatalogIntegrity. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/simulation/decisions.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A validation message composed in validateConsideration. Play fails closed rather than showing it.",
       "count": 5
     },
     {
@@ -28255,12 +28275,6 @@
       "count": 1
     },
     {
-      "sourcePath": "src/simulation/campaigns.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/player-spine.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28289,6 +28303,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 16
+    },
+    {
+      "sourcePath": "src/presentation/person-render-snapshot.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 4
     },
     {
       "sourcePath": "src/presentation/people1-r1.test.ts",
@@ -28435,6 +28455,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/person-render-snapshot.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/legislative-bargaining-actions.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -28567,12 +28593,6 @@
       "count": 10
     },
     {
-      "sourcePath": "src/presentation/conversation-consequences.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/conversation-commit.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -28618,6 +28638,12 @@
       "sourcePath": "src/presentation/character-review-framing.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/conversation-consequences.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -28874,12 +28900,6 @@
     },
     {
       "sourcePath": "src/content/content-registry.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/simulation/executive-governing-kernels.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1

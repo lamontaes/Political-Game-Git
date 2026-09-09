@@ -1,3 +1,4 @@
+import type { PersonRenderSnapshot } from "./person-render-snapshot";
 import {
   SCENE_REGISTRY,
   type RegisteredScene,
@@ -21,6 +22,8 @@ import type { ScenePerson } from "./life-story";
 import type { Person, World } from "../simulation";
 
 export interface LifeSceneWardrobeOptions {
+  /** Optional shared presentation snapshots; production eligibility still applies. */
+  readonly snapshotsByPersonId?: Readonly<Record<string, PersonRenderSnapshot>>;
   readonly wardrobeByPersonId: Readonly<
     Record<string, PersonWardrobePreference>
   >;
@@ -141,6 +144,7 @@ function releasedLayers(
   scene: RegisteredScene,
   anchor: RegisteredSceneAnchor,
   wardrobe?: CharacterWardrobeContext,
+  snapshot?: PersonRenderSnapshot,
 ): readonly ScenePersonLayer[] {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
@@ -152,6 +156,7 @@ function releasedLayers(
     const record = world.people[person.id];
     const appearance = record?.appearance ?? derivePersonAppearance(person.id);
     const presentation = composeSceneCharacter({
+      snapshot,
       wardrobe,
       personId: person.id,
       displayName: person.displayName,
@@ -262,6 +267,7 @@ export function planLifeScenePeople(
             scene,
             anchor,
             personWardrobe,
+            savedWardrobes?.snapshotsByPersonId?.[person.personId],
           );
     return {
       personId: person.personId,

@@ -1,3 +1,4 @@
+import { createPersonRenderSnapshot } from "../presentation/person-render-snapshot";
 import { useMemo, useState } from "react";
 import {
   PEOPLE_VISUAL4_CHARACTER_LIBRARY as characters,
@@ -30,6 +31,18 @@ import type { PlacedScenePerson } from "../presentation/life-scene-people";
 const libraries = { characters, visuals };
 const context = { library: characters, poseFamily: "standing-neutral" };
 const KEY = "political-game:people-visual4:review-snapshot:v1";
+function savedPreferences(): Record<string, PersonWardrobePreference> {
+  try {
+    return JSON.parse(localStorage.getItem(KEY) ?? "null")?.preferences ?? {};
+  } catch {
+    return {};
+  }
+}
+function preferenceText(preference?: PersonWardrobePreference) {
+  return preference
+    ? JSON.stringify(preference.families)
+    : "No explicit preference; seeded defaults apply.";
+}
 function initialWorld() {
   return createCharacterProofWorld(
     characters,
@@ -45,6 +58,7 @@ export function PeopleVisual4Review() {
   const [preferences, setPreferences] = useState<
     Record<string, PersonWardrobePreference>
   >({});
+  const [saved, setSaved] = useState(savedPreferences);
   const [status, setStatus] = useState(
     "Unapproved candidate review. Save is isolated from ordinary games.",
   );
@@ -107,12 +121,22 @@ export function PeopleVisual4Review() {
   } catch (e) {
     wardrobeError = e instanceof Error ? e.message : String(e);
   }
+  const snapshot =
+    selectedPerson.appearance && !wardrobeError
+      ? createPersonRenderSnapshot({
+          personId,
+          appearance: selectedPerson.appearance,
+          wardrobe,
+          library: characters,
+          unresolvableRequiredSlots: "diagnose",
+        })
+      : undefined;
   const subject =
     bodyOption && !wardrobeError
       ? composeCandidateReviewSubject({
           personId,
           appearance: selectedPerson.appearance,
-          wardrobe,
+          snapshot,
           library: characters,
           visualLibrary: visuals,
           bodyAssetId: bodyOption.bodyAssetId,
@@ -138,7 +162,7 @@ export function PeopleVisual4Review() {
         personId,
         displayName: personName(selectedPerson),
         appearance: selectedPerson.appearance,
-        wardrobe,
+        snapshot,
         scene,
         anchor,
         library: characters,
@@ -218,6 +242,7 @@ export function PeopleVisual4Review() {
               preferences,
             }),
           );
+          setSaved(structuredClone(preferences));
           setStatus("Saved canonical identity and wardrobe preferences.");
         }}
       >
@@ -244,6 +269,7 @@ export function PeopleVisual4Review() {
             setWorld(restored);
             setPersonId(value.personId);
             setPreferences(value.preferences);
+            setSaved(structuredClone(value.preferences));
             setStatus("Reloaded the saved people and wardrobe.");
           } catch (e) {
             setStatus(
@@ -265,13 +291,34 @@ export function PeopleVisual4Review() {
       <p role="status">{status}</p>
       {subject ? (
         <>
-          <ReviewStage subject={subject} debugAnchors={anchors} />
-          <p data-testid="visual4-completeness">
-            {subject.plan.complete
-              ? "Complete candidate combination"
-              : "Incomplete combination"}{" "}
-            · {subject.plan.recipeKey}
-          </p>
+          <section data-testid="snapshot6-full-figure">
+            <ReviewStage subject={subject} debugAnchors={anchors} />
+            <p data-testid="visual4-completeness">
+              {subject.plan.complete
+                ? "Complete candidate combination"
+                : "Incomplete combination"}{" "}
+              · Effective rendered outfit:{" "}
+              {subject.plan.layers
+                .filter(
+                  (l) =>
+                    ["top", "bottom", "footwear"].includes(l.kind) && l.url,
+                )
+                .map((l) => `${l.kind}=${l.assetId}`)
+                .join(" · ")}
+            </p>
+          </section>
+          <details>
+            <summary>Identity and wardrobe details</summary>
+            <p data-testid="snapshot6-base-recipe">
+              Stable base recipe: {subject.plan.recipeKey}
+            </p>
+            <p data-testid="snapshot6-requested">
+              Requested preference: {preferenceText(preference)}
+            </p>
+            <p data-testid="snapshot6-saved">
+              Saved wardrobe: {preferenceText(saved[personId])}
+            </p>
+          </details>
           <p>{subject.plan.diagnostics.map((d) => d.message).join(" ")}</p>
         </>
       ) : null}
@@ -283,7 +330,7 @@ export function PeopleVisual4Review() {
             personId={personId}
             size="large"
             visualLibraries={libraries}
-            wardrobe={wardrobe}
+            snapshot={snapshot}
           />
         ) : (
           <p>Portrait withheld until the saved wardrobe is repaired.</p>
@@ -293,6 +340,10 @@ export function PeopleVisual4Review() {
         <h2>Registered scene consumer</h2>
         <p data-testid="visual4-scene-status">{sceneStatus}</p>
         <SceneBackdrop
+          key={JSON.stringify([
+            personId,
+            scenePerson.map((p) => p.layers.map((l) => l.url)),
+          ])}
           sceneId={scenePair?.scene.sceneId ?? null}
           people={scenePerson}
         >

@@ -1,3 +1,7 @@
+import {
+  recipeFromSnapshot,
+  type PersonRenderSnapshot,
+} from "./person-render-snapshot";
 import assetManifest from "../../art/manifest/asset_manifest.json";
 import candidateRegistry from "../../art/manifest/character_candidate_registry.json";
 import wardrobeRegistry from "../../art/manifest/character_candidate_wardrobe_registry.json";
@@ -334,6 +338,7 @@ export interface CandidateReviewSubject {
 }
 
 export function composeCandidateReviewSubject(options: {
+  readonly snapshot?: PersonRenderSnapshot;
   readonly appearance?: PersonAppearance;
   readonly variationOffset?: number;
   readonly personId?: string;
@@ -369,6 +374,7 @@ export function composeCandidateReviewSubject(options: {
   const personId =
     options.personId ?? `${CANDIDATE_REVIEW_PERSON_PREFIX}:${bodyAssetId}`;
   const plan = buildCharacterRenderPlan({
+    snapshot: options.snapshot,
     personId,
     appearance,
     anchor: placement.anchor,
@@ -378,15 +384,24 @@ export function composeCandidateReviewSubject(options: {
     unresolvableRequiredSlots: "diagnose",
     wardrobe: options.wardrobe,
   });
-  const recipe = resolveCharacterRecipe(
-    {
-      appearance,
-      wardrobe: options.wardrobe,
-      poseFamily: placement.anchor.poseFamily,
-      unresolvableRequiredSlots: "diagnose",
-    },
-    library,
-  );
+  const recipe = options.snapshot
+    ? recipeFromSnapshot(
+        options.snapshot,
+        personId,
+        appearance,
+        library,
+        placement.anchor.poseFamily,
+        options.wardrobe,
+      )
+    : resolveCharacterRecipe(
+        {
+          appearance,
+          wardrobe: options.wardrobe,
+          poseFamily: placement.anchor.poseFamily,
+          unresolvableRequiredSlots: "diagnose",
+        },
+        library,
+      );
   return { personId, appearance, recipe, plan, review, placement };
 }
 
