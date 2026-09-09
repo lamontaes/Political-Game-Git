@@ -44,3 +44,18 @@ Persistence repair is verified (20/20 production and cross-tab). Final full unit
 run at5e34a26 is4033pass/3fail/2skip; the preserved OPENING failures and normal
 LEG/NEWS entry gaps keep this integration plan active. All remaining source,
 build, art and privacy gates passed. Human and independent acceptance pending.
+
+## LEG-ENTRY6 consumption
+
+Published donor d4d7ba5e0032e4f2163e8969748024f34497dfa0 supplies source
+be4d20f858359f3a8ffdab8afd61bb0b7074f450. Its four source/test files and exact
+`docs/agent/evidence/leg-entry6/ui-tests.patch` apply cleanly to UI1119e890.
+The shared filing projection now drives the disabled control/reason and is
+recomputed at submission. The browser cases preserve original seeds and use
+existing normal entry; staff remains a refusal case. No root changes.
+
+This is applied source, not combined acceptance. QUAL's frozen candidacy
+qualification delta is requested separately. OPENING's pending four-file repair
+will be consumed only after publication. LAND holds the heavy/browser slot;
+no local heavy/browser run starts before explicit release. Combined corpus and
+affected validation follow composition; prior donor counts remain attributed.

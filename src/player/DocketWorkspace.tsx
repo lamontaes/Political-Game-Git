@@ -1,3 +1,4 @@
+import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { regularSessionWindow } from "../presentation/legislative-session-window";
 import { legislativeBlueprint } from "../simulation";
@@ -850,6 +851,7 @@ function DraftingTable({
     authorityKey: string | null,
   ) => void;
 }) {
+  const filingEntry = resolveLegislativeFilingEntry(world, playerPersonId);
   const options = useMemo(
     () => availableDraftOptions(scenarioKey),
     [scenarioKey],
@@ -1130,10 +1132,16 @@ function DraftingTable({
                       : `As you would file it, this Act authorizes up to ${asChosen.draft.authorizedCeilingLabel}. Stating a ceiling is not providing the money.`}
               </p>
 
+              {filingEntry.kind === "unavailable" ? (
+                <p data-testid="drafting-filing-refusal">
+                  {filingEntry.reason}
+                </p>
+              ) : null}
               <button
                 type="button"
                 className="ui-action"
                 data-testid="file-the-draft"
+                disabled={filingEntry.kind === "unavailable"}
                 onClick={() =>
                   onFile(
                     option.familyKey,

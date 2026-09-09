@@ -1,6 +1,5 @@
-import { regularSessionActionRefusal } from "./legislative-session-window";
+import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
-import { resolvePlayerCapabilities } from "./player-capabilities";
 import {
   applyCharacterHistoryPlan,
   currentMeasureProvisions,
@@ -990,27 +989,17 @@ export function fileDraftFromOffice(
   world: World,
   input: FileDraftInput,
 ): FileDraftResult {
-  const capability = resolvePlayerCapabilities(world);
+  const entry = resolveLegislativeFilingEntry(world, input.playerPersonId);
+  if (entry.kind === "unavailable")
+    throw new BillConfigurationError(entry.reason);
   if (
-    capability.personId !== input.playerPersonId ||
-    !capability.office ||
-    capability.legislativeScenarioKey !== input.scenarioKey ||
-    capability.legislativeJurisdictionId !== input.jurisdictionId
+    entry.scenarioKey !== input.scenarioKey ||
+    entry.jurisdictionId !== input.jurisdictionId
   ) {
     throw new BillConfigurationError(
       "This character has no active office for filing in this legislature.",
     );
   }
-  if (resolveActiveMemberSeat(world, input.playerPersonId).kind !== "seated") {
-    throw new BillConfigurationError(
-      "Filing requires a supported member seat. An office job alone does not establish authority to introduce a bill.",
-    );
-  }
-  const sessionRefusal = regularSessionActionRefusal(
-    legislativeBlueprint(input.scenarioKey).pack,
-    world.currentDate,
-  );
-  if (sessionRefusal) throw new BillConfigurationError(sessionRefusal);
   return fileDraft(world, input);
 }
 

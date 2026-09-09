@@ -1,3 +1,8 @@
+import {
+  reachMemberOffice,
+  readSavedLegislativeWorld,
+  expectRecordedMember,
+} from "./support/legislative-entry";
 import { expect, test } from "./fixtures";
 import { enterLife, fillCreator, goTo, startLife } from "./support/creator";
 
@@ -259,10 +264,9 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   page,
 }, testInfo) => {
   await page.goto("/?seed=ui-core-docket-adapter");
-  await startLife(page, { age: 35, route: "custom", office: true });
+  await startLife(page, { age: 35, route: "normal" });
   await enterLife(page);
-  await goTo(page, "elsewhere-work");
-  await expect(page.getByTestId("docket")).toBeVisible();
+  await reachMemberOffice(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
@@ -277,6 +281,8 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
   });
   await goTo(page, "keep-world");
   await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  const filed = await readSavedLegislativeWorld(page);
+  expectRecordedMember(filed);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
@@ -287,4 +293,5 @@ test("frozen docket uses the normal Work shell and keeps its selected document o
     "data-measure-id",
     measureId!,
   );
+  expect(await readSavedLegislativeWorld(page)).toEqual(filed);
 });

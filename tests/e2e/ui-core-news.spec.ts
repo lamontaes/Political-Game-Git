@@ -1,29 +1,12 @@
 import { saveLife } from "./support/creator";
 import { expect, test } from "./fixtures";
 import { enterLife, goTo, startLife } from "./support/creator";
+import {
+  reachMemberOffice,
+  readSavedLegislativeWorld as savedWorld,
+  expectRecordedMember,
+} from "./support/legislative-entry";
 import type { Page } from "@playwright/test";
-
-async function savedWorld(page: Page) {
-  return page.evaluate(async () => {
-    const db = await new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open("political-life-worlds");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-    const records = await new Promise<Array<{ payload: string }>>(
-      (resolve, reject) => {
-        const request = db
-          .transaction("worlds", "readonly")
-          .objectStore("worlds")
-          .getAll();
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-      },
-    );
-    db.close();
-    return JSON.parse(records[0]!.payload).world;
-  });
-}
 
 async function save(page: Page) {
   await saveLife(page);
@@ -34,7 +17,7 @@ test("normal completed legislative action publishes News with person Back and un
   page,
 }, info) => {
   await page.goto("/?seed=ui-connect2-news");
-  await startLife(page, { age: 38, route: "custom", office: true });
+  await startLife(page, { age: 38, route: "normal" });
   await enterLife(page);
   await goTo(page, "nav-news");
   await expect(page.getByTestId("public-information-empty")).toBeVisible();
@@ -42,21 +25,32 @@ test("normal completed legislative action publishes News with person Back and un
     .getByRole("button", { name: "Close public information" })
     .press("Escape");
   await expect(page.getByTestId("shell-nav-cluster")).toBeFocused();
-  await goTo(page, "elsewhere-work");
+  await reachMemberOffice(page);
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
   await page.getByTestId("file-the-draft").press("Enter");
   await expect(page.getByTestId("docket-bill")).toBeVisible();
   await save(page);
   const published = await savedWorld(page);
-  expect(published.history.publications.length).toBeGreaterThan(0);
+  const { measure } = expectRecordedMember(published);
+  const introduction = published.history.legislativeActions!.find(
+    (action) => action.measureId === measure.id && action.kind === "introduced",
+  );
+  expect(introduction).toBeDefined();
+  const publications = published.history.publications!.filter(
+    (record) => record.sourceEventId === introduction!.eventId,
+  );
+  expect(publications).toHaveLength(1);
   await goTo(page, "nav-news");
-  const article = page.locator(".public-information-article").first();
+  const article = page.locator(
+    `.public-information-article[data-source-event-id="${introduction!.eventId}"]`,
+  );
   const sourceEventId = await article.getAttribute("data-source-event-id");
   const source = published.history.events.find(
     (event: { id: string }) => event.id === sourceEventId,
   );
-  expect(source.visibility).toBe("public");
+  expect(source!.visibility).toBe("public");
+  expect(sourceEventId).toBe(introduction!.eventId);
   const person = article.locator(".public-information-people button").first();
   const personId = await person.getAttribute("data-person-id");
   const name = await person.innerText();
@@ -87,4 +81,26 @@ test("normal completed legislative action publishes News with person Back and un
   await expect(person).toHaveAttribute("data-person-id", personId!);
   await save(page);
   expect(await savedWorld(page)).toEqual(published);
+});
+
+test("legislative staff can preview but cannot file or publish a member bill", async ({
+  page,
+}) => {
+  await page.goto("/?seed=ui-connect2-news");
+  await startLife(page, { age: 38, route: "custom", office: true });
+  await enterLife(page);
+  await save(page);
+  const before = await savedWorld(page);
+  await goTo(page, "elsewhere-work");
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await expect(page.getByTestId("drafting-filing-refusal")).toContainText(
+    "member seat",
+  );
+  await expect(page.getByTestId("file-the-draft")).toBeDisabled();
+  await expect(page.getByTestId("drafting-compare")).toBeVisible();
+  await save(page);
+  expect(await savedWorld(page)).toEqual(before);
+  await goTo(page, "nav-news");
+  await expect(page.getByTestId("public-information-empty")).toBeVisible();
 });
