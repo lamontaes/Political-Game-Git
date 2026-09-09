@@ -1,0 +1,40 @@
+.judicial-office {
+  max-width: 48rem;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.judicial-office article {
+  border-top: 1px solid currentColor;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+}
+.judicial-office button {
+  font: inherit;
+  white-space: normal;
+  text-align: left;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.8rem;
+}
+.judicial-office-choices {
+  display: grid;
+  gap: 0.6rem;
+}
+.judicial-office-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.judicial-office details {
+  margin-top: 1.25rem;
+}
+.judicial-office summary {
+  cursor: pointer;
+  min-height: 2.75rem;
+}
+.judicial-office :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+.judicial-office li {
+  overflow-wrap: anywhere;
+}

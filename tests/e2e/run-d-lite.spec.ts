@@ -1,4 +1,4 @@
-import { expect, test, type Locator, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "./fixtures";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?view=office-fixture");
@@ -352,7 +352,7 @@ test("keeps the bottom-left shell compact until pointer approach, focus, or acti
     // Follows the same override the config uses, so a concurrent worktree
     // running on its own port does not send this context to another branch's
     // server — or, as here, to nothing at all.
-    baseURL: `http://127.0.0.1:${process.env.PLAYWRIGHT_PORT ?? 4173}`,
+    baseURL: test.info().project.use.baseURL,
     hasTouch: true,
     viewport: { width: 1_440, height: 900 },
   });

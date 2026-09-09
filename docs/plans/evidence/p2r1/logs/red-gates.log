@@ -1,0 +1,128 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/p2r1-grounding.test.ts --maxWorkers=2
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-production
+
+ ❯ src/presentation/p2r1-grounding.test.ts (8 tests | 8 failed) 205ms
+     × adult.housing-cost-change: the old predicate is true without the claimed occurrence 67ms
+     × adult.work-extra-hours: the old predicate is true without the claimed occurrence 22ms
+     × adult.work-offer-elsewhere: the old predicate is true without the claimed occurrence 20ms
+     × adult.care-request: the old predicate is true without the claimed occurrence 19ms
+     × adult.volunteer-ask: the old predicate is true without the claimed occurrence 19ms
+     × adult.incident-aftermath: the old predicate is true without the claimed occurrence 20ms
+     × adult.weekend-invitation: the old predicate is true without the claimed occurrence 20ms
+     × household-standing: one unfinished errands item establishes no repeated burden 17ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.housing-cost-change: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(17) ] to not include 'adult.housing-cost-change'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.work-extra-hours: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(15) ] to not include 'adult.work-extra-hours'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.work-offer-elsewhere: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(15) ] to not include 'adult.work-offer-elsewhere'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.care-request: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(15) ] to not include 'adult.care-request'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.volunteer-ask: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(15) ] to not include 'adult.volunteer-ask'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.incident-aftermath: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.incident-aftermath', …(2) ] to not include 'adult.incident-aftermath'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > adult.weekend-invitation: the old predicate is true without the claimed occurrence
+AssertionError: expected [ 'adult.household-standing', …(15) ] to not include 'adult.weekend-invitation'
+ ❯ src/presentation/p2r1-grounding.test.ts:53:69
+     51|       // applied by the established availability seam, before any opti…
+     52|       expect(scene.available(context)).toBe(true);
+     53|       expect(availableAdultSituations(context).map(s => s.key)).not.to…
+       |                                                                     ^
+     54|       for (const option of scene.options) {
+     55|         expect(() => chooseAdultOption(world, { personId, situationKey…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  src/presentation/p2r1-grounding.test.ts > P2R1 canonical pre-offer counterexamples > household-standing: one unfinished errands item establishes no repeated burden
+AssertionError: expected 'The shopping and the appointments hav…' not to match /three weeks|nobody.*mention/
+
+- Expected:
+/three weeks|nobody.*mention/
+
++ Received:
+"The shopping and the appointments have landed on you three weeks running, and nobody is going to mention it unless you do."
+
+ ❯ src/presentation/p2r1-grounding.test.ts:69:29
+     67|     const scene = availableAdultSituations(context).find(s => s.key ==…
+     68|     expect(scene).toBeDefined();
+     69|     expect(scene.prose).not.toMatch(/three weeks|nobody.*mention/);
+       |                             ^
+     70|     for (const option of scene.options) expect(option.memory).not.toMa…
+     71|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed (8)
+   Start at  09:57:58
+   Duration  1.05s (transform 642ms, setup 0ms, import 751ms, tests 205ms, environment 0ms)
+

@@ -1,0 +1,2033 @@
+[
+  {
+    "number": 1,
+    "id": "prose:life:callback:RETURN_SUMMARY-0014#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/01-candidate.txt"
+  },
+  {
+    "number": 2,
+    "id": "prose:life:callback:RETURN_SUMMARY-0020#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/02-candidate.txt"
+  },
+  {
+    "number": 3,
+    "id": "prose:life:callback:RETURN_SUMMARY-0005#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/03-candidate.txt"
+  },
+  {
+    "number": 4,
+    "id": "prose:life:callback:RETURN_SUMMARY-0033#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/04-candidate.txt"
+  },
+  {
+    "number": 5,
+    "id": "prose:life:callback:RETURN_SUMMARY-0012#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/05-candidate.txt"
+  },
+  {
+    "number": 6,
+    "id": "prose:life:callback:RETURN_SUMMARY-0007#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/06-candidate.txt"
+  },
+  {
+    "number": 7,
+    "id": "prose:life:callback:RETURN_SUMMARY-0008#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/07-candidate.txt"
+  },
+  {
+    "number": 8,
+    "id": "prose:life:callback:RETURN_SUMMARY-0030#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/08-candidate.txt"
+  },
+  {
+    "number": 9,
+    "id": "prose:life:callback:RETURN_SUMMARY-0003#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/09-candidate.txt"
+  },
+  {
+    "number": 10,
+    "id": "prose:life:callback:RETURN_SUMMARY-0016#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/10-candidate.txt"
+  },
+  {
+    "number": 11,
+    "id": "prose:life:callback:RETURN_SUMMARY-0022#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/11-candidate.txt"
+  },
+  {
+    "number": 12,
+    "id": "prose:life:callback:RETURN_SUMMARY-0010#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/12-candidate.txt"
+  },
+  {
+    "number": 13,
+    "id": "prose:life:callback:RETURN_SUMMARY-0018#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/13-candidate.txt"
+  },
+  {
+    "number": 14,
+    "id": "prose:life:callback:RETURN_SUMMARY-0019#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/14-candidate.txt"
+  },
+  {
+    "number": 15,
+    "id": "prose:life:callback:RETURN_SUMMARY-0013#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/15-candidate.txt"
+  },
+  {
+    "number": 16,
+    "id": "prose:life:callback:RETURN_SUMMARY-0002#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/16-candidate.txt"
+  },
+  {
+    "number": 17,
+    "id": "prose:life:callback:RETURN_SUMMARY-0011#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/17-candidate.txt"
+  },
+  {
+    "number": 18,
+    "id": "prose:life:callback:RETURN_SUMMARY-0001#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/18-candidate.txt"
+  },
+  {
+    "number": 19,
+    "id": "prose:life:callback:RETURN_SUMMARY-0009#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/19-candidate.txt"
+  },
+  {
+    "number": 20,
+    "id": "prose:life:callback:RETURN_SUMMARY-0017#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/20-candidate.txt"
+  },
+  {
+    "number": 21,
+    "id": "prose:life:callback:RETURN_SUMMARY-0031#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/21-candidate.txt"
+  },
+  {
+    "number": 22,
+    "id": "prose:life:callback:RETURN_SUMMARY-0023#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/22-candidate.txt"
+  },
+  {
+    "number": 23,
+    "id": "prose:life:callback:RETURN_SUMMARY-0032#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/23-candidate.txt"
+  },
+  {
+    "number": 24,
+    "id": "prose:life:callback:RETURN_SUMMARY-0027#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/24-candidate.txt"
+  },
+  {
+    "number": 25,
+    "id": "prose:life:callback:RETURN_SUMMARY-0026#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/25-candidate.txt"
+  },
+  {
+    "number": 26,
+    "id": "prose:life:callback:RETURN_SUMMARY-0028#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/26-candidate.txt"
+  },
+  {
+    "number": 27,
+    "id": "prose:life:callback:RETURN_SUMMARY-0015#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/27-candidate.txt"
+  },
+  {
+    "number": 28,
+    "id": "prose:life:callback:RETURN_SUMMARY-0004#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/28-candidate.txt"
+  },
+  {
+    "number": 29,
+    "id": "prose:life:callback:RETURN_SUMMARY-0006#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/29-candidate.txt"
+  },
+  {
+    "number": 30,
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0003#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/30-candidate.txt"
+  },
+  {
+    "number": 31,
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0004#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/31-candidate.txt"
+  },
+  {
+    "number": 32,
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0005#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/32-candidate.txt"
+  },
+  {
+    "number": 33,
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0006#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/33-candidate.txt"
+  },
+  {
+    "number": 34,
+    "id": "prose:life:callback:lifeCallbackTransitionHandler-0007#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/34-candidate.txt"
+  },
+  {
+    "number": 35,
+    "id": "adult.household-standing#prose",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/35-candidate.txt"
+  },
+  {
+    "number": 36,
+    "id": "adult.household-standing#option:say-it:label",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/36-candidate.txt"
+  },
+  {
+    "number": 37,
+    "id": "adult.household-standing#option:say-it:description",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/37-candidate.txt"
+  },
+  {
+    "number": 38,
+    "id": "adult.household-standing#option:say-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/38-candidate.txt"
+  },
+  {
+    "number": 39,
+    "id": "adult.household-standing#option:say-it:witnessed",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/39-candidate.txt"
+  },
+  {
+    "number": 40,
+    "id": "adult.household-standing#option:absorb-it:label",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/40-candidate.txt"
+  },
+  {
+    "number": 41,
+    "id": "adult.household-standing#option:absorb-it:description",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/41-candidate.txt"
+  },
+  {
+    "number": 42,
+    "id": "adult.household-standing#option:absorb-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/42-candidate.txt"
+  },
+  {
+    "number": 43,
+    "id": "adult.household-standing#option:set-it-out:label",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/43-candidate.txt"
+  },
+  {
+    "number": 44,
+    "id": "adult.household-standing#option:set-it-out:description",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/44-candidate.txt"
+  },
+  {
+    "number": 45,
+    "id": "adult.household-standing#option:set-it-out:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/45-candidate.txt"
+  },
+  {
+    "number": 46,
+    "id": "adult.household-standing#option:set-it-out:witnessed",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/46-candidate.txt"
+  },
+  {
+    "number": 47,
+    "id": "adult.ordinary-good-day#prose",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/47-candidate.txt"
+  },
+  {
+    "number": 48,
+    "id": "adult.ordinary-good-day#option:go-out:label",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/48-candidate.txt"
+  },
+  {
+    "number": 49,
+    "id": "adult.ordinary-good-day#option:go-out:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/49-writer.txt"
+  },
+  {
+    "number": 50,
+    "id": "adult.ordinary-good-day#option:get-things-done:description",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/50-writer.txt"
+  },
+  {
+    "number": 51,
+    "id": "adult.ordinary-good-day#option:get-things-done:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/51-writer.txt"
+  },
+  {
+    "number": 52,
+    "id": "adult.care-request#option:name-the-limit:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/52-writer.txt"
+  },
+  {
+    "number": 53,
+    "id": "adult.care-request#option:name-the-limit:description",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/53-candidate.txt"
+  },
+  {
+    "number": 54,
+    "id": "adult.candidacy-approach#option:say-maybe:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/54-writer.txt"
+  },
+  {
+    "number": 55,
+    "id": "adult.incident-aftermath#option:sort-your-own:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/55-writer.txt"
+  },
+  {
+    "number": 56,
+    "id": "adult.friend-in-difficulty#option:keep-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/56-candidate.txt"
+  },
+  {
+    "number": 57,
+    "id": "adult.community-building#option:cut-something-else:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/57-writer.txt"
+  },
+  {
+    "number": 58,
+    "id": "adult.partner-plan#option:your-way:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/58-candidate.txt"
+  },
+  {
+    "number": 59,
+    "id": "adult.household-repair#option:fix-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/59-candidate.txt"
+  },
+  {
+    "number": 60,
+    "id": "adult.household-repair#option:leave-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/60-writer.txt"
+  },
+  {
+    "number": 61,
+    "id": "adult.household-repair#option:ask-for-help:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/61-candidate.txt"
+  },
+  {
+    "number": 62,
+    "id": "adult.household-money-shortfall#option:cut-back:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/62-writer.txt"
+  },
+  {
+    "number": 63,
+    "id": "adult.household-money-shortfall#option:say-so:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/63-writer.txt"
+  },
+  {
+    "number": 64,
+    "id": "adult.household-money-shortfall#option:take-the-work:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/64-writer.txt"
+  },
+  {
+    "number": 65,
+    "id": "adult.household-quiet-evening#option:spend-it-together:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/65-candidate.txt"
+  },
+  {
+    "number": 66,
+    "id": "adult.household-quiet-evening#option:keep-it-yours:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/66-writer.txt"
+  },
+  {
+    "number": 67,
+    "id": "adult.family-request#option:go:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/67-writer.txt"
+  },
+  {
+    "number": 68,
+    "id": "adult.family-request#option:stay:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/68-writer.txt"
+  },
+  {
+    "number": 69,
+    "id": "adult.family-request#option:split-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/69-writer.txt"
+  },
+  {
+    "number": 70,
+    "id": "adult.family-request#option:find-someone-else:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/70-writer.txt"
+  },
+  {
+    "number": 71,
+    "id": "adult.care-request#option:take-it-on:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/71-writer.txt"
+  },
+  {
+    "number": 72,
+    "id": "adult.care-request#option:wait:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/72-writer.txt"
+  },
+  {
+    "number": 73,
+    "id": "adult.partner-plan#option:their-way:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/73-writer.txt"
+  },
+  {
+    "number": 74,
+    "id": "adult.partner-plan#option:postpone:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/74-writer.txt"
+  },
+  {
+    "number": 75,
+    "id": "adult.work-rule-pressure#option:by-the-book:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/75-writer.txt"
+  },
+  {
+    "number": 76,
+    "id": "adult.work-rule-pressure#option:the-usual-way:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/76-writer.txt"
+  },
+  {
+    "number": 77,
+    "id": "adult.work-rule-pressure#option:raise-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/77-writer.txt"
+  },
+  {
+    "number": 78,
+    "id": "adult.work-extra-hours#option:take-them:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/78-writer.txt"
+  },
+  {
+    "number": 79,
+    "id": "adult.work-extra-hours#option:decline:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/79-writer.txt"
+  },
+  {
+    "number": 80,
+    "id": "adult.work-extra-hours#option:trade:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/80-writer.txt"
+  },
+  {
+    "number": 81,
+    "id": "adult.work-credit#option:correct-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/81-writer.txt"
+  },
+  {
+    "number": 82,
+    "id": "adult.work-credit#option:let-it-go:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/82-writer.txt"
+  },
+  {
+    "number": 83,
+    "id": "adult.work-credit#option:say-it-later:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/83-writer.txt"
+  },
+  {
+    "number": 84,
+    "id": "adult.work-colleague-struggling#option:cover:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/84-writer.txt"
+  },
+  {
+    "number": 85,
+    "id": "adult.work-colleague-struggling#option:ask-them:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/85-writer.txt"
+  },
+  {
+    "number": 86,
+    "id": "adult.work-colleague-struggling#option:tell-someone:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/86-writer.txt"
+  },
+  {
+    "number": 87,
+    "id": "adult.work-offer-elsewhere#option:go-for-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/87-writer.txt"
+  },
+  {
+    "number": 88,
+    "id": "adult.work-offer-elsewhere#option:use-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/88-writer.txt"
+  },
+  {
+    "number": 89,
+    "id": "adult.work-good-week#option:enjoy-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/89-writer.txt"
+  },
+  {
+    "number": 90,
+    "id": "adult.work-good-week#option:press-on:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/90-writer.txt"
+  },
+  {
+    "number": 91,
+    "id": "adult.housing-cost-change#option:absorb:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/91-writer.txt"
+  },
+  {
+    "number": 92,
+    "id": "adult.housing-cost-change#option:push-back:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/92-writer.txt"
+  },
+  {
+    "number": 93,
+    "id": "adult.housing-repair-standoff#option:formal:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/93-writer.txt"
+  },
+  {
+    "number": 94,
+    "id": "adult.housing-repair-standoff#option:fix-it-yourself:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/94-writer.txt"
+  },
+  {
+    "number": 95,
+    "id": "adult.housing-repair-standoff#option:withhold:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/95-writer.txt"
+  },
+  {
+    "number": 96,
+    "id": "adult.debt-call#option:pay-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/96-writer.txt"
+  },
+  {
+    "number": 97,
+    "id": "adult.debt-call#option:negotiate:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/97-writer.txt"
+  },
+  {
+    "number": 98,
+    "id": "adult.debt-call#option:borrow:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/98-writer.txt"
+  },
+  {
+    "number": 99,
+    "id": "adult.unexpected-expense#option:handle-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/99-writer.txt"
+  },
+  {
+    "number": 100,
+    "id": "adult.unexpected-expense#option:make-do:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/100-writer.txt"
+  },
+  {
+    "number": 101,
+    "id": "adult.small-windfall#option:put-it-away:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/101-writer.txt"
+  },
+  {
+    "number": 102,
+    "id": "adult.small-windfall#option:spend-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/102-writer.txt"
+  },
+  {
+    "number": 103,
+    "id": "adult.small-windfall#option:give-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/103-writer.txt"
+  },
+  {
+    "number": 104,
+    "id": "adult.friend-favour#option:do-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/104-writer.txt"
+  },
+  {
+    "number": 105,
+    "id": "adult.friend-favour#option:decline:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/105-writer.txt"
+  },
+  {
+    "number": 106,
+    "id": "adult.help-with-strings#option:take-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/106-writer.txt"
+  },
+  {
+    "number": 107,
+    "id": "adult.help-with-strings#option:pay-for-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/107-writer.txt"
+  },
+  {
+    "number": 108,
+    "id": "adult.friend-good-news#option:go:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/108-writer.txt"
+  },
+  {
+    "number": 109,
+    "id": "adult.friend-good-news#option:send-word:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/109-writer.txt"
+  },
+  {
+    "number": 110,
+    "id": "adult.local-dispute#option:speak-at-the-meeting:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/110-writer.txt"
+  },
+  {
+    "number": 111,
+    "id": "adult.local-dispute#option:let-it-run:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/111-writer.txt"
+  },
+  {
+    "number": 112,
+    "id": "adult.community-meeting#option:go:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/112-writer.txt"
+  },
+  {
+    "number": 113,
+    "id": "adult.community-meeting#option:read-it-after:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/113-writer.txt"
+  },
+  {
+    "number": 114,
+    "id": "adult.community-meeting#option:skip-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/114-writer.txt"
+  },
+  {
+    "number": 115,
+    "id": "adult.volunteer-ask#option:sign-up:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/115-writer.txt"
+  },
+  {
+    "number": 116,
+    "id": "adult.volunteer-ask#option:once:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/116-writer.txt"
+  },
+  {
+    "number": 117,
+    "id": "adult.volunteer-ask#option:no:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/117-writer.txt"
+  },
+  {
+    "number": 118,
+    "id": "adult.community-building#option:keep-the-charge:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/118-writer.txt"
+  },
+  {
+    "number": 119,
+    "id": "adult.local-issue-position#option:leave-it-open:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/119-writer.txt"
+  },
+  {
+    "number": 120,
+    "id": "adult.petition-ask#option:sign:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/120-writer.txt"
+  },
+  {
+    "number": 121,
+    "id": "adult.petition-ask#option:refuse:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/121-writer.txt"
+  },
+  {
+    "number": 122,
+    "id": "adult.incident-aftermath#option:help-clear-up:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/122-writer.txt"
+  },
+  {
+    "number": 123,
+    "id": "adult.incident-neighbour-help#option:help:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/123-writer.txt"
+  },
+  {
+    "number": 124,
+    "id": "adult.promise-comes-due#option:keep-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/124-writer.txt"
+  },
+  {
+    "number": 125,
+    "id": "adult.promise-comes-due#option:renegotiate:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/125-writer.txt"
+  },
+  {
+    "number": 126,
+    "id": "adult.promise-comes-due#option:drop-it:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/126-writer.txt"
+  },
+  {
+    "number": 127,
+    "id": "adult.old-favour-returns#option:help-again:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/127-writer.txt"
+  },
+  {
+    "number": 128,
+    "id": "adult.old-favour-returns#option:no:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/128-writer.txt"
+  },
+  {
+    "number": 129,
+    "id": "adult.weekend-invitation#option:say-yes:memory",
+    "ground": {
+      "pass": false,
+      "findings": [
+        {
+          "rule": "surface-drift",
+          "claim": "staged dialogue",
+          "detail": "the packet's SURFACE is a note/task record, but the output stages spoken dialogue the packet does not supply (a stray quotation mark elsewhere in the packet does not license staging a scene here)"
+        }
+      ]
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/129-writer.txt"
+  },
+  {
+    "number": 130,
+    "id": "adult.weekend-invitation#option:stay-in:memory",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/130-writer.txt"
+  },
+  {
+    "number": 131,
+    "id": "ordinary-life:public-meeting#summary",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/131-candidate.txt"
+  },
+  {
+    "number": 132,
+    "id": "prose:life:callback:RETURN_SUMMARY-0021#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/132-writer.txt"
+  },
+  {
+    "number": 133,
+    "id": "prose:life:callback:RETURN_SUMMARY-0029#text",
+    "ground": {
+      "pass": true,
+      "findings": []
+    },
+    "review": {
+      "pass": true,
+      "malformed": false,
+      "claims": []
+    },
+    "exactInput": true,
+    "candidatePath": "/private/tmp/p2r1-evidence/roles/133-writer.txt"
+  }
+]

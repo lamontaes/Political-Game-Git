@@ -1,0 +1,18 @@
+
+> political-life-rpg@0.2.0 validate
+> npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art
+
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+[warn] docs/plans/evidence/p2r1/boundaries.json
+[warn] docs/plans/evidence/p2r1/callback-origin-matrix.json
+[warn] docs/plans/evidence/p2r1/counterexamples.json
+[warn] docs/plans/evidence/p2r1/full-scope-ledger.json
+[warn] docs/plans/evidence/p2r1/rejected-old-seeds.json
+[warn] docs/plans/evidence/p2r1/repaired-old-seeds.json
+[warn] docs/plans/evidence/p2r1/role-checks.json
+[warn] docs/plans/evidence/p2r1/scoped-metrics.json
+[warn] Code style issues found in 8 files. Run Prettier with --write to fix.

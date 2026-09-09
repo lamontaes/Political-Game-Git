@@ -1,0 +1,79 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/narrative-life.spec.ts tests/e2e/pennywise-adaptive-life.spec.ts tests/e2e/p2r1-editorial.spec.ts --workers=1
+
+[WebServer] (node:68809) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 25 tests using 1 worker
+
+(node:68810) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/25] [chromium] › tests/e2e/narrative-life.spec.ts:116:3 › The game opens as Our Civic Duty › shows the title, five controls, and a Quit that is honest about itself
+[2/25] [chromium] › tests/e2e/narrative-life.spec.ts:141:3 › The game opens as Our Civic Duty › opens the options screen and comes back
+[3/25] [chromium] › tests/e2e/narrative-life.spec.ts:153:3 › Setting up a life reads like a game, not a form › opens one stage at a time instead of showing the whole form
+[4/25] [chromium] › tests/e2e/narrative-life.spec.ts:181:3 › Setting up a life reads like a game, not a form › names the two routes and says how they differ
+[5/25] [chromium] › tests/e2e/narrative-life.spec.ts:195:3 › Setting up a life reads like a game, not a form › keeps the seed behind Advanced
+[6/25] [chromium] › tests/e2e/narrative-life.spec.ts:206:3 › Setting up a life reads like a game, not a form › offers no place until one is searched for
+[7/25] [chromium] › tests/e2e/narrative-life.spec.ts:249:3 › A life is told continuously › bridges the beats that moved, and stays silent over the rest
+[8/25] [chromium] › tests/e2e/narrative-life.spec.ts:283:3 › A life is told continuously › keeps a quiet stretch honest: grounded sentences or silence
+[9/25] [chromium] › tests/e2e/narrative-life.spec.ts:314:3 › A life is told continuously › brings the same people back rather than a new cast every beat
+[10/25] [chromium] › tests/e2e/narrative-life.spec.ts:331:3 › A life is told continuously › keeps a childhood life on the same continuous surface
+[11/25] [chromium] › tests/e2e/narrative-life.spec.ts:356:3 › The record is a journal, not a log down the page › hides the record behind a control and shows it in chapters
+[12/25] [chromium] › tests/e2e/narrative-life.spec.ts:385:3 › The calibration opens a life › starts on something personal and never shows a denominator
+[13/25] [chromium] › tests/e2e/narrative-life.spec.ts:417:3 › The calibration opens a life › runs the questions and ends into the life without a length up front
+[14/25] [chromium] › tests/e2e/p2r1-editorial.spec.ts:4:1 › P2R1 retained adult choices activate by pointer and keyboard on the player surface
+[15/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:133:3 › The calibration is a set of situations, not a quiz › asks the short path, answers it, and starts the life
+[16/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:164:3 › The calibration is a set of situations, not a quiz › never tells the player what it concluded about them
+[17/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:184:3 › The calibration is a set of situations, not a quiz › lets a player decline the whole thing, and lets them stop part way
+[18/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:206:3 › The calibration is a set of situations, not a quiz › offers two ways to answer who you are, and promises no length
+[19/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:240:3 › An adult has something to do, and it follows from their life › plays a run of adult situations and remembers every one
+[20/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:267:3 › An adult has something to do, and it follows from their life › keeps the ordinary day beside the decision
+[21/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:283:3 › An adult has something to do, and it follows from their life › shows a child a life and no adult day surface
+[22/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:296:3 › Nothing on screen says how much a choice will matter › shows no tier, no meter and no forecast anywhere in a played run
+[23/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:313:3 › Nothing on screen says how much a choice will matter › writes no tier and no selection reason to disk
+[24/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:346:3 › A life is kept, and comes back adapting the same way › keeps a calibrated life, reloads it, and continues the same sequence
+  1) [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:346:3 › A life is kept, and comes back adapting the same way › keeps a calibrated life, reloads it, and continues the same sequence 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.innerText: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByTestId('story-prose')
+
+
+      353 |     for (let beat = 0; beat < 4; beat += 1) await takeOneBeat(page, 0);
+      354 |     const beforeJournal = await readJournal(page);
+    > 355 |     const beforeScene = await page.getByTestId("story-prose").innerText();
+          |                                                               ^
+      356 |
+      357 |     await keepAndWait(page);
+      358 |     await page.reload();
+        at /private/tmp/p2r1-production/tests/e2e/pennywise-adaptive-life.spec.ts:355:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/pennywise-adaptive-life-A--fe4a4-continues-the-same-sequence-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/pennywise-adaptive-life-A--fe4a4-continues-the-same-sequence-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pennywise-adaptive-life-A--fe4a4-continues-the-same-sequence-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pennywise-adaptive-life-A--fe4a4-continues-the-same-sequence-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:69446) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/25] [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:374:3 › A life is kept, and comes back adapting the same way › rebuilds exactly the life its replay address was taken from
+  1 failed
+    [chromium] › tests/e2e/pennywise-adaptive-life.spec.ts:346:3 › A life is kept, and comes back adapting the same way › keeps a calibrated life, reloads it, and continues the same sequence 
+  24 passed (1.5m)
