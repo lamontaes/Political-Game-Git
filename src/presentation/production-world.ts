@@ -16,6 +16,7 @@ import {
   generateQuickCharacterHistory,
   personName,
   recordWorldEvent,
+  recordPersonDeath,
   SeededRng,
 } from "../simulation";
 import { establishLifePersonality } from "../simulation/life-personality";
@@ -187,6 +188,13 @@ export function buildProductionWorld(
   }
 
   for (const personId of world.personOrder) {
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= world.currentDate,
+      )
+    )
+      continue;
     world = establishLifePersonality(world, personId, {
       seed: input.personalitySeed ?? input.seed,
       key: `person:${world.personOrder.indexOf(personId)}`,
@@ -615,6 +623,45 @@ function establishAgeEligibleState(
     );
   }
 
+  // Fictional starting circumstances are independent of identity and setup priors.
+  // A missing parent record is not a claim of abandonment or death.
+  const otherParentState =
+    familyShape === "one-parent" && age >= 5
+      ? new SeededRng(world.seed)
+          .fork("opening-life-other-parent-v1")
+          .pick(["unrecorded", "nonresident", "deceased"] as const)
+      : "unrecorded";
+  const otherParentKey = `${stableKey}:nonresident-parent`;
+  const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
+  if (otherParentState !== "unrecorded") {
+    const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    transitions.push(
+      {
+        kind: "context-person",
+        input: {
+          stableKey: otherParentKey,
+          ...drawCanonicalNameForGender(
+            otherRng,
+            generatedIdentityFor(world.seed, otherParentKey).gender,
+          ),
+          identity: generatedIdentityFor(world.seed, otherParentKey),
+          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          homeJurisdictionId: jurisdictionId,
+        },
+      },
+      {
+        kind: "kinship",
+        input: {
+          stableKey: `${otherParentKey}:kinship`,
+          personIds: [otherParentId, player.id],
+          establishedAt: player.birthDate,
+          kind: "lineal:parent-child",
+          provenance: PROVENANCE,
+        },
+      },
+    );
+  }
+
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     // The world does not know when the school was founded, and does not
@@ -690,12 +737,27 @@ function establishAgeEligibleState(
     }
   }
 
-  return applyCharacterHistoryPlan(world, {
+  const householdWorld = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
     transitions,
   }).world;
+  return otherParentState === "deceased"
+    ? recordPersonDeath(householdWorld, {
+        stableKey: `${otherParentKey}:death`,
+        personId: otherParentId,
+        diedAt: addDays(world.currentDate, -1),
+        causeKey: "cause:unknown",
+        sourceEntityIds: [otherParentId],
+        summary:
+          "This parent died before the current life began. The cause is not recorded.",
+        provenance: {
+          kind: "authored",
+          note: "Fictional starting family history; no empirical mortality rate or inferred cause.",
+        },
+      })
+    : householdWorld;
 }
 
 const OFFICE_HOURS = {

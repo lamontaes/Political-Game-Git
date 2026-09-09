@@ -5,6 +5,7 @@ import {
   recordPersonalValue,
   latestPersonalValue,
   serializeWorld,
+  deserializeWorld,
   createSyntheticMindCatalog,
   assertWorldIntegrity,
   recordPersonDeath,
@@ -29,6 +30,56 @@ function start() {
   });
 }
 describe("OPENING-LIFE1 refusals and historical truth", () => {
+  it("generates known nonresident and deceased parents without inventing cause or household presence", () => {
+    const covered = new Set<string>();
+    for (let seed = 0; seed < 80 && covered.size < 2; seed++) {
+      const game = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        startAge: 7,
+        seed: `parent-history-${seed}`,
+      });
+      const kinship = game.world.history.kinshipRelationships.find((entry) =>
+        entry.stableKey.endsWith(":nonresident-parent:kinship"),
+      );
+      if (!kinship) continue;
+      const parentId = kinship.personIds.find(
+        (id) => id !== game.playerPersonId,
+      )!;
+      const death = game.world.history.personDeaths.find(
+        (entry) => entry.personId === parentId,
+      );
+      covered.add(death ? "deceased" : "nonresident");
+      const before = serializeWorld(game.world);
+      const introduction = buildLifeIntroduction(
+        game.world,
+        game.playerPersonId,
+      )!;
+      expect(
+        introduction.household.some((person) => person.personId === parentId),
+      ).toBe(false);
+      expect(
+        introduction.grounding.some((fact) => fact.basis === kinship.id),
+      ).toBe(true);
+      if (death) {
+        expect(death.causeKey).toBe("cause:unknown");
+        expect(
+          introduction.grounding.find((fact) => fact.basis === kinship.id)!
+            .text,
+        ).toContain("has died");
+      }
+      const entered = openNextLifeScene(game.world, game.playerPersonId);
+      expect(
+        currentOpeningLifeScene(entered, game.playerPersonId)
+          ?.presentPersonIds ?? [],
+      ).not.toContain(parentId);
+      expect(serializeWorld(game.world)).toBe(before);
+      expect(
+        buildLifeIntroduction(deserializeWorld(before), game.playerPersonId),
+      ).toEqual(introduction);
+      assertWorldIntegrity(game.world);
+    }
+    expect([...covered].sort()).toEqual(["deceased", "nonresident"]);
+  });
   it("keeps the synthetic catalog firewall closed", () => {
     expect(() => assertLifeMindContent(createSyntheticMindCatalog())).toThrow(
       /Unsupported production/,

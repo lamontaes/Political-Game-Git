@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 2054,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4766,
-    "DIAGNOSTIC_OR_TEST": 3748,
-    "NEEDS_CLASSIFICATION": 3452
+    "INTENTIONALLY_NON_PLAYER_FACING": 4767,
+    "DIAGNOSTIC_OR_TEST": 3750,
+    "NEEDS_CLASSIFICATION": 3453
   },
   "needsClassification": [
     {
@@ -7449,7 +7449,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 223,
+      "line": 231,
       "text": "The character this life follows",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7457,7 +7457,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 229,
+      "line": 237,
       "text": "{name} is {age}, and lives in {place.displayName}. This is where their life is picked up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7465,7 +7465,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 236,
+      "line": 244,
       "text": "The start of a working life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7473,7 +7473,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 237,
+      "line": 245,
       "text": "The start of a life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7481,7 +7481,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 241,
+      "line": 249,
       "text": "A childhood already under way, in a household the character did not choose.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7489,7 +7489,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 242,
+      "line": 250,
       "text": "An ordinary adult life already under way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7497,7 +7497,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 286,
+      "line": 294,
       "text": "{player.familyName} household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7505,15 +7505,23 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 287,
+      "line": 295,
       "text": "{personName(player)}'s household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/presentation/production-world.ts",
+      "enclosingSymbol": "establishAgeEligibleState",
+      "line": 754,
+      "text": "This parent died before the current life began. The cause is not recorded.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "employInLegislativeOffice",
-      "line": 755,
+      "line": 817,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -29365,12 +29373,6 @@
       "count": 32
     },
     {
-      "sourcePath": "src/presentation/scene-proof.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/scene-placement.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -29431,18 +29433,6 @@
       "count": 7
     },
     {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/run-b-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -29467,12 +29457,6 @@
       "count": 27
     },
     {
-      "sourcePath": "src/presentation/run-a-projection.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
       "sourcePath": "src/presentation/run-a-layout.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateRunASceneLayout. Play fails closed rather than showing it.",
@@ -29482,6 +29466,24 @@
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-a-projection.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-b-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/scene-proof.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -29505,13 +29507,19 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 1
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/production-world.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/run-b-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -29605,16 +29613,16 @@
       "count": 13
     },
     {
-      "sourcePath": "src/presentation/opening-life-recovery.test.ts",
+      "sourcePath": "src/presentation/opening-life-boundaries.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 10
     },
     {
-      "sourcePath": "src/presentation/opening-life-boundaries.test.ts",
+      "sourcePath": "src/presentation/opening-life-recovery.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 8
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/opening-life-agency.test.ts",
