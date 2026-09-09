@@ -98,7 +98,11 @@ export async function fillCreator(
   const calibration = life.calibration ?? "skipped";
   await page
     .getByTestId(
-      calibration === "skipped" ? "whoareyou-play" : calibration === "deep" ? "whoareyou-deep" : "whoareyou-answer",
+      calibration === "skipped"
+        ? "whoareyou-play"
+        : calibration === "deep"
+          ? "whoareyou-deep"
+          : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();

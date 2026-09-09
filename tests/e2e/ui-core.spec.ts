@@ -299,6 +299,7 @@ test.describe("mixed pins", () => {
        storage, so the rail is waited for rather than read the instant the
        room appears. */
     await goTo(page, "keep-world");
+    await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();

@@ -886,11 +886,26 @@
 }
 
 /* One shared reservation keeps mixed pins clear of workspace controls (#133). */
-:root { --pg-rail-lane: 17rem; --pg-rail-inset: 1.15rem; }
-.pg-pin-rail { right: var(--pg-rail-inset); width: var(--pg-rail-lane); overflow-x: hidden; }
-.pg-pin-slot { width: 100%; justify-content: flex-end; }
-.pg-pin { flex: 0 1 auto; min-width: 0; }
-.pg-pin[data-size="expanded"] { min-width: min(15rem, calc(var(--pg-rail-lane) - 2.5rem)); }
+:root {
+  --pg-rail-lane: 17rem;
+  --pg-rail-inset: 1.15rem;
+}
+.pg-pin-rail {
+  right: var(--pg-rail-inset);
+  width: var(--pg-rail-lane);
+  overflow-x: hidden;
+}
+.pg-pin-slot {
+  width: 100%;
+  justify-content: flex-end;
+}
+.pg-pin {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.pg-pin[data-size="expanded"] {
+  min-width: min(15rem, calc(var(--pg-rail-lane) - 2.5rem));
+}
 .pg-workspace {
   left: 1rem;
   right: calc(var(--pg-rail-lane) + var(--pg-rail-inset) + 1rem);
@@ -899,5 +914,67 @@
   margin-inline: auto;
   transform: none;
 }
-@media (max-width: 1200px) { :root { --pg-rail-lane: 13rem; } }
-@media (max-width: 1060px) { :root { --pg-rail-lane: 11rem; --pg-rail-inset: .7rem; } }
+@media (max-width: 1200px) {
+  :root {
+    --pg-rail-lane: 13rem;
+  }
+}
+@media (max-width: 1060px) {
+  :root {
+    --pg-rail-lane: 11rem;
+    --pg-rail-inset: 0.7rem;
+  }
+}
+
+/* Accepted R1 title grouping: transparent type at upper left, over released art. */
+.title-tableau--art .title-tableau-content:has(.game-title) {
+  align-items: flex-start;
+  padding: clamp(2rem, 6vh, 4rem) clamp(1.5rem, 4vw, 4rem);
+}
+.title-tableau--art .game-title {
+  width: min(24rem, 100%);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: var(--pg-ivory);
+  text-shadow: 0 2px 8px #080d15;
+}
+.title-tableau--art .game-title h1 {
+  color: var(--pg-ivory);
+  font:
+    500 clamp(1.9rem, 2.7vw, 3rem)/1.05 Georgia,
+    serif;
+  margin: 0 0 1.2rem;
+}
+.title-tableau--art .game-title-actions {
+  gap: 0.15rem;
+}
+.title-tableau--art .game-title-actions button {
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--pg-ivory);
+  padding: 0.55rem 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 6px #080d15;
+}
+.title-tableau--art .game-title-actions button small {
+  text-transform: none;
+  letter-spacing: normal;
+  color: inherit;
+}
+.title-tableau--art
+  .game-title-actions
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--pg-brass);
+  box-shadow: inset 2px 0 currentColor;
+  background: linear-gradient(90deg, #10162177, transparent);
+}
+.title-tableau--art .game-title-actions button:disabled {
+  opacity: 0.65;
+}

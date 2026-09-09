@@ -1,3 +1,4 @@
+import { LIFE_PATHS2_HANDLERS } from "./life-paths2";
 import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility } from "./candidacy";
 import {
@@ -1691,6 +1692,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
   // life handlers: election day and a promised conversation can fall due on the
   // same day, and time refuses to step over a due item it has no handler for.
   return composeFutureTransitionHandlerRegistries(
+    LIFE_PATHS2_HANDLERS,
     createFutureTransitionHandlerRegistry([
       [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
     ]),

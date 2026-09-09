@@ -1,4 +1,15 @@
 import {
+  BrowserShellStateStore,
+  type StoredShellState,
+} from "../presentation/browser-shell-state";
+import { LifePathsPanel } from "./LifePathsPanel";
+import { JudicialOfficeWork } from "./JudicialOfficeWork";
+import { judicialOfficeContexts } from "../simulation/judicial-office-work";
+import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
+import { resolveExecutiveOffice } from "../simulation/executive-work-context";
+import { synchronizeExecutiveInbox } from "../simulation/executive-work";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import {
   useCallback,
   useEffect,
   useMemo,
@@ -152,6 +163,7 @@ interface Session {
 }
 
 export function PlayerGame() {
+  const shellStore = useMemo(() => new BrowserShellStateStore(), []);
   const store = useMemo(() => {
     try {
       return new BrowserSaveStore();
@@ -278,12 +290,15 @@ export function PlayerGame() {
     setProblem(null);
   }
 
-  async function keepThisWorld() {
+  async function keepThisWorld(shellState: StoredShellState) {
     if (!session || !store) return;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
     const saveId = session.saveId ?? store.newSaveId(session.world);
     try {
+      // Persist presentation references first: a newly visible world slot must
+      // already have its pins, even if the player reloads immediately afterward.
+      const shellSaved = await shellStore.write(saveId, shellState);
       const outcome = await store.save(session.world, saveId);
       if (outcome.status !== "saved") {
         // A refused slot is not a broken browser, and saying so would send the
@@ -292,7 +307,11 @@ export function PlayerGame() {
         return;
       }
       setSession({ ...session, unsavedSeed: null, saveId });
-      setNotice("Saved.");
+      setNotice(
+        shellSaved
+          ? "Saved."
+          : "Your life was saved, but your pins and display preferences could not be kept.",
+      );
       await refreshSaves();
     } catch {
       setProblem("This game could not be saved just now.");
@@ -523,7 +542,7 @@ export function PlayerGame() {
             : current,
         )
       }
-      onKeep={() => void keepThisWorld()}
+      onKeep={(shellState) => void keepThisWorld(shellState)}
       onLeave={() => void leaveGame()}
       savesUnavailable={savesUnavailable}
     />
@@ -1046,6 +1065,30 @@ function SetupScreen({
             </button>
           </div>
 
+          <button
+            type="button"
+            data-testid="judicial-office-start"
+            disabled={setup.startAge < 25}
+            className={
+              setup.startingLife === "judicial-office-practice"
+                ? "is-chosen"
+                : undefined
+            }
+            onClick={() =>
+              setSetup((now) => ({
+                ...now,
+                startingLife: "judicial-office-practice",
+                depth: "summarize-earlier-life",
+              }))
+            }
+          >
+            Judicial office practice
+            <small>
+              Fictional workplace and working relationships, for ages 25 and
+              older. This start grants no election, appointment, legal term or
+              authority to decide cases.
+            </small>
+          </button>
           <h3>At home</h3>
           <div className="game-choices" data-testid="household-choices">
             <button
@@ -1452,7 +1495,7 @@ function PlayingScreen({
   readonly notice: string | null;
   readonly problem: string | null;
   readonly onWorldChange: (world: World) => void;
-  readonly onKeep: () => void;
+  readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   readonly savesUnavailable: boolean;
 }) {
@@ -1554,7 +1597,11 @@ function PlayingScreen({
       testid: "nav-calendar",
       open: openSurface === "calendar",
     });
-    if (capabilities.legislation && capabilities.legislativeScenarioKey) {
+    if (
+      (capabilities.legislation && capabilities.legislativeScenarioKey) ||
+      judicialOfficeContexts(session.world).length > 0 ||
+      resolveExecutiveOffice(session.world)
+    ) {
       entries.push({
         surface: "work",
         label: "Offices / Work",
@@ -1593,6 +1640,7 @@ function PlayingScreen({
     });
     return entries;
   }, [
+    session.world,
     capabilities.formativeYears,
     capabilities.legislation,
     capabilities.legislativeScenarioKey,
@@ -1901,7 +1949,9 @@ function PlayingScreen({
         destinations={destinations}
         canSave={session.saveId === null && !savesUnavailable}
         unsaved={session.unsavedSeed !== null}
-        onSave={onKeep}
+        onSave={() =>
+          onKeep({ pins: shell.pins, preferences: shell.preferences })
+        }
         onLeave={onLeave}
       />
 
@@ -2107,6 +2157,11 @@ function renderWorkspace({
         "day-overlay",
         <>
           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
+          <LifePathsPanel
+            world={session.world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+          />
           {/*
             Politics is a thing an ordinary life can turn into, so this sits
             below the ordinary day rather than replacing it.
@@ -2202,6 +2257,37 @@ function renderWorkspace({
       );
 
     case "work": {
+      const offices = judicialOfficeContexts(session.world);
+      if (offices.length > 0)
+        return frame(
+          "Office work",
+          "judicial-office-section",
+          <>
+            {offices.map((office) => (
+              <JudicialOfficeWork
+                key={office.workRelationshipId}
+                world={session.world}
+                courtOrganizationId={office.courtOrganizationId}
+                onWorldChange={onWorldChange}
+                onPerson={openPerson}
+                transitionHandlers={createCampaignElectionTransitionRegistry()}
+              />
+            ))}
+          </>,
+        );
+      if (resolveExecutiveOffice(session.world))
+        return frame(
+          "Executive work",
+          "executive-office-section",
+          <ExecutiveWorkWorkspace
+            world={session.world}
+            onWorldChange={(next) =>
+              onWorldChange(synchronizeExecutiveInbox(next))
+            }
+            onClose={close}
+            handlers={createCampaignElectionTransitionRegistry()}
+          />,
+        );
       if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
         return frame(
           "The office",

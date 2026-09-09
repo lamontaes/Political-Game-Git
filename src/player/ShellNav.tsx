@@ -130,7 +130,8 @@ export function ShellNav({
    */
   // An unmounted focused menu item does not emit blur. Recheck the live tree.
   useEffect(() => {
-    const check = () => setFocusWithin(Boolean(navRef.current?.contains(document.activeElement)));
+    const check = () =>
+      setFocusWithin(Boolean(navRef.current?.contains(document.activeElement)));
     check();
     document.addEventListener("focusin", check);
     document.addEventListener("focusout", check);
@@ -163,7 +164,6 @@ export function ShellNav({
       aria-label="Time, place and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
-
     >
       <button
         type="button"

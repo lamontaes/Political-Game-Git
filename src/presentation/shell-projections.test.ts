@@ -85,6 +85,47 @@ describe("the person dossier", () => {
     expect(claimsWork || dossier!.notKnown.length > 0).toBe(true);
   });
 
+  it("does not publish another person's private biography as a public record", () => {
+    const { world, personId } = newLife("private-biography");
+    const other = anybodyElse(world, personId)!;
+    const subject = world.people[other.personId]!;
+    const privateWorld = {
+      ...world,
+      people: {
+        ...world.people,
+        [subject.id]: {
+          ...subject,
+          establishedFacts: [
+            ...subject.establishedFacts,
+            {
+              id: "private-occupation" as EntityId,
+              stableKey: "private-occupation",
+              kind: "occupation" as const,
+              occurredAt: world.currentDate,
+              jurisdictionId: null,
+              summary: "Private biography",
+              provenance: {
+                method: "manual" as const,
+                sourceEventId: null,
+                note: null,
+              },
+              employer: "Private Employer",
+              title: "Private Role",
+              endedAt: null,
+              status: "ongoing" as const,
+              subjectIds: [],
+            },
+          ],
+        },
+      },
+    };
+    const dossier = projectPersonDossier(privateWorld, personId, subject.id)!;
+    expect(dossier.details.map((fact) => fact.text).join(" ")).not.toContain(
+      "Private Employer",
+    );
+    expect(dossier.notKnown.length).toBeGreaterThan(0);
+  });
+
   it("only offers links this world can resolve", () => {
     const { world, personId } = newLife("dossier-links");
     const other = anybodyElse(world, personId);

@@ -88,8 +88,8 @@ function describeInteraction(
  * The lasting details, in the order a person would actually give them.
  *
  * Household and kinship come from the player's own life, so they carry no
- * attribution. Occupation, education and residence come off the subject's
- * established facts, which is the record, so they say so. A perception someone
+ * attribution. The player's own biography stays known. Other people's biography
+ * requires an access-aware adapter; raw World facts are not public records. A perception someone
  * expressed about them is attributed to that person and never merged into the
  * other two.
  */
@@ -128,7 +128,7 @@ function buildDetails(
   }
 
   const subject = world.people[personId];
-  if (subject) {
+  if (subject && personId === playerId) {
     let occupation = false;
     let education = false;
     for (const fact of factsForPerson(subject)) {
@@ -140,7 +140,7 @@ function buildDetails(
             fact.status === "ongoing"
               ? `${fact.title} at ${fact.employer}.`
               : `Worked as ${fact.title} at ${fact.employer}.`,
-          attribution: "record",
+          attribution: "known",
         });
       }
       if (fact.kind === "education" && !education) {
@@ -148,12 +148,32 @@ function buildDetails(
         details.push({
           key: `fact-${fact.id}`,
           text: `${fact.institution}${fact.field ? `, ${fact.field}` : ""}.`,
-          attribution: "record",
+          attribution: "known",
         });
       }
     }
     if (!occupation)
       notKnown.push("What they do for a living is not recorded.");
+  }
+
+  if (personId !== playerId) {
+    // Biography truth has no access grant. Display only explicitly public
+    // statements until a knowledge-aware biography adapter supplies more.
+    const position = [...world.history.publicPositions]
+      .reverse()
+      .find(
+        (record) =>
+          record.personId === personId && record.audience === "public",
+      );
+    if (position)
+      details.push({
+        key: `position-${position.id}`,
+        text: position.statement,
+        attribution: "record",
+      });
+    notKnown.push(
+      "Their education and work history are not known to you here.",
+    );
   }
 
   /*
@@ -191,7 +211,8 @@ function buildLinks(
   const seen = new Set<string>([`person:${personId}`, `person:${playerId}`]);
 
   const householdId = householdIdFor(world, personId);
-  for (const member of householdId === null
+  for (const member of householdId === null ||
+  householdId !== householdIdFor(world, playerId)
     ? []
     : peopleInHouseholdAt(world, householdId)) {
     const key = `person:${member}`;
