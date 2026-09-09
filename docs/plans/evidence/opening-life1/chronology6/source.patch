@@ -1,0 +1,148 @@
+diff --git a/src/presentation/life-story.ts b/src/presentation/life-story.ts
+index b25989f..a7c9228 100644
+--- a/src/presentation/life-story.ts
++++ b/src/presentation/life-story.ts
+@@ -684,9 +684,14 @@ export function chooseStoryOption(
+   const scene = input.scene;
+   switch (scene.kind) {
+     case "episode": {
+-      const ordinaryMinutes = OPENING_LIFE_ADDITIONS.find(
++      const ordinaryScene = OPENING_LIFE_ADDITIONS.find(
+         (entry) => `opening.${entry.key}` === scene.beat.episodeKey,
+-      )?.minutes;
++      );
++      const ordinaryMinutes = ordinaryScene
++        ? scene.beat.stageKey === "follow-through"
++          ? 5
++          : ordinaryScene.minutes
++        : undefined;
+       if (ordinaryMinutes !== undefined) {
+         const probe = advanceWorldMinutes(
+           world,
+diff --git a/src/presentation/narrative-life.test.ts b/src/presentation/narrative-life.test.ts
+index 6ed7866..f7f8e73 100644
+--- a/src/presentation/narrative-life.test.ts
++++ b/src/presentation/narrative-life.test.ts
+@@ -11,6 +11,7 @@ import {
+   playedEpisodeStages,
+   playerModelFor,
+   serializeWorld,
++  simulationMomentEpochMinute,
+   setupOnlyPlayerModel,
+   threadPresence,
+ } from "../simulation";
+@@ -78,6 +79,8 @@ function setup(overrides: Partial<NewGameSetup>): NewGameSetup {
+ interface PlayedBeat {
+   readonly index: number;
+   readonly date: string;
++  readonly epochMinute: number;
++  readonly instanceKey: string | null;
+   readonly age: number;
+   readonly sceneKind: StoryMoment["scene"]["kind"];
+   readonly connective: readonly string[];
+@@ -128,6 +131,9 @@ function play(
+     beats.push({
+       index,
+       date: world.currentDate,
++      epochMinute: simulationMomentEpochMinute(world.currentMoment),
++      instanceKey:
++        moment.scene.kind === "episode" ? moment.scene.beat.instanceKey : null,
+       age: moment.age,
+       sceneKind: moment.scene.kind,
+       connective: moment.connective.sentences,
+@@ -546,9 +552,21 @@ describe("Play-proof 3 — an adult thread runs across several beats", () => {
+       running.length,
+       `no episode instance reached a second stage: ${JSON.stringify(instances)}`,
+     ).toBeGreaterThan(0);
+-    // And the second stage happened later, not in the same moment.
++    // first/lastPlayedAt are day-granular reports. Ordinary follow-through
++    // can happen later on that same day. Compare the actual canonical clock
++    // captured before each choice, retaining strict chronology for every stage.
+     for (const instance of running) {
+-      expect(instance.lastPlayedAt > instance.firstPlayedAt).toBe(true);
++      const stages = life.beats.filter(
++        (beat) => beat.instanceKey === instance.instanceKey,
++      );
++      expect(stages.map((beat) => beat.stageKey)).toEqual(instance.stageKeys);
++      expect(stages[0]!.date).toBe(instance.firstPlayedAt);
++      expect(stages.at(-1)!.date).toBe(instance.lastPlayedAt);
++      for (let index = 1; index < stages.length; index++) {
++        expect(stages[index]!.epochMinute).toBeGreaterThan(
++          stages[index - 1]!.epochMinute,
++        );
++      }
+     }
+   });
+ 
+diff --git a/src/presentation/opening-repair6.test.ts b/src/presentation/opening-repair6.test.ts
+index b36d9f0..07e8e52 100644
+--- a/src/presentation/opening-repair6.test.ts
++++ b/src/presentation/opening-repair6.test.ts
+@@ -5,12 +5,14 @@ import {
+   serializeWorld,
+   eligibleEpisodeBeats,
+   playEpisodeOption,
++  simulationMomentEpochMinute,
+ } from "../simulation";
+ import {
+   OPENING_LIFE_ADDITIONS,
+   OPENING_LIFE_FAMILIES,
+   OPENING_LIFE_FOLLOWUPS,
+ } from "../simulation/opening-life-content";
++import { chooseStoryOption } from "./life-story";
+ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+ 
+ import {
+@@ -149,3 +151,52 @@ it("plays the lunchbox continuation through the saved normal scene consumer", ()
+   }
+   throw new Error("Lunchbox moment was not reached.");
+ });
++
++it("charges the story path its disclosed fifteen-minute moment and five-minute continuation", () => {
++  const game = createNewGameWorld({
++    ...DEFAULT_NEW_GAME_SETUP,
++    startKind: "custom",
++    household: "shares-a-home",
++    seed: "repair6-lunchbox",
++    startAge: 24,
++  });
++  let world = game.world;
++  const before = simulationMomentEpochMinute(world.currentMoment);
++  for (const [stageKey, optionKey, elapsed] of [
++    ["moment", "read", 15],
++    ["follow-through", "more", 20],
++  ] as const) {
++    const beat = eligibleEpisodeBeats({
++      world,
++      personId: game.playerPersonId,
++      families: OPENING_LIFE_FAMILIES,
++    }).beats.find(
++      (candidate) =>
++        candidate.episodeKey === "opening.adult.home.free-time" &&
++        candidate.stageKey === stageKey,
++    )!;
++    expect(beat).toBeDefined();
++    const selected =
++      stageKey === "moment"
++        ? optionKey
++        : OPENING_LIFE_FOLLOWUPS["adult.home.free-time"]!.choices[0]!.key;
++    expect(
++      beat.options.find((option) => option.key === selected)!.description,
++    ).toBe(`${stageKey === "moment" ? 15 : 5} minutes`);
++    world = chooseStoryOption(world, {
++      personId: game.playerPersonId,
++      scene: {
++        kind: "episode",
++        beat,
++        prose: beat.prose,
++        options: beat.options,
++        withPeople: beat.bindings.map((binding) => binding.personName),
++        presentPeople: [],
++      },
++      optionKey: selected,
++    });
++    expect(simulationMomentEpochMinute(world.currentMoment) - before).toBe(
++      elapsed,
++    );
++  }
++});

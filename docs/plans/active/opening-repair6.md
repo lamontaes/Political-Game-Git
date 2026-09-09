@@ -14,3 +14,5 @@ Repair:
 Pending: donor and exact combined tests; unchanged UI identity/wording negative controls; actual corpus regeneration; publish scoped source patch to existing UI owner first, then remaining original scope. No merge, second family engine, root edits or identity hash recapture.
 
 Blocking source proof complete: combined UI68/68, donor existing focused58/58, exhaustive branch20/20; expanded family topology checks pass. Typecheck and actual corpus check pass. Remaining corpus transcript coverage assertion is retained and reported in evidence. Refetched immediately before publication: donor upstream unchanged e890e4d, main a73cf386, UI1119e890. Publish this scoped correction before further original content.
+
+UI chronology follow-up: exact ff82c80 failure reproduced. Strict stage chronology now checked against captured canonical epoch minutes, retaining complete stage/date controls. Corrected story adapter's per-stage5minute follow-through duration. Exact combined63/63 passed; see evidence/opening-life1/chronology6. Missing transcript outcome coverage remains exposed; no seed or catalog modifications.

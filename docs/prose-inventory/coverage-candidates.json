@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2115,
     "INTENTIONALLY_NON_PLAYER_FACING": 4768,
-    "DIAGNOSTIC_OR_TEST": 3755,
+    "DIAGNOSTIC_OR_TEST": 3757,
     "NEEDS_CLASSIFICATION": 3493
   },
   "needsClassification": [
@@ -29903,18 +29903,6 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/ordinary-life.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/presentation/opening-repair6.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
-    },
-    {
       "sourcePath": "src/presentation/opening-officeholders.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -29924,6 +29912,12 @@
       "sourcePath": "src/presentation/opening-life.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/ordinary-life.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 2
     },
     {
@@ -29984,6 +29978,12 @@
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 6
+    },
+    {
+      "sourcePath": "src/presentation/opening-repair6.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 6
     },
     {
