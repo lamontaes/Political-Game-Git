@@ -183,10 +183,14 @@ async function stableIdentity(page) {
   const { app, page, foreign } = await launch();
   const continueButton = page.getByTestId("continue");
   await continueButton.waitFor();
-  check(
-    "reload: Continue offered after relaunch",
-    await continueButton.isEnabled(),
-  );
+  // The button renders before the save list finishes loading and enables
+  // a beat later; wait for the enabled state rather than sampling it.
+  let continueEnabled = false;
+  for (let i = 0; i < 40 && !continueEnabled; i += 1) {
+    continueEnabled = await continueButton.isEnabled();
+    if (!continueEnabled) await new Promise((r) => setTimeout(r, 250));
+  }
+  check("reload: Continue offered after relaunch", continueEnabled);
   await continueButton.click();
   await page.getByTestId("play-screen").waitFor();
   const back = await stableIdentity(page);
