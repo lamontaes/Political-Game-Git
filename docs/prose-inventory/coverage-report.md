@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5044 |
-| DIAGNOSTIC_OR_TEST | 3796 |
-| **NEEDS_CLASSIFICATION** | **3627** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5059 |
+| DIAGNOSTIC_OR_TEST | 3805 |
+| **NEEDS_CLASSIFICATION** | **3656** |
 
-Scanned 365 files holding 54882 string
+Scanned 373 files holding 55159 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -103,6 +103,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
+| 15 | `src/education/study-provider.ts` |
 | 15 | `src/player/LifePathsPanel.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
@@ -132,6 +133,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 9 | `src/presentation/production-world.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
+| 8 | `src/player/EducationOptionsPanel.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/ordinary-life.ts` |
@@ -165,6 +167,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/causal-effects.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
+| 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
@@ -186,6 +189,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
+| 2 | `src/education/compact.ts` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |

@@ -1,0 +1,15 @@
+--- a/src/player/LifePathsPanel.tsx
++++ b/src/player/LifePathsPanel.tsx
+@@ -1,3 +1,4 @@
++import { EducationOptionsPanel } from "./EducationOptionsPanel";
+ import { useState } from "react";
+ import type {
+   EntityId,
+@@ -86,6 +87,7 @@
+       <p role="status" aria-live="polite">
+         {notice}
+       </p>
++      <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
+       <h3>Available paths</h3>
+       <p>These opportunities and terms are fictional parts of the game.</p>
+       {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map((path) => {

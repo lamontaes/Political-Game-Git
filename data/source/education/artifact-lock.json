@@ -1,0 +1,150 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ccd-2024-25-preliminary",
+      "bytes": {
+        "length": 15624552,
+        "sha256": "960a1e788a32677cc16399b62fdc7061a830b6d8b8b90b05b875fd50fad27cd1"
+      },
+      "localPath": "data/source/education/raw/ccd-2024-25.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://ies.ed.gov/sites/default/files/data-asset/ccd-common-core-data/2025/08/2024-25-common-core-data-ccd-preliminary-directory-files/2025046%20Preliminary%20Data%20Release%20CCD%20Nonfiscal_0.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25 preliminary directory v0a"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 15624552,
+        "retrievedAt": "2026-09-09T17:37:19.547Z",
+        "url": "https://ies.ed.gov/sites/default/files/data-asset/ccd-common-core-data/2025/08/2024-25-common-core-data-ccd-preliminary-directory-files/2025046%20Preliminary%20Data%20Release%20CCD%20Nonfiscal_0.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "HD2024",
+      "bytes": {
+        "length": 1033802,
+        "sha256": "b03acd261382fc92fe793aecac084820eec7a0e543dc9541c271b55d712331d3"
+      },
+      "localPath": "data/source/education/raw/HD2024.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/complete-data-files/HD2024.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25 directory"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 1033802,
+        "retrievedAt": "2026-09-09T17:37:45.702Z",
+        "url": "https://nces.ed.gov/ipeds/complete-data-files/HD2024.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "IC2024",
+      "bytes": {
+        "length": 269921,
+        "sha256": "6dffa230ee9d58322b33d694e28ef640200987e91a675109597c04cc3b1cd2e0"
+      },
+      "localPath": "data/source/education/raw/IC2024.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/complete-data-files/IC2024.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25; archive includes revised member, updated September 2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 269921,
+        "retrievedAt": "2026-09-09T17:37:47.997Z",
+        "url": "https://nces.ed.gov/ipeds/complete-data-files/IC2024.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "HD2024_Dict",
+      "bytes": {
+        "length": 134634,
+        "sha256": "edf79545e900a987263f9e9a6a0420bcc55cb566a83754d87419ca0851cf521a"
+      },
+      "localPath": "data/source/education/raw/HD2024_Dict.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/complete-data-files/HD2024_Dict.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25 directory"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 134634,
+        "retrievedAt": "2026-09-09T17:37:48.680Z",
+        "url": "https://nces.ed.gov/ipeds/complete-data-files/HD2024_Dict.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "IC2024_Dict",
+      "bytes": {
+        "length": 75914,
+        "sha256": "41474ff1efe01c5362529adf465e6c094c383467769cf725deb33bfd8187ca5e"
+      },
+      "localPath": "data/source/education/raw/IC2024_Dict.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ipeds/complete-data-files/IC2024_Dict.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25; archive includes revised member, updated September 2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 75914,
+        "retrievedAt": "2026-09-09T17:37:49.086Z",
+        "url": "https://nces.ed.gov/ipeds/complete-data-files/IC2024_Dict.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "education"
+}

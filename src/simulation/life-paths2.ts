@@ -1,3 +1,4 @@
+import { acceptedEducationPath } from "./education-study-terms";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
   addDays,
@@ -194,6 +195,8 @@ export function pathForRelationship(
   const enrollment = world.history.educationEnrollments.find(
     (e) => e.id === id,
   );
+  if (enrollment?.programKind.startsWith("postsecondary:edu-path7-"))
+    return acceptedEducationPath(world, id);
   if (enrollment)
     return LIFE_PATHS2_CATALOG.find(
       (p) => p.kind === "study" && p.program === enrollment.programKind,
