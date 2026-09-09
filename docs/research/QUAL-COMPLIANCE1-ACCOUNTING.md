@@ -122,7 +122,6 @@ is promoted wholesale.
 | `ethics_enforcement_structure`        |   51 |                                                                    0 | 51                                                           |
 | `lobbyist_registration_trigger`       |   51 |                                                                    0 | 51; no lobbying engine                                       |
 | `client_principal_relationship`       |   51 |                                                                    0 | 51                                                           |
-| `lobbying_enforcement_body`           |   51 |                                                                    0 | 51                                                           |
 | `lobbying_gift_restrictions`          |   51 |                                                                    0 | 51                                                           |
 | `lobbying_reporting_scope_cadence`    |   51 |                                                                    0 | 51                                                           |
 | `lobbying_structural_exceptions`      |   51 |                                                                    0 | 51                                                           |
