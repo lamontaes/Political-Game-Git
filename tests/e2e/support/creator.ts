@@ -128,6 +128,7 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  * shows no gate, so this is tolerant by design rather than by accident.
  */
 export async function enterLife(page: Page): Promise<void> {
+  await expect(page.getByTestId("play-screen")).toBeVisible();
   const gate = page.getByTestId("introduction-continue");
   if ((await gate.count()) > 0) await gate.click();
 }

@@ -225,7 +225,7 @@ test("normal activity completion replaces household presence without a second cl
   for (const width of [1440, 960]) {
     await page.setViewportSize({ width, height: 900 });
     const receipt = await page.getByTestId("activity-aftermath").boundingBox();
-    const identity = await page.getByTestId("nav-cluster").boundingBox();
+    const identity = await page.getByTestId("shell-nav-cluster").boundingBox();
     expect(receipt).not.toBeNull();
     expect(identity).not.toBeNull();
     expect(

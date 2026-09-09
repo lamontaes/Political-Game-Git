@@ -303,8 +303,11 @@ export function PlayerGame() {
     setProblem(null);
   }
 
+  const saveInFlight = useRef(false);
   async function keepThisWorld(shellState: StoredShellState) {
-    if (!session || !store) return;
+    if (!session || !store || saveInFlight.current) return;
+    saveInFlight.current = true;
+    setNotice("Saving…");
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
     const saveId = session.saveId ?? store.newSaveId(session.world);
@@ -332,6 +335,8 @@ export function PlayerGame() {
       await refreshSaves();
     } catch {
       setProblem("This game could not be saved just now.");
+    } finally {
+      saveInFlight.current = false;
     }
   }
 
@@ -1643,18 +1648,23 @@ function PlayingScreen({
   useEffect(() => {
     const previous = previousSurface.current;
     previousSurface.current = openSurface;
-    if (openSurface === "news" && newsPersonReturn.current) {
-      const buttons = document.querySelectorAll<HTMLButtonElement>(
-        ".public-information-people button",
-      );
-      [...buttons]
-        .find((button) => button.dataset.personId === newsPersonReturn.current)
-        ?.focus();
-    } else if (previous === "news" && openSurface === "scene") {
-      document
-        .querySelector<HTMLButtonElement>('[data-testid="nav-cluster"]')
-        ?.focus();
-    }
+    const frame = requestAnimationFrame(() => {
+      if (openSurface === "news" && newsPersonReturn.current) {
+        const buttons = document.querySelectorAll<HTMLButtonElement>(
+          ".public-information-people button",
+        );
+        [...buttons]
+          .find(
+            (button) => button.dataset.personId === newsPersonReturn.current,
+          )
+          ?.focus();
+      } else if (previous === "news" && openSurface === "scene") {
+        document
+          .querySelector<HTMLButtonElement>('[data-testid="shell-nav-cluster"]')
+          ?.focus();
+      }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [openSurface]);
 
   const destinations = useMemo<readonly ShellDestination[]>(() => {
@@ -2057,7 +2067,7 @@ function PlayingScreen({
         dateLabel={moment.dateLabel}
         placeName={moment.placeName}
         destinations={destinations}
-        canSave={session.saveId === null && !savesUnavailable}
+        canSave={!savesUnavailable}
         unsaved={session.unsavedSeed !== null}
         onSave={() =>
           onKeep({ pins: shell.pins, preferences: shell.preferences })

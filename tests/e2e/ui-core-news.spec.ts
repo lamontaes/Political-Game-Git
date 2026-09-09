@@ -40,7 +40,7 @@ test("normal completed legislative action publishes News with person Back and un
   await page
     .getByRole("button", { name: "Close public information" })
     .press("Escape");
-  await expect(page.getByTestId("nav-cluster")).toBeFocused();
+  await expect(page.getByTestId("shell-nav-cluster")).toBeFocused();
   await goTo(page, "elsewhere-work");
   await page.getByTestId("open-drafting-table").click();
   await page.locator('[data-testid^="drafting-option-"]').first().click();
