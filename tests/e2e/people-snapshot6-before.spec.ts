@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { captureDirectory } from "./support/evidence-path";
 import path from "node:path";
 import { expect, test } from "@playwright/test";
 
@@ -70,7 +71,9 @@ test("SNAPSHOT6 reproduces the saved primary caption discrepancy", async ({
   expect(layers.map((l) => l.id)).toContain(
     "pv4_wave_a_male_bottom_black_joggers_v1",
   );
-  const dir = path.resolve("docs/agent/evidence/people-snapshot6");
+  const dir =
+    captureDirectory("docs/agent/evidence/people-snapshot6") ??
+    test.info().outputPath();
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(
     path.join(dir, "before-saved-caption-discrepancy.json"),

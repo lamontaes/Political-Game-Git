@@ -1,8 +1,16 @@
 import fs from "node:fs";
+import { captureDirectory } from "./support/evidence-path";
 import path from "node:path";
 import { expect, test } from "@playwright/test";
 
-const evidence = path.resolve("docs/agent/evidence/people1-r1");
+const TRACKED_EVIDENCE = "docs/agent/evidence/people1-r1";
+/**
+ * Resolved per test rather than at module load: an ordinary run writes into
+ * that test's own output directory, and only PG_CAPTURE_EVIDENCE=1 refreshes
+ * the tracked owner-review images.
+ */
+const evidenceDir = () =>
+  captureDirectory(TRACKED_EVIDENCE) ?? test.info().outputPath();
 
 for (const set of ["dev", "real"]) {
   test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
@@ -56,10 +64,12 @@ for (const set of ["dev", "real"]) {
         .getAttribute("data-asset-id"),
     ).not.toBe(casualTop);
     await expect(person).toHaveAttribute("data-complete", "true");
-    fs.mkdirSync(evidence, { recursive: true });
+    fs.mkdirSync(evidenceDir(), { recursive: true });
     await page
       .getByTestId("character-proof-stage")
-      .screenshot({ path: path.join(evidence, `saved-formal-${set}.png`) });
+      .screenshot({
+        path: path.join(evidenceDir(), `saved-formal-${set}.png`),
+      });
   });
 }
 
@@ -86,9 +96,9 @@ test("normalized candidate states name head and fit limitations beside the actua
   await page
     .getByRole("checkbox", { name: "Show root and attachment anchors" })
     .click();
-  fs.mkdirSync(evidence, { recursive: true });
+  fs.mkdirSync(evidenceDir(), { recursive: true });
   await page.getByTestId("candidate-review-stage").screenshot({
-    path: path.join(evidence, "normalized-standing-candidate.png"),
+    path: path.join(evidenceDir(), "normalized-standing-candidate.png"),
   });
   await page
     .getByTestId("candidate-review-body-select")
@@ -103,7 +113,9 @@ test("normalized candidate states name head and fit limitations beside the actua
   ).toHaveCount(0);
   await page
     .getByTestId("candidate-review-stage")
-    .screenshot({ path: path.join(evidence, "seated-candidate-gaps.png") });
+    .screenshot({
+      path: path.join(evidenceDir(), "seated-candidate-gaps.png"),
+    });
 });
 
 test("normal play uses the canonical person's portrait fallback and named people", async ({
@@ -129,13 +141,13 @@ test("normal play uses the canonical person's portrait fallback and named people
   await expect(people).toBeVisible();
   await expect(people.getByRole("listitem")).toHaveCount(2);
   await page.getByTestId("elsewhere-people").click();
-  fs.mkdirSync(evidence, { recursive: true });
+  fs.mkdirSync(evidenceDir(), { recursive: true });
   await page.screenshot({
-    path: path.join(evidence, "normal-player-people-1440.png"),
+    path: path.join(evidenceDir(), "normal-player-people-1440.png"),
   });
   await page.setViewportSize({ width: 1200, height: 720 });
   await expect(portrait).toBeVisible();
   await page.screenshot({
-    path: path.join(evidence, "normal-player-people-1200.png"),
+    path: path.join(evidenceDir(), "normal-player-people-1200.png"),
   });
 });

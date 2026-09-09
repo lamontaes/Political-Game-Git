@@ -1,4 +1,5 @@
 import fs from "fs";
+import { captureDirectory } from "./support/evidence-path";
 import path from "path";
 
 import { expect, test } from "@playwright/test";
@@ -14,10 +15,7 @@ const REVIEW_URL = "/?view=character-proof&set=wave-a";
  * at the real gameplay scale, so what the owner looks at is what the compositor
  * actually drew.
  */
-const EVIDENCE_DIRECTORY = path.resolve(
-  process.cwd(),
-  "docs/agent/evidence/people1",
-);
+const TRACKED_EVIDENCE_DIRECTORY = "docs/agent/evidence/people1";
 
 const OWNER_REVIEW_SET = [
   "pg_body_fl_standing_v1",
@@ -188,7 +186,12 @@ test.describe("Wave A candidate admission review", () => {
   });
 
   test("captures the owner review set", async ({ page }) => {
-    fs.mkdirSync(EVIDENCE_DIRECTORY, { recursive: true });
+    // Ordinary runs write into the run's own output directory; only an
+    // explicit PG_CAPTURE_EVIDENCE=1 run refreshes the tracked owner-review
+    // images. The assertions below are identical either way.
+    const directory =
+      captureDirectory(TRACKED_EVIDENCE_DIRECTORY) ?? test.info().outputPath();
+    fs.mkdirSync(directory, { recursive: true });
     const select = page.getByTestId("candidate-review-body-select");
     for (const assetId of OWNER_REVIEW_SET) {
       await select.selectOption(assetId);
@@ -213,10 +216,10 @@ test.describe("Wave A candidate admission review", () => {
         )
         .toBe(true);
       await stage.screenshot({
-        path: path.join(EVIDENCE_DIRECTORY, `${assetId}.png`),
+        path: path.join(directory, `${assetId}.png`),
       });
     }
-    expect(fs.readdirSync(EVIDENCE_DIRECTORY).length).toBeGreaterThanOrEqual(
+    expect(fs.readdirSync(directory).length).toBeGreaterThanOrEqual(
       OWNER_REVIEW_SET.length,
     );
   });
