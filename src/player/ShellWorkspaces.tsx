@@ -678,7 +678,7 @@ export function PatchNotesWorkspace() {
           <h3>
             {section.heading}
             {section.released ? null : (
-              <span className="pg-tag" data-testid="patch-note-unreleased">
+              <span className="pg-tag" data-testid="patch-note-unreleased-tag">
                 Not released
               </span>
             )}

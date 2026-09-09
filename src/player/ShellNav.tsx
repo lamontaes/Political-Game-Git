@@ -131,9 +131,13 @@ export function ShellNav({
   const raised = open || near || focusWithin;
   const place = placeName ?? "Somewhere on record";
 
-  const primary = destinations.filter(
-    (entry) => entry.surface !== "personal" && entry.surface !== "journal",
-  );
+  /*
+   * Personal is the one destination with children, so it is the one entry that
+   * opens a submenu. Everything else — the journal included — stays a single
+   * press from the closed cluster, because burying a major destination one
+   * level down to tidy a list is how a menu stops being usable.
+   */
+  const primary = destinations.filter((entry) => entry.surface !== "personal");
   const personalAvailable = destinations.some(
     (entry) => entry.surface === "personal",
   );

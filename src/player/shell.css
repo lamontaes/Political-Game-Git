@@ -26,10 +26,19 @@
   --pg-radius: 3px;
 }
 
+/*
+ * The chrome is anchored to the VIEWPORT, not to the play section.
+ *
+ * `.life-shell` is as tall as its content, which on a small window is taller
+ * than the window. Positioning the cluster against it put the cluster a few
+ * pixels below the fold at every review width — visible as a clipped corner
+ * rather than as an error, which is the kind of thing a passing suite hides.
+ */
+
 /* ------------------------------------------------------------------- nav */
 
 .pg-nav {
-  position: absolute;
+  position: fixed;
   left: 1.15rem;
   bottom: 1.15rem;
   z-index: 40;
@@ -202,7 +211,7 @@
  * becoming a permanent slab down the side of the room.
  */
 .pg-pin-rail {
-  position: absolute;
+  position: fixed;
   right: 1.15rem;
   bottom: 1.15rem;
   max-height: 60vh;
@@ -365,7 +374,7 @@
 /* -------------------------------------------------------- action menu */
 
 .pg-action-menu {
-  position: absolute;
+  position: fixed;
   right: 19rem;
   bottom: 6rem;
   z-index: 42;
@@ -415,7 +424,7 @@
 /* ----------------------------------------------------------- dossiers */
 
 .pg-quick-dossier {
-  position: absolute;
+  position: fixed;
   right: 19rem;
   top: 4rem;
   z-index: 41;
@@ -551,7 +560,7 @@
  * what it is, and it has a way out that is always in the same place.
  */
 .pg-workspace {
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 3vh;
   transform: translateX(-50%);
@@ -792,7 +801,7 @@
 /* --------------------------------------------------------------- version */
 
 .pg-version {
-  position: absolute;
+  position: fixed;
   right: 0.85rem;
   bottom: 0.4rem;
   z-index: 30;
@@ -853,7 +862,7 @@
  * is narrow enough that the room is still the thing on the screen.
  */
 .life-shell .life-hud {
-  position: absolute;
+  position: fixed;
   left: 1.15rem;
   top: 1.15rem;
   bottom: auto;

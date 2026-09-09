@@ -123,19 +123,43 @@ export async function enterLife(page: Page): Promise<void> {
 }
 
 /**
+ * Opens the corner cluster, which is where the game's destinations now live.
+ *
+ * The shell's navigation moved off the page and into a cluster that rests small
+ * and translucent until it is reached for, so every test that wants a
+ * destination opens the cluster first — the same two moves a player makes.
+ */
+export async function openShellMenu(page: Page): Promise<void> {
+  const flyout = page.getByTestId("shell-nav-flyout");
+  if (await flyout.isVisible()) return;
+  await page.getByTestId("shell-nav-cluster").click();
+  await expect(flyout).toBeVisible();
+}
+
+/** Opens the cluster and presses one of its destinations. */
+export async function goTo(page: Page, testid: string): Promise<void> {
+  await openShellMenu(page);
+  await page.getByTestId(testid).click();
+}
+
+/**
  * Opens one of the play screen's secondary surfaces.
  *
  * Packet 77 moved the day, the people and the office out from under the
- * current moment and behind a row of controls, so a test that wants one of
- * them asks for it the way a player does.
+ * current moment; the shell then moved them into the corner cluster. A test
+ * that wants one of them still asks for it the way a player does.
  */
 export async function openElsewhere(
   page: Page,
   key: "day" | "people" | "work",
 ): Promise<void> {
+  await openShellMenu(page);
   const control = page.getByTestId(`elsewhere-${key}`);
   await expect(control).toBeVisible();
-  if ((await control.getAttribute("aria-pressed")) !== "true") {
-    await control.click();
+  if ((await control.getAttribute("aria-pressed")) === "true") {
+    /* Already open behind the flyout; close the flyout and leave it open. */
+    await page.keyboard.press("Escape");
+    return;
   }
+  await control.click();
 }

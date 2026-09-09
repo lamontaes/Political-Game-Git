@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useRef } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 
 import { BrowserShellStateStore } from "../presentation/browser-shell-state";
 import { shellRefIsResolvable } from "../presentation/person-dossier";
@@ -27,37 +27,42 @@ export function useShell(
 ): readonly [ShellState, (action: ShellAction) => void] {
   const [state, dispatch] = useReducer(shellReducer, INITIAL_SHELL_STATE);
   const store = useMemo(() => new BrowserShellStateStore(), []);
-  /* The slot whose state has been read, so a re-render does not re-read it. */
-  const loadedFor = useRef<EntityId | null>(null);
-  const loading = useRef(false);
+  /*
+   * The slot this session has finished reading.
+   *
+   * State rather than a ref on purpose: the write below must start once the
+   * read has settled, and a ref changing does not re-run an effect. With a ref
+   * here, a life pinned BEFORE its first save was read as "nothing stored",
+   * kept correctly in memory, and then never written — so the pins were gone
+   * on the next load. The browser proof caught exactly that.
+   */
+  const [loadedSlot, setLoadedSlot] = useState<EntityId | null>(null);
 
   useEffect(() => {
     if (saveId === null) return;
-    if (loadedFor.current === saveId) return;
+    if (loadedSlot === saveId) return;
     let cancelled = false;
-    loading.current = true;
     void store.read(saveId).then((stored) => {
       if (cancelled) return;
-      loadedFor.current = saveId;
-      loading.current = false;
       /*
        * A slot with nothing stored keeps what this session already has. That is
        * the difference between opening a saved life and saving the one being
        * played: the second must not wipe the rail the player arranged before
        * they pressed save.
        */
-      if (!stored) return;
-      dispatch({
-        type: "restore",
-        pins: stored.pins,
-        preferences: stored.preferences,
-      });
+      if (stored) {
+        dispatch({
+          type: "restore",
+          pins: stored.pins,
+          preferences: stored.preferences,
+        });
+      }
+      setLoadedSlot(saveId);
     });
     return () => {
       cancelled = true;
-      loading.current = false;
     };
-  }, [saveId, store]);
+  }, [saveId, loadedSlot, store]);
 
   /*
    * Written after every change rather than on a timer or on close: a player who
@@ -66,12 +71,12 @@ export function useShell(
    */
   useEffect(() => {
     if (saveId === null) return;
-    if (loadedFor.current !== saveId) return;
+    if (loadedSlot !== saveId) return;
     void store.write(saveId, {
       pins: state.pins,
       preferences: state.preferences,
     });
-  }, [saveId, store, state.pins, state.preferences]);
+  }, [saveId, loadedSlot, store, state.pins, state.preferences]);
 
   /* A pin the world cannot resolve is not shown as one that can be opened. */
   useEffect(() => {

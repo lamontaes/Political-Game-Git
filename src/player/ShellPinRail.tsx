@@ -164,6 +164,14 @@ export function ShellPinRail({
               }. Open it. Use the pin menu to move or unpin it.`}
               onPointerDown={(event) => {
                 if (event.button !== 0) return;
+                /*
+                 * Every gesture starts unsuppressed. The flag exists only to
+                 * stop the click that a completed drag emits; leaving it set —
+                 * which happens when a pointer capture ends outside the button
+                 * and no click follows at all — would swallow the next
+                 * ordinary press instead.
+                 */
+                suppressClick.current = false;
                 gesture.current = {
                   key: pin.key,
                   pointerId: event.pointerId,
