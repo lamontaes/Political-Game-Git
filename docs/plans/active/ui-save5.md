@@ -107,3 +107,12 @@ regenerated2453templates,270warnings,5724unclassified candidates,0hard errors;
 check passes with seven byte-identical artifacts and the review packet differing
 only by recorded commit. Full/browser acceptance still requires QUAL delivery
 and the remaining NEWS producers. No old browser identity is relabeled.
+
+## MUNI-GATE6 test handoff
+
+Consumed exact7698a35→f0e1ad7 delta for tests/e2e/legislation.spec.ts only.
+Six independent provenance scenarios become six tests; their existing open
+helper, assertion and default timeout remain unchanged. No runtime change.
+Donor final149dd76e3962be2b8a2481e942827c43f4fd3d56 banks sourcecaed975 proof;
+its normal2/2 remains attributed to UI1119e890, not this newer composition.
+Current UI browser execution of the split cases remains pending final gates.
