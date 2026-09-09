@@ -19,7 +19,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 150014,
-        "retrievedAt": "2026-09-09T00:15:48.416Z",
+        "retrievedAt": "2026-09-09T05:39:31.597Z",
         "url": "https://www.revisor.mn.gov/constitution/"
       },
       "rights": {
@@ -70,7 +70,7 @@
       "artifactId": "mo-constitution-art-3-sec-2",
       "bytes": {
         "length": 34517,
-        "sha256": "aed2cf06a97cc6da80a1f85083551ccf11c2391154e6c545f4caafe1425bff67"
+        "sha256": "8924ad4b23ef33ded6d02048cbe003e35343c68394fa1d62b091daf69fb26b89"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-2.html",
       "mediaType": "text/html",
@@ -85,7 +85,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 34517,
-        "retrievedAt": "2026-09-09T00:15:48.807Z",
+        "retrievedAt": "2026-09-09T05:39:31.953Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++2"
       },
       "rights": {
@@ -120,7 +120,7 @@
       "artifactId": "mo-constitution-art-3-sec-4",
       "bytes": {
         "length": 28844,
-        "sha256": "69b132ea8a6575279f79398932df9ae8844b92343464d510674c9170d32bbb44"
+        "sha256": "fafe12de09dc9f3c312bec1e437a6ea5cd948e0460c1b881ca5c1a80792169a0"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-4.html",
       "mediaType": "text/html",
@@ -135,7 +135,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28844,
-        "retrievedAt": "2026-09-09T00:15:50.919Z",
+        "retrievedAt": "2026-09-09T05:39:34.087Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++4"
       },
       "rights": {
@@ -170,7 +170,7 @@
       "artifactId": "mo-constitution-art-3-sec-6",
       "bytes": {
         "length": 28528,
-        "sha256": "8c8a297dc045b0f43c938471998b6eb676e5f52c19819ace7aedf53ae2de1b7a"
+        "sha256": "02aab2b1bab75464c26b344ca8a179215ae4b6c09478acf01a192d1795a64da0"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-6.html",
       "mediaType": "text/html",
@@ -185,7 +185,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28528,
-        "retrievedAt": "2026-09-09T00:15:53.035Z",
+        "retrievedAt": "2026-09-09T05:39:36.224Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++6"
       },
       "rights": {
@@ -220,7 +220,7 @@
       "artifactId": "mo-constitution-art-3-sec-8",
       "bytes": {
         "length": 28425,
-        "sha256": "b4e9d112f959466651c207f604174541566eb3170a34fe811564c0c696f63336"
+        "sha256": "a33bb7bdc5a91b912020b5751a4e40906e14f57a007788151a313c410f2dc4b2"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-3-sec-8.html",
       "mediaType": "text/html",
@@ -235,7 +235,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28425,
-        "retrievedAt": "2026-09-09T00:15:55.182Z",
+        "retrievedAt": "2026-09-09T05:39:38.356Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=III+++8"
       },
       "rights": {
@@ -270,7 +270,7 @@
       "artifactId": "mo-constitution-art-4-sec-1",
       "bytes": {
         "length": 28130,
-        "sha256": "ce8bf3f7a32b81444b68522852eb9a12fa33f610399852210a6af75b035b5fed"
+        "sha256": "b4892f84f179d3751372892787a062e554c05a63d0df65b70c40397d7ad974ce"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-1.html",
       "mediaType": "text/html",
@@ -285,7 +285,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28130,
-        "retrievedAt": "2026-09-09T00:15:57.328Z",
+        "retrievedAt": "2026-09-09T05:39:40.487Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++1"
       },
       "rights": {
@@ -320,7 +320,7 @@
       "artifactId": "mo-constitution-art-4-sec-3",
       "bytes": {
         "length": 28353,
-        "sha256": "79b5f6188a9aa9b65891d3eb2749d4da77337d99aadbaa9aa897872da5ca167d"
+        "sha256": "d381d7d3d120e5e328337afcd7033de0f7d4cd87c858ef315cfbe6ec39458db0"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-3.html",
       "mediaType": "text/html",
@@ -335,7 +335,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28353,
-        "retrievedAt": "2026-09-09T00:15:59.475Z",
+        "retrievedAt": "2026-09-09T05:39:42.616Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++3"
       },
       "rights": {
@@ -370,7 +370,7 @@
       "artifactId": "mo-constitution-art-4-sec-17",
       "bytes": {
         "length": 29073,
-        "sha256": "970f84385573d9aa962e060e16b251fbbfd54dc66b4b14c046e4fb1f94967dd9"
+        "sha256": "5e6ce739c4b6684661ef487c32dec92c55d34904ce083966b4073372b472cdc0"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-constitution-art-4-sec-17.html",
       "mediaType": "text/html",
@@ -385,7 +385,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 29073,
-        "retrievedAt": "2026-09-09T00:16:01.623Z",
+        "retrievedAt": "2026-09-09T05:39:44.777Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=IV+++17"
       },
       "rights": {
@@ -420,7 +420,7 @@
       "artifactId": "mo-statutes-27-010",
       "bytes": {
         "length": 31230,
-        "sha256": "860f8712cf31c7def71e2454ca4574b50ad195d39a495a235c7306ea168c12f2"
+        "sha256": "8798d960a4d8022da94da16b621bd286366feecd57f09bc9dda798d48744283d"
       },
       "localPath": "data/source/state-office-qualifications/raw/mo-statutes-27-010.html",
       "mediaType": "text/html",
@@ -435,7 +435,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 31230,
-        "retrievedAt": "2026-09-09T00:16:03.805Z",
+        "retrievedAt": "2026-09-09T05:39:46.877Z",
         "url": "https://revisor.mo.gov/main/OneSection.aspx?section=27.010"
       },
       "rights": {
@@ -470,7 +470,7 @@
       "artifactId": "ne-constitution-art-3-sec-1",
       "bytes": {
         "length": 30389,
-        "sha256": "308134beaf9ddf299bce307cb98703264fd9179cc359f892d6154890f96e4913"
+        "sha256": "2ed607f4e464aa948660171723f4de09de3551a4b9da82e0e82353a22d2df084"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-1.html",
       "mediaType": "text/html",
@@ -485,7 +485,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 30389,
-        "retrievedAt": "2026-09-09T00:16:04.410Z",
+        "retrievedAt": "2026-09-09T05:39:47.405Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-1"
       },
       "rights": {
@@ -520,7 +520,7 @@
       "artifactId": "ne-constitution-art-3-sec-7",
       "bytes": {
         "length": 24404,
-        "sha256": "4927c0e026bf90a23cb34d86deb7e64e271a77060d8a88ec1472cfeaa55b9275"
+        "sha256": "dcfbeb1eeda13357a669f82bd4ff604bf7172c5758afd6d4b106d1f181aed654"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-7.html",
       "mediaType": "text/html",
@@ -535,7 +535,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 24404,
-        "retrievedAt": "2026-09-09T00:16:06.613Z",
+        "retrievedAt": "2026-09-09T05:39:49.501Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-7"
       },
       "rights": {
@@ -570,7 +570,7 @@
       "artifactId": "ne-constitution-art-3-sec-8",
       "bytes": {
         "length": 22258,
-        "sha256": "809bc6b593dc144a547503d7a3f81ecbc39d912654e6c31285b212afcf789236"
+        "sha256": "321aa2f39717f7f0e71ce49ebe41f9b47dd678a13500e364683d80b221158c7a"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-8.html",
       "mediaType": "text/html",
@@ -585,7 +585,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 22258,
-        "retrievedAt": "2026-09-09T00:16:08.740Z",
+        "retrievedAt": "2026-09-09T05:39:51.595Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-8"
       },
       "rights": {
@@ -620,7 +620,7 @@
       "artifactId": "ne-constitution-art-3-sec-12",
       "bytes": {
         "length": 21939,
-        "sha256": "2caf48ade76277e0787ac7f69fe7e6e974d02f9659ffe15bdf057a87add85a94"
+        "sha256": "d5e79e153f3059ae3eea74e8113b2403c0f586821ee5a7500944b9f5ecc8a281"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-3-sec-12.html",
       "mediaType": "text/html",
@@ -635,7 +635,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 21939,
-        "retrievedAt": "2026-09-09T00:16:10.892Z",
+        "retrievedAt": "2026-09-09T05:39:53.694Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=III-12"
       },
       "rights": {
@@ -670,7 +670,7 @@
       "artifactId": "ne-constitution-art-4-sec-1",
       "bytes": {
         "length": 28984,
-        "sha256": "0ac13382ff8fbbcc6521d7bbf17029c0a23b4e38c40ce6e1193f77247c33b8df"
+        "sha256": "3f5aa8fd8fa79ae46f43fc16acc006931866d7bee76c46a7255cf24020534d69"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-1.html",
       "mediaType": "text/html",
@@ -685,7 +685,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 28984,
-        "retrievedAt": "2026-09-09T00:16:13.144Z",
+        "retrievedAt": "2026-09-09T05:39:55.795Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=IV-1"
       },
       "rights": {
@@ -720,7 +720,7 @@
       "artifactId": "ne-constitution-art-4-sec-2",
       "bytes": {
         "length": 23636,
-        "sha256": "2729e3e5cd72253ce9c5d81ac2c21a420143022de6448af5d1543750f365273a"
+        "sha256": "c0d29d9ddc2545251196a2eadea6bfad01caef552952098271bfc0356c483649"
       },
       "localPath": "data/source/state-office-qualifications/raw/ne-constitution-art-4-sec-2.html",
       "mediaType": "text/html",
@@ -735,7 +735,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 23636,
-        "retrievedAt": "2026-09-09T00:16:15.474Z",
+        "retrievedAt": "2026-09-09T05:39:57.892Z",
         "url": "https://nebraskalegislature.gov/laws/articles.php?article=IV-2"
       },
       "rights": {
@@ -785,7 +785,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 260368,
-        "retrievedAt": "2026-09-09T00:16:16.119Z",
+        "retrievedAt": "2026-09-09T05:39:58.240Z",
         "url": "https://www.leg.state.nv.us/NRS/NRS-228.html"
       },
       "rights": {
@@ -817,6 +817,56 @@
       "storage": "committed"
     },
     {
+      "artifactId": "nv-2021-chapter-199-ab236",
+      "bytes": {
+        "length": 913595,
+        "sha256": "2cf36d81887dd99caffc672378d9070f247502eaad3bc931f77d57ba1b55293f"
+      },
+      "localPath": "data/source/state-office-qualifications/raw/nv-2021-chapter-199-ab236.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Legislature, Legislative Counsel Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/Statutes/81st2021/Stats202108.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 913595,
+        "retrievedAt": "2026-09-09T05:40:00.512Z",
+        "url": "https://www.leg.state.nv.us/Statutes/81st2021/Stats202108.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "Enacted by the Nevada Legislature",
+          "instrumentKind": "statute",
+          "instrumentTitle": "2021 Statutes of Nevada, Chapter 199, Assembly Bill 236",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 551,
+              "sha256": "1fa7afb406235b229871c6cd3d5d389b45d9b6f0a47dc62b3c757d07d865cccf"
+            },
+            "regions": [
+              {
+                "beginsWith": "NRS 228.010 is hereby amended to read as follows:",
+                "endsWith": "This act becomes effective upon passage and approval."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
       "artifactId": "nv-nrs-218a",
       "bytes": {
         "length": 191322,
@@ -835,7 +885,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 191322,
-        "retrievedAt": "2026-09-09T00:16:19.120Z",
+        "retrievedAt": "2026-09-09T05:40:02.920Z",
         "url": "https://www.leg.state.nv.us/NRS/NRS-218A.html"
       },
       "rights": {
@@ -885,7 +935,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 14337,
-        "retrievedAt": "2026-09-09T00:16:20.254Z",
+        "retrievedAt": "2026-09-09T05:40:03.437Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-2.1"
       },
       "rights": {
@@ -935,7 +985,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 15382,
-        "retrievedAt": "2026-09-09T00:16:22.547Z",
+        "retrievedAt": "2026-09-09T05:40:05.507Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-2.2"
       },
       "rights": {
@@ -985,7 +1035,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 13755,
-        "retrievedAt": "2026-09-09T00:16:24.754Z",
+        "retrievedAt": "2026-09-09T05:40:07.584Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-2.3"
       },
       "rights": {
@@ -1035,7 +1085,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 13871,
-        "retrievedAt": "2026-09-09T00:16:26.955Z",
+        "retrievedAt": "2026-09-09T05:40:09.650Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-3.1"
       },
       "rights": {
@@ -1085,7 +1135,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 13693,
-        "retrievedAt": "2026-09-09T00:16:29.191Z",
+        "retrievedAt": "2026-09-09T05:40:11.720Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-3.1b"
       },
       "rights": {
@@ -1135,7 +1185,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 15338,
-        "retrievedAt": "2026-09-09T00:16:31.444Z",
+        "retrievedAt": "2026-09-09T05:40:13.789Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-3.2"
       },
       "rights": {
@@ -1185,7 +1235,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 13657,
-        "retrievedAt": "2026-09-09T00:16:33.753Z",
+        "retrievedAt": "2026-09-09T05:40:15.860Z",
         "url": "https://codes.ohio.gov/ohio-constitution/section-15.4"
       },
       "rights": {
@@ -1235,7 +1285,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 16752,
-        "retrievedAt": "2026-09-09T00:16:35.993Z",
+        "retrievedAt": "2026-09-09T05:40:18.012Z",
         "url": "https://codes.ohio.gov/ohio-revised-code/section-109.02"
       },
       "rights": {

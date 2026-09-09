@@ -204,7 +204,11 @@ export function candidacyEligibility(
   const age = ageOnDate(person.birthDate, world.currentDate);
   const qualificationRules =
     pack && option
-      ? candidateQualificationRuleSet(pack.packId, option.officeKey)
+      ? candidateQualificationRuleSet(
+          pack.packId,
+          option.officeKey,
+          world.currentDate,
+        )
       : null;
   const activeStateResidence = factsForPerson(person)
     .filter(

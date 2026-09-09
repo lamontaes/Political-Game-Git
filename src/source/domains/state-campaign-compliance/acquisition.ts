@@ -125,20 +125,87 @@ export const CAMPAIGN_COMPLIANCE_ACQUISITION: {
   readonly requests: readonly AcquisitionRequest[];
 } = {
   domain: "state-campaign-compliance",
-  requests: CAMPAIGN_COMPLIANCE_SOURCES.map((spec): AcquisitionRequest => ({
-    artifactId: spec.artifactId,
-    provider: spec.provider,
-    url: spec.url,
-    method: "GET",
-    mediaType: "text/html",
-    publisher: {
-      statedVintage: null,
-      releaseDate: null,
-      schemaVersion: null,
-      documentationUrl: spec.url,
+  requests: [
+    ...CAMPAIGN_COMPLIANCE_SOURCES.map((spec): AcquisitionRequest => ({
+      artifactId: spec.artifactId,
+      provider: spec.provider,
+      url: spec.url,
+      method: "GET",
+      mediaType: "text/html",
+      publisher: {
+        statedVintage: null,
+        releaseDate: null,
+        schemaVersion: null,
+        documentationUrl: spec.url,
+      },
+      rights: edictRights(spec),
+      storage: "committed",
+      localPath: spec.localPath,
+    })),
+    {
+      artifactId: "ky-krs-121-180-2026-pdf",
+      provider: "Kentucky Legislative Research Commission",
+      url: "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58071",
+      method: "GET",
+      mediaType: "application/pdf",
+      publisher: {
+        statedVintage: "Includes enactments through the 2026 Regular Session",
+        releaseDate: "2026-07-15",
+        schemaVersion: null,
+        documentationUrl:
+          "https://apps.legislature.ky.gov/law/Statutes/chapter.aspx?id=37608",
+      },
+      rights: {
+        status: "UNKNOWN",
+        declaredLicense: null,
+        attributionRequired: "UNKNOWN",
+      },
+      storage: "committed",
+      localPath:
+        "data/source/state-campaign-compliance/raw/ky-krs-121-180-2026.pdf",
     },
-    rights: edictRights(spec),
-    storage: "committed",
-    localPath: spec.localPath,
-  })),
+    {
+      artifactId: "ky-2026-chapter-175-hb139",
+      provider: "Kentucky Legislative Research Commission",
+      url: "https://apps.legislature.ky.gov/law/acts/26RS/documents/0175.pdf",
+      method: "GET",
+      mediaType: "application/pdf",
+      publisher: {
+        statedVintage: "2026 Regular Session, Chapter 175, House Bill 139",
+        releaseDate: "2026-07-15",
+        schemaVersion: null,
+        documentationUrl:
+          "https://apps.legislature.ky.gov/record/26rs/HB139.html",
+      },
+      rights: {
+        status: "UNKNOWN",
+        declaredLicense: null,
+        attributionRequired: "UNKNOWN",
+      },
+      storage: "committed",
+      localPath:
+        "data/source/state-campaign-compliance/raw/ky-2026-chapter-175-hb139.pdf",
+    },
+    {
+      artifactId: "ky-kref-kefms-faq-2025",
+      provider: "Kentucky Registry of Election Finance",
+      url: "https://kref.ky.gov/efile/Pages/default.aspx",
+      method: "GET",
+      mediaType: "text/html",
+      publisher: {
+        statedVintage: "KEFMS Frequently Asked Questions updated 2025-08-30",
+        releaseDate: "2025-08-30",
+        schemaVersion: null,
+        documentationUrl: "https://kref.ky.gov/efile/Pages/default.aspx",
+      },
+      rights: {
+        status: "UNKNOWN",
+        declaredLicense: null,
+        attributionRequired: "UNKNOWN",
+      },
+      storage: "committed",
+      localPath:
+        "data/source/state-campaign-compliance/raw/ky-kref-kefms-faq-2025.html",
+    },
+  ],
 };

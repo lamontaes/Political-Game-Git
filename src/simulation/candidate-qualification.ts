@@ -20,6 +20,10 @@ export interface QualificationSourceRef {
   readonly sourceUrl: string;
   readonly legalLocator: string;
   readonly retrievedAt: string;
+  /** Unknown here; retrieval is not substituted for legal commencement. */
+  readonly provisionEffectiveOn: IsoDate | null;
+  /** Date on which the acquired source was observed carrying this text. */
+  readonly observedCurrentOn: IsoDate;
   /** The research row that led to this first-party verification. */
   readonly researchLineage: string;
 }
@@ -40,6 +44,8 @@ const AK_CONSTITUTION: QualificationSourceRef = {
   sourceUrl: "https://ltgov.alaska.gov/information/alaskas-constitution/",
   legalLocator: "Alaska Const. art. II, §§ 2–3",
   retrievedAt: "2026-09-06T18:45:27.267Z",
+  provisionEffectiveOn: null,
+  observedCurrentOn: "2026-09-06" as IsoDate,
   researchLineage: "31A Alaska legislative-office qualification rows",
 };
 
@@ -74,14 +80,25 @@ export const CANDIDATE_QUALIFICATION_RULE_SETS: readonly CandidateQualificationR
 export function candidateQualificationRuleSet(
   candidacyPackId: string,
   officeKey: string,
+  onDate: IsoDate,
 ): CandidateQualificationRuleSet | null {
-  return (
-    CANDIDATE_QUALIFICATION_RULE_SETS.find(
+  const rules = CANDIDATE_QUALIFICATION_RULE_SETS.find(
       (rules) =>
         rules.candidacyPackId === candidacyPackId &&
         rules.officeKey === officeKey,
-    ) ?? null
-  );
+    ) ?? null;
+  if (!rules || onDate >= AK_CONSTITUTION.observedCurrentOn) return rules;
+  const unavailable = (field: string): QualificationValue<number> => ({
+    state: "UNKNOWN",
+    reason: `${AK_CONSTITUTION.legalLocator} was observed in the acquired source on ${AK_CONSTITUTION.observedCurrentOn}; that later observation does not establish ${field} on ${onDate}.`,
+  });
+  return {
+    ...rules,
+    minimumAge: unavailable("minimum age"),
+    stateResidenceYears: unavailable("state residence"),
+    districtResidenceYears: unavailable("district residence"),
+    termYears: unavailable("term length"),
+  };
 }
 
 export type CandidateQualificationRefusalKind =

@@ -39,6 +39,7 @@ import {
 } from "./resource-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import type { CampaignRecord, EntityId, World } from "./types";
+import type { IsoDate } from "./types";
 
 export type CampaignObligationKind =
   | "principal-campaign-committee-required"
@@ -57,6 +58,31 @@ export interface CampaignComplianceObligation {
   readonly authorityUrl: string;
   readonly enactedExcerpt: string;
   readonly supportingEnactedExcerpts: readonly string[];
+  readonly sourceRetrievedAt: string;
+  readonly sourceStatedVintage: string | null;
+  readonly provisionValidity:
+    | {
+        readonly kind: "EXACT_INTERVAL";
+        readonly validFrom: IsoDate;
+        readonly validThrough: IsoDate | null;
+        readonly amendmentAnnotations: readonly string[];
+      }
+    | {
+        readonly kind: "CURRENT_OBSERVATION";
+        readonly observedOn: IsoDate;
+        readonly reason: string;
+        readonly amendmentAnnotations: readonly string[];
+      }
+    | {
+        readonly kind: "UNKNOWN";
+        readonly amendmentAnnotations: readonly string[];
+      };
+}
+
+export interface DateBoundCampaignComplianceObligation extends CampaignComplianceObligation {
+  readonly temporalApplicability:
+    | { readonly state: "SUPPORTED" }
+    | { readonly state: "UNKNOWN"; readonly reason: string };
 }
 
 const ROWS: readonly CampaignComplianceObligation[] = JSON.parse(
@@ -72,9 +98,49 @@ export const CAMPAIGN_COMPLIANCE_STATE_KEYS: readonly string[] = [
 
 export function campaignObligations(
   stateJurisdictionKey: string | null,
-): readonly CampaignComplianceObligation[] {
+  onDate: IsoDate,
+): readonly DateBoundCampaignComplianceObligation[] {
   if (stateJurisdictionKey === null) return [];
-  return ROWS.filter((row) => row.jurisdictionKey === stateJurisdictionKey);
+  return ROWS.filter((row) => row.jurisdictionKey === stateJurisdictionKey).map(
+    (row) => ({
+      ...row,
+      temporalApplicability: temporalApplicability(row, onDate),
+    }),
+  );
+}
+
+function temporalApplicability(
+  row: CampaignComplianceObligation,
+  onDate: IsoDate,
+): DateBoundCampaignComplianceObligation["temporalApplicability"] {
+  const validity = row.provisionValidity;
+  if (validity.kind === "EXACT_INTERVAL") {
+    if (onDate < validity.validFrom) {
+      return {
+        state: "UNKNOWN",
+        reason: `The acquired evidence supports this provision from ${validity.validFrom}; it does not establish the rule on ${onDate}.`,
+      };
+    }
+    if (validity.validThrough !== null && onDate > validity.validThrough) {
+      return {
+        state: "UNKNOWN",
+        reason: `The acquired evidence supports this provision only through ${validity.validThrough}; it does not establish the rule on ${onDate}.`,
+      };
+    }
+    return { state: "SUPPORTED" };
+  }
+  if (validity.kind === "CURRENT_OBSERVATION") {
+    return onDate < validity.observedOn
+      ? {
+          state: "UNKNOWN",
+          reason: `A source observed on ${validity.observedOn} does not establish historical applicability on ${onDate}.`,
+        }
+      : { state: "SUPPORTED" };
+  }
+  return {
+    state: "UNKNOWN",
+    reason: `The acquired source does not establish when this provision applied on ${onDate}.`,
+  };
 }
 
 /** The state whose law governs a campaign, by the place it is being run in. */
@@ -126,7 +192,8 @@ export function contributionsFromOthersMinorUnits(
   return total;
 }
 
-export type ComplianceDecision = "allowed" | "refused" | "unregulated";
+export type ComplianceDecision =
+  "allowed" | "refused" | "unregulated" | "unresolved";
 
 export interface ComplianceRuling {
   readonly decision: ComplianceDecision;
@@ -171,11 +238,20 @@ export function assessContribution(
     );
   }
   const stateKey = campaignStateJurisdictionKey(campaign);
-  const obligations = campaignObligations(stateKey);
+  const obligations = campaignObligations(stateKey, world.currentDate);
   const organizedCommitteeRule = obligations.find(
     (row) => row.obligation === "organized-committee-with-treasurer-required",
   );
   if (organizedCommitteeRule) {
+    if (organizedCommitteeRule.temporalApplicability.state === "UNKNOWN") {
+      return {
+        decision: "unresolved",
+        reason: organizedCommitteeRule.temporalApplicability.reason,
+        citation: organizedCommitteeRule.legalLocator,
+        authorityUrl: organizedCommitteeRule.authorityUrl,
+        obligation: organizedCommitteeRule.obligation,
+      };
+    }
     const committee = world.history.organizations.find(
       (organization) => organization.id === campaign.organizationId,
     );
@@ -204,6 +280,15 @@ export function assessContribution(
   const rule = obligations.find(
     (row) => row.obligation === "principal-campaign-committee-required",
   );
+  if (rule?.temporalApplicability.state === "UNKNOWN") {
+    return {
+      decision: "unresolved",
+      reason: rule.temporalApplicability.reason,
+      citation: rule.legalLocator,
+      authorityUrl: rule.authorityUrl,
+      obligation: rule.obligation,
+    };
+  }
   if (!rule || rule.thresholdMinorUnits === null) {
     return {
       decision: "unregulated",
@@ -290,9 +375,10 @@ export function assessSecondCommittee(
   world: World,
   input: SecondCommitteeRulingInput,
 ): ComplianceRuling {
-  const rule = campaignObligations(input.stateJurisdictionKey).find(
-    (row) => row.obligation === "single-principal-campaign-committee",
-  );
+  const rule = campaignObligations(
+    input.stateJurisdictionKey,
+    world.currentDate,
+  ).find((row) => row.obligation === "single-principal-campaign-committee");
   if (!rule) {
     return {
       decision: "unregulated",
@@ -301,6 +387,15 @@ export function assessSecondCommittee(
       citation: null,
       authorityUrl: null,
       obligation: null,
+    };
+  }
+  if (rule.temporalApplicability.state === "UNKNOWN") {
+    return {
+      decision: "unresolved",
+      reason: rule.temporalApplicability.reason,
+      citation: rule.legalLocator,
+      authorityUrl: rule.authorityUrl,
+      obligation: rule.obligation,
     };
   }
   const existing = campaigns(world).find(

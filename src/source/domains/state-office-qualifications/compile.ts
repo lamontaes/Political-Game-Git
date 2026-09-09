@@ -48,6 +48,12 @@ import {
   unsupportedFindingFor,
 } from "./transcription";
 import type { ReviewedTranscription } from "./transcription";
+import {
+  qualificationProvisionValidity,
+  unknownTransportValidity,
+} from "./temporal";
+
+export const QUALIFICATIONS_COMPILER_VERSION = "2.1.0";
 import type {
   CitedAuthority,
   OfficeExistence,
@@ -218,7 +224,12 @@ function authorityFrom(
     authorityType: matrixField(row, "authority_type", schema),
     legalLocator: matrixField(row, "legal_locator", schema),
     authorityUrl: matrixField(row, "authority_url", schema),
-    effectiveDate: matrixField(row, "effective_date", schema),
+    researchReportedEffectiveDate: matrixField(row, "effective_date", schema),
+    provisionValidity: unknownTransportValidity(
+      "The research transport's effective_date cell is preserved but is not itself provision-specific primary evidence.",
+    ),
+    sourceRetrievedAt: null,
+    sourceStatedVintage: null,
     derivation:
       matrixField(row, "direct_derived", schema) === "DERIVED"
         ? "DERIVED"
@@ -276,7 +287,7 @@ export function compileQualifications(
       const fieldRaw = matrixField(row, "fact_field", table.schema);
       const status = matrixField(row, "status", table.schema);
       const value = matrixField(row, "value", table.schema);
-      const authority: CitedAuthority = {
+      let authority: CitedAuthority = {
         ...authorityFrom(row, table.schema),
         researchTransport: {
           batch: matrix.batch,
@@ -381,6 +392,25 @@ export function compileQualifications(
         );
         continue;
       }
+      const held = opened[spec.artifactId];
+      if (!held) {
+        refuse(
+          "authority-not-retrieved",
+          `The declared artifact "${spec.artifactId}" is absent from the production lock.`,
+        );
+        continue;
+      }
+      authority = {
+        ...authority,
+        provisionValidity: qualificationProvisionValidity(
+          spec.artifactId,
+          held.artifact,
+          opened,
+          provisionByKey,
+        ),
+        sourceRetrievedAt: held.artifact.retrieval.retrievedAt,
+        sourceStatedVintage: held.artifact.publisher.statedVintage,
+      };
       if (!locatorNames(authority.legalLocator, transcription.locator)) {
         refuse(
           "citation-does-not-name-provision",
@@ -417,29 +447,23 @@ export function compileQualifications(
       };
 
       if (field === "OFFICE_EXISTENCE") {
-        const dated = /^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate);
-        const exists: Sourced<boolean> = !dated
-          ? unknown(
-              `The research recorded office existence as "${status}" but supplied no effective date.`,
-              [evidence],
-            )
-          : status === "OFFICE_DOES_NOT_EXIST"
-            ? known(false, [evidence], "FINAL", authority.effectiveDate)
+        const operativeFrom =
+          authority.provisionValidity.state === "EXACT_INTERVAL"
+            ? authority.provisionValidity.validFrom
+            : null;
+        const exists: Sourced<boolean> =
+          status === "OFFICE_DOES_NOT_EXIST"
+            ? known(false, [evidence], "FINAL", corpusAsOf)
             : status === "CREATED_NOT_YET_OPERATIVE" ||
                 status === "NOT_YET_OPERATIVE"
-              ? notYetOperative(
-                  true,
-                  [evidence],
-                  authority.effectiveDate,
-                  corpusAsOf,
-                )
-              : status === "KNOWN"
-                ? known(
-                    value !== "false",
+              ? operativeFrom !== null && operativeFrom > corpusAsOf
+                ? notYetOperative(true, [evidence], operativeFrom, corpusAsOf)
+                : unknown(
+                    "The source reports a future office, but acquired primary material does not establish a future operative date after the corpus date.",
                     [evidence],
-                    "FINAL",
-                    authority.effectiveDate,
                   )
+              : status === "KNOWN"
+                ? known(value !== "false", [evidence], "FINAL", corpusAsOf)
                 : unknown(
                     `The research recorded office existence as "${status}".`,
                     [evidence],
@@ -495,7 +519,10 @@ export function compileQualifications(
       records,
       corpus: {
         corpusId: "state-office-qualifications",
-        compiler: { name: "state-office-qualifications", version: "2.0.0" },
+        compiler: {
+          name: "state-office-qualifications",
+          version: QUALIFICATIONS_COMPILER_VERSION,
+        },
         parser: { name: "qualification-matrix-tsv", version: "2.0.0" },
         inputs: [
           ...QUALIFICATION_SOURCES.map((spec) => ({

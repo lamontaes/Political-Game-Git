@@ -14,6 +14,8 @@ import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 
 import type { CampaignComplianceRule } from "../../src/source/domains/state-campaign-compliance/index";
+import { loadReviewedKentuckyCampaignCompliance } from "../../src/source/domains/state-campaign-compliance/index";
+import type { ArtifactLock } from "../../src/source/core/index";
 
 const REPOSITORY_ROOT = path.resolve(import.meta.dirname, "..", "..");
 const CORPUS_PATH = path.join(
@@ -23,6 +25,14 @@ const CORPUS_PATH = path.join(
 const MANIFEST_PATH = path.join(
   REPOSITORY_ROOT,
   "data/source/state-campaign-compliance/corpus-manifest.json",
+);
+const LOCK_PATH = path.join(
+  REPOSITORY_ROOT,
+  "data/source/state-campaign-compliance/artifact-lock.json",
+);
+const KENTUCKY_REVIEW_PATH = path.join(
+  REPOSITORY_ROOT,
+  "data/source/state-campaign-compliance/reviewed/ky-candidate-compliance-2026.json",
 );
 const OUTPUT_PATH = path.join(
   REPOSITORY_ROOT,
@@ -43,6 +53,24 @@ function main(): void {
   const manifest = JSON.parse(
     readFileSync(MANIFEST_PATH, "utf8"),
   ) as CorpusManifest;
+  const lock = JSON.parse(readFileSync(LOCK_PATH, "utf8")) as ArtifactLock;
+  const kentucky = loadReviewedKentuckyCampaignCompliance(
+    lock,
+    KENTUCKY_REVIEW_PATH,
+  );
+  const kentuckyRecords = kentucky.records.map((record) => {
+    const artifact =
+      record.artifactId === null
+        ? null
+        : (lock.artifacts.find(
+            (candidate) => candidate.artifactId === record.artifactId,
+          ) ?? null);
+    return {
+      ...record,
+      sourceRetrievedAt: artifact?.retrieval.retrievedAt ?? null,
+      sourceStatedVintage: artifact?.publisher.statedVintage ?? null,
+    };
+  });
 
   const rows = records.map((record) => ({
     jurisdictionKey: record.jurisdictionKey,
@@ -67,6 +95,9 @@ function main(): void {
     authorityUrl: record.authorityUrl,
     enactedExcerpt: record.enactedExcerpt,
     supportingEnactedExcerpts: record.supportingEnactedExcerpts,
+    sourceRetrievedAt: record.sourceRetrievedAt,
+    sourceStatedVintage: record.sourceStatedVintage,
+    provisionValidity: record.provisionValidity,
   }));
 
   const output = `/**
@@ -99,6 +130,13 @@ export const CAMPAIGN_COMPLIANCE_META = ${JSON.stringify(
 /** One row per compiled obligation, as one JSON string. */
 export const CAMPAIGN_COMPLIANCE_ROWS: string =
   ${JSON.stringify(JSON.stringify(rows))};
+
+/** Hash-bound, field-level Kentucky reviewed transcription. */
+export const KENTUCKY_COMPLIANCE_REVIEW = ${JSON.stringify(
+    { ...kentucky, records: kentuckyRecords },
+    null,
+    2,
+  )} as const;
 `;
 
   writeFileSync(OUTPUT_PATH, output, "utf8");

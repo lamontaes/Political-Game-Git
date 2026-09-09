@@ -21,6 +21,7 @@ import {
   lifePlaceByJurisdictionId,
   lifePlaces,
   makeCurrencyCode,
+  makeIsoDate,
   performCampaignAction,
   requireElectionContest,
   scheduleCampaignAction,
@@ -84,10 +85,16 @@ interface Filed {
   readonly candidatePersonId: EntityId;
 }
 
-function fileKentuckyCampaign(seed: string, staffCount = 1): Filed {
-  const scenario = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+function fileKentuckyCampaign(
+  seed: string,
+  staffCount = 1,
+  advanceDays = 0,
+): Filed {
+  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 6,
   });
+  const scenario =
+    advanceDays > 0 ? advanceWorld(created, advanceDays) : created;
   const candidatePersonId = firstAdult(scenario);
   // Campaign work is work somebody does, and the activity engine will not let
   // an unheld person do it. The fixture takes control the way a player does.
@@ -338,11 +345,41 @@ describe("filing", () => {
   });
 
   it("applies Nebraska's organization and treasurer rule to an actual campaign record", () => {
-    const filed = fileKentuckyCampaign("nebraska-committee-rule");
+    const early = fileKentuckyCampaign("nebraska-committee-early");
+    expect(
+      campaignObligations("US-NE", early.world.currentDate)[0]
+        ?.temporalApplicability,
+    ).toMatchObject({ state: "UNKNOWN" });
+
+    const filed = fileKentuckyCampaign("nebraska-committee-rule", 1, 247);
     const nebraska = lifePlaces().find(
       (place) =>
         place.scope === "state" && place.stateJurisdictionKey === "US-NE",
     )!;
+    const earlyNebraskaCampaign = {
+      ...early.campaign,
+      jurisdictionId: nebraska.context.jurisdiction.id,
+      officeKey: "us-ne-legislature-v1:legislature",
+    };
+    const earlyNebraskaWorld: World = {
+      ...early.world,
+      history: {
+        ...early.world.history,
+        campaigns: early.world.history.campaigns?.map((campaign) =>
+          campaign.id === early.campaign.id ? earlyNebraskaCampaign : campaign,
+        ),
+      },
+    };
+    expect(
+      assessContribution(earlyNebraskaWorld, {
+        campaignId: earlyNebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 1,
+        statementOfOrganizationFiled: true,
+        treasurerPersonId: earlyNebraskaCampaign.candidatePersonId,
+        treasurerQualifiedElector: true,
+      }),
+    ).toMatchObject({ decision: "unresolved" });
     const nebraskaCampaign = {
       ...filed.campaign,
       jurisdictionId: nebraska.context.jurisdiction.id,
@@ -358,8 +395,12 @@ describe("filing", () => {
       },
     };
 
-    expect(campaignObligations("US-MN")).toHaveLength(2);
-    expect(campaignObligations("US-NE")).toHaveLength(1);
+    expect(
+      campaignObligations("US-MN", nebraskaWorld.currentDate),
+    ).toHaveLength(2);
+    expect(
+      campaignObligations("US-NE", nebraskaWorld.currentDate),
+    ).toHaveLength(1);
     expect(
       assessContribution(nebraskaWorld, {
         campaignId: nebraskaCampaign.id,
@@ -394,7 +435,7 @@ describe("filing", () => {
     ).toBe("allowed");
   });
   it("records Kentucky compliance drafts, filings, and corrections without calling a filing approval", () => {
-    const filed = fileKentuckyCampaign("compliance-documents");
+    const filed = fileKentuckyCampaign("compliance-documents", 1, 200);
     const election = requireElectionContest(
       filed.world,
       filed.campaign.contestId,
@@ -406,6 +447,21 @@ describe("filing", () => {
       campaignCompliancePackFor(filed.world, filed.campaign.id)
         ?.contributionLimitMinorUnits.state,
     ).toBe("UNKNOWN");
+    expect(
+      campaignCompliancePackFor(filed.world, filed.campaign.id)
+        ?.statementOfIntentWithinDays,
+    ).toMatchObject({
+      state: "KNOWN",
+      source: {
+        sourceArtifactId: "ky-krs-121-180-2026-pdf",
+        sourceArtifactSha256:
+          "b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0",
+        sourceExcerpt: expect.stringContaining("within five (5) days"),
+        sourceVersionEffectiveOn: "2026-07-15",
+        claimEffectiveOn: null,
+        supportCoverageFrom: "2026-07-15",
+      },
+    });
     const clockBefore = {
       currentDate: filed.world.currentDate,
       currentMoment: filed.world.currentMoment,
@@ -434,6 +490,21 @@ describe("filing", () => {
         filed.campaign.organizationId,
       ),
     ).toHaveLength(1);
+    expect(() =>
+      recordCampaignComplianceDocument(withDraft, {
+        stableKey: "report:filed:without-calendar",
+        campaignId: filed.campaign.id,
+        kind: "periodic-report",
+        schedule: "30-day-postelection",
+        periodStart: filed.campaign.filedAt,
+        periodEnd: election.electionDate,
+        dueOn: addDays(election.electionDate, 30),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/business-day calendar/i);
 
     const withStatement = recordCampaignComplianceDocument(withDraft, {
       stableKey: "statement:filed",
@@ -514,12 +585,34 @@ describe("filing", () => {
         amendsDocumentId: null,
         correctionReason: null,
       }),
-    ).toThrow(/KEFMS|five days/i);
+    ).toThrow(/UNKNOWN|KEFMS|five days/i);
     expect(serializeWorld(filed.world)).toBe(before);
+
+    const supported = fileKentuckyCampaign(
+      "compliance-refusal-current",
+      1,
+      200,
+    );
+    expect(() =>
+      recordCampaignComplianceDocument(supported.world, {
+        stableKey: "bad-current-statement",
+        campaignId: supported.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(supported.campaign.filedAt, 6),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/within 5 days/i);
   });
 
   it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {
     const candidateMoney = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-15"),
       contributorKind: "candidate",
       amountMinorUnits: 25_000,
       currency: makeCurrencyCode("USD"),
@@ -534,6 +627,7 @@ describe("filing", () => {
       requiresItemization: true,
     });
     const unsupported = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-15"),
       contributorKind: "unknown",
       amountMinorUnits: 25_000,
       currency: makeCurrencyCode("USD"),
@@ -544,6 +638,22 @@ describe("filing", () => {
     });
     expect(unsupported.acceptableForRecording).toBe(false);
     expect(unsupported.refusals.join(" ")).toMatch(/cannot infer|itemization/i);
+
+    const historicalUnknown = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-14"),
+      contributorKind: "individual",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: "Contributor Example",
+      contributorAddress: "Recorded address",
+      employer: "Recorded employer",
+      occupation: "Recorded occupation",
+    });
+    expect(historicalUnknown).toMatchObject({
+      acceptableForRecording: false,
+      requiresItemization: null,
+    });
+    expect(historicalUnknown.refusals.join(" ")).toMatch(/later source/i);
   });
 });
 

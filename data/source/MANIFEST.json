@@ -626,19 +626,37 @@
         },
         {
           "artifactId": "ne-statutes-49-1446",
-          "sha256": "383b533bb5d5bbe394a366afc1d64a2fa43bd732e6fd087e3631cf7ae466d401",
+          "sha256": "8569e63146ab5c90917aade0d7ee494a125ef68491113801fe7df9f9f3c7350a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-krs-121-180-2026-pdf",
+          "sha256": "b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-2026-chapter-175-hb139",
+          "sha256": "88ca9202606e50a5afec14334828b89254e03b4c0b91f1b299671ce5b2b530ea",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-kref-kefms-faq-2025",
+          "sha256": "068c8b9c7e5656e89de5123566f3b8e4fd2a01f7b9c00d42454590b058172440",
           "sliceOfParent": null,
           "storage": "committed"
         }
       ],
-      "asOf": "2026-01-01",
+      "asOf": "2026-09-09",
       "boundedSampleReason": "Two regimes. Nebraska because it is the state the game can actually hold a legislative election in, so the rule reaches a real campaign; Minnesota because a second state's differently-shaped obligation is what stops one statute's structure being mistaken for the shape of campaign law. No other state's campaign-finance law has been read, and none is implied by these.",
-      "canonicalSha256": "4384516bb85db2393fda9fead9610f8478ce0aedec32567d10f349a34f56938b",
+      "canonicalSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
       "compiler": {
         "name": "state-campaign-compliance",
-        "version": "1.0.0"
+        "version": "2.0.0"
       },
-      "corpusFileSha256": "4384516bb85db2393fda9fead9610f8478ce0aedec32567d10f349a34f56938b",
+      "corpusFileSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
       "corpusId": "state-campaign-compliance",
       "domain": "state-campaign-compliance",
       "isCompleteUniverse": false,
@@ -780,91 +798,97 @@
         },
         {
           "artifactId": "mo-constitution-art-3-sec-2",
-          "sha256": "aed2cf06a97cc6da80a1f85083551ccf11c2391154e6c545f4caafe1425bff67",
+          "sha256": "8924ad4b23ef33ded6d02048cbe003e35343c68394fa1d62b091daf69fb26b89",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-3-sec-4",
-          "sha256": "69b132ea8a6575279f79398932df9ae8844b92343464d510674c9170d32bbb44",
+          "sha256": "fafe12de09dc9f3c312bec1e437a6ea5cd948e0460c1b881ca5c1a80792169a0",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-3-sec-6",
-          "sha256": "8c8a297dc045b0f43c938471998b6eb676e5f52c19819ace7aedf53ae2de1b7a",
+          "sha256": "02aab2b1bab75464c26b344ca8a179215ae4b6c09478acf01a192d1795a64da0",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-3-sec-8",
-          "sha256": "b4e9d112f959466651c207f604174541566eb3170a34fe811564c0c696f63336",
+          "sha256": "a33bb7bdc5a91b912020b5751a4e40906e14f57a007788151a313c410f2dc4b2",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-4-sec-1",
-          "sha256": "ce8bf3f7a32b81444b68522852eb9a12fa33f610399852210a6af75b035b5fed",
+          "sha256": "b4892f84f179d3751372892787a062e554c05a63d0df65b70c40397d7ad974ce",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-4-sec-3",
-          "sha256": "79b5f6188a9aa9b65891d3eb2749d4da77337d99aadbaa9aa897872da5ca167d",
+          "sha256": "d381d7d3d120e5e328337afcd7033de0f7d4cd87c858ef315cfbe6ec39458db0",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-constitution-art-4-sec-17",
-          "sha256": "970f84385573d9aa962e060e16b251fbbfd54dc66b4b14c046e4fb1f94967dd9",
+          "sha256": "5e6ce739c4b6684661ef487c32dec92c55d34904ce083966b4073372b472cdc0",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "mo-statutes-27-010",
-          "sha256": "860f8712cf31c7def71e2454ca4574b50ad195d39a495a235c7306ea168c12f2",
+          "sha256": "8798d960a4d8022da94da16b621bd286366feecd57f09bc9dda798d48744283d",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-3-sec-1",
-          "sha256": "308134beaf9ddf299bce307cb98703264fd9179cc359f892d6154890f96e4913",
+          "sha256": "2ed607f4e464aa948660171723f4de09de3551a4b9da82e0e82353a22d2df084",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-3-sec-7",
-          "sha256": "4927c0e026bf90a23cb34d86deb7e64e271a77060d8a88ec1472cfeaa55b9275",
+          "sha256": "dcfbeb1eeda13357a669f82bd4ff604bf7172c5758afd6d4b106d1f181aed654",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-3-sec-8",
-          "sha256": "809bc6b593dc144a547503d7a3f81ecbc39d912654e6c31285b212afcf789236",
+          "sha256": "321aa2f39717f7f0e71ce49ebe41f9b47dd678a13500e364683d80b221158c7a",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-3-sec-12",
-          "sha256": "2caf48ade76277e0787ac7f69fe7e6e974d02f9659ffe15bdf057a87add85a94",
+          "sha256": "d5e79e153f3059ae3eea74e8113b2403c0f586821ee5a7500944b9f5ecc8a281",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-4-sec-1",
-          "sha256": "0ac13382ff8fbbcc6521d7bbf17029c0a23b4e38c40ce6e1193f77247c33b8df",
+          "sha256": "3f5aa8fd8fa79ae46f43fc16acc006931866d7bee76c46a7255cf24020534d69",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "ne-constitution-art-4-sec-2",
-          "sha256": "2729e3e5cd72253ce9c5d81ac2c21a420143022de6448af5d1543750f365273a",
+          "sha256": "c0d29d9ddc2545251196a2eadea6bfad01caef552952098271bfc0356c483649",
           "sliceOfParent": null,
           "storage": "committed"
         },
         {
           "artifactId": "nv-nrs-228",
           "sha256": "e906a26ee66c30077ca3abf328d6a42a145328ce8f681b12c086d6f729360111",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-2021-chapter-199-ab236",
+          "sha256": "2cf36d81887dd99caffc672378d9070f247502eaad3bc931f77d57ba1b55293f",
           "sliceOfParent": null,
           "storage": "committed"
         },
@@ -923,14 +947,14 @@
           "storage": "committed"
         }
       ],
-      "asOf": "2026-01-01",
+      "asOf": "2026-09-09",
       "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
-      "canonicalSha256": "63f50ce17742d272cce5ae3f8a6add2c521aa5439cc0bd8d2f2b4f129bb56824",
+      "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
       "compiler": {
         "name": "state-office-qualifications",
-        "version": "2.0.0"
+        "version": "2.1.0"
       },
-      "corpusFileSha256": "63f50ce17742d272cce5ae3f8a6add2c521aa5439cc0bd8d2f2b4f129bb56824",
+      "corpusFileSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
       "corpusId": "state-office-qualifications",
       "domain": "state-office-qualifications",
       "isCompleteUniverse": false,

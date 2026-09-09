@@ -89,7 +89,31 @@ export interface SourcedQualification {
   readonly value: string | number | null;
   readonly citation: string;
   readonly authorityType: string;
-  readonly effectiveDate: string;
+  /** Exact research-transport cell; retained for audit, not applied as law. */
+  readonly researchReportedEffectiveDate: string;
+  readonly provisionValidity:
+    | {
+        readonly state: "EXACT_INTERVAL";
+        readonly validFrom: string;
+        readonly validThrough: string | null;
+        readonly basisArtifactId: string;
+        readonly basisLocator: string;
+        readonly basisExcerpt: string;
+        readonly amendmentAnnotations: readonly string[];
+      }
+    | {
+        readonly state: "CURRENT_OBSERVATION";
+        readonly observedOn: string;
+        readonly reason: string;
+        readonly amendmentAnnotations: readonly string[];
+      }
+    | {
+        readonly state: "UNKNOWN";
+        readonly reason: string;
+        readonly amendmentAnnotations: readonly string[];
+      };
+  readonly sourceRetrievedAt: string | null;
+  readonly sourceStatedVintage: string | null;
   readonly authorityUrl: string;
   readonly researchBatch: string | null;
   readonly researchArtifactId: string | null;
@@ -104,6 +128,47 @@ const ROWS: readonly SourcedQualification[] = JSON.parse(
 ) as readonly SourcedQualification[];
 
 export { OFFICE_QUALIFICATIONS_META };
+
+export type QualificationTemporalApplicability =
+  | { readonly state: "SUPPORTED" }
+  | { readonly state: "UNKNOWN"; readonly reason: string };
+
+export interface DateBoundQualification extends SourcedQualification {
+  readonly temporalApplicability: QualificationTemporalApplicability;
+}
+
+/** Whether the acquired evidence supports applying this row on one date. */
+export function qualificationTemporalApplicability(
+  row: SourcedQualification,
+  onDate: string,
+): QualificationTemporalApplicability {
+  const validity = row.provisionValidity;
+  if (validity.state === "EXACT_INTERVAL") {
+    if (onDate < validity.validFrom) {
+      return {
+        state: "UNKNOWN",
+        reason: `${row.citation} is supported from ${validity.validFrom}; its applicability on ${onDate} is not established by the acquired evidence.`,
+      };
+    }
+    if (validity.validThrough !== null && onDate > validity.validThrough) {
+      return {
+        state: "UNKNOWN",
+        reason: `${row.citation} is supported only through ${validity.validThrough}; its applicability on ${onDate} is not established by the acquired evidence.`,
+      };
+    }
+    return { state: "SUPPORTED" };
+  }
+  if (validity.state === "CURRENT_OBSERVATION") {
+    if (onDate < validity.observedOn) {
+      return {
+        state: "UNKNOWN",
+        reason: `${row.citation} was observed in current source text on ${validity.observedOn}; that later observation does not establish the rule on ${onDate}.`,
+      };
+    }
+    return { state: "SUPPORTED" };
+  }
+  return { state: "UNKNOWN", reason: validity.reason };
+}
 
 /** Every state whose authorities this repository has read, as `US-XX`. */
 export const QUALIFICATION_SOURCED_STATE_KEYS: readonly string[] = [
@@ -144,12 +209,16 @@ export function stateQualificationsAreSourced(
 export function officeQualifications(
   stateJurisdictionKey: string | null,
   officeFamily: QualificationOfficeFamily,
-): readonly SourcedQualification[] {
+  onDate: string,
+): readonly DateBoundQualification[] {
   if (stateJurisdictionKey === null) return [];
   const usps = stateJurisdictionKey.replace(/^US-/, "");
   return ROWS.filter(
     (row) => row.stateUsps === usps && row.officeFamily === officeFamily,
-  );
+  ).map((row) => ({
+    ...row,
+    temporalApplicability: qualificationTemporalApplicability(row, onDate),
+  }));
 }
 
 /** One field, or nothing. */
@@ -157,9 +226,10 @@ export function officeQualification(
   stateJurisdictionKey: string | null,
   officeFamily: QualificationOfficeFamily,
   field: QualificationFieldName,
-): SourcedQualification | null {
+  onDate: string,
+): DateBoundQualification | null {
   return (
-    officeQualifications(stateJurisdictionKey, officeFamily).find(
+    officeQualifications(stateJurisdictionKey, officeFamily, onDate).find(
       (row) => row.field === field,
     ) ?? null
   );
@@ -178,7 +248,7 @@ export function qualificationSourceRef(
     citation: row.citation,
     sourceTitle: row.authorityType || "Retrieved state authority",
     sourceUrl: row.authorityUrl || null,
-    retrievedAt: OFFICE_QUALIFICATIONS_META.asOf,
+    retrievedAt: row.sourceRetrievedAt,
     verification: "verified",
     note: null,
   };
@@ -194,10 +264,13 @@ export function qualificationSourceRef(
  * because it is.
  */
 export function qualificationRuleValue(
-  row: SourcedQualification | null,
+  row: DateBoundQualification | null,
   unreadNote: string,
 ): RuleValue<string | number> {
   if (row === null) return unknownRule(unreadNote);
+  if (row.temporalApplicability.state === "UNKNOWN") {
+    return unknownRule(row.temporalApplicability.reason);
+  }
   if (row.sourceState === "KNOWN" && row.value !== null) {
     return knownRule(row.value, qualificationSourceRef(row));
   }
@@ -275,11 +348,22 @@ export function assessOfficeQualifications(
   const rows = officeQualifications(
     input.stateJurisdictionKey,
     input.officeFamily,
+    input.onDate,
   );
   const assessments: QualificationAssessment[] = [];
 
   for (const row of rows) {
     if (row.field === "SELECTION_MECHANISM" || row.field === "TERM_LENGTH") {
+      continue;
+    }
+
+    if (row.temporalApplicability.state === "UNKNOWN") {
+      assessments.push({
+        field: row.field,
+        verdict: "not-evaluated",
+        reason: row.temporalApplicability.reason,
+        source: row,
+      });
       continue;
     }
 

@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-01-01",
-  "canonicalSha256": "63f50ce17742d272cce5ae3f8a6add2c521aa5439cc0bd8d2f2b4f129bb56824",
+  "asOf": "2026-09-09",
+  "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
   "compiler": {
     "name": "state-office-qualifications",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "corpusId": "state-office-qualifications",
   "coverage": {
@@ -76,6 +76,10 @@
     {
       "artifactId": "nv-nrs-228",
       "sha256": "2037751332b3b6a1b8fa0bbcdfaacd5f0ab9f3d309e602b128ebe4391a4c0cf5"
+    },
+    {
+      "artifactId": "nv-2021-chapter-199-ab236",
+      "sha256": "1fa7afb406235b229871c6cd3d5d389b45d9b6f0a47dc62b3c757d07d865cccf"
     },
     {
       "artifactId": "nv-nrs-218a",

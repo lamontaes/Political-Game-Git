@@ -36,6 +36,7 @@ import type {
   QualificationField,
   QualificationRecord,
 } from "./types";
+import { unknownTransportValidity } from "./temporal";
 
 /**
  * The office names the two batches use, mapped onto this domain's vocabulary.
@@ -107,7 +108,16 @@ function authorityFrom(
     authorityType: matrixField(row, "authority_type", schema),
     legalLocator: matrixField(row, "legal_locator", schema),
     authorityUrl: matrixField(row, "authority_url", schema),
-    effectiveDate: matrixField(row, "effective_date", schema),
+    researchReportedEffectiveDate: matrixField(
+      row,
+      "effective_date",
+      schema,
+    ),
+    provisionValidity: unknownTransportValidity(
+      "The staged research transport does not establish provision-specific temporal applicability.",
+    ),
+    sourceRetrievedAt: null,
+    sourceStatedVintage: null,
     derivation,
     derivationChain: matrixField(row, "derivation_chain", schema) || null,
     paraphrase: matrixField(row, "paraphrase", schema),
@@ -129,15 +139,10 @@ export function readRequirement(
   authority: CitedAuthority,
   corpusAsOf: string,
 ): Sourced<string | number> {
-  /*
-   * A requirement with no effective date cannot be KNOWN.
-   *
-   * Every one of these rules took effect on some day and some of them have
-   * changed since; a value with no date cannot be applied to a moment, and
-   * dating it from the compile would be inventing the fact that matters most.
-   * So it stays unresolved and the validator reports the missing date.
-   */
-  const datable = /^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate);
+  // The transport date is validated as transport, never used as `Sourced.asOf`.
+  const researchDateIsDated = /^\d{4}-\d{2}-\d{2}$/.test(
+    authority.researchReportedEffectiveDate,
+  );
 
   if (authority.derivation === "HISTORICAL") {
     return unknown(
@@ -148,13 +153,8 @@ export function readRequirement(
 
   switch (status) {
     case "KNOWN":
-      return datable
-        ? known(
-            requirementValue(rawValue),
-            [evidence],
-            "FINAL",
-            authority.effectiveDate,
-          )
+      return researchDateIsDated
+        ? known(requirementValue(rawValue), [evidence], "FINAL", corpusAsOf)
         : unknown(
             `The research states "${rawValue}" but supplies no effective date, so the requirement cannot be placed in time.`,
             [evidence],
@@ -174,11 +174,11 @@ export function readRequirement(
       );
     case "CREATED_NOT_YET_OPERATIVE":
     case "NOT_YET_OPERATIVE":
-      return datable
+      return researchDateIsDated
         ? notYetOperative(
             requirementValue(rawValue),
             [evidence],
-            authority.effectiveDate,
+            authority.researchReportedEffectiveDate,
             corpusAsOf,
           )
         : unknown(
@@ -251,7 +251,7 @@ export function normalizeQualifications(
 
     if (EXISTENCE_FIELD_NAMES.has(fieldName)) {
       const datedExistence = /^\d{4}-\d{2}-\d{2}$/.test(
-        authority.effectiveDate,
+        authority.researchReportedEffectiveDate,
       );
       const exists: Sourced<boolean> = !datedExistence
         ? unknown(
@@ -259,13 +259,13 @@ export function normalizeQualifications(
             [evidence],
           )
         : status === "OFFICE_DOES_NOT_EXIST"
-          ? known(false, [evidence], "FINAL", authority.effectiveDate)
+          ? known(false, [evidence], "FINAL", corpusAsOf)
           : status === "CREATED_NOT_YET_OPERATIVE" ||
               status === "NOT_YET_OPERATIVE"
             ? notYetOperative(
                 true,
                 [evidence],
-                authority.effectiveDate,
+                authority.researchReportedEffectiveDate,
                 corpusAsOf,
               )
             : status === "KNOWN"
@@ -273,7 +273,7 @@ export function normalizeQualifications(
                   value !== "false",
                   [evidence],
                   "FINAL",
-                  authority.effectiveDate,
+                  corpusAsOf,
                 )
               : unknown(
                   `The research recorded office existence as "${status}".`,

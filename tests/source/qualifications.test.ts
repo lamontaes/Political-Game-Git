@@ -323,6 +323,9 @@ describe("the production source boundary", () => {
       ),
     ) as ArtifactLock;
     const compiled = sourceDomain.compileProduction(lock);
+    expect(compiled.corpus.compiler.version).toBe(
+      sourceDomain.compilerVersion,
+    );
     expect(
       compiled.records.every(
         (record) => record.citedAuthority.researchTransport !== undefined,
@@ -335,6 +338,72 @@ describe("the production source boundary", () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it("keeps transport dates, source snapshots, and provision validity separate", () => {
+    const lock = JSON.parse(
+      readFileSync(
+        resolve(
+          REPO,
+          "data/source/state-office-qualifications/artifact-lock.json",
+        ),
+        "utf8",
+      ),
+    ) as ArtifactLock;
+    const result = sourceDomain.compileProduction(lock);
+    const ohio = result.records.find(
+      (record) => record.recordId === "OH:GOVERNOR:ELECTOR_REQUIREMENT",
+    )!;
+    expect(ohio.citedAuthority.researchReportedEffectiveDate).toBe(
+      "1851-09-01",
+    );
+    expect(ohio.citedAuthority.provisionValidity).toMatchObject({
+      state: "EXACT_INTERVAL",
+      validFrom: "1953-11-03",
+      basisArtifactId: "oh-constitution-sec-15-4",
+    });
+    expect(ohio.citedAuthority.sourceRetrievedAt).toMatch(/^2026-09-09T/);
+    if ("requirement" in ohio && ohio.requirement.state === "KNOWN") {
+      expect(ohio.requirement.asOf).toBe("2026-09-09");
+      expect(ohio.requirement.asOf).not.toBe(
+        ohio.citedAuthority.researchReportedEffectiveDate,
+      );
+    }
+
+    const nevada = result.records.filter((record) =>
+      record.recordId.startsWith("NV:ATTORNEY_GENERAL:"),
+    );
+    expect(nevada).toHaveLength(3);
+    expect(
+      nevada.every(
+        (record) =>
+          record.citedAuthority.provisionValidity.state === "EXACT_INTERVAL" &&
+          record.citedAuthority.provisionValidity.validFrom === "2021-05-29",
+      ),
+    ).toBe(true);
+  });
+
+  it("pins the exact publisher bytes behind the Ohio and Nevada corrections", () => {
+    const ohio = readFileSync(
+      resolve(
+        REPO,
+        "data/source/state-office-qualifications/raw/oh-constitution-sec-15-4.html",
+      ),
+      "utf8",
+    );
+    expect(ohio).toContain("November 3, 1953");
+
+    const nevadaAct = readFileSync(
+      resolve(
+        REPO,
+        "data/source/state-office-qualifications/raw/nv-2021-chapter-199-ab236.html",
+      ),
+      "utf8",
+    );
+    expect(nevadaAct).toMatch(/\[Approved:\s*May 29, 2021\]/);
+    expect(nevadaAct).toMatch(
+      /This act becomes effective\s*upon passage and approval\./,
+    );
   });
 
   it("keeps the compiler-ready matrix as real TSV, with its delimiters intact", () => {

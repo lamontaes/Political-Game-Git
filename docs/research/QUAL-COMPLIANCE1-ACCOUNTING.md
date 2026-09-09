@@ -1,6 +1,6 @@
 # QUAL-COMPLIANCE1 Field Accounting
 
-As of 2026-09-08. "Staged" means exact research transport compiled without
+As of 2026-09-09. "Staged" means exact research transport compiled without
 production promotion. "Accepted" means a smaller field was independently
 verified against current first-party text and has a typed runtime consumer.
 
@@ -84,6 +84,21 @@ claims. A pure assessment proves a complete pass when supplied all dated facts.
 The existing generic seat has no district ID, so normal candidacy is refused at
 the district-residence boundary rather than inferring geography.
 
+## QUAL-DATES4 temporal audit
+
+| Evidence set                                            | Transport/source date preserved                       | Runtime support                                           | Earlier dates                          |
+| ------------------------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- | -------------------------------------- |
+| Ohio article XV, section 4 elector rows                 | 31D `1851-09-01`; source retrieved 2026-09-09         | exact current-provision interval begins `1953-11-03`      | `UNKNOWN` before the verified interval |
+| Nevada NRS 228.010 age/residence/professional rows      | 31F `2021-10-01`; source retrieved 2026-09-09         | exact interval begins `2021-05-29` under 2021 chapter 199 | `UNKNOWN` before the verified interval |
+| Other accepted current-page rows lacking clause history | original research dates and actual retrieval instants | `CURRENT_OBSERVATION` on retrieval date                   | `UNKNOWN`; no backward leakage         |
+
+The 2025 Nevada amendment annotation remains provenance only for the later
+registered-voter amendment. It is not the start date of the unchanged 2021
+age, residence, and State Bar clauses. All 63 accepted rows were classified,
+not only the two reviewer display examples. Corpus `asOf`, publisher vintage,
+artifact retrieval, research-reported date, provision validity, and simulation
+`onDate` are distinct fields.
+
 ## 92M field accounting
 
 Every actual field has 51 transported jurisdiction rows. No composite 92M row
@@ -114,11 +129,43 @@ is promoted wholesale.
 
 Exact 92M status totals are 989 KNOWN and 31 NOT_APPLICABLE. Separately
 verified Kentucky runtime fields are: statement within five days, the $5,000
-reporting threshold, four schedule points, KEFMS transport, immediate public
+reporting threshold, four reporting-period anchors, receipt within seven
+business days after a period ends, electronic transport, immediate public
 record visibility on receipt, the $200 itemization threshold, and no
 commingling. Current Registry guidance supplies one more accepted field:
 amendment transport through the electronic system. Filing is stored as
 `filed`, never approved.
+
+Kentucky field transport is a reviewed transcription, not a second unreviewed
+parser. Nine accepted fields and one `UNKNOWN` contribution-limit field are
+stored in `ky-candidate-compliance-2026.json`; every accepted row names the
+exact official parent artifact and its SHA-256. The current statute PDF hash is
+`b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0`;
+the 2026 chapter 175 enactment hash is
+`88ca9202606e50a5afec14334828b89254e03b4c0b91f1b299671ce5b2b530ea`;
+and the Registry FAQ hash is
+`068c8b9c7e5656e89de5123566f3b8e4fd2a01f7b9c00d42454590b058172440`.
+No duplicate normalized fields are accepted. The PDF's version-effective date
+is stored separately from each claim's effective date; unchanged clauses keep
+`claimEffectiveOn: null`. For the two 2026 changes, the current statute's exact
+effective-date footer supports the claim date while the enacted act's bracketed
+text is retained separately as amendment evidence. The emergency-clause
+annotation is not treated as the effective date of section 45. Runtime coverage
+begins conservatively at the reviewed current-version boundary rather than
+fabricating historical reach.
+
+| Kentucky field               | State                     | Runtime consumer / block                                                                                                           |
+| ---------------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Statement window             | KNOWN on/after 2026-07-15 | filed statement deadline gate; earlier filing refused as unknown                                                                   |
+| Reporting threshold          | KNOWN on/after 2026-07-15 | projection; no unsupported trigger behavior added                                                                                  |
+| Reporting anchors            | KNOWN on/after 2026-07-15 | schedule membership gate                                                                                                           |
+| Receipt within business days | KNOWN on/after 2026-07-15 | periodic filing refused until a Kentucky business-day calendar can compute an exact date; drafts preserved                         |
+| Electronic filing system     | KNOWN on/after 2025-08-30 | filed-document transport gate; KEFMS name comes from Registry guidance, while the statute separately supports electronic reporting |
+| Public upon receipt          | KNOWN on/after 2026-07-15 | public projection boundary; unknown visibility is never exposed                                                                    |
+| Itemization threshold        | KNOWN on/after 2026-07-15 | contribution recordability/itemization gate                                                                                        |
+| No commingling               | KNOWN on/after 2026-07-15 | projection plus existing organization-owned treasury boundary                                                                      |
+| Amendment transport          | KNOWN on/after 2025-08-30 | append-only correction gate                                                                                                        |
+| Contribution limit           | UNKNOWN                   | no amount, approval, or legality inferred                                                                                          |
 
 The Minnesota and Nebraska obligations were not promoted from 92M. They were
 independently compiled from two acquired, hashed statutes. Minnesota contributes
@@ -167,3 +214,6 @@ Recovery artifacts outside the repository preserve the stopped state:
 - A staged research-only compiler belongs outside auto-discovered production
   source domains unless it provides a complete `sourceDomain`; the 92M reader
   now lives under `src/source/research`.
+- A source domain's declared compiler version and emitted manifest version must
+  share one constant. QUAL-DATES4 removed the duplicated qualification version
+  literal so a semantic date-model change cannot regenerate under an old label.

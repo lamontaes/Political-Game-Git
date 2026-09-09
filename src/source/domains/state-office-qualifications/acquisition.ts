@@ -527,6 +527,31 @@ export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
     },
   },
   {
+    artifactId: "nv-2021-chapter-199-ab236",
+    url: "https://www.leg.state.nv.us/Statutes/81st2021/Stats202108.html",
+    provider: "Nevada Legislature, Legislative Counsel Bureau",
+    jurisdictionKey: "US-NV",
+    enactingBody: "the Nevada Legislature",
+    instrumentKind: "statute",
+    instrumentTitle: "2021 Statutes of Nevada, Chapter 199, Assembly Bill 236",
+    localPath:
+      "data/source/state-office-qualifications/raw/nv-2021-chapter-199-ab236.html",
+    provisions: [
+      {
+        locator: "2021 Nev. Stat., ch. 199, §§ 1-2",
+        region: {
+          beginsWith: "NRS 228.010 is hereby amended to read as follows:",
+          endsWith: "This act becomes effective upon passage and approval.",
+        },
+      },
+    ],
+    enacted: {
+      length: 551,
+      sha256:
+        "1fa7afb406235b229871c6cd3d5d389b45d9b6f0a47dc62b3c757d07d865cccf",
+    },
+  },
+  {
     artifactId: "nv-nrs-218a",
     url: "https://www.leg.state.nv.us/NRS/NRS-218A.html",
     provider: "Nevada Legislature, Legislative Counsel Bureau",

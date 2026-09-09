@@ -19,7 +19,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 63481,
-        "retrievedAt": "2026-09-09T02:19:04.966Z",
+        "retrievedAt": "2026-09-09T06:24:53.798Z",
         "url": "https://www.revisor.mn.gov/statutes/cite/10A.105"
       },
       "rights": {
@@ -54,7 +54,7 @@
       "artifactId": "ne-statutes-49-1446",
       "bytes": {
         "length": 25091,
-        "sha256": "383b533bb5d5bbe394a366afc1d64a2fa43bd732e6fd087e3631cf7ae466d401"
+        "sha256": "8569e63146ab5c90917aade0d7ee494a125ef68491113801fe7df9f9f3c7350a"
       },
       "localPath": "data/source/state-campaign-compliance/raw/ne-statutes-49-1446.html",
       "mediaType": "text/html",
@@ -69,7 +69,7 @@
         "httpStatus": 200,
         "method": "GET",
         "responseBytes": 25091,
-        "retrievedAt": "2026-09-09T02:19:05.414Z",
+        "retrievedAt": "2026-09-09T06:24:54.325Z",
         "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
       },
       "rights": {
@@ -97,6 +97,93 @@
           }
         },
         "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ky-krs-121-180-2026-pdf",
+      "bytes": {
+        "length": 54170,
+        "sha256": "b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0"
+      },
+      "localPath": "data/source/state-campaign-compliance/raw/ky-krs-121-180-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Kentucky Legislative Research Commission",
+      "publisher": {
+        "documentationUrl": "https://apps.legislature.ky.gov/law/Statutes/chapter.aspx?id=37608",
+        "releaseDate": "2026-07-15",
+        "schemaVersion": null,
+        "statedVintage": "Includes enactments through the 2026 Regular Session"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 54170,
+        "retrievedAt": "2026-09-09T06:24:54.827Z",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58071"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ky-2026-chapter-175-hb139",
+      "bytes": {
+        "length": 362254,
+        "sha256": "88ca9202606e50a5afec14334828b89254e03b4c0b91f1b299671ce5b2b530ea"
+      },
+      "localPath": "data/source/state-campaign-compliance/raw/ky-2026-chapter-175-hb139.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Kentucky Legislative Research Commission",
+      "publisher": {
+        "documentationUrl": "https://apps.legislature.ky.gov/record/26rs/HB139.html",
+        "releaseDate": "2026-07-15",
+        "schemaVersion": null,
+        "statedVintage": "2026 Regular Session, Chapter 175, House Bill 139"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 362254,
+        "retrievedAt": "2026-09-09T06:24:57.026Z",
+        "url": "https://apps.legislature.ky.gov/law/acts/26RS/documents/0175.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ky-kref-kefms-faq-2025",
+      "bytes": {
+        "length": 384584,
+        "sha256": "068c8b9c7e5656e89de5123566f3b8e4fd2a01f7b9c00d42454590b058172440"
+      },
+      "localPath": "data/source/state-campaign-compliance/raw/ky-kref-kefms-faq-2025.html",
+      "mediaType": "text/html",
+      "provider": "Kentucky Registry of Election Finance",
+      "publisher": {
+        "documentationUrl": "https://kref.ky.gov/efile/Pages/default.aspx",
+        "releaseDate": "2025-08-30",
+        "schemaVersion": null,
+        "statedVintage": "KEFMS Frequently Asked Questions updated 2025-08-30"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 384584,
+        "retrievedAt": "2026-09-09T06:24:58.843Z",
+        "url": "https://kref.ky.gov/efile/Pages/default.aspx"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
       },
       "storage": "committed"
     }

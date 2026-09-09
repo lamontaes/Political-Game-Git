@@ -46,9 +46,16 @@ export {
   CAMPAIGN_COMPLIANCE_ACQUISITION,
   CAMPAIGN_COMPLIANCE_SOURCES,
 } from "./acquisition";
+export { loadReviewedKentuckyCampaignCompliance } from "./reviewed";
+export type {
+  KentuckyComplianceField,
+  ReviewedComplianceState,
+  ReviewedKentuckyCompliance,
+  ReviewedKentuckyComplianceRecord,
+} from "./reviewed";
 
-export const CAMPAIGN_COMPLIANCE_COMPILER_VERSION = "1.0.0";
-export const CAMPAIGN_COMPLIANCE_CORPUS_AS_OF = "2026-01-01";
+export const CAMPAIGN_COMPLIANCE_COMPILER_VERSION = "2.0.0";
+export const CAMPAIGN_COMPLIANCE_CORPUS_AS_OF = "2026-09-09";
 
 /**
  * The words that must be present before each obligation is emitted, by the
@@ -111,6 +118,12 @@ export function compileCampaignCompliance(
   for (const spec of CAMPAIGN_COMPLIANCE_SOURCES) {
     const held = input.artifacts[spec.artifactId];
     if (!held) continue;
+    const lockedArtifact = lock.artifacts.find(
+      (artifact) => artifact.artifactId === spec.artifactId,
+    );
+    if (!lockedArtifact) {
+      throw new Error(`The lock does not contain ${spec.artifactId}.`);
+    }
     inputs.push({
       artifactId: spec.artifactId,
       sha256: sha256Hex(held.bytes),
@@ -186,6 +199,15 @@ export function compileCampaignCompliance(
         enactedExcerpt: excerpt,
         supportingEnactedExcerpts,
         evidence,
+        sourceRetrievedAt: lockedArtifact.retrieval.retrievedAt,
+        sourceStatedVintage: lockedArtifact.publisher.statedVintage,
+        provisionValidity: {
+          kind: "CURRENT_OBSERVATION",
+          observedOn: lockedArtifact.retrieval.retrievedAt.slice(0, 10),
+          reason:
+            "The acquired current provision proves this wording on the retrieval date; its history annotation does not establish when every compiled clause began.",
+          amendmentAnnotations: [],
+        },
       });
     }
   }

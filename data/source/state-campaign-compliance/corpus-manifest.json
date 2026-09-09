@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-01-01",
-  "canonicalSha256": "4384516bb85db2393fda9fead9610f8478ce0aedec32567d10f349a34f56938b",
+  "asOf": "2026-09-09",
+  "canonicalSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
   "compiler": {
     "name": "state-campaign-compliance",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "corpusId": "state-campaign-compliance",
   "coverage": {

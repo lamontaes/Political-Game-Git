@@ -28,7 +28,11 @@ import type {
 } from "../../core/index";
 import { parseQualificationMatrix } from "./parse";
 import { QUALIFICATION_ACQUISITION } from "./acquisition";
-import { compileQualifications, openQualificationArtifacts } from "./compile";
+import {
+  compileQualifications,
+  openQualificationArtifacts,
+  QUALIFICATIONS_COMPILER_VERSION,
+} from "./compile";
 import { normalizeQualifications } from "./normalize";
 import { validateQualificationCorpus } from "./validate";
 import type { QualificationRecord } from "./types";
@@ -37,6 +41,7 @@ export type {
   CitedAuthority,
   OfficeExistence,
   OfficeFamily,
+  ProvisionValidity,
   QualificationClaim,
   QualificationField,
   QualificationRecord,
@@ -67,6 +72,7 @@ export {
   RESEARCH_MATRICES,
   compileQualifications,
   openQualificationArtifacts,
+  QUALIFICATIONS_COMPILER_VERSION,
 } from "./compile";
 export type {
   QualificationCompileResult,
@@ -80,11 +86,10 @@ export {
   validateQualificationCorpus,
 } from "./validate";
 
-export const QUALIFICATIONS_COMPILER_VERSION = "2.0.0";
 export const QUALIFICATIONS_PARSER_VERSION = "2.0.0";
 
 /** The as-of date a fixture corpus is evaluated against. */
-export const QUALIFICATIONS_CORPUS_AS_OF = "2026-01-01";
+export const QUALIFICATIONS_CORPUS_AS_OF = "2026-09-09";
 
 /**
  * How far the source boundary reaches, and where it stops.

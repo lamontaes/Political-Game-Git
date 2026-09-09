@@ -15,6 +15,27 @@
 
 import type { Evidence, Sourced } from "../../core/index";
 
+export type CampaignProvisionValidity =
+  | {
+      readonly kind: "EXACT_INTERVAL";
+      readonly validFrom: string;
+      readonly validThrough: string | null;
+      readonly basisArtifactId: string;
+      readonly basisLocator: string;
+      readonly amendmentAnnotations: readonly string[];
+    }
+  | {
+      readonly kind: "CURRENT_OBSERVATION";
+      readonly observedOn: string;
+      readonly reason: string;
+      readonly amendmentAnnotations: readonly string[];
+    }
+  | {
+      readonly kind: "UNKNOWN";
+      readonly reason: string;
+      readonly amendmentAnnotations: readonly string[];
+    };
+
 /**
  * The obligations this domain models.
  *
@@ -63,4 +84,9 @@ export interface CampaignComplianceRule {
   /** Additional exact words needed by the runtime condition, if any. */
   readonly supportingEnactedExcerpts: readonly string[];
   readonly evidence: Evidence;
+  /** Retrieval/vintage describe the artifact, not when this provision began. */
+  readonly sourceRetrievedAt: string;
+  readonly sourceStatedVintage: string | null;
+  /** The period the acquired evidence can actually support. */
+  readonly provisionValidity: CampaignProvisionValidity;
 }

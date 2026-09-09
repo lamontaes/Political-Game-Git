@@ -53,3 +53,22 @@ Status: completed
 - Recovery snapshots are preserved outside the repository under
   `/private/tmp/qual-compliance-build-artifacts/`; their hashes are recorded in
   `docs/research/QUAL-COMPLIANCE1-ACCOUNTING.md`.
+
+## QUAL-DATES4 continuation
+
+- [x] Correct Ohio Q-1 from the recovered 1851 transport date to a separate
+      exact provision-support start of 1953-11-03 while preserving both values.
+- [x] Correct Nevada Q-2 from the 2021-10-01 transport date to the 2021 chapter
+      199 approval/effective date of 2021-05-29; keep the 2025 amendment annotation
+      separate.
+- [x] Classify all accepted qualification and campaign-obligation records as an
+      exact interval, current observation, or unknown historical applicability.
+- [x] Require simulation `onDate` in qualification and state campaign-rule
+      queries; later observations do not answer earlier lives.
+- [x] Replace the Kentucky owner-certification gate with a hash-bound reviewed
+      transcription of the official statute PDF and Registry FAQ.
+- [x] Separate source-version, claim-effective, retrieval, vintage, review, and
+      support-coverage dates for every Kentucky field.
+- [x] Preserve private drafts and refuse unsupported periodic filing dates until
+      a Kentucky business-day/holiday calendar exists; do not alter the campaign
+      clock.

@@ -70,11 +70,31 @@ export function validateQualificationCorpus(
         recordId: record.recordId,
       });
     }
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate)) {
+    if (
+      !/^\d{4}-\d{2}-\d{2}$/.test(
+        authority.researchReportedEffectiveDate,
+      )
+    ) {
       findings.push({
         severity: "error",
         code: "qualifications/no-effective-date",
-        message: `${record.recordId} carries effective date "${authority.effectiveDate}". A qualification rule without a date cannot be applied to a moment in time.`,
+        message: `${record.recordId} carries research effective_date "${authority.researchReportedEffectiveDate}". The transport is incomplete; this field is not treated as proof of legal applicability.`,
+        recordId: record.recordId,
+      });
+    }
+    if (
+      authority.provisionValidity.state === "EXACT_INTERVAL" &&
+      (!/^\d{4}-\d{2}-\d{2}$/.test(
+        authority.provisionValidity.validFrom,
+      ) ||
+        (authority.provisionValidity.validThrough !== null &&
+          authority.provisionValidity.validThrough <
+            authority.provisionValidity.validFrom))
+    ) {
+      findings.push({
+        severity: "error",
+        code: "qualifications/invalid-provision-validity",
+        message: `${record.recordId} carries an invalid provision-validity interval.`,
         recordId: record.recordId,
       });
     }

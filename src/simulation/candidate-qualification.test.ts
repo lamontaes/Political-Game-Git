@@ -10,6 +10,7 @@ describe("candidate qualification rules", () => {
   const rules = candidateQualificationRuleSet(
     "us-ak-legislature-v1:candidacy",
     "us-ak-legislature-v1:senate",
+    makeIsoDate("2026-11-03"),
   );
 
   it("passes every implemented field when the exact facts prove them", () => {

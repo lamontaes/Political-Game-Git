@@ -3,7 +3,7 @@ import {
   committeeCampaignComplianceDocuments,
   publicCampaignComplianceDocuments,
 } from "../simulation/campaign-compliance";
-import type { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "../simulation/campaign-compliance";
+import type { ComplianceValue } from "../simulation/campaign-compliance";
 import { requireCampaign } from "../simulation/campaign-queries";
 import type {
   CampaignComplianceDocumentRecord,
@@ -46,12 +46,7 @@ function isCommitteeViewer(
 
 function obligation(
   key: string,
-  value:
-    | typeof KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.statementOfIntentWithinDays
-    | typeof KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.reportSchedules
-    | typeof KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.electronicFilingSystem
-    | typeof KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.amendmentTransport
-    | typeof KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.contributionLimitMinorUnits,
+  value: ComplianceValue<unknown>,
   knownSummary: (value: unknown) => string,
 ): CampaignComplianceObligationView {
   if (value.state === "KNOWN") {
@@ -72,7 +67,11 @@ function obligation(
           ? value.reason
           : "The named authority was read and no requirement was found.",
     sourceUrl:
-      value.state === "NO_REQUIREMENT_FOUND" ? value.source.sourceUrl : null,
+      value.state === "NO_REQUIREMENT_FOUND"
+        ? value.source.sourceUrl
+        : value.state === "UNKNOWN"
+          ? (value.source?.sourceUrl ?? null)
+          : null,
   };
 }
 
@@ -110,10 +109,22 @@ export function projectCampaignCompliance(
           `File the statement of spending intent within ${String(days)} days.`,
       ),
       obligation(
+        "reporting-threshold",
+        pack.reportingThresholdMinorUnits,
+        (amount) =>
+          `Full reporting applies above $${(Number(amount) / 100).toFixed(0)} in an election.`,
+      ),
+      obligation(
         "report-schedules",
         pack.reportSchedules,
         (schedules) =>
           `Report schedules: ${(schedules as readonly string[]).join(", ")}.`,
+      ),
+      obligation(
+        "report-receipt-window",
+        pack.reportReceiptWithinBusinessDays,
+        (days) =>
+          `A report is timely when received within ${String(days)} business days after the reporting period ends; this simulation does not guess a calendar date without a Kentucky business-day calendar.`,
       ),
       obligation(
         "electronic-filing",
@@ -125,6 +136,23 @@ export function projectCampaignCompliance(
         pack.amendmentTransport,
         (system) =>
           `Submit corrections through ${String(system)} as amendments.`,
+      ),
+      obligation(
+        "public-upon-receipt",
+        pack.publicUponReceipt,
+        () => "Filed reports become public records upon receipt.",
+      ),
+      obligation(
+        "itemization-threshold",
+        pack.itemizationThresholdMinorUnits,
+        (amount) =>
+          `Contributions above $${(Number(amount) / 100).toFixed(0)} require itemized contributor details.`,
+      ),
+      obligation(
+        "no-commingling",
+        pack.noComminglingWithPersonalFunds,
+        () =>
+          "Campaign contributions remain in committee accounts and are not commingled with the candidate's personal funds.",
       ),
       obligation(
         "contribution-limit",

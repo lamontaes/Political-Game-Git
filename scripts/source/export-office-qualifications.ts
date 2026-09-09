@@ -25,7 +25,10 @@
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 
-import type { QualificationRecord } from "../../src/source/domains/state-office-qualifications/index";
+import type {
+  ProvisionValidity,
+  QualificationRecord,
+} from "../../src/source/domains/state-office-qualifications/index";
 import { isOfficeExistence } from "../../src/source/domains/state-office-qualifications/index";
 
 const REPOSITORY_ROOT = path.resolve(import.meta.dirname, "..", "..");
@@ -67,7 +70,10 @@ interface ExportedRow {
   readonly value: string | number | null;
   readonly citation: string;
   readonly authorityType: string;
-  readonly effectiveDate: string;
+  readonly researchReportedEffectiveDate: string;
+  readonly provisionValidity: ProvisionValidity;
+  readonly sourceRetrievedAt: string | null;
+  readonly sourceStatedVintage: string | null;
   readonly authorityUrl: string;
   readonly researchBatch: string | null;
   readonly researchArtifactId: string | null;
@@ -105,7 +111,11 @@ function rowFor(record: QualificationRecord): ExportedRow {
             : null,
       citation: record.citedAuthority.legalLocator,
       authorityType: record.citedAuthority.authorityType,
-      effectiveDate: record.citedAuthority.effectiveDate,
+      researchReportedEffectiveDate:
+        record.citedAuthority.researchReportedEffectiveDate,
+      provisionValidity: record.citedAuthority.provisionValidity,
+      sourceRetrievedAt: record.citedAuthority.sourceRetrievedAt,
+      sourceStatedVintage: record.citedAuthority.sourceStatedVintage,
       authorityUrl: record.citedAuthority.authorityUrl,
       ...authorityProvenance(record),
     };
@@ -124,7 +134,11 @@ function rowFor(record: QualificationRecord): ExportedRow {
         : null,
     citation: record.citedAuthority.legalLocator,
     authorityType: record.citedAuthority.authorityType,
-    effectiveDate: record.citedAuthority.effectiveDate,
+    researchReportedEffectiveDate:
+      record.citedAuthority.researchReportedEffectiveDate,
+    provisionValidity: record.citedAuthority.provisionValidity,
+    sourceRetrievedAt: record.citedAuthority.sourceRetrievedAt,
+    sourceStatedVintage: record.citedAuthority.sourceStatedVintage,
     authorityUrl: record.citedAuthority.authorityUrl,
     ...authorityProvenance(record),
   };

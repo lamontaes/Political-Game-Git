@@ -7,6 +7,7 @@ import type {
 } from "./legislature-rules";
 import type { ElectiveOfficeRef } from "./types";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
+import { makeIsoDate } from "./dates";
 import {
   OFFICE_QUALIFICATIONS_META,
   officeFamilyForChamberKey,
@@ -137,6 +138,7 @@ function officeQualification(
   const rules = candidateQualificationRuleSet(
     `${packId}:candidacy`,
     `${packId}:${chamberKey}`,
+    makeIsoDate(OFFICE_QUALIFICATIONS_META.asOf),
   );
   if (rules) {
     const source = {
@@ -229,7 +231,11 @@ function officeQualification(
       return knownRule(String(row.value), qualificationSourceRef(row));
     };
     if (
-      compiledOfficeQualifications(jurisdictionKey, officeFamily).length > 0
+      compiledOfficeQualifications(
+        jurisdictionKey,
+        officeFamily,
+        OFFICE_QUALIFICATIONS_META.asOf,
+      ).length > 0
     ) {
       return {
         minimumAge: numericRule(
@@ -237,6 +243,7 @@ function officeQualification(
             jurisdictionKey,
             officeFamily,
             "MINIMUM_AGE",
+            OFFICE_QUALIFICATIONS_META.asOf,
           ),
         ),
         residency: textRule(
@@ -244,11 +251,13 @@ function officeQualification(
             jurisdictionKey,
             officeFamily,
             "STATE_RESIDENCE",
+            OFFICE_QUALIFICATIONS_META.asOf,
           ) ??
             compiledOfficeQualification(
               jurisdictionKey,
               officeFamily,
               "DISTRICT_RESIDENCE",
+              OFFICE_QUALIFICATIONS_META.asOf,
             ),
         ),
         termYears: numericRule(
@@ -256,6 +265,7 @@ function officeQualification(
             jurisdictionKey,
             officeFamily,
             "TERM_LENGTH",
+            OFFICE_QUALIFICATIONS_META.asOf,
           ),
         ),
         filing: unknownRule(NO_FILING_CORPUS),
@@ -420,6 +430,7 @@ function officeHasSourcedQualifications(
     candidateQualificationRuleSet(
       `${packId}:candidacy`,
       `${packId}:${chamberKey}`,
+      makeIsoDate(OFFICE_QUALIFICATIONS_META.asOf),
     )
   ) {
     return true;
@@ -428,7 +439,11 @@ function officeHasSourcedQualifications(
     officeFamilyForChamberKey(chamberKey);
   return (
     family !== null &&
-    compiledOfficeQualifications(jurisdictionKey, family).length > 0
+    compiledOfficeQualifications(
+      jurisdictionKey,
+      family,
+      OFFICE_QUALIFICATIONS_META.asOf,
+    ).some((row) => row.temporalApplicability.state === "SUPPORTED")
   );
 }
 

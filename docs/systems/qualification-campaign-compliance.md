@@ -1,6 +1,6 @@
 # Qualification and Campaign Compliance
 
-Status: bounded QUAL-COMPLIANCE1 slice, 2026-09-08.
+Status: bounded QUAL-COMPLIANCE1 / QUAL-DATES4 slice, 2026-09-09.
 
 ## Source boundary
 
@@ -38,13 +38,35 @@ simulation. The current bounded set is:
   rules from current KRS 121.180 and current Registry guidance; plus Minnesota
   and Nebraska committee prerequisites from their separately acquired statutes.
 
+Every production row now separates four dates that answer different questions:
+
+- the research transport's reported date is preserved exactly and is not legal
+  proof;
+- artifact retrieval and publisher vintage describe the acquired source;
+- provision validity states an exact interval only where a first-party enactment
+  establishes it, otherwise it is a current observation or `UNKNOWN`; and
+- the simulation's `onDate` selects whether that evidence supports the queried
+  life date.
+
+Ohio Constitution article XV, section 4 therefore preserves the recovered 1851
+transport value while supporting the current clause only from the official
+page's November 3, 1953 effective date. Nevada's attorney-general age,
+residence, and State Bar clauses use the May 29, 2021 approval/effective date of
+chapter 199, not the research row's October 1 date and not the later 2025
+amendment annotation. The same audit was applied to every accepted source: a
+current page without clause-specific history becomes `CURRENT_OBSERVATION`, so
+it cannot answer an earlier simulation date.
+
 ## Qualification consumer
 
-`candidateQualificationRuleSet(candidacyPackId, officeKey)` uses exact pack and
-office keys. It never infers an office family from a title. The assessment takes
-dated birth and residence facts and returns field-specific refusals. A missing
-district identity remains an unproved district-residence refusal; it is not
-treated as permission or as proof that no requirement exists.
+`candidateQualificationRuleSet(candidacyPackId, officeKey, onDate)` and the
+generated office query use exact pack, office, state, and chamber keys plus an
+explicit date. They never infer an office family from a title. The assessment
+takes dated birth and residence facts and returns field-specific refusals. A
+missing district identity remains an unproved district-residence refusal; it is
+not treated as permission or as proof that no requirement exists. Evidence
+observed after `onDate` yields an explicit unknown field rather than leaking
+later law backward into the character's life.
 
 The accepted Alaska rules are attached only to
 `us-ak-legislature-v1:house` and `us-ak-legislature-v1:senate`. Recovered rules
@@ -57,11 +79,21 @@ refusal, never eligibility.
 
 Kentucky campaigns carry the feature-local
 `us-ky-candidate-campaign-compliance-v1` identity. The typed writer records a
-private draft or a public filing and validates the exact schedule date and
-`KEFMS` transport. Its record status is `draft` or `filed`; neither means that
-the Registry approved the document or that no violation exists. Corrections
-append an amendment that names the earlier filed document and never overwrite
-history.
+private draft or a public filing and validates the date-supported `KEFMS`
+transport. Its record status is `draft` or `filed`; neither means that the
+Registry approved the document or that no violation exists. Corrections append
+an amendment that names the earlier filed document and never overwrite history.
+
+Kentucky evidence is a reviewed field-level transcription tied to exact hashes
+of the acquired official statute PDF, 2026 chapter 175 enactment, and Registry FAQ. The statute-version
+effective date, a field's own effective date when established, source vintage,
+retrieval instant, and conservative support start are separate fields. Unchanged
+clauses do not inherit the statute page's 2026 version date as their historical
+commencement. The reporting points are period anchors, not filing due dates:
+current text measures timely receipt within seven business days after the period
+ends. Because the simulation has no Kentucky business-day/holiday calendar, it
+preserves periodic drafts but refuses to invent an exact periodic filing
+deadline.
 
 Contribution intake is a recordability gate, not a contribution-limit engine.
 It can distinguish a candidate contribution from personal money, require the
@@ -69,9 +101,12 @@ currently supported itemization fields, and refuse an unknown contributor. The
 current 2026 contribution-limit amount remains `UNKNOWN` until its own current
 first-party field compilation exists.
 
-The state campaign adapter also applies two exact Minnesota obligations and one
-Nebraska obligation to canonical campaign records. It never attaches a rule by
-office name. Nebraska refuses contribution intake until explicit statement-of-
+The state campaign adapter also carries two Minnesota obligations and one
+Nebraska obligation from exact acquired text to canonical campaign records. It
+never attaches a rule by office name. Their current publisher pages do not prove
+clause-specific historical start dates, so the rows are `CURRENT_OBSERVATION`
+and queries before retrieval return `unresolved`. On a supported date, Nebraska
+refuses contribution intake until explicit statement-of-
 organization and qualified-elector-treasurer facts are supplied; creating or
 filing a campaign is not treated as agency approval. Minnesota distinguishes
 the candidate's own contribution from other sources for its $750 aggregate

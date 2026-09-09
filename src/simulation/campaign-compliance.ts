@@ -1,4 +1,4 @@
-import { addDays, daysBetween } from "./dates";
+import { daysBetween } from "./dates";
 import { requireElectionContest } from "./election-contests";
 import { createStableId } from "./ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -11,6 +11,7 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
+import { KENTUCKY_COMPLIANCE_REVIEW } from "./campaign-compliance.generated";
 
 export type ComplianceValue<T> =
   | {
@@ -18,7 +19,11 @@ export type ComplianceValue<T> =
       readonly value: T;
       readonly source: ComplianceSourceRef;
     }
-  | { readonly state: "UNKNOWN"; readonly reason: string }
+  | {
+      readonly state: "UNKNOWN";
+      readonly reason: string;
+      readonly source?: ComplianceSourceRef;
+    }
   | {
       readonly state: "NO_REQUIREMENT_FOUND";
       readonly source: ComplianceSourceRef;
@@ -29,8 +34,25 @@ export interface ComplianceSourceRef {
   readonly sourceTitle: string;
   readonly sourceUrl: string;
   readonly legalLocator: string;
-  readonly retrievedAt: string;
-  readonly effectiveDate: IsoDate | null;
+  readonly sourceArtifactId: string;
+  readonly sourceArtifactSha256: string;
+  readonly sourceExcerpt: string;
+  readonly sourceRetrievedAt: string;
+  readonly sourceStatedVintage: string | null;
+  readonly sourceVersionEffectiveOn: IsoDate | null;
+  readonly claimEffectiveOn: IsoDate | null;
+  readonly claimEffectiveBasisArtifactId: string | null;
+  readonly claimEffectiveBasisArtifactSha256: string | null;
+  readonly claimEffectiveBasisLocator: string | null;
+  readonly claimEffectiveBasisExcerpt: string | null;
+  readonly amendmentEvidenceArtifactId: string | null;
+  readonly amendmentEvidenceArtifactSha256: string | null;
+  readonly amendmentEvidenceLocator: string | null;
+  readonly amendmentEvidenceExcerpt: string | null;
+  readonly supportCoverageFrom: IsoDate;
+  readonly transportKind: "reviewed-transcription";
+  readonly reviewId: string;
+  readonly reviewedOn: IsoDate;
   readonly researchLineage: string;
 }
 
@@ -42,6 +64,7 @@ export interface CampaignComplianceRulePack {
   readonly reportSchedules: ComplianceValue<
     readonly CampaignComplianceDocumentRecord["schedule"][]
   >;
+  readonly reportReceiptWithinBusinessDays: ComplianceValue<number>;
   readonly electronicFilingSystem: ComplianceValue<"KEFMS">;
   readonly publicUponReceipt: ComplianceValue<boolean>;
   readonly amendmentTransport: ComplianceValue<"KEFMS">;
@@ -50,57 +73,168 @@ export interface CampaignComplianceRulePack {
   readonly contributionLimitMinorUnits: ComplianceValue<number>;
 }
 
-const KRS_121_180: ComplianceSourceRef = {
-  sourceTitle: "Kentucky Revised Statutes § 121.180",
-  sourceUrl:
-    "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58071",
-  legalLocator: "KRS 121.180(1), (3), (4), (8), and (9)",
-  retrievedAt: "2026-09-08",
-  effectiveDate: "2026-07-15" as IsoDate,
-  researchLineage:
-    "92M/KY verified against the current first-party statute after HB 139",
-};
-
-const KREF_FAQ: ComplianceSourceRef = {
-  sourceTitle:
-    "Kentucky Registry of Election Finance — Frequently Asked Questions",
-  sourceUrl: "https://kref.ky.gov/Pages/Frequently-Asked-Questions.aspx",
-  legalLocator: "Candidate FAQs: amending spending intent and candidate funds",
-  retrievedAt: "2026-09-08",
-  effectiveDate: null,
-  researchLineage:
-    "45 Part 1 and 92M/KY verified against current Registry guidance",
-};
-
-function known<T>(value: T, source: ComplianceSourceRef): ComplianceValue<T> {
-  return { state: "KNOWN", value, source };
+type ReviewedField =
+  (typeof KENTUCKY_COMPLIANCE_REVIEW.records)[number]["field"];
+interface ReviewedRecord {
+  readonly field: ReviewedField;
+  readonly status:
+    "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
+  readonly value: unknown;
+  readonly artifactId: string | null;
+  readonly artifactSha256: string | null;
+  readonly sourceUrl: string | null;
+  readonly legalLocator: string | null;
+  readonly excerpt: string | null;
+  readonly sourceRetrievedAt: string | null;
+  readonly sourceStatedVintage: string | null;
+  readonly sourceVersionEffectiveOn: string | null;
+  readonly claimEffectiveOn: string | null;
+  readonly claimEffectiveBasisArtifactId?: string;
+  readonly claimEffectiveBasisArtifactSha256?: string;
+  readonly claimEffectiveBasisLocator?: string;
+  readonly claimEffectiveBasisExcerpt?: string;
+  readonly amendmentEvidenceArtifactId?: string;
+  readonly amendmentEvidenceArtifactSha256?: string;
+  readonly amendmentEvidenceLocator?: string;
+  readonly amendmentEvidenceExcerpt?: string;
+  readonly supportCoverageFrom: string | null;
+  readonly reason?: string;
 }
 
-export const KENTUCKY_CAMPAIGN_COMPLIANCE_PACK: CampaignComplianceRulePack = {
-  packId: "us-ky-candidate-campaign-compliance-v1",
-  jurisdictionKey: "US-KY",
-  statementOfIntentWithinDays: known(5, KRS_121_180),
-  reportingThresholdMinorUnits: known(500_000, KRS_121_180),
-  reportSchedules: known(
-    [
-      "60-day-preelection",
-      "30-day-preelection",
-      "15-day-preelection",
-      "30-day-postelection",
-    ],
-    KRS_121_180,
-  ),
-  electronicFilingSystem: known("KEFMS", KRS_121_180),
-  publicUponReceipt: known(true, KRS_121_180),
-  amendmentTransport: known("KEFMS", KREF_FAQ),
-  itemizationThresholdMinorUnits: known(20_000, KRS_121_180),
-  noComminglingWithPersonalFunds: known(true, KRS_121_180),
-  contributionLimitMinorUnits: {
-    state: "UNKNOWN",
-    reason:
-      "The 2026 legislation changed contribution limits, and no amount is promoted from the secondary 92M synthesis without a field-specific current first-party compilation.",
-  },
-};
+function reviewedRecord(field: ReviewedField): ReviewedRecord {
+  const record = KENTUCKY_COMPLIANCE_REVIEW.records.find(
+    (candidate) => candidate.field === field,
+  );
+  if (!record)
+    throw new Error(`Kentucky reviewed transport is missing ${field}.`);
+  return record as ReviewedRecord;
+}
+
+function sourceFor(record: ReviewedRecord): ComplianceSourceRef {
+  if (
+    record.sourceUrl === null ||
+    record.legalLocator === null ||
+    record.artifactId === null ||
+    record.artifactSha256 === null ||
+    record.excerpt === null ||
+    record.sourceRetrievedAt === null ||
+    record.supportCoverageFrom === null
+  ) {
+    throw new Error(`${record.field} has no reviewed source transport.`);
+  }
+  return {
+    sourceTitle:
+      record.artifactId === "ky-kref-kefms-faq-2025"
+        ? "Kentucky Registry of Election Finance — KEFMS FAQ"
+        : "Kentucky Revised Statutes § 121.180",
+    sourceUrl: record.sourceUrl,
+    legalLocator: record.legalLocator,
+    sourceArtifactId: record.artifactId,
+    sourceArtifactSha256: record.artifactSha256,
+    sourceExcerpt: record.excerpt,
+    sourceRetrievedAt: record.sourceRetrievedAt,
+    sourceStatedVintage: record.sourceStatedVintage,
+    sourceVersionEffectiveOn: record.sourceVersionEffectiveOn as IsoDate | null,
+    claimEffectiveOn: record.claimEffectiveOn as IsoDate | null,
+    claimEffectiveBasisArtifactId: record.claimEffectiveBasisArtifactId ?? null,
+    claimEffectiveBasisArtifactSha256:
+      record.claimEffectiveBasisArtifactSha256 ?? null,
+    claimEffectiveBasisLocator: record.claimEffectiveBasisLocator ?? null,
+    claimEffectiveBasisExcerpt: record.claimEffectiveBasisExcerpt ?? null,
+    amendmentEvidenceArtifactId: record.amendmentEvidenceArtifactId ?? null,
+    amendmentEvidenceArtifactSha256:
+      record.amendmentEvidenceArtifactSha256 ?? null,
+    amendmentEvidenceLocator: record.amendmentEvidenceLocator ?? null,
+    amendmentEvidenceExcerpt: record.amendmentEvidenceExcerpt ?? null,
+    supportCoverageFrom: record.supportCoverageFrom as IsoDate,
+    transportKind: "reviewed-transcription",
+    reviewId: KENTUCKY_COMPLIANCE_REVIEW.reviewId,
+    reviewedOn: KENTUCKY_COMPLIANCE_REVIEW.reviewedOn as IsoDate,
+    researchLineage:
+      "Recovered 92M/45 claim, field-reviewed against the hash-locked first-party artifact; no date is inferred from amendment history.",
+  };
+}
+
+function reviewedValue<T>(
+  field: ReviewedField,
+  onDate: IsoDate,
+): ComplianceValue<T> {
+  const record = reviewedRecord(field);
+  if (record.status === "UNKNOWN") {
+    return { state: "UNKNOWN", reason: record.reason ?? "Unknown." };
+  }
+  if (record.status === "NOT_APPLICABLE") {
+    return {
+      state: "NOT_APPLICABLE",
+      reason: record.reason ?? "Not applicable.",
+    };
+  }
+  if (record.status === "NO_REQUIREMENT_FOUND") {
+    const source = sourceFor(record);
+    return onDate < source.supportCoverageFrom
+      ? {
+          state: "UNKNOWN",
+          reason: `The reviewed evidence supports this no-requirement finding from ${source.supportCoverageFrom}; it does not establish the finding on ${onDate}.`,
+          source,
+        }
+      : { state: "NO_REQUIREMENT_FOUND", source };
+  }
+  const source = sourceFor(record);
+  if (onDate < source.supportCoverageFrom) {
+    return {
+      state: "UNKNOWN",
+      reason: `The reviewed evidence supports this field from ${source.supportCoverageFrom}; it does not establish applicability on ${onDate}.`,
+      source,
+    };
+  }
+  return { state: "KNOWN", value: record.value as T, source };
+}
+
+function kentuckyCampaignCompliancePack(
+  onDate: IsoDate,
+): CampaignComplianceRulePack {
+  return {
+    packId: "us-ky-candidate-campaign-compliance-v1",
+    jurisdictionKey: "US-KY",
+    statementOfIntentWithinDays: reviewedValue<number>(
+      "statementOfIntentWithinDays",
+      onDate,
+    ),
+    reportingThresholdMinorUnits: reviewedValue<number>(
+      "reportingThresholdMinorUnits",
+      onDate,
+    ),
+    reportSchedules: reviewedValue<
+      readonly CampaignComplianceDocumentRecord["schedule"][]
+    >("reportSchedules", onDate),
+    reportReceiptWithinBusinessDays: reviewedValue<number>(
+      "reportReceiptWithinBusinessDays",
+      onDate,
+    ),
+    electronicFilingSystem: reviewedValue<"KEFMS">(
+      "electronicFilingSystem",
+      onDate,
+    ),
+    publicUponReceipt: reviewedValue<boolean>("publicUponReceipt", onDate),
+    amendmentTransport: reviewedValue<"KEFMS">("amendmentTransport", onDate),
+    itemizationThresholdMinorUnits: reviewedValue<number>(
+      "itemizationThresholdMinorUnits",
+      onDate,
+    ),
+    noComminglingWithPersonalFunds: reviewedValue<boolean>(
+      "noComminglingWithPersonalFunds",
+      onDate,
+    ),
+    contributionLimitMinorUnits: reviewedValue<number>(
+      "contributionLimitMinorUnits",
+      onDate,
+    ),
+  };
+}
+
+export const KENTUCKY_CAMPAIGN_COMPLIANCE_PACK = kentuckyCampaignCompliancePack(
+  KENTUCKY_COMPLIANCE_REVIEW.reviewedOn as IsoDate,
+);
 
 export function campaignCompliancePackFor(
   world: World,
@@ -112,7 +246,7 @@ export function campaignCompliancePackFor(
   )?.stateJurisdictionKey;
   return stateKey === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.jurisdictionKey &&
     campaign.compliancePackId === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.packId
-    ? KENTUCKY_CAMPAIGN_COMPLIANCE_PACK
+    ? kentuckyCampaignCompliancePack(world.currentDate)
     : null;
 }
 
@@ -159,25 +293,6 @@ export interface RecordCampaignComplianceDocumentInput {
   readonly correctionReason: string | null;
 }
 
-function requiredDueDate(
-  electionDate: IsoDate,
-  schedule: CampaignComplianceDocumentRecord["schedule"],
-): IsoDate | null {
-  switch (schedule) {
-    case "60-day-preelection":
-      return addDays(electionDate, -60);
-    case "30-day-preelection":
-      return addDays(electionDate, -30);
-    case "15-day-preelection":
-      return addDays(electionDate, -15);
-    case "30-day-postelection":
-      return addDays(electionDate, 30);
-    case "initial":
-    case "correction":
-      return null;
-  }
-}
-
 /**
  * Append a draft or a filing. Refusals are zero-write and the resulting record
  * says only "filed"—never accepted, approved, valid, or violation-free.
@@ -217,17 +332,48 @@ export function recordCampaignComplianceDocument(
   ) {
     throw new Error("A reporting period cannot end before it starts.");
   }
-  if (input.status === "filed" && input.transport !== "KEFMS") {
-    throw new Error("Kentucky campaign-compliance filings must use KEFMS.");
+  if (input.status === "filed") {
+    if (pack.electronicFilingSystem.state !== "KNOWN") {
+      throw new Error(
+        "The filing transport is UNKNOWN on this date; the game will not infer a valid filing channel.",
+      );
+    }
+    if (input.transport !== pack.electronicFilingSystem.value) {
+      throw new Error(
+        `Kentucky campaign-compliance filings must use ${pack.electronicFilingSystem.value}.`,
+      );
+    }
+    if (
+      pack.publicUponReceipt.state !== "KNOWN" ||
+      pack.publicUponReceipt.value !== true
+    ) {
+      throw new Error(
+        "Public-record treatment is UNKNOWN on this date; the game will not expose a filing or call it private by inference.",
+      );
+    }
   }
   if (input.status === "draft" && input.transport !== null) {
     throw new Error("A private draft has no filing transport yet.");
   }
-  const contest = requireElectionContest(world, campaign.contestId);
-  const statutoryDue = requiredDueDate(contest.electionDate, input.schedule);
-  if (statutoryDue !== null && input.dueOn !== statutoryDue) {
+  requireElectionContest(world, campaign.contestId);
+  if (
+    input.schedule !== "initial" &&
+    input.schedule !== "correction" &&
+    (pack.reportSchedules.state !== "KNOWN" ||
+      !pack.reportSchedules.value.includes(input.schedule))
+  ) {
     throw new Error(
-      `${input.schedule} is due on ${statutoryDue}, not ${input.dueOn}.`,
+      "The selected reporting schedule is not supported by the date-bound rule pack.",
+    );
+  }
+  if (input.kind === "periodic-report" && input.status === "filed") {
+    if (pack.reportReceiptWithinBusinessDays.state !== "KNOWN") {
+      throw new Error(
+        "The report receipt window is UNKNOWN on this date; the game will not infer a deadline.",
+      );
+    }
+    throw new Error(
+      `This pack measures timely receipt ${pack.reportReceiptWithinBusinessDays.value} business days after the reporting period ends. The simulation has no Kentucky business-day calendar, so it will preserve a private draft but will not guess an exact filing deadline.`,
     );
   }
   if (input.kind === "statement-of-spending-intent") {
@@ -236,14 +382,30 @@ export function recordCampaignComplianceDocument(
         "An initial spending-intent statement must use the initial schedule.",
       );
     }
-    if (daysBetween(campaign.filedAt, input.dueOn) > 5) {
-      throw new Error(
-        "The spending-intent statement deadline exceeds five days after candidacy filing.",
-      );
+    if (input.status === "filed") {
+      if (pack.statementOfIntentWithinDays.state !== "KNOWN") {
+        throw new Error(
+          "The statement-of-spending-intent deadline is UNKNOWN on this date.",
+        );
+      }
+      const statementWindow = daysBetween(campaign.filedAt, input.dueOn);
+      if (
+        statementWindow < 0 ||
+        statementWindow > pack.statementOfIntentWithinDays.value
+      ) {
+        throw new Error(
+          `The spending-intent statement deadline must be within ${pack.statementOfIntentWithinDays.value} days after candidacy filing.`,
+        );
+      }
     }
   }
   let amended: CampaignComplianceDocumentRecord | null = null;
   if (input.kind === "amendment") {
+    if (input.status === "filed" && pack.amendmentTransport.state !== "KNOWN") {
+      throw new Error(
+        "The amendment transport is UNKNOWN on this date; the game will not infer a correction channel.",
+      );
+    }
     amended =
       campaignComplianceDocuments(world).find(
         (record) => record.id === input.amendsDocumentId,
@@ -283,7 +445,11 @@ export function recordCampaignComplianceDocument(
     dueOn: input.dueOn,
     status: input.status,
     visibility:
-      input.status === "filed" ? "public-record" : "committee-private",
+      input.status === "filed" &&
+      pack.publicUponReceipt.state === "KNOWN" &&
+      pack.publicUponReceipt.value
+        ? "public-record"
+        : "committee-private",
     transport: input.transport,
     filedAt: input.status === "filed" ? world.currentDate : null,
     amendsDocumentId: amended?.id ?? null,
@@ -308,6 +474,7 @@ export function recordCampaignComplianceDocument(
 }
 
 export interface CampaignContributionInput {
+  readonly onDate: IsoDate;
   readonly contributorKind: "candidate" | "individual" | "unknown";
   readonly amountMinorUnits: number;
   readonly currency: CurrencyCode;
@@ -321,7 +488,7 @@ export interface CampaignContributionAssessment {
   readonly acceptableForRecording: boolean;
   readonly classification:
     "candidate-contribution" | "individual-contribution" | null;
-  readonly requiresItemization: boolean;
+  readonly requiresItemization: boolean | null;
   readonly refusals: readonly string[];
 }
 
@@ -330,6 +497,9 @@ export function assessKentuckyCampaignContribution(
   input: CampaignContributionInput,
 ): CampaignContributionAssessment {
   const refusals: string[] = [];
+  const threshold = kentuckyCampaignCompliancePack(
+    input.onDate,
+  ).itemizationThresholdMinorUnits;
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
     input.amountMinorUnits <= 0
@@ -343,21 +513,29 @@ export function assessKentuckyCampaignContribution(
       "The accepted Kentucky pack states amounts in U.S. dollars only.",
     );
   }
-  const requiresItemization = input.amountMinorUnits > 20_000;
+  const requiresItemization =
+    threshold.state === "KNOWN"
+      ? input.amountMinorUnits > threshold.value
+      : null;
+  if (threshold.state !== "KNOWN") {
+    refusals.push(
+      `The itemization threshold is ${threshold.state} on ${input.onDate}; the game will not infer a recordability rule from a later source.`,
+    );
+  }
   if (input.contributorKind === "unknown") {
     refusals.push(
       "The contributor is unknown; the game cannot infer an eligible source or a contribution limit.",
     );
   }
   if (
-    requiresItemization &&
+    requiresItemization === true &&
     (!input.contributorName?.trim() ||
       !input.contributorAddress?.trim() ||
       !input.employer?.trim() ||
       !input.occupation?.trim())
   ) {
     refusals.push(
-      "A contribution over $200 lacks the contributor details required for itemization.",
+      `A contribution over $${(threshold.state === "KNOWN" ? threshold.value / 100 : 0).toFixed(0)} lacks the contributor details required for itemization.`,
     );
   }
   return {
