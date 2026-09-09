@@ -1,0 +1,443 @@
+{
+  "baseline": "04c735c32c8e38d942d5ba978a2efc5dd63315bb",
+  "candidate": "d24c44e77782dd2fb2781822a1e51b55dae40666",
+  "seed": "pr79-ordinary-baseline",
+  "changes": [
+    {
+      "path": ["household", "initialNextSequence"],
+      "before": 82,
+      "after": 112
+    },
+    {
+      "path": ["household", "finalNextSequence"],
+      "before": 97,
+      "after": 127
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "eventId"],
+      "before": "event_b6451e7304fed0e2",
+      "after": "event_ab54fc49aa60c98e"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "summary"],
+      "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
+      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "id"],
+      "before": "relationship_1c22ddc2dae6d290",
+      "after": "relationship_cf51f0bfca92c85c"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "sequence"],
+      "before": 88,
+      "after": 118
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "eventId"],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "summary"],
+      "before": "Joy Villanueva took the week off Evelyn Newman without being asked to.",
+      "after": "Joy Villanueva took the week off Donna Newman without being asked to."
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "id"],
+      "before": "relationship_4c7157912b40d6ab",
+      "after": "relationship_4f4a823de3f3cf17"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "sequence"],
+      "before": 95,
+      "after": 125
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "commitment",
+        0,
+        "provenance",
+        "eventId"
+      ],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "id"],
+      "before": "life-commitment_a932b4f09fd8a7d4",
+      "after": "life-commitment_8664db56ad22d6d0"
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "sequence"],
+      "before": 96,
+      "after": 126
+    },
+    {
+      "path": ["household", "records", "landed", 0, "id"],
+      "before": "event_b6451e7304fed0e2",
+      "after": "event_ab54fc49aa60c98e"
+    },
+    {
+      "path": ["household", "records", "landed", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event"
+    },
+    {
+      "path": ["household", "records", "landed", 0, "sequence"],
+      "before": 82,
+      "after": 112
+    },
+    {
+      "path": ["household", "records", "landed", 0, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["household", "records", "landed", 0, "summary"],
+      "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
+      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+    },
+    {
+      "path": ["household", "records", "landed", 1, "id"],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "sequence"],
+      "before": 89,
+      "after": 119
+    },
+    {
+      "path": ["household", "records", "landed", 1, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "summary"],
+      "before": "Joy Villanueva offered to cover the week themselves. Evelyn Newman let them take it.",
+      "after": "Joy Villanueva offered to cover the week themselves. Donna Newman let them take it."
+    },
+    {
+      "path": ["household", "records", "turns", 0, "semantic", "turnKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "beat",
+        "speakerName"
+      ],
+      "before": "Evelyn Newman",
+      "after": "Donna Newman"
+    },
+    {
+      "path": ["household", "records", "turns", 1, "semantic", "turnKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2"
+    },
+    {
+      "path": ["household", "records", "turns", 1, "semantic", "commitmentId"],
+      "before": "life-commitment_a932b4f09fd8a7d4",
+      "after": "life-commitment_8664db56ad22d6d0"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "supersededPerceptionIds",
+        0
+      ],
+      "before": "perception_7fc71e7d37fb6286",
+      "after": "perception_fc3f7447c197da78"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "beat",
+        "speakerName"
+      ],
+      "before": "Evelyn Newman",
+      "after": "Donna Newman"
+    },
+    {
+      "path": ["householdCallback", "initialNextSequence"],
+      "before": 82,
+      "after": 112
+    },
+    {
+      "path": ["householdCallback", "finalNextSequence"],
+      "before": 100,
+      "after": 130
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "eventId"],
+      "before": "event_b6451e7304fed0e2",
+      "after": "event_ab54fc49aa60c98e"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "summary"],
+      "before": "Joy Villanueva said out loud to Evelyn Newman what neither of them had been saying about the week.",
+      "after": "Joy Villanueva said out loud to Donna Newman what neither of them had been saying about the week."
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "id"],
+      "before": "relationship_1c22ddc2dae6d290",
+      "after": "relationship_cf51f0bfca92c85c"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "sequence"],
+      "before": 88,
+      "after": 118
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "eventId"],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "summary"],
+      "before": "Joy Villanueva put the week onto Evelyn Newman, who took it and said it was not every week.",
+      "after": "Joy Villanueva put the week onto Donna Newman, who took it and said it was not every week."
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "id"],
+      "before": "relationship_4c7157912b40d6ab",
+      "after": "relationship_4f4a823de3f3cf17"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "sequence"],
+      "before": 96,
+      "after": 126
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "commitment",
+        0,
+        "provenance",
+        "eventId"
+      ],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "id"],
+      "before": "life-commitment_a932b4f09fd8a7d4",
+      "after": "life-commitment_8664db56ad22d6d0"
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "sequence"],
+      "before": 97,
+      "after": 127
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "id"],
+      "before": "future-due-item_52eab79af4e2bbb6",
+      "after": "future-due-item_9af1dd43363ffd2a"
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:callback",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:callback"
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "sequence"],
+      "before": 98,
+      "after": 128
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "entityIds", 0],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "aftermath",
+        0,
+        "provenance",
+        "sourceEntityIds",
+        0
+      ],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "id"],
+      "before": "event_b6451e7304fed0e2",
+      "after": "event_ab54fc49aa60c98e"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "sequence"],
+      "before": 82,
+      "after": 112
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "summary"],
+      "before": "Joy Villanueva brought up the week's errands with Newman. Evelyn Newman said they had been avoiding it too.",
+      "after": "Joy Villanueva brought up the week's errands with Newman. Donna Newman said they had been avoiding it too."
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "id"],
+      "before": "event_0a63c841a77ca65b",
+      "after": "event_a7f287015e09cef7"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "sequence"],
+      "before": 90,
+      "after": 120
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "summary"],
+      "before": "Joy Villanueva asked Newman to take the week this time. Evelyn Newman took it on.",
+      "after": "Joy Villanueva asked Newman to take the week this time. Donna Newman took it on."
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "semantic",
+        "turnKey"
+      ],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "presentation",
+        "beat",
+        "speakerName"
+      ],
+      "before": "Evelyn Newman",
+      "after": "Donna Newman"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "turnKey"
+      ],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-82:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-112:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "commitmentId"
+      ],
+      "before": "life-commitment_a932b4f09fd8a7d4",
+      "after": "life-commitment_8664db56ad22d6d0"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "supersededPerceptionIds",
+        0
+      ],
+      "before": "perception_7fc71e7d37fb6286",
+      "after": "perception_fc3f7447c197da78"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "presentation",
+        "beat",
+        "speakerName"
+      ],
+      "before": "Evelyn Newman",
+      "after": "Donna Newman"
+    }
+  ]
+}
