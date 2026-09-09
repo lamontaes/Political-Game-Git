@@ -1,4 +1,7 @@
-import { regularSessionActionRefusal } from "./legislative-session-window";
+import {
+  regularSessionActionRefusal,
+  RegularSessionUnavailableError,
+} from "./legislative-session-window";
 import { addDays } from "../simulation/dates";
 import {
   AUTHORED_MEASURE_NOTICE,
@@ -115,7 +118,7 @@ export function openLegislativeWork(
     blueprint.pack,
     world.currentDate,
   );
-  if (sessionRefusal) throw new Error(sessionRefusal);
+  if (sessionRefusal) throw new RegularSessionUnavailableError(sessionRefusal);
 
   const rng = new SeededRng(world.seed).fork(
     `legislative-member:${input.scenarioKey}`,
@@ -211,7 +214,7 @@ export function applyLegislativeCommand(
       assignment.procedure.pack,
       actionDate,
     );
-    if (refusal) throw new Error(refusal);
+    if (refusal) throw new RegularSessionUnavailableError(refusal);
   }
   const result = applyLegislativeStep(
     assignment.procedure,

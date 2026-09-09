@@ -1,3 +1,4 @@
+import { RegularSessionUnavailableError } from "../../src/presentation/legislative-session-window";
 import { createHash } from "node:crypto";
 import {
   campaignForCandidate,
@@ -191,12 +192,13 @@ export interface CampaignTranscript {
   /**
    * The legislative surface, when winning actually opened one.
    *
-   * Null after a loss, and null after a win the capability layer does not
+   * Null after a loss or an explicit session refusal, and after a win the capability layer does not
    * grant — a state reference without a playable room stays a placeholder
    * (PR #85), and the corpus reports that rather than opening a room the game
    * would not have opened.
    */
   readonly legislative: LegislativeTranscript | null;
+  readonly legislativeRefusal: string | null;
 }
 
 export interface LegislativeTranscript {
@@ -278,6 +280,7 @@ function runCampaign(
         outcome: null,
         lines: ["No candidacy was filed; the seed did not reach the spine."],
         legislative: null,
+        legislativeRefusal: null,
       },
     };
   }
@@ -307,6 +310,7 @@ function runCampaign(
 
   const won = Boolean(result) && result?.winnerPersonId === personId;
   let legislative: LegislativeTranscript | null = null;
+  let legislativeRefusal: string | null = null;
   if (won) {
     const capabilities = resolvePlayerCapabilities(current);
     if (
@@ -314,33 +318,39 @@ function runCampaign(
       capabilities.legislativeScenarioKey &&
       capabilities.legislativeJurisdictionId
     ) {
-      const opened = openLegislativeWork(current, {
-        playerPersonId: personId,
-        scenarioKey: capabilities.legislativeScenarioKey,
-        jurisdictionId: capabilities.legislativeJurisdictionId,
-      });
-      current = opened.world;
-      const briefing = projectMeasureBriefing(
-        current,
-        opened.assignment.measureId,
-      );
-      legislative = {
-        scenarioKey: capabilities.legislativeScenarioKey,
-        designation: briefing.designation,
-        headline: briefing.shortTitle,
-        stage: briefing.whereItStands,
-        lines: [
-          briefing.summary,
-          briefing.whereItStands,
-          ...(briefing.whatJustHappened ? [briefing.whatJustHappened] : []),
-          briefing.whoDecidesNext,
-          briefing.whatHappensNext,
-          ...(briefing.requirementNote ? [briefing.requirementNote] : []),
-          ...briefing.options.map((option) => option.label),
-          ...briefing.deadlines,
-        ],
-        openQuestions: [...briefing.uncertainties],
-      };
+      try {
+        const opened = openLegislativeWork(current, {
+          playerPersonId: personId,
+          scenarioKey: capabilities.legislativeScenarioKey,
+          jurisdictionId: capabilities.legislativeJurisdictionId,
+        });
+        current = opened.world;
+        const briefing = projectMeasureBriefing(
+          current,
+          opened.assignment.measureId,
+        );
+        legislative = {
+          scenarioKey: capabilities.legislativeScenarioKey,
+          designation: briefing.designation,
+          headline: briefing.shortTitle,
+          stage: briefing.whereItStands,
+          lines: [
+            briefing.summary,
+            briefing.whereItStands,
+            ...(briefing.whatJustHappened ? [briefing.whatJustHappened] : []),
+            briefing.whoDecidesNext,
+            briefing.whatHappensNext,
+            ...(briefing.requirementNote ? [briefing.requirementNote] : []),
+            ...briefing.options.map((option) => option.label),
+            ...briefing.deadlines,
+          ],
+          openQuestions: [...briefing.uncertainties],
+        };
+      } catch (error) {
+        if (!(error instanceof RegularSessionUnavailableError)) throw error;
+        legislativeRefusal = error.message;
+        lines.push(legislativeRefusal);
+      }
     }
   }
 
@@ -354,6 +364,7 @@ function runCampaign(
       outcome: result ? (won ? "won" : "lost") : null,
       lines,
       legislative,
+      legislativeRefusal,
     },
   };
 }
@@ -499,6 +510,8 @@ function demonstratedBy(
   if ((campaign?.sessions.length ?? 0) > 0) shown.add("campaign-sessions");
   if (campaign?.resolved) shown.add(`election-${campaign.outcome}`);
   if (campaign?.legislative) shown.add("legislative-measure-briefing");
+  if (campaign?.legislativeRefusal)
+    shown.add("legislative-session-unavailable");
   return [...shown].sort();
 }
 

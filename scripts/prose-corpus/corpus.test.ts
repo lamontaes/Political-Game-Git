@@ -424,7 +424,10 @@ describe("transcripts", () => {
       "campaign-sessions",
       "election-won",
       "election-lost",
-      "legislative-measure-briefing",
+      // P12: this inherited campaign fixture reaches its first introduction
+      // after the sourced session deadline. Preserve its actual refusal;
+      // valid-window briefing behavior remains covered by the LEG route tests.
+      "legislative-session-unavailable",
     ]) {
       expect(seen).toContain(claim);
     }
@@ -556,9 +559,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // narration templates. No pin was carried forward; this is a live
     // measurement on this tree.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(56479);
+    expect(coverage.totalLiterals).toBe(56834);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(363);
+    expect(coverage.scannedFiles).toBe(371);
   });
 });
 

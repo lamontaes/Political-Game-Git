@@ -39,3 +39,6 @@ export function regularSessionActionRefusal(
     ? `The configured regular session cannot continue after ${window.deadline} (${window.source.citation}). No exceptional-session record authorizes this action.`
     : null;
 }
+
+/** A declared availability refusal, distinct from an unexpected writer failure. */
+export class RegularSessionUnavailableError extends Error {}
