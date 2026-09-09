@@ -253,7 +253,11 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     sourcePath: "src/presentation/life-introduction.ts",
     domain: "life",
     bank: "introduction",
-    symbols: ["buildGrounding", "buildLifeIntroduction"],
+    symbols: [
+      "buildGrounding",
+      "buildLifeIntroduction",
+      "householdAbsenceLine",
+    ],
     surface: "connective",
     reachability: "PLAYER_REACHABLE",
     reachabilityReason:

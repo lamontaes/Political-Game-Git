@@ -228,7 +228,11 @@ describe("The production world is not a renamed fixture", () => {
 
   it("gives a child nothing an adult would have", () => {
     const { world, playerPersonId } = start({ startAge: 8 });
-    expect(unjustifiedCargo(world)).toEqual(NOTHING);
+    expect(unjustifiedCargo(world)).toEqual({
+      ...NOTHING,
+      personalityTendencies: world.personOrder.length * 2,
+      personalValues: world.personOrder.length * 3,
+    });
     expect(activeWorkRelationshipsAt(world, playerPersonId)).toEqual([]);
   });
 

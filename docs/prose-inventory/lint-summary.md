@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 259 review warnings.**
+**0 hard errors. 261 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 164 |
+| vague-referent | 166 |
 | and-it-scaffold | 39 |
 | rather-than-scaffold | 27 |
 | slot-agreement | 12 |
@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 1897 templates, 1874 distinct texts.
-- 19 exact duplicate groups.
-- 24 normalized duplicate groups.
-- 8 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2039 templates, 1966 distinct texts.
+- 32 exact duplicate groups.
+- 37 normalized duplicate groups.
+- 14 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -69,15 +69,15 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `the player asked` | 10 |
 | `you took the` | 9 |
 | `say you will` | 8 |
+| `you put the` | 7 |
 | `you told them` | 7 |
 | `it is not` | 6 |
 | `the bill has` | 6 |
 | `you agreed to` | 6 |
 | `you asked for` | 6 |
 | `ask about the` | 5 |
+| `ask for a` | 5 |
 | `say nothing to` | 5 |
 | `they said they` | 5 |
-| `you asked to` | 5 |
-| `you kept your` | 5 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

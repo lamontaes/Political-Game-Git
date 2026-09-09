@@ -1675,14 +1675,6 @@
       "textRevision": "35b5cebde79d"
     },
     {
-      "anchor": "buildGrounding-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildGrounding",
-      "text": "You were raised by {introducePerson(context)}.",
-      "occurrence": 0,
-      "textRevision": "63cc07e9c396"
-    },
-    {
       "anchor": "buildGrounding-0003",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildGrounding",
@@ -1699,20 +1691,28 @@
       "textRevision": "75d1ba529be9"
     },
     {
+      "anchor": "buildGrounding-0005",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "You started work at {name} in {yearOf(work.startedAt)}.",
+      "occurrence": 0,
+      "textRevision": "b4addf5f87dd"
+    },
+    {
+      "anchor": "buildGrounding-0006",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "buildGrounding",
+      "text": "{introducePerson(context)} has died.",
+      "occurrence": 0,
+      "textRevision": "a757f0ab51ac"
+    },
+    {
       "anchor": "buildLifeIntroduction-0001",
       "sourcePath": "src/presentation/life-introduction.ts",
       "symbol": "buildLifeIntroduction",
       "text": "At home with you:",
       "occurrence": 0,
       "textRevision": "6a074258f505"
-    },
-    {
-      "anchor": "buildLifeIntroduction-0002",
-      "sourcePath": "src/presentation/life-introduction.ts",
-      "symbol": "buildLifeIntroduction",
-      "text": "You live on your own.",
-      "occurrence": 0,
-      "textRevision": "b4319fce0ffb"
     },
     {
       "anchor": "buildLifeIntroduction-0003",
@@ -2265,6 +2265,22 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "householdAbsenceLine-0001",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "No one else is recorded in your current household.",
+      "occurrence": 0,
+      "textRevision": "987c404d9518"
+    },
+    {
+      "anchor": "householdAbsenceLine-0002",
+      "sourcePath": "src/presentation/life-introduction.ts",
+      "symbol": "householdAbsenceLine",
+      "text": "Your current household is not recorded.",
+      "occurrence": 0,
+      "textRevision": "8d21a6746a69"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0001",

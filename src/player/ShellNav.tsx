@@ -310,8 +310,8 @@ export function ShellNav({
                     dispatch({ type: "go-to-surface", surface: "journal" })
                   }
                 >
-                  Life history
-                  <small>Chapters, and what is still open</small>
+                  Journal
+                  <small>Private notes, intentions and life history</small>
                 </button>
               ) : null}
             </>

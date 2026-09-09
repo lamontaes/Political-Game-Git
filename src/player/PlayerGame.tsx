@@ -1,3 +1,4 @@
+import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
@@ -1738,25 +1739,26 @@ function PlayingScreen({
       testid: "nav-calendar",
       open: openSurface === "calendar",
     });
-    if (
-      (capabilities.legislation && capabilities.legislativeScenarioKey) ||
-      judicialOfficeContexts(session.world).length > 0 ||
-      resolveExecutiveOffice(session.world)
-    ) {
-      entries.push({
-        surface: "work",
-        label: "Offices / Work",
-        hint: "Your seat and what needs you",
-        testid: "elsewhere-work",
-        open: openSurface === "work",
-      });
-    }
+    entries.push({
+      surface: "work",
+      label: "Offices / Work",
+      hint: "Education, work and your current role",
+      testid: "elsewhere-work",
+      open: openSurface === "work",
+    });
     entries.push({
       surface: "personal",
       label: "Personal",
       hint: "You, the household, money",
       testid: "nav-personal-entry",
       open: openSurface === "personal",
+    });
+    entries.push({
+      surface: "life-scenes",
+      label: "Life scenes",
+      hint: "Return to your current scene and conversations",
+      testid: "nav-life-scenes",
+      open: openSurface === "life-scenes",
     });
     entries.push({
       surface: "municipal",
@@ -2389,6 +2391,19 @@ function renderWorkspace({
         />,
       );
 
+    case "life-scenes":
+      return frame(
+        "Life scenes",
+        "life-scenes-workspace",
+        <LifeScenePanel
+          world={session.world}
+          playerPersonId={session.personId}
+          onWorldChange={onWorldChange}
+          onContinue={close}
+          transitionHandlers={createCampaignElectionTransitionRegistry()}
+        />,
+      );
+
     case "municipal":
       return frame(
         "Local government",
@@ -2499,13 +2514,13 @@ function renderWorkspace({
         );
       if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
         return frame(
-          "The office",
-          "office-section",
-          <p className="game-note" data-testid="no-office">
-            {capabilities.withheld.find(
-              (entry) => entry.surface === "legislation",
-            )?.reason ?? "This life has no office."}
-          </p>,
+          "Education and work",
+          "personal-work-section",
+          <LifePathsPanel
+            world={session.world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={createCampaignElectionTransitionRegistry()}
+          />,
         );
       }
       const docketKey = selectedDocketKey(

@@ -1120,6 +1120,20 @@
     "evidence": "and it"
   },
   {
+    "id": "prose:life:episode:opening.adult.home.free-time/moment#option:draw:label",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.choose-activity/moment#option:draw:label",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
     "id": "prose:life:episode:political.what-your-name-is-for/kept-your-distance#line:1",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

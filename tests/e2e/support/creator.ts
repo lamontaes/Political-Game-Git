@@ -129,6 +129,15 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  */
 export async function enterLife(page: Page): Promise<void> {
   await expect(page.getByTestId("play-screen")).toBeVisible();
+  const opening = page.getByTestId("opening-life-panel");
+  if (await opening.isVisible()) {
+    await opening.getByRole("button", { name: "Meet your household" }).click();
+    await opening.getByRole("button", { name: "Step inside" }).click();
+  }
+  const scene = page.getByTestId("opening-life-scene");
+  if (await scene.isVisible()) {
+    await scene.getByRole("button", { name: "Continue your life" }).click();
+  }
   const gate = page.getByTestId("introduction-continue");
   if ((await gate.count()) > 0) await gate.click();
 }

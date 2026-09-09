@@ -174,15 +174,14 @@ describe("the content index", () => {
     expect(second).toBe(first);
   });
 
-  it("reports an empty production catalog as an empty bank, not as a missing one", () => {
+  it("reports authored production mind definitions separately from synthetic catalogs", () => {
     const bank = index.banks.find(
       (candidate) => candidate.id === "content.production-catalogs",
     );
     expect(bank).toBeDefined();
-    expect(bank?.authority).toBe("unestablished");
-    // The bank is empty because the catalogs are, which is the honest state.
-    expect(createProductionMindCatalog().tendencyOrder).toStrictEqual([]);
-    expect(bank?.items).toStrictEqual([]);
+    expect(bank?.authority).toBe("authored");
+    expect(createProductionMindCatalog().tendencyOrder).toHaveLength(2);
+    expect(bank?.items).toHaveLength(5);
   });
 
   it("keeps synthetic fixture content marked as unreachable in play", () => {
