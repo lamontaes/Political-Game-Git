@@ -39,3 +39,48 @@ LEG80801a9 is integrated in merge8959726. Conflicts preserved both LIFE and LEG 
 Selected screenshots and source/browser provenance are retained in `browser/`; full logs/traces remain in the identified temporary evidence root. These are screenshots of existing released art and canonical test lives, not new production assets or human acceptance.
 
 OPENING and MUNI immutable checkpoints, final combined full-suite/browser proof and human acceptance remain outstanding. Historical raster error/placeholder findings remain explicitly unresolved under UI ownership.
+
+## UI-CONNECT2
+
+Current packet read in full after fetching latest heads. Preserved pre-existing
+four-file correction checkpoint as710f6ee; NEWS7829d055 merged at84897bc.
+NEWS adds only its frozen canonical publication/history, panel/help, typed person
+and existing headline-slot adapters. UI's `publishLegislativeTransition` composes
+new completed public legislative actions from explicit Docket/Legislation
+callbacks; it never runs on News reads, load, opening an existing docket, or
+unrelated public records. The normal route remains `/`.
+
+Staff diagnosis is reproduced, not inferred from CI: unchanged original test
+passes at accepted main1eb0b0d (1 selected,32 not selected,8.49s); fails at frozen
+LIFE5d142e7 (same0/active/550 assertion,8.87s). Composed2cc6188 full run reproduced
+both CI assertions:3473 passed,2 failed,2 skipped. One Collins worker receives
+65 available minutes in550→615: earlier brief65, later summary0. By690 both
+finish, brief90 plus summary50 equals140 elapsed minutes. LIFE's explicit
+cross-assignment test includes unbound work. Runtime allocation is preserved;
+only the misleading eligibility comment and compatibility expectations changed.
+Corrected focused placement/D-Lite39 tests pass; subsequent NEWS combined run
+passes those39 plus NEWS5. The first new publication test correctly found no
+person on an institutional referral, so final linked-person proof uses an
+actual draft filing with its recorded sponsor, without inventing participation.
+
+Placement bounds use authored usable seat/floor anchors with positive footprint,
+not a3/4 runtime cap: test checks real anchor membership, pose kind, canonical
+input identity, uniqueness, under-capacity and overflow, and no-art calibration.
+
+Browser evidence: news10 failed wrong focus target and pre-fade helper timing;
+news11 ENV passed (including no overlap at960 and reload), News reached sponsor
+but Back focus failed; news12 Back passed but second manual Save was absent.
+UI fixes retain the existing save method for later saves, guard duplicate clicks,
+show Saving before completion, and restore linked-person focus after mount.
+news13 passes actual normal filing→publication→News→recorded sponsor→Back/help→
+repeat Save→reload with identical saved World bytes after reads (22.2s).
+Original assertions, real pointer/keyboard activation and timeouts retained.
+Screenshots inspected:960 aftermath clears identity; News readable. Human visual
+approval is pending. Browser provenance retains exact head plus dirty source
+fingerprint, so these are not misrepresented as clean final-head proofs.
+
+Verified ancestry: frozen P2R2 0f294a8 and P01 54d81be are absent from this UI tree;
+origin/main remains1eb0b0d. Campaign repair is pending LAND's explicit delivery,
+not claimed repaired. OPENING and MUNI remain owned, unpublished adapters; they
+do not block this delivered News connection. No branch merge to main, release
+activation, new prototype, interview system, or monitoring occurred.

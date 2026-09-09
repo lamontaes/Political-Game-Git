@@ -1,0 +1,22 @@
+{
+  "head": "d9c709214f44f81acc713ae5c512df25ac5860ef",
+  "url": "http://127.0.0.1:5326/?view=scene-gallery",
+  "results": [
+    {
+      "width": 1440,
+      "activation": "pointer",
+      "unreleased": true,
+      "initialRasterRequest": false,
+      "loadedWidth": 1376,
+      "errors": []
+    },
+    {
+      "width": 960,
+      "activation": "keyboard",
+      "unreleased": true,
+      "initialRasterRequest": false,
+      "loadedWidth": 1376,
+      "errors": []
+    }
+  ]
+}

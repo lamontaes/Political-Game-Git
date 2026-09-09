@@ -34,3 +34,13 @@ Pending source-dependent work: route providers for actual workplace destinations
 transport schedules/durations/access where not scenario-authored, and exact
 county/place/government-unit crosswalks. The recovered ENV checkout contains none
 of those providers. No guessed values or name-only joins are substituted.
+
+LIFE-PATHS2 owner confirmation on frozen `5d142e7a93995f248c3ff5f58592a79da13f7abb`:
+`scheduleLifePathSession` supplies a logical `life-paths2:${path.id}` key,
+organization display label and null jurisdiction. `LifePathDefinition` has no
+physical endpoint fields; `timeDemand.locationJurisdictionId` is null. Its
+`EducationOpportunityProvider` supplies organization identity, program capability
+and capability evidence only. `sessionMinutes` is attendance/work effort, never
+travel duration. No explicit workplace/education endpoint, room kind, commute or
+route provider exists there; zero commute must not be assumed. These activity
+keys therefore cannot be bound to room art or passed off as place IDs.

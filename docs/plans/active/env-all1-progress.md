@@ -139,3 +139,28 @@ was added.
   release activation, new art, or duplicate person subsystem.
 - Limits: full gates and human visual acceptance pending; UI/OPENING/MUNI
   integration is separately evidenced, not inferred from exported interfaces.
+
+### Recipient implementation checkpoint
+
+Recovered content and source preservation are committed in draft PR #142.
+Functional checkpoint `544d78b9f5a16631dbf28d3eb7370daf976c1445` includes:
+actual completed-attendance scene selection, a feature-local player action and
+completion receipt, and the explicit provider-based travel/arrival adapter.
+The community hall reuses released art; the recovered courtroom stays unreleased.
+
+UI-core’s recipient contains the explicit root imports and panel wiring, verified
+read-only. Its household-only prose still needed gating during activity aftermath
+and was referred to the owning lane. A dirty composed checkout is not final
+normal-play evidence. Keep this plan active until the validation/browser gate and
+owner handoffs are recorded in `docs/agent/evidence/env-all1-recovery/verification.md`.
+
+### Final recovery delivery
+
+See `docs/agent/evidence/env-all1-recovery/verification.md` for executed gate exits,
+normal UI checkpoint identity, pointer/keyboard proof, preserved-source hashes
+and actual screenshots. The posted meeting now has normal-play evidence through
+UI PR #144; courtroom preview remains unreleased. The 960px aftermath/location
+card collision is reported to UI-core. Workplace and other source-dependent venue
+bindings remain explicitly unavailable. Keep this plan active for those integration
+and human-acceptance gaps; recovery and the bounded ENV implementation are delivered
+in draft PR #142, without self-merge.

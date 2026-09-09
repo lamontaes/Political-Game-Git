@@ -19,3 +19,12 @@ Supersedes the earlier no-tests-started status. ENV97fbcde is merged; receipt fr
 PEOPLE production-only patch fromd9d3afe applied and two portrait boundary tests pass. MUNI's proposed `MunicipalWorkspace({world,onWorldChange})` fits Work; awaiting frozen source. OPENING and recovered LEG exact heads still awaited. Full heavy validation queued after existing owners; no full-green claim. Single draft UI publication follows this checkpoint; root ownership remains here.
 
 OLD-WORK-RECOVERY1 acknowledgment: UI-CORE owns the shared `useRasterTier` decode-error presentation and the player rendering boundary for `ComposedCharacterVisual.isPlaceholder`. PEOPLE owns the canonical character-plan contract; ENV owns raster admission/tier metadata. Both historical #92 findings are accepted as unresolved UI visual follow-ups, outside the creator/selected-person/pin fixes already proved. No repair or acceptance is claimed, and OLD-WORK should not edit these shared paths. They remain in the transfer's explicit defect ledger until addressed with the relevant existing visual owner.
+
+UI-CONNECT2 owner contact: NEWS143 comments5595114927/5595148155 pin7829d055
+and describe the bounded explicit legislative producer; LIFE1415595115072 and
+EXEC1405595115217 request confirmation of reproduced shared-time disposition.
+Their frozen heads remain5d142e7/5b9076a. No outgoing native task tool is available;
+these are actual authenticated PR comments, not claimed task messages.
+ENV final aa7106ee preserves metadata and independent normal-route evidence;
+production source delta from integrated544d78b is empty. Its960 root collision
+is corrected and browser-tested by UI; candidate gallery remains unreleased.

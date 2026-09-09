@@ -58,3 +58,15 @@ Historical recovery follow-up received from OLD-WORK-RECOVERY1: raster decode er
 LEG owner published80801a9 on PR137; integrated via8959726. Docket uses the existing Work frame, callback and save store. The currently selected document can be pinned by its canonical measure ID. Two root/browser checks pass, including selected-document reload/pin persistence. UI's transition fade now precedes generation and has reduced-motion support plus a once-only completion guard; creator09 passes named-draft recovery and keyboard Begin. OPENING will connect its frozen controller at this same root-owned boundary.
 
 Source validation, source replay, production build and headless demo pass. Full suite remains queued behind PEOPLE/ENV. Current evidence ledger records exact runs and incomplete acceptance.
+
+## UI-CONNECT2 continuation
+
+Same branch/PR144. Frozen NEWS7829d055 connected to normal News, existing person
+history and ENV headline payloads. Explicit completed legislative-action callback
+publishes through the owner writer; reads do not. Source-grounded staff contract
+and usable-anchor tests correct both hosted CI assertions. Normal News browser
+proof and960 overlap proof pass; final full gates are now running after ENV
+released the shared slot. OPENING/MUNI remain at their owners and campaign
+prerequisites remain with LAND. LEARN: wait for the actual play surface after a
+presentation fade; test the saved World around read routes, not only visible
+headlines, and exercise an explicit second Save rather than assuming autosave.
