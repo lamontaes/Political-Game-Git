@@ -158,7 +158,13 @@ describe("C119B missing circumstances fail closed", () => {
         stages: [
           {
             ...entry.stage,
-            requires: entry.stage.requires.filter((r) => r.kind === "withheld"),
+            requires: entry.stage.requires.filter(
+              (r) =>
+                r.kind === "withheld" ||
+                (r.kind === "fact" &&
+                  (r.fact === "work.coverage-requested" ||
+                    r.fact === "school.shared-assignment")),
+            ),
           },
         ],
       };
@@ -168,8 +174,15 @@ describe("C119B missing circumstances fail closed", () => {
         families: [isolated],
       });
       expect(result.beats).toEqual([]);
-      expect(result.exclusions[0]?.requirement.kind).toBe("withheld");
-      expect(result.exclusions[0]?.detail).toMatch(/Missing/);
+      expect(
+        result.exclusions.some(
+          (exclusion) =>
+            exclusion.requirement.kind === "withheld" ||
+            (exclusion.requirement.kind === "fact" &&
+              (exclusion.requirement.fact === "work.coverage-requested" ||
+                exclusion.requirement.fact === "school.shared-assignment")),
+        ),
+      ).toBe(true);
     },
   );
 

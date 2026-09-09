@@ -16,6 +16,7 @@ export interface LifeSceneChoice {
 export type LifeSceneSetting = "home" | "school" | "neighborhood";
 export interface LifeSceneDefinition {
   readonly key: string;
+  readonly recurrence?: "daily";
   readonly ages: readonly [number, number];
   readonly setting: LifeSceneSetting;
   readonly cast: LifeSceneCast;
@@ -37,6 +38,9 @@ function scene(
 ): LifeSceneDefinition {
   return {
     key,
+    ...(key === "young.home.choose-activity" || key === "adult.home.free-time"
+      ? { recurrence: "daily" as const }
+      : {}),
     ages,
     setting,
     cast,
@@ -50,6 +54,172 @@ function scene(
   };
 }
 export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
+  // Adapted ordinary school contexts keep the source's choices without inventing
+  // a pool/library/neighbor address or importing a school discipline engine.
+  scene(
+    "early.school.lunchbox-swap",
+    [5, 7],
+    "school",
+    "peer",
+    "At lunch, {person} offers to swap snacks. The lunch monitor has just said to keep your own food.",
+    [
+      {
+        key: "make-secret-swap",
+        label: "Make the swap quietly",
+        aftermath: "You and {person} exchange snacks under the table.",
+      },
+      {
+        key: "decline-cite-rule",
+        label: "Say trading isn't allowed",
+        aftermath:
+          "You tell {person} what the monitor said and keep your snack.",
+        approach: "direct",
+      },
+      {
+        key: "eat-own-food",
+        label: "Keep the snack you brought",
+        aftermath: "You tell {person} you prefer your own snack.",
+      },
+    ],
+    5,
+  ),
+  scene(
+    "early.peer.sidewalk-game",
+    [6, 7],
+    "school",
+    "peer",
+    "You and {person} have drawn a chalk game in the schoolyard. {person} wants to add a rule that changes how you play.",
+    [
+      {
+        key: "compromise-rule",
+        label: "Suggest trying the rule for one round",
+        aftermath: "You suggest one trial round to {person} before deciding.",
+        approach: "ask",
+      },
+      {
+        key: "insist-house-rules",
+        label: "Ask to keep the rules you agreed",
+        aftermath:
+          "You remind {person} of the rules you agreed before starting.",
+        approach: "direct",
+      },
+      {
+        key: "give-in-play",
+        label: "Try their rule",
+        aftermath: "You play the next round using the rule {person} suggested.",
+        approach: "listen",
+      },
+    ],
+  ),
+  scene(
+    "early.peer.secret-whisper",
+    [6, 7],
+    "school",
+    "peer",
+    "During story time, {person} whispers an embarrassing story about another child. You don't know whether it happened.",
+    [
+      {
+        key: "keep-secret",
+        label: "Say it sounds unkind",
+        aftermath:
+          "You tell {person} the story sounds unkind and turn back to the book.",
+        approach: "direct",
+      },
+      {
+        key: "decline-to-pass",
+        label: "Keep it to yourself",
+        aftermath: "You don't repeat what {person} told you.",
+      },
+      {
+        key: "question-story",
+        label: "Ask how they know",
+        aftermath: "You ask {person} how they know the story is true.",
+        approach: "ask",
+      },
+    ],
+    5,
+  ),
+  scene(
+    "early.peer.dropped-treat",
+    [5, 7],
+    "school",
+    "peer",
+    "During the school break, {person} drops a snack into a puddle and starts crying. You still have your own snack.",
+    [
+      {
+        key: "break-half-share",
+        label: "Offer some of your snack",
+        aftermath: "You offer {person} a clean piece of your snack.",
+      },
+      {
+        key: "comfort-words",
+        label: "Stay and comfort them",
+        aftermath:
+          "You stay beside {person} and say you're sorry their snack fell.",
+        approach: "listen",
+      },
+      {
+        key: "walk-past-eat",
+        label: "Move away quietly",
+        aftermath: "You move away from {person} with your own snack.",
+      },
+    ],
+    5,
+  ),
+  scene(
+    "early.peer.roughhouse-line",
+    [6, 7],
+    "school",
+    "peer",
+    "During tag, {person} knocks you over while trying to catch you. You sit up on the grass, startled.",
+    [
+      {
+        key: "state-boundary",
+        label: "Say tag doesn't mean pushing",
+        aftermath: "You tell {person} you don't want to be pushed during tag.",
+        approach: "direct",
+      },
+      {
+        key: "stop-playing",
+        label: "Stop playing for now",
+        aftermath: "You tell {person} you're stopping the game and step away.",
+      },
+      {
+        key: "brush-off-tough",
+        label: "Get up and keep playing",
+        aftermath: "You get up and rejoin the game with {person}.",
+      },
+    ],
+    5,
+  ),
+  scene(
+    "early.community.library-quiet",
+    [5, 6],
+    "school",
+    "peer",
+    "During a quiet reading activity at school, {person} whispers a joke. You feel yourself starting to laugh.",
+    [
+      {
+        key: "stifle-face",
+        label: "Try to hold in the laugh",
+        aftermath: "You cover your mouth and turn back to the book.",
+      },
+      {
+        key: "laugh-out-loud",
+        label: "Laugh with them",
+        aftermath:
+          "You laugh out loud with {person} during the quiet reading activity.",
+      },
+      {
+        key: "scoot-away",
+        label: "Move a little farther away",
+        aftermath:
+          "You move away from {person} so you can listen to the reading.",
+        approach: "listen",
+      },
+    ],
+    5,
+  ),
   scene(
     "early.school.crayon-sharing",
     [5, 7],
@@ -453,6 +623,7 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
     ];
     return {
       key: `opening.${scene.key}`,
+      ...(scene.recurrence ? { recurrence: scene.recurrence } : {}),
       family: scene.setting === "school" ? "school" : "household",
       authority: {
         sourceDocument: "OPENING-LIFE1 / 92C",

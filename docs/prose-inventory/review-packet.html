@@ -50,22 +50,22 @@ h2 .count { color:var(--accent); }
 </head><body><main>
 <header>
 <h1>Our Civic Duty — player-facing prose review packet</h1>
-<p>Current main <code data-provenance="head-sha">666907d364700af5e03e9c147a296ffd46dbcd0c</code> &middot; inventory digest <code>3db3f197cee1527d</code> &middot; generated for owner prose review</p>
+<p>Current main <code data-provenance="head-sha">1a74b3d2ac4fccab5e44f1a17e7270b053128193</code> &middot; inventory digest <code>a50dfb5ba2c99c1f</code> &middot; generated for owner prose review</p>
 <p>Every item is keyed by its stable semantic ID. Marks belong to the ID, not to a position on the page.</p>
 </header>
 <div class="summary">
-<div><b>2039</b> templates<ul><li><b>91</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>1489</b> PLAYER_REACHABLE</li><li><b>369</b> WITHHELD_BY_GROUNDING</li></ul></div>
-<div><b>261</b> review warnings<ul><li><b>39</b> and-it-scaffold</li><li><b>9</b> label-restated-in-description</li><li><b>27</b> rather-than-scaffold</li><li><b>12</b> slot-agreement</li><li><b>8</b> third-person-player</li><li><b>166</b> vague-referent</li></ul></div>
+<div><b>2141</b> templates<ul><li><b>42</b> CURRENTLY_UNREACHABLE</li><li><b>91</b> DEV_FIXTURE_ONLY</li><li><b>90</b> LEGACY_OR_WITHDRAWN</li><li><b>1549</b> PLAYER_REACHABLE</li><li><b>369</b> WITHHELD_BY_GROUNDING</li></ul></div>
+<div><b>267</b> review warnings<ul><li><b>39</b> and-it-scaffold</li><li><b>9</b> label-restated-in-description</li><li><b>27</b> rather-than-scaffold</li><li><b>12</b> slot-agreement</li><li><b>8</b> third-person-player</li><li><b>172</b> vague-referent</li></ul></div>
 <div><b>0</b> hard errors</div>
 </div>
 <div class="toolbar">
 <input id="q" type="search" placeholder="Search prose or ID" aria-label="Search">
-<select id="reach" aria-label="Reachability"><option value="">Any reach</option><option value="DEV_FIXTURE_ONLY">DEV_FIXTURE_ONLY</option><option value="LEGACY_OR_WITHDRAWN">LEGACY_OR_WITHDRAWN</option><option value="PLAYER_REACHABLE">PLAYER_REACHABLE</option><option value="WITHHELD_BY_GROUNDING">WITHHELD_BY_GROUNDING</option></select>
+<select id="reach" aria-label="Reachability"><option value="">Any reach</option><option value="CURRENTLY_UNREACHABLE">CURRENTLY_UNREACHABLE</option><option value="DEV_FIXTURE_ONLY">DEV_FIXTURE_ONLY</option><option value="LEGACY_OR_WITHDRAWN">LEGACY_OR_WITHDRAWN</option><option value="PLAYER_REACHABLE">PLAYER_REACHABLE</option><option value="WITHHELD_BY_GROUNDING">WITHHELD_BY_GROUNDING</option></select>
 <select id="flag" aria-label="Warning family"><option value="">Any warning</option><option value="and-it-scaffold">and-it-scaffold</option><option value="label-restated-in-description">label-restated-in-description</option><option value="rather-than-scaffold">rather-than-scaffold</option><option value="slot-agreement">slot-agreement</option><option value="third-person-player">third-person-player</option><option value="vague-referent">vague-referent</option></select>
 <span id="shown"></span>
 </div>
 <section class="group" data-group="scene-line">
-<h2>scene-line <span class="count">176</span></h2>
+<h2>scene-line <span class="count">182</span></h2>
 <article class="item" id="prose:life:adult:adult.candidacy-approach#prose" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="vague-referent" data-text="somebody has asked you outright whether you would ever run for public office." data-text-revision="36919fa45762" data-context-revision="470f24803bd9">
 <div class="top"><code class="sid">prose:life:adult:adult.candidacy-approach#prose</code><span class="flag" title="Uses &quot;somebody&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
 <p class="prose">Somebody has asked you outright whether you would ever run for public office.</p>
@@ -1715,6 +1715,23 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="during a quiet reading activity at school, {role:school-peer} whispers a joke. you feel yourself starting to laugh." data-text-revision="b4584e9d1641" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#line:0</code></div>
+<p class="prose">During a quiet reading activity at school, {role:school-peer} whispers a joke. You feel yourself starting to laugh.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.community.lost-pet-flyer/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="walking with {role:guardian}, you spot a white cat with an orange ear under a bush. it looks like the cat on a lost-pet flyer nearby." data-text-revision="ddba35f10462" data-context-revision="260f05b0aba6">
 <div class="top"><code class="sid">prose:life:episode:opening.early.community.lost-pet-flyer/moment#line:0</code></div>
 <p class="prose">Walking with {role:guardian}, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.</p>
@@ -1817,6 +1834,74 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="during the school break, {role:school-peer} drops a snack into a puddle and starts crying. you still have your own snack." data-text-revision="eb55431ce067" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#line:0</code></div>
+<p class="prose">During the school break, {role:school-peer} drops a snack into a puddle and starts crying. You still have your own snack.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="during tag, {role:school-peer} knocks you over while trying to catch you. you sit up on the grass, startled." data-text-revision="63e674535537" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#line:0</code></div>
+<p class="prose">During tag, {role:school-peer} knocks you over while trying to catch you. You sit up on the grass, startled.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="during story time, {role:school-peer} whispers an embarrassing story about another child. you don't know whether it happened." data-text-revision="5fac17082d1b" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#line:0</code></div>
+<p class="prose">During story time, {role:school-peer} whispers an embarrassing story about another child. You don't know whether it happened.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you and {role:school-peer} have drawn a chalk game in the schoolyard. {role:school-peer} wants to add a rule that changes how you play." data-text-revision="0abe197bb905" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#line:0</code></div>
+<p class="prose">You and {role:school-peer} have drawn a chalk game in the schoolyard. {role:school-peer} wants to add a rule that changes how you play.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.peer.toy-damage-accidental/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="while you play together, a wheel snaps off {role:school-peer}'s toy truck in your hands." data-text-revision="a76fd69c2c2e" data-context-revision="e080bbe1f684">
 <div class="top"><code class="sid">prose:life:episode:opening.early.peer.toy-damage-accidental/moment#line:0</code></div>
 <p class="prose">While you play together, a wheel snaps off {role:school-peer}'s toy truck in your hands.</p>
@@ -1844,6 +1929,23 @@ h2 .count { color:var(--accent); }
 <dt>Slots</dt><dd>role:school-peer</dd>
 </dl>
 <div class="marks" data-id="prose:life:episode:opening.early.school.crayon-sharing/moment#line:0">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#line:0" data-surface="scene-line" data-reach="PLAYER_REACHABLE" data-flags="" data-text="at lunch, {role:school-peer} offers to swap snacks. the lunch monitor has just said to keep your own food." data-text-revision="507190448a02" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#line:0</code></div>
+<p class="prose">At lunch, {role:school-peer} offers to swap snacks. The lunch monitor has just said to keep your own food.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#line:0">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -3060,7 +3162,7 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="option-label">
-<h2>option-label <span class="count">343</span></h2>
+<h2>option-label <span class="count">372</span></h2>
 <article class="item" id="prose:life:adult:adult.candidacy-approach#option:ask-what-for:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="ask what they actually want" data-text-revision="c7b87c9ed544" data-context-revision="470f24803bd9">
 <div class="top"><code class="sid">prose:life:adult:adult.candidacy-approach#option:ask-what-for:label</code></div>
 <p class="prose">Ask what they actually want</p>
@@ -6325,6 +6427,57 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="laugh with them" data-text-revision="e6bd6ef54436" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:label</code></div>
+<p class="prose">Laugh with them</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="move a little farther away" data-text-revision="2f45438e8243" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:label</code></div>
+<p class="prose">Move a little farther away</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="try to hold in the laugh" data-text-revision="629391dc0866" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:label</code></div>
+<p class="prose">Try to hold in the laugh</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="ask if it might be the missing cat" data-text-revision="94ced5d102f6" data-context-revision="260f05b0aba6">
 <div class="top"><code class="sid">prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:label</code></div>
 <p class="prose">Ask if it might be the missing cat</p>
@@ -6631,6 +6784,210 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="offer some of your snack" data-text-revision="ccaa24be60d6" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:label</code></div>
+<p class="prose">Offer some of your snack</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="stay and comfort them" data-text-revision="c67449acff2d" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:label</code></div>
+<p class="prose">Stay and comfort them</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="move away quietly" data-text-revision="7b48f60d2963" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:label</code></div>
+<p class="prose">Move away quietly</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="get up and keep playing" data-text-revision="690ef44dd460" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:label</code></div>
+<p class="prose">Get up and keep playing</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say tag doesn't mean pushing" data-text-revision="6a31d6b7417f" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:label</code></div>
+<p class="prose">Say tag doesn't mean pushing</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="stop playing for now" data-text-revision="7c87460810a4" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:label</code></div>
+<p class="prose">Stop playing for now</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="keep it to yourself" data-text-revision="14b1a43bd1e8" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:label</code></div>
+<p class="prose">Keep it to yourself</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say it sounds unkind" data-text-revision="6fcf50d5b206" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:label</code></div>
+<p class="prose">Say it sounds unkind</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="ask how they know" data-text-revision="923d3fba3098" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:label</code></div>
+<p class="prose">Ask how they know</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="suggest trying the rule for one round" data-text-revision="756e5fc3e76f" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:label</code></div>
+<p class="prose">Suggest trying the rule for one round</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="try their rule" data-text-revision="171177399c1c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:label</code></div>
+<p class="prose">Try their rule</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="ask to keep the rules you agreed" data-text-revision="a0ee077b9ea0" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:label</code></div>
+<p class="prose">Ask to keep the rules you agreed</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="put the truck aside" data-text-revision="9b112fbc9cf3" data-context-revision="e080bbe1f684">
 <div class="top"><code class="sid">prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:label</code></div>
 <p class="prose">Put the truck aside</p>
@@ -6726,6 +7083,57 @@ h2 .count { color:var(--accent); }
 
 </dl>
 <div class="marks" data-id="prose:life:episode:opening.early.school.crayon-sharing/moment#option:keep:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="say trading isn't allowed" data-text-revision="cc1f407dfe3d" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:label</code></div>
+<p class="prose">Say trading isn't allowed</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="keep the snack you brought" data-text-revision="616706e9c085" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:label</code></div>
+<p class="prose">Keep the snack you brought</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:label">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:label" data-surface="option-label" data-reach="PLAYER_REACHABLE" data-flags="" data-text="make the swap quietly" data-text-revision="faeb958d2b88" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:label</code></div>
+<p class="prose">Make the swap quietly</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:label">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -8892,9 +9300,196 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0001#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="ask if they want to talk" data-text-revision="40f9d78fad79" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0001#text</code></div>
+<p class="prose">Ask if they want to talk</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0002#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="ask if they would like this to be a date" data-text-revision="d99688446528" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0002#text</code></div>
+<p class="prose">Ask if they would like this to be a date</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0003#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="ask what they would like to do" data-text-revision="e4379c17e14a" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0003#text</code></div>
+<p class="prose">Ask what they would like to do</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0004#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="ask why" data-text-revision="13f4c8fc5dd4" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0004#text</code></div>
+<p class="prose">Ask why</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0005#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="let them know you heard" data-text-revision="9e48e1a9d46d" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0005#text</code></div>
+<p class="prose">Let them know you heard</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0006#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="say goodbye" data-text-revision="22cabba56bbc" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0006#text</code></div>
+<p class="prose">Say goodbye</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0006#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0007#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="say hello" data-text-revision="6d995dba1af0" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0007#text</code></div>
+<p class="prose">Say hello</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0008#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="spend half an hour together" data-text-revision="37360153d7f6" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0008#text</code></div>
+<p class="prose">Spend half an hour together</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0009#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="suggest playing a game together" data-text-revision="04517e13cbea" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0009#text</code></div>
+<p class="prose">Suggest playing a game together</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0009#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0010#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="suggest sitting and talking together" data-text-revision="5fd5faa03326" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0010#text</code></div>
+<p class="prose">Suggest sitting and talking together</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0010#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0011#text" data-surface="option-label" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="talk about an earlier conversation" data-text-revision="f6f11212caa3" data-context-revision="003d5204173d">
+<div class="top"><code class="sid">prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0011#text</code></div>
+<p class="prose">Talk about an earlier conversation</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; LIFE_TALK_INTENTS</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.</dd>
+<dt>Grounded by</dt><dd>eligible-selected-person-intent</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-intents:LIFE_TALK_INTENTS-0011#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 </section>
 <section class="group" data-group="option-description">
-<h2>option-description <span class="count">343</span></h2>
+<h2>option-description <span class="count">361</span></h2>
 <article class="item" id="prose:life:adult:adult.candidacy-approach#option:ask-what-for:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="find out whose idea this is before answering." data-text-revision="9ef1269decaf" data-context-revision="470f24803bd9">
 <div class="top"><code class="sid">prose:life:adult:adult.candidacy-approach#option:ask-what-for:description</code></div>
 <p class="prose">Find out whose idea this is before answering.</p>
@@ -12159,6 +12754,57 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="260f05b0aba6">
 <div class="top"><code class="sid">prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:description</code></div>
 <p class="prose">5 minutes</p>
@@ -12465,6 +13111,210 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="10 minutes" data-text-revision="b075b6e113fc" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:description</code></div>
+<p class="prose">10 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="10 minutes" data-text-revision="b075b6e113fc" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:description</code></div>
+<p class="prose">10 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="10 minutes" data-text-revision="b075b6e113fc" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:description</code></div>
+<p class="prose">10 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="10 minutes" data-text-revision="b075b6e113fc" data-context-revision="e080bbe1f684">
 <div class="top"><code class="sid">prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:description</code></div>
 <p class="prose">10 minutes</p>
@@ -12560,6 +13410,57 @@ h2 .count { color:var(--accent); }
 
 </dl>
 <div class="marks" data-id="prose:life:episode:opening.early.school.crayon-sharing/moment#option:keep:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:description">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:description" data-surface="option-description" data-reach="PLAYER_REACHABLE" data-flags="" data-text="5 minutes" data-text-revision="3170543ce47c" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:description</code></div>
+<p class="prose">5 minutes</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:description">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -14728,7 +15629,7 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="option-memory">
-<h2>option-memory <span class="count">343</span></h2>
+<h2>option-memory <span class="count">361</span></h2>
 <article class="item" id="prose:life:adult:adult.candidacy-approach#option:ask-what-for:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you asked whose idea it actually was before you answered." data-text-revision="f4ece7f03e90" data-context-revision="470f24803bd9">
 <div class="top"><code class="sid">prose:life:adult:adult.candidacy-approach#option:ask-what-for:memory</code></div>
 <p class="prose">You asked whose idea it actually was before you answered.</p>
@@ -17993,6 +18894,57 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you laugh out loud with {role:school-peer} during the quiet reading activity." data-text-revision="86b1aa4a61fa" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:memory</code></div>
+<p class="prose">You laugh out loud with {role:school-peer} during the quiet reading activity.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:laugh-out-loud:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you move away from {role:school-peer} so you can listen to the reading." data-text-revision="9fd89396e0f4" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:memory</code></div>
+<p class="prose">You move away from {role:school-peer} so you can listen to the reading.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:scoot-away:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you cover your mouth and turn back to the book." data-text-revision="aafdc1614a22" data-context-revision="04fbd0809693">
+<div class="top"><code class="sid">prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:memory</code></div>
+<p class="prose">You cover your mouth and turn back to the book.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.community.library-quiet/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:7, role:school-peer, fact:school.enrolled</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.community.library-quiet/moment#option:stifle-face:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you ask {role:guardian} whether this might be the cat on the flyer." data-text-revision="a0bde7d6dac2" data-context-revision="260f05b0aba6">
 <div class="top"><code class="sid">prose:life:episode:opening.early.community.lost-pet-flyer/moment#option:ask:memory</code></div>
 <p class="prose">You ask {role:guardian} whether this might be the cat on the flyer.</p>
@@ -18299,6 +19251,210 @@ h2 .count { color:var(--accent); }
 <span class="noteline"></span>
 </div>
 </article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you offer {role:school-peer} a clean piece of your snack." data-text-revision="05fef85292d0" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:memory</code></div>
+<p class="prose">You offer {role:school-peer} a clean piece of your snack.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:break-half-share:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you stay beside {role:school-peer} and say you're sorry their snack fell." data-text-revision="df8fb38a53a1" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:memory</code></div>
+<p class="prose">You stay beside {role:school-peer} and say you're sorry their snack fell.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:comfort-words:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you move away from {role:school-peer} with your own snack." data-text-revision="28e1d550e9da" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:memory</code></div>
+<p class="prose">You move away from {role:school-peer} with your own snack.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.dropped-treat/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.dropped-treat/moment#option:walk-past-eat:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you get up and rejoin the game with {role:school-peer}." data-text-revision="287a896a6964" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:memory</code></div>
+<p class="prose">You get up and rejoin the game with {role:school-peer}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:brush-off-tough:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you tell {role:school-peer} you don't want to be pushed during tag." data-text-revision="2b6288332735" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:memory</code></div>
+<p class="prose">You tell {role:school-peer} you don't want to be pushed during tag.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:state-boundary:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you tell {role:school-peer} you're stopping the game and step away." data-text-revision="c8f627e4f9f7" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:memory</code></div>
+<p class="prose">You tell {role:school-peer} you're stopping the game and step away.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.roughhouse-line/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.roughhouse-line/moment#option:stop-playing:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you don't repeat what {role:school-peer} told you." data-text-revision="109415b4f0de" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:memory</code></div>
+<p class="prose">You don't repeat what {role:school-peer} told you.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:decline-to-pass:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you tell {role:school-peer} the story sounds unkind and turn back to the book." data-text-revision="361b834c799f" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:memory</code></div>
+<p class="prose">You tell {role:school-peer} the story sounds unkind and turn back to the book.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:keep-secret:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you ask {role:school-peer} how they know the story is true." data-text-revision="ad2f3b14752e" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:memory</code></div>
+<p class="prose">You ask {role:school-peer} how they know the story is true.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.secret-whisper/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.secret-whisper/moment#option:question-story:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you suggest one trial round to {role:school-peer} before deciding." data-text-revision="d565fc4e69f9" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:memory</code></div>
+<p class="prose">You suggest one trial round to {role:school-peer} before deciding.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:compromise-rule:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you play the next round using the rule {role:school-peer} suggested." data-text-revision="85fd45ee657c" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:memory</code></div>
+<p class="prose">You play the next round using the rule {role:school-peer} suggested.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:give-in-play:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you remind {role:school-peer} of the rules you agreed before starting." data-text-revision="4365f88f6eda" data-context-revision="e080bbe1f684">
+<div class="top"><code class="sid">prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:memory</code></div>
+<p class="prose">You remind {role:school-peer} of the rules you agreed before starting.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.peer.sidewalk-game/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:6, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.peer.sidewalk-game/moment#option:insist-house-rules:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you put the truck aside without saying what happened." data-text-revision="3809fe787c81" data-context-revision="e080bbe1f684">
 <div class="top"><code class="sid">prose:life:episode:opening.early.peer.toy-damage-accidental/moment#option:hide:memory</code></div>
 <p class="prose">You put the truck aside without saying what happened.</p>
@@ -18394,6 +19550,57 @@ h2 .count { color:var(--accent); }
 <dt>Slots</dt><dd>role:school-peer</dd>
 </dl>
 <div class="marks" data-id="prose:life:episode:opening.early.school.crayon-sharing/moment#option:keep:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you tell {role:school-peer} what the monitor said and keep your snack." data-text-revision="78e799729213" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:memory</code></div>
+<p class="prose">You tell {role:school-peer} what the monitor said and keep your snack.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:decline-cite-rule:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you tell {role:school-peer} you prefer your own snack." data-text-revision="795048c22c4a" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:memory</code></div>
+<p class="prose">You tell {role:school-peer} you prefer your own snack.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:eat-own-food:memory">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:memory" data-surface="option-memory" data-reach="PLAYER_REACHABLE" data-flags="" data-text="you and {role:school-peer} exchange snacks under the table." data-text-revision="e9fbde6abf12" data-context-revision="a0a00c1da980">
+<div class="top"><code class="sid">prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:memory</code></div>
+<p class="prose">You and {role:school-peer} exchange snacks under the table.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/simulation/episode-bank.ts &middot; EPISODE_FAMILIES/opening.early.school.lunchbox-swap/moment</dd>
+<dt>Reach</dt><dd><b>PLAYER_REACHABLE</b> — The stage declares only ordinary requirements; play reaches it when they hold.</dd>
+<dt>Grounded by</dt><dd>age-at-least:5, age-below:8, role:school-peer, fact:school.enrolled</dd>
+<dt>Slots</dt><dd>role:school-peer</dd>
+</dl>
+<div class="marks" data-id="prose:life:episode:opening.early.school.lunchbox-swap/moment#option:make-secret-swap:memory">
 <label><input type="checkbox" data-mark="keep"> keep</label>
 <label><input type="checkbox" data-mark="rewrite"> rewrite</label>
 <label><input type="checkbox" data-mark="cut"> cut</label>
@@ -22744,7 +23951,534 @@ h2 .count { color:var(--accent); }
 </article>
 </section>
 <section class="group" data-group="answer">
-<h2>answer <span class="count">280</span></h2>
+<h2>answer <span class="count">311</span></h2>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0001#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="can we play a game we both know?" data-text-revision="44f9b97dd12f" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0001#text</code></div>
+<p class="prose">Can we play a game we both know?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0001#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0002#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="can we try a new game?" data-text-revision="662ab7b0f797" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0002#text</code></div>
+<p class="prose">Can we try a new game?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0002#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0003#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="hi again." data-text-revision="af7afdb158c8" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0003#text</code></div>
+<p class="prose">Hi again.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0003#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0004#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="hi, {world.people[playerpersonid]!.givenname}." data-text-revision="6d9e2e63a598" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0004#text</code></div>
+<p class="prose">Hi, {world.people[playerPersonId]!.givenName}.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+<dt>Slots</dt><dd>world.people[playerPersonId]!.givenName</dd>
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0004#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0005#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i remember saying, “{remembered.context.immediatereaction}”" data-text-revision="a54067801e89" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0005#text</code></div>
+<p class="prose">I remember saying, “{remembered.context.immediateReaction}”</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+<dt>Slots</dt><dd>remembered.context.immediateReaction</dd>
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0005#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0006#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i said yes because i want to hear what you have to say." data-text-revision="be0a2e3d858c" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0006#text</code></div>
+<p class="prose">I said yes because I want to hear what you have to say.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0006#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0007#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i want to spend time with you." data-text-revision="8306c5ef7b90" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0007#text</code></div>
+<p class="prose">I want to spend time with you.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0007#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0008#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="i want to try something i haven't done before." data-text-revision="9172c0342abf" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0008#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">I want to try something I haven't done before.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0008#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0009#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'd like some company. we could spend a little time together." data-text-revision="bb669f3dabd8" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0009#text</code></div>
+<p class="prose">I'd like some company. We could spend a little time together.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0009#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0010#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="i'd like to do something i already enjoy." data-text-revision="fa5f00b42eee" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0010#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">I'd like to do something I already enjoy.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0010#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0011#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="i'd like to try something new. what did you have in mind?" data-text-revision="9cd32704856d" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0011#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">I'd like to try something new. What did you have in mind?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0011#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0012#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="i'd rather do something familiar. we don't have to make a big plan." data-text-revision="644d1e55cf05" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0012#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">I'd rather do something familiar. We don't have to make a big plan.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0012#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0013#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'd rather keep that to myself for now." data-text-revision="ba338e842c0b" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0013#text</code></div>
+<p class="prose">I'd rather keep that to myself for now.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0013#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0014#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'd rather not sit and talk right now. thanks for asking." data-text-revision="e4853ffbfd58" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0014#text</code></div>
+<p class="prose">I'd rather not sit and talk right now. Thanks for asking.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0014#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0015#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'm glad we took some time together." data-text-revision="305855e33be8" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0015#text</code></div>
+<p class="prose">I'm glad we took some time together.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0015#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0016#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'm listening. go ahead." data-text-revision="77943cbdd259" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0016#text</code></div>
+<p class="prose">I'm listening. Go ahead.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0016#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0017#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="i'm not ready to talk about it. please leave it there." data-text-revision="9f7a60789bfb" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0017#text</code></div>
+<p class="prose">I'm not ready to talk about it. Please leave it there.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0017#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0018#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="it isn't what i feel like doing right now. we can leave it there." data-text-revision="461b4d84dbf0" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0018#text</code></div>
+<p class="prose">It isn't what I feel like doing right now. We can leave it there.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0018#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0019#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="let's do something together." data-text-revision="f669b8aeadf3" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0019#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">Let's do something together.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0019#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0020#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="no, thank you. i'd like to keep this as it is." data-text-revision="8de156125421" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0020#text</code></div>
+<p class="prose">No, thank you. I'd like to keep this as it is.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0020#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0021#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="not a game right now, thanks. i'd rather leave it for another time." data-text-revision="d0b7888eedf0" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0021#text</code></div>
+<p class="prose">Not a game right now, thanks. I'd rather leave it for another time.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0021#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0022#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="vague-referent" data-text="not right now. can we talk about something else?" data-text-revision="6505b3297e58" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0022#text</code><span class="flag" title="Uses &quot;something&quot;. Legitimate in dialogue; a defect when it stands in for a fact the packet has.">vague-referent</span></div>
+<p class="prose">Not right now. Can we talk about something else?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0022#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0023#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="see you." data-text-revision="61adafbd65d8" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0023#text</code></div>
+<p class="prose">See you.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0023#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0024#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="sure. what did you want to talk about?" data-text-revision="ca736e25008d" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0024#text</code></div>
+<p class="prose">Sure. What did you want to talk about?</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0024#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0025#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="thanks for hearing me out." data-text-revision="85e413f8d9a4" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0025#text</code></div>
+<p class="prose">Thanks for hearing me out.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0025#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0026#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="that sounds like a way i'd enjoy spending time together." data-text-revision="637665ef173a" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0026#text</code></div>
+<p class="prose">That sounds like a way I'd enjoy spending time together.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0026#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0027#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="we haven't talked about that." data-text-revision="83e74a57d1bf" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0027#text</code></div>
+<p class="prose">We haven't talked about that.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0027#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0028#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="yes, i'd like to play a game together." data-text-revision="66f2dc42a0ee" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0028#text</code></div>
+<p class="prose">Yes, I'd like to play a game together.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0028#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0029#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="yes. i'd like that. we could sit and talk for a while." data-text-revision="ae28db5233a4" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0029#text</code></div>
+<p class="prose">Yes. I'd like that. We could sit and talk for a while.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0029#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0030#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="yes. let's sit and talk for a while." data-text-revision="714ed05c3a75" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0030#text</code></div>
+<p class="prose">Yes. Let's sit and talk for a while.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0030#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
+<article class="item" id="prose:life:opening-conversation-replies:replyFor-0031#text" data-surface="answer" data-reach="CURRENTLY_UNREACHABLE" data-flags="" data-text="yes. tell me what's on your mind." data-text-revision="271b59880924" data-context-revision="cf05132f1067">
+<div class="top"><code class="sid">prose:life:opening-conversation-replies:replyFor-0031#text</code></div>
+<p class="prose">Yes. Tell me what's on your mind.</p>
+<dl class="meta">
+<dt>Source</dt><dd>src/presentation/life-conversation.ts &middot; replyFor</dd>
+<dt>Reach</dt><dd><b>CURRENTLY_UNREACHABLE</b> — Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.</dd>
+<dt>Grounded by</dt><dd>saved-selected-person-turn</dd>
+
+</dl>
+<div class="marks" data-id="prose:life:opening-conversation-replies:replyFor-0031#text">
+<label><input type="checkbox" data-mark="keep"> keep</label>
+<label><input type="checkbox" data-mark="rewrite"> rewrite</label>
+<label><input type="checkbox" data-mark="cut"> cut</label>
+<span class="state" data-state="none"></span>
+<span class="noteline"></span>
+</div>
+</article>
 <article class="item" id="prose:setup:questionnaire:administrative_whistleblower#option:a:text" data-surface="answer" data-reach="LEGACY_OR_WITHDRAWN" data-flags="" data-text="shield the whistleblower publicly, release the audit to the press, and demand the immediate resignation of the department director." data-text-revision="e36d14ff1503" data-context-revision="813e34fd6ba5">
 <div class="top"><code class="sid">prose:setup:questionnaire:administrative_whistleblower#option:a:text</code></div>
 <p class="prose">Shield the whistleblower publicly, release the audit to the press, and demand the immediate resignation of the department director.</p>

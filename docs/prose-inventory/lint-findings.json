@@ -1645,6 +1645,48 @@
     "evidence": "somebody"
   },
   {
+    "id": "prose:life:opening-conversation-replies:replyFor-0008#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:opening-conversation-replies:replyFor-0010#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:opening-conversation-replies:replyFor-0011#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:opening-conversation-replies:replyFor-0012#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:opening-conversation-replies:replyFor-0019#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:opening-conversation-replies:replyFor-0022#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
     "id": "prose:ordinary:work-item:ordinary-life:household-errands#summary",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",

@@ -523,6 +523,8 @@ export interface EpisodeExit {
 }
 
 export interface EpisodeFamily {
+  /** Authored everyday activities may start a new instance on a new calendar day. */
+  readonly recurrence?: "daily";
   readonly key: string;
   readonly family: NarrativeThreadFamily;
   readonly authority: EpisodeAuthority;
@@ -903,7 +905,12 @@ export function episodeRoleBindings(
   );
   for (const enrollment of schoolEnrollments) {
     for (const otherId of world.personOrder) {
-      if (otherId === personId) continue;
+      if (
+        otherId === personId ||
+        !world.people[otherId] ||
+        world.people[otherId]!.birthDate > asOfDate
+      )
+        continue;
       const shared = activeEducationEnrollmentsAt(world, otherId, cutoff).find(
         (other) =>
           other.enrollment.organizationId ===
@@ -1282,7 +1289,15 @@ export function eligibleEpisodeBeats(
         person.birthDate < other.birthDate ? other.birthDate : person.birthDate;
       return ageOnDate(earlier, later) < 2;
     });
-    const instanceKey = episodeInstanceKey(family.key, bindings, family.roles);
+    const baseInstanceKey = episodeInstanceKey(
+      family.key,
+      bindings,
+      family.roles,
+    );
+    const instanceKey =
+      family.recurrence === "daily"
+        ? `${baseInstanceKey}@${asOfDate}`
+        : baseInstanceKey;
     const instanceStages = played.filter(
       (entry) => entry.instanceKey === instanceKey,
     );
