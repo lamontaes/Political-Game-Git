@@ -1,7 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
   enterLife,
+  expectNoDestination,
   fillCreator,
+  goTo,
   openElsewhere,
   startLife as walkCreator,
 } from "./support/creator";
@@ -98,8 +100,8 @@ async function readJournal(page: Page): Promise<string> {
 }
 
 async function keepAndWait(page: Page) {
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
 }
 
 test.describe("Opening the game opens a game", () => {
@@ -177,7 +179,7 @@ test.describe("A new life is not a renamed fixture", () => {
 
     // The day is one press away rather than stacked under the moment, and
     // Work is not in the row at all for somebody who does not work in one.
-    await expect(page.getByTestId("elsewhere-work")).toHaveCount(0);
+    await expectNoDestination(page, "elsewhere-work");
     await openElsewhere(page, "day");
     await expect(page.getByTestId("ordinary-section")).toBeVisible();
     await expect(page.getByTestId("office-section")).toHaveCount(0);
@@ -236,11 +238,11 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 22, place: "Kentucky" });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await startLife(page, { age: 55, place: "Alaska" });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(2);
@@ -250,7 +252,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 31 });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     await page.getByTestId("open-saves").click();
     await expect(page.getByTestId("save-entry")).toHaveCount(1);
@@ -270,7 +272,7 @@ test.describe("A life is kept, and comes back", () => {
     await freshBrowser(page);
     await startLife(page, { age: 29 });
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
 
     // A record this build cannot read, written straight into storage.
     await page.evaluate(async () => {
@@ -370,7 +372,7 @@ test.describe("What is written to disk is a player's world", () => {
     await page.getByTestId("story-options").getByRole("button").first().click();
     const remembered = await readJournal(page);
 
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();
@@ -487,7 +489,7 @@ test.describe("Nothing on screen is developer vocabulary", () => {
     expect(screen).not.toMatch(/synthetic|lorem|TODO|placeholder/i);
 
     await keepAndWait(page);
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await page.getByTestId("open-saves").click();
     expect(await page.getByTestId("saves-screen").innerText()).not.toMatch(
       DEVELOPER_WORDS,

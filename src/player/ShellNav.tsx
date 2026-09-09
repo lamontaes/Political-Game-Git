@@ -128,6 +128,17 @@ export function ShellNav({
    * only by hovering — which is the accessibility rule, and also just what a
    * keyboard player expects.
    */
+  // An unmounted focused menu item does not emit blur. Recheck the live tree.
+  useEffect(() => {
+    const check = () => setFocusWithin(Boolean(navRef.current?.contains(document.activeElement)));
+    check();
+    document.addEventListener("focusin", check);
+    document.addEventListener("focusout", check);
+    return () => {
+      document.removeEventListener("focusin", check);
+      document.removeEventListener("focusout", check);
+    };
+  }, [state.navigation]);
   const raised = open || near || focusWithin;
   const place = placeName ?? "Somewhere on record";
 
@@ -152,12 +163,7 @@ export function ShellNav({
       aria-label="Time, place and navigation"
       data-state={open ? "open" : raised ? "near" : "rest"}
       data-testid="shell-nav"
-      onFocus={() => setFocusWithin(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          setFocusWithin(false);
-        }
-      }}
+
     >
       <button
         type="button"

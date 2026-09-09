@@ -77,8 +77,15 @@ test.describe("A life is played in the room, not on a card", () => {
     expect(momentBox).not.toBeNull();
     expect(momentBox!.width).toBeLessThan(1440 * 0.62);
 
-    // The corner HUD carries where and when, and the way to everything else.
-    await expect(page.getByTestId("life-hud")).toBeVisible();
+    // The corner cluster carries who, where and when, and the way to
+    // everything else. At rest it is small and translucent, and it is still on
+    // the screen rather than hidden behind a control.
+    const cluster = page.getByTestId("shell-nav-cluster");
+    await expect(cluster).toBeVisible();
+    await expect(page.getByTestId("shell-nav")).toHaveAttribute(
+      "data-state",
+      "rest",
+    );
   });
 
   test("opens a person from the rail, and can be collapsed", async ({

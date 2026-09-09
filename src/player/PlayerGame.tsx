@@ -128,7 +128,7 @@ import {
 
 type Screen =
   | { readonly kind: "title" }
-  | { readonly kind: "setup" }
+  | { readonly kind: "setup"; readonly draft?: NewGameSetup }
   /**
    * The calibration, between choosing a life and starting one.
    *
@@ -444,6 +444,7 @@ export function PlayerGame() {
           <SetupScreen
             seed={sessionSeed.seed}
             seedOrigin={sessionSeed.origin}
+            initialSetup={screen.draft}
             onBack={() => setScreen({ kind: "title" })}
             onBegin={(setup) => {
               setProblem(null);
@@ -479,7 +480,7 @@ export function PlayerGame() {
               beginLife(next);
             }}
             onFinishEarly={() => beginLife(endQuestionnaireEarly(screen.setup))}
-            onBack={() => setScreen({ kind: "setup" })}
+            onBack={() => setScreen({ kind: "setup", draft: screen.setup })}
           />
         )}
       </AmbientTableau>
@@ -606,12 +607,14 @@ function placeContextLines(place: LifePlace): readonly string[] {
 function SetupScreen({
   seed,
   seedOrigin,
+  initialSetup,
   onBack,
   onBegin,
   problem,
 }: {
   readonly seed: string;
   readonly seedOrigin: "fresh" | "replay";
+  readonly initialSetup?: NewGameSetup;
   readonly onBack: () => void;
   readonly onBegin: (setup: NewGameSetup) => void;
   readonly problem: string | null;
@@ -630,10 +633,12 @@ function SetupScreen({
     () => lifePlaceSearch(placeQuery, 12),
     [placeQuery],
   );
-  const [setup, setSetup] = useState<NewGameSetup>({
-    ...DEFAULT_NEW_GAME_SETUP,
-    seed,
-  });
+  const [setup, setSetup] = useState<NewGameSetup>(
+    initialSetup ?? {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+    },
+  );
   const custom = setup.startKind === "custom";
   const steps: readonly CreatorStep[] = custom
     ? CUSTOM_CREATOR_STEPS
@@ -643,7 +648,9 @@ function SetupScreen({
    * The step the player is on. It only moves forward on its own; the summaries
    * of finished steps move it back when one is reopened to change an answer.
    */
-  const [current, setCurrent] = useState<CreatorStep>("route");
+  const [current, setCurrent] = useState<CreatorStep>(
+    initialSetup ? "begin" : "route",
+  );
   const currentIndex = Math.max(steps.indexOf(current), 0);
   const isCurrent = (step: CreatorStep) => step === current;
   const isDone = (step: CreatorStep) => {
@@ -1103,18 +1110,36 @@ function SetupScreen({
               type="button"
               data-testid="whoareyou-answer"
               className={
-                setup.questionnaire !== "skipped" ? "is-chosen" : undefined
+                setup.questionnaire === "short" ? "is-chosen" : undefined
               }
               onClick={() => {
                 setSetup((now) => ({
                   ...now,
                   questionnaire: "short",
-                  priors: [],
+                  priors: now.questionnaire === "short" ? now.priors : [],
                 }));
                 advanceTo("begin");
               }}
             >
               Answer a Few Questions
+            </button>
+            <button
+              type="button"
+              data-testid="whoareyou-deep"
+              className={
+                setup.questionnaire === "deep" ? "is-chosen" : undefined
+              }
+              onClick={() => {
+                setSetup((now) => ({
+                  ...now,
+                  questionnaire: "deep",
+                  priors: now.questionnaire === "deep" ? now.priors : [],
+                }));
+                advanceTo("begin");
+              }}
+            >
+              Explore More Questions
+              <small>You can begin your life whenever you are ready.</small>
             </button>
             <button
               type="button"

@@ -98,7 +98,7 @@ export async function fillCreator(
   const calibration = life.calibration ?? "skipped";
   await page
     .getByTestId(
-      calibration === "skipped" ? "whoareyou-play" : "whoareyou-answer",
+      calibration === "skipped" ? "whoareyou-play" : calibration === "deep" ? "whoareyou-deep" : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();
@@ -140,6 +140,29 @@ export async function openShellMenu(page: Page): Promise<void> {
 export async function goTo(page: Page, testid: string): Promise<void> {
   await openShellMenu(page);
   await page.getByTestId(testid).click();
+}
+
+/**
+ * Asserts a destination is not on offer, with the menu actually open.
+ *
+ * A control inside a closed menu is absent from the page for the wrong reason,
+ * so a withheld-capability check has to look where the control would be.
+ */
+export async function expectNoDestination(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  await openShellMenu(page);
+  await expect(page.getByTestId(testid)).toHaveCount(0);
+  await page.keyboard.press("Escape");
+}
+
+/** What the corner cluster says: who you are, when, and where. */
+export async function shellIdentity(page: Page): Promise<string> {
+  return (
+    (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
+    ""
+  );
 }
 
 /**

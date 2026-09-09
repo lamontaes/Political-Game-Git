@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { enterLife, openCreator, startLife } from "./support/creator";
+import { enterLife, goTo, openCreator, startLife } from "./support/creator";
 
 /**
  * The fifth human-play repairs: viewport-bound creator, and People surfaces
@@ -96,7 +96,7 @@ test.describe("People surfaces have an obvious way out", () => {
     const momentBefore = await page.getByTestId("story-prose").innerText();
 
     // Open People, then close with the explicit X.
-    await page.getByTestId("elsewhere-people").click();
+    await goTo(page, "elsewhere-people");
     const overlay = page.getByTestId("people-overlay");
     await expect(overlay).toBeVisible();
     await expect(page.getByTestId("people-overlay-close")).toBeVisible();
@@ -104,7 +104,7 @@ test.describe("People surfaces have an obvious way out", () => {
     await expect(overlay).toHaveCount(0);
 
     // Reopen and close with Escape.
-    await page.getByTestId("elsewhere-people").click();
+    await goTo(page, "elsewhere-people");
     await expect(overlay).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(overlay).toHaveCount(0);

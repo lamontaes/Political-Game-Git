@@ -1,5 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
-import { enterLife, startLife as walkCreator } from "./support/creator";
+import {
+  enterLife,
+  expectNoDestination,
+  goTo,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * The Home/Title screen, on the route a player actually opens.
@@ -59,9 +64,9 @@ async function startAndKeepALife(page: Page, age: number) {
   await walkCreator(page, { age });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
-  await page.getByTestId("leave-game").click();
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
+  await goTo(page, "leave-game");
   await expect(page.getByTestId("title-screen")).toBeVisible();
 }
 

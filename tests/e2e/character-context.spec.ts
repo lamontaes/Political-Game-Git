@@ -1,6 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
   enterLife,
+  expectNoDestination,
+  goTo,
   openCreator,
   startLife as walkCreator,
 } from "./support/creator";
@@ -235,11 +237,11 @@ test.describe("The page says whose life this is", () => {
     const who = page.getByTestId("story-who").locator(".life-identity-name");
     const named = await who.innerText();
 
-    await page.getByTestId("keep-world").click();
+    await goTo(page, "keep-world");
     // Saving is asynchronous, and the control leaving is how the screen says
     // it finished. Reloading before that raced the write; every sibling spec
     // waits here, and this one did not.
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
     // A loaded save has been introduced already, so it opens on the moment.

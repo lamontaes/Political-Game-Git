@@ -2,7 +2,9 @@ import { expect, test, type Page } from "@playwright/test";
 
 import {
   enterLife,
+  expectNoDestination,
   fillCreator,
+  goTo,
   openCreator,
   openElsewhere,
   startLife as walkCreator,
@@ -123,8 +125,8 @@ async function readJournal(page: Page): Promise<string> {
 }
 
 async function keepAndWait(page: Page) {
-  await page.getByTestId("keep-world").click();
-  await expect(page.getByTestId("keep-world")).toHaveCount(0);
+  await goTo(page, "keep-world");
+  await expectNoDestination(page, "keep-world");
 }
 
 /* -------------------------------------------------------------------------- */
@@ -189,7 +191,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     // Declining goes straight into the life.
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    await page.getByTestId("leave-game").click();
+    await goTo(page, "leave-game");
     await openSetup(page, 40, "deep");
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
     // There is no per-question decline any more. The authority removed it: a

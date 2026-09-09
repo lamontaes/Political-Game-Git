@@ -884,3 +884,20 @@
   border-color: rgba(224, 135, 107, 0.6);
   color: #f0b7a5;
 }
+
+/* One shared reservation keeps mixed pins clear of workspace controls (#133). */
+:root { --pg-rail-lane: 17rem; --pg-rail-inset: 1.15rem; }
+.pg-pin-rail { right: var(--pg-rail-inset); width: var(--pg-rail-lane); overflow-x: hidden; }
+.pg-pin-slot { width: 100%; justify-content: flex-end; }
+.pg-pin { flex: 0 1 auto; min-width: 0; }
+.pg-pin[data-size="expanded"] { min-width: min(15rem, calc(var(--pg-rail-lane) - 2.5rem)); }
+.pg-workspace {
+  left: 1rem;
+  right: calc(var(--pg-rail-lane) + var(--pg-rail-inset) + 1rem);
+  width: auto;
+  max-width: 58rem;
+  margin-inline: auto;
+  transform: none;
+}
+@media (max-width: 1200px) { :root { --pg-rail-lane: 13rem; } }
+@media (max-width: 1060px) { :root { --pg-rail-lane: 11rem; --pg-rail-inset: .7rem; } }

@@ -204,13 +204,9 @@ test.describe("the life the player asked for is the life they get", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     // The introduction names family members, not the player. Read the
-    // persistent player plaque so a parent's generated name cannot satisfy or
-    // fail this assertion by accident.
-    const shown = await page
-      .getByTestId("life-hud")
-      .getByTestId("person-portrait")
-      .locator("strong")
-      .innerText();
+    // persistent identity on the corner cluster so a parent's generated name
+    // cannot satisfy or fail this assertion by accident.
+    const shown = await page.getByTestId("shell-nav-identity").innerText();
     const givenName = shown.split(" ")[0];
     expect(GIVEN_NAME_GENERATION_POOLS_V1.male).toContain(givenName);
   });
