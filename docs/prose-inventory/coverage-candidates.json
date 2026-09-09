@@ -3,7 +3,7 @@
     "INVENTORIED": 2054,
     "INTENTIONALLY_NON_PLAYER_FACING": 5192,
     "DIAGNOSTIC_OR_TEST": 4357,
-    "NEEDS_CLASSIFICATION": 5619
+    "NEEDS_CLASSIFICATION": 5622
   },
   "needsClassification": [
     {
@@ -4503,6 +4503,30 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 179,
+      "text": "linear-gradient(black, black)",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 191,
+      "text": "{plate.width*transform.uniformScale}px {plate.height*transform.uniformScale}px",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneBackdrop.tsx",
+      "enclosingSymbol": "masking",
+      "line": 198,
+      "text": "{transform.xOffset-topLeft.x}px {transform.yOffset-topLeft.y}px",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/player/SceneSurfaceLayer.tsx",
       "enclosingSymbol": "SceneSurfaceLayer",
       "line": 135,
@@ -5185,7 +5209,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 122,
+      "line": 119,
       "text": "People here",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5193,7 +5217,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 136,
+      "line": 133,
       "text": " · {describePersonContext(world,playerPersonId,id)!.relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5201,7 +5225,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 142,
+      "line": 139,
       "text": "Conversation with {talk.person.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

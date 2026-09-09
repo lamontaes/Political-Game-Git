@@ -63,3 +63,12 @@ regeneration. Never reuse a prior tested SHA or remove historical provenance to
 make a newer composition appear accepted.
 
 Latest checkpoint: clean8c18cd8 format/lint/typecheck and all three required art commands passed. MUNI is authorized to run its isolated five-test normal matrix on that frozen candidate. Subsequent OPENINGe890e4d source delta passes12 focused checks; corpus regeneration has0 hard errors/267 warnings. These later changes have not been relabeled as browser-tested.
+
+## Later frozen corrections
+
+- ECON5c836ee merged at b4910c0; normal Personal mounts the exact panel only for the canonical declared Lexington place key and saved World date. Eleven focused checks/typecheck and two normal pointer/keyboard/save/reload/place-absence browser checks passed cleanb4910c0. HUD observation/availability separation d56411d is applied at3c90660; the cutoff is unchanged.
+- PEOPLE18c392c merged at22828c5. Existing interface records retain per-person wardrobe alongside Journal/pins, and shared portraits/scene planner consume that same map. Normal choice library excludes diagnostic fixtures; candidate review remains explicit. Invalid saved choices retain explicit refusals. Original authored-capacity anchor checks are preserved. Fifty-six focused tests, typecheck/lint and art trio passed; normal wardrobe browser/visual acceptance remains outstanding.
+- LEG4444629 merged at2acff48, including truthful transcript session refusal. Combined corpus suite now passes; two W-1 assertions remain. The source-accounted audit identifies30 extra personality/value/goal records and12 visible name substitutions. External control and corruption sensitivity are not silently rebaselined.
+- ENV a1912c5 exact renderer correction applied at2a4fafa. Person-pixel masking replaces furniture repainting; source geometry unchanged. Focused scene/placement tests pass. Donor four-case visual proof remains donor-specific.
+
+These checkpoints preserve the original31 browser bank, staff/anchor correction and historical identities. New final composition still requires full validation and normal browser proof, then independent/human gates. No main merge or release activation.

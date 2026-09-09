@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2054 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5192 |
 | DIAGNOSTIC_OR_TEST | 4357 |
-| **NEEDS_CLASSIFICATION** | **5619** |
+| **NEEDS_CLASSIFICATION** | **5622** |
 
-Scanned 492 files holding 64702 string
+Scanned 492 files holding 64709 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -183,6 +183,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/simulation/executive-work-entry.ts` |
 | 7 | `src/simulation/judicial-office-start.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
+| 6 | `src/player/SceneBackdrop.tsx` |
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
@@ -223,7 +224,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
-| 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |
