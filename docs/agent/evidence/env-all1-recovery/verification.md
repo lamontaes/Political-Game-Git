@@ -36,10 +36,36 @@ Final full validation, art validation/inventory/contact sheet and browser proof
 are pending the agreed shared-host order VERSION → LAND → PEOPLE → ENV.
 No test exchange, timeout increase or process termination was used to bypass it.
 
-Normal route needs UI-core's explicit patch integration. The development gallery
+Read-only inspection of UI-core’s recipient at `c16d160` plus its active work
+confirmed the imports, `VenueActivityPanel` in OrdinaryDayView, and household
+sprite suppression at activity completion. This is integration evidence, not a
+frozen composed-head or browser pass. The development gallery
 and isolated canonical exercises are not normal-player acceptance. Courtroom
 preview is unreleased; no body/garment, art-style or rights approval is implied.
 
 LEARN: a scene test must execute the action whose presence it asserts. Clock
 coincidence plus a scheduled participant list proves only an invitation. The
 negative schedule-only control and canonical completion tests encode this lesson.
+
+## Follow-up verification and exact gaps
+
+- `d717838e039a1c63e5f7bf376dc01ce9b0a04027`: consumer metadata corrected;
+  three focused suites / 36 tests passed. Production activity producers are
+  reported separately from browser-proven reachability.
+- `544d78b9f5a16631dbf28d3eb7370daf976c1445`: feature-local completion receipt;
+  focused ESLint and formatting passed. No new clock or World schema.
+- All 27 source hashes and the binary patch hash were rechecked after these
+  changes, with no differences. Source remains read-only.
+- OPENING’s owner reported 8/8 recovery/agency tests after importing the initial
+  ENV travel adapter. Refresh of the post-time living-participant check and
+  frozen composed-head evidence remain with that owner.
+- UI-core was notified that household-only prose must not claim a companion is
+  in the next room while a completed venue activity supplies the backdrop.
+
+Remaining consumer gaps are specific: LEG must establish located hearing/floor
+attendance and a real production staff-work activity; MUNI must supply an exact
+source-confirmed venue-kind binding; JUD office preparation supplies no courtroom
+kind. Actual workplace travel lacks supported destination/provider evidence in
+this recovery. Courtroom release and human geometry acceptance remain pending;
+unaccepted candidate art and sub-minimum masters remain unavailable. This is not
+permission to create locations, transport durations, or release decisions.
