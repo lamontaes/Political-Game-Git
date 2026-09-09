@@ -417,12 +417,12 @@ export interface EnvironmentSourceBulkCount {
 export function environmentSourceBulkCounts(): readonly EnvironmentSourceBulkCount[] {
   const tally = new Map<string, number>();
   for (const file of DRIVE_FILES) {
-    const key = `${file.classification} ${file.likelyAssetFamily}`;
+    const key = `${file.classification}\u0000${file.likelyAssetFamily}`;
     tally.set(key, (tally.get(key) ?? 0) + 1);
   }
   const rows: EnvironmentSourceBulkCount[] = [];
   for (const [key, count] of tally) {
-    const [classification, family] = key.split(" ") as [string, string];
+    const [classification, family] = key.split("\u0000") as [string, string];
     if (!/environment|title background|historical source/i.test(family)) {
       // People, wardrobe and body morphology sources belong to PEOPLE1. They
       // are counted by that lane and are deliberately not re-adjudicated here.
