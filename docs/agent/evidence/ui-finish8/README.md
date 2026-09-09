@@ -265,6 +265,18 @@ Every stage of the composed `validate` chain passes on this branch:
 
 Nothing here is a claim of art approval, and no candidate art was promoted.
 
+## Browser evidence
+
+Run on an identified server, port 5391, at head `ad505682`, clean tree, served
+checkout verified equal to the branch head (workspace, head, branch, dirty and
+source digest all matching). The owner's play folder and its server on 5188
+were never a target.
+
+`edu-path7-normal`, `ui-save5-review`, `life-paths2`, `ui-core-news`,
+`persistence-cross-tab` — **10 passed** in 58.3s. That covers the second paid
+study session after an explicit invitation refusal, repeated Save and reload,
+cross-tab safety, the News surface and the named visual set.
+
 ## Remaining defects and host notes
 
 - **The unit suite is green, but only with bounded parallelism on this host.**
