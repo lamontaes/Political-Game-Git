@@ -1,5 +1,17 @@
+import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { LIFE_PATHS2_HANDLERS } from "../simulation/life-paths2";
 import { useState } from "react";
 import {
+  projectEligiblePressAdvisers,
+  producePressRequestResponse,
+  producePressAdviserResponse,
+  arrangeAcceptedPressInterview,
+  producePressPreparation,
+  producePressAdviserFeedback,
+  addSimulationMinutes,
+  advanceWorldMinutes,
+  createCampaignElectionTransitionRegistry,
+  type HistoricalEvent,
   projectEligiblePressReporters,
   projectPublicInformationDigest,
   recordPressRequest,
@@ -225,26 +237,72 @@ export function PressWorkspace({
           <h4>Your press requests</h4>
           <ul>
             {requests.map((request) => (
-              <li key={request.id}>
-                {request.context.motivation}
-                <p>{request.context.socialContext}</p>
-              </li>
+              <PressRequestActions
+                key={request.id}
+                world={world}
+                request={request}
+                onChange={change}
+                onSelect={setSelected}
+              />
             ))}
           </ul>
         </section>
+      ) : null}
+      {view ? (
+        <div>
+          <p>
+            Preparation progresses as time passes and the assigned adviser’s
+            available capacity.
+          </p>
+          <button
+            type="button"
+            onClick={() =>
+              change(() =>
+                advanceWorldMinutes(
+                  world,
+                  15,
+                  composeFutureTransitionHandlerRegistries(
+                    LIFE_PATHS2_HANDLERS,
+                    createCampaignElectionTransitionRegistry(),
+                  ),
+                ),
+              )
+            }
+          >
+            Continue 15 minutes
+          </button>
+        </div>
       ) : null}
       {view ? (
         <PressInterviewPanel
           view={view}
           onClose={() => setSelected(null)}
           onOpenPerson={onOpenPerson}
-          preparationUnavailable="No adviser briefing content has been supplied for this saved interview."
-          feedbackUnavailable="No adviser interpretation has been supplied for this saved publication."
           onReviewPreparation={() =>
-            setProblem("No adviser briefing content is available.")
+            change(() =>
+              producePressPreparation(world, {
+                stableKey: `${view.activityId}:preparation`,
+                activityId: view.activityId,
+                adviserPersonId: view.adviserPersonId,
+                sourceKnowledgeIds: world.history.knowledge
+                  .filter(
+                    (record) =>
+                      record.personId === view.adviserPersonId &&
+                      record.learnedAt <= world.currentDate &&
+                      activity!.sourceEntityIds.includes(record.eventId),
+                  )
+                  .map((record) => record.id),
+              }),
+            )
           }
           onRequestAdviserFeedback={() =>
-            setProblem("No adviser interpretation is available.")
+            change(() =>
+              producePressAdviserFeedback(world, {
+                stableKey: `${view.activityId}:feedback`,
+                activityId: view.activityId,
+                adviserPersonId: view.adviserPersonId,
+              }),
+            )
           }
           onDraftResponse={(input) =>
             change(() => draftPressResponse(world, input))
@@ -284,5 +342,192 @@ export function PressWorkspace({
         <p>No interviews are arranged in this life.</p>
       )}
     </section>
+  );
+}
+
+/** Recorded participant decisions survive reload; local controls only propose an arrangement. */
+function PressRequestActions({
+  world,
+  request,
+  onChange,
+  onSelect,
+}: {
+  world: World;
+  request: HistoricalEvent;
+  onChange: (run: () => World) => void;
+  onSelect: (id: EntityId) => void;
+}) {
+  const [adviserId, setAdviserId] = useState("");
+  const [delay, setDelay] = useState(60);
+  const [duration, setDuration] = useState(30);
+  const [preparation, setPreparation] = useState(30);
+  const [place, setPlace] = useState("");
+  const replies = world.history.events.filter((event) =>
+    event.tags.includes(`press.request-event:${request.id}`),
+  );
+  const reporterReply = replies.find(
+    (event) => event.type === "press.interview-request-answered",
+  );
+  const adviserReply = replies.find(
+    (event) => event.type === "press.adviser-assignment-answered",
+  );
+  const source = request.participants.find(
+    (participant) => participant.role === "agency:press-source",
+  )!.personId;
+  const advisers = projectEligiblePressAdvisers(world, source);
+  const validTiming =
+    [delay, duration, preparation].every(Number.isSafeInteger) &&
+    delay >= 0 &&
+    duration > 0 &&
+    preparation > 0;
+  const start = addSimulationMinutes(
+    world.currentMoment,
+    validTiming ? delay : 0,
+  );
+  const end = addSimulationMinutes(start, validTiming ? duration : 1);
+  const allowed =
+    reporterReply?.context.choice === "accepted" &&
+    adviserReply?.context.choice === "accepted";
+  return (
+    <li data-testid="press-saved-request">
+      <strong>{request.context.motivation}</strong>
+      <p>{request.context.socialContext}</p>
+      {reporterReply ? (
+        <p>{reporterReply.context.socialContext}</p>
+      ) : (
+        <button
+          type="button"
+          onClick={() =>
+            onChange(
+              () =>
+                producePressRequestResponse(world, {
+                  stableKey: `${request.id}:reporter-response`,
+                  requestEventId: request.id,
+                }).world,
+            )
+          }
+        >
+          Ask the reporter for a response
+        </button>
+      )}
+      {adviserReply ? (
+        <p>{adviserReply.context.socialContext}</p>
+      ) : (
+        <>
+          <label>
+            Preparation adviser
+            <select
+              value={adviserId}
+              onChange={(event) => setAdviserId(event.target.value)}
+            >
+              <option value="">Choose a colleague</option>
+              {advisers.map((adviser) => (
+                <option key={adviser.personId} value={adviser.personId}>
+                  {adviser.personName} — {adviser.workRoleTitle}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="button"
+            disabled={
+              !advisers.some((adviser) => adviser.personId === adviserId) ||
+              reporterReply?.context.choice !== "accepted"
+            }
+            onClick={() =>
+              onChange(
+                () =>
+                  producePressAdviserResponse(world, {
+                    stableKey: `${request.id}:adviser-response`,
+                    requestEventId: request.id,
+                    adviserPersonId: adviserId as EntityId,
+                  }).world,
+              )
+            }
+          >
+            Ask for preparation help
+          </button>
+        </>
+      )}
+      {allowed ? (
+        <details>
+          <summary>Arrange the accepted exchange</summary>
+          <label>
+            Minutes from now
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value={delay}
+              onChange={(event) => setDelay(Number(event.target.value))}
+            />
+          </label>
+          <label>
+            Exchange minutes
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={duration}
+              onChange={(event) => setDuration(Number(event.target.value))}
+            />
+          </label>
+          <label>
+            Preparation effort in minutes
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={preparation}
+              onChange={(event) => setPreparation(Number(event.target.value))}
+            />
+          </label>
+          <label>
+            Planned meeting place
+            <input
+              value={place}
+              onChange={(event) => setPlace(event.target.value)}
+            />
+          </label>
+          <p>
+            Proposed start: {start.date} at{" "}
+            {String(Math.floor(start.minuteOfDay / 60)).padStart(2, "0")}:
+            {String(start.minuteOfDay % 60).padStart(2, "0")}. This plan does
+            not establish anyone’s arrival.
+          </p>
+          <button
+            type="button"
+            disabled={
+              !place.trim() ||
+              ![delay, duration, preparation].every(Number.isSafeInteger) ||
+              delay < 0 ||
+              duration < 1 ||
+              preparation < 1
+            }
+            onClick={() =>
+              onChange(() => {
+                const result = arrangeAcceptedPressInterview(world, {
+                  stableKey: `${request.id}:arrangement`,
+                  requestEventId: request.id,
+                  reporterResponseEventId: reporterReply!.id,
+                  adviserResponseEventId: adviserReply!.id,
+                  start,
+                  end,
+                  preparationMinutes: preparation,
+                  location: {
+                    locationKey: `press-planned:${request.id}`,
+                    label: place.trim(),
+                  },
+                });
+                onSelect(result.activityId);
+                return result.world;
+              })
+            }
+          >
+            Arrange exchange
+          </button>
+        </details>
+      ) : null}
+    </li>
   );
 }

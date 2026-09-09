@@ -19,14 +19,16 @@ Status: completed on `codex/news-help2` / PR #143
 - [x] Record a source request/pitch as a canonical limited communication event,
       claim and reporter knowledge; do not arrange merely because a screen was
       opened.
-- [x] Require a separate actual reporter response that explicitly accepts the
-      channel, terms, attribution and question basis before arrangement.
+- [x] Require a separate feature-owned reporter decision that explicitly
+      accepts the channel, terms, attribution and question basis before
+      arrangement; UI supplies no NPC choice or wording.
 - [x] Project actual adviser candidates from current colleague roles rather
       than family status; preserve availability and assigned-work checks.
-- [x] Produce preparation from facts the assigned adviser actually knows or can
-      access through saved publication, with fallible follow-ups/options.
+- [x] Produce preparation facts, follow-ups and options from what the assigned
+      adviser actually knows; UI supplies no adviser prose.
 - [x] Produce post-publication feedback only after the adviser has learned the
-      actual saved story; keep the interpretation fallible and non-polling.
+      actual saved story; derive the interpretation from the publication and
+      confirmed answer, keeping it fallible and non-polling.
 - [x] Prove normal request/pitch → consent → arrangement → work/preparation →
       written/interactive/condensed interview → publication/digest/person link
       → save/reload.
@@ -46,12 +48,17 @@ Status: completed on `codex/news-help2` / PR #143
 
 ## Verification
 
-- Corpus: 1,897 templates, 259 warnings, 3,634 unclassified candidates, zero
-  hard errors; 55,127 literals across 367 files; 420 live anchors, 445 ever
+- Corpus: 1,897 templates, 259 warnings, 3,662 unclassified candidates, zero
+  hard errors; 55,191 literals across 367 files; 420 live anchors, 445 ever
   issued and 25 retired.
 - Focused simulation/public-information/corpus tests: 53 passed.
-- Full `npm run validate`: 197 files, 3,589 passed and 2 skipped; source
-  validation/replay, build, deterministic demo and art validation passed.
+- The immediately preceding producer checkpoint passed full `npm run validate`:
+  197 files, 3,589 passed and 2 skipped; source validation/replay, build,
+  deterministic demo and art validation passed.
+- The final NPC-agency closure passed format, lint, typecheck, the 8-test
+  producer/PRESS4 suite, and generated-corpus check. Another isolated task held
+  the shared heavy validation slot; the pushed draft leaves repository-wide CI
+  to validate the final head without running a competing suite.
 - Art inventory: 329 items; QA contact sheet and report generated.
 - Browser suite: NEWS-HELP2 and NEWS-PRESS4 interaction proofs passed. Overall
   290 of 291 passed; the unrelated small-viewport creator case failed once in

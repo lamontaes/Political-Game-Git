@@ -134,3 +134,17 @@ require caller-supplied follow-ups/options/interpretation. UI does not let the
 source invent another person's consent or adviser text. Existing arranged-panel
 callbacks remain; full request-to-feedback normal acceptance is pending that
 feature-owned producer/interaction contract and combined browser proof.
+
+NEWS agency follow-up2e07af12125809eb4ce33aaf2bf7e544fd07dd70 applied as exact
+5453926→2e07af1 source/test/contract delta. Existing PressWorkspace now invokes
+feature-owned reporter and adviser decisions, displays durable replies, and
+accepts explicit planned timing/place inputs for arrangement. Preparation and
+feedback use the new producer callbacks without UI-authored NPC prose. The
+canonical15-minute action composes existing LIFE and campaign transition
+handlers. Invalid timing inputs cannot invoke arrangement; planned location
+is labeled as a plan, not arrival. Original panel/publisher remain singular.
+
+Changed-file lint and typecheck pass. Pointer/keyboard, save/reload and complete
+normal press journey remain unverified on this composition; requested a real
+normal-world reporter/adviser entry recipe from NEWS rather than injecting
+roles or knowledge. LAND currently owns the heavy/browser slot.

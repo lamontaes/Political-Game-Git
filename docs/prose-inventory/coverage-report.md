@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2297 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5515 |
-| DIAGNOSTIC_OR_TEST | 4494 |
-| **NEEDS_CLASSIFICATION** | **5761** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5516 |
+| DIAGNOSTIC_OR_TEST | 4483 |
+| **NEEDS_CLASSIFICATION** | **5785** |
 
-Scanned 501 files holding 67347 string
+Scanned 501 files holding 67442 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,6 +42,7 @@ literals in total; the table counts only those that read like a sentence.
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
+| 64 | `src/simulation/press-interview-producers.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
@@ -66,7 +67,6 @@ literals in total; the table counts only those that read like a sentence.
 | 38 | `src/simulation/life-episodes.ts` |
 | 37 | `src/presentation/scene-consumers.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
-| 36 | `src/simulation/press-interview-producers.ts` |
 | 36 | `src/simulation/world-metrics.ts` |
 | 35 | `src/simulation/mind-catalog.ts` |
 | 35 | `src/simulation/person-stress-harness.ts` |
@@ -173,7 +173,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
-| 7 | `src/player/PressWorkspace.tsx` |
 | 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
@@ -226,6 +225,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
+| 3 | `src/player/PressWorkspace.tsx` |
 | 3 | `src/presentation/browser-shell-state.ts` |
 | 3 | `src/presentation/economic-context.ts` |
 | 3 | `src/presentation/legislation-composition.ts` |

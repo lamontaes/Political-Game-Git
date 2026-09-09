@@ -16,6 +16,7 @@ import {
   projectPublicInformationDigest,
   publishPressInterview,
   recordEventKnowledge,
+  recordWorkStatus,
   recordWorldEvent,
   serializeWorld,
 } from "./index";
@@ -23,12 +24,13 @@ import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "./press-interviews";
 import {
   arrangeAcceptedPressInterview,
   producePressAdviserFeedback,
+  producePressAdviserResponse,
   producePressPreparation,
+  producePressRequestResponse,
   projectEligiblePressAdvisers,
   projectEligiblePressReporters,
   recordPressAdviserResponse,
   recordPressRequest,
-  recordPressRequestResponse,
 } from "./press-interview-producers";
 import type { EntityId, World } from "./types";
 
@@ -216,19 +218,14 @@ function acceptedArrangement(seed: string) {
       "What happened at the hearing, and is there a final result?",
     questionBasisEventIds: [fixture.basisEventId],
   });
-  const reporterResponse = recordPressRequestResponse(request.world, {
+  const reporterResponse = producePressRequestResponse(request.world, {
     stableKey: `${seed}:reporter-response`,
     requestEventId: request.requestEventId,
-    reporterPersonId: fixture.reporterPersonId,
-    accepted: true,
-    statement: "I accept the written on-record exchange on those terms.",
   });
-  const adviserResponse = recordPressAdviserResponse(reporterResponse.world, {
+  const adviserResponse = producePressAdviserResponse(reporterResponse.world, {
     stableKey: `${seed}:adviser-response`,
     requestEventId: request.requestEventId,
     adviserPersonId: fixture.adviserPersonId,
-    accepted: true,
-    statement: "I can take the preparation assignment.",
   });
   const start = addSimulationMinutes(adviserResponse.world.currentMoment, 90);
   const arranged = arrangeAcceptedPressInterview(adviserResponse.world, {
@@ -253,11 +250,6 @@ describe("normal press request, eligibility and adviser producers", () => {
       activityId: arranged.activityId,
       adviserPersonId: arranged.adviserPersonId,
       sourceKnowledgeIds: [arranged.adviserBasisKnowledgeId],
-      likelyFollowUps: ["What procedural steps remain?"],
-      responseOptions: [
-        "State what the recorded hearing established.",
-        "Say plainly that no final vote has occurred.",
-      ],
     });
     world = draftPressResponse(world, {
       stableKey: "news-producers6-normal:draft",
@@ -291,8 +283,6 @@ describe("normal press request, eligibility and adviser producers", () => {
       stableKey: "news-producers6-normal:feedback",
       activityId: arranged.activityId,
       adviserPersonId: arranged.adviserPersonId,
-      interpretation:
-        "My reading is that the story kept the lack of a final result visible; that is advice, not measured public opinion.",
     });
 
     const interview = projectPressInterview(world, arranged.activityId);
@@ -309,6 +299,7 @@ describe("normal press request, eligibility and adviser producers", () => {
     ]);
     expect(interview.confirmedWording).toBe(interview.proposedWording);
     expect(interview.adviserFeedback).toContain("not measured public opinion");
+    expect(world.history.decisionTraces).toHaveLength(2);
 
     const digest = projectPublicInformationDigest(
       world,
@@ -392,19 +383,27 @@ describe("normal press request, eligibility and adviser producers", () => {
         statement: "I will help.",
       }),
     ).toThrow(/current colleague; family relationship alone is insufficient/u);
-    const declined = recordPressRequestResponse(request.world, {
+    const reporterWork = activeWorkRelationshipsAt(
+      request.world,
+      fixture.reporterPersonId,
+    ).find(({ role }) => role.id === fixture.reporterWorkRoleId)!;
+    const noLongerReporter = recordWorkStatus(request.world, {
+      stableKey: "news-producers6-consent:reporter-work-ended",
+      workRelationshipId: reporterWork.relationship.id,
+      effectiveAt: request.world.currentDate,
+      status: "ended",
+      reason: "The reporting role ended before the request was answered.",
+      provenance: PROVENANCE,
+      supersedesStatusId: reporterWork.status.id,
+    });
+    const declined = producePressRequestResponse(noLongerReporter, {
       stableKey: "news-producers6-consent:declined",
       requestEventId: request.requestEventId,
-      reporterPersonId: fixture.reporterPersonId,
-      accepted: false,
-      statement: "I decline this request.",
     });
-    const adviser = recordPressAdviserResponse(declined.world, {
+    const adviser = producePressAdviserResponse(declined.world, {
       stableKey: "news-producers6-consent:adviser",
       requestEventId: request.requestEventId,
       adviserPersonId: fixture.adviserPersonId,
-      accepted: true,
-      statement: "I accept the assignment.",
     });
     const start = addSimulationMinutes(adviser.world.currentMoment, 90);
     expect(() =>
@@ -431,16 +430,13 @@ describe("normal press request, eligibility and adviser producers", () => {
         activityId: arranged.activityId,
         adviserPersonId: arranged.adviserPersonId,
         sourceKnowledgeIds: [arranged.world.id],
-        likelyFollowUps: ["What remains?"],
-        responseOptions: ["State only known facts."],
       }),
-    ).toThrow(/assigned adviser's current knowledge/u);
+    ).toThrow(/saved adviser knowledge/u);
     expect(() =>
       producePressAdviserFeedback(ready, {
         stableKey: "news-producers6-boundaries:early-feedback",
         activityId: arranged.activityId,
         adviserPersonId: arranged.adviserPersonId,
-        interpretation: "An unsupported reading.",
       }),
     ).toThrow(/arranged, published interview/u);
     expect(ready.history.publications ?? []).toHaveLength(0);

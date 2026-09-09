@@ -290,8 +290,6 @@ describe("press interviews over canonical people, time, work and publication", (
       stableKey: "news-press4-interactive:feedback",
       activityId: completed.activityId,
       adviserPersonId: completed.adviserPersonId,
-      interpretation:
-        "My read is that the story foregrounded the unresolved vote, but that is an interpretation rather than measured public reaction.",
     });
 
     const view = projectPressInterview(world, completed.activityId);

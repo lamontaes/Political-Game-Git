@@ -96,13 +96,17 @@ writer in front of that accepted loop. `projectEligiblePressReporters` reads
 existing people, current journalism work roles, and actual reporter knowledge;
 it creates nothing. `recordPressRequest` appends the source's limited request,
 exact pitch claim, direct knowledge and ordinary contact interaction. A
-separate `recordPressRequestResponse` records the requested reporter's own
-acceptance or refusal. No response or a refusal cannot arrange an interview.
+separate `producePressRequestResponse` makes and durably records the requested
+reporter's own acceptance or refusal from that person's current role,
+knowledge and functional availability. The controlled source supplies neither
+the decision nor the reporter's words. No response or a refusal can arrange an
+interview.
 
 `projectEligiblePressAdvisers` reads only current colleagues who share the
 source's actual organization. Family or household status grants no staff role
-or willingness. A separate `recordPressAdviserResponse` records that person's
-acceptance or refusal. Only two accepted responses let
+or willingness. A separate `producePressAdviserResponse` makes and durably
+records that person's acceptance or refusal from current shared work and
+functional availability. Only two accepted responses let
 `arrangeAcceptedPressInterview` delegate to the existing arrangement writer,
 which appends the limited arrangement event, fixed scheduled activity and one
 preparation work item assigned to that adviser. Every question basis remains
@@ -111,10 +115,11 @@ published. The request retains the selected written/spoken channel, terms,
 background attribution, exact pitch, question and basis IDs.
 
 Preparation is recorded only after the assigned work item is ready for review.
-Its fact list is derived from named `EventKnowledgeRecord` IDs owned by the
-assigned adviser, including each record's fallible believed summary rather than
-an omniscient read of event truth. Likely follow-ups and response options remain
-that adviser's guidance. Interactive and condensed presentation routes write
+Its fact list, likely follow-ups and response options are derived from named
+`EventKnowledgeRecord` IDs owned by the assigned adviser, including each
+record's fallible believed summary rather than an omniscient read of event
+truth. The caller supplies no adviser prose. Interactive and condensed
+presentation routes write
 the same event shapes; condensed play is explicitly neither refusal nor an
 outcome modifier.
 
@@ -130,8 +135,10 @@ writer. On-background copy exposes only the negotiated attribution descriptor;
 off-record material has no interview-publication path. Later adviser feedback
 requires the actual saved publication. The explicit feedback producer first
 records that the assigned adviser learned that story from its canonical
-publication, then stores the interpretation as an expressly fallible claim,
-never as polling, sentiment, causal effect, or omniscient reception.
+publication, derives the adviser's statement from that publication and the
+saved confirmed answer, then stores the interpretation as an expressly
+fallible claim. The caller supplies no interpretation, and the result is never
+polling, sentiment, causal effect, or omniscient reception.
 
 ## Integration adapters
 
@@ -149,7 +156,7 @@ never as polling, sentiment, causal effect, or omniscient reception.
   and placement owner.
 - **UI-core producer handoff:** use `projectEligiblePressReporters` and
   `projectEligiblePressAdvisers` for choices; call `recordPressRequest`,
-  `recordPressRequestResponse`, `recordPressAdviserResponse`,
+  `producePressRequestResponse`, `producePressAdviserResponse`,
   `arrangeAcceptedPressInterview`, `producePressPreparation`, and
   `producePressAdviserFeedback` only from explicit actions. The already-mounted
   panel consumes the resulting saved arrangement through the existing

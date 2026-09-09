@@ -1,3 +1,8 @@
+import {
+  assertNpcAutonomousApplication,
+  evaluateDecision,
+  recordDurableDecisionTrace,
+} from "./decisions";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
 import {
@@ -16,12 +21,14 @@ import {
   recordEventKnowledge,
   recordRelationshipInteraction,
 } from "./records";
+import { currentHistoricalCutoff } from "./queries";
 import type {
   EntityId,
   HistoricalEvent,
   SimulationMoment,
   World,
 } from "./types";
+import { personActionAvailabilityAt } from "./vitality-integrity";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 const REQUEST_TAG = "press.request";
@@ -86,6 +93,11 @@ export interface RecordedPressRequestResponse {
   readonly responseEventId: EntityId;
 }
 
+export interface ProducePressRequestResponseInput {
+  readonly stableKey: string;
+  readonly requestEventId: EntityId;
+}
+
 export interface RecordPressAdviserResponseInput {
   readonly stableKey: string;
   readonly requestEventId: EntityId;
@@ -97,6 +109,12 @@ export interface RecordPressAdviserResponseInput {
 export interface RecordedPressAdviserResponse {
   readonly world: World;
   readonly responseEventId: EntityId;
+}
+
+export interface ProducePressAdviserResponseInput {
+  readonly stableKey: string;
+  readonly requestEventId: EntityId;
+  readonly adviserPersonId: EntityId;
 }
 
 export interface ArrangeAcceptedPressInterviewInput {
@@ -118,15 +136,12 @@ export interface ProducePressPreparationInput {
   readonly activityId: EntityId;
   readonly adviserPersonId: EntityId;
   readonly sourceKnowledgeIds: readonly EntityId[];
-  readonly likelyFollowUps: readonly string[];
-  readonly responseOptions: readonly string[];
 }
 
 export interface ProducePressAdviserFeedbackInput {
   readonly stableKey: string;
   readonly activityId: EntityId;
   readonly adviserPersonId: EntityId;
-  readonly interpretation: string;
 }
 
 /** Pure eligibility over existing people, current work and reporter knowledge. */
@@ -402,6 +417,115 @@ export function recordPressRequestResponse(
   return { world: next, responseEventId: response.id };
 }
 
+/**
+ * Makes and records the requested reporter's decision from their current role,
+ * knowledge and functional availability. The controlled source supplies no NPC
+ * acceptance flag or response wording.
+ */
+export function producePressRequestResponse(
+  world: World,
+  input: ProducePressRequestResponseInput,
+): RecordedPressRequestResponse {
+  const request = requireRequest(world, input.requestEventId);
+  const sourcePersonId = requestSourceId(request);
+  const reporterPersonId = requestReporterId(request);
+  assertNpcAutonomousApplication(world, reporterPersonId);
+  const roleId = tagRequired(request, "press.reporter-role:") as EntityId;
+  const basisIds = tagValues(request, BASIS_PREFIX);
+  const stillEligible = projectEligiblePressReporters(world, {
+    sourcePersonId,
+    questionBasisEventIds: basisIds,
+  }).some(
+    (candidate) =>
+      candidate.personId === reporterPersonId &&
+      candidate.workRoleId === roleId,
+  );
+  const availability = personActionAvailabilityAt(
+    world,
+    reporterPersonId,
+    currentHistoricalCutoff(world),
+  );
+  const cannotAccept = !stillEligible || availability.status === "blocked";
+  const evaluation = evaluateDecision(world, {
+    stableKey: `${input.stableKey}:decision`,
+    decisionType: "press.reporter-request-response",
+    actorPersonId: reporterPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:press-request",
+      key: request.stableKey,
+      entityId: request.id,
+    },
+    options: [
+      {
+        key: "accept",
+        label: "Accept the request",
+        description: "Accept the saved channel, terms, question and basis.",
+      },
+      {
+        key: "decline",
+        label: "Decline the request",
+        description: "Do not create an interview arrangement.",
+      },
+    ],
+    constraints: cannotAccept
+      ? [
+          {
+            stableKey: "press:reporter-unavailable",
+            optionKey: "accept",
+            kind: "availability:reporter",
+            explanation: stillEligible
+              ? "The reporter cannot take this action at the current frontier."
+              : "The reporter no longer has the saved eligible role and knowledge basis.",
+            sourceRefs: [],
+          },
+        ]
+      : [],
+    considerations: [
+      {
+        stableKey: "press:eligible-request",
+        optionKey: "accept",
+        sourceType: "context:professional-request",
+        direction: "supports",
+        importance: "strong",
+        confidence: "high",
+        explanation:
+          "The request matches the reporter's current role and existing knowledge.",
+        sourceRefs: [],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const next = recordDurableDecisionTrace(world, evaluation);
+  const accepted = evaluation.selectedOptionKey === "accept";
+  const channel = tagEnum(
+    request,
+    CHANNEL_PREFIX,
+    PRESS_INTERVIEW_CHANNELS,
+    "press channel",
+  );
+  const terms = tagEnum(
+    request,
+    TERMS_PREFIX,
+    PRESS_RECORD_TERMS,
+    "press terms",
+  );
+  const statement = accepted
+    ? `I accept the ${channel} exchange under the proposed ${terms} terms.`
+    : stillEligible
+      ? "I cannot take this request at the current time."
+      : "I cannot accept a request that no longer matches my role or knowledge.";
+  return recordPressRequestResponse(next, {
+    stableKey: `${input.stableKey}:response`,
+    requestEventId: request.id,
+    reporterPersonId,
+    accepted,
+    statement,
+  });
+}
+
 /** Records willingness from a real current colleague; kinship alone is irrelevant. */
 export function recordPressAdviserResponse(
   world: World,
@@ -483,6 +607,96 @@ export function recordPressAdviserResponse(
     input.statement,
   );
   return { world: next, responseEventId: response.id };
+}
+
+/**
+ * Makes and records a real current colleague's assignment decision. The
+ * controlled source cannot author either the acceptance or the adviser's words.
+ */
+export function producePressAdviserResponse(
+  world: World,
+  input: ProducePressAdviserResponseInput,
+): RecordedPressAdviserResponse {
+  const request = requireRequest(world, input.requestEventId);
+  const sourcePersonId = requestSourceId(request);
+  requirePerson(world, input.adviserPersonId, "adviser");
+  assertNpcAutonomousApplication(world, input.adviserPersonId);
+  const isCurrentColleague = projectEligiblePressAdvisers(
+    world,
+    sourcePersonId,
+  ).some((candidate) => candidate.personId === input.adviserPersonId);
+  const availability = personActionAvailabilityAt(
+    world,
+    input.adviserPersonId,
+    currentHistoricalCutoff(world),
+  );
+  const cannotAccept = !isCurrentColleague || availability.status === "blocked";
+  const evaluation = evaluateDecision(world, {
+    stableKey: `${input.stableKey}:decision`,
+    decisionType: "press.adviser-assignment-response",
+    actorPersonId: input.adviserPersonId,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:press-preparation",
+      key: request.stableKey,
+      entityId: request.id,
+    },
+    options: [
+      {
+        key: "accept",
+        label: "Take the assignment",
+        description: "Accept the saved press preparation assignment.",
+      },
+      {
+        key: "decline",
+        label: "Decline the assignment",
+        description: "Do not become the assigned press adviser.",
+      },
+    ],
+    constraints: cannotAccept
+      ? [
+          {
+            stableKey: "press:adviser-unavailable",
+            optionKey: "accept",
+            kind: "availability:adviser",
+            explanation: isCurrentColleague
+              ? "The adviser cannot take this action at the current frontier."
+              : "The person is not a current colleague of the source.",
+            sourceRefs: [],
+          },
+        ]
+      : [],
+    considerations: [
+      {
+        stableKey: "press:current-colleague-assignment",
+        optionKey: "accept",
+        sourceType: "context:assigned-work",
+        direction: "supports",
+        importance: "strong",
+        confidence: "high",
+        explanation:
+          "The assignment belongs to the person's current shared workplace.",
+        sourceRefs: [],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const next = recordDurableDecisionTrace(world, evaluation);
+  const accepted = evaluation.selectedOptionKey === "accept";
+  const statement = accepted
+    ? "I accept the preparation assignment."
+    : isCurrentColleague
+      ? "I cannot take this preparation assignment at the current time."
+      : "I cannot accept an assignment from an office where I do not work.";
+  return recordPressAdviserResponse(next, {
+    stableKey: `${input.stableKey}:response`,
+    requestEventId: request.id,
+    adviserPersonId: input.adviserPersonId,
+    accepted,
+    statement,
+  });
 }
 
 /** Consumes accepted request records and delegates to the existing arrangement writer. */
@@ -591,7 +805,32 @@ export function producePressPreparation(
   world: World,
   input: ProducePressPreparationInput,
 ): World {
-  return recordPressPreparation(world, input);
+  const knowledge = canonicalIds(input.sourceKnowledgeIds).map(
+    (knowledgeId) => {
+      const record = world.history.knowledge.find(
+        (candidate) => candidate.id === knowledgeId,
+      );
+      if (!record) {
+        throw new Error("Press preparation requires saved adviser knowledge.");
+      }
+      return record;
+    },
+  );
+  const believedSummaries = knowledge.map((record) =>
+    record.believedSummary.trim(),
+  );
+  const likelyFollowUps = believedSummaries.map(
+    (summary) => `What in “${summary}” is established, and what remains open?`,
+  );
+  const responseOptions = [
+    `Answer from the adviser's current understanding: ${believedSummaries[0] ?? "No saved understanding is available."}`,
+    "Separate the recorded development from any outcome that has not happened.",
+  ];
+  return recordPressPreparation(world, {
+    ...input,
+    likelyFollowUps,
+    responseOptions,
+  });
 }
 
 /** Explicitly learns the actual publication, then records fallible adviser feedback. */
@@ -628,6 +867,18 @@ export function producePressAdviserFeedback(
   );
   if (!publication)
     throw new Error("Adviser feedback requires an actual saved publication.");
+  const confirmation = world.history.events.find(
+    (event) =>
+      event.type === "press.response-confirmed" &&
+      event.involvedEntityIds.includes(input.activityId),
+  );
+  const confirmedWording = requiredContext(
+    confirmation?.context.immediateReaction ?? null,
+    "confirmed press wording",
+  );
+  const interpretation =
+    `I reviewed “${publication.headline}”. My reading is that the report used the confirmed answer “${confirmedWording}”; ` +
+    "that is my interpretation, not measured public opinion.";
   let next = recordEventKnowledge(world, {
     stableKey: `${input.stableKey}:publication-knowledge`,
     personId: input.adviserPersonId,
@@ -646,6 +897,7 @@ export function producePressAdviserFeedback(
   next = recordPressAdviserFeedback(next, {
     ...input,
     publicationKnowledgeId,
+    interpretation,
   });
   return next;
 }
