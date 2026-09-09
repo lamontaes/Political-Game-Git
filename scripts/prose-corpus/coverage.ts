@@ -79,6 +79,11 @@ export const SCAN_EXCLUSIONS: readonly { path: string; reason: string }[] = [
     reason: "Headless command output for developers and CI.",
   },
   {
+    path: "src/release",
+    reason:
+      "Build identity: the accepted release version and the source revision the bundle came from. Its strings are a version number and a commit hash, not authored prose, and the only player-visible form of them is a quiet vX.Y.Z the UI composes.",
+  },
+  {
     path: "src/simulation/national-places.generated.ts",
     reason:
       "Generated place-name data compiled from the Census places corpus. Names of real localities are sourced facts, not authored prose.",
