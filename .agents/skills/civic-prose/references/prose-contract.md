@@ -145,9 +145,10 @@ Source: `WAVE_1_OWNER_VERDICTS — LOCKED — 2026-09-05` (Drive), the owner's
 review recorded before any source mapping was opened. The rules below retain
 that calibration except for the current owner's targeted rule 2 correction:
 brief canonical context or recap may orient a moment without redundantly
-reintroducing the player's stable state. They govern quality. The hard rules
-above govern legality, and they win: nothing here authorizes inventing a fact to
-produce a better sentence.
+reintroducing the player's stable state. That correction is grounded in
+`OCD-UI-007` and the 2026-09-08 owner workshop. They govern quality. The hard
+rules above govern legality, and they win: nothing here authorizes inventing a
+fact to produce a better sentence.
 
 The judged calibration set that produced these rules is retired from held-out
 use and may inform examples. The remaining sealed reserve packets stay unread:
