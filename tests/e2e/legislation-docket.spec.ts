@@ -1,4 +1,5 @@
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
+import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
@@ -348,7 +349,7 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await page.getByTestId("composition-comparison").scrollIntoViewIfNeeded();
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/finish4-private-comparison.png",
+    path: shotPath("finish4-private-comparison.png"),
   });
   await expectNoDeveloperLeak(page);
   expect(errors).toEqual([]);
@@ -394,7 +395,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/american-english1-unavailable-estimate.png",
+    path: shotPath("american-english1-unavailable-estimate.png"),
   });
 
   await page.getByTestId("open-drafting-table").click();
@@ -424,7 +425,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/american-english1-reloaded-selection.png",
+    path: shotPath("american-english1-reloaded-selection.png"),
   });
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-002")
