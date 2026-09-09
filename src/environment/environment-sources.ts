@@ -361,10 +361,10 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     disposition: "source-sheet-not-separable",
     sceneId: null,
     remainingStep:
-      "A chopper that can separate adjacent objects. The accepted chopper groups neighbouring objects and CANNOT safely item-chop this sheet, which the sweep recorded rather than producing twenty-seven bad cutouts.",
+      "Existing coarse crops are reviewable in the scene gallery. Grouped objects still need item separation; individual crops need clean-alpha/contact review and explicit approval before release.",
     owedBy: "an art-pipeline owner",
     openRequestIds: [],
-    note: "Twenty-seven staggered office and accessory objects including a lanyard badge. This is the whole of the prop-source position: one sheet nobody can cut, and eight empty prop banks below.",
+    note: "The sweep preserved coarse regions, including separate phone, earbud-case and USB-cable candidates. This is not an empty source bank or proof that no extraction is possible. Original source and crop hashes remain in candidate-component-review.json; no crop is promoted by this review.",
   },
   {
     sourceId: "art/shared/*",
