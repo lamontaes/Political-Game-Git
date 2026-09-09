@@ -20,6 +20,7 @@ export function PrivateJournalEditor({
   readonly onOpenPerson: (id: EntityId) => void;
 }) {
   const [group, setGroup] = useState("");
+  const [editingGroup, setEditingGroup] = useState<string | null>(null);
   const edit = (id: string, patch: Partial<JournalNote>) =>
     onChange({
       ...journal,
@@ -80,7 +81,9 @@ export function PrivateJournalEditor({
         Add private note
       </button>
       {journal.notes
-        .filter((note) => !group || note.group === group)
+        .filter(
+          (note) => !group || note.group === group || note.id === editingGroup,
+        )
         .map((note, index) => {
           const person = people.find(
             (entry) => entry.personId === note.personId,
@@ -110,8 +113,10 @@ export function PrivateJournalEditor({
               <label>
                 Group
                 <input
-                  defaultValue={note.group}
-                  onBlur={(event) =>
+                  value={note.group}
+                  onFocus={() => setEditingGroup(note.id)}
+                  onBlur={() => setEditingGroup(null)}
+                  onChange={(event) =>
                     edit(note.id, { group: event.target.value })
                   }
                 />

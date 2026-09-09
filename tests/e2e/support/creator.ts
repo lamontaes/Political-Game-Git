@@ -136,7 +136,10 @@ export async function enterLife(page: Page): Promise<void> {
   }
   const scene = page.getByTestId("opening-life-scene");
   if (await scene.isVisible()) {
-    await scene.getByRole("button", { name: "Continue your life" }).click();
+    await page
+      .getByRole("button", { name: "Continue your life", exact: true })
+      .first()
+      .click();
   }
   const gate = page.getByTestId("introduction-continue");
   if ((await gate.count()) > 0) await gate.click();

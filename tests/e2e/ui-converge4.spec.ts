@@ -63,7 +63,11 @@ test("normal Carson City citizen attends a public session and retains the real v
   page,
 }, info) => {
   await page.goto("/?seed=ui-converge4-municipal");
-  await startLife(page, { age: 38, place: "Carson City", route: "normal" });
+  await startLife(page, {
+    age: 38,
+    place: "Carson City, Nevada",
+    route: "normal",
+  });
   await enterOpening(page);
   await save(page);
   const initial = await savedWorld(page);
@@ -153,7 +157,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   const note = notebook.getByTestId("private-note").first();
   await note.getByLabel("Title", { exact: true }).fill("A private reminder");
   await note
-    .getByLabel("Note", { exact: true })
+    .getByRole("textbox", { name: "Note", exact: true })
     .fill("Ask about their week when we next talk.");
   await note.getByLabel("Group", { exact: true }).fill("People");
   const personOption = note
@@ -185,6 +189,7 @@ test("private Journal intentions, grouped notes, real person links and history b
   const second = notebook.getByTestId("private-note").nth(1);
   await second.getByLabel("Title", { exact: true }).fill("Another thought");
   await second.getByLabel("Group", { exact: true }).fill("Later");
+  await notebook.getByLabel("Show group").focus();
   await notebook.getByLabel("Show group").selectOption("People");
   await expect(notebook.getByTestId("private-note")).toHaveCount(1);
   await notebook.getByLabel("Show group").selectOption("");
@@ -197,9 +202,9 @@ test("private Journal intentions, grouped notes, real person links and history b
     "I want to remember the people I meet.",
   );
   await expect(notebook.getByTestId("private-note")).toHaveCount(2);
-  await expect(note.getByLabel("Note", { exact: true })).toHaveValue(
-    "Ask about their week when we next talk.",
-  );
+  await expect(
+    note.getByRole("textbox", { name: "Note", exact: true }),
+  ).toHaveValue("Ask about their week when we next talk.");
   await expect(note.getByLabel("Linked person")).toHaveValue(personId!);
   await expect(note.getByLabel("History bookmark")).toHaveValue(bookmark);
   await notebook.getByLabel("Show group").selectOption("Later");

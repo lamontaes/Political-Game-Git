@@ -41,12 +41,21 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
     );
   if (continuing) return props.continuingLife;
   return (
-    <LifeScenePanel
-      world={props.world}
-      playerPersonId={props.playerPersonId}
-      onWorldChange={props.onWorldChange}
-      onContinue={() => setContinuing(true)}
-      transitionHandlers={props.transitionHandlers}
-    />
+    <>
+      <button
+        type="button"
+        className="ui-action"
+        onClick={() => setContinuing(true)}
+      >
+        Continue your life
+      </button>
+      <LifeScenePanel
+        world={props.world}
+        playerPersonId={props.playerPersonId}
+        onWorldChange={props.onWorldChange}
+        onContinue={() => setContinuing(true)}
+        transitionHandlers={props.transitionHandlers}
+      />
+    </>
   );
 }
