@@ -1,4 +1,6 @@
 /** Development-time authored-copy checks, not a simulation or grounding rule. */
+const queueIdiom = /\bqueue(d|ing|s)?\b/i;
+
 export const BRITISH_IDIOM: readonly { pattern: RegExp; instead: string }[] = [
   { pattern: /\bprogrammes?\b/i, instead: "program(s)" },
   { pattern: /£/, instead: "$" },
@@ -21,7 +23,7 @@ export const BRITISH_IDIOM: readonly { pattern: RegExp; instead: string }[] = [
   },
   { pattern: /\bpostcodes?\b/i, instead: "ZIP code(s)" },
   { pattern: /\bnappies\b/i, instead: "diapers" },
-  { pattern: /\bqueue(d|ing|s)?\b/i, instead: "line / lined up" },
+  { pattern: queueIdiom, instead: "line / lined up" },
 ];
 
 export type CopyField = {
@@ -36,6 +38,14 @@ export type CopyField = {
     | "historical";
   /** Non-authored exceptions must name their source or preservation reason. */
   reason?: string;
+  /** Reviewed meaning of this authored field, never a provenance exemption.
+   * A caller must establish that every queue reference is administrative
+   * processing, not infer this from an identifier or a word-list pass.
+   */
+  authoredUsage?: {
+    kind: "administrative-processing-queue";
+    reason: string;
+  };
 };
 
 export function checkAmericanEnglish(fields: readonly CopyField[]): string[] {
@@ -44,7 +54,21 @@ export function checkAmericanEnglish(fields: readonly CopyField[]): string[] {
       return field.reason?.trim()
         ? []
         : [`${field.path}: exception needs a source or preservation reason`];
-    return BRITISH_IDIOM.filter(({ pattern }) => pattern.test(field.text)).map(
+    if (
+      field.authoredUsage &&
+      (field.authoredUsage.kind !== "administrative-processing-queue" ||
+        !field.authoredUsage.reason.trim())
+    )
+      return [
+        `${field.path}: authored usage needs a supported kind and contextual reason`,
+      ];
+    return BRITISH_IDIOM.filter(
+      ({ pattern }) =>
+        !(
+          pattern === queueIdiom &&
+          field.authoredUsage?.kind === "administrative-processing-queue"
+        ) && pattern.test(field.text),
+    ).map(
       ({ pattern, instead }) =>
         `${field.path}: ${pattern.source} — say ${instead}`,
     );

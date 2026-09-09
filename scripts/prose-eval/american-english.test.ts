@@ -74,3 +74,38 @@ describe("authored American English across data surfaces", () => {
     ).toHaveLength(2);
   });
 });
+
+it("keeps a reasoned administrative queue usage authored without suppressing other checks", () => {
+  const field: CopyField = {
+    path: "placeLabel",
+    text: "the counties at the back of the queue",
+    provenance: "authored",
+  };
+  expect(checkAmericanEnglish([field])).toHaveLength(1);
+  const reviewed: CopyField = {
+    ...field,
+    authoredUsage: {
+      kind: "administrative-processing-queue",
+      reason:
+        "The surrounding authored fields describe processing assistance applications, not a line of people.",
+    },
+  };
+  expect(checkAmericanEnglish([reviewed])).toEqual([]);
+  expect(reviewed.provenance).toBe("authored");
+  expect(
+    checkAmericanEnglish([
+      { ...reviewed, text: "the programme application queue" },
+    ]),
+  ).toHaveLength(1);
+  expect(
+    checkAmericanEnglish([
+      {
+        ...reviewed,
+        authoredUsage: { ...reviewed.authoredUsage!, reason: " " },
+      },
+    ]),
+  ).toHaveLength(1);
+  expect(
+    checkAmericanEnglish([{ ...field, text: "She queued for the bus." }]),
+  ).toHaveLength(1);
+});
