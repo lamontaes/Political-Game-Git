@@ -1,3 +1,5 @@
+import { regularSessionActionRefusal } from "./legislative-session-window";
+import { addDays } from "../simulation/dates";
 import {
   AUTHORED_MEASURE_NOTICE,
   applyCharacterHistoryPlan,
@@ -9,6 +11,7 @@ import {
   legislativeBlueprint,
   legislativeScenarioKeysForPlace,
   makeIsoDate,
+  measurePosition,
   personName,
   seatBodyForPack,
   SeededRng,
@@ -108,6 +111,12 @@ export function openLegislativeWork(
     };
   }
 
+  const sessionRefusal = regularSessionActionRefusal(
+    blueprint.pack,
+    world.currentDate,
+  );
+  if (sessionRefusal) throw new Error(sessionRefusal);
+
   const rng = new SeededRng(world.seed).fork(
     `legislative-member:${input.scenarioKey}`,
   );
@@ -177,6 +186,32 @@ export function applyLegislativeCommand(
 ): LegislativeCommandResult {
   if (command.kind !== "take-step") {
     throw new Error("That is not something this surface can do.");
+  }
+  const regularSessionSteps: readonly MeasureStepKey[] = [
+    "request-referral",
+    "request-committee-hearing",
+    "move-committee-report",
+    "request-calendar-placement",
+    "offer-amendment",
+    "await-next-legislative-day",
+    "move-floor-vote",
+    "transmit-to-second-chamber",
+    "move-concurrence",
+    "move-veto-override",
+  ];
+  if (regularSessionSteps.includes(command.step)) {
+    const actionDate =
+      command.step === "request-committee-hearing"
+        ? addDays(world.currentDate, 7)
+        : command.step === "await-next-legislative-day"
+          ? (measurePosition(world, assignment.measureId)
+              .earliestNextFloorDate ?? addDays(world.currentDate, 1))
+          : world.currentDate;
+    const refusal = regularSessionActionRefusal(
+      assignment.procedure.pack,
+      actionDate,
+    );
+    if (refusal) throw new Error(refusal);
   }
   const result = applyLegislativeStep(
     assignment.procedure,

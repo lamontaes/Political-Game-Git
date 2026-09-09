@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
 import { describe, expect, it } from "vitest";
 import {
   createStableId,
@@ -21,7 +22,8 @@ import {
   recompileSavedBill,
 } from "./legislation-docket";
 
-// Feature-level output regression; SKILL-OPS1 owns the shared dialect checker.
+// Reuses the exact SKILL-OPS1 checker from PR147 7761a3a4.
+// The earlier feature-specific spelling control remains unchanged.
 // Identifier fields and source-example records are intentionally not prose.
 const drift =
   /\b(?:programmes?|colou?risation|colour|centre|labour|defence|authorise|prioritise|organise|cancelled|travelling|favour)\b/i;
@@ -64,6 +66,22 @@ describe("AMERICAN-ENGLISH1 legislative output", () => {
     expect(legalInstrumentRule("programme-authorization").instrument).toBe(
       "programme-authorization",
     );
+    expect(
+      checkAmericanEnglish(
+        legalInstrumentRules().flatMap((rule) => [
+          {
+            path: `${rule.instrument}.label`,
+            text: rule.label,
+            provenance: "authored" as const,
+          },
+          {
+            path: `${rule.instrument}.description`,
+            text: rule.description,
+            provenance: "authored" as const,
+          },
+        ]),
+      ),
+    ).toEqual([]);
     checkCopy(legalInstrumentRules());
     checkCopy(programFamilies());
     checkCopy(availableDraftOptions("kentucky"));

@@ -120,14 +120,29 @@ export function adoptProvisionRevision(
   world: World,
   input: AdoptProvisionRevisionInput,
 ): World {
-  const measure = requireMeasure(world, input.measureId);
-  assertUniqueProvisionKey(world, input.stableKey);
+  return adoptProvisionRevisions(world, [input]);
+}
+
+/**
+ * Carries one adopted amendment's complete section package into its measure.
+ * Every input is checked against the same original text frontier before any
+ * section is appended. Nothing is returned unless the entire package succeeds;
+ * the input World is immutable. One amendment cannot be extended in a later
+ * call, and each replaced section retains its stable provision key.
+ */
+export function adoptProvisionRevisions(
+  world: World,
+  inputs: readonly AdoptProvisionRevisionInput[],
+): World {
+  const first = inputs[0];
+  if (!first) throw new Error("An amendment must carry at least one section.");
+  const measure = requireMeasure(world, first.measureId);
   const amendment = measureAmendments(world, measure.id).find(
-    (record) => record.id === input.amendmentId,
+    (record) => record.id === first.amendmentId,
   );
   if (!amendment) {
     throw new Error(
-      `Amendment ${input.amendmentId} does not belong to this measure.`,
+      `Amendment ${first.amendmentId} does not belong to this measure.`,
     );
   }
   if (amendment.status !== "adopted") {
@@ -144,41 +159,89 @@ export function adoptProvisionRevision(
       `Amendment ${amendment.stableKey} has already been carried into the bill.`,
     );
   }
-  if (input.supersedesProvisionId !== null) {
-    const superseded = measureProvisions(world, measure.id).find(
-      (record) => record.id === input.supersedesProvisionId,
-    );
-    if (!superseded) {
+
+  const current = currentMeasureProvisions(world, measure.id);
+  const stableKeys = new Set<string>();
+  const provisionKeys = new Set<string>();
+  const supersededIds = new Set<EntityId>();
+  const sectionNumbers = new Set<number>();
+  for (const input of inputs) {
+    if (input.measureId !== measure.id || input.amendmentId !== amendment.id) {
       throw new Error(
-        "A revision must supersede a section of the same measure.",
+        "One amendment package must belong to one measure and one adopted amendment.",
       );
     }
-    if (superseded.provisionKey !== input.provisionKey) {
-      throw new Error(
-        "A revision must keep the provision key of the section it replaces.",
-      );
-    }
+    assertUniqueProvisionKey(world, input.stableKey);
     if (
-      (world.history.legislativeProvisions ?? []).some(
-        (record) => record.supersedesProvisionId === superseded.id,
-      )
+      stableKeys.has(input.stableKey) ||
+      provisionKeys.has(input.provisionKey)
     ) {
       throw new Error(
-        "That section has already been superseded by a later version.",
+        "An amendment package cannot carry the same section or stable key twice.",
+      );
+    }
+    stableKeys.add(input.stableKey);
+    provisionKeys.add(input.provisionKey);
+    if (sectionNumbers.has(input.sectionNumber)) {
+      throw new Error(
+        "An amendment package cannot assign one section number to two sections.",
+      );
+    }
+    sectionNumbers.add(input.sectionNumber);
+    validateProvisionContent(world, input);
+    if (input.supersedesProvisionId !== null) {
+      const superseded = current.find(
+        (record) => record.id === input.supersedesProvisionId,
+      );
+      if (!superseded) {
+        throw new Error(
+          "A revision must supersede a current section of the same measure.",
+        );
+      }
+      if (superseded.provisionKey !== input.provisionKey) {
+        throw new Error(
+          "A revision must keep the provision key of the section it replaces.",
+        );
+      }
+      if (supersededIds.has(superseded.id)) {
+        throw new Error("Two revisions cannot supersede the same section.");
+      }
+      supersededIds.add(superseded.id);
+    } else if (
+      current.some((record) => record.provisionKey === input.provisionKey)
+    ) {
+      throw new Error(
+        "An existing section must be revised by naming the current provision it supersedes.",
       );
     }
   }
-  return appendProvision(world, {
-    ...input,
-    originAmendmentId: amendment.id,
-    eventType: "legislation.provision-revised",
-    summary: `An adopted amendment rewrote ${headingLabel(
-      input.sectionNumber,
-      input.heading,
-    )} of ${measure.designation} to carry ${describeProvisionReach({
-      beneficiary: input.beneficiary,
-    })}.`,
-  });
+  if (
+    current.some(
+      (record) =>
+        !supersededIds.has(record.id) &&
+        sectionNumbers.has(record.sectionNumber),
+    )
+  ) {
+    throw new Error(
+      "An amendment package cannot reuse the number of an unchanged section.",
+    );
+  }
+
+  let next = world;
+  for (const input of inputs) {
+    next = appendProvision(next, {
+      ...input,
+      originAmendmentId: amendment.id,
+      eventType: "legislation.provision-revised",
+      summary: `An adopted amendment rewrote ${headingLabel(
+        input.sectionNumber,
+        input.heading,
+      )} of ${measure.designation} to carry ${describeProvisionReach({
+        beneficiary: input.beneficiary,
+      })}.`,
+    });
+  }
+  return next;
 }
 
 export function measureProvisions(
@@ -917,7 +980,10 @@ interface AppendProvisionInput extends RecordFiledProvisionInput {
   readonly summary: string;
 }
 
-function appendProvision(world: World, input: AppendProvisionInput): World {
+function validateProvisionContent(
+  world: World,
+  input: RecordFiledProvisionInput,
+): void {
   const measure = requireMeasure(world, input.measureId);
   if (!Number.isSafeInteger(input.sectionNumber) || input.sectionNumber < 1) {
     throw new Error("A provision section number must be a positive integer.");
@@ -952,6 +1018,12 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
       "A provision states its fiscal exposure both in words and as an amount, or not at all.",
     );
   }
+}
+
+function appendProvision(world: World, input: AppendProvisionInput): World {
+  const measure = requireMeasure(world, input.measureId);
+  validateProvisionContent(world, input);
+  const exposure = input.fiscalExposureMinorUnits ?? null;
 
   const eventStableKey = `event:${input.stableKey}`;
   const participants: readonly EventParticipant[] = measure.sponsorPersonId

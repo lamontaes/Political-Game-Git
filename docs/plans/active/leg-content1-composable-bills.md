@@ -340,3 +340,43 @@ assertion. Typecheck, scoped lint, prose hygiene, corpus regeneration/check and 
 three art commands passed. Corpus pins are remeasured from generated output.
 Full-suite and human expanded acceptance remain pending from the prior checkpoint;
 this copy correction does not transfer banked acceptance to a new head.
+
+### LEG-FINISH4 active continuation
+
+Resumed green `b62df683`; shared execution contract and M read in full. Completed
+recovery, spelling, key and version repairs remain banked. This checkpoint adds
+multiple compatible typed changes in an actor-private working copy, with a
+current/proposed section comparison and save/reload through the existing World.
+The existing provision writer now carries multiple sections atomically. The
+consumer requires an already-adopted amendment whose recorded vote references
+the exact working-copy event; an unrelated vote cannot authorize substituted
+text. Original filed sections and draft lineage remain immutable. No new voting
+scores, forecasts, synthetic production catalogs or enactment effects are added.
+
+New ordinary filings use the actual member's sponsorship and origin chamber.
+An office job alone cannot introduce a bill. The office projection reconciles
+existing election/work membership and reports sponsorship and referral
+separately. It does not infer term dates or committee appointments.
+
+P12 is now identified exactly in [PLAYTEST-PORK-01](https://docs.google.com/document/d/1HhEloK5fN08KNzLc0ma2LuJxNisUUQHpgg7Imz1nSKA/edit):
+March 31, 2037 procedural work appeared beside the regular-session explanation.
+The [operative Section 42](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46),
+read on 2026-09-09, states the odd/even-year adjournment boundaries; [Section 80](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=88)
+provides for extraordinary sessions by proclamation with specified subjects.
+The rule now carries a sourced outer calendar limit. Production filing,
+procedure commands and action-time member guards refuse work past that limit,
+including a requested hearing whose future date would cross it. The exact
+2037-03-31 refusal and inclusive deadline controls pass without writing or
+expiring a bill. A date within the outer limit does not establish convening.
+No canonical extraordinary-session proclamation or typed session identity exists;
+such authority stays unavailable. P12 technical delta is covered; owner normal
+play replay remains a separate closure gate.
+
+UI owns the shared root. LIFE/FISCAL/QUAL/OPENING/ECON interfaces are coordinated
+through native task messages. LIFE's worker selector requires real active
+relationships; integrating staffing cannot synthesize a sponsoring member.
+FISCAL's proposed/current distinction and missing-input refusal remain intact.
+The American English checker is supplied by SKILL-OPS1 (#147), not duplicated
+here. The full expanded N ledger remains requested; the accessible owner return
+links to an external ledger and is not a full expanded acceptance verdict.
+Heavy validation is queued behind LIFE/EXEC, OPENING and DEV.
