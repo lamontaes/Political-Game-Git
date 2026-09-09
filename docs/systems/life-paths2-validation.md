@@ -96,3 +96,14 @@ Logs: `/private/tmp/life-exec4-life-browser-retry.log` and
 
 This is feature-level evidence. Normal UI entry/Work integration and human visual
 acceptance remain open. Existing draft PR #141 stays unmerged.
+
+### Hosted long-study budget
+
+Hosted run 34315596484 on cb8f97e passed 3,225 tests and failed only the newly
+added 96-session associate journey: 35.061 seconds against its initial 30-second
+budget. The final test-only correction assigns that case 60 seconds. The
+12-session trade case and all older test budgets remain unchanged; no sessions,
+fees, assertions or seeded people were removed. The student-only optimization
+was discarded unverified after stopping its own focused runner under concurrent
+broad host load. This changes a test execution budget, not study semantics or
+program duration. Hosted green at the corrected head is not yet claimed.
