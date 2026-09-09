@@ -546,15 +546,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual combined tree: current main's
-    // accepted prose, executive-authority reconciliation, and arm-measurement
-    // work composed with the bounded qualification/compliance source and
+    // Re-measured by corpus:prose on the actual combined tree after current
+    // main was merged with the bounded qualification/compliance source and
     // adapter modules. Neither side's pin was chosen; the combined tree was
     // scanned and these are what it measures.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(54170);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(351);
+    expect(coverage.totalLiterals).toBe(55054);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(365);
   });
 });
 

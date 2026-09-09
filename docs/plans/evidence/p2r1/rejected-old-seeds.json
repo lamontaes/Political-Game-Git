@@ -1,0 +1,793 @@
+[
+  {
+    "seed": "shape-a",
+    "seam": "story",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "kind": "adult",
+        "key": "adult.community-building",
+        "stage": null,
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "kind": "adult",
+        "key": "adult.ordinary-good-day",
+        "stage": null,
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 2,
+        "date": "2026-02-27",
+        "kind": "adult",
+        "key": "adult.care-request",
+        "stage": null,
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-09",
+        "kind": "adult",
+        "key": "adult.weekend-invitation",
+        "stage": null,
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 4,
+        "date": "2026-04-21",
+        "kind": "adult",
+        "key": "adult.promise-comes-due",
+        "stage": null,
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 5,
+        "date": "2026-06-01",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-meeting",
+        "option": "go",
+        "prose": "There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going."
+      },
+      {
+        "index": 6,
+        "date": "2026-07-05",
+        "kind": "adult",
+        "key": "adult.family-request",
+        "stage": null,
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 7,
+        "date": "2026-08-15",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "you-said-something",
+        "option": "take-the-role",
+        "prose": "The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold."
+      },
+      {
+        "index": 8,
+        "date": "2026-10-25",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 9,
+        "date": "2027-01-11",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 10,
+        "date": "2027-03-30",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 11,
+        "date": "2027-05-16",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-issue-got-bigger",
+        "option": "put-your-name",
+        "prose": "It is not one building now. The same decision is being made about four streets, and somebody has asked you to put your name to a position on it in public. You have read enough by now to have one. That is not the same as wanting it attached to you."
+      }
+    ],
+    "callbackItems": 3
+  },
+  {
+    "seed": "shape-b",
+    "seam": "story",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "kind": "adult",
+        "key": "adult.community-building",
+        "stage": null,
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "kind": "adult",
+        "key": "adult.weekend-invitation",
+        "stage": null,
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 2,
+        "date": "2026-02-27",
+        "kind": "adult",
+        "key": "adult.care-request",
+        "stage": null,
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-09",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-meeting",
+        "option": "go",
+        "prose": "There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going."
+      },
+      {
+        "index": 4,
+        "date": "2026-05-13",
+        "kind": "adult",
+        "key": "adult.promise-comes-due",
+        "stage": null,
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 5,
+        "date": "2026-06-23",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "you-said-something",
+        "option": "take-the-role",
+        "prose": "The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold."
+      },
+      {
+        "index": 6,
+        "date": "2026-09-02",
+        "kind": "adult",
+        "key": "adult.ordinary-good-day",
+        "stage": null,
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 7,
+        "date": "2026-09-14",
+        "kind": "adult",
+        "key": "adult.family-request",
+        "stage": null,
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 8,
+        "date": "2026-10-25",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 9,
+        "date": "2027-01-11",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 10,
+        "date": "2027-03-30",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-issue-got-bigger",
+        "option": "put-your-name",
+        "prose": "It is not one building now. The same decision is being made about four streets, and somebody has asked you to put your name to a position on it in public. You have read enough by now to have one. That is not the same as wanting it attached to you."
+      },
+      {
+        "index": 11,
+        "date": "2027-08-05",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      }
+    ],
+    "callbackItems": 3
+  },
+  {
+    "seed": "shape-c",
+    "seam": "story",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "kind": "adult",
+        "key": "adult.community-building",
+        "stage": null,
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "kind": "adult",
+        "key": "adult.ordinary-good-day",
+        "stage": null,
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 2,
+        "date": "2026-02-27",
+        "kind": "adult",
+        "key": "adult.care-request",
+        "stage": null,
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-09",
+        "kind": "adult",
+        "key": "adult.weekend-invitation",
+        "stage": null,
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 4,
+        "date": "2026-04-21",
+        "kind": "adult",
+        "key": "adult.promise-comes-due",
+        "stage": null,
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 5,
+        "date": "2026-06-01",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-meeting",
+        "option": "go",
+        "prose": "There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going."
+      },
+      {
+        "index": 6,
+        "date": "2026-07-05",
+        "kind": "adult",
+        "key": "adult.family-request",
+        "stage": null,
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 7,
+        "date": "2026-08-15",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "you-said-something",
+        "option": "take-the-role",
+        "prose": "The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold."
+      },
+      {
+        "index": 8,
+        "date": "2026-10-25",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 9,
+        "date": "2027-01-11",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 10,
+        "date": "2027-03-30",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      },
+      {
+        "index": 11,
+        "date": "2027-05-16",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-issue-got-bigger",
+        "option": "put-your-name",
+        "prose": "It is not one building now. The same decision is being made about four streets, and somebody has asked you to put your name to a position on it in public. You have read enough by now to have one. That is not the same as wanting it attached to you."
+      }
+    ],
+    "callbackItems": 3
+  },
+  {
+    "seed": "shape-d",
+    "seam": "story",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "kind": "adult",
+        "key": "adult.community-building",
+        "stage": null,
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "kind": "episode",
+        "key": "home.the-week-that-does-not-balance",
+        "stage": "the-first-time-it-is-said",
+        "option": "take-it-on",
+        "prose": "Alex Morrow says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on."
+      },
+      {
+        "index": 2,
+        "date": "2026-03-21",
+        "kind": "adult",
+        "key": "adult.household-quiet-evening",
+        "stage": null,
+        "option": "spend-it-together",
+        "prose": "Nothing is owed to anybody this evening, and the other person is in."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-02",
+        "kind": "adult",
+        "key": "adult.family-request",
+        "stage": null,
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 4,
+        "date": "2026-05-13",
+        "kind": "adult",
+        "key": "adult.weekend-invitation",
+        "stage": null,
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 5,
+        "date": "2026-05-25",
+        "kind": "adult",
+        "key": "adult.care-request",
+        "stage": null,
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 6,
+        "date": "2026-07-05",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-meeting",
+        "option": "go",
+        "prose": "There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going."
+      },
+      {
+        "index": 7,
+        "date": "2026-08-08",
+        "kind": "episode",
+        "key": "home.the-week-that-does-not-balance",
+        "stage": "it-was-taken-seriously",
+        "option": "swap",
+        "prose": "Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Alex Morrow asks whether you would rather swap two of them."
+      },
+      {
+        "index": 8,
+        "date": "2026-09-11",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "you-said-something",
+        "option": "take-the-role",
+        "prose": "The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold."
+      },
+      {
+        "index": 9,
+        "date": "2026-11-21",
+        "kind": "adult",
+        "key": "adult.promise-comes-due",
+        "stage": null,
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 10,
+        "date": "2027-01-01",
+        "kind": "adult",
+        "key": "adult.ordinary-good-day",
+        "stage": null,
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 11,
+        "date": "2027-01-13",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      }
+    ],
+    "callbackItems": 4
+  },
+  {
+    "seed": "trace-proof",
+    "seam": "story",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "kind": "adult",
+        "key": "adult.community-building",
+        "stage": null,
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "kind": "episode",
+        "key": "home.the-week-that-does-not-balance",
+        "stage": "the-first-time-it-is-said",
+        "option": "take-it-on",
+        "prose": "Matthew Meyer says, not for the first time but for the first time out loud, that the week does not divide evenly. They are right, and they have picked a bad evening to be right on."
+      },
+      {
+        "index": 2,
+        "date": "2026-03-21",
+        "kind": "adult",
+        "key": "adult.ordinary-good-day",
+        "stage": null,
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-02",
+        "kind": "adult",
+        "key": "adult.family-request",
+        "stage": null,
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 4,
+        "date": "2026-05-13",
+        "kind": "adult",
+        "key": "adult.weekend-invitation",
+        "stage": null,
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 5,
+        "date": "2026-05-25",
+        "kind": "adult",
+        "key": "adult.care-request",
+        "stage": null,
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 6,
+        "date": "2026-07-05",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "the-meeting",
+        "option": "go",
+        "prose": "There is a notice on the door of the building at the end of the road about what is going to happen to it. The meeting is on Tuesday and nobody you know is going."
+      },
+      {
+        "index": 7,
+        "date": "2026-08-08",
+        "kind": "episode",
+        "key": "home.the-week-that-does-not-balance",
+        "stage": "it-was-taken-seriously",
+        "option": "swap",
+        "prose": "Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Matthew Meyer asks whether you would rather swap two of them."
+      },
+      {
+        "index": 8,
+        "date": "2026-09-11",
+        "kind": "episode",
+        "key": "civic.the-thing-nobody-else-turned-up-for",
+        "stage": "you-said-something",
+        "option": "take-the-role",
+        "prose": "The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold."
+      },
+      {
+        "index": 9,
+        "date": "2026-11-21",
+        "kind": "adult",
+        "key": "adult.promise-comes-due",
+        "stage": null,
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 10,
+        "date": "2027-01-01",
+        "kind": "adult",
+        "key": "adult.household-quiet-evening",
+        "stage": null,
+        "option": "spend-it-together",
+        "prose": "Nothing is owed to anybody this evening, and the other person is in."
+      },
+      {
+        "index": 11,
+        "date": "2027-01-13",
+        "kind": "ordinary-stretch",
+        "key": null,
+        "stage": null,
+        "option": "let-it-run",
+        "prose": ""
+      }
+    ],
+    "callbackItems": 4
+  },
+  {
+    "seed": "adaptive-life-test",
+    "answer": 0,
+    "seam": "adult",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "key": "adult.community-building",
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "key": "adult.weekend-invitation",
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 2,
+        "date": "2026-02-27",
+        "key": "adult.family-request",
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-09",
+        "key": "adult.community-meeting",
+        "option": "go",
+        "prose": "The meeting on the calendar is tonight. Nobody has asked you to go, and the agenda is public."
+      },
+      {
+        "index": 4,
+        "date": "2026-04-21",
+        "key": "adult.ordinary-good-day",
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 5,
+        "date": "2026-05-03",
+        "key": "adult.local-dispute",
+        "option": "speak-at-the-meeting",
+        "prose": "Another household here has put something on the agenda of the posted meeting that would cost you if it passed."
+      },
+      {
+        "index": 6,
+        "date": "2026-05-29",
+        "key": "adult.care-request",
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 7,
+        "date": "2026-07-09",
+        "key": "adult.promise-comes-due",
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 8,
+        "date": "2026-08-19",
+        "key": "adult.local-issue-position",
+        "option": "settle-on-it",
+        "prose": "You have read the agenda properly, and you have a view about it. Nobody has asked for it."
+      },
+      {
+        "index": 9,
+        "date": "2026-09-14",
+        "key": "quiet"
+      },
+      {
+        "index": 10,
+        "date": "2026-10-05",
+        "key": "quiet"
+      },
+      {
+        "index": 11,
+        "date": "2026-10-26",
+        "key": "quiet"
+      },
+      {
+        "index": 12,
+        "date": "2026-11-16",
+        "key": "adult.weekend-invitation",
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 13,
+        "date": "2026-11-28",
+        "key": "quiet"
+      },
+      {
+        "index": 14,
+        "date": "2026-12-19",
+        "key": "quiet"
+      },
+      {
+        "index": 15,
+        "date": "2027-01-09",
+        "key": "quiet"
+      }
+    ],
+    "callbackItems": 4
+  },
+  {
+    "seed": "adaptive-life-test",
+    "answer": 3,
+    "seam": "adult",
+    "beats": [
+      {
+        "index": 0,
+        "date": "2026-01-05",
+        "key": "adult.community-building",
+        "option": "keep-the-charge",
+        "prose": "The place the group meets in is going to close. Keeping it open means keeping a charge alive that everybody was told would end this year, and the people who would pay it are not the people who use it."
+      },
+      {
+        "index": 1,
+        "date": "2026-02-15",
+        "key": "adult.community-meeting",
+        "option": "go",
+        "prose": "The meeting on the calendar is tonight. Nobody has asked you to go, and the agenda is public."
+      },
+      {
+        "index": 2,
+        "date": "2026-02-27",
+        "key": "adult.family-request",
+        "option": "go",
+        "prose": "Somebody in the family needs two weeks of your time, and those two weeks are ones you had already given to something else."
+      },
+      {
+        "index": 3,
+        "date": "2026-04-09",
+        "key": "adult.ordinary-good-day",
+        "option": "go-out",
+        "prose": "A day with nothing owed on it, and weather that makes staying indoors feel like a waste."
+      },
+      {
+        "index": 4,
+        "date": "2026-04-21",
+        "key": "adult.local-dispute",
+        "option": "speak-at-the-meeting",
+        "prose": "Another household here has put something on the agenda of the posted meeting that would cost you if it passed."
+      },
+      {
+        "index": 5,
+        "date": "2026-05-17",
+        "key": "adult.care-request",
+        "option": "take-it-on",
+        "prose": "Somebody in the family is going to need regular looking after, and nobody has said yet who is going to do it."
+      },
+      {
+        "index": 6,
+        "date": "2026-06-27",
+        "key": "adult.promise-comes-due",
+        "option": "keep-it",
+        "prose": "Something you said you would do has arrived, and it is less convenient than it was when you said it."
+      },
+      {
+        "index": 7,
+        "date": "2026-08-07",
+        "key": "adult.weekend-invitation",
+        "option": "say-yes",
+        "prose": "There is something on this Saturday that you would probably enjoy, and nobody needs you there."
+      },
+      {
+        "index": 8,
+        "date": "2026-08-19",
+        "key": "adult.local-issue-position",
+        "option": "settle-on-it",
+        "prose": "You have read the agenda properly, and you have a view about it. Nobody has asked for it."
+      },
+      {
+        "index": 9,
+        "date": "2026-09-14",
+        "key": "quiet"
+      },
+      {
+        "index": 10,
+        "date": "2026-10-05",
+        "key": "quiet"
+      },
+      {
+        "index": 11,
+        "date": "2026-10-26",
+        "key": "quiet"
+      },
+      {
+        "index": 12,
+        "date": "2026-11-16",
+        "key": "adult.community-meeting",
+        "option": "go",
+        "prose": "The meeting on the calendar is tonight. Nobody has asked you to go, and the agenda is public."
+      },
+      {
+        "index": 13,
+        "date": "2026-11-28",
+        "key": "quiet"
+      },
+      {
+        "index": 14,
+        "date": "2026-12-19",
+        "key": "quiet"
+      },
+      {
+        "index": 15,
+        "date": "2027-01-09",
+        "key": "quiet"
+      }
+    ],
+    "callbackItems": 4
+  }
+]

@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 validate:art
+> node --import tsx scripts/art-asset-factory/cli-validate.ts
+
+Validation passed.

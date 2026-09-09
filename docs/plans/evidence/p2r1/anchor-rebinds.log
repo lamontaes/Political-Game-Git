@@ -1,0 +1,296 @@
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0014
+    from "The two weeks you did or did not give came up again, in a conversation that was about something else."
+    to   "Your decision about helping your family came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0020
+    from "What you took on came round again, on a week that had no room for it."
+    to   "The question of helping with the care came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0005
+    from "The favour turned out to have been remembered rather more precisely than you remembered it."
+    to   "Your decision about the favour came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0033
+    from "Whether you turned up that evening turned out to have been remembered."
+    to   "You were reminded of how you responded to the good news."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0012
+    from "The thing about whose work it was had not been dropped after all."
+    to   "The question of whose work it was came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0007
+    from "The hours you took, or did not take, turned out to have been counted."
+    to   "Your decision about the extra hours came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0008
+    from "The business with the rule at work came back, from a direction you had not expected."
+    to   "Your decision about the rule at work came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0030
+    from "What you did about the colleague who was not managing turned out to have been noticed."
+    to   "You were reminded of your decision about your colleague’s difficulty."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0003
+    from "The business with the other household was not over, whatever the meeting had decided."
+    to   "Your decision about the local dispute came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0016
+    from "What was decided about the building came back round, and the people it had cost were still there."
+    to   "Your decision about the community building came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0022
+    from "Your name on that list turned out to have been read and remembered."
+    to   "Your decision about the petition came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0010
+    from "The question about standing for something came back, and this time it was not casual."
+    to   "The question of running for office came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0018
+    from "What you did in the days afterwards came up again, long after everybody else had stopped talking about it."
+    to   "Your decision about what to do after the incident came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0021
+    from "What you were told, and what you did about it, came back up."
+    to   "You recall your decision about your friend’s difficulty."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0029
+    from "The offer of help, and what you did with it, came up again."
+    to   "You recall your decision about whether to accept help."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0019
+    from "What you gave, or kept, when the other household needed it turned out to have been noticed."
+    to   "Your decision about helping a neighbour came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0013
+    from "What you said you'd do came round a second time, and there was less room to move it."
+    to   "Your response when the promise came due came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0002
+    from "The same favour came back a third time."
+    to   "Your decision about the earlier favour came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0011
+    from "The business about the week's errands was raised again, and this time not by you."
+    to   "Your decision about responsibilities at home came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0001
+    from "An evening at home you had not thought twice about turned out to have been remembered."
+    to   "Your decision about the evening came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0009
+    from "The plan you settled on stopped being settled."
+    to   "Your decision about the plans came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0017
+    from "What you did about the offer turned out to have been talked about."
+    to   "Your decision about the other job offer came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0031
+    from "What you still owed came back up, on somebody else's schedule again."
+    to   "Your earlier choice about repayment came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0023
+    from "The Saturdays you gave, or kept, came up again."
+    to   "Your decision about volunteering came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0032
+    from "Whether you came that Saturday turned out to have been noticed."
+    to   "Your decision about the invitation came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0027
+    from "The favour you asked over the repair came back around."
+    to   "Your decision about the household repair came back up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0026
+    from "The extra work you took on to cover the month came up again."
+    to   "Your decision about the shortfall came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0028
+    from "The money you passed on turned out to have been remembered."
+    to   "You were reminded of your decision about the extra money."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0015
+    from "The week you handed over turned out to have been counted, and it was raised without much warmth."
+    to   "The earlier household decision came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0004
+    from "The evening you said you would give came up again, from somebody who had noticed whether you gave it."
+    to   "Your decision about the neighbourhood meeting came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded RETURN_SUMMARY-0006
+    from "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it."
+    to   "Your decision about the school project came up again."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0003
+    from "The life this was owed to is no longer readable."
+    to   "The person or earlier event is missing from the record."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0004
+    from "The other person is no longer in this life at all."
+    to   "The other person’s record is missing."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0005
+    from "The person this concerned is no longer living it."
+    to   "Your record is missing, or it records your death."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0006
+    from "The two of them stopped having anything to do with each other, and it never came up again."
+    to   "You and the other person have no shared household, family, work or group ties on record for this follow-up."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0006
+    from "You and the other person have no shared household, family, work or group ties on record for this follow-up."
+    to   "The household, kinship, work or group connection needed for this follow-up is not on record."
+
+> political-life-rpg@0.2.0 corpus:prose
+> node --import tsx scripts/prose-corpus/cli.ts anchors
+
+scripts/prose-corpus/computed-anchors.json: 405 anchors (0 minted, 1 reworded, 0 retired).
+  reworded lifeCallbackTransitionHandler-0007
+    from "What was undertaken had already ended before anybody could hold them to it."
+    to   "There is no active commitment to follow up on."

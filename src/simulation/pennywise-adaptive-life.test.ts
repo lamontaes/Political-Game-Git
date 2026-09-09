@@ -48,6 +48,10 @@ import type {
   SituationCandidate,
 } from "./index";
 import { createDemoWorld } from "./demo";
+import {
+  openOrdinaryLifeRecords,
+  refreshLifeOpportunities,
+} from "./life-opportunities";
 
 /**
  * The wave's own acceptance criteria, as tests.
@@ -851,8 +855,21 @@ describe("Acceptance 10 — adult situations are keyed to opportunity, never to 
   });
 
   it("offers a sparse life less than a full one, from world state alone", () => {
-    const world = createDemoWorld();
-    const populated = buildAdultLifeContext(world, world.personOrder[0]!);
+    // The demo world with its ordinary life opened, which is the state every
+    // played route reaches and the state this claim was always about. The
+    // fixture used to be the bare constructor, and that stopped being a
+    // populated life when P2 made a scene depend on a record rather than on
+    // the mere presence of a household: the bare world has the relationships
+    // and none of the requests, so it is neither of the two things this test
+    // compares. The claim itself is untouched — more here than in a context
+    // with nothing, and both read from world state rather than from a die.
+    const bare = createDemoWorld();
+    const personId = bare.personOrder[0]!;
+    const world = refreshLifeOpportunities(
+      openOrdinaryLifeRecords(bare, personId),
+      personId,
+    );
+    const populated = buildAdultLifeContext(world, personId);
     const available = availableAdultSituations(populated);
     expect(available.length).toBeGreaterThan(4);
 
@@ -881,9 +898,9 @@ describe("Acceptance 10 — adult situations are keyed to opportunity, never to 
       hasHouseholdWorkItem: false,
       activeIncidentCount: 0,
     };
-    const bare = availableAdultSituations(empty);
-    expect(bare.length).toBeGreaterThan(0);
-    expect(bare.length).toBeLessThan(available.length);
+    const withNothing = availableAdultSituations(empty);
+    expect(withNothing.length).toBeGreaterThan(0);
+    expect(withNothing.length).toBeLessThan(available.length);
   });
 
   it("only offers an incident aftermath when an incident already exists", () => {
