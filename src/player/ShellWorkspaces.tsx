@@ -1,3 +1,5 @@
+import { playerEconomicContextLines } from "../presentation/economic-context";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import type { PrivateJournal } from "../presentation/shell-navigation";
 import { useMemo, type ReactNode } from "react";
@@ -452,8 +454,32 @@ export function PersonalWorkspace({
     return <p className="game-note">This world has no record of you.</p>;
   }
 
+  const homeId = world.people[personId]?.homeJurisdictionId;
+  const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const economicLines = economicPlace
+    ? playerEconomicContextLines(economicPlace.key, world.currentDate)
+    : [];
+
   return (
     <>
+      <section
+        aria-label="Economic context"
+        data-testid="personal-economic-context"
+      >
+        <h3>Economic context</h3>
+        <p>
+          {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
+          {world.currentDate}
+        </p>
+        {economicLines.length ? (
+          economicLines.map((line) => <p key={line.key}>{line.text}</p>)
+        ) : (
+          <p>
+            No supported economic observations are available for this place and
+            date.
+          </p>
+        )}
+      </section>
       <header className="pg-personal-identity">
         <h3 data-testid="personal-name">{record.identity.name}</h3>
         <p className="game-band" data-testid="personal-age">

@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 1993 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5119 |
 | DIAGNOSTIC_OR_TEST | 4189 |
-| **NEEDS_CLASSIFICATION** | **5490** |
+| **NEEDS_CLASSIFICATION** | **5492** |
 
-Scanned 461 files holding 62646 string
+Scanned 461 files holding 62652 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -95,6 +95,7 @@ literals in total; the table counts only those that read like a sentence.
 | 23 | `src/simulation/life-content-92c.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
+| 19 | `src/player/ShellWorkspaces.tsx` |
 | 19 | `src/presentation/run-a-fixture.ts` |
 | 19 | `src/simulation/legislative-member-decisions.ts` |
 | 19 | `src/simulation/life-integrity.ts` |
@@ -108,7 +109,6 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
-| 17 | `src/player/ShellWorkspaces.tsx` |
 | 17 | `src/presentation/legislation-estimate-action.ts` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
