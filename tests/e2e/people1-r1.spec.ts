@@ -65,11 +65,9 @@ for (const set of ["dev", "real"]) {
     ).not.toBe(casualTop);
     await expect(person).toHaveAttribute("data-complete", "true");
     fs.mkdirSync(evidenceDir(), { recursive: true });
-    await page
-      .getByTestId("character-proof-stage")
-      .screenshot({
-        path: path.join(evidenceDir(), `saved-formal-${set}.png`),
-      });
+    await page.getByTestId("character-proof-stage").screenshot({
+      path: path.join(evidenceDir(), `saved-formal-${set}.png`),
+    });
   });
 }
 
@@ -111,11 +109,9 @@ test("normalized candidate states name head and fit limitations beside the actua
       .getByTestId("candidate-review-character")
       .locator('img[data-kind="bottom"]'),
   ).toHaveCount(0);
-  await page
-    .getByTestId("candidate-review-stage")
-    .screenshot({
-      path: path.join(evidenceDir(), "seated-candidate-gaps.png"),
-    });
+  await page.getByTestId("candidate-review-stage").screenshot({
+    path: path.join(evidenceDir(), "seated-candidate-gaps.png"),
+  });
 });
 
 test("normal play uses the canonical person's portrait fallback and named people", async ({
