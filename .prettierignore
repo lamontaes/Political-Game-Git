@@ -20,3 +20,9 @@ docs/prose-inventory
 # which Git reports as a conflict instead of composing the two claims into one.
 # Reflowing it would restore the silent composition this file exists to prevent.
 scripts/prose-corpus/computed-anchor-ledger.json
+
+# Content-addressed education catalogs: regenerate with scripts/source/export-education.ts.
+# Sixty megabytes of generated JSON in one chunk; formatting them builds an AST
+# that exhausts the heap. Their integrity is enforced by their digest, not by a
+# formatter — see tests/source/education-catalog-integrity.test.ts.
+public/education/catalog-*.json
