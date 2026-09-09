@@ -2243,6 +2243,48 @@ function renderWorkspace({
   const pinnedRef = (ref: ShellRef) => isPinned(shell, ref);
   const togglePin = (ref: ShellRef) => dispatch({ type: "toggle-pin", ref });
 
+  /*
+   * The local-government surface, shared by the menu route and by a pinned
+   * government. One element, so a pin cannot drift into a second copy of this
+   * screen with different wiring.
+   */
+  const municipalSurface = (openGovernmentKey?: string) => (
+    <MunicipalWorkspace
+      {...(openGovernmentKey ? { openGovernmentKey } : {})}
+      isPinnedGovernment={(key) => pinnedRef({ kind: "government", id: key })}
+      onTogglePinGovernment={(key) =>
+        togglePin({ kind: "government", id: key })
+      }
+      world={session.world}
+      onWorldChange={onWorldChange}
+      transitionHandlers={createCampaignElectionTransitionRegistry()}
+      renderVenue={(world, activityId, venue) => {
+        const canonicalActivity = world.history.scheduledActivities.find(
+          (entry) => entry.id === activityId,
+        );
+        if (!canonicalActivity) return null;
+        const resolution = resolveActivityVenueScene(
+          world,
+          session.personId,
+          canonicalActivity.id,
+          venue,
+        );
+        if (!resolution.sceneId) return null;
+        const activity = completedActivityHere(
+          world,
+          session.personId,
+          canonicalActivity.id,
+        );
+        return (
+          <p role="status" data-testid="municipal-current-venue">
+            You have finished {activity?.title} at {activity?.location.label}.
+            Close this workspace to return to the room.
+          </p>
+        );
+      }}
+    />
+  );
+
   const frame = (
     title: string,
     testid: string,
@@ -2343,15 +2385,27 @@ function renderWorkspace({
         "Calendar",
       );
     }
+    if (view.ref.kind === "measure") {
+      return frame(
+        "Measure",
+        "measure-workspace",
+        <MeasureSurface
+          world={session.world}
+          personId={session.personId}
+          measureId={view.ref.id}
+        />,
+        "Legislation",
+      );
+    }
+    /*
+     * A pinned government reopens the local-government surface with that
+     * government selected. Inspecting is all it does — no travel, no move, no
+     * standing granted.
+     */
     return frame(
-      "Measure",
-      "measure-workspace",
-      <MeasureSurface
-        world={session.world}
-        personId={session.personId}
-        measureId={view.ref.id}
-      />,
-      "Legislation",
+      "Local government",
+      "municipal-workspace",
+      municipalSurface(view.ref.id),
     );
   }
 
@@ -2462,36 +2516,7 @@ function renderWorkspace({
       return frame(
         "Local government",
         "municipal-workspace",
-        <MunicipalWorkspace
-          world={session.world}
-          onWorldChange={onWorldChange}
-          transitionHandlers={createCampaignElectionTransitionRegistry()}
-          renderVenue={(world, activityId, venue) => {
-            const canonicalActivity = world.history.scheduledActivities.find(
-              (entry) => entry.id === activityId,
-            );
-            if (!canonicalActivity) return null;
-            const resolution = resolveActivityVenueScene(
-              world,
-              session.personId,
-              canonicalActivity.id,
-              venue,
-            );
-            if (!resolution.sceneId) return null;
-            const activity = completedActivityHere(
-              world,
-              session.personId,
-              canonicalActivity.id,
-            );
-            return (
-              <p role="status" data-testid="municipal-current-venue">
-                You have finished {activity?.title} at{" "}
-                {activity?.location.label}. Close this workspace to return to
-                the room.
-              </p>
-            );
-          }}
-        />,
+        municipalSurface(),
       );
 
     case "news":

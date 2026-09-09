@@ -27,6 +27,7 @@ const KIND_LABELS: Readonly<Record<ShellRef["kind"], string>> = {
   person: "Person",
   commitment: "Commitment",
   measure: "Measure",
+  government: "Government",
 };
 
 export function pinKindLabel(kind: ShellRef["kind"]): string {
@@ -229,7 +230,9 @@ export function ShellPinRail({
                     <small>
                       {pin.ref.kind === "person"
                         ? "Saved reference. It says nothing about where they are."
-                        : "Saved reference."}
+                        : pin.ref.kind === "government"
+                          ? "Saved reference. Opening it inspects this government; it does not move you or make you a resident."
+                          : "Saved reference."}
                     </small>
                   ) : null}
                 </span>

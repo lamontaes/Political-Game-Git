@@ -29,6 +29,9 @@ export function MunicipalWorkspace({
   onWorldChange,
   transitionHandlers,
   renderVenue,
+  openGovernmentKey,
+  isPinnedGovernment,
+  onTogglePinGovernment,
 }: {
   readonly world: World;
   readonly renderVenue?: (
@@ -38,9 +41,20 @@ export function MunicipalWorkspace({
   ) => ReactNode;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   readonly onWorldChange: (world: World) => void;
+  /**
+   * A government the shell was asked to open, from a pin or a link.
+   *
+   * Selecting one here inspects it. It does not move the player, change where
+   * they live, or give them any standing in it — `view.standing` still comes
+   * from the world, so a visitor stays a visitor.
+   */
+  readonly openGovernmentKey?: string;
+  readonly isPinnedGovernment?: (key: string) => boolean;
+  readonly onTogglePinGovernment?: (key: string) => void;
 }) {
   const [message, setMessage] = useState("");
-  const [inspectionKey, setInspectionKey] = useState("");
+  const [selectedKey, setSelectedKey] = useState("");
+  const inspectionKey = openGovernmentKey ?? selectedKey;
   const [selectedSeriesKey, setSelectedSeriesKey] = useState("");
   const view = municipalWorkspaceFor(world, inspectionKey || undefined);
   const directory = (
@@ -49,7 +63,7 @@ export function MunicipalWorkspace({
       <select
         value={inspectionKey}
         onChange={(event) => {
-          setInspectionKey(event.target.value);
+          setSelectedKey(event.target.value);
           setMessage("");
         }}
       >
@@ -89,8 +103,45 @@ export function MunicipalWorkspace({
     } else setMessage(result.reason ?? "No change recorded.");
   };
   const canWork = view.standing.roles.some((role) => role !== "resident");
+  const pinned = isPinnedGovernment?.(view.government.key) ?? false;
   return (
     <section className="municipal-workspace" aria-label="Municipal government">
+      {/*
+        Where you are, and a shortcut back to it.
+
+        The owner asked for exactly this — "I want a shortcut to Lexington,
+        boom, click it" — and found there was nothing to click. A pin here is a
+        real reference to this GOVERNMENT: reopening it selects this government
+        again and does nothing else. It does not travel, does not move house,
+        and grants no role. Standing is still read from the world below.
+      */}
+      <p className="municipal-current" data-testid="municipal-current">
+        <strong data-testid="municipal-current-name">
+          {view.government.displayName}
+        </strong>
+        <span>
+          {" · "}
+          {view.standing.roles.length
+            ? view.standing.roles.map(humanLabel).join(", ")
+            : "No recorded standing here"}
+        </span>
+        {onTogglePinGovernment ? (
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="municipal-pin"
+            aria-pressed={pinned}
+            aria-label={
+              pinned
+                ? `Unpin ${view.government.displayName}`
+                : `Pin ${view.government.displayName}`
+            }
+            onClick={() => onTogglePinGovernment(view.government.key)}
+          >
+            {pinned ? "★ Pinned" : "☆ Pin this government"}
+          </button>
+        ) : null}
+      </p>
       {renderVenue &&
         world.history.events
           .filter(

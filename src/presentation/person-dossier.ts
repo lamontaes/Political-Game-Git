@@ -14,6 +14,7 @@ import {
   type World,
 } from "../simulation";
 import type { ShellRef } from "./shell-navigation";
+import { municipalGovernmentByKey } from "../simulation/municipal-government";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -274,6 +275,15 @@ export function projectPersonDossier(
 
 /** Whether the world still holds every person, commitment and measure pinned. */
 export function shellRefIsResolvable(world: World, ref: ShellRef): boolean {
+  /*
+   * A government resolves against the compiled registry rather than the save.
+   * Without this it fell through to the measure lookup, found nothing, and a
+   * pinned government would have been pruned the moment the world reloaded —
+   * a shortcut that quietly deleted itself.
+   */
+  if (ref.kind === "government") {
+    return municipalGovernmentByKey(ref.id) !== null;
+  }
   if (ref.kind === "person") return world.people[ref.id] !== undefined;
   if (ref.kind === "commitment") {
     return world.history.scheduledActivities.some(
@@ -285,6 +295,16 @@ export function shellRefIsResolvable(world: World, ref: ShellRef): boolean {
 
 /** The player-facing name of whatever a reference points at. */
 export function labelForRef(world: World, ref: ShellRef): string | null {
+  /*
+   * A pinned government resolves through the government registry, not the
+   * world's entities: it is a real organization this repository has compiled,
+   * and the pin points at that organization rather than at anything the save
+   * happens to contain. A key that no longer resolves returns null and shows as
+   * an unavailable reference, the same as any other pin whose target is gone.
+   */
+  if (ref.kind === "government") {
+    return municipalGovernmentByKey(ref.id)?.displayName ?? null;
+  }
   if (ref.kind === "person") {
     const person = world.people[ref.id];
     return person ? personName(person) : null;

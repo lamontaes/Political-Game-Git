@@ -7,6 +7,7 @@ import {
   canGoBack,
   isPinned,
   refKey,
+  sameRef,
   shellReducer,
   type ShellAction,
   type ShellRef,
@@ -229,5 +230,64 @@ describe("preferences", () => {
     });
     expect(restored.preferences.peopleView).toBe("list");
     expect(restored.pins).toHaveLength(1);
+  });
+});
+
+describe("UI9 destinations", () => {
+  it("keeps Who you are and Money and property apart", () => {
+    // Both entries used to dispatch the identical view, so the second was a
+    // second name for the first click rather than a destination.
+    let state = shellReducer(INITIAL_SHELL_STATE, {
+      type: "go-to-surface",
+      surface: "personal",
+      section: "identity",
+    });
+    expect(activeView(state)).toEqual({
+      surface: "personal",
+      section: "identity",
+    });
+
+    state = shellReducer(state, {
+      type: "go-to-surface",
+      surface: "personal",
+      section: "finances",
+    });
+    expect(activeView(state)).toEqual({
+      surface: "personal",
+      section: "finances",
+    });
+
+    // And Back returns to the half they came from, not to the room.
+    state = shellReducer(state, { type: "back" });
+    expect(activeView(state)).toEqual({
+      surface: "personal",
+      section: "identity",
+    });
+  });
+
+  it("pins a government as its own kind of reference", () => {
+    const government = {
+      kind: "government" as const,
+      id: "lexington-fayette-urban-county-government",
+    };
+    expect(refKey(government)).toBe(
+      "government:lexington-fayette-urban-county-government",
+    );
+
+    let state = shellReducer(INITIAL_SHELL_STATE, {
+      type: "toggle-pin",
+      ref: government,
+    });
+    expect(isPinned(state, government)).toBe(true);
+
+    // It opens as an entity, so Back behaves as it does for every other pin.
+    state = shellReducer(state, { type: "open-entity", ref: government });
+    expect(activeView(state)).toEqual({ surface: "entity", ref: government });
+    state = shellReducer(state, { type: "back" });
+    expect(activeView(state)).toEqual({ surface: "scene" });
+
+    // A person and a government with the same id string are different pins.
+    const namesake = { kind: "person" as const, id: government.id as never };
+    expect(sameRef(government, namesake)).toBe(false);
   });
 });
