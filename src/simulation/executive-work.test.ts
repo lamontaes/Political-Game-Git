@@ -33,7 +33,11 @@ const hearingRegistry = composeExecutiveWorkHandlers(
     [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   ]),
 );
-import { workItemState, advanceWorldMinutes } from "./time-work";
+import {
+  workItemState,
+  advanceWorldMinutes,
+  scheduledActivityState,
+} from "./time-work";
 import { describe, it, expect } from "vitest";
 import { createDemoWorld } from "./demo";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -610,13 +614,18 @@ it.each(["return-for-work", "defer"] as const)(
       serializeWorld(result.world),
     );
     if (action === "defer")
-      expect(result.world.history.scheduledActivities.at(-1)!.start.date).toBe(
-        addDays(world.currentDate, 7),
-      );
+      expect(
+        scheduledActivityState(
+          result.world,
+          result.world.history.scheduledActivities.at(-1)!.id,
+        ).start.date,
+      ).toBe(addDays(world.currentDate, 7));
     else {
       const followup = result.world.history.workItems.at(-1)!;
       expect(followup.title).toBe("Further staff review");
-      expect(followup.assignedPersonIds.length).toBe(1);
+      expect(
+        workItemState(result.world, followup.id).assignedPersonIds.length,
+      ).toBe(1);
       expect(
         actOnExecutiveWork(
           result.world,
