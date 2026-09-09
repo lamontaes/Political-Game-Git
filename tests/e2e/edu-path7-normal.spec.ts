@@ -139,6 +139,25 @@ test("normal dated education offer, attendance, interruption and repeated saving
       exact: true,
     })
     .press("Enter");
+  await expect(paths.locator(":scope > [role=status]")).toContainText(
+    "Another calendar commitment must be resolved first.",
+  );
+  await expect(study).toContainText("1 attended sessions");
+  await openElsewhere(page, "day");
+  await page
+    .getByTestId("ordinary-section")
+    .getByTestId("venue-activities")
+    .getByRole("button", { name: "Carry out activity", exact: true })
+    .filter({ visible: true })
+    .first()
+    .click();
+  await openElsewhere(page, "work");
+  await study
+    .getByRole("button", {
+      name: "Attend Workforce Education — noncredit study",
+      exact: true,
+    })
+    .press("Enter");
   await expect(study).toContainText("2 attended sessions");
   await saveLife(page);
   await page.reload();
