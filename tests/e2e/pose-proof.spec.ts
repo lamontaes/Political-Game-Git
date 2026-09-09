@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 /**
  * Browser proof for the pose contract.
@@ -189,12 +189,12 @@ test.describe("pose and contact proof", () => {
 
     await page.getByTestId("pose-proof").scrollIntoViewIfNeeded();
     await page.screenshot({
-      path: "docs/agent/evidence/pose-proof-coverage.png",
+      path: test.info().outputPath("pose-proof-coverage.png"),
       fullPage: false,
     });
     await page
       .locator('[data-testid="pose-proof-person"]')
       .first()
-      .screenshot({ path: "docs/agent/evidence/pose-proof-person.png" });
+      .screenshot({ path: test.info().outputPath("pose-proof-person.png") });
   });
 });
