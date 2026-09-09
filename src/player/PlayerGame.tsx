@@ -1,3 +1,5 @@
+import { VenueActivityPanel } from "./VenueActivityPanel";
+import { completedActivityHere } from "../presentation/scene-venues";
 import {
   BrowserShellStateStore,
   type StoredShellState,
@@ -1565,7 +1567,13 @@ function PlayingScreen({
 
   const scenePeople = useMemo(
     () =>
-      planLifeScenePeople(session.world, moment.scene.presentPeople, sceneId),
+      planLifeScenePeople(
+        session.world,
+        completedActivityHere(session.world, session.personId)
+          ? []
+          : moment.scene.presentPeople,
+        sceneId,
+      ),
     [session.world, moment.scene.presentPeople, sceneId],
   );
 
@@ -2803,6 +2811,11 @@ function OrdinaryDayView({
           ))}
         </ul>
       ) : null}
+      <VenueActivityPanel
+        world={session.world}
+        personId={session.personId}
+        onWorldChange={onWorldChange}
+      />
       <div className="game-choices">
         <button
           type="button"

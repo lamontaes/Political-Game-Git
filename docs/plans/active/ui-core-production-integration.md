@@ -1,5 +1,7 @@
 # UI-CORE-RELEASE — the accepted shell, on the normal route
 
+Historical Claude checkpoint. Continued by the exclusive [Codex transfer](ui-core-release-transfer.md); that plan supersedes this checkpoint's status, prototype-head and title-integration statements.
+
 **Branch:** `claude/ui-core-production-integration`
 **Base:** `origin/main` at `0dceca57a44ce30201c03ea387ae470737112dde`
 **Status:** implementation delivered; unmerged, pending owner visual acceptance.
@@ -13,13 +15,13 @@ click-through and its R1 corrections — is [#133], frozen at
 The prototype answered the design questions. What comes across is the **shape**
 of the answers, rebuilt against the canonical world:
 
-| Carried                                             | Left behind                          |
-| --------------------------------------------------- | ------------------------------------ |
-| One reducer owning navigation, history and Escape    | The prototype reducer and its state  |
-| The approach-radius cluster and its stable hit box   | `PROTOTYPE_NOW`, a clock that cannot move |
-| The pin gesture model, keyed by reference            | Prototype rooms and `roomId` travel  |
-| The attribution rule: no badge for plain knowledge   | Prototype people, bills and meetings |
-| Reading the version and notes from the checkout      | The prototype's own asset registry   |
+| Carried                                            | Left behind                               |
+| -------------------------------------------------- | ----------------------------------------- |
+| One reducer owning navigation, history and Escape  | The prototype reducer and its state       |
+| The approach-radius cluster and its stable hit box | `PROTOTYPE_NOW`, a clock that cannot move |
+| The pin gesture model, keyed by reference          | Prototype rooms and `roomId` travel       |
+| The attribution rule: no badge for plain knowledge | Prototype people, bills and meetings      |
+| Reading the version and notes from the checkout    | The prototype's own asset registry        |
 
 Production imports nothing from `src/ui-prototype/**`. A browser proof asserts
 the normal route's rendered page contains no trace of it.
@@ -56,7 +58,7 @@ Pure projections, testable without React or a DOM:
 - `src/presentation/personal-record.ts` — identity, household, history, purses.
 - `src/presentation/player-calendar.ts` — yours and the chamber's, separated.
 - `src/presentation/people-directory.ts` — categories, derived not asserted.
-- `src/presentation/person-conversation-entry.ts` — talk to *this* person.
+- `src/presentation/person-conversation-entry.ts` — talk to _this_ person.
 - `src/presentation/release-identity.ts` — version and notes, no literal.
 - `src/presentation/browser-shell-state.ts` — the pin and preference store.
 
