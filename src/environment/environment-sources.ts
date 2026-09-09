@@ -168,7 +168,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "A committee hearing that is a LOCATED activity. Hearings are canonical today — `scheduleCommitteeHearing` and `COMMITTEE_HEARING_TRANSITION_KEY` are real — but they are scheduled as future due items, which carry no `location.locationKey` for the venue table to map.",
     owedBy: "the legislation owner",
     openRequestIds: ["env-hearing-room-foreground-mask"],
-    note: "The art is not the blocker and has not been since the master arrived. The gap is one field: a hearing that says where it is.",
+    note: "The released plate exists. An exact room kind, located attendance and player consumer are still required; a location label alone does not close the gap.",
   },
   {
     sourceId: "env_legislative_chamber_floor_5632x3072_v1",
@@ -202,10 +202,10 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
     disposition: "carried-not-released",
     sceneId: "courtroom-empty-production",
     remainingStep:
-      "A canonical court proceeding a life can be at. The 92G judicial kernel bank compiles proceedings and can already emit a located scheduled activity, but NOTHING in this repository calls `applyJudicialGameplayPlan`, so no life can reach a court.",
+      "A source-confirmed courtroom consumer, actual participant evidence and explicit art release. The transferred JUD-WORK2 office preparation location does not establish courtroom type or proceeding attendance.",
     owedBy: "a judicial gameplay owner",
     openRequestIds: [],
-    note: "APPROVED ART, FULLY CARRIED, HELD AT THE GATE. This lane derived its two runtime tiers as deterministic downscales, authored its anchors, occluders and slots against the plate, and registered it. It stays UNRELEASED because the room has nothing to be the room of, and releasing it would be inventing judicial gameplay to give a picture somewhere to go. The departure from its earlier 'no tier until a consumer exists' constraint is recorded in the manifest entry rather than quietly taken.",
+    note: "APPROVED ART, FULLY CARRIED, HELD AT THE GATE. This lane derived its two runtime tiers as deterministic downscales, authored its anchors, occluders and slots against the plate, and registered it. It stays UNRELEASED. Its recovered geometry is visual-estimate evidence, without a calibrated floor, measured body width or alpha furniture mask; human visual acceptance is pending. The departure from its earlier 'no tier until a consumer exists' constraint is recorded in the manifest entry rather than quietly taken.",
   },
 
   /* --- Approved, mechanically blocked ------------------------------------ */
@@ -219,7 +219,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "A replacement master at or above 4608px. IMG_5189.JPG in the drive sweep is a 5504x3072 empty executive-office candidate and is exactly that replacement — pending owner acceptance.",
     owedBy: "the owner, for acceptance of IMG_5189.JPG",
     openRequestIds: ["env-executive-office-4k-master"],
-    note: "TWO INDEPENDENT BLOCKERS, and it matters that they are counted separately. At 1672px it is below the 4608px environment master minimum, so it cannot be carried at all. And `resolvePlayerCapabilities` has no executive capability, so even a 4K replacement would have nowhere to be shown. Fixing the pixels does not fix the life.",
+    note: "TWO INDEPENDENT BLOCKERS, and it matters that they are counted separately. At 1672px it is below the 4608px environment master minimum, so it cannot be carried at all. The executive owner also owes an exact workplace consumer; an executive role does not establish that this private study depicts its workplace.",
   },
   {
     sourceId: "env_residence_apartment_living_modest_01_1376x768_v1",
@@ -269,7 +269,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "Owner acceptance. Mechanically it is the strongest unaccepted candidate in the bank: it is the only one that answers a standing asset request outright.",
     owedBy: "the owner",
     openRequestIds: ["env-executive-office-4k-master"],
-    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep and never carried further. At 5504px it clears the master minimum the banked 1672px executive master fails. Accepting it would close the art half of the executive gap; the capability half would remain.",
+    note: "Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the drive sweep and never carried further. At 5504px it clears the master minimum the banked 1672px executive master fails. Acceptance would still need scene authoring and the executive owner’s exact workplace consumer.",
   },
   {
     sourceId: "IMG_5190.JPG",

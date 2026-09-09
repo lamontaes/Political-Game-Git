@@ -171,7 +171,7 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     label: "A day of legislative staff work",
     runtimeComponent: "src/player/PlayerGame.tsx",
     canonicalGate:
-      "A scheduled activity at the canonical location `lexington-legislative-office` that is underway. Today that key is written ONLY by `createRunDLiteFixture`, so this is reachable from `?view=office-fixture` and from no ordinary life.",
+      "A completed activity with participant evidence at the canonical location `lexington-legislative-office`. Today that key is written ONLY by `createRunDLiteFixture`, so this is reachable from `?view=office-fixture` and from no ordinary life.",
     sceneId: PRODUCTION_OFFICE_SCENE_ID,
     wiredThrough: "src/presentation/scene-venues.ts",
     openRequestIds: ["person-production-seated-body"],
@@ -211,7 +211,7 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     wiredThrough: null,
     openRequestIds: [],
     blockedSeam:
-      "A LOCATED committee hearing. The proceeding itself is no longer missing — `scheduleCommitteeHearing`, `COMMITTEE_HEARING_TRANSITION_KEY` and `recordCommitteeDisposition` are all canonical — but a hearing is scheduled as a future due item, which carries no `location.locationKey`. The venue table in `scene-venues.ts` maps location keys to rooms and has nothing to map. One field closes it.",
+      "A LOCATED committee hearing. The proceeding itself is no longer missing — `scheduleCommitteeHearing`, `COMMITTEE_HEARING_TRANSITION_KEY` and `recordCommitteeDisposition` are all canonical — but a hearing is scheduled as a future due item, which carries no `location.locationKey`. The venue table in `scene-venues.ts` maps location keys to rooms and has nothing to map. An explicit room kind, actual attendance and a player consumer remain necessary.",
     note: "This one narrowed twice. The art stopped being the blocker when the production master arrived; the PROCEEDING stopped being the blocker when committee hearings became canonical. What is left is smaller than either: a hearing that says where it happens. Legislation-lane work, not invented here.",
   },
   {
@@ -235,32 +235,33 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
     openRequestIds: [],
     blockedSeam:
       "A LOCATED floor session, exactly as for the hearing room above. `takeFloorVote` is canonical; nothing about it declares a room, so the venue table cannot reach the chamber.",
-    note: "The art has not been the blocker since Packet 71 released the generic chamber master with a rostrum contact measured separately from the well floor. The remaining gap is a location key on a floor session.",
+    note: "The art has not been the blocker since Packet 71 released the generic chamber master with a rostrum contact measured separately from the well floor. A located session, actual participant evidence and a player consumer remain necessary; the existing members’ room must retain its separate meaning.",
   },
   {
     consumerId: "executive-private-office",
     label: "An executive's private study",
     runtimeComponent: "none",
     canonicalGate:
-      "An executive capability. `resolvePlayerCapabilities` has no such capability, so no life can currently reach this room.",
+      "A source-confirmed executive workplace and a released scene. The transferred executive lane owns capability and activity integration.",
     sceneId: null,
     wiredThrough: null,
     openRequestIds: ["env-executive-office-4k-master"],
     blockedSeam:
-      "An executive capability in `resolvePlayerCapabilities`. That is simulation work and is not invented to give a picture somewhere to go.",
-    note: "The master is banked and registered and deliberately unreleased, for two independent reasons: at 1672px it is below the environment master minimum, and no canonical executive state exists to justify showing it. Registering art is not permission to invent the life that would use it.",
+      "The executive owner must provide the actual workplace/activity context; ENV must not infer a private study from an executive role.",
+    note: "The 1672px master is below the environment master minimum. The larger candidate remains unaccepted and cannot substitute for released art, regardless of executive gameplay availability.",
   },
   {
     consumerId: "courtroom",
     label: "A courtroom",
     runtimeComponent: "none",
-    canonicalGate: "No judicial surface exists in this game.",
+    canonicalGate:
+      "The JUD-WORK2 transfer provides office preparation, but no source-confirmed courtroom kind or proceeding attendance.",
     sceneId: COURTROOM_SCENE_ID,
     wiredThrough: null,
     openRequestIds: [],
     blockedSeam:
-      "A canonical court proceeding a life can be at. The 92G judicial kernel bank compiles proceedings and can emit a located scheduled activity, but NOTHING calls `applyJudicialGameplayPlan`, so no life can reach a court.",
-    note: "CARRIED, NOT RELEASED. ENV-ALL1 derived the two runtime tiers, authored the anchors, occluders and slots against the plate, and registered `courtroom-empty-production`. The manifest entry stays `unreleased` on purpose: the room has nothing to be the room of, and releasing it would be inventing judicial gameplay to give a picture somewhere to go.",
+      "A source-confirmed courtroom consumer, actual participant evidence and explicit art release. The JUD-WORK2 office preparation location cannot establish a courtroom.",
+    note: "CARRIED, NOT RELEASED. ENV-ALL1 derived the two runtime tiers, authored the anchors, occluders and slots against the plate, and registered `courtroom-empty-production`. The manifest entry stays `unreleased`. Recovered geometry is visual-estimate evidence; no calibrated floor, measured body width, alpha furniture mask or human visual acceptance is claimed.",
   },
   {
     consumerId: "campaign-field-office",

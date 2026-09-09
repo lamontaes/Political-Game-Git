@@ -54,11 +54,8 @@ function domesticSceneFor(
 }
 
 /**
- * The room this life is in right now, from the records and nothing else.
- *
- * Today that means home or nowhere, which is honest rather than partial: the
- * only ordinary-life rooms the bank has released are two apartments, and a
- * character who is somewhere else is somewhere the game cannot yet show.
+ * Selects released art for recorded activity aftermath or household context.
+ * Explicit non-home place evidence with no binding produces no plate.
  */
 export function resolveLifeScene(
   world: World,
