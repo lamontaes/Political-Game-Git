@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5009 |
-| DIAGNOSTIC_OR_TEST | 3673 |
-| **NEEDS_CLASSIFICATION** | **3341** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5017 |
+| DIAGNOSTIC_OR_TEST | 3695 |
+| **NEEDS_CLASSIFICATION** | **3426** |
 
-Scanned 342 files holding 53169 string
+Scanned 349 files holding 53604 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -37,6 +37,7 @@ literals in total; the table counts only those that read like a sentence.
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
+| 50 | `src/simulation/judicial-office-content.ts` |
 | 50 | `src/simulation/life.ts` |
 | 49 | `src/simulation/campaigns.ts` |
 | 49 | `src/simulation/life-sources.ts` |
@@ -70,6 +71,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 25 | `src/simulation/judicial-office-work.ts` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
@@ -135,6 +137,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/presentation/new-game.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
+| 7 | `src/simulation/judicial-office-start.ts` |
 | 6 | `src/player/ModularCharacter.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
 | 6 | `src/presentation/formative-context.ts` |
@@ -164,6 +167,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
+| 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |
