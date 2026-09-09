@@ -294,28 +294,18 @@ export function scenesNoVenueReaches(
     .sort();
 }
 
-/**
- * Scene ids this module may resolve, for the review surface and for tests.
- *
- * "May resolve" is not "an ordinary life reaches". Only the public meeting room
- * is reached from a production path today; the workroom's key is written solely
- * by the Run D-Lite development fixture, and `VENUE_REACHED_IN_ORDINARY_PLAY`
- * below is the narrower and more honest list.
- */
+/** Scene ids supported by the explicit location bindings, not route acceptance. */
 export const VENUE_REACHABLE_SCENE_IDS: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
 ];
 
 /**
- * Scene ids an ORDINARY life actually reaches, through a production path.
- *
- * Kept separate from the list above on purpose. The two were one list until the
- * review page's own exercise ran on the real build and showed the workroom was
- * only ever reached through a development fixture — which is exactly the
- * "registered, therefore wired" confusion this whole module set out to end.
+ * Bindings with a production activity producer. Actual player reachability also
+ * requires the UI owner's VenueActivityPanel integration and browser evidence.
+ * The workroom key is currently produced only by the Run D-Lite fixture.
  */
-export const VENUE_REACHED_IN_ORDINARY_PLAY: readonly string[] = [
+export const VENUE_WITH_PRODUCTION_ACTIVITY: readonly string[] = [
   PUBLIC_MEETING_ROOM_SCENE_ID,
 ];
 
@@ -339,6 +329,6 @@ export const VENUE_DELIBERATELY_UNREACHED: ReadonlyMap<string, string> =
     ],
     [
       DOMESTIC_ORDINARY_SCENE_ID,
-      "Home is not reached through an activity. `resolveLifeScene` falls back to the household on record when nothing is underway, which is where somebody is when nothing is happening.",
+      "Home art supplies residence context only when no later established place or completed travel contradicts it. A quiet calendar does not prove physical presence at home.",
     ],
   ]);

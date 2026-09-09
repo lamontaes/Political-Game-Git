@@ -21,7 +21,7 @@ import {
   scenesNoVenueReaches,
   venuesWithoutRooms,
   VENUE_REACHABLE_SCENE_IDS,
-  VENUE_REACHED_IN_ORDINARY_PLAY,
+  VENUE_WITH_PRODUCTION_ACTIVITY,
 } from "./scene-venues";
 
 /**
@@ -113,14 +113,14 @@ describe("the venue table", () => {
    * its location key. Collapsing these two lists back into one is how a room
    * starts claiming to be in the game again.
    */
-  it("keeps 'a room this table can resolve' apart from 'a room an ordinary life reaches'", () => {
-    expect(VENUE_REACHED_IN_ORDINARY_PLAY.length).toBeLessThan(
+  it("distinguishes supported bindings from bindings with production activity producers", () => {
+    expect(VENUE_WITH_PRODUCTION_ACTIVITY.length).toBeLessThan(
       VENUE_REACHABLE_SCENE_IDS.length,
     );
-    for (const sceneId of VENUE_REACHED_IN_ORDINARY_PLAY) {
+    for (const sceneId of VENUE_WITH_PRODUCTION_ACTIVITY) {
       expect(VENUE_REACHABLE_SCENE_IDS).toContain(sceneId);
     }
-    expect(VENUE_REACHED_IN_ORDINARY_PLAY).toContain(
+    expect(VENUE_WITH_PRODUCTION_ACTIVITY).toContain(
       PUBLIC_MEETING_ROOM_SCENE_ID,
     );
   });
