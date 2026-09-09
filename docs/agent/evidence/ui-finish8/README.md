@@ -7,12 +7,12 @@ Published for C (LAND-CLOSE8) and D (ACCEPT-CLOSE8).
 
 ## Adoption map
 
-| Item | Adopted from | At | Result |
-| --- | --- | --- | --- |
-| UI #144 | `codex/ui-core-release-transfer` | `0deebff6ee7ba2b51467873b4ca8287dd05b0377` | adopted whole, history preserved, worked on `claude/ui-finish8-takeover` |
-| OPENING #150 | `codex/opening-life1` | `39844fcd4ee31ed5d542fd97a309519f6b8fb900` | **not merged.** #144 already carries its own integration of the invitation refusal and the earned-pay repair; verified rather than re-implemented. See "OPENING" below. |
-| EDU #153 | `codex/edu-path7` | `b4a8c55d0c51e805a18201f4b1df95a04aeccba1` | bounded formatting correction published to the same PR branch as `5911d817` (fast-forward) |
-| Accepted main | `origin/main` | `ec437edacb3ff44e286f2a4adaa696880b356a74` | merged into the takeover branch; both control sets preserved |
+| Item          | Adopted from                     | At                                         | Result                                                                                                                                                                  |
+| ------------- | -------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI #144       | `codex/ui-core-release-transfer` | `0deebff6ee7ba2b51467873b4ca8287dd05b0377` | adopted whole, history preserved, worked on `claude/ui-finish8-takeover`                                                                                                |
+| OPENING #150  | `codex/opening-life1`            | `39844fcd4ee31ed5d542fd97a309519f6b8fb900` | **not merged.** #144 already carries its own integration of the invitation refusal and the earned-pay repair; verified rather than re-implemented. See "OPENING" below. |
+| EDU #153      | `codex/edu-path7`                | `b4a8c55d0c51e805a18201f4b1df95a04aeccba1` | bounded formatting correction published to the same PR branch as `5911d817` (fast-forward)                                                                              |
+| Accepted main | `origin/main`                    | `ec437edacb3ff44e286f2a4adaa696880b356a74` | merged into the takeover branch; both control sets preserved                                                                                                            |
 
 Working checkout `/Users/lamontae/Documents/Political-Game-UIFINISH8`, branch
 `claude/ui-finish8-takeover`. The owner play folder
@@ -34,14 +34,14 @@ two-afternoon campaign while its own comment described six.
 **Why that mattered.** Measured on this matrix, each canvassed afternoon is
 worth roughly three points of final margin:
 
-| Afternoons worked | `p85c-owner-clock` | `corpus-campaign-b` |
-| --- | --- | --- |
-| 0 | lost by 4.84 | lost by 5.72 |
-| 1 | lost by 1.22 | lost by 2.66 |
-| 2 (what the loop actually did) | **won by 1.82** | **won by 0.66** |
-| 3 | won by 4.44 | won by 2.62 |
-| 4 | won by 7.16 | won by 5.00 |
-| 6 | won by 14.30 | won by 11.24 |
+| Afternoons worked              | `p85c-owner-clock` | `corpus-campaign-b` |
+| ------------------------------ | ------------------ | ------------------- |
+| 0                              | lost by 4.84       | lost by 5.72        |
+| 1                              | lost by 1.22       | lost by 2.66        |
+| 2 (what the loop actually did) | **won by 1.82**    | **won by 0.66**     |
+| 3                              | won by 4.44        | won by 2.62         |
+| 4                              | won by 7.16        | won by 5.00         |
+| 6                              | won by 14.30       | won by 11.24        |
 
 Two afternoons is the crossover. Both contests were being settled inside a
 sub-two-point residual — on accepted main as much as here. The same sweep on
@@ -97,13 +97,13 @@ Run on an identified server at port 5391, served checkout verified equal to the
 branch head, tree clean:
 
 - `tests/e2e/edu-path7-normal.spec.ts` — both journeys pass.
-  - *normal dated education offer, attendance, interruption and repeated
-    saving*: paid work attended → first study session (1 attended) → Interrupt
+  - _normal dated education offer, attendance, interruption and repeated
+    saving_: paid work attended → first study session (1 attended) → Interrupt
     → Keep/save → reload → Continue → return → second attempt refused with
     `Another calendar commitment must be resolved first.` → explicit
     `Decline invitation: Something on Saturday` → **second actual study session
     (2 attended sessions)** → Save → reload → still 2.
-  - *normal invitation pointer refusal preserves time and survives saving*:
+  - _normal invitation pointer refusal preserves time and survives saving_:
     `currentMoment` unchanged across the refusal, exactly one
     `life.social-invitation-declined` event, `scheduledActivities` unchanged,
     survives reload and a repeated Save byte-for-byte.
@@ -200,13 +200,13 @@ tree, not resolved by hand or taken from a side.
 Captured from a normal start on an identified server, clean tree, served
 checkout verified. **These are not an art approval and are not offered as one.**
 
-| File | Surface |
-| --- | --- |
-| `01-normal-scene.png` | normal scene |
+| File                             | Surface                             |
+| -------------------------------- | ----------------------------------- |
+| `01-normal-scene.png`            | normal scene                        |
 | `02-normal-dossier-wardrobe.png` | dossier with wardrobe controls open |
-| `03-normal-creator.png` | creator |
-| `04-normal-work-study.png` | work and study |
-| `05-normal-news.png` | newspaper |
+| `03-normal-creator.png`          | creator                             |
+| `04-normal-work-study.png`       | work and study                      |
+| `05-normal-news.png`             | newspaper                           |
 
 Human review of the captures, not just their passing:
 
