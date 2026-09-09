@@ -228,9 +228,9 @@ export interface LegalInstrumentRule {
 const INSTRUMENT_RULES: readonly LegalInstrumentRule[] = [
   {
     instrument: "programme-authorization",
-    label: "Programme authorization",
+    label: "Program authorization",
     description:
-      "Creates a programme and states the most it may spend. Stating a ceiling is not the same as providing the money.",
+      "Creates a program and states the most it may spend. Stating a ceiling is not the same as providing the money.",
     permittedDimensions: [
       "funding-cap",
       "eligibility-scope",
@@ -247,7 +247,7 @@ const INSTRUMENT_RULES: readonly LegalInstrumentRule[] = [
     instrument: "appropriation",
     label: "Appropriation",
     description:
-      "Provides money for a programme that is already authorized. It creates nothing and may not exceed what the authority it names allows.",
+      "Provides money for a program that is already authorized. It creates nothing and may not exceed what the authority it names allows.",
     permittedDimensions: [
       "authority-reference",
       "funding-cap",
@@ -327,7 +327,7 @@ const INSTRUMENT_RULES: readonly LegalInstrumentRule[] = [
     instrument: "revenue-measure",
     label: "Revenue measure",
     description:
-      "Imposes or dedicates a charge. What it raises is not what a programme may spend, and the two are not netted here.",
+      "Imposes or dedicates a charge. What it raises is not what a program may spend, and the two are not netted here.",
     permittedDimensions: [
       "revenue",
       "eligibility-scope",

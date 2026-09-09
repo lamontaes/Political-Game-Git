@@ -121,6 +121,8 @@ test.describe("the docket, from the ordinary route", () => {
     );
 
     // Two genuinely different proposals, compared by reading them.
+    await expect(options).toContainText("Program authorization");
+    await expect(options).not.toContainText("Programme authorization");
     await expect(options).toContainText("Transit access");
     await expect(options).toContainText("Bridge and culvert maintenance");
     await expect(options).toContainText("Broadband access");
@@ -321,7 +323,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/transfer-unavailable-estimate.png",
+    path: "docs/agent/evidence/leg-content1/american-english1-unavailable-estimate.png",
   });
 
   await page.getByTestId("open-drafting-table").click();
@@ -351,7 +353,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/transfer-reloaded-selection.png",
+    path: "docs/agent/evidence/leg-content1/american-english1-reloaded-selection.png",
   });
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-002")

@@ -177,7 +177,7 @@ export function billFiscalReading(
       statedCeilingLabel: "Read the amounts in their individual sections.",
       basis:
         periods.size > 1
-          ? "Annual and whole-programme amounts are not added together."
+          ? "Annual and whole-program amounts are not added together."
           : "The saved instrument version is unavailable. The filed section labels remain authoritative.",
       instrumentLabel: rule?.label ?? null,
       effect: {
@@ -301,7 +301,7 @@ export function billEstimateAvailability(
       metricStableKey: "",
       statement: "",
       reason:
-        "The programme this bill was drafted from is no longer on file, so what it was meant to change cannot be said.",
+        "The program this bill was drafted from is no longer on file, so what it was meant to change cannot be said.",
     };
   }
   const outcome = family.intendedOutcome;

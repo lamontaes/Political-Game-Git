@@ -140,7 +140,7 @@ function serviceVariant(input: ServiceDraft): ProgramVariant {
       key: "programme-ceiling",
       dimension: "funding-cap",
       kind: "money",
-      label: "Total programme authorization",
+      label: "Total program authorization",
       minMinorUnits: 100_000_000,
       maxMinorUnits: 5_000_000_000,
       currency: "USD",
@@ -162,10 +162,10 @@ function serviceVariant(input: ServiceDraft): ProgramVariant {
         const amount = resolved.money("programme-ceiling");
         return {
           ...prose(
-            `There is authorized not more than ${amount} in total for the programme established by this Act. This is a single ceiling for the whole programme, not a recurring authorization. No money is appropriated by this Act. No award may be paid without a separate appropriation and designation under applicable law of a public body to administer the programme.`,
+            `There is authorized not more than ${amount} in total for the program established by this Act. This is a single ceiling for the whole program, not a recurring authorization. No money is appropriated by this Act. No award may be paid without a separate appropriation and designation under applicable law of a public body to administer the program.`,
             input.reach,
           ),
-          fiscalExposureLabel: `${amount} total programme authorization`,
+          fiscalExposureLabel: `${amount} total program authorization`,
           fiscalExposureMinorUnits: value.minorUnits,
         };
       },
@@ -219,7 +219,7 @@ function serviceFamily(input: {
 }): ProgramFamily {
   return {
     familyKey: input.key,
-    familyVersion: "v1",
+    familyVersion: "v2",
     title: input.title,
     mechanism: input.mechanism,
     acceptedDimensions: [
@@ -263,12 +263,12 @@ export const SERVICE_FAMILIES: readonly ProgramFamily[] = [
         key: "school-repair-authorization",
         label: "School repair authorization",
         synopsis:
-          "Authorizes a repair programme for public education facilities, with a choice of project priority and a separate appropriation still required.",
+          "Authorizes a repair program for public education facilities, with a choice of project priority and a separate appropriation still required.",
         instrument: "programme-authorization",
         funding: true,
         reach: "public bodies operating public education facilities",
         scopeText:
-          "A school repair assistance programme is established. A public body operating a public education facility in this state may apply for assistance with repair of that facility; new construction is ineligible. Eligibility establishes no right to an award.",
+          "A school repair assistance program is established. A public body operating a public education facility in this state may apply for assistance with repair of that facility; new construction is ineligible. Eligibility establishes no right to an award.",
         choiceLabel: "Which eligible repairs take priority",
         choices: [
           option(
@@ -591,7 +591,7 @@ export const SERVICE_FAMILIES: readonly ProgramFamily[] = [
         amendmentGround:
           "Acknowledgement would make submission distinguishable from approval and identify the next step.",
         limit:
-          "The draft asserts no applicant, denial, caseworker or existing assistance programme in this world.",
+          "The draft asserts no applicant, denial, caseworker or existing assistance program in this world.",
       },
     ],
   }),
@@ -615,7 +615,7 @@ export const SERVICE_FAMILIES: readonly ProgramFamily[] = [
         funding: true,
         reach: "operators of agricultural land proposing conservation work",
         scopeText:
-          "A conservation practice assistance programme is established. An operator of agricultural land in this state may apply for assistance for proposed work intended to retain soil or conserve water on that land. The application shall establish the operator's permission to undertake the work. Eligibility creates no entitlement to an award.",
+          "A conservation practice assistance program is established. An operator of agricultural land in this state may apply for assistance for proposed work intended to retain soil or conserve water on that land. The application shall establish the operator's permission to undertake the work. Eligibility creates no entitlement to an award.",
         choiceLabel: "How completion must be documented",
         choices: [
           option(
@@ -655,7 +655,7 @@ export const SERVICE_FAMILIES: readonly ProgramFamily[] = [
         key: "transition-referral-duty",
         label: "Veteran transition referral duty",
         synopsis:
-          "Requires a public body offering transition assistance to explain and verify referral routes without deciding eligibility for another programme.",
+          "Requires a public body offering transition assistance to explain and verify referral routes without deciding eligibility for another program.",
         instrument: "regulatory-requirement",
         reach:
           "public bodies offering civilian transition assistance to former service members",

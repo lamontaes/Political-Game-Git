@@ -539,7 +539,7 @@ export function availableAuthorities(
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: "An explicitly fictional standing programme in this content bank.",
+    note: "An explicitly fictional standing program in this content bank.",
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];
@@ -559,7 +559,7 @@ export function availableAuthorities(
       authorityKey: `${DOCKET_AUTHORITY_PREFIX}${bill.docketKey}`,
       kind: "docket-measure",
       citationLabel: `${bill.designation} (${bill.shortTitle})`,
-      programmeLabel: `the programme described in ${bill.designation}`,
+      programmeLabel: `the program described in ${bill.designation}`,
       authorizesSpending:
         rule.mayAuthorizeAppropriation && reading !== null && reading > 0,
       authorizedCeilingMinorUnits: reading,
@@ -637,7 +637,7 @@ export function resolveAuthority(
         : "proposed",
     authorityKey,
     citationLabel: `${bill.designation} (${bill.shortTitle})`,
-    programmeLabel: `the programme described in ${bill.designation}`,
+    programmeLabel: `the program described in ${bill.designation}`,
     authorizesSpending:
       rule.mayAuthorizeAppropriation && ceiling !== null && ceiling > 0,
     authorizedCeilingMinorUnits: ceiling,
@@ -930,7 +930,7 @@ export function fileDraft(
       ? { authorityMeasureId: authority.measureId as EntityId }
       : {}),
     provenanceNote:
-      "Authored programme parameters chosen in play. Not a statute, not a measurement, and not a claim about any real programme.",
+      "Authored program parameters chosen in play. Not a statute, not a measurement, and not a claim about any real program.",
   });
 
   // The docket entry the Work surface reads. A work item focused on

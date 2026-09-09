@@ -38,7 +38,7 @@ import {
  */
 const TRANSIT_ACCESS: ProgramFamily = {
   familyKey: "transit-access",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Transit access",
   mechanism:
     "Reduces what riders pay, or extends an existing assistance formula to places a provider does not serve.",
@@ -62,7 +62,7 @@ const TRANSIT_ACCESS: ProgramFamily = {
       instrument: "programme-authorization",
       label: "Fare relief for assistance enrollees",
       synopsis:
-        "Riders already enrolled in a state assistance programme ride without paying a fare, and participating providers are reimbursed in proportion to those boardings.",
+        "Riders already enrolled in a state assistance program ride without paying a fare, and participating providers are reimbursed in proportion to those boardings.",
       shortTitle: "Transit Access Pilot",
       subjectClass: "general-policy",
       authorizesAppropriation: true,
@@ -108,23 +108,23 @@ const TRANSIT_ACCESS: ProgramFamily = {
               value: "assistance-enrollees",
               label: "Riders enrolled in state assistance",
               clausePhrase:
-                "enrolled in a state assistance programme at the time of boarding",
+                "enrolled in a state assistance program at the time of boarding",
             },
             {
               value: "assistance-and-students",
               label: "Assistance enrollees and secondary students",
               clausePhrase:
-                "enrolled in a state assistance programme at the time of boarding, or enrolled in a public secondary school",
+                "enrolled in a state assistance program at the time of boarding, or enrolled in a public secondary school",
             },
             {
               value: "assistance-and-seniors",
               label: "Assistance enrollees and riders over sixty-five",
               clausePhrase:
-                "enrolled in a state assistance programme at the time of boarding, or sixty-five years of age or older",
+                "enrolled in a state assistance program at the time of boarding, or sixty-five years of age or older",
             },
           ],
           evidence: authored(
-            "Authored eligibility classes for a fictional programme. No real state's assistance rules are asserted.",
+            "Authored eligibility classes for a fictional program. No real state's assistance rules are asserted.",
           ),
         },
         {
@@ -207,7 +207,7 @@ const TRANSIT_ACCESS: ProgramFamily = {
         beneficiaryLabel: "the Ashland–Boyd County Transit Authority",
         placeLabel: "Ashland",
         statedGround:
-          "The authority cannot raise the local match that pilot participation requires, and without it the county's riders get nothing from a statewide programme.",
+          "The authority cannot raise the local match that pilot participation requires, and without it the county's riders get nothing from a statewide program.",
         segmentKey: "transit.ashland-boyd-local-match",
         requestedMinorUnits: 140_000_000,
         cappedMinorUnits: 60_000_000,
@@ -371,10 +371,10 @@ const TRANSIT_ACCESS: ProgramFamily = {
  */
 const BRIDGE_MAINTENANCE: ProgramFamily = {
   familyKey: "bridge-maintenance",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Bridge and culvert maintenance",
   mechanism:
-    "Makes an inspection condition rating the operative test for which structures a maintenance programme may reach.",
+    "Makes an inspection condition rating the operative test for which structures a maintenance program may reach.",
   acceptedDimensions: [
     "funding-cap",
     "eligibility-scope",
@@ -400,13 +400,13 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
       instrument: "programme-authorization",
       label: "Worst-first repair",
       synopsis:
-        "Only structures an inspection has already rated at or below a stated condition are eligible, and the programme reports each year on what it reached and what it did not.",
+        "Only structures an inspection has already rated at or below a stated condition are eligible, and the program reports each year on what it reached and what it did not.",
       shortTitle: "Structure Condition Repair",
       subjectClass: "appropriation",
       authorizesAppropriation: true,
       declaredLimits: [
         "It reaches structures by rating alone. A structure nobody has inspected is not eligible, because there is no rating to test.",
-        "It funds repair, not replacement, and requires no new inspection programme.",
+        "It funds repair, not replacement, and requires no new inspection program.",
       ],
       defaults: {
         "repair-authorization": {
@@ -427,7 +427,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
           maxMinorUnits: 6_000_000_000,
           currency: "USD",
           evidence: authored(
-            "An authored authorization ceiling for a fictional state programme. No real maintenance backlog cost is asserted.",
+            "An authored authorization ceiling for a fictional state program. No real maintenance backlog cost is asserted.",
           ),
         },
         {
@@ -546,7 +546,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
         beneficiaryLabel: "county-maintained bridges in the eastern counties",
         placeLabel: "the eastern counties",
         statedGround:
-          "The worst structures in these counties are county-maintained and therefore fall outside a state-system programme entirely, which is the reason their ratings are the lowest.",
+          "The worst structures in these counties are county-maintained and therefore fall outside a state-system program entirely, which is the reason their ratings are the lowest.",
         segmentKey: "structures.eastern-county-set-aside",
         requestedMinorUnits: 320_000_000,
         cappedMinorUnits: 150_000_000,
@@ -567,7 +567,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
       subjectClass: "appropriation",
       authorizesAppropriation: true,
       declaredLimits: [
-        "It deliberately does not reach the worst structures. A structure at or below the threshold leaves this programme rather than entering it.",
+        "It deliberately does not reach the worst structures. A structure at or below the threshold leaves this program rather than entering it.",
         "It sets a treatment cycle; it does not guarantee any structure is treated in a given year.",
       ],
       defaults: {
@@ -589,7 +589,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
           maxMinorUnits: 4_000_000_000,
           currency: "USD",
           evidence: authored(
-            "An authored authorization ceiling for a fictional programme. It is not a measured preventive-maintenance cost.",
+            "An authored authorization ceiling for a fictional program. It is not a measured preventive-maintenance cost.",
           ),
         },
         {
@@ -733,7 +733,7 @@ const BRIDGE_MAINTENANCE: ProgramFamily = {
  */
 const BROADBAND_ACCESS: ProgramFamily = {
   familyKey: "broadband-access",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Broadband access",
   mechanism:
     "Attaches a minimum service standard and a reporting duty to public support for internet service.",
@@ -789,7 +789,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
           maxMinorUnits: 5_000_000_000,
           currency: "USD",
           evidence: authored(
-            "An authored authorization ceiling for a fictional programme. No real buildout cost is asserted.",
+            "An authored authorization ceiling for a fictional program. No real buildout cost is asserted.",
           ),
         },
         {
@@ -958,7 +958,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
           maxMinorUnits: 2_500_000_000,
           currency: "USD",
           evidence: authored(
-            "An authored authorization ceiling for a fictional programme. No real subsidy total is asserted.",
+            "An authored authorization ceiling for a fictional program. No real subsidy total is asserted.",
           ),
         },
         {
@@ -971,17 +971,17 @@ const BROADBAND_ACCESS: ProgramFamily = {
               value: "assistance-enrolled",
               label: "Households enrolled in state assistance",
               clausePhrase:
-                "in which a member is enrolled in a state assistance programme",
+                "in which a member is enrolled in a state assistance program",
             },
             {
               value: "assistance-or-school-meal",
               label: "Assistance households and school-meal households",
               clausePhrase:
-                "in which a member is enrolled in a state assistance programme, or in which a child qualifies for a free or reduced-price school meal",
+                "in which a member is enrolled in a state assistance program, or in which a child qualifies for a free or reduced-price school meal",
             },
           ],
           evidence: authored(
-            "Authored eligibility classes for a fictional programme. No real assistance rules are asserted.",
+            "Authored eligibility classes for a fictional program. No real assistance rules are asserted.",
           ),
         },
         {
@@ -1119,7 +1119,7 @@ const BROADBAND_ACCESS: ProgramFamily = {
  */
 const WATER_SERVICE_LINES: ProgramFamily = {
   familyKey: "water-service-lines",
-  familyVersion: "v1",
+  familyVersion: "v2",
   title: "Water service lines",
   mechanism:
     "Imposes a dated compliance duty on water systems, with or without money attached to discharging it.",
@@ -1176,7 +1176,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
           max: 50_000,
           unitLabel: "connections",
           evidence: authored(
-            "An authored size threshold for a fictional programme. No real system's size is asserted.",
+            "An authored size threshold for a fictional program. No real system's size is asserted.",
           ),
         },
         {
@@ -1316,7 +1316,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
     {
       variantKey: "funded-replacement",
       instrument: "programme-authorization",
-      label: "Funded replacement programme",
+      label: "Funded replacement program",
       synopsis:
         "Covered systems may draw on a replacement fund, with priority written into the statute rather than left to the department.",
       shortTitle: "Service Line Replacement",
@@ -1345,7 +1345,7 @@ const WATER_SERVICE_LINES: ProgramFamily = {
           maxMinorUnits: 8_000_000_000,
           currency: "USD",
           evidence: authored(
-            "An authored fund ceiling for a fictional programme. No real replacement cost is asserted.",
+            "An authored fund ceiling for a fictional program. No real replacement cost is asserted.",
           ),
         },
         {

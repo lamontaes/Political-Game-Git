@@ -793,7 +793,7 @@ function DraftingTable({
                 <p className="docket-error" data-testid="drafting-no-authority">
                   There is nothing here for this bill to act on yet.{" "}
                   {option.requiresSpendingAuthority
-                    ? "An appropriation has to name a programme that is already authorized to spend — pass one first, or choose a different kind of bill."
+                    ? "An appropriation has to name a program that is already authorized to spend — pass one first, or choose a different kind of bill."
                     : "It has to name something that already exists."}
                 </p>
               ) : (

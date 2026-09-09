@@ -238,7 +238,7 @@ describe("a bill survives a save and a reload as itself", () => {
       kind: "integer",
       value: 6,
     });
-    expect(after[1]!.familyVersion).toBe("v1");
+    expect(after[1]!.familyVersion).toBe("v2");
   });
 
   it("serializes identically regardless of the order parameters were set", () => {

@@ -295,3 +295,48 @@ LEARN: a native select must be exercised using a keyboard path proven on the
 actual browser; on this macOS Chrome run, type-ahead plus Tab changes the value,
 while arrow/Enter did not even on an isolated native select. Do not seed fixture
 catalogs into the normal route to turn an honest unavailable result into a pass.
+
+### AMERICAN-ENGLISH1 owner correction
+
+Continuing the same recipient branch from `80801a9`; no new branch or feature.
+The updated Task B packet directs American English for authored player copy.
+`INSTRUMENT_RULES` now displays **Program authorization** while retaining the
+persisted `programme-authorization` token. Authored bank descriptions, clause
+renderers, help and nearby legislative dialogue use **program**, **favor** and
+**canceled**. No governmental title was globally replaced.
+
+Affected family versions advance through the existing lineage guard. Old saved
+text is not normalized. The regression fixture was captured with the original
+`80801a9` fileDraft writer before correction: deserialization, docket reading,
+refused recompilation and another save/load preserve the serialized World,
+including old spelling, identity and history. Supplied citation text remains
+verbatim; source transports, source-example references, constitutional quotations
+and internal keys/field names are unchanged. The original three-clause new-draft
+expectation now explicitly asserts the authorized American spelling, rather than
+claiming unchanged historical text.
+
+Role investigation: complete local word-boundary searches of LEG production
+player/presentation/simulation sources found no authored minister title. The
+Ministers occurrence in the executive rule pack is an Article II quotation and
+remains untouched. Secretary occurrences are jurisdiction-specific rule/source
+records (including Secretary of State and chamber secretary), not generic
+substitutions. Generated Worlds for all nine legislative scenario keys contain
+no minister/secretary string. On UI #144 `2cc6188`, the player/presentation search
+also found no minister/secretary occurrence; its scenario-constructor file equals
+the pre-correction LEG file. This does not clear an unidentified runtime surface:
+the owner's earlier misuse remains unreproduced and needs that specific context.
+
+SKILL-OPS1 retains exclusive ownership of synchronized civic-prose guidance and
+the shared scoped en-US rule. Coordination delivered to PR #147 comment
+`5595345298`; no shared skill/checker edits here. LEG contributes feature output,
+protected citation/token and old-save regressions. UI #144 receives the frozen
+correction and owns composed drafting/document/help verification. No new audit,
+automatic merge or monitoring.
+
+Checks: 128 tests passed across eight focused files before the additional citation
+case; the final preservation/corpus run passed 44 tests across two files. Native
+Chrome docket cases 4/4 passed, including an explicit visible Program authorization
+assertion. Typecheck, scoped lint, prose hygiene, corpus regeneration/check and all
+three art commands passed. Corpus pins are remeasured from generated output.
+Full-suite and human expanded acceptance remain pending from the prior checkpoint;
+this copy correction does not transfer banked acceptance to a new head.

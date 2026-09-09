@@ -493,7 +493,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     shortTitle: "Coastal Ferry Schedule Notice",
     subjectClass: "general-policy",
     summary:
-      "Would require advance public notice before a scheduled coastal ferry sailing is cancelled or rerouted.",
+      "Would require advance public notice before a scheduled coastal ferry sailing is canceled or rerouted.",
     nonpartisan: false,
     votePlan: {
       "committee:house-transportation": { yea: 5, nay: 2 },
