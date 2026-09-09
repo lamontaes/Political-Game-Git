@@ -41,9 +41,9 @@ async function configure(page: Page, top: string) {
     ["footwear", shoe],
     ["top", top],
   ]) {
-    await page
-      .getByRole("combobox", { name, exact: true })
-      .selectOption(family(id!));
+    const control = page.getByRole("combobox", { name, exact: true });
+    if ((await control.inputValue()) !== family(id!))
+      await control.selectOption(family(id!));
   }
 }
 
@@ -129,7 +129,7 @@ async function loadedProof(page: Page, ids: string[]) {
   return proof;
 }
 
-test("saved outfit and person A/B/A keep captions and decoded layers aligned under delayed loading", async ({
+test("saved outfit A/B/A keeps captions and decoded layers aligned under delayed loading", async ({
   page,
 }) => {
   let release!: () => void;
@@ -149,9 +149,6 @@ test("saved outfit and person A/B/A keep captions and decoded layers aligned und
     exact: true,
   });
   const personA = await personControl.inputValue();
-  const personB = await personControl
-    .locator("option")
-    .evaluateAll((options) => (options[1] as HTMLOptionElement).value);
   const character = page.getByTestId("candidate-review-character");
   const identity = await character.getAttribute("data-recipe-key");
   const a = await loadedProof(page, expected(parka));
@@ -231,9 +228,73 @@ test("saved outfit and person A/B/A keep captions and decoded layers aligned und
   expect(
     await page.evaluate((k) => JSON.parse(localStorage.getItem(k)!).world, key),
   ).toBe(originalAppearance);
+  if (artifactDir) {
+    fs.mkdirSync(artifactDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(artifactDir, "corrected-saved-outfit-layer-proof.json"),
+      JSON.stringify(
+        {
+          revision: process.env.PEOPLE_SNAPSHOT6_EVIDENCE,
+          personA,
+          identity,
+          heldRequests: held,
+          a,
+          b,
+          restoredA,
+          acceptance: "Engineering proof; candidate art remains unapproved.",
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+    await page.getByTestId("snapshot6-full-figure").screenshot({
+      path: path.join(artifactDir, "corrected-parka-joggers-full-figure.png"),
+    });
+    await page.getByTestId("person-portrait").screenshot({
+      path: path.join(artifactDir, "corrected-parka-joggers-portrait.png"),
+    });
+    await page.locator(".people-visual4-scene-preview").screenshot({
+      path: path.join(artifactDir, "corrected-parka-joggers-scene.png"),
+    });
+  }
+});
+
+test("person A/B/A and rapid reload use the correct canonical portrait and scene during delayed loading", async ({
+  page,
+}) => {
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let held = 0;
+  await page.route(`**/${polo}.png`, async (route) => {
+    held++;
+    await gate;
+    await route.continue().catch(() => {});
+  });
+  await page.goto("/?view=character-proof&set=visual4");
+  await configure(page, parka);
+  const personControl = page.getByRole("combobox", {
+    name: "Person",
+    exact: true,
+  });
+  const personA = await personControl.inputValue();
+  const personB = await personControl
+    .locator("option")
+    .evaluateAll((options) => (options[1] as HTMLOptionElement).value);
+  const character = page.getByTestId("candidate-review-character");
+  const identity = await character.getAttribute("data-recipe-key");
+  const top = page.getByRole("combobox", { name: "top", exact: true });
+  await loadedProof(page, expected(parka));
+  await page.getByRole("button", { name: "Save review", exact: true }).click();
   // Separate canonical person, with a separately saved effective wardrobe.
   await personControl.selectOption(personB);
   await configure(page, polo);
+  await expect.poll(() => held).toBeGreaterThan(0);
+  await personControl.selectOption(personA);
+  await loadedProof(page, expected(parka));
+  release();
+  await personControl.selectOption(personB);
   await expect(page.getByTestId(`scene-person-${personB}`)).toHaveAttribute(
     "data-has-art",
     "true",
@@ -273,10 +334,10 @@ test("saved outfit and person A/B/A keep captions and decoded layers aligned und
   await expect(page.getByTestId("visual4-completeness")).not.toContainText(
     "green-cable-sweater",
   );
-  if (artifactDir) {
-    fs.mkdirSync(artifactDir, { recursive: true });
+
+  if (artifactDir)
     fs.writeFileSync(
-      path.join(artifactDir, "corrected-saved-outfit-layer-proof.json"),
+      path.join(artifactDir, "corrected-person-aba-layer-proof.json"),
       JSON.stringify(
         {
           revision: process.env.PEOPLE_SNAPSHOT6_EVIDENCE,
@@ -284,24 +345,10 @@ test("saved outfit and person A/B/A keep captions and decoded layers aligned und
           personB,
           identity,
           heldRequests: held,
-          a,
-          b,
-          restoredA,
           personABA,
-          acceptance: "Engineering proof; candidate art remains unapproved.",
         },
         null,
         2,
       ) + "\n",
     );
-    await page.getByTestId("snapshot6-full-figure").screenshot({
-      path: path.join(artifactDir, "corrected-parka-joggers-full-figure.png"),
-    });
-    await page.getByTestId("person-portrait").screenshot({
-      path: path.join(artifactDir, "corrected-parka-joggers-portrait.png"),
-    });
-    await page.locator(".people-visual4-scene-preview").screenshot({
-      path: path.join(artifactDir, "corrected-parka-joggers-scene.png"),
-    });
-  }
 });
