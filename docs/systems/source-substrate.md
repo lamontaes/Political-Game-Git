@@ -306,3 +306,12 @@ removal protection, appeal body, local mandate, bargaining coverage and scope,
 management rights, impasse, and strike restriction. They contain no grievance
 workflow, deadline engine, arbitrator-selection simulation, score, ranking,
 World adapter, or player surface.
+
+BUILD-OUT7 section C separately authorizes the CIVIL-WORK7 consumer. Its
+feature-local `src/source/adapters/civil-personnel.ts` projects all accepted
+fields into browser-safe observations, preserving citations and byte hashes.
+The source domain itself remains unchanged. The initial consumer supports
+class/date limitation queries and private canonical personnel preparation
+Work; it does not establish operative dates, appointing authority or an actual
+legal personnel journey. See the precise [CIVIL-WORK7 handoff](../handoffs/civil-work7.md)
+for delivered APIs, interface pins and the outstanding dependent actions.
