@@ -20,6 +20,7 @@ import {
   combinedSeats,
   nextChamberKey,
   permittedOriginChambers,
+  requireOverrideThreshold,
   type LegislativeRulePack,
   type RuleSourceRef,
   type RuleValue,
@@ -225,7 +226,7 @@ describe("the legislative rule-pack matrix", () => {
     // in Minnesota. The distinct shapes must survive.
     const fractions = new Set<string>();
     for (const pack of LEGISLATIVE_RULE_PACKS) {
-      const threshold = pack.executive.override.threshold;
+      const threshold = requireOverrideThreshold(pack.executive.override);
       fractions.add(`${threshold.numerator}/${threshold.denominatorParts}`);
     }
     expect(fractions).toContain("1/2"); // Kentucky
@@ -387,8 +388,8 @@ describe("the legislative rule-pack matrix", () => {
         ),
         pack.interChamber.kind,
         pack.executive.override.kind,
-        pack.executive.override.threshold.numerator,
-        pack.executive.override.threshold.denominatorParts,
+        requireOverrideThreshold(pack.executive.override).numerator,
+        requireOverrideThreshold(pack.executive.override).denominatorParts,
       ]);
     const signatures = LEGISLATIVE_RULE_PACKS.map(signatureOf);
     expect(new Set(signatures).size).toBe(LEGISLATIVE_RULE_PACKS.length);
@@ -815,7 +816,7 @@ describe("the 2026-09-06 wave carries its own evidence", () => {
               }
             ).source.citation
           : "",
-        pack.executive.override.threshold.source.citation,
+        requireOverrideThreshold(pack.executive.override).source.citation,
       ]),
     );
     for (const pack of WAVE_TWO_PACKS) {

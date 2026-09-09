@@ -1,0 +1,122 @@
+{
+  "run": 34362727533,
+  "head": "7698a35d9fe5f87157650321a85aefaeba167ef9",
+  "artifactId": 10110154017,
+  "repositoryValidation": "passed",
+  "browsers": {
+    "passed": 289,
+    "failed": 1
+  },
+  "attempts": [
+    {
+      "name": "legislation-Moving-a-bill--d537c-bill-is-written-not-sourced-chromium",
+      "completedNavigations": [
+        {
+          "url": "/?view=legislation&place=kentucky",
+          "milliseconds": 1628
+        },
+        {
+          "url": "/?view=legislation&place=kentucky",
+          "milliseconds": 2402
+        },
+        {
+          "url": "/?view=legislation&place=nebraska",
+          "milliseconds": 1551
+        },
+        {
+          "url": "/?view=legislation&place=nebraska",
+          "milliseconds": 1605
+        },
+        {
+          "url": "/?view=legislation&place=alaska",
+          "milliseconds": 1607
+        },
+        {
+          "url": "/?view=legislation&place=alaska",
+          "milliseconds": 1643
+        },
+        {
+          "url": "/?view=legislation&place=kentucky-signage",
+          "milliseconds": 1611
+        },
+        {
+          "url": "/?view=legislation&place=kentucky-signage",
+          "milliseconds": 2369
+        },
+        {
+          "url": "/?view=legislation&place=nebraska-credentials",
+          "milliseconds": 2362
+        },
+        {
+          "url": "/?view=legislation&place=nebraska-credentials",
+          "milliseconds": 751
+        },
+        {
+          "url": "/?view=legislation&place=alaska-ferry-notice",
+          "milliseconds": 2318
+        },
+        {
+          "url": "/?view=legislation&place=alaska-ferry-notice",
+          "milliseconds": 1601
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "legislation-Moving-a-bill--d537c-bill-is-written-not-sourced-chromium-retry1",
+      "completedNavigations": [
+        {
+          "url": "/?view=legislation&place=kentucky",
+          "milliseconds": 1764
+        },
+        {
+          "url": "/?view=legislation&place=kentucky",
+          "milliseconds": 1692
+        },
+        {
+          "url": "/?view=legislation&place=nebraska",
+          "milliseconds": 1668
+        },
+        {
+          "url": "/?view=legislation&place=nebraska",
+          "milliseconds": 2374
+        },
+        {
+          "url": "/?view=legislation&place=alaska",
+          "milliseconds": 1620
+        },
+        {
+          "url": "/?view=legislation&place=alaska",
+          "milliseconds": 1578
+        },
+        {
+          "url": "/?view=legislation&place=kentucky-signage",
+          "milliseconds": 1613
+        },
+        {
+          "url": "/?view=legislation&place=kentucky-signage",
+          "milliseconds": 1627
+        },
+        {
+          "url": "/?view=legislation&place=nebraska-credentials",
+          "milliseconds": 1616
+        },
+        {
+          "url": "/?view=legislation&place=nebraska-credentials",
+          "milliseconds": 1653
+        },
+        {
+          "url": "/?view=legislation&place=alaska-ferry-notice",
+          "milliseconds": 1601
+        }
+      ],
+      "errors": [
+        {
+          "method": "pw:api",
+          "milliseconds": 448,
+          "message": "Error: page.goto: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:4173/?view=legislation&place=alaska-ferry-notice\", waiting until \"load\"\u001b[22m\n"
+        }
+      ]
+    }
+  ]
+}

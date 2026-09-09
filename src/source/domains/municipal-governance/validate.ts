@@ -302,11 +302,11 @@ export function validateMunicipalGovernanceCorpus(
       record.electedStructure.partisanshipHistory.filter(
         (entry) => entry.state === "KNOWN",
       );
-    if (currentPartisanship.length !== 1) {
+    if (currentPartisanship.length > 1) {
       findings.push({
         severity: "error",
         code: "municipal/current-partisanship-cardinality",
-        message: `${id} has ${currentPartisanship.length} current partisanship rows; exactly one is required.`,
+        message: `${id} has ${currentPartisanship.length} current partisanship rows; at most one is permitted. Unknown partisanship does not invalidate other municipal facts.`,
         recordId: id,
       });
     }

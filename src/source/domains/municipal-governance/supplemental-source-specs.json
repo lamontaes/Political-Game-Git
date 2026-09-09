@@ -1,0 +1,22 @@
+[
+  {
+    "artifactId": "or-portland-charter-2-102",
+    "url": "https://www.portland.gov/charter/2/1/102",
+    "provider": "City of Portland",
+    "jurisdictionKey": "US-OR",
+    "enactingBody": "City of Portland electorate",
+    "instrumentKind": "charter",
+    "instrumentTitle": "Portland City Charter, Section 2-102 City Council",
+    "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-102.html",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The City Council of the City of Portland consists",
+          "endsWith": "The Mayor is not a member of Council."
+        }
+      ],
+      "length": 211,
+      "sha256": "1cc4484c111e0c427f877ceba6262d89a9bffdb07e4621aa569657e85af093e3"
+    }
+  }
+]

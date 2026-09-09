@@ -1,0 +1,14 @@
+[WebServer] (node:68391) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 3 tests using 1 worker
+
+(node:68392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] [chromium] › tests/e2e/municipal-public-work.spec.ts:16:5 › municipal feature pointer, keyboard and saved state › citizen 5114968: attend, reload, refuse duplicate without writes
+[2/3] [chromium] › tests/e2e/municipal-public-work.spec.ts:16:5 › municipal feature pointer, keyboard and saved state › citizen 3209700: attend, reload, refuse duplicate without writes
+[3/3] [chromium] › tests/e2e/municipal-public-work.spec.ts:80:3 › municipal feature pointer, keyboard and saved state › current member can prepare canonical work with keyboard; duplicate is no-write
+  3 passed (6.6s)

@@ -1,3 +1,4 @@
+import { municipalRulePackById } from "./municipal-rule-registry";
 import {
   fractionOf,
   knownRule,
@@ -2511,10 +2512,22 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
   OHIO_RULE_PACK,
 ];
 
+/**
+ * One registered rule pack, by id.
+ *
+ * `LEGISLATIVE_RULE_PACKS` above is the state legislatures, and it stays that:
+ * a city council is not a state legislature and putting one in that array would
+ * make the Content Browser list it as one. Municipal packs are a second
+ * registry, derived from the compiled municipal-governance corpus rather than
+ * written here, and they are resolvable by id because the engine that moves a
+ * bill is the engine that moves an ordinance. A caller still cannot hand the
+ * engine a pack object — the id is the only handle — so a fabricated council
+ * with a plausible id resolves to nothing.
+ */
 export function rulePackById(packId: string): LegislativeRulePack {
-  const pack = LEGISLATIVE_RULE_PACKS.find(
-    (candidate) => candidate.packId === packId,
-  );
+  const pack =
+    LEGISLATIVE_RULE_PACKS.find((candidate) => candidate.packId === packId) ??
+    municipalRulePackById(packId);
   if (!pack) {
     throw new Error(`No legislative rule pack is registered as '${packId}'.`);
   }

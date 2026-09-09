@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 release:check
+> node --import tsx scripts/release/index.ts check
+
+release:check — version 0.2.0, revision 13650b5, 5 pending declaration(s), declaration range c0beb01d976fe93268827b6e7fe4f5bf29513199..13650b5b653d4d9b511858043de273c065d8e44c (pr). OK.

@@ -891,6 +891,454 @@
       "textRevision": "05a14e8db969"
     },
     {
+      "anchor": "MunicipalWorkspace-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — observed {fact.asOf}",
+      "occurrence": 0,
+      "textRevision": "8326e7b676bf"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "(not a governing parent).",
+      "occurrence": 0,
+      "textRevision": "2c41c1e61580"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0003",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". A place identifier is not a government-unit or county identifier.",
+      "occurrence": 0,
+      "textRevision": "ebca7a37dd37"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0004",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Completed effort: ",
+      "occurrence": 0,
+      "textRevision": "d535595f25f2"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0005",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". County area:",
+      "occurrence": 0,
+      "textRevision": "59b06e8e4e13"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0006",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Full-time equivalent: unknown.",
+      "occurrence": 0,
+      "textRevision": "3eeba0dad9f3"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0007",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": ". Legacy government ID:",
+      "occurrence": 0,
+      "textRevision": "09d1c65beccd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0008",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "; fiscal year ending ",
+      "occurrence": 0,
+      "textRevision": "bcabd9457fa8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0009",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A session of this type is already on your calendar.",
+      "occurrence": 0,
+      "textRevision": "e5e69ab40461"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0010",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Add an explicitly game-authored public session lasting 90 minutes, starting in one hour (tomorrow if this series already met today). This is not a real published notice or agenda. Closed and executive sessions are excluded.",
+      "occurrence": 0,
+      "textRevision": "e4dd8fa3b32e"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0011",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Add public session to this world",
+      "occurrence": 0,
+      "textRevision": "c6dfbba9bb4d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0012",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Agenda: no published agenda has been attached to this session. Recorded measures appear below.",
+      "occurrence": 0,
+      "textRevision": "73f77b4156a7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0013",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "All recorded facts and evidence",
+      "occurrence": 0,
+      "textRevision": "4d3979fdbaf8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0014",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Attend public meeting",
+      "occurrence": 0,
+      "textRevision": "bb68a10822c2"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0015",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Attendance history",
+      "occurrence": 0,
+      "textRevision": "a0c1ba495dec"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0016",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Census Government Units Survey",
+      "occurrence": 0,
+      "textRevision": "44b78d7ba97d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0017",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Census place: ",
+      "occurrence": 0,
+      "textRevision": "60271c821ae0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0018",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Cited public records and meeting material",
+      "occurrence": 0,
+      "textRevision": "45eb3b2b384a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0019",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "County-equivalent representation:",
+      "occurrence": 0,
+      "textRevision": "78efa224c8bd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0020",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Dated meeting reference — not operative law",
+      "occurrence": 0,
+      "textRevision": "effd78403e0f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0021",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Government identity and geography",
+      "occurrence": 0,
+      "textRevision": "5fe9853bb586"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0022",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Historical finance and employment",
+      "occurrence": 0,
+      "textRevision": "5b8808d85c8a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0023",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Inventory observation:",
+      "occurrence": 0,
+      "textRevision": "ecb84da5a635"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0024",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Library inspection. This does not change your residence or grant a role.",
+      "occurrence": 0,
+      "textRevision": "4287166e11e8"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0025",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Linked to your saved home place.",
+      "occurrence": 0,
+      "textRevision": "033e3a80e686"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0026",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Measures and history",
+      "occurrence": 0,
+      "textRevision": "d18ad65e3f35"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0027",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Meeting notes: ",
+      "occurrence": 0,
+      "textRevision": "398ae82a08fa"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0028",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 0,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0029",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 1,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0030",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 2,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0031",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No employment observation is available for this exact government ID in the accepted corpus.",
+      "occurrence": 0,
+      "textRevision": "fe448e55f2c7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0032",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero.",
+      "occurrence": 0,
+      "textRevision": "8c89bb05651e"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0033",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No municipal measure has been recorded.",
+      "occurrence": 0,
+      "textRevision": "18d96eceb734"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0034",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No session is recorded on this world's calendar.",
+      "occurrence": 0,
+      "textRevision": "cf0ea156c48e"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0035",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No value established",
+      "occurrence": 0,
+      "textRevision": "55917c9902c0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0036",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No verified Census government-unit link is available.",
+      "occurrence": 0,
+      "textRevision": "a60f3cd2cbcd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0037",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No verified government link is available for this home's place.",
+      "occurrence": 0,
+      "textRevision": "2b7fd4dbb97c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0038",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Not established",
+      "occurrence": 0,
+      "textRevision": "aed2f00918a3"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0039",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Prepare meeting notes",
+      "occurrence": 0,
+      "textRevision": "b686b9f52660"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0040",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Professional manager",
+      "occurrence": 0,
+      "textRevision": "4d0613a0665f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0041",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public attendance grants no office powers. Meeting preparation requires a current role in this government.",
+      "occurrence": 0,
+      "textRevision": "b55862771950"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0042",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public meetings",
+      "occurrence": 0,
+      "textRevision": "ed16e85f37fe"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0043",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public session added to your calendar.",
+      "occurrence": 0,
+      "textRevision": "6b952bde5c14"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0044",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public session type",
+      "occurrence": 0,
+      "textRevision": "0f73e8e53d10"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0045",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Public visitor",
+      "occurrence": 0,
+      "textRevision": "710d5ca056e7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0046",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher PID: ",
+      "occurrence": 0,
+      "textRevision": "af18d5409fd9"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0047",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observation",
+      "occurrence": 0,
+      "textRevision": "cbb492c27bde"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0048",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observation",
+      "occurrence": 1,
+      "textRevision": "cbb492c27bde"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0049",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Research report — not operative law",
+      "occurrence": 0,
+      "textRevision": "943c5faaa33d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0050",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Retrieved law",
+      "occurrence": 0,
+      "textRevision": "7ad05eac507c"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0051",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Seat pattern",
+      "occurrence": 0,
+      "textRevision": "05520530ade0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0052",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world.",
+      "occurrence": 0,
+      "textRevision": "fff0f629c5b6"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0053",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "These observations do not establish current cash, staffing, or legal powers.",
+      "occurrence": 0,
+      "textRevision": "63f76bef99fa"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0054",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Work on meeting notes ·",
+      "occurrence": 0,
+      "textRevision": "e69d3de0d075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0055",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "full-time employees,",
+      "occurrence": 0,
+      "textRevision": "58b2d7518124"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0056",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "part-time employees; observed ",
+      "occurrence": 0,
+      "textRevision": "a56300e7ca19"
+    },
+    {
       "anchor": "PHASE_SENTENCES-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "PHASE_SENTENCES",
@@ -1507,6 +1955,86 @@
       "textRevision": "412d3c6d230d"
     },
     {
+      "anchor": "act-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "act",
+      "text": "No change recorded.",
+      "occurrence": 0,
+      "textRevision": "69492574847a"
+    },
+    {
+      "anchor": "act-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "act",
+      "text": "Recorded in your calendar and history.",
+      "occurrence": 0,
+      "textRevision": "c1dcfd69ba3d"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "An existing calendar commitment prevents attendance.",
+      "occurrence": 0,
+      "textRevision": "d050b6468285"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "Attend {activity.title}",
+      "occurrence": 0,
+      "textRevision": "0171952b0078"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "Attended the public meeting",
+      "occurrence": 0,
+      "textRevision": "4b0207dbba02"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "Person control is required.",
+      "occurrence": 0,
+      "textRevision": "4f7d476c8463"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "The meeting is no longer scheduled.",
+      "occurrence": 0,
+      "textRevision": "000cb5692c8d"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0006",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "The meeting series is unresolved.",
+      "occurrence": 0,
+      "textRevision": "c42395b0f206"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0007",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "This attendance is already recorded.",
+      "occurrence": 0,
+      "textRevision": "6f07cfbf775a"
+    },
+    {
+      "anchor": "attendMunicipalPublicMeeting-0008",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "attendMunicipalPublicMeeting",
+      "text": "This government has no such canonical meeting.",
+      "occurrence": 0,
+      "textRevision": "8b8bb88596ed"
+    },
+    {
       "anchor": "availableIntents-0001",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "availableIntents",
@@ -1665,6 +2193,54 @@
       "text": "Wait and see if they raise it",
       "occurrence": 0,
       "textRevision": "a3c69181569e"
+    },
+    {
+      "anchor": "buildFloorStages-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "No instrument read establishes whether this body amends at final passage.",
+      "occurrence": 0,
+      "textRevision": "c517f85b8b86"
+    },
+    {
+      "anchor": "buildFloorStages-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "No instrument read establishes whether this reading takes amendments.",
+      "occurrence": 0,
+      "textRevision": "b05f112d6109"
+    },
+    {
+      "anchor": "buildFloorStages-0003",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "Reading {index}",
+      "occurrence": 0,
+      "textRevision": "6bdefac45d10"
+    },
+    {
+      "anchor": "buildFloorStages-0004",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "Reading {readings} and final passage",
+      "occurrence": 0,
+      "textRevision": "376840f8fb29"
+    },
+    {
+      "anchor": "buildFloorStages-0005",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "This reading decides nothing; the instrument puts the vote at the final reading.",
+      "occurrence": 0,
+      "textRevision": "0f5628c3850c"
+    },
+    {
+      "anchor": "buildFloorStages-0006",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "buildFloorStages",
+      "text": "reading {index}",
+      "occurrence": 0,
+      "textRevision": "1c4e59863096"
     },
     {
       "anchor": "buildGrounding-0001",
@@ -1963,6 +2539,14 @@
       "textRevision": "7a6ba17a857e"
     },
     {
+      "anchor": "createAuthoredMunicipalPublicSession-0001",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "createAuthoredMunicipalPublicSession",
+      "text": "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
+      "occurrence": 0,
+      "textRevision": "8a48bf44f074"
+    },
+    {
       "anchor": "deadlinesFor-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "deadlinesFor",
@@ -2171,6 +2755,22 @@
       "textRevision": "921e48af43a5"
     },
     {
+      "anchor": "directory-0001",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Inspect a government",
+      "occurrence": 0,
+      "textRevision": "0fd3a93aa83f"
+    },
+    {
+      "anchor": "directory-0002",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "My home government",
+      "occurrence": 0,
+      "textRevision": "902955604322"
+    },
+    {
       "anchor": "elapsedPhrase-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "elapsedPhrase",
@@ -2243,6 +2843,14 @@
       "textRevision": "9ca23e47665b"
     },
     {
+      "anchor": "executiveSource-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "executiveSource",
+      "text": "executive action on an ordinance",
+      "occurrence": 0,
+      "textRevision": "24f422ccba44"
+    },
+    {
       "anchor": "fileForOffice-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "fileForOffice",
@@ -2265,6 +2873,70 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "humanSeries-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "annual town meeting",
+      "occurrence": 0,
+      "textRevision": "27ec81ea4cd4"
+    },
+    {
+      "anchor": "humanSeries-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "committee meeting",
+      "occurrence": 0,
+      "textRevision": "9234acb1625d"
+    },
+    {
+      "anchor": "humanSeries-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "deliberative session",
+      "occurrence": 0,
+      "textRevision": "3d2cf956f5ad"
+    },
+    {
+      "anchor": "humanSeries-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "public hearing",
+      "occurrence": 0,
+      "textRevision": "8e62a15210ea"
+    },
+    {
+      "anchor": "humanSeries-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "regular meeting",
+      "occurrence": 0,
+      "textRevision": "26dd19ea1ff6"
+    },
+    {
+      "anchor": "humanSeries-0006",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "special meeting",
+      "occurrence": 0,
+      "textRevision": "b7bc70b92e0e"
+    },
+    {
+      "anchor": "humanSeries-0007",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "humanSeries",
+      "text": "work session",
+      "occurrence": 0,
+      "textRevision": "492fa26db16a"
+    },
+    {
+      "anchor": "installMunicipalGovernment-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "installMunicipalGovernment",
+      "text": "{reading.displayName} is governed by {reading.bodyName??\"abodytherecorddoesnotname\"}, read from {reading.evidence===\"enacted-text\"?\"itsownenactedlaw\":\"aresearchtranscriptionofofficialmunicipalpages\"} as of {reading.asOf}.",
+      "occurrence": 0,
+      "textRevision": "0e4735766c81"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0001",
@@ -2329,6 +3001,246 @@
       "text": "{head} and {names.at(-1)}",
       "occurrence": 0,
       "textRevision": "4086e3ea5403"
+    },
+    {
+      "anchor": "mayorTitle-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "mayorTitle",
+      "text": "the mayor",
+      "occurrence": 0,
+      "textRevision": "04663a8f5d7a"
+    },
+    {
+      "anchor": "municipalActionAuthority-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
+      "occurrence": 0,
+      "textRevision": "d8d178b73e38"
+    },
+    {
+      "anchor": "municipalActionAuthority-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "No municipal government is compiled as \"{input.governmentKey}\".",
+      "occurrence": 0,
+      "textRevision": "12fee94826a7"
+    },
+    {
+      "anchor": "municipalActionAuthority-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "No open sitting of {reading.displayName} was established, so there is nowhere to be heard.",
+      "occurrence": 0,
+      "textRevision": "b21320d071af"
+    },
+    {
+      "anchor": "municipalActionAuthority-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "No sitting of {reading.displayName} called \"{input.seriesKey}\" was established as open to the public.",
+      "occurrence": 0,
+      "textRevision": "752becc20f56"
+    },
+    {
+      "anchor": "municipalActionAuthority-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Nothing read for {reading.displayName} establishes that any of its sittings are open to the public, so the game will not put you in the room on an assumption.",
+      "occurrence": 0,
+      "textRevision": "0b256dd9d099"
+    },
+    {
+      "anchor": "municipalActionAuthority-0006",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Nothing read gives {mayorTitle} of {reading.displayName} any action on an ordinance the body has adopted: {reading.procedure.overrideAbsence??\"theinstrumentsestablishnoveto.\"}",
+      "occurrence": 0,
+      "textRevision": "5dd568ea4a89"
+    },
+    {
+      "anchor": "municipalActionAuthority-0007",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Nothing read gives {reading.bodyName??reading.displayName} the appointment of a professional manager.",
+      "occurrence": 0,
+      "textRevision": "bbbefb518ae7"
+    },
+    {
+      "anchor": "municipalActionAuthority-0008",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Only members of {reading.bodyName??reading.displayName} appoint its manager.",
+      "occurrence": 0,
+      "textRevision": "7071ca5518f8"
+    },
+    {
+      "anchor": "municipalActionAuthority-0009",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Only {mayorTitle} acts on an adopted ordinance here.",
+      "occurrence": 0,
+      "textRevision": "741945b42195"
+    },
+    {
+      "anchor": "municipalActionAuthority-0010",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Sitting in on a meeting of {reading.bodyName??reading.displayName} does not put you on it. {input.action===\"vote-on-ordinance\"?\"Onlyitsmembersvote.\":\"Onlyitsmembersmoveanordinance.\"}",
+      "occurrence": 0,
+      "textRevision": "946d3edd397b"
+    },
+    {
+      "anchor": "municipalActionAuthority-0011",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "The instrument read establishes a right to be heard at this sitting.",
+      "occurrence": 0,
+      "textRevision": "9897e4b78be9"
+    },
+    {
+      "anchor": "municipalActionAuthority-0012",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "The instrument read establishes that this sitting is open.",
+      "occurrence": 0,
+      "textRevision": "b65a3072bc4b"
+    },
+    {
+      "anchor": "municipalActionAuthority-0013",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "The instruments read establish how this body adopts an ordinance.",
+      "occurrence": 0,
+      "textRevision": "7bcffe0f7c94"
+    },
+    {
+      "anchor": "municipalActionAuthority-0014",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "Whether {reading.displayName} lets a member of the public speak at this sitting was not established by anything read. The room is open; a right to address it is a separate rule and nobody has read one.",
+      "occurrence": 0,
+      "textRevision": "c93682cb50ed"
+    },
+    {
+      "anchor": "municipalActionAuthority-0015",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "{appointment.target??\"Themanager\"} — {appointment.conditions.join(\"\")}",
+      "occurrence": 0,
+      "textRevision": "acaecc985d3c"
+    },
+    {
+      "anchor": "municipalActionAuthority-0016",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "{reading.displayName} cannot carry an ordinance here yet: {rules.missing.map((entry)=>`${entry.field}—${entry.reason}`).join(\"\")}",
+      "occurrence": 0,
+      "textRevision": "c78acdb86a51"
+    },
+    {
+      "anchor": "municipalActionAuthority-0017",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "{reading.displayName} is compiled from {reading.evidence===\"enacted-text\"?\"enactedtextthisrepositoryretrieved\":\"aresearchtranscriptionofofficialmunicipalpages\"}, and anybody may read what it says.",
+      "occurrence": 0,
+      "textRevision": "670ac0e1e6c9"
+    },
+    {
+      "anchor": "municipalActionAuthority-0018",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "{series.bodyName??reading.displayName} does not take public comment at this sitting: {series.publicAttendance?.note??\"theinstrumentreadsaysso.\"}",
+      "occurrence": 0,
+      "textRevision": "24b2ec68f5c4"
+    },
+    {
+      "anchor": "municipalRulePackFor-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "Introduction authority is UNKNOWN.",
+      "occurrence": 0,
+      "textRevision": "1e3ccedff286"
+    },
+    {
+      "anchor": "municipalRulePackFor-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "No instrument read establishes whether an adopted ordinance goes to the mayor, so the engine cannot know when the measure is finished.",
+      "occurrence": 0,
+      "textRevision": "984c6313e240"
+    },
+    {
+      "anchor": "municipalRulePackFor-0003",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "No instrument read fixes how many seats this body has, and a threshold cannot be counted against a number nobody established.",
+      "occurrence": 0,
+      "textRevision": "7c34b94f7b65"
+    },
+    {
+      "anchor": "municipalRulePackFor-0004",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "No instrument read names this government's legislative body.",
+      "occurrence": 0,
+      "textRevision": "c0dcd57bb732"
+    },
+    {
+      "anchor": "municipalRulePackFor-0005",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "No instrument read states the vote an ordinance needs to pass here.",
+      "occurrence": 0,
+      "textRevision": "d4788ded4649"
+    },
+    {
+      "anchor": "municipalRulePackFor-0006",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "Research reports are inspectable evidence, not operative procedure.",
+      "occurrence": 0,
+      "textRevision": "15939188937c"
+    },
+    {
+      "anchor": "municipalRulePackFor-0007",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "The required floor sequence is UNKNOWN.",
+      "occurrence": 0,
+      "textRevision": "943d662e4a3f"
+    },
+    {
+      "anchor": "municipalRulePackFor-0008",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "The sourced hearing and notice conditions require a canonical procedure adapter before ordinance progression is enabled.",
+      "occurrence": 0,
+      "textRevision": "575fe8d96c5c"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "No field-specific source is resolved.",
+      "occurrence": 0,
+      "textRevision": "79414a63ba5f"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "Research transcription; not independently verified operative law.",
+      "occurrence": 0,
+      "textRevision": "b7f731dbdee7"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0003",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "Dated meeting reference; not operative legal authority.",
+      "occurrence": 0,
+      "textRevision": "70ce4bbe0b04"
     },
     {
       "anchor": "obligationNoun-0001",
@@ -2771,6 +3683,366 @@
       "textRevision": "6945ea2e3360"
     },
     {
+      "anchor": "override-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "override",
+      "text": "No instrument read establishes a veto here, so there is nothing to reconsider.",
+      "occurrence": 0,
+      "textRevision": "794ced4f9831"
+    },
+    {
+      "anchor": "override-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "override",
+      "text": "Override is an absolute number of seats the charter names: {reading.procedure.override??\"seetheinstrument\"}",
+      "occurrence": 0,
+      "textRevision": "740695b0ddd0"
+    },
+    {
+      "anchor": "pack-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
+      "occurrence": 0,
+      "textRevision": "e41cec08442d"
+    },
+    {
+      "anchor": "pack-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "A municipal legislative body sits as one chamber.",
+      "occurrence": 0,
+      "textRevision": "f980b216ef10"
+    },
+    {
+      "anchor": "pack-0003",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes a committee system for this body.",
+      "occurrence": 0,
+      "textRevision": "23ca98dd71e3"
+    },
+    {
+      "anchor": "pack-0004",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes an adjournment rule for this body.",
+      "occurrence": 0,
+      "textRevision": "0285152abb1a"
+    },
+    {
+      "anchor": "pack-0005",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes any veto here, so a line-item veto is not established either.",
+      "occurrence": 0,
+      "textRevision": "edf7c6db9a7a"
+    },
+    {
+      "anchor": "pack-0006",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes whether a measure dies when this body's year ends.",
+      "occurrence": 0,
+      "textRevision": "698de7b0a2a4"
+    },
+    {
+      "anchor": "pack-0007",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes whether this body amends a measure on the floor.",
+      "occurrence": 0,
+      "textRevision": "e5d790d1c11e"
+    },
+    {
+      "anchor": "pack-0008",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read establishes whether this veto reaches single items.",
+      "occurrence": 0,
+      "textRevision": "cb3d5ad151d1"
+    },
+    {
+      "anchor": "pack-0009",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read fixes how long this executive has to act on an adopted ordinance.",
+      "occurrence": 0,
+      "textRevision": "8e764b528ef8"
+    },
+    {
+      "anchor": "pack-0010",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read guarantees a hearing for every measure here.",
+      "occurrence": 0,
+      "textRevision": "22caf4092b0c"
+    },
+    {
+      "anchor": "pack-0011",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read says what becomes of an ordinance this executive neither returns nor signs.",
+      "occurrence": 0,
+      "textRevision": "70c95eef64fb"
+    },
+    {
+      "anchor": "pack-0012",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read separates adoption from taking effect here.",
+      "occurrence": 0,
+      "textRevision": "b44ace076688"
+    },
+    {
+      "anchor": "pack-0013",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read states a germaneness standard for this body.",
+      "occurrence": 0,
+      "textRevision": "10a1e0d0183b"
+    },
+    {
+      "anchor": "pack-0014",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "No instrument read states when an ordinance takes effect here.",
+      "occurrence": 0,
+      "textRevision": "36102d8e75da"
+    },
+    {
+      "anchor": "pack-0015",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "Nothing is presented to this executive, so no period runs.",
+      "occurrence": 0,
+      "textRevision": "303f4fb6f28a"
+    },
+    {
+      "anchor": "pack-0016",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "Nothing is presented to this executive, so silence decides nothing.",
+      "occurrence": 0,
+      "textRevision": "6af2623905e9"
+    },
+    {
+      "anchor": "pack-0017",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "effective date",
+      "occurrence": 0,
+      "textRevision": "9c12937c06bf"
+    },
+    {
+      "anchor": "pack-0018",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "effective date",
+      "occurrence": 1,
+      "textRevision": "9c12937c06bf"
+    },
+    {
+      "anchor": "pack-0019",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "effective date",
+      "occurrence": 2,
+      "textRevision": "9c12937c06bf"
+    },
+    {
+      "anchor": "pack-0020",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "{bodyName} membership",
+      "occurrence": 0,
+      "textRevision": "40279bed8544"
+    },
+    {
+      "anchor": "pack-0021",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "{bodyName} presiding officer",
+      "occurrence": 0,
+      "textRevision": "014504b99fc6"
+    },
+    {
+      "anchor": "pack-0022",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "{reading.displayName} legislative year",
+      "occurrence": 0,
+      "textRevision": "6d99d588fe3b"
+    },
+    {
+      "anchor": "pack-0023",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "pack",
+      "text": "{reading.displayName} — {bodyName}",
+      "occurrence": 0,
+      "textRevision": "5328d80d52d3"
+    },
+    {
+      "anchor": "passage-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "passage",
+      "text": "The vote an ordinance needs.",
+      "occurrence": 0,
+      "textRevision": "863e9719bb0f"
+    },
+    {
+      "anchor": "passageSource-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "passageSource",
+      "text": "ordinance adoption",
+      "occurrence": 0,
+      "textRevision": "1bed8bff62e4"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "A current role in this government is required.",
+      "occurrence": 0,
+      "textRevision": "f3341b9ae62f"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "An existing calendar commitment prevents this work.",
+      "occurrence": 0,
+      "textRevision": "7bb932e2af7d"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "Meeting notes are already complete or unavailable.",
+      "occurrence": 0,
+      "textRevision": "08f05fcc11fd"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "No meeting-notes work is recorded for this person and government.",
+      "occurrence": 0,
+      "textRevision": "d22522c9e329"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "No remaining work is established.",
+      "occurrence": 0,
+      "textRevision": "f6cf7febda4c"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0006",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "Person control is required.",
+      "occurrence": 0,
+      "textRevision": "4f7d476c8463"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0007",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "The role or work assignment changed during this session.",
+      "occurrence": 0,
+      "textRevision": "50daf1a4be04"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0008",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "This meeting-notes work is blocked or assigned elsewhere.",
+      "occurrence": 0,
+      "textRevision": "50be59bded0e"
+    },
+    {
+      "anchor": "performMunicipalMeetingNotes-0009",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "performMunicipalMeetingNotes",
+      "text": "This work session is already recorded.",
+      "occurrence": 0,
+      "textRevision": "ad2b924f29eb"
+    },
+    {
+      "anchor": "planned-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "planned",
+      "text": "Game-authored work duration: review the recorded meeting references and measure history. This does not create a published agenda or exercise legislative authority.",
+      "occurrence": 0,
+      "textRevision": "0af53b1a424b"
+    },
+    {
+      "anchor": "planned-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "planned",
+      "text": "Prepare meeting notes: {meeting.title}",
+      "occurrence": 0,
+      "textRevision": "fc006c281ff9"
+    },
+    {
+      "anchor": "planned-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "planned",
+      "text": "Private meeting preparation; no chamber presence is asserted",
+      "occurrence": 0,
+      "textRevision": "e15f56fe4037"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0001",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "A current role in this government is required.",
+      "occurrence": 0,
+      "textRevision": "f3341b9ae62f"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0002",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "Meeting notes are already in Work.",
+      "occurrence": 0,
+      "textRevision": "e7bf42dd0802"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0003",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "No such municipal meeting is recorded.",
+      "occurrence": 0,
+      "textRevision": "eba0cc4183bb"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0004",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "Person control is required.",
+      "occurrence": 0,
+      "textRevision": "4f7d476c8463"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0005",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "Prepare meeting notes",
+      "occurrence": 0,
+      "textRevision": "b686b9f52660"
+    },
+    {
+      "anchor": "prepareMunicipalMeetingNotes-0006",
+      "sourcePath": "src/presentation/municipal-workspace.ts",
+      "symbol": "prepareMunicipalMeetingNotes",
+      "text": "Review the recorded agenda and measure history for {activity.title}.",
+      "occurrence": 0,
+      "textRevision": "fcb46fb2d66a"
+    },
+    {
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
@@ -2987,6 +4259,22 @@
       "textRevision": "ebec6f38dc45"
     },
     {
+      "anchor": "quorum-0001",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "quorum",
+      "text": "No instrument read states this body's quorum, so no meeting can be proved lawful from the pack.",
+      "occurrence": 0,
+      "textRevision": "cd21293213dc"
+    },
+    {
+      "anchor": "quorum-0002",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "quorum",
+      "text": "Quorum is an absolute count the charter names: {reading.procedure.quorumText??\"seetheinstrument\"}",
+      "occurrence": 0,
+      "textRevision": "42e1b2e00cb7"
+    },
+    {
       "anchor": "recapSentence-0001",
       "sourcePath": "src/presentation/life-narration.ts",
       "symbol": "recapSentence",
@@ -3107,6 +4395,38 @@
       "textRevision": "582bf34cc1d2"
     },
     {
+      "anchor": "recordMunicipalAttendance-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recordMunicipalAttendance",
+      "text": "A sitting of {series.bodyName??government.displayName}.",
+      "occurrence": 0,
+      "textRevision": "a800c33d1ed1"
+    },
+    {
+      "anchor": "recordMunicipalAttendance-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recordMunicipalAttendance",
+      "text": "{input.note} — {activity.title}.",
+      "occurrence": 0,
+      "textRevision": "b133fc6b899b"
+    },
+    {
+      "anchor": "recorded-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recorded",
+      "text": "Explicitly performed private municipal work; no published agenda or chamber presence is asserted.",
+      "occurrence": 0,
+      "textRevision": "cd1f034df9f2"
+    },
+    {
+      "anchor": "recorded-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "recorded",
+      "text": "Prepared private meeting notes for {meeting.title} using the recorded references and measure history.",
+      "occurrence": 0,
+      "textRevision": "35bd7e2a2b83"
+    },
+    {
       "anchor": "requirementNoteFor-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "requirementNoteFor",
@@ -3121,6 +4441,62 @@
       "text": "To carry, this needs {thresholdLabel}.",
       "occurrence": 0,
       "textRevision": "2f9355f12ad6"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": " Reference: {reading.evidence}, snapshot {reading.asOf}. {series.publicAttendance?.note??\"Publicaccesswasnotestablished.\"}",
+      "occurrence": 0,
+      "textRevision": "faf948e4098b"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0002",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "Game-authored occurrence; no real meeting notice or published agenda is asserted. ",
+      "occurrence": 0,
+      "textRevision": "af67248adca0"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0003",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "Game-authored session: {series.bodyName??reading.displayName}: {humanSeries(series.kind)}",
+      "occurrence": 0,
+      "textRevision": "9ea515bdf27d"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0004",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}, at {venue}.{!series.venue&&reportedVenue?\"Venueisfromtheseparatelyattributedresearchreport.\":\"\"}",
+      "occurrence": 0,
+      "textRevision": "6e31509be985"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}. Nothing read names where it sits, so no room is asserted.",
+      "occurrence": 0,
+      "textRevision": "ee0576be98f9"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0006",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "{reading.displayName} — meeting place not established",
+      "occurrence": 0,
+      "textRevision": "3d58c1849ec5"
+    },
+    {
+      "anchor": "seatMunicipalMember-0001",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "seatMunicipalMember",
+      "text": "{government.key} seat",
+      "occurrence": 0,
+      "textRevision": "e3a9527cb075"
     },
     {
       "anchor": "settledHouseholdLine-0001",
