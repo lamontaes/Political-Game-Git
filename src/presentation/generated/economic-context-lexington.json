@@ -1,0 +1,370 @@
+{
+  "availability": [
+    {
+      "observationCount": 48,
+      "product": "bea-regional",
+      "reason": null,
+      "status": "available"
+    },
+    {
+      "observationCount": 186,
+      "product": "bls-laus",
+      "reason": null,
+      "status": "available"
+    },
+    {
+      "observationCount": 5,
+      "product": "hud-fair-market-rent",
+      "reason": null,
+      "status": "available"
+    },
+    {
+      "observationCount": 25,
+      "product": "hud-income-limit",
+      "reason": null,
+      "status": "available"
+    }
+  ],
+  "bindingKey": "economic-context.lexington-ky.v1",
+  "boundaries": [
+    "These are dated real-world observations, not the simulated economy after a save diverges.",
+    "An observation is not a forecast or evidence of a policy effect.",
+    "An area unemployment rate is not a person's probability of losing a job.",
+    "A Fair Market Rent is a benchmark, not a rent offer or signed lease.",
+    "An annual income observation is not cash in a person's resource position.",
+    "A read does not publish a fictional news item."
+  ],
+  "comparisons": [
+    {
+      "absoluteChange": 17060,
+      "comparisonKind": "available-window",
+      "earlierObservationKey": "bea:CAINC1:21067:3:2019",
+      "earlierPeriod": "2019",
+      "earlierValue": 52005,
+      "geography": {
+        "level": "county",
+        "providerCode": "21067",
+        "providerName": "Fayette, KY",
+        "relationship": "same-jurisdiction"
+      },
+      "interpretationBoundary": "historical-comparison-not-forecast",
+      "laterObservationKey": "bea:CAINC1:21067:3:2024",
+      "laterPeriod": "2024",
+      "laterValue": 69065,
+      "sourceSeriesKey": "bea.cainc1.3",
+      "unit": "Dollars"
+    },
+    {
+      "absoluteChange": 0.3849999999999909,
+      "comparisonKind": "available-window",
+      "earlierObservationKey": "bea:MARPP:30460:1:2019",
+      "earlierPeriod": "2019",
+      "earlierValue": 92.504,
+      "geography": {
+        "level": "msa",
+        "providerCode": "30460",
+        "providerName": "Lexington-Fayette, KY (Metropolitan Statistical Area)",
+        "relationship": "containing-metro"
+      },
+      "interpretationBoundary": "historical-comparison-not-forecast",
+      "laterObservationKey": "bea:MARPP:30460:1:2024",
+      "laterPeriod": "2024",
+      "laterValue": 92.889,
+      "sourceSeriesKey": "bea.marpp.1",
+      "unit": "Index"
+    },
+    {
+      "absoluteChange": 0.10000000000000053,
+      "comparisonKind": "same-period-prior-year",
+      "earlierObservationKey": "laus:LASST210000000000003:2025:M07",
+      "earlierPeriod": "2025-M07",
+      "earlierValue": 4.6,
+      "geography": {
+        "level": "Statewide",
+        "providerCode": "ST2100000000000",
+        "providerName": "Kentucky",
+        "relationship": "containing-state"
+      },
+      "interpretationBoundary": "historical-comparison-not-forecast",
+      "laterObservationKey": "laus:LASST210000000000003:2026:M07",
+      "laterPeriod": "2026-M07",
+      "laterValue": 4.7,
+      "sourceSeriesKey": "bls.laus.lasst210000000000003",
+      "unit": "Percent"
+    }
+  ],
+  "corpora": [
+    {
+      "asOf": "2024-12-31",
+      "canonicalSha256": "42abf9c4df95da7bdc41cbc91a6eaf7002d18ecdf97cf7dfbfd9e478a30de3d7",
+      "compiler": "bea-regional@1.1.0",
+      "product": "bea-regional"
+    },
+    {
+      "asOf": "2026-07-31",
+      "canonicalSha256": "44ec1198c8852552cf957960b928d2c174d4a24824ffeaec4dbcc35145500ff4",
+      "compiler": "bls-laus@1.0.0",
+      "product": "bls-laus"
+    },
+    {
+      "asOf": "2025-09-30",
+      "canonicalSha256": "4f8205d23b2964ba282db1399cf7b656118241c7e93c80aa84cb16597b9cd55b",
+      "compiler": "hud-housing@1.0.0",
+      "product": "hud-housing"
+    }
+  ],
+  "observations": [
+    {
+      "detailKey": "CAINC1:3",
+      "evidence": {
+        "artifactId": "bea-regional-cainc1-zip",
+        "locator": {
+          "artifactId": "bea-regional-cainc1-zip",
+          "kind": "table-cell",
+          "lineCode": "3",
+          "period": "2024",
+          "table": "CAINC1"
+        },
+        "providerNativeId": "CAINC1:21067:3"
+      },
+      "geography": {
+        "level": "county",
+        "providerCode": "21067",
+        "providerName": "Fayette, KY",
+        "relationship": "same-jurisdiction"
+      },
+      "interpretationBoundary": "observation-not-forecast",
+      "kind": "bea",
+      "label": "Per capita personal income (dollars)",
+      "observationKey": "bea:CAINC1:21067:3:2024",
+      "period": "2024",
+      "sourceProduct": "bea-regional",
+      "sourceSeriesKey": "bea.cainc1.3",
+      "unit": "Dollars",
+      "value": {
+        "asOf": "2024-12-31",
+        "evidence": [
+          {
+            "artifactId": "bea-regional-cainc1-zip",
+            "locator": {
+              "artifactId": "bea-regional-cainc1-zip",
+              "kind": "table-cell",
+              "lineCode": "3",
+              "period": "2024",
+              "table": "CAINC1"
+            },
+            "providerNativeId": "CAINC1:21067:3"
+          }
+        ],
+        "release": "FINAL",
+        "state": "KNOWN",
+        "value": 69065
+      },
+      "vintage": {
+        "adjustment": "Published annual estimate; nominal unless the line definition states otherwise.",
+        "corpusAsOf": "2024-12-31",
+        "observationAsOf": "2024-12-31",
+        "productVintage": "2024",
+        "release": "FINAL",
+        "revision": "FINAL"
+      }
+    },
+    {
+      "detailKey": "LASST210000000000003:03",
+      "evidence": {
+        "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+        "locator": {
+          "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+          "column": "value",
+          "kind": "delimited-row",
+          "line": 6666
+        },
+        "providerNativeId": "LASST210000000000003"
+      },
+      "geography": {
+        "level": "Statewide",
+        "providerCode": "ST2100000000000",
+        "providerName": "Kentucky",
+        "relationship": "containing-state"
+      },
+      "interpretationBoundary": "area-rate-not-person-probability",
+      "kind": "laus",
+      "label": "unemployment rate",
+      "observationKey": "laus:LASST210000000000003:2026:M07",
+      "period": "2026-M07",
+      "sourceProduct": "bls-laus",
+      "sourceSeriesKey": "bls.laus.lasst210000000000003",
+      "unit": "Percent",
+      "value": {
+        "asOf": "2026-07-31",
+        "evidence": [
+          {
+            "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+            "locator": {
+              "artifactId": "bls-laus-data-1-current-seasonally-adjusted-qa-slice",
+              "column": "value",
+              "kind": "delimited-row",
+              "line": 6666
+            },
+            "providerNativeId": "LASST210000000000003"
+          }
+        ],
+        "release": "PRELIMINARY",
+        "state": "KNOWN",
+        "value": 4.7
+      },
+      "vintage": {
+        "adjustment": "Seasonally adjusted",
+        "corpusAsOf": "2026-07-31",
+        "observationAsOf": "2026-07-31",
+        "productVintage": null,
+        "release": "PRELIMINARY",
+        "revision": "PRELIMINARY"
+      }
+    },
+    {
+      "detailKey": "fair-market-rent:2",
+      "evidence": {
+        "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+        "locator": {
+          "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+          "kind": "delimited-row",
+          "line": 1190
+        },
+        "providerNativeId": "2106799999"
+      },
+      "geography": {
+        "level": "HUD metropolitan area",
+        "providerCode": "2106799999",
+        "providerName": "Lexington-Fayette, KY MSA",
+        "relationship": "same-jurisdiction"
+      },
+      "interpretationBoundary": "benchmark-not-transaction",
+      "kind": "hud-fair-market-rent",
+      "label": "2-bedroom Fair Market Rent",
+      "observationKey": "hud:fmr:FY2025:2106799999:2-bedroom",
+      "period": "FY2025",
+      "sourceProduct": "hud-fair-market-rent",
+      "sourceSeriesKey": "hud.fmr.2-bedroom",
+      "unit": "USD per month",
+      "value": {
+        "asOf": "2025-09-30",
+        "evidence": [
+          {
+            "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+            "locator": {
+              "artifactId": "hud-fy2025-fair-market-rents-xlsx",
+              "kind": "delimited-row",
+              "line": 1190
+            },
+            "providerNativeId": "2106799999"
+          }
+        ],
+        "release": null,
+        "state": "KNOWN",
+        "value": 1165
+      },
+      "vintage": {
+        "adjustment": "Published product benchmark; no transformation applied.",
+        "corpusAsOf": "2025-09-30",
+        "observationAsOf": "2025-09-30",
+        "productVintage": "FY2025",
+        "release": null,
+        "revision": "Release status not encoded in the locked product"
+      }
+    },
+    {
+      "detailKey": "MARPP:1",
+      "evidence": {
+        "artifactId": "bea-regional-marpp-zip",
+        "locator": {
+          "artifactId": "bea-regional-marpp-zip",
+          "kind": "table-cell",
+          "lineCode": "1",
+          "period": "2024",
+          "table": "MARPP"
+        },
+        "providerNativeId": "MARPP:30460:1"
+      },
+      "geography": {
+        "level": "msa",
+        "providerCode": "30460",
+        "providerName": "Lexington-Fayette, KY (Metropolitan Statistical Area)",
+        "relationship": "containing-metro"
+      },
+      "interpretationBoundary": "observation-not-forecast",
+      "kind": "bea",
+      "label": "RPPs: All items",
+      "observationKey": "bea:MARPP:30460:1:2024",
+      "period": "2024",
+      "sourceProduct": "bea-regional",
+      "sourceSeriesKey": "bea.marpp.1",
+      "unit": "Index",
+      "value": {
+        "asOf": "2024-12-31",
+        "evidence": [
+          {
+            "artifactId": "bea-regional-marpp-zip",
+            "locator": {
+              "artifactId": "bea-regional-marpp-zip",
+              "kind": "table-cell",
+              "lineCode": "1",
+              "period": "2024",
+              "table": "MARPP"
+            },
+            "providerNativeId": "MARPP:30460:1"
+          }
+        ],
+        "release": "FINAL",
+        "state": "KNOWN",
+        "value": 92.889
+      },
+      "vintage": {
+        "adjustment": "Published annual estimate; nominal unless the line definition states otherwise.",
+        "corpusAsOf": "2024-12-31",
+        "observationAsOf": "2024-12-31",
+        "productVintage": "2024",
+        "release": "FINAL",
+        "revision": "FINAL"
+      }
+    }
+  ],
+  "placeKey": "lexington-fayette",
+  "placeLabel": "Lexington, Kentucky",
+  "publicationCandidates": [
+    {
+      "candidateKey": "economic-context:economic-context.lexington-ky.v1:bea:CAINC1:21067:3:2024",
+      "interpretationBoundary": "explicit-publication-required",
+      "observationKey": "bea:CAINC1:21067:3:2024",
+      "sourceLabel": "bea-regional",
+      "sourceReleaseDate": null,
+      "status": "not-published"
+    },
+    {
+      "candidateKey": "economic-context:economic-context.lexington-ky.v1:bea:MARPP:30460:1:2024",
+      "interpretationBoundary": "explicit-publication-required",
+      "observationKey": "bea:MARPP:30460:1:2024",
+      "sourceLabel": "bea-regional",
+      "sourceReleaseDate": null,
+      "status": "not-published"
+    },
+    {
+      "candidateKey": "economic-context:economic-context.lexington-ky.v1:laus:LASST210000000000003:2026:M07",
+      "interpretationBoundary": "explicit-publication-required",
+      "observationKey": "laus:LASST210000000000003:2026:M07",
+      "sourceLabel": "bls-laus",
+      "sourceReleaseDate": null,
+      "status": "not-published"
+    },
+    {
+      "candidateKey": "economic-context:economic-context.lexington-ky.v1:hud:fmr:FY2025:2106799999:2-bedroom",
+      "interpretationBoundary": "explicit-publication-required",
+      "observationKey": "hud:fmr:FY2025:2106799999:2-bedroom",
+      "sourceLabel": "hud-fair-market-rent",
+      "sourceReleaseDate": null,
+      "status": "not-published"
+    }
+  ],
+  "referenceKind": "dated-real-world-context",
+  "schemaVersion": "1"
+}

@@ -180,6 +180,25 @@ the import graph: `src/simulation/`, `src/presentation/`, `src/player/`,
 `src/ui/`, `src/persistence/`, `src/cli/` and `src/environment/` may not import
 `src/source/**`, and no domain may import another domain.
 
+The second named adapter is `economic-context`. It accepts only explicit BEA
+geography-level/FIPS pairs, BLS LAUS area codes, and HUD FIPS codes; display
+names are outputs and cannot participate in a join. It projects source values,
+units, periods, adjustment/revision state, product/corpus vintages, evidence,
+known/unavailable coverage, and historical comparisons without mutating a
+corpus or World. Compatible measures may be offered as typed analyst inputs to
+the existing metric vocabulary, but they are dated references rather than
+baselines, forecasts, policy effects, or canonical truth. The locked products
+do not establish distinct release dates, so the World-observation projection
+is explicitly unavailable until a release date is separately evidenced.
+
+The browser consumes only a generated compact projection under
+`src/presentation/generated/`; it never imports `src/source/**`. NEWS receives
+explicitly unpublished candidates rather than automatic publications. HUD Fair
+Market Rent stays a benchmark rather than a lease or household obligation, the
+LAUS unemployment rate stays an area statistic rather than a person's job-loss
+probability, and annual BEA income stays an area observation rather than cash
+in personal resources. See [Economic context](economic-context.md).
+
 ## Municipal governance audit fixtures
 
 `municipal-governance` describes legal institutions rather than gameplay. Its

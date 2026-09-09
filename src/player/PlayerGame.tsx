@@ -1,3 +1,4 @@
+import { playerEconomicContextLines } from "../presentation/economic-context";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
@@ -702,6 +703,12 @@ function placeContextLines(place: LifePlace): readonly string[] {
     place.capabilities.legislativeScenarioKey
       ? "The game models this state's legislature, so political office is reachable here later."
       : "The game does not model a legislature here yet, so this is an everyday life for now.",
+  );
+  lines.push(
+    ...playerEconomicContextLines(
+      place.key,
+      place.context.initialMoment.date,
+    ).map((item) => item.text),
   );
   return lines;
 }
