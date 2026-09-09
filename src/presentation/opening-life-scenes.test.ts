@@ -54,7 +54,8 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       const first = world.history.events.find(
         (event) =>
           event.type === "life.scene.opened" &&
-          event.tags.includes(`family:${activity}`),
+          event.tags.includes(`family:${activity}`) &&
+          event.tags.includes("opening-stage:moment"),
       )!;
       expect(first).toBeDefined();
       expect(
@@ -88,7 +89,8 @@ describe("OPENING-LIFE1 canonical scenes", () => {
             world.history.events.filter(
               (event) =>
                 event.type === "life.scene.opened" &&
-                event.tags.includes(`family:${activity}`),
+                event.tags.includes(`family:${activity}`) &&
+                event.tags.includes("opening-stage:moment"),
             ),
           ).toHaveLength(2);
           assertWorldIntegrity(world);
@@ -106,12 +108,14 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       game.playerPersonId,
     ).filter((entry) => entry.definition.setting === "home");
     const seen = new Set<string>();
-    for (let i = 0; i < eligible.length; i++) {
+    let resolved = 0;
+    for (let i = 0; i < eligible.length * 2; i++) {
       world = openNextLifeScene(world, game.playerPersonId);
       const before = serializeWorld(world);
       const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-      expect(scene).not.toBeNull();
-      seen.add(scene.definition.key);
+      if (!scene) break;
+      if (scene.stageKey === "moment") seen.add(scene.definition.key);
+      resolved++;
       expect(openNextLifeScene(world, game.playerPersonId)).toBe(world);
       expect(serializeWorld(world)).toBe(before);
       world = chooseOpeningLifeScene(
@@ -128,7 +132,7 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     expect(seen.size).toBe(eligible.length);
     expect(
       world.history.memories.length - game.world.history.memories.length,
-    ).toBe(eligible.length);
+    ).toBe(resolved);
     expect(openNextLifeScene(world, game.playerPersonId)).toBe(world);
   });
 
@@ -288,12 +292,17 @@ describe("supported school situation breadth", () => {
         .map((entry) => entry.definition.key);
       expect(expected.length).toBeGreaterThan(4);
       const played: string[] = [];
-      for (let i = 0; i < expected.length; i++) {
+      const stages = new Set<string>();
+      for (let i = 0; i < expected.length * 2; i++) {
         world = openNextLifeScene(world, game.playerPersonId, "school");
         const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
+        if (!scene) break;
+        const identity = `${scene.definition.key}/${scene.stageKey}`;
+        expect(stages.has(identity)).toBe(false);
+        stages.add(identity);
         expect(scene.definition.setting).toBe("school");
         expect(world.people[scene.counterpartPersonId!]).toBeDefined();
-        played.push(scene.definition.key);
+        if (scene.stageKey === "moment") played.push(scene.definition.key);
         world = chooseOpeningLifeScene(
           world,
           game.playerPersonId,

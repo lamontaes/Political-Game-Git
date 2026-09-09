@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 267 review warnings.**
+**0 hard errors. 268 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -15,17 +15,17 @@ defect than the one it was aimed at.
 | --- | --- |
 | vague-referent | 172 |
 | and-it-scaffold | 39 |
-| rather-than-scaffold | 27 |
+| rather-than-scaffold | 28 |
 | slot-agreement | 12 |
 | label-restated-in-description | 9 |
 | third-person-player | 8 |
 
 ## Repetition
 
-- 2141 templates, 2048 distinct texts.
-- 34 exact duplicate groups.
-- 39 normalized duplicate groups.
-- 14 near-duplicate clusters (Jaccard ≥ 0.72).
+- 2281 templates, 2154 distinct texts.
+- 28 exact duplicate groups.
+- 33 normalized duplicate groups.
+- 19 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -34,7 +34,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `in front of` | 23 | 8 |
+| `in front of` | 25 | 8 |
 | `there is a` | 19 | 5 |
 | `it is not` | 16 | 3 |
 | `asked you to` | 15 | 4 |
@@ -55,10 +55,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `you did not` | 10 | 4 |
 | `at the end` | 9 | 3 |
 | `at the end of` | 9 | 3 |
+| `on your own` | 9 | 3 |
 | `put your name` | 9 | 4 |
+| `say you will` | 9 | 4 |
 | `the proof of` | 9 | 2 |
-| `the proof of income` | 9 | 2 |
-| `the proof of income form` | 9 | 2 |
 
 ### Most repeated sentence openings
 
@@ -67,17 +67,17 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `there is a` | 12 |
 | `the bill is` | 10 |
 | `the player asked` | 10 |
+| `say you will` | 9 |
+| `you asked for` | 9 |
+| `you tell you` | 9 |
 | `you took the` | 9 |
-| `say you will` | 8 |
+| `you ask to` | 8 |
 | `you put the` | 7 |
 | `you told them` | 7 |
 | `it is not` | 6 |
 | `the bill has` | 6 |
 | `you agreed to` | 6 |
-| `you asked for` | 6 |
 | `ask about the` | 5 |
 | `ask for a` | 5 |
-| `say nothing to` | 5 |
-| `they said they` | 5 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

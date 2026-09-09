@@ -69,6 +69,8 @@ export interface ProductionWorldInput {
   readonly seed: string;
   /** Independent raw seed; excludes names, demographics and setup identity. */
   readonly personalitySeed?: string;
+  /** World identity seed, before calibration; topology is not a shaped age range. */
+  readonly familyStructureSeed?: string;
   readonly place: LifePlace;
   readonly age: number;
   readonly givenName: string | null;
@@ -182,6 +184,7 @@ export function buildProductionWorld(
     input.depth,
     input.household,
     input.generation ?? null,
+    input.familyStructureSeed ?? input.seed,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -275,6 +278,7 @@ function establishAgeEligibleState(
   depth: ProductionDepth,
   household: ProductionHousehold,
   generation: SetupGenerationInputs | null,
+  familyStructureSeed: string,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -391,7 +395,7 @@ function establishAgeEligibleState(
   );
   // Authored household configurations, not survey probabilities. This stream
   // cannot change existing names, ages, or the sibling draw.
-  const familyShape = new SeededRng(world.seed)
+  const familyShape = new SeededRng(familyStructureSeed)
     .fork("opening-life-family-v1")
     .pick(["one-parent", "two-parents", "two-parents", "guardian"] as const);
   // The band the guardian's age is drawn from. Unleant it is 24 to 41, exactly
@@ -627,7 +631,7 @@ function establishAgeEligibleState(
   // A missing parent record is not a claim of abandonment or death.
   const otherParentState =
     familyShape === "one-parent" && age >= 5
-      ? new SeededRng(world.seed)
+      ? new SeededRng(familyStructureSeed)
           .fork("opening-life-other-parent-v1")
           .pick(["unrecorded", "nonresident", "deceased"] as const)
       : "unrecorded";

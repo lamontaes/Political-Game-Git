@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2054 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4767 |
-| DIAGNOSTIC_OR_TEST | 3750 |
-| **NEEDS_CLASSIFICATION** | **3453** |
+| INVENTORIED | 2115 |
+| INTENTIONALLY_NON_PLAYER_FACING | 4768 |
+| DIAGNOSTIC_OR_TEST | 3753 |
+| **NEEDS_CLASSIFICATION** | **3493** |
 
-Scanned 366 files holding 53553 string
+Scanned 367 files holding 53771 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -30,13 +30,13 @@ literals in total; the table counts only those that read like a sentence.
 | 221 | `src/presentation/run-b-conversation.ts` |
 | 135 | `src/simulation/executive-authority-rule-packs.ts` |
 | 124 | `src/simulation/legislation.ts` |
+| 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 69 | `src/simulation/character-history.ts` |
 | 67 | `src/player/PlayerGame.tsx` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
-| 57 | `src/simulation/opening-life-content.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/simulation/life.ts` |
