@@ -52,7 +52,10 @@ export function ExecutiveWorkWorkspace({
     if (result.ok) {
       onWorldChange(result.world);
       setFeedback(null);
-    } else setFeedback(result.reason);
+    } else
+      setFeedback(
+        "This action cannot proceed with the current office, records, staff or schedule.",
+      );
   }
   return (
     <section
@@ -74,7 +77,10 @@ export function ExecutiveWorkWorkspace({
               if (result.ok) {
                 onWorldChange(result.world);
                 setFeedback(null);
-              } else setFeedback(result.reason);
+              } else
+                setFeedback(
+                  "This action cannot proceed with the current office, records, staff or schedule.",
+                );
             }}
           >
             Work for 30 minutes
