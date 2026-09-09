@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the PEOPLE-VISUAL4 candidate assembly modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(58840);
+    expect(coverage.totalLiterals).toBe(59125);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(418);
+    expect(coverage.scannedFiles).toBe(422);
   });
 });
 

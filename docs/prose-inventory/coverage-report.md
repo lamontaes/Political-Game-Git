@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5209 |
-| DIAGNOSTIC_OR_TEST | 4015 |
-| **NEEDS_CLASSIFICATION** | **3903** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5240 |
+| DIAGNOSTIC_OR_TEST | 4029 |
+| **NEEDS_CLASSIFICATION** | **3927** |
 
-Scanned 418 files holding 58840 string
+Scanned 422 files holding 59125 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -105,6 +105,7 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/player/ConversationStrip.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
+| 17 | `src/simulation/incident-response.ts` |
 | 17 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
@@ -181,6 +182,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/legislative-bargaining-world.ts` |
 | 5 | `src/simulation/causal-effects.ts` |
+| 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
@@ -207,6 +209,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
+| 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/life-scene-people.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
