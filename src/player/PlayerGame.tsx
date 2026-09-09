@@ -2417,17 +2417,24 @@ function renderWorkspace({
         "day-overlay",
         <>
           <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-          <>
-            <LifePathsPanel
-              world={session.world}
-              onWorldChange={onWorldChange}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-            />
-            <CivilPersonnelPanel
-              world={session.world}
-              onWorldChange={onWorldChange}
-            />
-          </>
+          {/*
+            UI9-01. The day used to mount the education-and-work stack and the
+            private personnel panel in full, and Work mounted the same two
+            again. Inspecting the same panels under a second name is not a
+            second thing to do, and it is most of why these menus read as
+            overlapping. Work owns study and jobs; the day links into that same
+            workspace rather than carrying a copy of it. Nothing is removed —
+            every one of those controls is still there, in one place.
+          */}
+          <button
+            type="button"
+            className="ui-action"
+            data-testid="day-open-work"
+            onClick={() => dispatch({ type: "go-to-surface", surface: "work" })}
+          >
+            Education and work
+            <small>Study, jobs and anything waiting on you</small>
+          </button>
           {/*
             Politics is a thing an ordinary life can turn into, so this sits
             below the ordinary day rather than replacing it.

@@ -9,8 +9,10 @@ test("ordinary Day and Work expose private personnel preparation", async ({
   await page.goto("/?seed=civil-work7-normal-preparation");
   await startLife(page, { age: 35, route: "normal" });
   await enterLife(page);
-  await goTo(page, "elsewhere-day");
-  const paths = page.getByRole("region", { name: "Education and work" });
+  // UI9-01: study and jobs live in Work now, and the day links into it rather
+  // than mounting a second copy of the same panels.
+  await goTo(page, "elsewhere-work");
+  const paths = page.getByTestId("personal-work-section");
   // Actual supported LIFE engagement, through its ordinary button.
   const accept = paths.getByRole("button", {
     name: "Accept Shop assistant",

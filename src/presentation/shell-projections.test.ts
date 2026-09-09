@@ -261,10 +261,29 @@ describe("release identity", () => {
     expect(CANONICAL_VERSION).toBe(packageJson.default.version);
   });
 
-  it("repeats the notes file's own released/unreleased distinction", () => {
+  it("repeats the notes file's own accepted/pending/candidate distinction", () => {
+    /*
+     * This used to assert `released === !UNRELEASED`, which is where the defect
+     * lived rather than a protection against it: the release tooling draws the
+     * line twice, and a heading containing CANDIDATE is a RESERVED version
+     * number, not a release. Under the old rule `PRE-ALPHA 0.3.0 — "A Life, Not
+     * a Fixture" — CANDIDATE, NOT YET ACCEPTED` was reported as shipped. The
+     * rule asserted here is now the one `scripts/release/notes.ts` applies.
+     */
     expect(PATCH_NOTE_SECTIONS.length).toBeGreaterThan(0);
     for (const section of PATCH_NOTE_SECTIONS) {
-      expect(section.released).toBe(!/UNRELEASED/i.test(section.heading));
+      const pending = /^UNRELEASED\b/i.test(section.heading);
+      const candidate = /\bCANDIDATE\b/i.test(section.heading);
+      expect(section.candidate).toBe(candidate);
+      expect(section.released).toBe(!pending && !candidate);
+      // A released section names its version; a pending one need not.
+      if (section.released) expect(section.version).not.toBeNull();
     }
+
+    // The reserved candidate is present in the file and is not a release.
+    const reserved = PATCH_NOTE_SECTIONS.find((section) => section.candidate);
+    expect(reserved).toBeDefined();
+    expect(reserved!.released).toBe(false);
+    expect(reserved!.releasedOn).toBeNull();
   });
 });
