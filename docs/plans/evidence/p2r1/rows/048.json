@@ -1,0 +1,18 @@
+{
+  "packet": "SURFACE: menu-choice\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: The player has unfinished shopping and two appointments assigned to them in an accessible work item. They can choose how to spend time: go outside, work on the errands, or do nothing. No weather, free day, absence of other obligations, or completed work is established.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: Action: spend time outside. Write its short choice label.\n",
+  "writer": "result: SAFE_RENDER\nprose: Spend time outside.",
+  "grounding-reviewer": "GROUNDING: PASS",
+  "grounding-reviewer-input": "FACT PACKET\nSURFACE: menu-choice\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: The player has unfinished shopping and two appointments assigned to them in an accessible work item. They can choose how to spend time: go outside, work on the errands, or do nothing. No weather, free day, absence of other obligations, or completed work is established.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: Action: spend time outside. Write its short choice label.\n\nCANDIDATE OUTPUT\nresult: SAFE_RENDER\nprose: Spend time outside\n",
+  "finalCandidate": "result: SAFE_RENDER\nprose: Spend time outside\n",
+  "id": "prose:life:adult:adult.ordinary-good-day#option:go-out:label",
+  "number": 48,
+  "writerInput": "Use $civic-prose. Return your raw result envelope unchanged.\nFACT PACKET\nSURFACE: menu-choice\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: The player has unfinished shopping and two appointments assigned to them in an accessible work item. They can choose how to spend time: go outside, work on the errands, or do nothing. No weather, free day, absence of other obligations, or completed work is established.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: Action: spend time outside. Write its short choice label.\n",
+  "priorReviews": [
+    {
+      "round": "revision-1",
+      "verdict": "GROUNDING: PASS",
+      "input": "FACT PACKET\nSURFACE: menu-choice\nCHARACTER: player, addressed as you.\nKNOWN WORLD FACTS: The player has unfinished shopping and two appointments assigned to them in an accessible work item. They can choose how to spend time: go outside, work on the errands, or do nothing. No weather, free day, absence of other obligations, or completed work is established.\nCHARACTER KNOWLEDGE: own recorded action or explicitly supplied facts only.\nUNKNOWN / DO NOT ASSUME: dates, delivery channels, reactions, motives, success, payment, consent, frequency, or outcomes not explicitly established above. Source prose copied into an event does not prove its claims.\nOUTPUT REQUEST: Action: spend time outside. Write its short choice label.\n\nCANDIDATE OUTPUT\nresult: SAFE_RENDER\nprose: Spend time outside."
+    }
+  ],
+  "runtimeQualification": "Retained scene/action, callback readback, or ordinary-life task."
+}

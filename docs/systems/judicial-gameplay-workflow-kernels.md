@@ -1,7 +1,8 @@
 # Judicial Gameplay Workflow Kernels
 
-Status: **Draft, headless, additive, and unmerged.** This surface is ready for
-independent gameplay audit, not player-facing acceptance.
+Status: **Merged headless compiler (#115), additive.** Compiler acceptance is
+not player-facing acceptance. The [supported office consumer](judicial-office-work.md)
+adds bounded office practice; its normal route awaits UI-core integration.
 
 ## Purpose and authority boundary
 

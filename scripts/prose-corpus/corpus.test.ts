@@ -546,13 +546,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured after DEV-LAB2 added its explicit review entry, hub and
-    // optional review context. The canonical generated report independently
-    // records 343 files / 51,893 literals; inventoried prose remains 1,914.
+    // Re-measured by corpus:prose on the actual LAND-READY6 combined tree.
+    // Neither side's pin is selected; the combined tree is scanned and these
+    // values are updated from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51893);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(343);
+    expect(coverage.totalLiterals).toBe(54214);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(359);
   });
 });
 

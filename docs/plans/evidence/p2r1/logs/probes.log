@@ -1,0 +1,26 @@
+
+> political-life-rpg@0.2.0 prose:eval
+> node --import tsx scripts/prose-eval/cli.ts probes
+
+probe approx-time-invention: OK (FAIL time-invention)
+probe approx-time-supported: OK (PASS)
+probe channel-invention: OK (FAIL delivery-invention)
+probe date-invention: OK (FAIL date-invention)
+probe envelope-multiline-valid: OK (PASS)
+probe envelope-preamble-junk: OK (FAIL envelope-drift)
+probe envelope-unknown-class: OK (FAIL envelope-drift)
+probe explicit-channel-allowed: OK (PASS)
+probe grounded-texture-passes: OK (PASS)
+probe modal-may-not-month: OK (PASS)
+probe month-in-date-context: OK (FAIL date-invention)
+probe multiline-bare-extraction: OK (FAIL delivery-invention)
+probe note-plain-passes: OK (PASS)
+probe note-quote-elsewhere: OK (FAIL surface-drift)
+probe note-supplied-quote-allowed: OK (PASS)
+probe npc-pronoun-supported: OK (PASS)
+probe output-request-brief-no-identity: OK (FAIL player-gender)
+probe player-gender: OK (FAIL player-gender)
+probe player-identity-from-npc: OK (FAIL player-gender)
+probe scope-widening: OK (FAIL scope-widening)
+probe surface-drift: OK (FAIL surface-drift)
+probes: 21/21 grounding probes behaved as specified
