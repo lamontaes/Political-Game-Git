@@ -39,3 +39,28 @@ LEARN: public release identity and local proof provenance have different
 exposure boundaries. Test the emitted artifact and a deliberately leaking
 control, not merely the source-side object's shape. Keep the full local
 mismatch check and unchanged saved-world assertions.
+
+## Completion
+
+Executable head `d963895e83ecf73f982246dd5c8ee851f43f6bc2` passed full
+`npm run validate`: 180 test files, 3,222 passing tests and two existing skips;
+format, lint, typecheck, source validation/replay, production build,
+deterministic demo and art validation passed. Explicit art inventory/QA also
+passed. The subsequent closeout commit changes documentation only.
+
+All 307 distributable files passed the private-provenance scan, including
+exact local branch/run/path checks. The unchanged saved-world browser tests
+passed 2/2 in 7.7 seconds on owned loopback port 5378. The recorded served HEAD
+and source digest matched the clean checkout. Original seeds, normal save
+records and historical tracked proof screenshots were preserved. The server
+exited; no unrelated process was stopped.
+
+Local evidence: `/private/tmp/dev-skill4-browser-d963895/dev-skill4-d963895/`
+contains provenance.json, report/index.html and two screenshots under results.
+The screenshots were inspected for the visible disposable marker and layout;
+this is not independent human acceptance or normal-player reachability proof.
+Full validation log: `/private/tmp/dev-skill4-dev-full-validate.log`.
+
+Draft PR138 remains unmerged. UI/release composition and independent acceptance
+remain reviewer gates. The shared heavy slot was explicitly released to LEG.
+No monitoring or global settings changes were created.

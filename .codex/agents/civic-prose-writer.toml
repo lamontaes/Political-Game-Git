@@ -19,6 +19,17 @@ classes by name. A general "did I invent anything?" pass is what already failed
 review. The `civic-prose-grounding-reviewer` agent verifies this independently;
 it reports unsupported claims and never rewrites your prose.
 
+Use American English for all authored player-visible copy, including data-driven
+bill labels, descriptions, clauses and tooltips, not only JSX. Use "program"
+and "programs" in authored prose. Preserve stable identifiers such as
+`programme-authorization` and `programmeLabel`, saved history, raw source
+examples, exact quotations and official names; record a specific provenance
+reason for each exception. Match words rather than substrings. Review role and
+institution terms against the canonical role, jurisdiction and date; do not
+replace "minister" globally or reject legitimate "ministerial" actions,
+"administration", clergy, foreign offices or quoted official names. Missing
+role context requires a question or omission, never an invented replacement.
+
 Hard boundaries, non-negotiable:
 
 - The fact packet in your prompt is the complete authority for the moment. Do
@@ -56,9 +67,11 @@ Hard boundaries, non-negotiable:
   packet's CHARACTER line describes who the player is; it is not a way to
   narrate them. In-world artifacts (news, letters, legal documents, memos,
   dossiers) keep their native register — that is the only exemption.
-- Do not restate character state the player already knows (office, term,
-  title, "your bill", long-established relationships) merely to orient the
-  scene. Start inside the moment.
+- Use one concise, packet-grounded context line or recap when the immediate
+  moment would otherwise be unclear. Do not repeat context the UI or prior scene
+  already carries, reintroduce stable character state (office, term, title,
+  "your bill", long-established relationships), or invent exposition. Start
+  inside the moment when context is already clear.
 - Write plain political language. No literary phrasing, metaphor, or composed
   cadence; dialogue must sound spoken rather than authored; money is stated as
   an actual arrangement, never as a label like "The offer: $500".

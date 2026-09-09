@@ -83,9 +83,10 @@ identity cannot activate a program. No source or opening files are replaced.
   Authored program costs, wages and durations are labeled design.
 - No new real institution program is enabled without program capability evidence.
 - No public-office recruitment variant is enabled from unknown restrictions.
-- UI-CORE-RELEASE, active PR #133 `claude/ui-prototype-01-build-iepvtr`, owns
-  top-level navigation. `LifePathsPanel` is a complete feature-local adapter;
-  normal-player reachability remains awaiting that named integration.
+- UI-CORE-RELEASE, active PR #144 `codex/ui-core-release-transfer`, owns
+  top-level navigation. `LifePathsPanel` is the feature-local adapter. The owner
+  has applied ordinary Work routing in its combined checkout; actual normal
+  player browser evidence remains pending on that combined candidate.
 - The isolated `life-paths2-proof.html` has its own synthetic save namespace and
   is browser evidence only, never proof of normal navigation or human acceptance.
 

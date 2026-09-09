@@ -605,6 +605,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
+    // Composition note (UI-FINISH8): accepted main pinned three literal
+    // counts here, re-measured on its own tree. Those numbers cannot survive a
+    // composition — this branch alone adds a seed family and a corpus of its
+    // own — and refreshing them is exactly the "fix the number" move the rest
+    // of this file exists to avoid. The live comparison below makes the same
+    // claim without a magic value: the committed report has to agree with what
+    // the scanner measures now, so a stale report still fails.
     // Compare the committed report to the live scanner, not a count pinned to
     // an older source tree. Adding a valid feature must regenerate the report;
     // it must not require silently weakening or refreshing a magic test number.

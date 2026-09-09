@@ -23,6 +23,7 @@ literals in total; the table counts only those that read like a sentence.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.
 - `src/devtools` — Developer diagnostics. Reachable only from the developer view, which ordinary play never opens.
 - `src/cli` — Headless command output for developers and CI.
+- `src/release` — Build identity: the accepted release version and the source revision the bundle came from. Its strings are a version number and a commit hash, not authored prose, and the only player-visible form of them is a quiet vX.Y.Z the UI composes.
 - `src/simulation/national-places.generated.ts` — Generated place-name data compiled from the Census places corpus. Names of real localities are sourced facts, not authored prose.
 
 ## Where the unclassified candidates are
