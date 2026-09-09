@@ -45,3 +45,30 @@ The active plan remains open for unpassed proofs and UI-core integration.
 The delivery is incomplete. Keep the plan active, PR draft and unmerged. No
 monitoring or automatic continuation was created. A clean validation environment,
 remaining proofs and UI-core integration are required before acceptance.
+
+A dedicated campaign-account regression was added after the finite broad run. Its
+first attempt exposed a missing rival in the test fixture; the fixture now uses
+the existing canonical opponent setup. Focused lint passed for the feature and
+UI files. The campaign case and final app typecheck are recorded separately.
+
+The corrected campaign-account case passed (1 passed, 9 skipped), and the final
+app TypeScript check passed. The account case verifies campaign ownership of the
+pay flow, no transfer at acceptance, absent-authority refusal and exact save/load.
+The ten-case rerun passed nine, including complete college study, and caught a one-cent floating-point rounding defect in the pay progression calculation. The fix adds the integer-cent 10% increment rather than multiplying by 1.1. The corrected suite is recorded below; broader gates remain unpassed.
+
+## Latest checkpoint verdict
+
+The corrected ten-case feature run passed nine, including pay progression and
+campaign account separation; the college case timed out at 32 seconds against its
+30-second limit. That college case passed in the preceding run. This is not an
+all-green suite at the final implementation.
+
+The final browser retry passed the actions/assertions through study attendance,
+keyboard interruption, persisted reload and return. It exhausted its unchanged
+30-second test budget before recruitment selection. Recruitment UI activation is
+still unproved. Artifacts: `/private/tmp/life-paths2-evidence-final`.
+
+All own test/browser processes ended; the browser slot was released to JUD.
+Focused formatting passed before the final documentation append. No full lint,
+node-typecheck, art-QA or full-repository-test success is claimed. The implementation
+and added regression coverage are committed, but delivery acceptance is incomplete.

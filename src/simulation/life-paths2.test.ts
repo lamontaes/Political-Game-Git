@@ -9,6 +9,12 @@ import {
   advanceWorld,
   recordKinship,
   recordGoalState,
+  createScenarioWorld,
+  candidacyPackById,
+  fileCampaign,
+  ensureCampaignOpponents,
+  ageOnDate,
+  addDays,
 } from "./index";
 import {
   acceptLifePathCounteroffer,
@@ -30,6 +36,7 @@ import {
 } from "./time-work";
 import { resourcePositionAt } from "./resource-queries";
 import type { World } from "./types";
+import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 const provenance = {
   kind: "authored",
   note: "Explicit synthetic LIFE-PATHS2 proof.",
@@ -350,4 +357,93 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
     ).toBe(60);
     expect(deserializeWorld(serializeWorld(w))).toEqual(w);
   });
+});
+
+it("binds campaign compensation to its treasury and refuses absent campaign authority", () => {
+  let w = createScenarioWorld(
+    "life-paths2-campaign-account",
+    KENTUCKY_CONTEXT,
+    { peopleCount: 8 },
+  );
+  const adults = w.personOrder.filter(
+    (id) => ageOnDate(w.people[id]!.birthDate, w.currentDate) >= 18,
+  );
+  expect(adults.length).toBeGreaterThanOrEqual(2);
+  const actor = adults[0]!,
+    person = adults[1]!;
+  w = { ...w, control: { kind: "person", personId: actor } };
+  w = recordKinship(w, {
+    stableKey: "campaign-contact",
+    personIds: [actor, person],
+    establishedAt: w.currentDate,
+    kind: "collateral:cousin",
+    provenance,
+  });
+  expect(
+    recruitLifePathPerson(w, person, "campaign-volunteer", 500).world,
+  ).toBe(w);
+  w = recordGoalState(w, {
+    stableKey: "campaign-seek",
+    goalKey: "life-paths2:seek-work",
+    personId: person,
+    recordedAt: w.currentDate,
+    objective: "Seek suitable work.",
+    domain: "work",
+    scope: "personal",
+    priority: "moderate",
+    status: "active",
+    targetEntityId: null,
+    deadline: null,
+    outcome: null,
+    provenance: {
+      kind: "authored",
+      sourceRefs: [],
+      note: "Synthetic expressed intention.",
+    },
+    replacesGoalId: null,
+    supersedesGoalStateId: null,
+  });
+  const pack = candidacyPackById("us-ky-general-assembly-v1:candidacy")!;
+  const opponents = ensureCampaignOpponents(w, {
+    stableKey: "life-paths2-account-fixture",
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    count: 1,
+    excludePersonIds: [actor, person],
+  });
+  const filed = fileCampaign(opponents.world, {
+    stableKey: "life-paths2-campaign",
+    candidatePersonId: actor,
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    officeKey: pack.offices[0]!.officeKey,
+    electionDate: addDays(w.currentDate, 21),
+    rivalPersonIds: opponents.personIds,
+    existingContestId: null,
+    committeeName: "Synthetic test committee",
+    donorPoolName: "Synthetic source",
+    advertisingVendorName: "Synthetic vendor",
+    staffPersonIds: [],
+    treasuryCurrency: money(0, "USD").currency,
+  });
+  const result = recruitLifePathPerson(
+    filed.world,
+    person,
+    "campaign-volunteer",
+    500,
+  );
+  expect(result.ok).toBe(true);
+  const work = result.world.history.workRelationships.at(-1)!;
+  expect(work.organizationId).toBe(filed.campaign.organizationId);
+  const flow = result.world.history.resourceFlows.find(
+    (f) =>
+      f.basisReference.kind === "work" &&
+      f.basisReference.workRelationshipId === work.id,
+  )!;
+  expect(flow.source).toEqual({
+    kind: "organization",
+    organizationId: filed.campaign.organizationId,
+  });
+  expect(result.world.history.resourceTransferOutcomes).toEqual(
+    filed.world.history.resourceTransferOutcomes,
+  );
+  expect(deserializeWorld(serializeWorld(result.world))).toEqual(result.world);
 });

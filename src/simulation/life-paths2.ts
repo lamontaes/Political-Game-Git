@@ -1210,7 +1210,10 @@ export function progressLifePathWork(
     resourceFlowId: flow.id,
     effectiveAt: world.currentDate,
     status: "active",
-    amount: money(Math.ceil(terms.amount.minorUnits * 1.1), "USD"),
+    amount: money(
+      terms.amount.minorUnits + Math.ceil(terms.amount.minorUnits / 10),
+      "USD",
+    ),
     cadenceKind: terms.cadenceKind,
     reason: "Authored progression after ten completed shifts.",
     provenance: authored,
