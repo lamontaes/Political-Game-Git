@@ -104,6 +104,17 @@ describe("browser economic context provider", () => {
           item.vintage.validityPeriod === null,
       ),
     ).toBe(true);
+    const hud = after.observations.find((item) =>
+      item.sourceProduct.startsWith("hud-"),
+    );
+    expect(hud?.vintage).toMatchObject({
+      observationAsOf: "2025-09-30",
+      productVintage: "FY2025",
+      publisherReleaseDate: null,
+      sourceRetrievedAt: "2026-09-03T04:25:50.389Z",
+      knownAvailableOn: "2026-09-03",
+      validityPeriod: null,
+    });
   });
 
   it("preserves missing LAUS rows and the absent historical-parent boundary", async () => {

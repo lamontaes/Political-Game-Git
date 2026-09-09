@@ -168,7 +168,12 @@ export function createEconomicContextBrowserProvider(options?: {
       const all = [
         ...projectBea(beaRows, manifest.locks.bea, binding),
         ...projectLaus(lausRows, manifest.locks.laus, binding),
-        ...projectHud(hudRows, manifest.locks.hud, binding),
+        ...projectHud(
+          hudRows,
+          manifest.locks.hud,
+          manifest.corpora.hud.asOf,
+          binding,
+        ),
       ].sort(compareObservation);
       const observations = all.filter(
         (item) => item.vintage.knownAvailableOn <= simulationDate,
@@ -303,6 +308,7 @@ function projectLaus(
 function projectHud(
   rows: readonly BrowserHudRecord[],
   lock: BrowserArtifactLock,
+  corpusAsOf: string,
   binding: BrowserEconomicGeographyBinding,
 ): readonly BrowserEconomicObservation[] {
   const matches = new Map(
@@ -340,7 +346,7 @@ function projectHud(
               referencePeriod: row.productVintage,
               unit: "USD per month",
               value: { state: "known", value },
-              observationAsOf: artifactDate(lock, row.evidence.artifactId),
+              observationAsOf: corpusAsOf,
               productVintage: row.productVintage,
               releaseStatus: null,
               adjustment:
@@ -366,7 +372,7 @@ function projectHud(
             referencePeriod: row.productVintage,
             unit: "USD per year",
             value: { state: "known", value },
-            observationAsOf: artifactDate(lock, row.evidence.artifactId),
+            observationAsOf: corpusAsOf,
             productVintage: row.productVintage,
             releaseStatus: null,
             adjustment:
@@ -537,14 +543,6 @@ function artifactFor(lock: BrowserArtifactLock, artifactId: string) {
     );
   }
   return artifact;
-}
-
-function artifactDate(lock: BrowserArtifactLock, artifactId: string): string {
-  const artifact = artifactFor(lock, artifactId);
-  return (
-    artifact.publisher.releaseDate ??
-    artifact.retrieval.retrievedAt.slice(0, 10)
-  );
 }
 
 function periodEnd(year: string, period: string): string {
