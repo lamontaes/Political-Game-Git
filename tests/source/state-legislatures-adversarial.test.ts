@@ -298,6 +298,16 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
   });
 
   it("confines edict rights to the explicitly declared legal-source domains", async () => {
+    // The union of both sides, not a choice between them. Dropping the two
+    // qualification/compliance domains would lose the scope main already
+    // enforces; dropping municipal-governance would assert that enacted
+    // municipal provisions carry no edict claim, which is false.
+    const legalSourceDomains = new Set([
+      "civil-service-labor",
+      "municipal-governance",
+      "state-campaign-compliance",
+      "state-office-qualifications",
+    ]);
     let checked = 0;
     for (const name of listDomainNames()) {
       if (name === "state-legislatures") continue;
@@ -311,7 +321,7 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
       const parsed = JSON.parse(raw) as ArtifactLock;
       for (const entry of parsed.artifacts) {
         if (
-          !["civil-service-labor", "municipal-governance"].includes(name) ||
+          !legalSourceDomains.has(name) ||
           entry.rights.status !== "public-domain-government-edict"
         ) {
           // Statistical and federal-product domains do not acquire an edict claim.

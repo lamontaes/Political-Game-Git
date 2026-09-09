@@ -1,3 +1,4 @@
+import { workStatusAt } from "./life-queries";
 import {
   addDays,
   addSimulationMinutes,
@@ -369,6 +370,42 @@ export function createScheduledActivity(
       scheduledActivityStates: [
         ...world.history.scheduledActivityStates,
         state,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/** Explicit cancellation preserves the original interval and append-only history. */
+export function cancelScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const previous = scheduledActivityState(world, activityId);
+  if (previous.status !== "scheduled") return world;
+  const stableKey = `schedule:cancel:${activityId}:${world.history.nextSequence}`;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      scheduledActivityStates: [
+        ...world.history.scheduledActivityStates,
+        {
+          ...previous,
+          id: createStableId(
+            "scheduled-activity-state",
+            `${world.id}:${stableKey}`,
+          ),
+          stableKey,
+          sequence: world.history.nextSequence,
+          recordedAt: cloneMoment(world.currentMoment),
+          status: "cancelled",
+          change: "cancelled",
+          outcomeEventId: null,
+          supersedesStateId: previous.id,
+        },
       ],
     },
   };
@@ -1090,7 +1127,19 @@ function projectStaffProgress(
     world.control.kind === "person" ? world.control.personId : null;
   const totalMinutes = simulationMinutesBetween(start, target);
   const results: StaffProgressProjection[] = [];
+  const occupiedMinutes = new Map<EntityId, Set<number>>();
   for (const item of world.history.workItems) {
+    // A linked employment/volunteer engagement is authority for this work.
+    // Legacy unbound items retain their existing semantics.
+    const engagements = world.history.workRelationships.filter((work) =>
+      item.sourceEntityIds.includes(work.id),
+    );
+    if (
+      engagements.some(
+        (work) => workStatusAt(world, work.id)?.status !== "active",
+      )
+    )
+      continue;
     const state = latestWorkStateUnchecked(world, item.id);
     if (
       !state ||
@@ -1109,10 +1158,17 @@ function projectStaffProgress(
       const minuteStart = addSimulationMinutes(start, offset);
       const minuteEnd = addSimulationMinutes(start, offset + 1);
       if (
-        state.assignedPersonIds.every((personId) =>
-          isPersonAvailable(world, personId, minuteStart, minuteEnd),
+        state.assignedPersonIds.every(
+          (personId) =>
+            !occupiedMinutes.get(personId)?.has(offset) &&
+            isPersonAvailable(world, personId, minuteStart, minuteEnd),
         )
       ) {
+        for (const personId of state.assignedPersonIds) {
+          const occupied = occupiedMinutes.get(personId) ?? new Set<number>();
+          occupied.add(offset);
+          occupiedMinutes.set(personId, occupied);
+        }
         completedEffortMinutes += 1;
         if (completedEffortMinutes >= item.effort.requiredMinutes) {
           completedEffortMinutes = item.effort.requiredMinutes;
@@ -1468,6 +1524,8 @@ function canonicalSourceAvailable(
       sequenceExclusive,
     );
   }
+  if (lifeEntityExists(world, id))
+    return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;
 }

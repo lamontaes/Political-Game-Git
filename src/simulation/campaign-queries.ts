@@ -3,6 +3,7 @@ import type { ResourcePositionSnapshot } from "./resource-queries";
 import type {
   CampaignActionRecord,
   CampaignActionResultRecord,
+  CampaignComplianceDocumentRecord,
   CampaignRecord,
   CampaignStateRecord,
   EntityId,
@@ -183,12 +184,14 @@ export function campaignHistoryRecords(
   | CampaignStateRecord
   | CampaignActionRecord
   | CampaignActionResultRecord
+  | CampaignComplianceDocumentRecord
 )[] {
   return [
     ...campaigns(world),
     ...campaignStateRecords(world),
     ...campaignActionRecords(world),
     ...campaignActionResultRecords(world),
+    ...(world.history.campaignComplianceDocuments ?? []),
   ];
 }
 
@@ -207,12 +210,14 @@ export function campaignEntityAvailableAt(
   );
   if (!record || record.sequence >= sequenceExclusive) return false;
   const date =
-    "filedAt" in record
-      ? record.filedAt
-      : "effectiveAt" in record
-        ? record.effectiveAt
-        : "completedAt" in record
-          ? record.completedAt
-          : record.createdAt;
+    "effectiveAt" in record
+      ? record.effectiveAt
+      : "completedAt" in record
+        ? record.completedAt
+        : "createdAt" in record
+          ? record.createdAt
+          : "dueOn" in record
+            ? (record.filedAt ?? record.dueOn)
+            : record.filedAt;
   return date <= asOfDate;
 }

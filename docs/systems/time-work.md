@@ -114,7 +114,14 @@ assigned staff person is free of overlapping scheduled commitments. Reaching
 the authored duration appends one ready-for-review state and ordinary outcome
 event at the exact completion moment. The bounded fixture proves Collins's
 50-minute analysis completes at 10:00 while the player attends a separate
-9:30–10:15 briefing. No progress percentage is canonical or player-facing.
+9:30–10:15 briefing when that is the worker's only assignment. After
+`delegateRunDMeetingBrief`, the same person owns both the90-minute brief and
+50-minute analysis. The brief consumes the first65 available minutes by10:15,
+finishes at10:40, and the analysis finishes at11:30 (minute690): exactly140
+person-minutes, including across save/reload. Different workers may progress
+concurrently; one worker cannot double-spend a minute. ACCEPT-WAVE3 W-2 confirmed
+this capacity rule and its corrected expectation; the allocator and #135 clock
+repair are unchanged. No progress percentage is canonical or player-facing.
 
 ## Epistemic and product boundary
 

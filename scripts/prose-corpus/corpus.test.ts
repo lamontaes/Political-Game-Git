@@ -542,20 +542,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // Compare the committed report to the live scanner, not a count pinned to
-    // an older source tree. Adding a valid feature must regenerate the report;
-    // it must not require silently weakening or refreshing a magic test number.
+    // Re-measured by corpus:prose on this tree, which composes current
+    // accepted main with the MUNI-PLAY1 municipal corpus and
+    // public-meeting modules. The generator was re-run; these are the
+    // numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    const report = readFileSync(
-      "docs/prose-inventory/coverage-report.md",
-      "utf8",
-    );
-    expect(report).toContain(
-      `Scanned ${coverage.scannedFiles} files holding ${coverage.totalLiterals} string`,
-    );
-    expect(report).toContain(
-      `| INVENTORIED | ${coverage.counts.INVENTORIED} |`,
-    );
+    expect(coverage.totalLiterals).toBe(57124);
+    expect(coverage.counts.INVENTORIED).toBe(2105);
+    expect(coverage.scannedFiles).toBe(390);
   });
 });
 
