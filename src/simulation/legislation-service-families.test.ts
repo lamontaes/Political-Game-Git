@@ -112,9 +112,7 @@ describe("prospective service legislation", () => {
       expect(draft.authorizedCeilingMinorUnits).toBe(925_000_000);
       expect(draft.appropriatedMinorUnits).toBeNull();
       expect(fullText(draft)).toContain("$9,250,000 in total");
-      expect(fullText(draft)).toContain(
-        "single ceiling for the whole programme",
-      );
+      expect(fullText(draft)).toContain("single ceiling for the whole program");
       expect(fullText(draft)).toContain(
         "No award may be paid without a separate appropriation",
       );
