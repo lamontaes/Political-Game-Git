@@ -1,13 +1,13 @@
 {
   "asOf": "2024-12-31",
-  "canonicalSha256": "2121eba9190381c86e25ccfa8fa9031bc4d8769b813393c9bd157aea783c8ccf",
+  "canonicalSha256": "42abf9c4df95da7bdc41cbc91a6eaf7002d18ecdf97cf7dfbfd9e478a30de3d7",
   "compiler": {
     "name": "bea-regional",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "corpusId": "bea-regional",
   "coverage": {
-    "boundedSampleReason": "Each table is compiled for the most recent year its own header publishes (CAINC1 2024; SARPP 2024; MARPP 2024). The tables carry annual series back to 1969 and 2008 respectively, and every year of them is present in the committed artifacts; compiling all of them would produce hundreds of thousands of separately evidenced observations for a substrate that has no consumer for the series yet. Widening the bound is a recompile, not another retrieval.",
+    "boundedSampleReason": "Each table is compiled from locked bytes for a consumer-sized historical window: CAINC1 2019,2023,2024; SARPP 2019,2023,2024; MARPP 2019,2023,2024. The selection keeps 2019 when present plus the latest and immediately prior published years. The tables carry longer annual series in the committed artifacts; widening the bound is a recompile, not another retrieval.",
     "isCompleteUniverse": false,
     "universeDescription": "Bureau of Economic Analysis regional estimates for every area published in three tables: CAINC1 county and state personal income, SARPP state regional price parities, and MARPP metropolitan regional price parities. Every area each table publishes is present; the bound is temporal, not geographic."
   },
@@ -30,5 +30,5 @@
     "name": "bea-regional-csv",
     "version": "1.0.0"
   },
-  "recordCount": 11832
+  "recordCount": 35496
 }

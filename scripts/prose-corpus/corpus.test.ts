@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the NEWS-HELP2 public information and press producer modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(58262);
-    expect(coverage.counts.INVENTORIED).toBe(2105);
-    expect(coverage.scannedFiles).toBe(401);
+    expect(coverage.totalLiterals).toBe(58874);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(410);
   });
 });
 

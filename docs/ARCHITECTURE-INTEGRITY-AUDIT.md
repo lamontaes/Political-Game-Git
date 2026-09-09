@@ -920,6 +920,81 @@ the Stage 6 baseline or campaign-clock ownership.
 | Persistence and history         | Confirmed             | Successful statements/corrections are append-only, refused writes are zero-write, and save/reload preserves the exact records.                                                                                                                                                                        |
 | Clock and ownership             | Confirmed unchanged   | Compliance writers retain the world's existing date/moment/action sequence. No #135 clock file, municipal procedure, or global navigation root is changed.                                                                                                                                            |
 
+## ECON-CONTEXT2 Source-to-Read-Model Audit — 2026-09-08
+
+This audit rechecks the source/simulation boundary, D-042 observation separation,
+the frozen Stage 6 economy, the accepted Stage 6.5 work, and later-stage gates.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                   |
+| ------------------------ | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Geography identity       | Confirmed exact       | Bindings accept provider codes with explicit levels/relationships; malformed and duplicate keys fail, and names cannot be supplied as join inputs.                                                                                                                                                       |
+| Units and vintage        | Confirmed preserved   | BEA units, LAUS rate/person units and seasonal adjustment, HUD monthly/annual units, observation periods, product/corpus vintages, and revision state remain distinct.                                                                                                                                   |
+| Known/unavailable        | Confirmed fail-closed | Unbound or absent exact codes return typed unavailable coverage. Source `UNKNOWN` values remain valueless and cannot become analyst inputs.                                                                                                                                                              |
+| Observation boundaries   | Confirmed separated   | Source readings create no World truth, forecast, baseline, policy effect, personal employment, resource, housing, or lease record. Containing geographies have no Lexington World scope; same-jurisdiction projections remain unavailable without an evidenced release date.                             |
+| Economy ownership        | Confirmed reused      | Compatible analyst inputs name existing metric definitions; no metric catalog, economy evaluator, causal mechanism, or effect writer is added.                                                                                                                                                           |
+| NEWS ownership           | Confirmed explicit    | Latest observations become `not-published` candidates only. No event, publication, knowledge, or news record is written by a read.                                                                                                                                                                       |
+| Determinism and mutation | Confirmed             | Focused tests prove repeated projections are equal and leave source corpora and World JSON unchanged. Source replay covers the expanded BEA comparison window.                                                                                                                                           |
+| Player/UI ownership      | Confirmed integrated  | A generated browser-safe projection, typed player lines, and feature-local graph panel are supplied. UI-core registered the panel on the normal saved-World route at `b4910c09` and consumed the final HUD date separation at `2fe0b090`, preserving exact home-place identity and canonical World date. |
+
+LEARN: a source product's observation as-of date is not evidence of its release
+date. Typed unavailability at the adapter boundary is the smallest durable guard
+against silently converting an observed period into a publication event.
+
+## ECON-GRAPHS4 Browser and Graph Extension Audit — 2026-09-09
+
+This extension rechecks the ECON-CONTEXT2 boundary against the source substrate,
+D-042 observation separation, frozen economy ownership, and the UI/LEG/FISCAL
+coordination boundaries.
+
+| Concern                 | Disposition                 | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                            |
+| ----------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historical availability | Confirmed conservative      | Normal presentation requires a simulation date. Publisher release dates remain null; the locked artifact retrieval date is separately labeled as the fallback date on which the observation is known available. Earlier simulations withhold it.                                                                                                                                  |
+| Browser corpus          | Confirmed bounded           | A deterministic manifest indexes all 58,106 committed BEA/LAUS/HUD records into exact-code lazy shards. A query downloads only matching shards and never joins by name. The absent full LAUS parent remains unavailable with its checksum disclosed.                                                                                                                              |
+| Graph semantics         | Confirmed separated         | Graph points carry one of five record classes. Missing values remain gaps and exact-value rows. No observation becomes simulation history, a draft, forecast or outturn.                                                                                                                                                                                                          |
+| Economy ownership       | Confirmed unchanged         | The extension is a read model and renderer. The locked BEA tables have no GDP series; no slider, elasticity, metric writer, budget engine or policy-effect engine is added.                                                                                                                                                                                                       |
+| LEG/FISCAL inputs       | Confirmed typed/fail-closed | The frozen LEG incremental-outlay projection is adapted as a conditional forecast with its qualification and interval. FISCAL supplied no typed history/outturn producer, so fiscal history remains unavailable.                                                                                                                                                                  |
+| Replay and mutation     | Confirmed                   | A temp-directory replay reproduces all 293 browser files byte-for-byte. Provider tests prove fresh returned projections and unchanged cached shards.                                                                                                                                                                                                                              |
+| UI ownership            | Confirmed integrated        | Feature-local panel code remains on PR #148. UI-core registered it through the normal Begin → Personal route at `b4910c09` and consumed the final HUD date separation at `2fe0b090` on PR #144, using the saved home-place key and canonical World date. UI-core reports 2/2 browser proofs for pointer/keyboard disclosures, non-Lexington absence, and save/reload read purity. |
+
+LEARN: source availability is a property that must travel with every browser
+record. A static asset being deployable does not make its observations known to
+an earlier simulated date.
+
+## ECON E-1 Exact Mixed-Vintage Repair — 2026-09-09
+
+Authority: ACCEPT-WAVE3 full ledger section 8, Drive document
+`1GTRZOYjt9W8s7AdsxI0pRqiZ8w1fLz9TVlJjOxgsxWc`. E-1 is only the absence of
+release classification on historical-comparison endpoints.
+
+| Concern                    | Disposition           | Evidence and rationale                                                                                                                                                                          |
+| -------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exact defect               | Corrected             | `EconomicHistoricalComparison` now carries nullable `earlierRelease` and `laterRelease`, copied directly from each endpoint's observation vintage.                                              |
+| Frozen comparison behavior | Preserved             | Series identity, endpoint selection, periods, values, absolute subtraction, comparison kind, geography and interpretation boundary are unchanged.                                               |
+| Committed artifact         | Corrected             | The two BEA comparisons declare `FINAL` → `FINAL`; the LAUS 2025-M07 → 2026-M07 comparison declares `FINAL` → `PRELIMINARY`.                                                                    |
+| Unknown release            | Confirmed fail-closed | A synthetic two-vintage HUD control proves null release classifications remain null at both endpoints.                                                                                          |
+| Graph presentation         | Corrected             | Historical graph points expose nullable release status and the exact-value table renders null as “Not established”; non-observation record classes carry null rather than a fabricated release. |
+| Existing boundaries        | Preserved             | No grouping, arithmetic, date cutoff, World write, NEWS publication, forecast, GDP response or policy effect changed.                                                                           |
+
+LEARN: comparison provenance must be endpoint-specific. Retaining vintage on
+the source observations is insufficient if a derived comparison drops it.
+
+## ECON Compact Projection Replay — 2026-09-09
+
+Authority: ACCEPT-PEOPLE6 FOLLOW-THROUGH, ECON-REPLAY6. The accepted E-1
+semantics and normal Personal mount are unchanged.
+
+| Concern                 | Disposition           | Evidence and rationale                                                                                                                                             |
+| ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Prior replay coverage   | Gap confirmed         | `source:replay` covered compiled source corpora and their manifest; the 292-shard test covered only the full browser export. Neither regenerated the compact file. |
+| Existing producer reuse | Corrected             | `exportEconomicContext` now accepts a target path, and `source:replay` invokes that producer into a scratch directory before comparing the tracked compact file.   |
+| Snapshot sensitivity    | Confirmed fail-closed | A corruption control changes the LAUS later endpoint from `PRELIMINARY` to `FINAL` and proves the replay reports the exact differing line.                         |
+| Accepted semantics      | Preserved             | The generated bytes, date gates, endpoint releases/nulls, observation values, 292 shards and browser provider are unchanged.                                       |
+| UI and World ownership  | Preserved             | No root, navigation, panel registration, economic mutation or second exporter was added.                                                                           |
+
+LEARN: deterministic producers are insufficient until a required committed
+projection is registered in a gate that regenerates elsewhere and compares the
+result without rewriting the expected artifact.
+
 ## NEWS-HELP2 Public Information Audit — 2026-09-08
 
 This audit rechecks the new public-information rule against canonical history,

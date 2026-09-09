@@ -59,8 +59,14 @@ export {
 } from "./normalize";
 export { parseBeaTable, parseBeaTableDefinition } from "./parse";
 
-export const BEA_COMPILER_VERSION = "1.0.0";
+export const BEA_COMPILER_VERSION = "1.1.0";
 export const BEA_PARSER_VERSION = "1.0.0";
+
+/**
+ * A stable pre-2020 comparison point already present in every locked table.
+ * The compiler also keeps each table's latest and immediately prior year.
+ */
+export const BEA_COMPARISON_ANCHOR_YEAR = "2019";
 
 type BeaRole = "countyIncome" | "stateRpp" | "msaRpp";
 export type BeaArtifacts = OpenedArtifacts<BeaRole>;
@@ -132,26 +138,29 @@ export function compileBeaRegional(
       defects.push(`${opened.artifact.artifactId}: ${defect.message}`);
     }
 
-    // The bound is the last year column the table publishes. Which year that is
-    // is the product's decision, read from its own header, not a constant here.
-    const year = table.years[table.years.length - 1];
-    if (!year) {
+    // The product supplies the year universe. Keep a small useful history from
+    // the locked bytes: a stable comparison anchor, the prior year, and the
+    // latest year. No year is invented and no new retrieval is needed.
+    const years = selectedComparisonYears(table.years);
+    if (years.length === 0) {
       throw new Error(
         `BEA table ${product.tableName} publishes no year columns.`,
       );
     }
-    compiledYears.push(`${product.tableName} ${year}`);
+    compiledYears.push(`${product.tableName} ${years.join(",")}`);
 
-    records.push(
-      ...normalizeBeaObservations(table.rows, {
-        tableName: product.tableName,
-        artifactId: opened.artifact.artifactId,
-        header: table.header,
-        year,
-        lineDescriptions,
-        product: { defaultLevel: product.defaultLevel },
-      }),
-    );
+    for (const year of years) {
+      records.push(
+        ...normalizeBeaObservations(table.rows, {
+          tableName: product.tableName,
+          artifactId: opened.artifact.artifactId,
+          header: table.header,
+          year,
+          lineDescriptions,
+          product: { defaultLevel: product.defaultLevel },
+        }),
+      );
+    }
     inputs.push({
       artifactId: opened.artifact.artifactId,
       sha256: opened.artifact.bytes.sha256,
@@ -172,8 +181,8 @@ export function compileBeaRegional(
         : 0,
   );
 
-  const latestYear = compiledYears
-    .map((entry) => entry.split(" ")[1] ?? "")
+  const latestYear = records
+    .map((record) => record.year)
     .sort()
     .at(-1);
 
@@ -191,11 +200,27 @@ export function compileBeaRegional(
         isCompleteUniverse: false,
         universeDescription:
           "Bureau of Economic Analysis regional estimates for every area published in three tables: CAINC1 county and state personal income, SARPP state regional price parities, and MARPP metropolitan regional price parities. Every area each table publishes is present; the bound is temporal, not geographic.",
-        boundedSampleReason: `Each table is compiled for the most recent year its own header publishes (${compiledYears.join("; ")}). The tables carry annual series back to 1969 and 2008 respectively, and every year of them is present in the committed artifacts; compiling all of them would produce hundreds of thousands of separately evidenced observations for a substrate that has no consumer for the series yet. Widening the bound is a recompile, not another retrieval.`,
+        boundedSampleReason: `Each table is compiled from locked bytes for a consumer-sized historical window: ${compiledYears.join("; ")}. The selection keeps ${BEA_COMPARISON_ANCHOR_YEAR} when present plus the latest and immediately prior published years. The tables carry longer annual series in the committed artifacts; widening the bound is a recompile, not another retrieval.`,
       },
     },
     records,
   } as CompiledCorpus<BeaObservationRecord>;
+}
+
+/** Select only years the publisher actually placed in the table header. */
+export function selectedComparisonYears(
+  publishedYears: readonly string[],
+): readonly string[] {
+  const ordered = [...new Set(publishedYears)].sort();
+  const latest = ordered.at(-1);
+  if (!latest) return [];
+  const prior = ordered.at(-2);
+  return [...new Set([BEA_COMPARISON_ANCHOR_YEAR, prior, latest])]
+    .filter(
+      (year): year is string =>
+        typeof year === "string" && ordered.includes(year),
+    )
+    .sort();
 }
 
 export function openBeaProduction(
