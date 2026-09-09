@@ -19,17 +19,45 @@ or a second root. Existing ENV server remains untouched. Full/browser slots are
 finite and coordinated. No prototype universe, self-merge, deployment or monitor.
 
 All donor requests are sent through authenticated PR comments because native
-outgoing task tools are unavailable. N-1/E-1 exact corrections remain domain
-owned; do not guess the audit findings or silently accept undated economic facts.
-MUNI93328bd is published and ready for root integration now. Later donor fixes
-will be consumed at exact frozen checkpoints, without rebuilding the shell.
+outgoing task tools are unavailable. Domain owners retain their correction scope.
 
-## Integration checkpoint in progress
+## Applied frozen composition
 
-- MUNI frozen93328bd merged as500a341; root normal Local government registration applied. Generated corpus resolved via tooling; duplicate life-entity import/check removed after real TypeScript failure, retaining the existing check.
-- Journal uses existing per-save interface record v2 with legacy v1 read, editable private intentions/notes/groups/person links/history bookmarks. World writes are unavailable to the editor.
-- Raster1309d4beef production/tests imported; same-width URL residual independently reproduced with actual-hook controlled probe. Hook now retains decoded URL+width; regression browser proof pending.
-- OPENING150649f10b scoped modules/root applied. Current combined proof is incomplete: OPENING requires P2 opportunities and its own additional life-mind/circumstance/episode dependency changes. No old LAND ancestry blindly copied; exact composition/repair pending.
-- ENV142fd2eea8 county provider copied exactly with scope-aware creator labels. No inferred town or government membership.
-- Focused MUNI/shell/Journal/raster tests73 passed before OPENING import. TypeScript passed at that earlier tree; OPENING import produced real missing dependency errors. These are not a completed candidate claim.
-- Existing banked provenance remains unchanged. Original31 browser identity remains24f0a51, not this worktree.
+- MUNI14993328bd: normal Local government, canonical attendance/time/save, exact ENV callback. Later corrected source/notes-work delivery is incoming.
+- NEWS1434ae3db2: unknown jurisdiction stays unknown; existing filing publisher and News/person/Back route preserved.
+- ECON148c2eda37: context registered using creator initialMoment.date and saved World.currentDate in Personal/finances; unknown/earlier observations remain unavailable.
+- OPENING150543ddec: exact source delta and published anchor issuance/retirement lineage applied over the explicit LAND composition. The existing fade calls one controller; selected person and World remain shared. Normal Life scenes navigation preserves re-entry. Dependency failures at the initial partial import were resolved, not suppressed.
+- LAND129fee3357 and135cd90ef1: accepted runtime/clock plus corrected W-1 controls included. Independent/landing gates remain LAND-owned; no main merge here.
+- LIFE/EXEC140edf438b: final corrected shared contract and extra once-only/departure/reload tests included; normal Work mounts existing LifePathsPanel for noninstitutional lives. Qualification-backed executive entry still belongs to domain owners.
+- DEV138d963895: public identity repair included. Actual app artifact scan found remaining gallery source-art local-path exposure, returned to ENV/DEV for a bounded projection fix.
+- ENV14240da720: county provider, prop gallery correction, released-mask/plate-clip occlusion consumer included. No town inferred from county and no people inferred from painted crowds.
+- PEOPLE13444aea4b production behavior remains; current typed appearance/wardrobe correction is incoming, not claimed as consumed.
+- Raster1309d4beef production/tests retained plus independently reproduced same-width new-URL repair. The hook retains decoded URL+width and rejects stale completion.
+
+## Root changes
+
+Private Journal lives in existing per-save interface record v2 with legacy v1
+read. Editable intentions, notes, groups, actual-person links and history bookmarks
+have no World writer. Group edits persist immediately while the current field
+remains editable. Canonical history is separate. Title and normal navigation read
+all canonical PATCH_NOTES sections and package version. Source-verified visual
+cleanup groups opening controls in the shared scene panel and gives Journal
+fields readable labels/spacing; it is not human visual acceptance.
+
+## Exact proof and outstanding gates
+
+- Original31 browser proof remains on24f0a51; prior provenance values unchanged.
+- Raster12/12 passed clean1bc7d822278b757e3c0b0e7ab649f8b31bbf81b3, including initial/failed decode, same-width replacement, stale URL, resize retention and real title/room paint.
+- Normal3/3 passed clean92bf3819260112525b30a299fdb2fb56d635f334: real Carson City Nevada citizen attendance/current room/save/reload/read+duplicate purity; private Journal/person/Back/bookmark/save/reload with identical World; title cumulative notes/version/keyboard Back. Earlier first run had a Michigan selection ambiguity and Journal locator/group interaction failure; these were corrected and rerun, not relabeled.
+- Focused73 shell/MUNI/raster,109 OPENING/staff/county,17 NEWS/ECON and latest54 OPENING/scene/county/NEWS/ECON checks passed at their recorded compositions. Full exact-head validation is still required.
+- Build92bf381 passed; public scan failed on a gallery source-art local path. No distribution or release activation.
+- Four combined P2/OPENING controls remain unresolved: source-accounted extra initialization must preserve external W-1 wording/identity sensitivity; two newly supported circumstance stages need their corrected grounded assertions; the transcript matrix must actually demonstrate its claimed losing result. Owners have exact failures; no runtime outcomes or assertions are changed merely to obtain a green run.
+- Current normal matrix, county creation/reload, updated visuals, remaining corrected donor interfaces, privacy scan and full final gates remain. Human visual/art/prose and independent domain acceptance are separate gates.
+
+## LEARN
+
+The first raster probe and browser regression bind asset identity to URL as well
+as tier width. Combined corpus checks compare the committed report with the live
+scanner and retain immutable anchor issuance; source additions require real
+regeneration. Never reuse a prior tested SHA or remove historical provenance to
+make a newer composition appear accepted.
