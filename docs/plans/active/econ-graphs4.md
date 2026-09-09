@@ -41,4 +41,8 @@ Carrier: PR #148, branch `codex/econ-context2`
 - The all-corpus browser provider, typed graphs, LEG adapter, explicit FISCAL/GDP
   unavailability, accessible feature-local panel, and deterministic replay proof
   are implemented locally pending a frozen extension checkpoint.
-- UI-core owns the final normal-player mount and combined prose regeneration.
+- UI-core published the normal-player mount and combined prose regeneration at
+  `b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144. Its reported proof is
+  11 focused checks, typecheck, and 2/2 normal-browser tests covering Begin →
+  Personal, exact saved home-place/date binding, pointer/keyboard disclosures,
+  non-Lexington absence, and save/reload read purity.
