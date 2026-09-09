@@ -1,0 +1,48 @@
+{
+  "source": "/private/tmp/pg-muni-play1",
+  "head": "1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b",
+  "branch": "codex/muni-play1",
+  "trackedPatchSha256": "0381961595d2e33d05b6d05708352be1bb0273e0ae9b020cd1296e38f914f82a",
+  "untracked": [
+    {
+      "path": "data/source/municipal-governance/acquisition-inventory.json",
+      "sha256": "bd5885492a65c441cd5d23eea47983a261a2de9d620f42358b15bc7f701ecb9f",
+      "bytes": 133568
+    },
+    {
+      "path": "docs/plans/active/muni-play1.md",
+      "sha256": "0416e52bda0f205c425ed81cf0a2fec9db3017771573d4963e52c46d858e532e",
+      "bytes": 3694
+    },
+    {
+      "path": "scripts/source/export-municipal-capacity.ts",
+      "sha256": "65aa4c986f9c9878f9ab704b147562d8e716d97fb4b2460ccbdab2ec2caa65e5",
+      "bytes": 1251
+    },
+    {
+      "path": "src/player/MunicipalWorkspace.tsx",
+      "sha256": "61b739fed36b319dc18fc6dc2d00cb47f289e41bb004681ce7574145fe621e52",
+      "bytes": 5503
+    },
+    {
+      "path": "src/presentation/municipal-public-work.test.ts",
+      "sha256": "67644a8965364ff2c9874d3aaff33dc353bf428c5869ddf13d13cf316fd3eddf",
+      "bytes": 5677
+    },
+    {
+      "path": "src/simulation/municipal-capacity.generated.json",
+      "sha256": "4a6c180a59d6ba5e7a0c7bc3390a5c5e07f3ebaf775ca63233f03db30de01fa2",
+      "bytes": 2249363
+    },
+    {
+      "path": "src/simulation/municipal-capacity.ts",
+      "sha256": "14d0e1dbd726ca7d95ac1c9b1f26d67750872d54294655edf944cea138f4b67b",
+      "bytes": 629
+    },
+    {
+      "path": "src/simulation/municipal-public-work.ts",
+      "sha256": "44dc9c9c4f9672fa46d8db9aeecef0d3c942f9f24d764c55819a2742561f732b",
+      "bytes": 8918
+    }
+  ]
+}

@@ -62,7 +62,9 @@
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts",
     "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
-    "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts"
+    "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts",
+    "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",
+    "export:municipal-governments": "node --import tsx scripts/source/export-municipal-governments.ts"
   },
   "dependencies": {
     "react": "19.2.6",

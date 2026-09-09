@@ -1,0 +1,157 @@
+[
+  {
+    "path": "data/source/municipal-governance/artifact-lock.json",
+    "sourceSha256": "031ede3d36f00818b68d5f2f2238ed96941b4a0cd88ce2bcb1110d9bd1dbc5ca",
+    "recipientSha256": "031ede3d36f00818b68d5f2f2238ed96941b4a0cd88ce2bcb1110d9bd1dbc5ca"
+  },
+  {
+    "path": "data/source/municipal-governance/corpus-manifest.json",
+    "sourceSha256": "16de2b0b13cadea03e9b7286766815b65cf182be65add3df38e5ea59a8e097db",
+    "recipientSha256": "16de2b0b13cadea03e9b7286766815b65cf182be65add3df38e5ea59a8e097db"
+  },
+  {
+    "path": "data/source/municipal-governance/corpus.json",
+    "sourceSha256": "6379d251fd5b33a1ed7c93941578de7a2673789bacd8a013aee9deca9891db83",
+    "recipientSha256": "6379d251fd5b33a1ed7c93941578de7a2673789bacd8a013aee9deca9891db83"
+  },
+  {
+    "path": "data/source/municipal-governance/raw/nv-carson-city-charter.html",
+    "sourceSha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad",
+    "recipientSha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad"
+  },
+  {
+    "path": "data/source/municipal-governance/raw/va-charlottesville-charter.html",
+    "sourceSha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183",
+    "recipientSha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183"
+  },
+  {
+    "path": "data/source/municipal-governance/raw/va-code-15-2-1415.html",
+    "sourceSha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f",
+    "recipientSha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f"
+  },
+  {
+    "path": "data/source/municipal-governance/raw/va-code-15-2-1427.html",
+    "sourceSha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff",
+    "recipientSha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff"
+  },
+  {
+    "path": "data/source/municipal-governance/raw/va-richmond-charter.html",
+    "sourceSha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366",
+    "recipientSha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366"
+  },
+  {
+    "path": "docs/plans/active/muni-play1-municipal-public-work.md",
+    "sourceSha256": "e451e676ae8569fc38e48c8d9748180ebe1e432abd5da199009eb552ca4a1813",
+    "recipientSha256": "e451e676ae8569fc38e48c8d9748180ebe1e432abd5da199009eb552ca4a1813"
+  },
+  {
+    "path": "fixtures/source/municipal-governance/national.json",
+    "sourceSha256": "fe7bd9a49cdc6d345eaf4762f8348b9ff07e173f1d8eb41ad9ae95fee8315e60",
+    "recipientSha256": "fe7bd9a49cdc6d345eaf4762f8348b9ff07e173f1d8eb41ad9ae95fee8315e60"
+  },
+  {
+    "path": "package.json",
+    "sourceSha256": "45cd85841bcbb156009b6d34ed5ef926b556e209c75f393bb9b1cdc2b2b24845",
+    "recipientSha256": "02545e762215da1f45e04da051a01dbbc226e6e5486a5df8c38783e841bdcfa4"
+  },
+  {
+    "path": "scripts/source/municipal-governance-fixture.ts",
+    "sourceSha256": "874304c69a1e86dc7711760448cc2521635c3de3a27ed457c6163e4e9918a42e",
+    "recipientSha256": "874304c69a1e86dc7711760448cc2521635c3de3a27ed457c6163e4e9918a42e"
+  },
+  {
+    "path": "src/simulation/legislation.ts",
+    "sourceSha256": "79b783a7a13ba8a44fc282acde3fda135cf41a663679372fa9bf5ecb1905964a",
+    "recipientSha256": "79b783a7a13ba8a44fc282acde3fda135cf41a663679372fa9bf5ecb1905964a"
+  },
+  {
+    "path": "src/simulation/legislature-rule-packs-matrix.test.ts",
+    "sourceSha256": "24d8ac43ed49a9180298c9ab2a5e0fa430e74392677adee9c14aee0a2d6189c0",
+    "recipientSha256": "24d8ac43ed49a9180298c9ab2a5e0fa430e74392677adee9c14aee0a2d6189c0"
+  },
+  {
+    "path": "src/simulation/legislature-rule-packs.ts",
+    "sourceSha256": "facfaa9bafcf16a66befad8493863355acf5ccec6859419e0c84743a89aa881c",
+    "recipientSha256": "facfaa9bafcf16a66befad8493863355acf5ccec6859419e0c84743a89aa881c"
+  },
+  {
+    "path": "src/simulation/legislature-rules.ts",
+    "sourceSha256": "8b8f9f7f28eb044dd54d42b2f82ec00e63a5c6db2faa09e2e0fd32598fe74f57",
+    "recipientSha256": "8b8f9f7f28eb044dd54d42b2f82ec00e63a5c6db2faa09e2e0fd32598fe74f57"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/acquisition.ts",
+    "sourceSha256": "517b325a018468cd3d53047df7fc95fe0224811afa06f747a905b57feeab4aec",
+    "recipientSha256": "517b325a018468cd3d53047df7fc95fe0224811afa06f747a905b57feeab4aec"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/index.ts",
+    "sourceSha256": "713d461456c43b999c89b72827bdcf408364ce3d1dee06f88519977f99bcae06",
+    "recipientSha256": "713d461456c43b999c89b72827bdcf408364ce3d1dee06f88519977f99bcae06"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/national-corpus.ts",
+    "sourceSha256": "3a7998034657ee88a41cab6c921f57b32ba5777a5a489a207d214697a6f5b054",
+    "recipientSha256": "3a7998034657ee88a41cab6c921f57b32ba5777a5a489a207d214697a6f5b054"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/national-packs.ts",
+    "sourceSha256": "b0b6aae926c30e8cf1848f5f52dcff6639a5090972deeb700c91ed7eb2ef2172",
+    "recipientSha256": "b0b6aae926c30e8cf1848f5f52dcff6639a5090972deeb700c91ed7eb2ef2172"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/national-research.ts",
+    "sourceSha256": "a5d29fa16142cc0902602f47f13dd9e177fbafee0427fee08ce23a4e96a83d30",
+    "recipientSha256": "a5d29fa16142cc0902602f47f13dd9e177fbafee0427fee08ce23a4e96a83d30"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/normalize.ts",
+    "sourceSha256": "131d1fade187011ca88b918d6034bc4b4e4bd09d24bed7aa55315371094d0362",
+    "recipientSha256": "131d1fade187011ca88b918d6034bc4b4e4bd09d24bed7aa55315371094d0362"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/parse.ts",
+    "sourceSha256": "16c821f48c45ff2d203830e2c6474f09393d24d19eb334f8da4e41c8f1d94b4c",
+    "recipientSha256": "16c821f48c45ff2d203830e2c6474f09393d24d19eb334f8da4e41c8f1d94b4c"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/production-packs.ts",
+    "sourceSha256": "fa052b25234ac150965ad54a53829e6d619a56f0f586490943a06ab232704b8b",
+    "recipientSha256": "fa052b25234ac150965ad54a53829e6d619a56f0f586490943a06ab232704b8b"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/production.ts",
+    "sourceSha256": "f7aab36c52f78dd9fc293bce181f1b1d9aebf9a7bc425e0d9561d805323374e8",
+    "recipientSha256": "f7aab36c52f78dd9fc293bce181f1b1d9aebf9a7bc425e0d9561d805323374e8"
+  },
+  {
+    "path": "src/source/domains/municipal-governance/types.ts",
+    "sourceSha256": "9fcacb360b43c7da1c0faf6cc2b4e446787f783a115c0f88c3c3515758b23d7a",
+    "recipientSha256": "9fcacb360b43c7da1c0faf6cc2b4e446787f783a115c0f88c3c3515758b23d7a"
+  },
+  {
+    "path": "scripts/source/export-municipal-governments.ts",
+    "sourceSha256": "3b7a32a779b59e84c4a1332da57cab3332b80d40b9b1839f1340736d7174a815",
+    "recipientSha256": "3b7a32a779b59e84c4a1332da57cab3332b80d40b9b1839f1340736d7174a815"
+  },
+  {
+    "path": "src/simulation/municipal-government.ts",
+    "sourceSha256": "eb800484cde6076e2ab1fe97ea2949568294193ab5fbcf8c4f7d71870b9ca989",
+    "recipientSha256": "eb800484cde6076e2ab1fe97ea2949568294193ab5fbcf8c4f7d71870b9ca989"
+  },
+  {
+    "path": "src/simulation/municipal-governments.generated.ts",
+    "sourceSha256": "43fe32ef937e1c6445e49ef92b0bd82c89724ddd55893350cb0d2c62dcc01732",
+    "recipientSha256": "43fe32ef937e1c6445e49ef92b0bd82c89724ddd55893350cb0d2c62dcc01732"
+  },
+  {
+    "path": "src/simulation/municipal-public-work.test.ts",
+    "sourceSha256": "27ea6f925017f09f98b9bb0160742b1aac9cac0b8411a9e6096596dd328bfeff",
+    "recipientSha256": "27ea6f925017f09f98b9bb0160742b1aac9cac0b8411a9e6096596dd328bfeff"
+  },
+  {
+    "path": "src/simulation/municipal-public-work.ts",
+    "sourceSha256": "85399c01b157cd162443337e38c7c13eaa20cb969cbb1823326fce969fe25dff",
+    "recipientSha256": "85399c01b157cd162443337e38c7c13eaa20cb969cbb1823326fce969fe25dff"
+  }
+]

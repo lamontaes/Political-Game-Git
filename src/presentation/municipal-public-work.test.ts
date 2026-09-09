@@ -1,158 +1,169 @@
 import { describe, expect, it } from "vitest";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import {
-  createOrganization,
-  createOrganizationParticipation,
-} from "../simulation/life";
+import { createScenarioWorld } from "../simulation/demo";
+import { requireLifePlace } from "../simulation/life-places";
 import { addSimulationMinutes } from "../simulation/dates";
-import { createScheduledActivity } from "../simulation/time-work";
 import { deserializeWorld, serializeWorld } from "../simulation";
 import {
-  attendMunicipalMeeting,
-  municipalAgendaWorkAuthorized,
-  municipalGovernmentsForResident,
-  prepareMunicipalAgenda,
-  type MunicipalGovernmentBinding,
-  type MunicipalMeetingNotice,
+  attendMunicipalPublicMeeting,
+  installMunicipalGovernment,
+  municipalMeetings,
+  scheduleMunicipalMeeting,
+  seatMunicipalMember,
 } from "../simulation/municipal-public-work";
+import { prepareMunicipalMeetingNotes } from "./municipal-workspace";
 
-function context(
-  form: "council-manager" | "representative-town-meeting" = "council-manager",
-) {
-  let { world, playerPersonId: personId } = createNewGameWorld({
-    ...DEFAULT_NEW_GAME_SETUP,
-    seed: `municipal-adapter-${form}`,
-    startAge: 30,
-    startingLife: "ordinary-life",
+function context(governmentKey: string, placeKey: string, seriesKey: string) {
+  const place = requireLifePlace(placeKey);
+  let world = createScenarioWorld(`public-${governmentKey}`, place.context, {
+    peopleCount: 12,
   });
-  const jurisdictionId = world.people[personId]!.homeJurisdictionId;
-  const governmentKey = `fixture:${form}`;
-  world = createOrganization(world, {
-    stableKey: `municipal-government:${governmentKey}`,
-    formedAt: world.currentDate,
-    provenance: {
-      kind: "authored",
-      note: "Municipal adapter test fixture; no real legal claim.",
-    },
-    initialProfile: {
-      name: "Test municipal government",
-      classification: "sector:government",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  const organizationId = world.history.organizations.at(-1)!.id;
-  const binding: MunicipalGovernmentBinding = {
+  const personId = world.personOrder[0]!;
+  world = { ...world, control: { kind: "person", personId } };
+  world = installMunicipalGovernment(world, {
     governmentKey,
-    organizationId,
-    jurisdictionId,
-    residentJurisdictionIds: [jurisdictionId],
-    censusPlaceGeoid: null,
-    censusGovernmentUnitId: null,
-    countyGovernmentKey: null,
-    identitySourceUrls: ["https://example.invalid/fixture"],
-    structure: {
-      form,
-      bodyName: form === "council-manager" ? "Council" : "Town Meeting",
-      bodySize: form === "council-manager" ? 7 : null,
-      mayorIsBodyMember: null,
-      professionalManager: form === "council-manager",
-      assemblyMethod: form === "council-manager" ? "elected-council" : form,
-    },
-    agendaWorkRoles: ["custom:municipal-member"],
-  };
-  const clerk = world.personOrder.find((id) => id !== personId)!;
-  world = createScheduledActivity(world, {
-    stableKey: "fixture-public-meeting",
-    title: "Public meeting",
-    summary: "Authored test meeting.",
-    kind: "confirmed",
+    jurisdictionId: place.context.jurisdiction.id,
+    formedAt: world.currentDate,
+  });
+  world = scheduleMunicipalMeeting(world, {
+    governmentKey,
+    seriesKey,
     start: addSimulationMinutes(world.currentMoment, 5),
     end: addSimulationMinutes(world.currentMoment, 35),
-    participantPersonIds: [clerk],
-    responsiblePersonId: clerk,
-    location: {
-      locationKey: "fixture:civic-room",
-      label: "Civic room",
-      jurisdictionId,
-    },
-    sourceEntityIds: [organizationId],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [clerk] },
+    participantPersonIds: [world.personOrder[1]!],
+    responsiblePersonId: world.personOrder[1]!,
+    jurisdictionId: place.context.jurisdiction.id,
   });
-  const notice: MunicipalMeetingNotice = {
+  return {
+    world,
+    personId,
     governmentKey,
-    scheduledActivityId: world.history.scheduledActivities.at(-1)!.id,
-    publicAttendance: "SUPPORTED",
-    attendanceSourceUrls: ["https://example.invalid/fixture-notice"],
-    agendaMeasureIds: [],
+    meeting: municipalMeetings(world, governmentKey)[0]!,
   };
-  return { world, personId, binding, notice };
 }
 
-describe("Municipal public work uses canonical stores", () => {
-  it.each(["council-manager", "representative-town-meeting"] as const)(
-    "lets a citizen attend %s without gaining a role, and survives reload",
-    (form) => {
-      const { world, binding, notice } = context(form);
-      const result = attendMunicipalMeeting(world, binding, notice);
+describe("municipal public work shares saved canonical state", () => {
+  it.each([
+    ["us-va-charlottesville", "5114968", "stated-meeting"],
+    ["us-nv-carson-city", "3209700", "regular"],
+  ])(
+    "lets an ordinary citizen attend %s without acquiring a role",
+    (key, place, series) => {
+      const { world, governmentKey, meeting } = context(key!, place!, series!);
+      expect(
+        prepareMunicipalMeetingNotes(world, governmentKey, meeting.id).world,
+      ).toBe(world);
+      const result = attendMunicipalPublicMeeting(
+        world,
+        governmentKey,
+        meeting.id,
+      );
       expect(result.ok).toBe(true);
       expect(result.world.history.organizationParticipations).toEqual(
         world.history.organizationParticipations,
       );
-      expect(municipalAgendaWorkAuthorized(result.world, binding)).toBe(false);
       expect(result.world.currentMoment).not.toEqual(world.currentMoment);
       const loaded = deserializeWorld(serializeWorld(result.world));
       expect(loaded).toEqual(result.world);
       expect(
-        municipalGovernmentsForResident(loaded, [binding])[0]?.structure.form,
-      ).toBe(form);
-      expect(attendMunicipalMeeting(loaded, binding, notice).world).toBe(
-        loaded,
-      );
+        attendMunicipalPublicMeeting(loaded, governmentKey, meeting.id).world,
+      ).toBe(loaded);
+      expect(
+        prepareMunicipalMeetingNotes(loaded, governmentKey, meeting.id).world,
+      ).toBe(loaded);
     },
   );
-
-  it("refuses unresolved public access without any write", () => {
-    const { world, binding, notice } = context();
-    const result = attendMunicipalMeeting(world, binding, {
-      ...notice,
-      publicAttendance: "UNKNOWN",
-    });
-    expect(result).toEqual({
-      ok: false,
+  it("refuses a closed session without any write", () => {
+    const { world, governmentKey, meeting } = context(
+      "us-nd-fargo",
+      "3825700",
+      "executive-session",
+    );
+    const result = attendMunicipalPublicMeeting(
       world,
-      reason: "public-attendance-unresolved",
-    });
+      governmentKey,
+      meeting.id,
+    );
+    expect(result.ok).toBe(false);
     expect(result.world).toBe(world);
   });
-
-  it("requires a current role in this government for office work", () => {
-    const { world, personId, binding, notice } = context();
-    expect(prepareMunicipalAgenda(world, binding, notice).world).toBe(world);
-    const authorized = createOrganizationParticipation(world, {
-      stableKey: "fixture-office-role",
+  it("requires a current role in this government for meeting notes", () => {
+    const { world, personId, governmentKey, meeting } = context(
+      "us-va-charlottesville",
+      "5114968",
+      "stated-meeting",
+    );
+    const authorized = seatMunicipalMember(world, {
+      governmentKey,
       personId,
-      organizationId: binding.organizationId,
       startedAt: world.currentDate,
-      kind: "leadership:municipal-office",
-      roleKind: "custom:municipal-member",
-      context: "Authored test office",
-      provenance: {
-        kind: "authored",
-        note: "Test role established independently of attendance.",
-      },
+      role: "member",
+      seatLabel: "Authored test office",
     });
-    const result = prepareMunicipalAgenda(authorized, binding, notice);
+    const result = prepareMunicipalMeetingNotes(
+      authorized,
+      governmentKey,
+      meeting.id,
+    );
     expect(result.ok).toBe(true);
     expect(result.world.history.workItems.length).toBe(
       authorized.history.workItems.length + 1,
     );
     expect(
-      prepareMunicipalAgenda(
-        authorized,
-        { ...binding, governmentKey: "other" },
-        notice,
-      ).world,
+      prepareMunicipalMeetingNotes(authorized, "us-va-richmond", meeting.id)
+        .world,
     ).toBe(authorized);
+    expect(
+      prepareMunicipalMeetingNotes(result.world, governmentKey, meeting.id)
+        .world,
+    ).toBe(result.world);
   });
+});
+
+describe("normal saved home context", () => {
+  it.each(["5114968", "3209700"])(
+    "initializes one authored public session for %s without acquiring office",
+    async (placeKey) => {
+      const { municipalWorkspaceFor, synchronizeMunicipalPublicContext } =
+        await import("./municipal-workspace");
+      const place = requireLifePlace(placeKey);
+      const generated = createScenarioWorld(
+        `normal-${placeKey}`,
+        place.context,
+        { peopleCount: 12 },
+      );
+      const world = {
+        ...generated,
+        control: {
+          kind: "person" as const,
+          personId: generated.personOrder[0]!,
+        },
+      };
+      const view = municipalWorkspaceFor(world)!;
+      expect(view.isHomeGovernment).toBe(true);
+      const initialized = synchronizeMunicipalPublicContext(world);
+      expect(initialized.history.organizationParticipations).toEqual(
+        world.history.organizationParticipations,
+      );
+      const meetings = municipalMeetings(initialized, view.government.key);
+      expect(meetings).toHaveLength(1);
+      expect(meetings[0]!.summary).toContain(
+        "timing and duration are authored",
+      );
+      expect(synchronizeMunicipalPublicContext(initialized)).toBe(initialized);
+      expect(
+        attendMunicipalPublicMeeting(
+          initialized,
+          view.government.key,
+          meetings[0]!.id,
+        ).ok,
+      ).toBe(true);
+      expect(
+        municipalWorkspaceFor(initialized, "us-nh-new-london")
+          ?.isHomeGovernment,
+      ).toBe(false);
+      expect(world.people[world.control.personId]!.homeJurisdictionId).toBe(
+        place.context.jurisdiction.id,
+      );
+    },
+  );
 });

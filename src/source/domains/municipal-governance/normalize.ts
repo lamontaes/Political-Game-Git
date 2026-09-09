@@ -37,13 +37,18 @@ import type {
   LegislativeProcedure,
   ManagerValue,
   MayorValue,
+  MayoralActionWindow,
+  MeetingCadenceRule,
   MeetingPlace,
+  MeetingSeries,
   MunicipalGovernanceRecord,
+  PublicAttendanceRule,
   PowerRule,
   PresidingRule,
   RecordProvenance,
   SourceIdentity,
   TermInfo,
+  VoteThreshold,
 } from "./types";
 
 export interface MunicipalNormalizeResult {
@@ -199,6 +204,21 @@ function normalizePack(
       corpusAsOf,
       defects,
     );
+  /**
+   * A cell a pack may legitimately not carry at all.
+   *
+   * Absent and UNKNOWN mean the same thing — nobody established it — but they
+   * must produce the same value rather than a missing key, so the record shape
+   * never varies between packs authored before and after a field existed.
+   */
+  const optionalCell = <T>(
+    c: Cell | undefined,
+    path: string,
+    absentReason: string,
+  ): Sourced<T> =>
+    c
+      ? cell<T>(c, path)
+      : unknown<T>(`${pack.sourceGovernmentKey}/${path}: ${absentReason}`);
 
   const sourceIdentity: SourceIdentity = {
     sourceGovernmentKey: pack.sourceGovernmentKey,
@@ -341,6 +361,11 @@ function normalizePack(
       pack.legislativeProcedure.quorum,
       "legislativeProcedure/quorum",
     ),
+    quorumRule: optionalCell<VoteThreshold>(
+      pack.legislativeProcedure.quorumRule,
+      "legislativeProcedure/quorumRule",
+      "no source read for this government stated the quorum as a count or fraction, only in words.",
+    ),
     passageThreshold: cell(
       pack.legislativeProcedure.passageThreshold,
       "legislativeProcedure/passageThreshold",
@@ -352,6 +377,11 @@ function normalizePack(
     mayoralAction: cell(
       pack.legislativeProcedure.mayoralAction,
       "legislativeProcedure/mayoralAction",
+    ),
+    mayoralActionWindow: optionalCell<MayoralActionWindow>(
+      pack.legislativeProcedure.mayoralActionWindow,
+      "legislativeProcedure/mayoralActionWindow",
+      "no source read for this government fixed how long the mayor has or what silence does.",
     ),
     override: cell(
       pack.legislativeProcedure.override,
@@ -466,6 +496,26 @@ function normalizePack(
     }),
   );
 
+  const meetingSeries: MeetingSeries[] = (pack.meetingSeries ?? []).map(
+    (entry) => ({
+      seriesKey: entry.seriesKey,
+      kind: entry.kind,
+      bodyName: cell(
+        entry.bodyName,
+        `meetingSeries/${entry.seriesKey}/bodyName`,
+      ),
+      cadence: cell<MeetingCadenceRule>(
+        entry.cadence,
+        `meetingSeries/${entry.seriesKey}/cadence`,
+      ),
+      venue: cell(entry.venue, `meetingSeries/${entry.seriesKey}/venue`),
+      publicAttendance: cell<PublicAttendanceRule>(
+        entry.publicAttendance,
+        `meetingSeries/${entry.seriesKey}/publicAttendance`,
+      ),
+    }),
+  );
+
   const provenance: RecordProvenance = {
     asOf: pack.asOf,
     citedSources: normalizeSources(pack.citedSources),
@@ -483,6 +533,10 @@ function normalizePack(
     budgetProcedure,
     consolidation,
     meetingPlaces,
+    meetingSeries,
+    researchObservations: (pack.researchObservations ?? []).map(
+      (entry, index) => cell<string>(entry, `researchObservations/${index}`),
+    ),
     provenance,
   };
 }

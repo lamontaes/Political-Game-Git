@@ -1,0 +1,389 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "va-charlottesville-charter",
+      "bytes": {
+        "length": 99796,
+        "sha256": "4d36b728a582d1c5e8b71306f6e111bf1208b5c77d95d15e57f5e03c46f26183"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-charlottesville-charter.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/charters/charlottesville/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 99796,
+        "retrievedAt": "2026-09-08T23:56:01.628Z",
+        "url": "https://law.lis.virginia.gov/charters/charlottesville/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Charter of the City of Charlottesville, Virginia",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 8069,
+              "sha256": "987953d252d08576409ce5abb45346ba252abadb992921011cbe8a47c52fc7ff"
+            },
+            "regions": [
+              {
+                "beginsWith": "\u00a7 1. Body politic and corporate name.",
+                "endsWith": "shall continue to be one body politic and corporate in fact and its name shall be the City of Charlottesville."
+              },
+              {
+                "beginsWith": "\u00a7 5. Elective officers; qualifications and terms of certain officers; form of government; corporate powers vested in city council.",
+                "endsWith": "their duties and liabilities shall be regulated by the general laws of the Commonwealth, not in conflict therewith."
+              },
+              {
+                "beginsWith": "\u00a7 5.01. City manager. Subject to general control by the council",
+                "endsWith": "the city manager shall have the powers vested in city managers in accordance with the general laws of the Commonwealth."
+              },
+              {
+                "beginsWith": "\u00a7 8. Vacancy in office of mayor or councilor; vacation of office.",
+                "endsWith": "such removal shall operate to vacate such mayor's or councilor's office."
+              },
+              {
+                "beginsWith": "\u00a7 9. Council--Mayor and vice-mayor.",
+                "endsWith": "but in no case shall they be entitled to a second vote on any question."
+              },
+              {
+                "beginsWith": "\u00a7 12. Same--Council meetings and rules.",
+                "endsWith": "except when it votes to hold an executive or closed session pursuant to the general laws of the Commonwealth."
+              },
+              {
+                "beginsWith": "\u00a7 19. Fiscal year; budget; levy of taxes.",
+                "endsWith": "The total amount of appropriations shall not exceed the estimated revenues of the city."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-richmond-charter",
+      "bytes": {
+        "length": 265626,
+        "sha256": "a2621dad7b7fc6c9bd9bd392af78e6c20aa1b1b3cd7c3253c91f1e5c5954a366"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-richmond-charter.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/charters/richmond/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 265626,
+        "retrievedAt": "2026-09-08T23:56:01.812Z",
+        "url": "https://law.lis.virginia.gov/charters/richmond/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Charter of the City of Richmond, Virginia",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "regions": [
+              {
+                "beginsWith": "\u00a7 1.01. Incorporation.",
+                "endsWith": "may have a corporate seal which it may alter, renew or amend at its pleasure."
+              },
+              {
+                "beginsWith": "\u00a7 3.01. Election of councilmen; nomination of candidates.",
+                "endsWith": "Each council member elected in accordance with this section shall reside in the election district from which such member was elected throughout the member's term on the council."
+              },
+              {
+                "beginsWith": "\u00a7 4.01. Composition; compensation; appointment of members to office of profit. The council shall consist of nine members",
+                "endsWith": "be appointed to any office of profit under the government of the city."
+              },
+              {
+                "beginsWith": "\u00a7 4.07. Voting.",
+                "endsWith": "the ayes and noes shall be recorded in the journal."
+              },
+              {
+                "beginsWith": "\u00a7 4.09. Ordinances; form.",
+                "endsWith": "an ordinance shall take effect on the tenth day following its passage."
+              },
+              {
+                "beginsWith": "\u00a7 4.10. Procedure for passing ordinances.",
+                "endsWith": "all proceedings had as in the case of a newly introduced ordinance."
+              },
+              {
+                "beginsWith": "\u00a7 4.11. Emergency ordinances.",
+                "endsWith": "six affirmative votes shall be necessary for its adoption."
+              },
+              {
+                "beginsWith": "\u00a7 5.01. Mayor. The mayor shall be the chief executive officer of the city",
+                "endsWith": "The office of mayor shall be a full-time position with salary and expenses set by the council."
+              },
+              {
+                "beginsWith": "\u00a75.01.1. Chief administrative officer. The mayor shall appoint a chief administrative officer",
+                "endsWith": "The mayor shall set the salary of the chief administrative officer subject to the approval of a majority of the members of city council."
+              },
+              {
+                "beginsWith": "\u00a7 5.05. General duties; mayor.",
+                "endsWith": "however, the appointment of members of a redevelopment and housing authority in the city shall be made by the council; and"
+              },
+              {
+                "beginsWith": "\u00a7 6.01. Fiscal and tax years.",
+                "endsWith": "The rates of all other taxes and levies, except on new sources of tax revenues, shall be fixed before the beginning of the tax year."
+              },
+              {
+                "beginsWith": "\u00a7 6.02. Submission.",
+                "endsWith": "(b) a budget message; and (c) a capital budget."
+              }
+            ],
+            "extracted": {
+              "length": 10181,
+              "sha256": "e487b419418df5411c10379205438674728635eb376520c502ead1aa91f26e67"
+            }
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-code-15-2-1427",
+      "bytes": {
+        "length": 33065,
+        "sha256": "0f81cd103611908a620989492f75d246b28d2fbfe7451e9bb6d8c3cecff45dff"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-code-15-2-1427.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1427/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 33065,
+        "retrievedAt": "2026-09-08T23:56:02.237Z",
+        "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1427/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Code of Virginia \u00a7 15.2-1427, Adoption of ordinances and resolutions generally; amending or repealing ordinances",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 1529,
+              "sha256": "98d137276e4dd61e225ae9f3bdd12687252a5950795428f850aad010772fa5e8"
+            },
+            "regions": [
+              {
+                "beginsWith": "\u00a7 15.2-1427 . Adoption of ordinances and resolutions generally; amending or repealing ordinances.",
+                "endsWith": "but, if no effective date is specified, then such ordinance shall become effective upon adoption."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-code-15-2-1415",
+      "bytes": {
+        "length": 28109,
+        "sha256": "4d073786049c3310d9dd35ba641c161970068a5fe225296de601cb1e25eb533f"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-code-15-2-1415.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1415/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 28109,
+        "retrievedAt": "2026-09-08T23:56:02.648Z",
+        "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1415/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Code of Virginia \u00a7 15.2-1415, At what meetings governing body may act",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 552,
+              "sha256": "b367549341a8bb11891bef2c9827dc62a3f571b7184b9483de0d7b529d0dc7bf"
+            },
+            "regions": [
+              {
+                "beginsWith": "\u00a7 15.2-1415 . At what meetings governing body may act.",
+                "endsWith": "Meetings of governing bodies shall be subject to the applicable provisions of the Virginia Freedom of Information Act"
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nv-carson-city-charter",
+      "bytes": {
+        "length": 168079,
+        "sha256": "8a26e351cc91505eca8a4eb5d4659a14b27d4edb06e214fd66cd1dd2cf8e84ad"
+      },
+      "localPath": "data/source/municipal-governance/raw/nv-carson-city-charter.html",
+      "mediaType": "text/html",
+      "provider": "Legislative Counsel Bureau, Nevada Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.leg.state.nv.us/Division/Legal/LawLibrary/CityCharters/CtyCCCC.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 168079,
+        "retrievedAt": "2026-09-08T23:56:02.998Z",
+        "url": "https://www.leg.state.nv.us/Division/Legal/LawLibrary/CityCharters/CtyCCCC.html"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the Legislature of the State of Nevada",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Charter of Carson City, Nevada",
+          "jurisdictionKey": "US-NV",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 8943,
+              "sha256": "831b2301275e31a80cdf691c60745c600d492176f0a9491ca0582b54f47f6f38"
+            },
+            "regions": [
+              {
+                "beginsWith": "AN ACT relating to Carson City; consolidating Ormsby County and Carson City into one municipal government to be known as Carson City",
+                "endsWith": "shall be and constitute a body politic and corporate by the name and style of"
+              },
+              {
+                "beginsWith": "Sec. 2.010 Board of Supervisors: Qualifications; election; term of office.",
+                "endsWith": "Ends at 11:59 p.m. on the day immediately preceding the first Monday in January following the general election."
+              },
+              {
+                "beginsWith": "Sec. 2.050 Meetings: Quorum.",
+                "endsWith": "the sessions and all proceedings of the Board must be public."
+              },
+              {
+                "beginsWith": "Sec. 2.110 Ordinances: Enactment procedure; emergency ordinances.",
+                "endsWith": "The Clerk shall record all ordinances in a book kept for that purpose together with the affidavits of publication by the publisher."
+              },
+              {
+                "beginsWith": "Sec. 3.010 Mayor: Duties; salary.",
+                "endsWith": "The Manager may appoint such clerical personnel and create such administrative positions as he or she considers necessary, subject to the review and approval of the Board."
+              }
+            ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "or-portland-charter-2-102",
+      "bytes": {
+        "length": 54808,
+        "sha256": "981cd6eda56b4c315a5cba11da35a32bc0b53c0259e4806a1ec56a57ae3d6b88"
+      },
+      "localPath": "data/source/municipal-governance/raw/or-portland-charter-2-102.html",
+      "mediaType": "text/html",
+      "provider": "City of Portland",
+      "publisher": {
+        "documentationUrl": "https://www.portland.gov/charter/2/1/102",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 54808,
+        "retrievedAt": "2026-09-09T00:16:31.253Z",
+        "url": "https://www.portland.gov/charter/2/1/102"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "public-domain-government-edict",
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "City of Portland electorate",
+          "instrumentKind": "charter",
+          "instrumentTitle": "Portland City Charter, Section 2-102 City Council",
+          "jurisdictionKey": "US-OR",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 211,
+              "sha256": "1cc4484c111e0c427f877ceba6262d89a9bffdb07e4621aa569657e85af093e3"
+            },
+            "regions": [
+              {
+                "beginsWith": "The City Council of the City of Portland consists",
+                "endsWith": "The Mayor is not a member of Council."
+              }
+            ]
+          }
+        }
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "municipal-governance"
+}
