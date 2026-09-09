@@ -443,7 +443,7 @@ export interface MunicipalRulePackResolution {
 export type MunicipalRulePackResult =
   MunicipalRulePackResolution | MunicipalRulePackRefusal;
 
-function sourceRefFor(
+export function municipalRuleSourceRef(
   reading: MunicipalReading,
   citation: string,
 ): RuleSourceRef {
@@ -463,7 +463,8 @@ function sourceRefFor(
     (candidate) => candidate.key === evidence?.artifactId,
   );
   return {
-    authority: "statute",
+    authority:
+      reading.evidence === "enacted-text" ? "statute" : "research-reference",
     citation: evidence?.locator.citation ?? citation,
     sourceTitle: source?.title ?? reading.displayName,
     sourceUrl: source?.url ?? null,
@@ -477,7 +478,9 @@ function sourceRefFor(
       ? "No field-specific source is resolved."
       : reading.evidence === "enacted-text"
         ? null
-        : "Research transcription; not independently verified operative law.",
+        : reading.evidence === "reference-observation"
+          ? "Dated meeting reference; not operative legal authority."
+          : "Research transcription; not independently verified operative law.",
   };
 }
 
@@ -625,7 +628,7 @@ export function municipalRulePackFor(
 
   const bodyName = reading.bodyName!;
   const bodySize = reading.bodySize!;
-  const passageSource = sourceRefFor(
+  const passageSource = municipalRuleSourceRef(
     reading,
     reading.procedure.passageText ?? "ordinance adoption",
   );
@@ -645,7 +648,10 @@ export function municipalRulePackFor(
           const rule = thresholdRule(
             quorumThreshold,
             reading.procedure.quorumText ?? "Quorum.",
-            sourceRefFor(reading, reading.procedure.quorumText ?? "quorum"),
+            municipalRuleSourceRef(
+              reading,
+              reading.procedure.quorumText ?? "quorum",
+            ),
           );
           if (rule.minimumVotes !== undefined) {
             outside.push(
@@ -658,7 +664,7 @@ export function municipalRulePackFor(
   const overrideRow = powerRow(reading, "OVERRIDE", "COUNCIL");
   const vetoRow = powerRow(reading, "VETO", "MAYOR");
   const executiveTitle = reading.mayor?.title ?? "Mayor";
-  const executiveSource = sourceRefFor(
+  const executiveSource = municipalRuleSourceRef(
     reading,
     reading.procedure.mayoralAction ?? "executive action on an ordinance",
   );
@@ -701,7 +707,7 @@ export function municipalRulePackFor(
         name: bodyName,
         seats: knownRule(
           bodySize,
-          sourceRefFor(reading, `${bodyName} membership`),
+          municipalRuleSourceRef(reading, `${bodyName} membership`),
         ),
         quorum,
         introductionAllowed: true,
@@ -713,7 +719,7 @@ export function municipalRulePackFor(
           everyMeasureMustBeHeard: unknownRule(
             "No instrument read guarantees a hearing for every measure here.",
           ),
-          source: sourceRefFor(reading, "referral"),
+          source: municipalRuleSourceRef(reading, "referral"),
         },
         committees: [],
         floorStages: buildFloorStages(reading, passage, passageSource),
@@ -723,11 +729,11 @@ export function municipalRulePackFor(
               ? unknownRule(
                   "No instrument read establishes whether this body amends a measure on the floor.",
                 )
-              : knownRule(true, sourceRefFor(reading, "amendment")),
+              : knownRule(true, municipalRuleSourceRef(reading, "amendment")),
           germanenessStandard: unknownRule(
             "No instrument read states a germaneness standard for this body.",
           ),
-          source: sourceRefFor(reading, "amendment"),
+          source: municipalRuleSourceRef(reading, "amendment"),
         },
       },
     ],
@@ -735,10 +741,10 @@ export function municipalRulePackFor(
     origination: {
       generalOrigination: knownRule(
         ["council"],
-        sourceRefFor(reading, "origination"),
+        municipalRuleSourceRef(reading, "origination"),
       ),
       subjectRestrictions: [],
-      source: sourceRefFor(reading, "origination"),
+      source: municipalRuleSourceRef(reading, "origination"),
     },
     interChamber: {
       kind: "not-applicable",
@@ -794,7 +800,7 @@ export function municipalRulePackFor(
           ? unknownRule(
               "No instrument read separates adoption from taking effect here.",
             )
-          : knownRule(true, sourceRefFor(reading, "effective date")),
+          : knownRule(true, municipalRuleSourceRef(reading, "effective date")),
       defaultEffectiveRule:
         reading.procedure.effectivePublication === null
           ? unknownRule(
@@ -802,9 +808,9 @@ export function municipalRulePackFor(
             )
           : knownRule(
               reading.procedure.effectivePublication,
-              sourceRefFor(reading, "effective date"),
+              municipalRuleSourceRef(reading, "effective date"),
             ),
-      source: sourceRefFor(reading, "effective date"),
+      source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
       sessionLabel: `${reading.displayName} legislative year`,
@@ -814,9 +820,14 @@ export function municipalRulePackFor(
       measuresDieAtAdjournment: unknownRule(
         "No instrument read establishes whether a measure dies when this body's year ends.",
       ),
-      source: sourceRefFor(reading, "session"),
+      source: municipalRuleSourceRef(reading, "session"),
     },
-    sources: [sourceRefFor(reading, reading.controllingAuthority ?? "charter")],
+    sources: [
+      municipalRuleSourceRef(
+        reading,
+        reading.controllingAuthority ?? "charter",
+      ),
+    ],
     unresolvedGaps: [...reading.unresolved],
   };
 
@@ -851,7 +862,7 @@ function buildFloorStages(
       label: `Reading ${index}`,
       amendable:
         index === readings - 1 && reading.procedure.amendment !== null
-          ? knownRule(true, sourceRefFor(reading, "amendment"))
+          ? knownRule(true, municipalRuleSourceRef(reading, "amendment"))
           : unknownRule(
               "No instrument read establishes whether this reading takes amendments.",
             ),
@@ -859,7 +870,7 @@ function buildFloorStages(
       vote: unknownRule(
         "This reading decides nothing; the instrument puts the vote at the final reading.",
       ),
-      source: sourceRefFor(reading, `reading ${index}`),
+      source: municipalRuleSourceRef(reading, `reading ${index}`),
     });
   }
   stages.push({
@@ -870,7 +881,7 @@ function buildFloorStages(
         ? unknownRule(
             "No instrument read establishes whether this body amends at final passage.",
           )
-        : knownRule(true, sourceRefFor(reading, "amendment")),
+        : knownRule(true, municipalRuleSourceRef(reading, "amendment")),
     separateLegislativeDayRequired: readings > 1,
     vote: knownRule(passage, passageSource),
     source: passageSource,

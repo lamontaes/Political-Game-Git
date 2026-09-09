@@ -13,7 +13,7 @@ import {
 import { scheduledActivityState } from "../simulation/time-work";
 import { measureActions } from "../simulation/legislation";
 import {
-  synchronizeMunicipalPublicContext,
+  createAuthoredMunicipalPublicSession,
   municipalWorkspaceFor,
   prepareMunicipalMeetingNotes,
 } from "../presentation/municipal-workspace";
@@ -45,7 +45,7 @@ export function MunicipalWorkspace({
   const view = municipalWorkspaceFor(world, inspectionKey || undefined);
   const directory = (
     <label>
-      Inspect a government
+      {"Inspect a government"}
       <select
         value={inspectionKey}
         onChange={(event) => {
@@ -53,10 +53,13 @@ export function MunicipalWorkspace({
           setMessage("");
         }}
       >
-        <option value="">My home government</option>
+        <option value="">{"My home government"}</option>
         {municipalGovernments().map((government) => (
           <option key={government.key} value={government.key}>
-            {government.displayName} ({government.state})
+            {government.displayName}
+            {" ("}
+            {government.state}
+            {")"}
           </option>
         ))}
       </select>
@@ -68,9 +71,11 @@ export function MunicipalWorkspace({
         className="municipal-workspace"
         aria-label="Municipal government"
       >
-        <h2>Municipal government</h2>
+        <h2>{"Municipal government"}</h2>
         {directory}
-        <p>No verified government link is available for this home's place.</p>
+        <p>
+          {"No verified government link is available for this home's place."}
+        </p>
       </section>
     );
   const act = (result: {
@@ -117,45 +122,49 @@ export function MunicipalWorkspace({
         {view.standing.roles.map(humanLabel).join(", ") || "Public visitor"}
       </p>
       <p>
-        Census place: {view.government.placeGeoid ?? "Unknown"}. A place
-        identifier is not a government-unit or county identifier.
+        {"Census place: "}
+        {view.government.placeGeoid ?? "Unknown"}
+        {". A place identifier is not a government-unit or county identifier."}
       </p>
       {view.government.identity ? (
         <details>
-          <summary>Government identity and geography</summary>
+          <summary>{"Government identity and geography"}</summary>
           <p>
-            {view.government.identity.publisherUnitName} ·{" "}
-            {view.government.identity.governmentUnit.unitType}
+            {view.government.identity.publisherUnitName}
+            {" ·"} {view.government.identity.governmentUnit.unitType}
           </p>
           <p>
-            Publisher PID: {view.government.identity.publisherId}. Legacy
-            government ID:{" "}
-            {view.government.identity.censusGovernmentUnitId ?? "Unknown"}.
+            {"Publisher PID: "}
+            {view.government.identity.publisherId}
+            {". Legacy government ID:"}{" "}
+            {view.government.identity.censusGovernmentUnitId ?? "Unknown"}
+            {"."}
           </p>
           <p>
-            County-equivalent representation:{" "}
+            {"County-equivalent representation:"}{" "}
             {view.government.identity.countyEquivalentGeoid ??
               "Not established"}
-            . County area:{" "}
+            {". County area:"}{" "}
             {view.government.identity.governmentUnit.countyAreaName ??
               "Unknown"}{" "}
-            (not a governing parent).
+            {"(not a governing parent)."}
           </p>
           <p>{view.government.identity.basis}</p>
           <p>
-            Inventory observation:{" "}
-            {view.government.identity.governmentUnit.evidence.asOf}.{" "}
+            {"Inventory observation:"}{" "}
+            {view.government.identity.governmentUnit.evidence.asOf}
+            {"."}{" "}
             <a
               href="https://www.census.gov/data/datasets/2025/econ/gus/public-use-files.html"
               target="_blank"
               rel="noreferrer"
             >
-              Census Government Units Survey
+              {"Census Government Units Survey"}
             </a>
           </p>
         </details>
       ) : (
-        <p>No verified Census government-unit link is available.</p>
+        <p>{"No verified Census government-unit link is available."}</p>
       )}
       {view.government.readings.map((reading) => (
         <details
@@ -168,26 +177,27 @@ export function MunicipalWorkspace({
               : reading.evidence === "reference-observation"
                 ? "Dated meeting reference — not operative law"
                 : "Research report — not operative law"}{" "}
-            · {reading.asOf}
+            {"· "}
+            {reading.asOf}
           </summary>
           <dl>
-            <dt>Form</dt>
+            <dt>{"Form"}</dt>
             <dd>{reading.form ? humanLabel(reading.form) : "Unknown"}</dd>
-            <dt>Body</dt>
+            <dt>{"Body"}</dt>
             <dd>{reading.bodyName ?? "Unknown"}</dd>
-            <dt>Members</dt>
+            <dt>{"Members"}</dt>
             <dd>{reading.bodySize ?? "Unknown"}</dd>
-            <dt>Seat pattern</dt>
+            <dt>{"Seat pattern"}</dt>
             <dd>{reading.composition?.note ?? "Unknown"}</dd>
-            <dt>Mayor</dt>
+            <dt>{"Mayor"}</dt>
             <dd>
               {reading.mayor
                 ? humanLabel(reading.mayor.structuralPosition)
                 : "Unknown"}
             </dd>
-            <dt>Professional manager</dt>
+            <dt>{"Professional manager"}</dt>
             <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
-            <dt>Consolidation</dt>
+            <dt>{"Consolidation"}</dt>
             <dd>
               {reading.consolidationType
                 ? humanLabel(reading.consolidationType)
@@ -195,13 +205,14 @@ export function MunicipalWorkspace({
             </dd>
           </dl>
           <details>
-            <summary>All recorded facts and evidence</summary>
+            <summary>{"All recorded facts and evidence"}</summary>
             <dl>
               {reading.facts.map((fact) => (
                 <div key={fact.path}>
                   <dt>{fact.path}</dt>
                   <dd>
-                    {fact.state}:{" "}
+                    {fact.state}
+                    {":"}{" "}
                     {fact.value === undefined
                       ? (fact.reason ?? "No value established")
                       : typeof fact.value === "string"
@@ -215,7 +226,7 @@ export function MunicipalWorkspace({
                       return source ? (
                         <span key={index}>
                           {" "}
-                          ·{" "}
+                          {"·"}{" "}
                           <a href={source.url} target="_blank" rel="noreferrer">
                             {evidence.locator.citation ?? source.title}
                           </a>
@@ -239,10 +250,11 @@ export function MunicipalWorkspace({
         </details>
       ))}
       <details>
-        <summary>Cited public records and meeting material</summary>
+        <summary>{"Cited public records and meeting material"}</summary>
         <p>
-          These are references in this government's source readings. They are
-          not attached agendas or notices for an authored session in this world.
+          {
+            "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world."
+          }
         </p>
         <ul>
           {view.publicReferences.map((url) => (
@@ -254,20 +266,19 @@ export function MunicipalWorkspace({
           ))}
         </ul>
       </details>
-      <h3>Public meetings</h3>
+      <h3>{"Public meetings"}</h3>
       {view.meetings.length === 0 && (
-        <p>No session is recorded on this world's calendar.</p>
+        <p>{"No session is recorded on this world's calendar."}</p>
       )}
       {view.isHomeGovernment && view.availableMeetingSeries.length > 0 && (
         <>
           <p>
-            Add an explicitly game-authored public session lasting 90 minutes,
-            starting in one hour (tomorrow if this series already met today).
-            This is not a real published notice or agenda. Closed and executive
-            sessions are excluded.
+            {
+              "Add an explicitly game-authored public session lasting 90 minutes, starting in one hour (tomorrow if this series already met today). This is not a real published notice or agenda. Closed and executive sessions are excluded."
+            }
           </p>
           <label>
-            Public session type
+            {"Public session type"}
             <select
               value={
                 view.availableMeetingSeries.some(
@@ -280,8 +291,8 @@ export function MunicipalWorkspace({
             >
               {view.availableMeetingSeries.map((series) => (
                 <option key={series.seriesKey} value={series.seriesKey}>
-                  {series.bodyName ?? view.government.displayName} ·{" "}
-                  {humanLabel(series.kind)}
+                  {series.bodyName ?? view.government.displayName}
+                  {" ·"} {humanLabel(series.kind)}
                 </option>
               ))}
             </select>
@@ -294,7 +305,10 @@ export function MunicipalWorkspace({
               )
                 ? selectedSeriesKey
                 : view.availableMeetingSeries[0]!.seriesKey;
-              const next = synchronizeMunicipalPublicContext(world, selected);
+              const next = createAuthoredMunicipalPublicSession(
+                world,
+                selected,
+              );
               if (next !== world) {
                 onWorldChange(next);
                 setMessage("Public session added to your calendar.");
@@ -304,7 +318,7 @@ export function MunicipalWorkspace({
                 );
             }}
           >
-            Add public session to this world
+            {"Add public session to this world"}
           </button>
         </>
       )}
@@ -320,16 +334,19 @@ export function MunicipalWorkspace({
             <h4>{meeting.title}</h4>
             <p>{meeting.summary}</p>
             <p>
-              {state!.start.date} ·{" "}
+              {state!.start.date}
+              {" ·"}{" "}
               {String(Math.floor(state!.start.minuteOfDay / 60)).padStart(
                 2,
                 "0",
               )}
-              :{String(state!.start.minuteOfDay % 60).padStart(2, "0")}
+              {":"}
+              {String(state!.start.minuteOfDay % 60).padStart(2, "0")}
             </p>
             <p>
-              Agenda: no published agenda has been attached to this session.
-              Recorded measures appear below.
+              {
+                "Agenda: no published agenda has been attached to this session. Recorded measures appear below."
+              }
             </p>
             <button
               type="button"
@@ -344,7 +361,7 @@ export function MunicipalWorkspace({
                 )
               }
             >
-              Attend public meeting
+              {"Attend public meeting"}
             </button>
             <button
               type="button"
@@ -359,13 +376,16 @@ export function MunicipalWorkspace({
                 )
               }
             >
-              Prepare meeting notes
+              {"Prepare meeting notes"}
             </button>
             {notes && (
               <div>
                 <p>
-                  Meeting notes: {humanLabel(notes.state.status)}. Completed
-                  effort: {notes.state.completedEffortMinutes} minutes.
+                  {"Meeting notes: "}
+                  {humanLabel(notes.state.status)}
+                  {". Completed effort: "}
+                  {notes.state.completedEffortMinutes}
+                  {" minutes."}
                 </p>
                 {notes.state.status === "active" && (
                   <button
@@ -382,10 +402,10 @@ export function MunicipalWorkspace({
                       )
                     }
                   >
-                    Work on meeting notes ·{" "}
+                    {"Work on meeting notes ·"}{" "}
                     {(notes.item.effort?.requiredMinutes ?? 0) -
                       notes.state.completedEffortMinutes}{" "}
-                    minutes
+                    {"minutes"}
                   </button>
                 )}
               </div>
@@ -395,19 +415,22 @@ export function MunicipalWorkspace({
       })}
       {!canWork && (
         <p>
-          Public attendance grants no office powers. Meeting preparation
-          requires a current role in this government.
+          {
+            "Public attendance grants no office powers. Meeting preparation requires a current role in this government."
+          }
         </p>
       )}
-      <h3>Measures and history</h3>
+      <h3>{"Measures and history"}</h3>
       {view.measures.length === 0 ? (
-        <p>No municipal measure has been recorded.</p>
+        <p>{"No municipal measure has been recorded."}</p>
       ) : (
         <ul>
           {view.measures.map((measure) => (
             <li key={measure.id}>
               <strong>
-                {measure.designation}: {measure.shortTitle}
+                {measure.designation}
+                {": "}
+                {measure.shortTitle}
               </strong>
               <p>{measure.summary}</p>
               <ol>
@@ -419,7 +442,7 @@ export function MunicipalWorkspace({
           ))}
         </ul>
       )}
-      <h3>Attendance history</h3>
+      <h3>{"Attendance history"}</h3>
       {world.history.events
         .filter(
           (event) =>
@@ -428,53 +451,63 @@ export function MunicipalWorkspace({
         )
         .map((event) => (
           <p key={event.id}>
-            {event.occurredAt}: {event.summary}
+            {event.occurredAt}
+            {": "}
+            {event.summary}
           </p>
         ))}
-      <h3>Historical finance and employment</h3>
+      <h3>{"Historical finance and employment"}</h3>
       <p>
-        These observations do not establish current cash, staffing, or legal
-        powers.
+        {
+          "These observations do not establish current cash, staffing, or legal powers."
+        }
       </p>
       {view.capacity.finance.length === 0 && (
         <p>
-          No finance observation is available for this exact government ID in
-          the accepted corpus. Missing data is not zero.
+          {
+            "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero."
+          }
         </p>
       )}
       {view.capacity.finance.map((row) => (
         <p key={row.recordId}>
-          {row.itemDescription}:{" "}
-          {row.amount.state === "KNOWN" ? row.amount.value : "Unknown"}{" "}
-          {row.units}; fiscal year ending {row.fiscalYearEnding}.{" "}
+          {row.itemDescription}
+          {":"} {row.amount.state === "KNOWN" ? row.amount.value : "Unknown"}{" "}
+          {row.units}
+          {"; fiscal year ending "}
+          {row.fiscalYearEnding}
+          {"."}{" "}
           {municipalCapacitySourceUrl(row.evidence.artifactId) && (
             <a href={municipalCapacitySourceUrl(row.evidence.artifactId)!}>
-              Publisher observation
+              {"Publisher observation"}
             </a>
           )}
         </p>
       ))}
       {view.capacity.employment.length === 0 && (
         <p>
-          No employment observation is available for this exact government ID in
-          the accepted corpus.
+          {
+            "No employment observation is available for this exact government ID in the accepted corpus."
+          }
         </p>
       )}
       {view.capacity.employment.map((row) => (
         <p key={row.recordId}>
-          {row.functionLabel}:{" "}
+          {row.functionLabel}
+          {":"}{" "}
           {row.fullTimeEmployees.state === "KNOWN"
             ? row.fullTimeEmployees.value
             : "Unknown"}{" "}
-          full-time employees,{" "}
+          {"full-time employees,"}{" "}
           {row.partTimeEmployees.state === "KNOWN"
             ? row.partTimeEmployees.value
             : "Unknown"}{" "}
-          part-time employees; observed {row.referenceDate}. Full-time
-          equivalent: unknown.{" "}
+          {"part-time employees; observed "}
+          {row.referenceDate}
+          {". Full-time equivalent: unknown."}{" "}
           {municipalCapacitySourceUrl(row.evidence.artifactId) && (
             <a href={municipalCapacitySourceUrl(row.evidence.artifactId)!}>
-              Publisher observation
+              {"Publisher observation"}
             </a>
           )}
         </p>

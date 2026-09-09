@@ -552,12 +552,12 @@
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "The tranche is bounded by publication, not by government. Virginia and Nevada publish municipal charters themselves as enacted acts in retrievable first-party HTML; most states do not, and their charters sit on city sites as PDFs or behind commercial code publishers that refuse a non-browser client. The wider national institutional corpus stays a fixture for exactly that reason.",
-      "canonicalSha256": "92e0a61acb28f90a028b3d46bd797e9baae175232947c17b0d951af17b856388",
+      "canonicalSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "92e0a61acb28f90a028b3d46bd797e9baae175232947c17b0d951af17b856388",
+      "corpusFileSha256": "dab27077f2faed5926590576b2bcf81f5b88d3f2a7de34043ef31693932ef062",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,

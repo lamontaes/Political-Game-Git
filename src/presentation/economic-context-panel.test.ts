@@ -49,6 +49,8 @@ describe("EconomicContextView", () => {
     expect(html).toContain("Exact values");
     expect(html).toContain("historical observation");
     expect(html).toContain("forecast");
+    expect(html).toContain("PRELIMINARY");
+    expect(html).toContain("Not established");
     expect(html).toContain("Missing — X: Data unavailable");
     expect(html).toContain("No GDP effect is represented");
     expect(html).toContain("SHA-256");

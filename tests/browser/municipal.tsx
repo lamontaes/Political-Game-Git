@@ -8,7 +8,7 @@ import { serializeWorld, deserializeWorld } from "../../src/simulation";
 import { seatMunicipalMember } from "../../src/simulation/municipal-public-work";
 import {
   municipalWorkspaceFor,
-  synchronizeMunicipalPublicContext,
+  createAuthoredMunicipalPublicSession,
 } from "../../src/presentation/municipal-workspace";
 import "../../src/styles.css";
 const placeKey = new URLSearchParams(location.search).get("place") ?? "5114968";
@@ -26,7 +26,7 @@ function initial() {
     control: { kind: "person" as const, personId: generated.personOrder[0]! },
   };
   if (new URLSearchParams(location.search).get("role") === "member") {
-    world = synchronizeMunicipalPublicContext(world);
+    world = createAuthoredMunicipalPublicSession(world);
     world = seatMunicipalMember(world, {
       governmentKey: municipalWorkspaceFor(world)!.government.key,
       personId: world.control.personId,

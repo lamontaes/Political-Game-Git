@@ -147,6 +147,8 @@ export interface EconomicHistoricalComparison {
   readonly laterObservationKey: string;
   readonly earlierPeriod: string;
   readonly laterPeriod: string;
+  readonly earlierRelease: ReleaseStatus | null;
+  readonly laterRelease: ReleaseStatus | null;
   readonly earlierValue: number;
   readonly laterValue: number;
   readonly absoluteChange: number;
@@ -754,6 +756,8 @@ function historicalComparisons(
       laterObservationKey: later.observationKey,
       earlierPeriod: earlier.period,
       laterPeriod: later.period,
+      earlierRelease: earlier.vintage.release,
+      laterRelease: later.vintage.release,
       earlierValue: earlier.value.value,
       laterValue: later.value.value,
       absoluteChange: later.value.value - earlier.value.value,

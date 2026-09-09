@@ -146,7 +146,7 @@ export function prepareMunicipalMeetingNotes(
  * The session is explicitly authored game history, not a scraped real-world
  * meeting notice. Timing and duration are scenario inputs, not charter rules.
  */
-export function synchronizeMunicipalPublicContext(
+export function createAuthoredMunicipalPublicSession(
   world: World,
   seriesKey?: string,
 ): World {

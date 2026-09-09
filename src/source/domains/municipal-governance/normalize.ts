@@ -67,11 +67,12 @@ function evidenceFor(
   sourceKey: string,
   citation: string,
   path: string,
+  kind: "legal-section" | "document-section",
 ): Evidence {
   return {
     artifactId: sourceKey,
     locator: {
-      kind: "legal-section",
+      kind,
       artifactId: sourceKey,
       citation: citation || sourceKey,
       pageOrSection: path,
@@ -92,6 +93,7 @@ export function readCell<T>(
   path: string,
   corpusAsOf: string,
   defects: ParseDefect[],
+  kind: "legal-section" | "document-section" = "document-section",
 ): Sourced<T> {
   const cite = (): Evidence => {
     if (!cell.sourceKey || !keys.has(cell.sourceKey)) {
@@ -104,9 +106,9 @@ export function readCell<T>(
       });
       // A synthetic evidence keeps the algebra's invariant while the defect
       // fails the compile; it never reaches a tracked artifact.
-      return evidenceFor(cell.sourceKey ?? "__unsourced__", "", path);
+      return evidenceFor(cell.sourceKey ?? "__unsourced__", "", path, kind);
     }
-    return evidenceFor(cell.sourceKey, cell.legalLocator ?? "", path);
+    return evidenceFor(cell.sourceKey, cell.legalLocator ?? "", path, kind);
   };
 
   switch (cell.status) {
@@ -167,7 +169,7 @@ export function readCell<T>(
     default: {
       const investigated = (cell.investigatedSourceKeys ?? [])
         .filter((key) => keys.has(key))
-        .map((key) => evidenceFor(key, "", path));
+        .map((key) => evidenceFor(key, "", path, kind));
       return unknown<T>(
         cell.reason || `${path}: nobody has established this here.`,
         investigated,
@@ -194,6 +196,7 @@ function normalizePack(
   pack: MunicipalPackInput,
   corpusAsOf: string,
   defects: ParseDefect[],
+  kind: "legal-section" | "document-section",
 ): MunicipalGovernanceRecord {
   const keys = sourceKeySet(pack);
   const cell = <T>(c: Cell, path: string): Sourced<T> =>
@@ -203,6 +206,7 @@ function normalizePack(
       `${pack.sourceGovernmentKey}/${path}`,
       corpusAsOf,
       defects,
+      kind,
     );
   /**
    * A cell a pack may legitimately not carry at all.
@@ -545,9 +549,12 @@ function normalizePack(
 export function normalizeMunicipalPacks(
   packs: readonly MunicipalPackInput[],
   corpusAsOf: string,
+  kind: "legal-section" | "document-section" = "document-section",
 ): MunicipalNormalizeResult {
   const defects: ParseDefect[] = [];
-  const records = packs.map((pack) => normalizePack(pack, corpusAsOf, defects));
+  const records = packs.map((pack) =>
+    normalizePack(pack, corpusAsOf, defects, kind),
+  );
 
   records.sort((left, right) =>
     left.recordId < right.recordId

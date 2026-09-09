@@ -240,6 +240,7 @@ export function compileMunicipalProduction(
   const { records, defects: normalizeDefects } = normalizeMunicipalPacks(
     packs,
     corpusAsOf,
+    "legal-section",
   );
   if (normalizeDefects.length > 0) {
     throw new Error(

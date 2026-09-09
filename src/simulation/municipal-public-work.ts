@@ -762,11 +762,10 @@ export function scheduleMunicipalMeeting(
       input.seriesKey,
       input.start.date,
     ),
-    title: `${series.bodyName ?? reading.displayName}: ${humanSeries(series.kind)}`,
+    title: `Game-authored session: ${series.bodyName ?? reading.displayName}: ${humanSeries(series.kind)}`,
     summary:
-      (input.occurrenceNote
-        ? `${input.occurrenceNote} `
-        : "Game-authored occurrence; no real meeting notice is asserted. ") +
+      "Game-authored occurrence; no real meeting notice or published agenda is asserted. " +
+      (input.occurrenceNote ? `${input.occurrenceNote} ` : "") +
       (venue
         ? `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}, at ${venue}.${!series.venue && reportedVenue ? " Venue is from the separately attributed research report." : ""}`
         : `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}. Nothing read names where it sits, so no room is asserted.`) +
