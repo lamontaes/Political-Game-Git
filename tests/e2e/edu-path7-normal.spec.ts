@@ -76,6 +76,39 @@ test("normal dated education offer, attendance, interruption and repeated saving
       .getByTestId("venue-activity-completed"),
   ).toBeVisible();
   await openElsewhere(page, "work");
+  const paths = page.getByRole("region", {
+    name: "Education and work",
+    exact: true,
+  });
+  await paths
+    .getByRole("button", { name: "Accept Shop assistant", exact: true })
+    .click();
+  const job = page
+    .locator("article")
+    .filter({
+      has: page.getByRole("heading", { name: "Shop assistant", exact: true }),
+    })
+    .filter({
+      has: page.getByRole("button", {
+        name: "Schedule next session",
+        exact: true,
+      }),
+    });
+  await job
+    .getByRole("button", { name: "Schedule next session", exact: true })
+    .click();
+  await job
+    .getByRole("button", { name: "Attend Shop assistant", exact: true })
+    .click();
+  await expect(paths.locator(":scope > [role=status]")).toContainText(
+    "complete",
+  );
+  await paths
+    .getByRole("button", { name: "Continue one day", exact: true })
+    .click();
+  await expect(paths.locator(":scope > [role=status]")).toContainText(
+    "One day passed.",
+  );
   await study
     .getByRole("button", { name: "Schedule next session", exact: true })
     .click();
