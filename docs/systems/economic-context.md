@@ -60,6 +60,14 @@ is explicitly unavailable for a canonical observation; a same-jurisdiction
 statistic is also unavailable while the current locks do not evidence a
 publication date.
 
+Every historical comparison carries `earlierRelease` and `laterRelease`
+directly from its two observation vintages. The fields are nullable: an
+unestablished release classification remains null rather than becoming
+`FINAL`. The comparison grouping and subtraction are unchanged. Observation
+graphs likewise expose each point's nullable release classification in their
+exact-value table, so a preliminary endpoint cannot be presented as an
+unqualified historical comparison.
+
 NEWS candidates have status `not-published`. A separate authorized publication
 action would still be required. The adapter also encodes these interpretation
 boundaries:

@@ -33,14 +33,16 @@ Carrier: PR #148, branch `codex/econ-context2`
 
 ## Current status
 
-- The independently reproducible E-1 symptom—undated normal context exposing a
-  2026-retrieved artifact in a 2024 simulation—is covered and repaired. The full
-  finding text is still unavailable, so the delivery must not claim every
-  clause of E-1 is closed until that exact ledger is recovered.
+- The authoritative full ledger was recovered at Drive document
+  `1GTRZOYjt9W8s7AdsxI0pRqiZ8w1fLz9TVlJjOxgsxWc`. E-1 is only the unmarked
+  mixed-vintage comparison endpoint defect. The source comparison now carries
+  nullable `earlierRelease` and `laterRelease` from the two observation
+  vintages; the generated Lexington comparison proves the LAUS endpoints are
+  `FINAL` and `PRELIMINARY`.
 - The dated source repair was published separately at `c2eda37`.
 - The all-corpus browser provider, typed graphs, LEG adapter, explicit FISCAL/GDP
   unavailability, accessible feature-local panel, and deterministic replay proof
-  are implemented locally pending a frozen extension checkpoint.
+  are published on the draft carrier PR with the exact E-1 repair.
 - UI-core published the normal-player mount and combined prose regeneration at
   `b4910c09ff33f9098592df0f44e0a375cd98e973` on PR #144, then consumed the final
   HUD date-field separation at `2fe0b0908085f87dddef3cbcf7352e3c06e31d87`.
@@ -48,11 +50,16 @@ Carrier: PR #148, branch `codex/econ-context2`
   tests covering Begin → Personal, exact saved home-place/date binding,
   pointer/keyboard disclosures, non-Lexington absence, and save/reload read
   purity.
-- The original reviewer rechecked the owner-supplied Drive return and targeted
-  Drive/uploads, but the complete Claude ledger remains unavailable. Exact E-1
-  recovery is externally blocked; no reconstructed finding is used.
+- The original committed-artifact control is retained: before repair, none of
+  the three generated comparisons had endpoint release fields. After repair,
+  both BEA comparisons are `FINAL` → `FINAL`, and the LAUS comparison is
+  `FINAL` → `PRELIMINARY`. A synthetic two-vintage HUD control proves null
+  remains null on both endpoints.
 - The coordinated serial suite passed 182 files / 3,233 tests with 2 skipped.
   Five localhost dev-wrapper timeouts from the original sandbox run passed 5/5
   unchanged with port permission. UI-core explicitly authorized isolated
   feature-branch prose regeneration; the four stale corpus/anchor results then
   passed, and corpus check reports byte-identical generated artifacts.
+- The exact E-1 change additionally passed 57 focused tests, typecheck, lint,
+  deterministic source replay, prose regeneration, formatting and production
+  build. The carrier remains draft, open and unmerged.

@@ -15,6 +15,7 @@ export interface EconomicGraphPoint {
   readonly period: string;
   readonly value: number | null;
   readonly missingReason: string | null;
+  readonly releaseStatus: string | null;
   readonly recordClass: EconomicGraphRecordClass;
 }
 
@@ -165,6 +166,7 @@ function addObservationGraph(
           value: item.value.state === "known" ? item.value.value : null,
           missingReason:
             item.value.state === "missing" ? item.value.reason : null,
+          releaseStatus: item.vintage.releaseStatus,
           recordClass: "historical-observation",
         })),
     })),
@@ -236,6 +238,7 @@ export function fiscalRecordGraph(
           period: record.period,
           value: record.value,
           missingReason: record.missingReason,
+          releaseStatus: null,
           recordClass: record.recordClass,
         })),
     })),
@@ -289,6 +292,7 @@ export function legislativeEstimateComparisonGraph(
             period,
             value: 0,
             missingReason: null,
+            releaseStatus: null,
             recordClass: "forecast",
           },
         ],
@@ -303,6 +307,7 @@ export function legislativeEstimateComparisonGraph(
             period,
             value: estimate.addedOutlaysMinorUnits,
             missingReason: null,
+            releaseStatus: null,
             recordClass: "forecast",
           },
         ],

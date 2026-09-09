@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 1914,
     "INTENTIONALLY_NON_PLAYER_FACING": 4755,
-    "DIAGNOSTIC_OR_TEST": 3677,
-    "NEEDS_CLASSIFICATION": 3324
+    "DIAGNOSTIC_OR_TEST": 3678,
+    "NEEDS_CLASSIFICATION": 3325
   },
   "needsClassification": [
     {
@@ -2177,7 +2177,15 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "EconomicGraph",
-      "line": 288,
+      "line": 287,
+      "text": "Not established",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/EconomicContextPanel.tsx",
+      "enclosingSymbol": "EconomicGraph",
+      "line": 290,
       "text": "Missing — {point.missingReason??\"Novaluesupplied\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2185,7 +2193,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "dollars",
-      "line": 350,
+      "line": 352,
       "text": "USD minor units",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2193,7 +2201,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "formatGraphValue",
-      "line": 357,
+      "line": 359,
       "text": "{newIntl.NumberFormat(\"en-US\",{maximumFractionDigits:2}).format(value)} {unit}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2201,7 +2209,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "productLabel",
-      "line": 363,
+      "line": 365,
       "text": "BEA regional",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2209,7 +2217,7 @@
     {
       "sourcePath": "src/player/EconomicContextPanel.tsx",
       "enclosingSymbol": "productLabel",
-      "line": 365,
+      "line": 367,
       "text": "HUD housing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4393,7 +4401,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 66,
+      "line": 67,
       "text": "Per-capita personal income",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4401,7 +4409,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 67,
+      "line": 68,
       "text": "Published annual area observations. These values are not personal cash.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4409,7 +4417,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 76,
+      "line": 77,
       "text": "Unemployment rate",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4417,7 +4425,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 77,
+      "line": 78,
       "text": "Published area estimates. The rate is not a person's job-loss probability.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4425,7 +4433,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 85,
+      "line": 86,
       "text": "Regional price parity",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4433,7 +4441,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 86,
+      "line": 87,
       "text": "Published index observations; the national price level equals 100.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4441,7 +4449,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 93,
+      "line": 94,
       "text": "Two-bedroom Fair Market Rent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4449,7 +4457,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "economicObservationGraphs",
-      "line": 94,
+      "line": 95,
       "text": "A published housing benchmark, not a rent offer or signed lease.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4457,7 +4465,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "addObservationGraph",
-      "line": 153,
+      "line": 154,
       "text": "Available to the simulation on {first.vintage.knownAvailableOn}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4465,7 +4473,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "addObservationGraph",
-      "line": 172,
+      "line": 174,
       "text": "Historical observation",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4473,7 +4481,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "addObservationGraph",
-      "line": 173,
+      "line": 175,
       "text": "Missing observations remain gaps; no interpolation is performed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4481,7 +4489,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "addObservationGraph",
-      "line": 174,
+      "line": 176,
       "text": "This graph does not project a future value or policy effect.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4489,7 +4497,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 219,
+      "line": 221,
       "text": "Supplied fiscal records retain their own lifecycle class; no observation is promoted to a forecast or outturn.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4497,7 +4505,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 225,
+      "line": 227,
       "text": "supplied fiscal scope",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4505,7 +4513,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 227,
+      "line": 229,
       "text": "Periods supplied by the owning fiscal system",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4513,7 +4521,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 243,
+      "line": 246,
       "text": "Drafts, forecasts, simulated history, and outturn remain distinct.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4521,7 +4529,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 244,
+      "line": 247,
       "text": "Missing values remain gaps.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4529,7 +4537,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "fiscalRecordGraph",
-      "line": 245,
+      "line": 248,
       "text": "No GDP response or policy elasticity is inferred.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4537,7 +4545,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 275,
+      "line": 278,
       "text": "Proposal incremental outlay estimate",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4545,7 +4553,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 284,
+      "line": 287,
       "text": "Baseline incremental outlay",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4553,7 +4561,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 298,
+      "line": 302,
       "text": "Proposal incremental outlay",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4561,7 +4569,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 312,
+      "line": 317,
       "text": "Conditional forecast under the estimate's stated assumptions.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4569,7 +4577,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 313,
+      "line": 318,
       "text": "Zero is the proposal-specific incremental baseline, not a zero budget.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4577,7 +4585,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 314,
+      "line": 319,
       "text": "This is not an appropriation, enactment, observed budget, or outturn.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4585,7 +4593,7 @@
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
       "enclosingSymbol": "legislativeEstimateComparisonGraph",
-      "line": 315,
+      "line": 320,
       "text": "No GDP effect is represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28776,7 +28784,7 @@
       "sourcePath": "src/presentation/economic-context-panel.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 7
+      "count": 8
     },
     {
       "sourcePath": "src/presentation/economic-context-browser.ts",

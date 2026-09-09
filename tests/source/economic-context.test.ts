@@ -153,21 +153,61 @@ describe("ECON-CONTEXT2 — exact, dated economic context", () => {
   it("compares historical observations without projecting a future", () => {
     const model = LEXINGTON_MODEL;
     expect(
-      model.comparisons.some(
+      model.comparisons.find(
         (item) => item.earlierPeriod === "2019" && item.laterPeriod === "2024",
       ),
-    ).toBe(true);
+    ).toMatchObject({ earlierRelease: "FINAL", laterRelease: "FINAL" });
     expect(
-      model.comparisons.some(
+      model.comparisons.find(
         (item) =>
           item.comparisonKind === "same-period-prior-year" &&
           item.earlierPeriod === "2025-M07" &&
           item.laterPeriod === "2026-M07",
       ),
-    ).toBe(true);
+    ).toMatchObject({
+      earlierRelease: "FINAL",
+      laterRelease: "PRELIMINARY",
+    });
     expect(model.boundaries).toContain(
       "An observation is not a forecast or evidence of a policy effect.",
     );
+  });
+
+  it("preserves unavailable release classification on both comparison endpoints", () => {
+    const latest = SOURCE_CORPORA.hud.records.find(
+      (record) =>
+        record.recordKind === "fair-market-rent" &&
+        record.area.hudFipsCode === "2106799999",
+    );
+    if (!latest) throw new Error("Lexington HUD FMR fixture is missing.");
+    const withPriorHudVintage: EconomicContextCorpora = {
+      ...SOURCE_CORPORA,
+      hud: {
+        ...SOURCE_CORPORA.hud,
+        records: [
+          ...SOURCE_CORPORA.hud.records,
+          {
+            ...latest,
+            recordId: `${latest.recordId}:prior-null-release-control`,
+            productVintage: "FY2024",
+          },
+        ],
+      },
+    };
+    const comparison = buildEconomicContextReadModel(
+      withPriorHudVintage,
+      LEXINGTON_BINDING,
+    ).comparisons.find(
+      (item) =>
+        item.sourceSeriesKey === "hud.fmr.2-bedroom" &&
+        item.earlierPeriod === "FY2024" &&
+        item.laterPeriod === "FY2025",
+    );
+
+    expect(comparison).toMatchObject({
+      earlierRelease: null,
+      laterRelease: null,
+    });
   });
 
   it("reports exact-code misses as unavailable and never falls back to a name", () => {

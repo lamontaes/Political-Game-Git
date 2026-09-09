@@ -75,6 +75,11 @@ describe("economic and fiscal graph read models", () => {
       missingReason: expect.stringMatching(/appropriations/i),
       recordClass: "historical-observation",
     });
+    expect(
+      unemployment?.series[0]?.points.find(
+        (point) => point.period === "2026-M07",
+      ),
+    ).toMatchObject({ releaseStatus: "PRELIMINARY" });
     expect(collection.unavailable).toContainEqual({
       graphKind: "gdp",
       reason: expect.stringMatching(/none is a GDP series/i),

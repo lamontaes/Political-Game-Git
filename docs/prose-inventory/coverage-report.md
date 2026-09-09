@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 1914 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4755 |
-| DIAGNOSTIC_OR_TEST | 3677 |
-| **NEEDS_CLASSIFICATION** | **3324** |
+| DIAGNOSTIC_OR_TEST | 3678 |
+| **NEEDS_CLASSIFICATION** | **3325** |
 
-Scanned 349 files holding 52338 string
+Scanned 349 files holding 52344 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -98,8 +98,8 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
+| 15 | `src/player/EconomicContextPanel.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
-| 14 | `src/player/EconomicContextPanel.tsx` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/ordinary-life.ts` |

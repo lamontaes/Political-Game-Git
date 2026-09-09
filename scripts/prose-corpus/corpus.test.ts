@@ -548,10 +548,11 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // This pins the reported numbers to what the scanner actually returns.
     // Re-measured by corpus:prose after ECON-GRAPHS4 added its browser
     // provider, graph read models, player panel and focused tests. The seven
-    // newly scanned feature files account for the file-count change;
+    // newly scanned feature files account for the file-count change. The
+    // exact E-1 release-status table adds six literals without adding a file;
     // source-adapter text and generated public shards stay outside this scan.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52338);
+    expect(coverage.totalLiterals).toBe(52344);
     expect(coverage.counts.INVENTORIED).toBe(1914);
     expect(coverage.scannedFiles).toBe(349);
   });

@@ -907,3 +907,21 @@ coordination boundaries.
 LEARN: source availability is a property that must travel with every browser
 record. A static asset being deployable does not make its observations known to
 an earlier simulated date.
+
+## ECON E-1 Exact Mixed-Vintage Repair — 2026-09-09
+
+Authority: ACCEPT-WAVE3 full ledger section 8, Drive document
+`1GTRZOYjt9W8s7AdsxI0pRqiZ8w1fLz9TVlJjOxgsxWc`. E-1 is only the absence of
+release classification on historical-comparison endpoints.
+
+| Concern                    | Disposition           | Evidence and rationale                                                                                                                                                                          |
+| -------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exact defect               | Corrected             | `EconomicHistoricalComparison` now carries nullable `earlierRelease` and `laterRelease`, copied directly from each endpoint's observation vintage.                                              |
+| Frozen comparison behavior | Preserved             | Series identity, endpoint selection, periods, values, absolute subtraction, comparison kind, geography and interpretation boundary are unchanged.                                               |
+| Committed artifact         | Corrected             | The two BEA comparisons declare `FINAL` → `FINAL`; the LAUS 2025-M07 → 2026-M07 comparison declares `FINAL` → `PRELIMINARY`.                                                                    |
+| Unknown release            | Confirmed fail-closed | A synthetic two-vintage HUD control proves null release classifications remain null at both endpoints.                                                                                          |
+| Graph presentation         | Corrected             | Historical graph points expose nullable release status and the exact-value table renders null as “Not established”; non-observation record classes carry null rather than a fabricated release. |
+| Existing boundaries        | Preserved             | No grouping, arithmetic, date cutoff, World write, NEWS publication, forecast, GDP response or policy effect changed.                                                                           |
+
+LEARN: comparison provenance must be endpoint-specific. Retaining vintage on
+the source observations is insufficient if a derived comparison drops it.

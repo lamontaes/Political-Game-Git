@@ -40,6 +40,7 @@
       "comparisonKind": "available-window",
       "earlierObservationKey": "bea:CAINC1:21067:3:2019",
       "earlierPeriod": "2019",
+      "earlierRelease": "FINAL",
       "earlierValue": 52005,
       "geography": {
         "level": "county",
@@ -50,6 +51,7 @@
       "interpretationBoundary": "historical-comparison-not-forecast",
       "laterObservationKey": "bea:CAINC1:21067:3:2024",
       "laterPeriod": "2024",
+      "laterRelease": "FINAL",
       "laterValue": 69065,
       "sourceSeriesKey": "bea.cainc1.3",
       "unit": "Dollars"
@@ -59,6 +61,7 @@
       "comparisonKind": "available-window",
       "earlierObservationKey": "bea:MARPP:30460:1:2019",
       "earlierPeriod": "2019",
+      "earlierRelease": "FINAL",
       "earlierValue": 92.504,
       "geography": {
         "level": "msa",
@@ -69,6 +72,7 @@
       "interpretationBoundary": "historical-comparison-not-forecast",
       "laterObservationKey": "bea:MARPP:30460:1:2024",
       "laterPeriod": "2024",
+      "laterRelease": "FINAL",
       "laterValue": 92.889,
       "sourceSeriesKey": "bea.marpp.1",
       "unit": "Index"
@@ -78,6 +82,7 @@
       "comparisonKind": "same-period-prior-year",
       "earlierObservationKey": "laus:LASST210000000000003:2025:M07",
       "earlierPeriod": "2025-M07",
+      "earlierRelease": "FINAL",
       "earlierValue": 4.6,
       "geography": {
         "level": "Statewide",
@@ -88,6 +93,7 @@
       "interpretationBoundary": "historical-comparison-not-forecast",
       "laterObservationKey": "laus:LASST210000000000003:2026:M07",
       "laterPeriod": "2026-M07",
+      "laterRelease": "PRELIMINARY",
       "laterValue": 4.7,
       "sourceSeriesKey": "bls.laus.lasst210000000000003",
       "unit": "Percent"

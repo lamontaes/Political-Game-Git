@@ -273,6 +273,7 @@ export function EconomicGraph({
               <th scope="col">Series</th>
               <th scope="col">Period</th>
               <th scope="col">Class</th>
+              <th scope="col">Release</th>
               <th scope="col">Value</th>
             </tr>
           </thead>
@@ -283,6 +284,7 @@ export function EconomicGraph({
                   <th scope="row">{series.label}</th>
                   <td>{point.period}</td>
                   <td>{recordClassLabel(point.recordClass)}</td>
+                  <td>{point.releaseStatus ?? "Not established"}</td>
                   <td>
                     {point.value === null
                       ? `Missing — ${point.missingReason ?? "No value supplied"}`
