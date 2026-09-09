@@ -378,3 +378,12 @@ regeneration, not to a transform.
   no family may carry a warp profile at all: a warp is not renderable.
 - The bank's bounds are finite, signed, inside the envelope, coherent and
   closed; the transform schema is closed; every transform satisfies the bounds.
+
+## Sleeves
+
+Not answered by this contract. The fit fixtures are armless, so a row's
+painted span is the torso span, and a sleeve fit needs a body whose arms were
+measured. That measurement now exists —
+[Arm and Sleeve Measurement](./arm-and-sleeve-measurement.md) — and it
+reports the upper arm fused on every body in the repository, so no sleeve
+transform is derived from it yet.
