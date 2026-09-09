@@ -45,7 +45,7 @@ export interface SceneVenue {
 }
 
 /**
- * Every canonical location key this game currently writes, and its room.
+ * Explicitly supported canonical location bindings and their room.
  *
  * Keys come from the systems that schedule: `ordinary-life.ts`,
  * `campaign-projection.ts`, `run-d-lite.ts` and the executive and judicial
