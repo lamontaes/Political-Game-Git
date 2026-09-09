@@ -82,7 +82,10 @@ it("two isolated checkouts identify distinct sources, reject mismatches and clea
       roots.push(root);
       symlinkSync(resolve("node_modules"), join(root, "node_modules"));
       writeFileSync(join(root, ".gitignore"), "node_modules/\n.cache/\n");
-      writeFileSync(join(root, "package.json"), '{"type":"module"}');
+      writeFileSync(
+        join(root, "package.json"),
+        '{"type":"module","version":"0.2.0"}',
+      );
       writeFileSync(join(root, "index.html"), `<h1>${label} checkout</h1>`);
       for (const file of ["identity.ts", "vite-identity.ts"])
         copyFileSync(resolve("scripts/dev-lab", file), join(root, file));

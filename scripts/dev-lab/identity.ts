@@ -22,7 +22,14 @@ export function sourceIdentity(root = process.cwd()) {
       .filter(Boolean);
   const files = [
     ...paths("diff", "HEAD", "--name-only", "-z"),
-    ...paths("ls-files", "--others", "--exclude-standard", "-z"),
+    ...paths(
+      "ls-files",
+      "--others",
+      "--exclude-standard",
+      "--exclude=node_modules",
+      "--exclude=node_modules/**",
+      "-z",
+    ),
   ].sort();
   for (const file of new Set(files)) {
     hash.update(file).update("\0");

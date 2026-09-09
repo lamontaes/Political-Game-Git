@@ -11,9 +11,13 @@ Open `/review.html?seed=owner-review` on the printed origin. The banner remains
 visible while scrolling. Exact identity includes absolute checkout, branch,
 HEAD, dirty state and source digest. The digest combines Git's committed tree
 with actual changed/untracked bytes, independent of staging. The identity
-endpoint refuses a changed source tree until the server restarts. The static
-build carries the same identity in `build-identity.json`; a release version is
-not substituted for source identity. A dev server is not a production release.
+endpoint refuses a changed source tree until the server restarts. This private
+identity exists only when the identified launcher explicitly enables
+`PG_LOCAL_REVIEW=1` on a loopback development server. Ordinary Vite and static
+builds expose only package version and Git revision; no private identity JSON
+is emitted. Setting the local flag during a production build cannot enable it.
+Run `node --import tsx scripts/dev-lab/scan-public-build.ts dist/client` after
+building to scan all distributable bytes, including public assets and maps.
 
 ## Review worlds
 

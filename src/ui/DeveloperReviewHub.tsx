@@ -75,6 +75,9 @@ const LegislationDevRoute = lazy(() =>
     default: module.LegislationDevRoute,
   })),
 );
+declare const __RELEASE_VERSION__: string;
+declare const __BUILD_REVISION__: string;
+declare const __BUILD_REVISION_SHORT__: string;
 declare const __PG_BUILD_IDENTITY__: {
   head: string;
   workspace: string;
@@ -196,7 +199,13 @@ export function DeveloperReviewHub() {
     ? resolveActiveMemberSeat(session.world, selected)
     : null;
   const identity =
-    typeof __PG_BUILD_IDENTITY__ === "undefined" ? null : __PG_BUILD_IDENTITY__;
+    typeof __PG_BUILD_IDENTITY__ === "undefined"
+      ? {
+          version: __RELEASE_VERSION__,
+          revision: __BUILD_REVISION__,
+          revisionShort: __BUILD_REVISION_SHORT__,
+        }
+      : __PG_BUILD_IDENTITY__;
   return (
     <div
       className="review-hub"
@@ -238,8 +247,9 @@ export function DeveloperReviewHub() {
             {JSON.stringify(identity, null, 2)}
           </pre>
           <p>
-            Identity is captured at server startup. Restart after source changes
-            before collecting evidence.
+            Public identity reports the package version and source revision.
+            Local review provenance is captured at server startup; restart after
+            source changes before collecting evidence.
           </p>
         </details>
         <dl className="review-identity">

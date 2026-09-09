@@ -1,4 +1,10 @@
-import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import {
+  mkdtempSync,
+  writeFileSync,
+  rmSync,
+  symlinkSync,
+  mkdirSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
@@ -18,8 +24,18 @@ describe("Shared-machine harness", () => {
       writeFileSync(join(root, "source.txt"), "one");
       git("add", ".");
       git("commit", "-m", "fixture");
+      const dependency = join(root, "dependency-fixture");
+      mkdirSync(dependency);
+      writeFileSync(
+        join(root, ".gitignore"),
+        "dependency-fixture/\nnode_modules/\n",
+      );
+      git("add", ".gitignore");
+      git("commit", "-m", "ignore fixture dependencies");
       const first = sourceIdentity(root);
       expect(first.dirty).toBe(false);
+      symlinkSync(dependency, join(root, "node_modules"));
+      expect(sourceIdentity(root).sourceDigest).toBe(first.sourceDigest);
       writeFileSync(join(root, "source.txt"), "two");
       const dirty = sourceIdentity(root);
       expect(() => assertIdentity(first, dirty)).toThrow("sourceDigest");
