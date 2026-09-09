@@ -81,7 +81,7 @@ export function recipeFromSnapshot(
     JSON.stringify(snapshot.appearance) !== JSON.stringify(appearance)
   ) {
     throw new Error(
-      "Person render snapshot does not match the requested person, appearance or library.",
+      "Person render snapshot does not match the requested person, appearance, library or wardrobe.",
     );
   }
   return snapshot.recipeForPose(poseFamily);
