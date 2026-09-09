@@ -148,3 +148,13 @@ Changed-file lint and typecheck pass. Pointer/keyboard, save/reload and complete
 normal press journey remain unverified on this composition; requested a real
 normal-world reporter/adviser entry recipe from NEWS rather than injecting
 roles or knowledge. LAND currently owns the heavy/browser slot.
+
+NEWS owner confirmed the remaining normal-entry prerequisite after source read:
+untouched production has no journalism career/provider, actual office colleague,
+public publication and reporter basis knowledge sufficient for this path.
+Eligibility must remain empty rather than manufacture those records. UI will
+prove the no-eligible/read-purity state; full normal press success requires
+canonical career/social progression establishing the prerequisites. Existing
+CAREER-PATH7 owner received this bounded dependency; no extra scope or stock
+reporter authorized. Domain fixture success is not normal-entry acceptance.
+Final NEWS consumer typecheck completed successfully; browser gates remain pending.
