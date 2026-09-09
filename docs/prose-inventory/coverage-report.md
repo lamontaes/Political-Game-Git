@@ -9,14 +9,15 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2105 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5054 |
-| DIAGNOSTIC_OR_TEST | 3803 |
+| DIAGNOSTIC_OR_TEST | 3809 |
 | **NEEDS_CLASSIFICATION** | **3510** |
 
-Scanned 367 files holding 54968 string
+Scanned 369 files holding 54988 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
 
+- `src/simulation/municipal-rule-registry.generated.ts` — Generated admission projection of the municipal source inventory. Authored rule adapter prose remains inventoried at its original source, not duplicated in the transport.
 - `src/simulation/municipal-governments.generated.ts` — Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.
 - `src/source` — The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.

@@ -24,3 +24,4 @@ scripts/prose-corpus/computed-anchor-ledger.json
 # Generated municipal projections; regenerate through their source exporters.
 src/simulation/municipal-governments.generated.ts
 src/simulation/municipal-capacity.generated.json
+src/simulation/municipal-rule-registry.generated.ts
