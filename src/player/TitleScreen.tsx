@@ -217,6 +217,7 @@ export function TitleScreen({
   onContinue,
   onOpenSaves,
   onOpenOptions,
+  onOpenPatchNotes,
 }: {
   readonly saves: readonly BrowserWorldSummary[];
   readonly savesUnavailable: boolean;
@@ -225,6 +226,7 @@ export function TitleScreen({
   readonly onContinue: () => void;
   readonly onOpenSaves: () => void;
   readonly onOpenOptions: () => void;
+  readonly onOpenPatchNotes?: () => void;
 }) {
   const recent = saves[0];
 
@@ -274,6 +276,15 @@ export function TitleScreen({
         >
           Options
         </button>
+        {onOpenPatchNotes ? (
+          <button
+            type="button"
+            onClick={onOpenPatchNotes}
+            data-testid="title-patch-notes"
+          >
+            Patch notes
+          </button>
+        ) : null}
         <button type="button" data-testid="quit" disabled>
           Quit
           <small>Not available in this build.</small>

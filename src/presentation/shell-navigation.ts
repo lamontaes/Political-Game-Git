@@ -41,6 +41,7 @@ export type ShellSurface =
   | "personal"
   | "work"
   | "news"
+  | "municipal"
   | "journal"
   | "patch-notes"
   | "options";
@@ -76,6 +77,21 @@ export const DEFAULT_PREFERENCES: ShellPreferences = {
   defaultPinSize: "normal",
 };
 
+/** Private player writing, never simulation facts or NPC knowledge. */
+export interface JournalNote {
+  readonly id: string;
+  readonly title: string;
+  readonly body: string;
+  readonly group: string;
+  readonly personId: EntityId | null;
+  readonly eventKey: string | null;
+}
+export interface PrivateJournal {
+  readonly ambition: string;
+  readonly notes: readonly JournalNote[];
+}
+export const EMPTY_JOURNAL: PrivateJournal = { ambition: "", notes: [] };
+
 export interface ShellState {
   /** Last element is the current view. The base is always the scene. */
   readonly history: readonly ShellView[];
@@ -89,6 +105,7 @@ export interface ShellState {
   readonly peopleCategory: string;
   readonly peopleQuery: string;
   readonly preferences: ShellPreferences;
+  readonly journal: PrivateJournal;
   /** Announced to assistive technology after a navigation action. */
   readonly announcement: string;
 }
@@ -104,9 +121,11 @@ export const INITIAL_SHELL_STATE: ShellState = {
   peopleQuery: "",
   preferences: DEFAULT_PREFERENCES,
   announcement: "",
+  journal: EMPTY_JOURNAL,
 };
 
 export type ShellAction =
+  | { readonly type: "set-journal"; readonly journal: PrivateJournal }
   | { readonly type: "toggle-navigation" }
   | { readonly type: "open-nav-submenu"; readonly submenu: "personal" }
   | { readonly type: "open-nav-primary" }
@@ -144,6 +163,7 @@ export type ShellAction =
   /** Restores pins and preferences read back from storage. */
   | {
       readonly type: "restore";
+      readonly journal?: PrivateJournal;
       readonly pins: readonly ShellPin[];
       readonly preferences: ShellPreferences;
     }
@@ -386,8 +406,15 @@ export function shellReducer(
         preferences: { ...state.preferences, defaultPinSize: action.size },
       };
 
+    case "set-journal":
+      return { ...state, journal: action.journal };
     case "restore":
-      return { ...state, pins: action.pins, preferences: action.preferences };
+      return {
+        ...state,
+        pins: action.pins,
+        preferences: action.preferences,
+        journal: action.journal ?? EMPTY_JOURNAL,
+      };
 
     /*
      * A pin points at a canonical entity. Loading a world that never had that

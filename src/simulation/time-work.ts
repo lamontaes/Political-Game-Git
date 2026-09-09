@@ -11,7 +11,6 @@ import {
   simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
-import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -1524,9 +1523,6 @@ function canonicalSourceAvailable(
   const event = world.history.events.find((record) => record.id === id);
   if (event)
     return event.sequence < sequenceExclusive && event.occurredAt <= at.date;
-  if (lifeEntityExists(world, id)) {
-    return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
-  }
   if (policySemanticsEntityExists(world, id)) {
     return policySemanticsEntityAvailableAt(
       world,

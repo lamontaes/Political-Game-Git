@@ -1,3 +1,8 @@
+import { createOpeningLifeController } from "../presentation/opening-life";
+import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
+import { MunicipalWorkspace } from "./MunicipalWorkspace";
+import { municipalVenueForActivity } from "../presentation/municipal-venue";
+import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
@@ -42,7 +47,6 @@ import {
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
   MAXIMUM_START_AGE,
   MINIMUM_START_AGE,
-  createNewGameWorld,
   newGameSetupProblems,
   type NewGameSetup,
 } from "../presentation/new-game";
@@ -161,9 +165,14 @@ type Screen =
    * a different questionnaire.
    */
   | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
+  | { readonly kind: "patch-notes" }
   | { readonly kind: "saves" }
   | { readonly kind: "options" }
-  | { readonly kind: "transition"; readonly setup: NewGameSetup }
+  | {
+      readonly kind: "transition";
+      readonly setup: NewGameSetup;
+      readonly controller: ReturnType<typeof createOpeningLifeController>;
+    }
   | { readonly kind: "playing" };
 
 interface Session {
@@ -227,7 +236,8 @@ export function PlayerGame() {
     if (replaySetup === null || replayStarted.current) return;
     replayStarted.current = true;
     try {
-      const game = createNewGameWorld(replaySetup);
+      const game =
+        createOpeningLifeController(replaySetup).finishTransition().game!;
       startPlaying(game.world, game.playerPersonId, replaySetup.seed, null);
     } catch (error) {
       setProblem(
@@ -457,7 +467,26 @@ export function PlayerGame() {
             onContinue={() => void continueMostRecent()}
             onOpenSaves={() => setScreen({ kind: "saves" })}
             onOpenOptions={() => setScreen({ kind: "options" })}
+            onOpenPatchNotes={() => setScreen({ kind: "patch-notes" })}
           />
+        )}
+      </AmbientTableau>
+    );
+  }
+
+  if (screen.kind === "patch-notes") {
+    return (
+      <AmbientTableau resolved={resolvedTitlePresentation(saves)}>
+        {() => (
+          <WorkspaceFrame
+            title="Patch notes"
+            testid="title-patch-notes-workspace"
+            canGoBack={true}
+            onBack={() => setScreen({ kind: "title" })}
+            onClose={() => setScreen({ kind: "title" })}
+          >
+            <PatchNotesWorkspace />
+          </WorkspaceFrame>
         )}
       </AmbientTableau>
     );
@@ -468,7 +497,11 @@ export function PlayerGame() {
   }
 
   function beginLife(setup: NewGameSetup) {
-    setScreen({ kind: "transition", setup });
+    setScreen({
+      kind: "transition",
+      setup,
+      controller: createOpeningLifeController(setup),
+    });
   }
 
   if (screen.kind === "transition") {
@@ -478,7 +511,7 @@ export function PlayerGame() {
           <LifeStartTransition
             onComplete={() => {
               try {
-                const game = createNewGameWorld(screen.setup);
+                const game = screen.controller.finishTransition().game!;
                 startPlaying(
                   game.world,
                   game.playerPersonId,
@@ -978,7 +1011,9 @@ function SetupScreen({
                   <small data-place-scope={candidate.scope}>
                     {candidate.scope === "state"
                       ? "Statewide — not a hometown"
-                      : (candidate.withinName ?? "")}
+                      : candidate.scope === "county"
+                        ? "County or county equivalent"
+                        : (candidate.withinName ?? "")}
                   </small>
                 </button>
               ))}
@@ -1005,7 +1040,9 @@ function SetupScreen({
               <p className="game-hint" data-testid="place-scope">
                 {place.scope === "state"
                   ? "A whole state, chosen as the scope of this life."
-                  : "This is the exact place this life will be lived in."}
+                  : place.scope === "county"
+                    ? "County or county equivalent. Your town is unspecified."
+                    : "This is the exact place this life will be lived in."}
               </p>
               {placeContextLines(place).map((line) => (
                 <p key={line} className="game-hint">
@@ -1591,12 +1628,21 @@ function PlayingScreen({
     () => buildLifeIntroduction(session.world, session.personId),
     [session.world, session.personId],
   );
-  const [introduced, setIntroduced] = useState(session.saveId !== null);
 
-  const sceneId = useMemo(
-    () => resolveLifeScene(session.world, session.personId).sceneId,
-    [session.world, session.personId],
-  );
+  const sceneId = useMemo(() => {
+    const activity = completedActivityHere(session.world, session.personId);
+    const venue =
+      activity && municipalVenueForActivity(session.world, activity.id);
+    if (activity && venue) {
+      return resolveActivityVenueScene(
+        session.world,
+        session.personId,
+        activity.id,
+        venue,
+      ).sceneId;
+    }
+    return resolveLifeScene(session.world, session.personId).sceneId;
+  }, [session.world, session.personId]);
 
   const surfaceProjection = useMemo(
     () =>
@@ -1713,6 +1759,13 @@ function PlayingScreen({
       open: openSurface === "personal",
     });
     entries.push({
+      surface: "municipal",
+      label: "Local government",
+      hint: "Public meetings and your municipal work",
+      testid: "nav-municipal",
+      open: openSurface === "municipal",
+    });
+    entries.push({
       surface: "news",
       label: "News",
       hint: "Published public records",
@@ -1721,7 +1774,7 @@ function PlayingScreen({
     });
     entries.push({
       surface: "journal",
-      label: "Life history",
+      label: "Journal",
       hint: "Chapters, and what is still open",
       testid: "nav-journal-entry",
       open: openSurface === "journal",
@@ -1895,42 +1948,17 @@ function PlayingScreen({
         people={scenePeople}
         surfaces={surfaceProjection}
       >
-        {!introduced && introduction ? (
-          <section className="life-exposition" data-testid="life-introduction">
-            <p className="life-exposition-kicker">Where this starts</p>
-            {introduction.sentences.map((sentence) => (
-              <p key={sentence} className="life-exposition-line">
-                {sentence}
-              </p>
-            ))}
-            {introduction.grounding.length > 0 ? (
-              <div
-                className="life-exposition-grounding"
-                data-testid="life-grounding"
-              >
-                {introduction.grounding.map((fact) => (
-                  <p
-                    key={fact.basis}
-                    className="life-exposition-line"
-                    data-grounding={fact.kind}
-                  >
-                    {fact.text}
-                  </p>
-                ))}
-              </div>
-            ) : null}
-            <button
-              type="button"
-              className="ui-action ui-action--primary"
-              data-testid="introduction-continue"
-              onClick={() => setIntroduced(true)}
-            >
-              Step inside
-            </button>
-          </section>
-        ) : (
-          <StoryView session={session} onWorldChange={onWorldChange} />
-        )}
+        <OpeningLifeFlow
+          key={session.world.id}
+          world={session.world}
+          playerPersonId={session.personId}
+          alreadyIntroduced={session.saveId !== null}
+          onWorldChange={onWorldChange}
+          transitionHandlers={createCampaignElectionTransitionRegistry()}
+          continuingLife={
+            <StoryView session={session} onWorldChange={onWorldChange} />
+          }
+        />
       </SceneBackdrop>
 
       <LifePeopleRail
@@ -2070,7 +2098,11 @@ function PlayingScreen({
         canSave={!savesUnavailable}
         unsaved={session.unsavedSeed !== null}
         onSave={() =>
-          onKeep({ pins: shell.pins, preferences: shell.preferences })
+          onKeep({
+            pins: shell.pins,
+            preferences: shell.preferences,
+            journal: shell.journal,
+          })
         }
         onLeave={onLeave}
       />
@@ -2357,6 +2389,42 @@ function renderWorkspace({
         />,
       );
 
+    case "municipal":
+      return frame(
+        "Local government",
+        "municipal-workspace",
+        <MunicipalWorkspace
+          world={session.world}
+          onWorldChange={onWorldChange}
+          transitionHandlers={createCampaignElectionTransitionRegistry()}
+          renderVenue={(world, activityId, venue) => {
+            const canonicalActivity = world.history.scheduledActivities.find(
+              (entry) => entry.id === activityId,
+            );
+            if (!canonicalActivity) return null;
+            const resolution = resolveActivityVenueScene(
+              world,
+              session.personId,
+              canonicalActivity.id,
+              venue,
+            );
+            if (!resolution.sceneId) return null;
+            const activity = completedActivityHere(
+              world,
+              session.personId,
+              canonicalActivity.id,
+            );
+            return (
+              <p role="status" data-testid="municipal-current-venue">
+                You have finished {activity?.title} at{" "}
+                {activity?.location.label}. Close this workspace to return to
+                the room.
+              </p>
+            );
+          }}
+        />,
+      );
+
     case "news":
       return frame(
         "News",
@@ -2370,9 +2438,13 @@ function renderWorkspace({
 
     case "journal":
       return frame(
-        "Life history",
+        "Journal",
         "journal",
         <JournalWorkspace
+          journal={shell.journal}
+          onJournalChange={(journal) =>
+            dispatch({ type: "set-journal", journal })
+          }
           world={session.world}
           personId={session.personId}
           onOpenPerson={openPerson}

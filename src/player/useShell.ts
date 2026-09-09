@@ -4,6 +4,7 @@ import { BrowserShellStateStore } from "../presentation/browser-shell-state";
 import { shellRefIsResolvable } from "../presentation/person-dossier";
 import {
   INITIAL_SHELL_STATE,
+  EMPTY_JOURNAL,
   refKey,
   shellReducer,
   type ShellAction,
@@ -53,6 +54,7 @@ export function useShell(
       if (stored) {
         dispatch({
           type: "restore",
+          journal: stored.journal ?? EMPTY_JOURNAL,
           pins: stored.pins,
           preferences: stored.preferences,
         });
@@ -73,10 +75,11 @@ export function useShell(
     if (saveId === null) return;
     if (loadedSlot !== saveId) return;
     void store.write(saveId, {
+      journal: state.journal,
       pins: state.pins,
       preferences: state.preferences,
     });
-  }, [saveId, loadedSlot, store, state.pins, state.preferences]);
+  }, [saveId, loadedSlot, store, state.pins, state.preferences, state.journal]);
 
   /* A pin the world cannot resolve is not shown as one that can be opened. */
   useEffect(() => {

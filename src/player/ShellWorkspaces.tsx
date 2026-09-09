@@ -1,3 +1,5 @@
+import { PrivateJournalEditor } from "./PrivateJournalEditor";
+import type { PrivateJournal } from "../presentation/shell-navigation";
 import { useMemo, type ReactNode } from "react";
 
 import {
@@ -583,10 +585,14 @@ export function WorkWorkspace({
 /* ----------------------------------------------------------------- journal */
 
 export function JournalWorkspace({
+  journal,
+  onJournalChange,
   world,
   personId,
   onOpenPerson,
 }: {
+  readonly journal: PrivateJournal;
+  readonly onJournalChange: (journal: PrivateJournal) => void;
   readonly world: World;
   readonly personId: EntityId;
   readonly onOpenPerson: (id: EntityId) => void;
@@ -598,6 +604,13 @@ export function JournalWorkspace({
 
   return (
     <>
+      <PrivateJournalEditor
+        journal={journal}
+        onChange={onJournalChange}
+        people={record.people}
+        events={record.chapters.flatMap((chapter) => chapter.entries)}
+        onOpenPerson={onOpenPerson}
+      />
       <p className="game-note">{record.summary}</p>
 
       <h3>What has happened</h3>
@@ -613,7 +626,12 @@ export function JournalWorkspace({
               <strong>{chapter.heading}</strong>
               <ul>
                 {chapter.entries.map((entry) => (
-                  <li key={entry.key}>{entry.sentence}</li>
+                  <li
+                    key={entry.key}
+                    id={`journal-entry-${encodeURIComponent(entry.key)}`}
+                  >
+                    {entry.sentence}
+                  </li>
                 ))}
               </ul>
             </li>
@@ -652,7 +670,12 @@ export function JournalWorkspace({
           <h3>Still open</h3>
           <ul data-testid="journal-open">
             {record.open.map((entry) => (
-              <li key={entry.key}>{entry.sentence}</li>
+              <li
+                key={entry.key}
+                id={`journal-entry-${encodeURIComponent(entry.key)}`}
+              >
+                {entry.sentence}
+              </li>
             ))}
           </ul>
         </>

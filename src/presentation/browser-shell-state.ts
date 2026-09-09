@@ -5,6 +5,9 @@ import {
 } from "./browser-world-repository";
 import {
   DEFAULT_PREFERENCES,
+  EMPTY_JOURNAL,
+  type PrivateJournal,
+  type JournalNote,
   refKey,
   type PinSize,
   type ShellPin,
@@ -29,7 +32,7 @@ import type { EntityId } from "../simulation";
  * cannot be opened — the shell then keeps its defaults, which is a working game.
  */
 
-const RECORD_VERSION = 1;
+const RECORD_VERSION = 2;
 
 const PIN_SIZES: readonly PinSize[] = ["tiny", "normal", "expanded"];
 const REF_KINDS: readonly ShellRef["kind"][] = [
@@ -39,6 +42,7 @@ const REF_KINDS: readonly ShellRef["kind"][] = [
 ];
 
 export interface StoredShellState {
+  readonly journal?: PrivateJournal;
   readonly pins: readonly ShellPin[];
   readonly preferences: ShellPreferences;
 }
@@ -46,6 +50,7 @@ export interface StoredShellState {
 export const EMPTY_SHELL_STATE: StoredShellState = {
   pins: [],
   preferences: DEFAULT_PREFERENCES,
+  journal: EMPTY_JOURNAL,
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -102,10 +107,48 @@ function readPreferences(value: unknown): ShellPreferences {
  */
 export function readStoredShellState(value: unknown): StoredShellState | null {
   if (!isRecord(value)) return null;
-  if (value.version !== RECORD_VERSION) return null;
+  if (value.version !== 1 && value.version !== RECORD_VERSION) return null;
   return {
+    journal: readJournal(value.journal),
     pins: readPins(value.pins),
     preferences: readPreferences(value.preferences),
+  };
+}
+
+function readJournal(value: unknown): PrivateJournal {
+  if (!isRecord(value)) return EMPTY_JOURNAL;
+  const notes: JournalNote[] = [];
+  const seen = new Set<string>();
+  if (Array.isArray(value.notes))
+    for (const entry of value.notes) {
+      if (
+        !isRecord(entry) ||
+        typeof entry.id !== "string" ||
+        seen.has(entry.id)
+      )
+        continue;
+      if (
+        typeof entry.title !== "string" ||
+        typeof entry.body !== "string" ||
+        typeof entry.group !== "string"
+      )
+        continue;
+      seen.add(entry.id);
+      notes.push({
+        id: entry.id,
+        title: entry.title,
+        body: entry.body,
+        group: entry.group,
+        personId:
+          typeof entry.personId === "string"
+            ? (entry.personId as EntityId)
+            : null,
+        eventKey: typeof entry.eventKey === "string" ? entry.eventKey : null,
+      });
+    }
+  return {
+    ambition: typeof value.ambition === "string" ? value.ambition : "",
+    notes,
   };
 }
 
@@ -208,6 +251,7 @@ export class BrowserShellStateStore {
         store.put({
           saveId,
           version: RECORD_VERSION,
+          journal: state.journal ?? EMPTY_JOURNAL,
           pins: state.pins.map((pin) => ({
             ref: { kind: pin.ref.kind, id: pin.ref.id },
             size: pin.size,

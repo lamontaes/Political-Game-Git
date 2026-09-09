@@ -222,3 +222,38 @@ describe("what the reader will accept", () => {
     expect(read?.preferences).toEqual(DEFAULT_PREFERENCES);
   });
 });
+
+describe("private Journal storage", () => {
+  it("migrates old pins and keeps private writing independent of World storage", async () => {
+    const { store } = storeWith();
+    const legacy = readStoredShellState({
+      version: 1,
+      pins: [{ ref: ALICE, size: "normal" }],
+      preferences: {},
+    });
+    expect(legacy?.journal).toEqual({ ambition: "", notes: [] });
+    const journal = {
+      ambition: "My private plan",
+      notes: [
+        {
+          id: "note-1",
+          title: "Remember",
+          body: "A personal interpretation",
+          group: "Family",
+          personId: ALICE.id,
+          eventKey: "history-1",
+        },
+      ],
+    };
+    await store.write(SLOT, { ...EMPTY_SHELL_STATE, journal });
+    expect((await store.read(SLOT))?.journal).toEqual(journal);
+    await store.write(SLOT, {
+      ...EMPTY_SHELL_STATE,
+      journal: { ambition: "Revised", notes: [] },
+    });
+    expect((await store.read(SLOT))?.journal).toEqual({
+      ambition: "Revised",
+      notes: [],
+    });
+  });
+});
