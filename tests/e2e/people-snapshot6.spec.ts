@@ -2,8 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { expect, test, type Page } from "@playwright/test";
-import registry from "../../art/manifest/character_candidate_visual4_registry.json";
-import hairRegistry from "../../art/manifest/character_candidate_visual4_hair_registry.json";
 
 const key = "political-game:people-visual4:review-snapshot:v1";
 const body = "wave_a_average_man_standing_neutral_front_a_v1_pv4";
@@ -15,7 +13,19 @@ const shoe =
 const parka = "pv4_wave_a_male_top_brown_fur_hood_parka_v1";
 const polo = "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1";
 const expected = (top: string) => [body, bottom, top, head, shoe, hair];
-const records = [...registry.assets, ...hairRegistry.assets];
+const records = [
+  "character_candidate_visual4_registry.json",
+  "character_candidate_visual4_hair_registry.json",
+].flatMap(
+  (file) =>
+    JSON.parse(fs.readFileSync(path.resolve("art/manifest", file), "utf8"))
+      .assets,
+) as {
+  asset_id: string;
+  final_path: string;
+  hash: string;
+  candidate_component: { family: string };
+}[];
 const family = (id: string) =>
   records.find((r) => r.asset_id === id)!.candidate_component.family;
 const artifactDir = process.env.PEOPLE_SNAPSHOT6_EVIDENCE
