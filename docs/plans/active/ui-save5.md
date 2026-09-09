@@ -74,3 +74,10 @@ Owner-reported isolated68/68 on UI1119e890 is preserved as donor proof, not
 relabeled as this combined LEG/OPENING composition. Local heavy/browser tests
 remain paused for LAND. Combined generation, QUAL consumption and final gates
 remain pending; no new acceptance claim.
+
+OPENING continuation follow-up c5463eb1446b96fcc7b0db9010c38a557a276c74
+(base8fdbe588) applied only to life-scene-flow and opening-repair6.test. An
+eligible follow-through for the previous family precedes unrelated seeded
+selection; unrelated selection stays unchanged. Added saved lunchbox consumer
+proof. Donor69/69 remains separately attributed; local combined tests have not
+run. LAND released its slot, but UI is queued behind MUNI's finite sequence.
