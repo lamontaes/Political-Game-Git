@@ -507,46 +507,52 @@ it("binds campaign compensation to its treasury and refuses absent campaign auth
   expect(deserializeWorld(serializeWorld(result.world))).toEqual(result.world);
 });
 
-it.each([
-  ["trade-training", 12, 1500, "training:repair-certificate"],
+for (const [path, sessions, fee, program, timeout] of [
+  ["trade-training", 12, 1500, "training:repair-certificate", 30000],
   [
     "college-associate",
     96,
     4000,
     "postsecondary:public-administration-associate",
+    60000,
   ],
-] as const)(
-  "completes the full supported %s program with its actual costs",
-  (path, sessions, fee, program) => {
-    let w = enterLifePath(fixture(1000000), path).world;
-    const id = w.history.educationEnrollments.at(-1)!.id;
-    expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(false);
-    for (let i = 0; i < sessions; i++) {
-      w = scheduleLifePathSession(w, id).world;
-      const result = performLifePathSession(
-        w,
-        w.history.scheduledActivities.at(-1)!.id,
-      );
-      expect(result.ok).toBe(true);
-      w = result.world;
-      if (i === Math.floor(sessions / 2))
-        w = deserializeWorld(serializeWorld(w));
-    }
-    expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(true);
-    expect(balance(w)).toBe(1000000 - sessions * fee);
-    if (path === "trade-training") {
-      w = enterLifePath(w, "repair-worker").world;
-      const work = w.history.workRelationships.at(-1)!.id;
-      w = scheduleLifePathSession(w, work).world;
-      w = performLifePathSession(
-        w,
-        w.history.scheduledActivities.at(-1)!.id,
-      ).world;
-      const earned = balance(w);
-      w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-      expect(balance(w)).toBe(earned + 15000);
-    }
-    expect(deserializeWorld(serializeWorld(w))).toEqual(w);
-  },
-  30000,
-);
+] as const) {
+  // Hosted CI measured the full 96-session journey at 35.1 seconds. Give only
+  // that new long integration case a 60-second budget; retain every real
+  // session, fee, credential and reload assertion and all prior test limits.
+  it(
+    `completes the full supported ${path} program with its actual costs`,
+    () => {
+      let w = enterLifePath(fixture(1000000), path).world;
+      const id = w.history.educationEnrollments.at(-1)!.id;
+      expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(false);
+      for (let i = 0; i < sessions; i++) {
+        w = scheduleLifePathSession(w, id).world;
+        const result = performLifePathSession(
+          w,
+          w.history.scheduledActivities.at(-1)!.id,
+        );
+        expect(result.ok).toBe(true);
+        w = result.world;
+        if (i === Math.floor(sessions / 2))
+          w = deserializeWorld(serializeWorld(w));
+      }
+      expect(hasLifePathCredential(w, w.personOrder[0]!, program)).toBe(true);
+      expect(balance(w)).toBe(1000000 - sessions * fee);
+      if (path === "trade-training") {
+        w = enterLifePath(w, "repair-worker").world;
+        const work = w.history.workRelationships.at(-1)!.id;
+        w = scheduleLifePathSession(w, work).world;
+        w = performLifePathSession(
+          w,
+          w.history.scheduledActivities.at(-1)!.id,
+        ).world;
+        const earned = balance(w);
+        w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
+        expect(balance(w)).toBe(earned + 15000);
+      }
+      expect(deserializeWorld(serializeWorld(w))).toEqual(w);
+    },
+    timeout,
+  );
+}
