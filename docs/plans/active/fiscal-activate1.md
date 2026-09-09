@@ -93,3 +93,17 @@ Current-authority exercise refuses at this legislative boundary.
   authority to MUNI's canonical office seam, reuses LEG's canonical seated
   member, creates no executive authority by role inference, and imports no
   ECON balance, forecast, treasury, or UI root.
+
+## LEARN
+
+- A secondary matrix can identify the correct legal proposition while naming
+  the wrong section. `PRIMARY_ARTIFACT_VERIFIED_CORRECTED_LOCATOR` is now a
+  durable disposition instead of silently treating such a row as either fully
+  verified or wholly unsupported.
+- `Date.parse` accepting a string is not proof that `YYYY-MM-DD` names a real
+  calendar day. Dated legal queries now round-trip the exact UTC date and reject
+  inverted source intervals before comparison.
+- Proposal authority and current taxing authority are different predicates. A
+  seated legislature may open Work to analyze a proposed change while the
+  current-law result remains `UNESTABLISHED`; no proposal action converts it to
+  `PERMITTED` or creates a fiscal forecast.

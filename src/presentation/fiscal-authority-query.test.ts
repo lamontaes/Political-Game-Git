@@ -21,6 +21,7 @@ const RECORD: PortableTaxAuthority = {
     citation: "Alaska Stat. §§ 29.45.670, 29.45.700",
     url: "https://www.akleg.gov/basis/statutes.asp",
     evidenceLocator: "Alaska Stat. §§ 29.45.670, 29.45.700",
+    effectiveDateDerivation: null,
   },
   constraints: ["Voter ratification is required for a new tax."],
   uncertainty: null,
@@ -53,6 +54,7 @@ describe("dated fiscal-authority query", () => {
     expect(result.record.source).toMatchObject({
       artifactId: "ak-municipal-sales-use-tax-statutes",
       evidenceLocator: "Alaska Stat. §§ 29.45.670, 29.45.700",
+      effectiveDateDerivation: null,
     });
     expect(currentTaxPermission(result)).toBe("PERMITTED");
     expect(JSON.stringify([RECORD])).toBe(before);

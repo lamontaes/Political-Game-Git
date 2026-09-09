@@ -77,8 +77,7 @@ export type FiscalAuthorityDeclaration =
 const REFERENDUM_EXCERPT =
   "A new sales and use tax or an increase in the rate of levy of a sales tax approved by ordinance does not take effect until ratified by a majority of the voters at an election.";
 
-const TITLE_29_EFFECTIVE_DATE_DERIVATION =
-  "Effective date established by ch. 74 SLA 1985, § 90 (official enrolled session law PDF p. 211); the relevant enacted provisions appear on PDF pp. 101, 116, and 150.";
+const TITLE_29_EFFECTIVE_DATE_DERIVATION = `Effective date established by ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.artifactId}, ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.legalLocator} (official enrolled session law PDF p. ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.effectiveDate}); supporting artifact SHA-256 ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.sha256} at ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.authorityUrl}. The relevant enacted provisions appear on PDF pp. ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.propertyTax}, ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.taxLimitation}, and ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.generalObligationBondVote}.`;
 
 export const FISCAL_AUTHORITY_DECLARATIONS: readonly FiscalAuthorityDeclaration[] =
   [

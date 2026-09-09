@@ -110,6 +110,9 @@ describe("source to record to Work consumer", () => {
         citation: "Alaska Stat. §§ 29.45.090(a), 29.45.100",
       },
     });
+    expect(millage.record.source.effectiveDateDerivation).toMatch(
+      /ak-ch-74-sla-1985-enrolled-session-law.*30dfaeab42ba7a22/,
+    );
     expect(millage.record.constraints.join(" ")).toMatch(/bond principal/);
 
     const bondVote = queryFiscalAuthority(records, {

@@ -10,6 +10,7 @@ function sourceFor(record: FiscalAuthorityRecord): PortableFiscalSource {
     artifactId: record.evidence.artifactId,
     citation: record.citedAuthority.legalLocator,
     url: record.citedAuthority.authorityUrl,
+    effectiveDateDerivation: record.citedAuthority.derivationChain,
     evidenceLocator:
       locator.kind === "legal-section"
         ? locator.pageOrSection

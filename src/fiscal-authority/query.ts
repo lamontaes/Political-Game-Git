@@ -13,6 +13,7 @@ export interface PortableFiscalSource {
   readonly citation: string;
   readonly url: string;
   readonly evidenceLocator: string;
+  readonly effectiveDateDerivation: string | null;
 }
 
 interface PortableBase {

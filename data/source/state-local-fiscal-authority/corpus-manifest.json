@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-09",
-  "canonicalSha256": "1d89b9f027aa3409d64dc35161f63e917a11a24a6d3721607406cfbef4afb0d3",
+  "canonicalSha256": "e6078d600bc3f30f90d144ccb795b3d289f633d1da750bc6531f3f66e1371996",
   "compiler": {
     "name": "state-local-fiscal-authority",
     "version": "2.0.0"
