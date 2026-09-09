@@ -57,10 +57,15 @@ secrets.
 `scripts/stage.mjs` stamps `build-identity.json` from the canonical
 repository `package.json` version and the actual git revision (plus a
 dirty flag, distribution, and composition). The About dialog shows it.
-The stage script never writes the canonical version; scratch continuity
-builds may use `--fixture-version 0.2.0-x.N` prerelease identifiers,
-which must extend the canonical version and exist only for throwaway
-artifacts.
+The tracked `desktop/package.json` version is a fixed `0.0.0`
+placeholder that no build step ever rewrites: `scripts/package.mjs`
+injects the staged version into electron-builder through
+`extraMetadata`, so the packaged app version, artifact names, and the
+About/build identity all agree with the canonical root version and a
+clean tree stays clean before and after staging. The stage script never
+writes the canonical version; scratch continuity builds may use
+`--fixture-version 0.2.0-x.N` prerelease identifiers, which must extend
+the canonical version and exist only for throwaway artifacts.
 
 ## Updates
 
@@ -71,8 +76,15 @@ artifacts.
 - "Check for Updates…" is finite and user-controlled: check → ask →
   download → ask again; nothing restarts on its own and unsaved play is
   never discarded (install-on-restart only proceeds once every window
-  agreed to close). Failed metadata or downloads surface as a dialog,
-  not a retry loop.
+  agreed to close through the normal close flow; a window that stays
+  open defers the install instead of forcing it). Choosing "Later"
+  arms install-on-your-own-next-quit — exactly what the dialog says.
+  Malformed metadata, an untrusted-channel candidate, a downgrade, and
+  a failed or unverifiable download are refused and surfaced, never
+  retried or silently installed. The whole contract is deterministic:
+  `npm test` runs `tests/updater.test.mjs` against the extracted seam
+  in `updater.mjs` (logic proof only — NOT signed automatic-install
+  proof).
 - Steam-output builds (`npm run dist:steam`, which stamps
   `distribution: steam` and produces bare directories suitable for later
   SteamPipe upload) **hard-disable** the direct updater regardless of
@@ -99,16 +111,34 @@ hot reload, and no self-patcher.
 
 ## Proof
 
-`scripts/continuity-test.mjs` launches two actually packaged builds
-against one isolated profile and proves installed A → saved life →
-installed B → same life (byte-identical save payload, same world/person/
-name/age/residence/calendar/history, generation unmoved, and zero
-requests leaving the packaged origin). Run:
+- `scripts/continuity-test.mjs` launches two actually packaged builds
+  against one isolated profile and proves installed A → saved life →
+  installed B → same life across the whole supported state matrix:
+  identity, Journal (real surface), calendar (day surface + saved
+  moment), people rail, money/resources (payload digest — accepted main
+  has no money HUD), history (action sequence + byte-identical payload
+  sha256), appearance identity where a character surface renders, save
+  generation unmoved, zero off-origin requests. States accepted main
+  does not persist are DISCLOSED as boundaries rather than faked
+  (pins are shell-session state; no wardrobe choice exists on main).
+- `scripts/save-integrity-test.mjs` proves the existing repository
+  semantics in the installed app: a hard-killed session's save stays
+  recoverable; a corrupt record and a newer-schema (downgrade) record
+  are refused but their bytes are preserved — never silently deleted —
+  and the healthy life continues beside them. No second save-version
+  system exists.
+- `scripts/smoke-test.mjs --app <exe> [--shell]` is the bounded per-OS
+  runtime proof (launch → new life → keep → relaunch → continue;
+  `--shell` adds resize, fullscreen on/off, minimize/restore, clean
+  quit). CI runs it on the actual macOS runner build and on Windows
+  against the client INSTALLED by the real NSIS installer.
 
 ```bash
 node scripts/continuity-test.mjs --app-a <A executable> --app-b <B executable>
+node scripts/save-integrity-test.mjs --app <executable>
+node scripts/smoke-test.mjs --app <executable> --shell
 ```
 
 CI packaging (`.github/workflows/desktop-package.yml`) is read-only:
-mac and Windows runner builds, checksums, exact source identity, no
-publication and no secrets.
+mac and Windows runner builds with per-OS runtime smoke, checksums,
+exact source identity, no publication and no secrets.

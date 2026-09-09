@@ -64,3 +64,48 @@ containing the newer UI is composed separately and disposably (UI #144
 head + this desktop delta, identity stamped with an explicit
 `composition` field and a prerelease fixture version) and is never
 represented as accepted main or opened as a PR.
+
+## Repair/completion pass (2026-09-09, second session)
+
+- Windows CI: the desktop packaging job died in `npm run build` because
+  the shared run-artifacts guard (`scripts/dev-lab/run-config.ts`)
+  requires the POSIX `test-results/` prefix, which a Windows checkout
+  path cannot produce. Fixed workflow-locally by pointing
+  `PG_ARTIFACTS_DIR` outside the checkout (`runner.temp`), a case the
+  guard explicitly supports; the guard itself is untouched.
+- A→B matrix completed on packaged builds: identity, Journal (real
+  surface), calendar (day surface + saved moment), people rail,
+  money/resources (payload container digest; accepted main has no money
+  HUD), history, appearance where rendered, generation, offline origin.
+  Disclosed boundaries: pins are shell-session state on this source (no
+  pinned key in the payload; same in browser); no wardrobe choice exists
+  on accepted main. Nothing was fabricated to close either gap.
+- Save failure/compatibility controls (`save-integrity-test.mjs`):
+  hard-kill interruption recoverable; corrupt record and newer-schema
+  (downgrade) record refused but byte-preserved; healthy life continues
+  beside them. Existing repository semantics only.
+- Update contract: seam extracted to `desktop/updater.mjs` with 17
+  deterministic tests (`npm test`) — disabled/unconfigured, Steam
+  hard-disable, malformed metadata, untrusted channel, downgrade,
+  failed/partial download, verification failure, Not now, Later
+  (now truly arms install-on-next-quit, matching the dialog copy),
+  Restart-and-install, and blocked-close deferral. Logic proof only;
+  signed Mac automatic install remains NOT VERIFIED.
+- Version staging: tracked `desktop/package.json` version is a fixed
+  placeholder; `scripts/package.mjs` injects the staged canonical
+  version via electron-builder `extraMetadata`. No tracked file is
+  mutated by staging; artifact names, app version, and About identity
+  agree.
+- Per-OS runtime proof: `smoke-test.mjs` (launch → new life → keep →
+  relaunch → continue, `--shell` adds resize/fullscreen/minimize/
+  restore/clean-quit — all PASS locally on the packaged Apple Silicon
+  build). CI now runs it on the macOS runner build and, on Windows,
+  against the client installed by the actual NSIS installer (silent
+  install to a temp dir), distinguishing installed-installer proof from
+  a mere cross-build.
+- Disposable UI #144 composition (ff0a5b32 + this desktop delta,
+  fixture 0.2.0-ui144cand.2) proved the packaged protocol serves its
+  lazy runtime resources offline: education manifest + all three
+  catalog chunks (6.7/60.6/11.4 MB) with sha256 integrity verified in
+  the secure app:// context, and the economic-context v1 manifest +
+  a BEA county shard. Still disposable; not part of this PR.

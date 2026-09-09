@@ -24,10 +24,10 @@ jobs:
       matrix:
         include:
           - os: macos-latest
-            command: "npx electron-builder --mac --arm64"
+            command: "node scripts/package.mjs --mac --arm64"
             name: mac-arm64
           - os: windows-latest
-            command: "npx electron-builder --win --x64"
+            command: "node scripts/package.mjs --win --x64"
             name: win-x64
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -48,10 +48,22 @@ jobs:
         run: npm ci
 
       - name: Build the game
+        env:
+          # scripts/dev-lab/run-config.ts requires in-checkout run artifacts
+          # to sit under the POSIX-shaped test-results/ prefix, which a
+          # Windows checkout path can never satisfy (path.relative emits
+          # backslashes). The guard explicitly supports an external artifact
+          # parent, so point run output outside the checkout instead of
+          # weakening the shared guard.
+          PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
         run: npm run build
 
       - name: Install desktop shell dependencies
         run: npm ci --no-audit --no-fund
+        working-directory: desktop
+
+      - name: Prove the update contract deterministically
+        run: npm test
         working-directory: desktop
 
       - name: Stage compiled client with build identity
@@ -64,6 +76,31 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: ${{ matrix.command }}
         working-directory: desktop
+
+      - name: Runtime smoke — install and launch the packaged client (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: desktop
+        # Installed-installer proof: run the actual NSIS installer silently,
+        # then drive the INSTALLED executable through launch → new life →
+        # keep → relaunch → continue on an isolated profile.
+        run: |
+          $setup = Get-ChildItem "release-artifacts" -Filter "*Setup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "No NSIS installer found" }
+          $dest = Join-Path $env:RUNNER_TEMP "ocd-install"
+          $proc = Start-Process -FilePath $setup.FullName -ArgumentList "/S","/D=$dest" -PassThru -Wait
+          if ($proc.ExitCode -ne 0) { throw "Installer exited $($proc.ExitCode)" }
+          $exe = Join-Path $dest "Our Civic Duty.exe"
+          if (-not (Test-Path $exe)) { throw "Installed executable missing at $exe" }
+          node scripts/smoke-test.mjs --app $exe --shell
+
+      - name: Runtime smoke — launch the packaged app (macOS)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        # Unpacked-.app proof on the runner (the DMG contains this same
+        # bundle); resize/fullscreen/minimize/quit included via --shell.
+        run: |
+          node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
 
       - name: Record checksums and source identity
         shell: bash

@@ -1,13 +1,28 @@
-/* global console, process, URL, indexedDB */
+/* global console, process, URL, indexedDB, document */
 /**
  * Installed A → saved life → installed B → same life.
  *
  * Drives two actually packaged builds of the desktop app through the real
  * player flow — title, creator, begin, keep — against one isolated user
  * profile, and proves the life created and kept under build A is the life
- * build B continues: same save record bytes, same identity on screen, and
- * every renderer request served from the packaged app:// origin (nothing
- * from localhost, nothing from the network).
+ * build B continues, state by state:
+ *
+ *   identity   — play-screen name/household lines and save metadata
+ *   pins       — pinned via the actual people-rail control; persistence is
+ *                judged by whether the save payload itself carries pin
+ *                state on this source (if it does not, that is a shared
+ *                web/desktop boundary and is reported, not papered over)
+ *   Journal    — the real journal surface, opened via its control
+ *   calendar   — the day surface and the save's calendar moment
+ *   money      — a digest of every money/resource-named leaf in the save
+ *                payload (accepted main has no normal money HUD)
+ *   history    — actionSequence, journal record, and payload bytes
+ *   appearance — rendered character identity attributes where a character
+ *                surface is present (no wardrobe CHOICE exists on this
+ *                source; that boundary is reported when detected)
+ *
+ * Plus: byte-identical payload (sha256), save generation unmoved by
+ * opening, and zero renderer requests leaving the packaged app:// origin.
  *
  * Usage:
  *   node scripts/continuity-test.mjs --app-a <exe> --app-b <exe> [--profile <dir>]
@@ -49,20 +64,22 @@ if (!appA || !appB) {
 }
 
 const failures = [];
+const boundaries = [];
 function check(label, condition, detail = "") {
   console.log(
     `${condition ? "PASS" : "FAIL"}  ${label}${detail ? ` — ${detail}` : ""}`,
   );
   if (!condition) failures.push(label);
 }
+function boundary(label, detail) {
+  console.log(`BOUNDARY  ${label} — ${detail}`);
+  boundaries.push({ label, detail });
+}
 
 async function launch(executablePath) {
   const app = await _electron.launch({
     executablePath,
-    env: {
-      ...process.env,
-      OCD_USER_DATA_DIR: profile,
-    },
+    env: { ...process.env, OCD_USER_DATA_DIR: profile },
   });
   const page = await app.firstWindow();
   const foreignRequests = [];
@@ -101,11 +118,140 @@ async function dumpSaves(page) {
   );
 }
 
-function hashPayload(text) {
+function hashText(text) {
   return createHash("sha256").update(text).digest("hex");
 }
 
-async function newLifeAndKeep(page) {
+/**
+ * Every money/resource-shaped leaf in the save payload, as a stable
+ * digest: sorted "path=value" lines over keys matching the money/resource
+ * vocabulary. Accepted main surfaces no normal money HUD, so the payload
+ * is the canonical place this state is provable.
+ */
+function resourceDigest(payloadText) {
+  let parsed;
+  try {
+    parsed = JSON.parse(payloadText);
+  } catch {
+    return { lines: 0, hash: "unparseable" };
+  }
+  const pattern = /resource|money|balance|account|wage|paid|amount|principal/i;
+  const lines = [];
+  const walk = (node, trail) => {
+    if (node === null || typeof node !== "object") return;
+    for (const [key, value] of Object.entries(node)) {
+      const here = `${trail}.${key}`;
+      if (pattern.test(key)) {
+        // A matching container (e.g. an empty resourcePositions ledger at
+        // life start) is state too: record its full JSON, not just leaves.
+        lines.push(`${here}=${JSON.stringify(value)}`);
+      }
+      if (value !== null && typeof value === "object") walk(value, here);
+    }
+  };
+  walk(parsed, "");
+  lines.sort();
+  return { lines: lines.length, hash: hashText(lines.join("\n")) };
+}
+
+/** Pin state carried by the payload itself, if this source persists it. */
+function payloadPinState(payloadText) {
+  try {
+    const parsed = JSON.parse(payloadText);
+    const found = [];
+    const walk = (node) => {
+      if (node === null || typeof node !== "object") return;
+      for (const [key, value] of Object.entries(node)) {
+        if (/^pinned/i.test(key)) found.push({ key, value });
+        else if (value !== null && typeof value === "object") walk(value);
+      }
+    };
+    walk(parsed);
+    return found;
+  } catch {
+    return [];
+  }
+}
+
+async function textOf(page, testId) {
+  const locator = page.getByTestId(testId);
+  if ((await locator.count()) === 0) return null;
+  return (await locator.first().innerText()).trim();
+}
+
+/**
+ * The state matrix, captured through the canonical player surfaces the
+ * way a player reaches them. Used identically in A (after begin) and in
+ * B (after continue), so equality is meaningful.
+ */
+async function captureStateMatrix(page) {
+  const matrix = {};
+
+  const playText = await page.getByTestId("play-screen").innerText();
+  matrix.identity = playText.split("\n").slice(0, 3).join("\n");
+
+  // People rail + pin. The rail lives behind the People control.
+  const people = page.getByTestId("elsewhere-people");
+  if ((await people.count()) > 0) {
+    if ((await people.getAttribute("aria-pressed")) !== "true")
+      await people.click();
+    const pinButtons = page.locator('[data-testid^="rail-pin-"]');
+    matrix.pinControlCount = await pinButtons.count();
+    if (matrix.pinControlCount > 0) {
+      // Idempotent across A and B: pin the first pinnable person unless
+      // that person is already shown as pinned.
+      const first = pinButtons.first();
+      const pressed = await first.getAttribute("aria-pressed");
+      if (pressed !== "true") await first.click();
+    }
+    matrix.pinnedCollection = await textOf(page, "pinned-collection");
+    matrix.peopleRail = (
+      await page.locator('[data-testid^="rail-person-"]').allInnerTexts()
+    )
+      .map((t) => t.trim())
+      .join(" | ");
+    const closePeople = page.getByTestId("people-overlay-close");
+    if ((await closePeople.count()) > 0) await closePeople.click();
+  } else {
+    matrix.pinControlCount = 0;
+    matrix.pinnedCollection = null;
+    matrix.peopleRail = null;
+  }
+
+  // Journal, through its real control (the same button closes it).
+  await page.getByTestId("open-journal").click();
+  await page.getByTestId("journal").waitFor();
+  matrix.journal = (await page.getByTestId("journal").innerText()).trim();
+  await page.getByTestId("open-journal").click();
+
+  // The day (calendar surface), where this life offers it — an overlay.
+  const day = page.getByTestId("elsewhere-day");
+  if ((await day.count()) > 0) {
+    await day.click();
+    const overlay = page.getByTestId("day-overlay");
+    await overlay.waitFor();
+    matrix.daySurface = (await overlay.innerText()).trim();
+    const closeDay = page.getByTestId("day-overlay-close");
+    if ((await closeDay.count()) > 0) await closeDay.click();
+  } else {
+    matrix.daySurface = null;
+  }
+
+  // Rendered character identity, where a character surface is present.
+  matrix.appearance = await page.evaluate(() => {
+    const seeds = [...document.querySelectorAll("[data-appearance-seed]")].map(
+      (el) => el.getAttribute("data-appearance-seed"),
+    );
+    const recipes = [
+      ...document.querySelectorAll("[data-appearance-recipe-id]"),
+    ].map((el) => el.getAttribute("data-appearance-recipe-id"));
+    return { seeds, recipes };
+  });
+
+  return matrix;
+}
+
+async function newLifeAndBegin(page) {
   await page.getByTestId("new-game").click();
   await page.getByTestId("setup-screen").waitFor();
   await page.getByTestId("start-normal").click();
@@ -131,17 +277,11 @@ async function newLifeAndKeep(page) {
     // A life with no household shows no introduction gate.
   }
   await page.getByTestId("play-screen").waitFor();
-  const playText = await page.getByTestId("play-screen").innerText();
-  await page.getByTestId("keep-world").click();
-  await page
-    .getByTestId("keep-world")
-    .waitFor({ state: "detached", timeout: 15000 });
-  return playText;
 }
 
 const report = {};
 
-// ---- Build A: fresh profile, create and keep a life -----------------------
+// ---- Build A: fresh profile, create a life, capture state, keep -----------
 {
   const { app, page, foreignRequests } = await launch(appA);
   check(
@@ -149,8 +289,14 @@ const report = {};
     page.url().startsWith("app://game/"),
     page.url(),
   );
-  const playText = await newLifeAndKeep(page);
-  report.identityA = playText.split("\n").slice(0, 3).join("\n");
+  await newLifeAndBegin(page);
+  report.matrixA = await captureStateMatrix(page);
+
+  await page.getByTestId("keep-world").click();
+  await page
+    .getByTestId("keep-world")
+    .waitFor({ state: "detached", timeout: 15000 });
+
   const saves = await dumpSaves(page);
   const records = saves.filter((row) => row.value?.kind !== "tombstone");
   check(
@@ -159,6 +305,7 @@ const report = {};
     `${records.length}`,
   );
   const record = records[0]?.value ?? {};
+  const payload = String(record.payload ?? "");
   report.saveA = {
     saveId: record.saveId,
     worldId: record.metadata?.worldId,
@@ -169,9 +316,16 @@ const report = {};
     currentMoment: record.metadata?.currentMoment,
     actionSequence: record.metadata?.actionSequence,
     generation: record.generation,
-    payloadHash: hashPayload(String(record.payload ?? "")),
-    payloadBytes: String(record.payload ?? "").length,
+    payloadHash: hashText(payload),
+    payloadBytes: payload.length,
+    resources: resourceDigest(payload),
+    pinsInPayload: payloadPinState(payload),
   };
+  check(
+    "A: money/resource state exists in the kept payload",
+    report.saveA.resources.lines > 0,
+    `${report.saveA.resources.lines} money/resource leaves, digest ${report.saveA.resources.hash.slice(0, 12)}…`,
+  );
   check(
     "A: no request left the packaged origin",
     foreignRequests.length === 0,
@@ -180,7 +334,7 @@ const report = {};
   await app.close();
 }
 
-// ---- Build B: same profile, continue the same life ------------------------
+// ---- Build B: same profile, continue, capture the same matrix -------------
 {
   const { app, page, foreignRequests } = await launch(appB);
   const savesBefore = await dumpSaves(page);
@@ -194,7 +348,7 @@ const report = {};
   );
   check(
     "B: payload bytes are identical to what A kept",
-    hashPayload(String(before.payload ?? "")) === report.saveA.payloadHash,
+    hashText(String(before.payload ?? "")) === report.saveA.payloadHash,
     `sha256 ${report.saveA.payloadHash.slice(0, 16)}…`,
   );
 
@@ -203,45 +357,99 @@ const report = {};
   check("B: Continue is offered", await continueButton.isEnabled());
   await continueButton.click();
   await page.getByTestId("play-screen").waitFor();
-  const playText = await page.getByTestId("play-screen").innerText();
-  const identityB = playText.split("\n").slice(0, 3).join("\n");
+  const gate = page.getByTestId("introduction-continue");
+  if ((await gate.count()) > 0) await gate.click();
+
+  report.matrixB = await captureStateMatrix(page);
+  const a = report.matrixA;
+  const b = report.matrixB;
+
   check(
-    "B: the continued life shows A's identity",
-    playText.includes(report.identityA) || identityB === report.identityA,
-    JSON.stringify({ a: report.identityA, b: identityB }),
+    "B: identity — the continued life shows A's identity lines",
+    b.identity === a.identity,
+    JSON.stringify({ a: a.identity, b: b.identity }),
   );
+  check(
+    "B: Journal — same record on the real journal surface",
+    b.journal === a.journal && a.journal.length > 0,
+    `${a.journal.length} chars`,
+  );
+  check(
+    "B: calendar — same day surface",
+    b.daySurface === a.daySurface,
+    a.daySurface === null ? "no day surface on this life" : "day text equal",
+  );
+  check(
+    "B: people rail — same people",
+    b.peopleRail === a.peopleRail,
+    String(a.peopleRail).slice(0, 80),
+  );
+
+  // Pins: the payload decides what this source promises.
+  if (report.saveA.pinsInPayload.length > 0) {
+    check(
+      "B: pins — payload-persisted pin state reappears on the rail",
+      b.pinnedCollection === a.pinnedCollection,
+      String(a.pinnedCollection).slice(0, 80),
+    );
+  } else {
+    boundary(
+      "pins",
+      `pin state is shell-session state on this source (no pinned* key in the save payload); the rail resets on relaunch in browser and desktop alike. Rail in A: ${JSON.stringify(a.pinnedCollection)}; in B after fresh pin: ${JSON.stringify(b.pinnedCollection)}. Durable canonical pins are UI-lane work, not a desktop wrapper defect.`,
+    );
+  }
+
+  // Appearance: identity attributes where a character surface rendered.
+  if (a.appearance.seeds.length > 0 || a.appearance.recipes.length > 0) {
+    check(
+      "B: appearance — same rendered appearance identity",
+      JSON.stringify(b.appearance) === JSON.stringify(a.appearance),
+      JSON.stringify(a.appearance).slice(0, 100),
+    );
+  } else {
+    boundary(
+      "wardrobe/appearance",
+      "this life renders no character surface with appearance identity attributes on accepted main, and the creator offers no wardrobe choice on this source; appearance state is seed/recipe data inside the payload (byte-verified above). A production wardrobe choice is unmerged (#134/UI lane) and is not fabricated here.",
+    );
+  }
 
   const savesAfter = await dumpSaves(page);
   const after =
     savesAfter.filter((row) => row.value?.kind !== "tombstone")[0]?.value ?? {};
   const m = after.metadata ?? {};
-  const a = report.saveA;
-  check("B: same worldId", m.worldId === a.worldId, String(m.worldId));
-  check("B: same person (no reroll)", m.playerPersonId === a.playerPersonId);
+  const s = report.saveA;
+  const payloadAfter = String(after.payload ?? "");
+  check("B: same worldId", m.worldId === s.worldId, String(m.worldId));
+  check("B: same person (no reroll)", m.playerPersonId === s.playerPersonId);
   check(
     "B: same player name",
-    m.playerName === a.playerName,
+    m.playerName === s.playerName,
     String(m.playerName),
   );
-  check("B: same age", m.playerAge === a.playerAge, String(m.playerAge));
+  check("B: same age", m.playerAge === s.playerAge, String(m.playerAge));
   check(
     "B: same residence",
-    (m.residence?.name ?? null) === (a.residence ?? null),
+    (m.residence?.name ?? null) === (s.residence ?? null),
     String(m.residence?.name),
   );
   check(
     "B: same calendar moment",
-    JSON.stringify(m.currentMoment) === JSON.stringify(a.currentMoment),
+    JSON.stringify(m.currentMoment) === JSON.stringify(s.currentMoment),
     JSON.stringify(m.currentMoment),
   );
   check(
-    "B: same history position",
-    m.actionSequence === a.actionSequence,
+    "B: history — same action sequence",
+    m.actionSequence === s.actionSequence,
     String(m.actionSequence),
   );
   check(
+    "B: money — identical money/resource digest in the stored payload",
+    resourceDigest(payloadAfter).hash === s.resources.hash,
+    `${s.resources.lines} leaves`,
+  );
+  check(
     "B: opening the save did not advance its generation",
-    after.generation === a.generation,
+    after.generation === s.generation,
   );
   check(
     "B: no request left the packaged origin",
@@ -253,6 +461,12 @@ const report = {};
 
 console.log(`\nProfile: ${profile}`);
 console.log(`Save under test: ${JSON.stringify(report.saveA, null, 2)}`);
+if (boundaries.length > 0)
+  console.log(
+    `\nDisclosed boundaries (source limitations, not wrapper defects):\n${boundaries
+      .map((b) => `- ${b.label}: ${b.detail}`)
+      .join("\n")}`,
+  );
 if (failures.length > 0) {
   console.error(`\n${failures.length} check(s) FAILED`);
   process.exit(1);
