@@ -15,8 +15,8 @@ import type { Fixture } from "./fixtures";
 import { releaseTree } from "../../scripts/release/apply";
 import { loadDeclarations } from "../../scripts/release/declarations";
 import { loadLedger, consumedIds } from "../../scripts/release/ledger";
-import { parseNotes } from "../../scripts/release/notes";
-import { check, main } from "../../scripts/release/cli";
+import { formatReleaseDate, parseNotes } from "../../scripts/release/notes";
+import { check, main, revisionDate } from "../../scripts/release/cli";
 
 const REVISION = "0123456789abcdef0123456789abcdef01234567";
 const DATE = "2026-09-08";
@@ -451,7 +451,9 @@ describe(
         expect(main(["apply"], fixture.root)).toBe(0);
         expect(version(fixture)).toBe("0.2.1");
         // The date came from the fixture's own commit, not from today.
-        expect(notes(fixture)).toContain("_Released 8 September 2026._");
+        expect(notes(fixture)).toContain(
+          `_Released ${formatReleaseDate(revisionDate(fixture.root))}._`,
+        );
 
         const after = notes(fixture);
         expect(main(["apply"], fixture.root)).toBe(0);
