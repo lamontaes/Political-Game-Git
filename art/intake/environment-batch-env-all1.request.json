@@ -1,0 +1,42 @@
+{
+  "requestVersion": 1,
+  "batchId": "environment-batch-env-all1",
+  "candidates": [
+    {
+      "asset_id": "env_executive_office_empty_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "ENV-ALL1 CANDIDATE INTAKE ONLY. Drive 1b8jYAdg2wyxrcgAeddZ5eW4KBzzO78ux, filename IMG_5189.JPG. The bytes measured here are the copy already preserved in this repository by the P95 recent-Drive sweep at art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG; the repository filename is deliberately NOT changed, because renaming preserved source bytes is not an intake step. The P95 sweep classified it NEW_PRODUCTION_SOURCE_CANDIDATE and described it as an empty executive-office environment candidate. This lane completes the intake AX-92B1 ran for two of the six environment candidates and left undone for the other four; park and press room were not a cap. WHY THIS ONE MATTERS: at 5504px it clears the 4608px environment master minimum that the banked OCD_SCENE_MASTER_EXECUTIVE_PRIVATE_OFFICE_1672x941_01.png fails, so it is the direct answer to open asset request 'env-executive-office-4k-master'. That is a statement about pixel width, NOT an owner acceptance and NOT a style-family ruling. No family_id is declared: which environment family this serves, and what the World would call the place, are decisions nobody has made, and intake must not infer either from the picture or from a filename. native_detail_state is 'unverified' because nothing in this project establishes whether the 5504px render is native detail or an external enlargement. No owner approval is recorded, so approved_by is absent rather than invented. Accepting the art would close only the art half of the executive gap: resolvePlayerCapabilities still has no executive capability, so no life could reach the room."
+    },
+    {
+      "asset_id": "env_field_office_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "ENV-ALL1 CANDIDATE INTAKE ONLY. Drive 1hWiTaD7qSg5QJUKvTGaK2w6NGGWlPGqG, filename IMG_5207.JPG, preserved at art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG. Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the P95 sweep, which described it as an empty civic or work environment with blank dynamic surfaces. It is a candidate answer to open asset request 'env-campaign-storefront': the campaign location keys 'campaign-office' and 'campaign-call-desk' are canonical activities today with no room at all. No family_id is declared, native_detail_state is 'unverified', rights status is unknown and stays unknown, and no owner approval is recorded. This candidate and IMG_5190.JPG are variants of one another; choosing between them is an owner decision and intake makes no ruling."
+    },
+    {
+      "asset_id": "env_field_office_variant_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "ENV-ALL1 CANDIDATE INTAKE ONLY. Drive 1Neun3aXAMlUHxPcMfBNepQ0oWTYZyC66, filename IMG_5190.JPG, preserved at art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG. The P95 sweep classified it ADDITIONAL_VARIANT and recorded it as visually similar to IMG_5207.JPG with a DIFFERENT SHA-256, which is why it is intaken as its own candidate rather than folded into that one: a variant is not a duplicate, and the sweep proved the distinction on the bytes. It supplements the existing sources and supersedes none of them. No family_id, native_detail_state 'unverified', rights unknown, no owner approval recorded."
+    },
+    {
+      "asset_id": "env_civic_work_interior_5504x3072_01",
+      "file": "../references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG",
+      "target_class": "environment-plate",
+      "lineage_class": "original-master",
+      "native_detail_state": "unverified",
+      "rights_status": "unknown",
+      "approval_note": "ENV-ALL1 CANDIDATE INTAKE ONLY. Drive 1omryvYo8QYASr96guWI7XeQkJ6hdTKCu, filename IMG_5205.JPG, preserved at art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG. Classified NEW_PRODUCTION_SOURCE_CANDIDATE by the P95 sweep and described as an empty civic or work environment with blank dynamic surfaces. IT IS THE ONE ENVIRONMENT CANDIDATE WITH PIXELS AND NO DESTINATION: it answers no open asset request and no canonical location key is waiting for it. It is intaken so that the bytes are measured, hashed and accounted for rather than left as the one file nobody adjudicated; it is NOT carried further, because carrying it would mean choosing a use for a picture instead of finding a picture for a use. No family_id, native_detail_state 'unverified', rights unknown, no owner approval recorded."
+    }
+  ]
+}

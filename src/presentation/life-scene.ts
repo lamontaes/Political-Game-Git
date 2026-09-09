@@ -1,5 +1,6 @@
 import {
   householdMembershipsAt,
+  scheduledActivityState,
   type EntityId,
   type World,
 } from "../simulation";
@@ -9,32 +10,15 @@ import {
   SCENE_REGISTRY,
   type SceneRegistry,
 } from "./scene-registry";
+import { resolveVenueScene } from "./scene-venues";
 import {
   PRODUCTION_VISUAL_LIBRARY,
   type RuntimeVisualLibrary,
 } from "./visual-integration";
 
-/**
- * Which room a life is actually in.
- *
- * The second playtest fell from an illustrated title screen into a page of
- * text. The rooms existed — an approved apartment living room has been
- * released and registered since #86 — and nothing joined the life to them.
- * #86 said so itself, in `scene-consumers.ts`: the ordinary-day surface
- * "paints no backdrop", and the seam is one component away. This is the half
- * of that seam that decides which room; the component paints whatever comes
- * back and nothing else.
- *
- * TRUTH RULES, and they are the whole design:
- *
- *   - The room comes from a canonical record. A character has a home scene
- *     because the world says they are a member of a household, not because
- *     the game would rather show a picture than a page.
- *   - No art, no room. A scene whose raster is not in the released production
- *     library resolves to null, and the surface falls back to the page it was.
- *   - Nothing is invented for an office, a school or a street. Those rooms
- *     have their own consumers or do not exist yet; guessing one from an age
- *     or a job title is exactly the universal-office substitution #86 removed.
+/** Household scene or the immediate aftermath of actual recorded attendance.
+ * Household art establishes residence context, not a physical tracking claim.
+ * Unknown activity locations must not borrow the household backdrop.
  */
 
 export interface LifeSceneResolution {
@@ -82,6 +66,60 @@ export function resolveLifeScene(
   scenes: SceneRegistry = SCENE_REGISTRY,
   library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
 ): LifeSceneResolution {
+  const venue = resolveVenueScene(world, personId, scenes, library);
+  const place = world.history.events
+    .filter(
+      (event) =>
+        (event.type === "life.scene.arrived" ||
+          event.type === "life.scene.opened") &&
+        event.participants.some(
+          (participant) => participant.personId === personId,
+        ) &&
+        event.occurredAt <= world.currentDate,
+    )
+    .at(-1);
+  const activitySequence = venue.activityId
+    ? scheduledActivityState(world, venue.activityId).sequence
+    : -1;
+  if (
+    place &&
+    place.sequence > activitySequence &&
+    place.context.location?.setting !== "home"
+  ) {
+    return {
+      sceneId: null,
+      reason:
+        "The recorded place has no supported released scene binding; household art is not substituted.",
+    };
+  }
+  if (
+    venue.activityId !== null &&
+    (!place || place.sequence < activitySequence)
+  ) {
+    if (venue.sceneId) requireScene(scenes, venue.sceneId);
+    return { sceneId: venue.sceneId, reason: venue.reason };
+  }
+
+  const unresolvedJourney = world.history.scheduledActivities.some(
+    (activity) => {
+      if (
+        activity.kind !== "travel" ||
+        !activity.participantPersonIds.includes(personId)
+      )
+        return false;
+      const state = scheduledActivityState(world, activity.id);
+      return (
+        state.status === "completed" && state.sequence > (place?.sequence ?? -1)
+      );
+    },
+  );
+  if (unresolvedJourney)
+    return {
+      sceneId: null,
+      reason:
+        "A journey completed without a later established place; residence is not arrival evidence.",
+    };
+
   const memberships = householdMembershipsAt(world, personId);
   const primary =
     memberships.find((entry) => entry.state.residenceRole === "primary") ??
