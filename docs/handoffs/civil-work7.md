@@ -87,18 +87,50 @@ CAREER was notified to keep public jobs out of its civilian offer allocator.
 UI head above. It mounts the preparation component beside LIFE in Day and
 ordinary Work. UI alone applies this patch; this branch has not edited
 `PlayerGame`, `App`, navigation, LIFE or EXEC repair files. A normal-route test
-patch is delivered separately. Patch application and normal-route proof remain
-unaccepted until the UI owner records them.
+patch is delivered separately. Published application is recorded below;
+normal-route proof remains pending.
 
 `tests/e2e/civil-personnel.spec.ts` is explicitly an isolated component proof,
 with actual pointer/keyboard activation and canonical snapshot round-tripping.
 It is not normal-player reachability or a lawful personnel journey.
 
+UI reported published adoption of the frozen feature code
+`4d4de94b7c9d69fe88144110b9b16d07a8425a93`, registration and delivered normal test
+at `2da3404325b1041cde2bdcb0c22bd8b79a6cb3da` on PR #144. The unchanged
+registration patch was also locally checked against its intermediate
+`ff82c80b342b006a652c8d8b76cf92ef6e6ab579` head. Application is therefore
+recorded; normal-route browser proof remains pending. The UI owner's reported
+combined typecheck/lint/corpus pass is inherited evidence, not a local rerun.
+
+## Personally executed verification
+
+- Focused source and consumer tests: 18 passed across four test files. These
+  include the retained source-domain tests, projection replay/corruption,
+  class/date/CBA boundaries, unknown-jurisdiction preparation and snapshot
+  preservation. This was not a repeat of P1A's full independent audit.
+- `node --import tsx scripts/compile-civil-personnel.ts --check`: passed.
+- Component Playwright: one test passed with one worker on isolated port 4267,
+  run `civil-work7-final-component`, code freeze `4d4de94`. Pointer and
+  keyboard actions create private Work and snapshot round-tripping preserves it.
+  Earlier harness module-loading and locator failures were corrected before
+  this passing run. Localhost required sandbox escalation, which was approved.
+- `npm run typecheck`: passed on the frozen code. The earlier test-support
+  include-path error was corrected without editing shared TypeScript configs.
+- Feature-file ESLint, Prettier checks and `git diff --check`: passed.
+- Required `npm run validate:art`, `npm run inventory:art`, and
+  `npm run qa:art`: passed; no art diff was produced.
+- Exact registration patch application check: passed against both pinned UI
+  versions noted above.
+
+No full `npm run validate`, production-build, normal-player browser, human
+visual, or legal-personnel-journey pass is claimed. The finite heavy-test slot
+was released explicitly to EDU after all CIVIL runners exited.
+
 **Unmet acceptance:** real public recruitment/appointment, probation completion,
 discipline/removal, formal filing and review decisions through actually
 authorized people; genuine positive personnel journey; matching negative
 authority/class/date controls against an otherwise successful legal transition;
-normal-route integration and human visual acceptance. The existing tests prove
+normal-route browser verification and human visual acceptance. The existing tests prove
 preparation and conservative source boundaries only. A draft PR for this
 checkpoint must not be described as completed CIVIL-WORK7 gameplay.
 
@@ -108,7 +140,7 @@ Confirmed: source-to-runtime dependency direction; pure simulation; canonical
 World/calendar/history/Work; separate employment and resource truth; stable
 IDs; known versus unknown; no new score, registry, account or employment
 allocator; no fabricated biography, consent, outcome, source date or authority.
-Shared root integration is deferred to the named UI owner. Authority-bearing
+Shared root integration was published by the named UI owner. Authority-bearing
 actions remain dependent on the exact instruments/bindings above.
 
 Durable lesson encoded in the action-assessment tests: a descriptive legal
