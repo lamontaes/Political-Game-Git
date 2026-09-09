@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 1914,
     "INTENTIONALLY_NON_PLAYER_FACING": 4775,
-    "DIAGNOSTIC_OR_TEST": 3699,
+    "DIAGNOSTIC_OR_TEST": 3703,
     "NEEDS_CLASSIFICATION": 3426
   },
   "needsClassification": [
@@ -28356,7 +28356,7 @@
       "sourcePath": "src/simulation/life-paths2.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 29
+      "count": 33
     },
     {
       "sourcePath": "src/simulation/life-paths2-catalog.ts",

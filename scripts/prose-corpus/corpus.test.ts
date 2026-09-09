@@ -542,21 +542,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual 79L combined tree: current
-    // main (P1 narration, the accepted executive modules, the R3J Kentucky
-    // Sec. 88 operative-text source notes and the merged #128 anchor history)
-    // composed with PR79's bargaining dialogue, subjects, floor surface,
-    // member-seat resolver and prior-work evidence classifier. Neither side's
-    // pin was chosen; the combined tree was scanned and these are what it
-    // measures.
+    // Re-measured with corpus:prose on the LIFE-EXEC4 combined EXEC donor. These exact
+    // pins match coverage-report.md and retain drift detection; the earlier
+    // 79L combined-tree counts do not describe this donor's added sources.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(51732);
+    expect(coverage.totalLiterals).toBe(52868);
     expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(340);
+    expect(coverage.scannedFiles).toBe(352);
   });
 });
 

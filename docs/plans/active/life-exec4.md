@@ -40,3 +40,22 @@ candidates,311warnings, zero hard errors. Existing template/anchor lineage is
 unchanged; candidates remain candidates, not editorial approval. Full format,
 lint and both TypeScript projects pass. Shared full/browser slot is queued behind
 LAND; no full or human acceptance is claimed by this isolated repair checkpoint.
+
+
+## Expanded LIFE proof and measured count repair
+
+The actual scanner measures 52,400 literals, 1,914 inventoried sentences and
+346 source files on this donor. Updated exact count pins to that measurement;
+no scanner, anchor, seed or runtime capacity behavior changed. The full suite
+reported 3,220 passing tests, two skipped and six failures: this stale count
+assertion and five localhost lifecycle tests denied binding by the sandbox.
+The two affected files then passed all 45 tests with localhost permitted.
+
+Fifteen LIFE tests pass, including full associate and trade study, credential
+use for actual repair employment, compensation after the next-day boundary,
+post-raise reload idempotence, rigid-schedule and capability refusal, and a
+worker's own resignation stopping delegated work after reload. Distinct-worker
+concurrency and same-worker capacity remain covered. Format, lint, both
+TypeScript projects, source validation/replay, production build/preparation,
+deterministic demo and all three art commands passed. Browser proof and normal
+UI/qualification integration remain separately tracked; no human acceptance.
