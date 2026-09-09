@@ -10,6 +10,7 @@
  */
 
 import type {
+  ArtifactLock,
   CompiledCorpus,
   Evidence,
   ReleaseStatus,
@@ -42,6 +43,11 @@ export interface EconomicContextCorpora {
   readonly bea: CompiledCorpus<BeaObservationRecord>;
   readonly laus: CompiledCorpus<LausObservationRecord>;
   readonly hud: CompiledCorpus<HudRecord>;
+  readonly locks: {
+    readonly bea: ArtifactLock;
+    readonly laus: ArtifactLock;
+    readonly hud: ArtifactLock;
+  };
 }
 
 export interface EconomicContextGeographyBinding {
@@ -77,6 +83,20 @@ export interface EconomicObservationVintage {
   readonly corpusAsOf: string;
   readonly observationAsOf: string;
   readonly productVintage: string | null;
+  /** Publisher release date, when the locked artifact establishes one. */
+  readonly publisherReleaseDate: string | null;
+  /** Actual retrieval instant for the exact artifact carrying this row. */
+  readonly sourceRetrievedAt: string;
+  /** Conservative first date on which this source can be shown in a save. */
+  readonly knownAvailableOn: string;
+  readonly knownAvailableOnBasis:
+    "publisher-release-date" | "retrieval-date-fallback";
+  /** Null when the product establishes a reference period but no validity interval. */
+  readonly validityPeriod: {
+    readonly start: string;
+    readonly end: string;
+  } | null;
+  readonly validityBasis: "not-established-by-locked-product";
   readonly release: ReleaseStatus | null;
   readonly adjustment: string;
   readonly revision: string;
@@ -209,9 +229,9 @@ export function buildEconomicContextReadModel(
 ): EconomicContextReadModel {
   validateBinding(binding);
 
-  const bea = projectBea(corpora.bea, binding);
-  const laus = projectLaus(corpora.laus, binding);
-  const hud = projectHud(corpora.hud, binding);
+  const bea = projectBea(corpora.bea, corpora.locks.bea, binding);
+  const laus = projectLaus(corpora.laus, corpora.locks.laus, binding);
+  const hud = projectHud(corpora.hud, corpora.locks.hud, binding);
   const observations = [...bea, ...laus, ...hud].sort(compareObservations);
   const latestKeys = latestObservationKeys(observations);
 
@@ -341,6 +361,7 @@ function validateBinding(binding: EconomicContextGeographyBinding): void {
 
 function projectBea(
   corpus: CompiledCorpus<BeaObservationRecord>,
+  lock: ArtifactLock,
   binding: EconomicContextGeographyBinding,
 ): readonly EconomicContextObservation[] {
   const matches = new Map(
@@ -377,6 +398,7 @@ function projectBea(
             `${record.year}-12-31`,
           ),
           productVintage: record.year,
+          ...artifactAvailability(lock, record.evidence.artifactId),
           release: releaseOf(record.value),
           adjustment:
             "Published annual estimate; nominal unless the line definition states otherwise.",
@@ -392,6 +414,7 @@ function projectBea(
 
 function projectLaus(
   corpus: CompiledCorpus<LausObservationRecord>,
+  lock: ArtifactLock,
   binding: EconomicContextGeographyBinding,
 ): readonly EconomicContextObservation[] {
   const matches = new Map(
@@ -424,6 +447,7 @@ function projectLaus(
             periodEnd(record.year, record.period),
           ),
           productVintage: null,
+          ...artifactAvailability(lock, record.evidence.artifactId),
           release: releaseOf(record.value),
           adjustment:
             record.seasonalAdjustmentCode === "S"
@@ -443,6 +467,7 @@ function projectLaus(
 
 function projectHud(
   corpus: CompiledCorpus<HudRecord>,
+  lock: ArtifactLock,
   binding: EconomicContextGeographyBinding,
 ): readonly EconomicContextObservation[] {
   const matches = new Map(
@@ -476,7 +501,12 @@ function projectHud(
           period: record.productVintage,
           unit: "USD per month",
           value: knownFromHud(value, record.evidence, corpus.corpus.asOf),
-          vintage: hudVintage(corpus, record.productVintage),
+          vintage: hudVintage(
+            corpus,
+            lock,
+            record.evidence.artifactId,
+            record.productVintage,
+          ),
           evidence: cloneEvidence(record.evidence),
           detailKey: `${record.recordKind}:${bedrooms}`,
           interpretationBoundary: "benchmark-not-transaction",
@@ -529,7 +559,12 @@ function projectHud(
         period: record.productVintage,
         unit: "USD per year",
         value: knownFromHud(value, record.evidence, corpus.corpus.asOf),
-        vintage: hudVintage(corpus, record.productVintage),
+        vintage: hudVintage(
+          corpus,
+          lock,
+          record.evidence.artifactId,
+          record.productVintage,
+        ),
         evidence: cloneEvidence(record.evidence),
         detailKey: `${record.recordKind}:${key}`,
         interpretationBoundary: "threshold-not-household-determination",
@@ -804,15 +839,52 @@ function knownFromHud(
 
 function hudVintage(
   corpus: CompiledCorpus<HudRecord>,
+  lock: ArtifactLock,
+  artifactId: string,
   productVintage: string,
 ): EconomicObservationVintage {
   return {
     corpusAsOf: corpus.corpus.asOf,
     observationAsOf: corpus.corpus.asOf,
     productVintage,
+    ...artifactAvailability(lock, artifactId),
     release: null,
     adjustment: "Published product benchmark; no transformation applied.",
     revision: "Release status not encoded in the locked product",
+  };
+}
+
+function artifactAvailability(
+  lock: ArtifactLock,
+  artifactId: string,
+): Pick<
+  EconomicObservationVintage,
+  | "publisherReleaseDate"
+  | "sourceRetrievedAt"
+  | "knownAvailableOn"
+  | "knownAvailableOnBasis"
+  | "validityPeriod"
+  | "validityBasis"
+> {
+  const artifact = lock.artifacts.find(
+    (candidate) => candidate.artifactId === artifactId,
+  );
+  if (!artifact) {
+    throw new Error(
+      `Economic context evidence references artifact absent from ${lock.domain}: ${artifactId}`,
+    );
+  }
+  const publisherReleaseDate = artifact.publisher.releaseDate;
+  return {
+    publisherReleaseDate,
+    sourceRetrievedAt: artifact.retrieval.retrievedAt,
+    knownAvailableOn:
+      publisherReleaseDate ?? artifact.retrieval.retrievedAt.slice(0, 10),
+    knownAvailableOnBasis: publisherReleaseDate
+      ? "publisher-release-date"
+      : "retrieval-date-fallback",
+    validityPeriod: null,
+    validityBasis: "not-established-by-locked-product",
   };
 }
 

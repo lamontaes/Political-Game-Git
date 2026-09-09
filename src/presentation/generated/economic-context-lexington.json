@@ -163,10 +163,16 @@
       "vintage": {
         "adjustment": "Published annual estimate; nominal unless the line definition states otherwise.",
         "corpusAsOf": "2024-12-31",
+        "knownAvailableOn": "2026-09-03",
+        "knownAvailableOnBasis": "retrieval-date-fallback",
         "observationAsOf": "2024-12-31",
         "productVintage": "2024",
+        "publisherReleaseDate": null,
         "release": "FINAL",
-        "revision": "FINAL"
+        "revision": "FINAL",
+        "sourceRetrievedAt": "2026-09-03T04:21:17.858Z",
+        "validityBasis": "not-established-by-locked-product",
+        "validityPeriod": null
       }
     },
     {
@@ -216,10 +222,16 @@
       "vintage": {
         "adjustment": "Seasonally adjusted",
         "corpusAsOf": "2026-07-31",
+        "knownAvailableOn": "2026-09-03",
+        "knownAvailableOnBasis": "retrieval-date-fallback",
         "observationAsOf": "2026-07-31",
         "productVintage": null,
+        "publisherReleaseDate": null,
         "release": "PRELIMINARY",
-        "revision": "PRELIMINARY"
+        "revision": "PRELIMINARY",
+        "sourceRetrievedAt": "2026-09-03T04:30:39.876Z",
+        "validityBasis": "not-established-by-locked-product",
+        "validityPeriod": null
       }
     },
     {
@@ -267,10 +279,16 @@
       "vintage": {
         "adjustment": "Published product benchmark; no transformation applied.",
         "corpusAsOf": "2025-09-30",
+        "knownAvailableOn": "2026-09-03",
+        "knownAvailableOnBasis": "retrieval-date-fallback",
         "observationAsOf": "2025-09-30",
         "productVintage": "FY2025",
+        "publisherReleaseDate": null,
         "release": null,
-        "revision": "Release status not encoded in the locked product"
+        "revision": "Release status not encoded in the locked product",
+        "sourceRetrievedAt": "2026-09-03T04:25:50.389Z",
+        "validityBasis": "not-established-by-locked-product",
+        "validityPeriod": null
       }
     },
     {
@@ -322,10 +340,16 @@
       "vintage": {
         "adjustment": "Published annual estimate; nominal unless the line definition states otherwise.",
         "corpusAsOf": "2024-12-31",
+        "knownAvailableOn": "2026-09-03",
+        "knownAvailableOnBasis": "retrieval-date-fallback",
         "observationAsOf": "2024-12-31",
         "productVintage": "2024",
+        "publisherReleaseDate": null,
         "release": "FINAL",
-        "revision": "FINAL"
+        "revision": "FINAL",
+        "sourceRetrievedAt": "2026-09-03T04:21:18.752Z",
+        "validityBasis": "not-established-by-locked-product",
+        "validityPeriod": null
       }
     }
   ],

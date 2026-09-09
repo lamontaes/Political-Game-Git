@@ -30,3 +30,15 @@ Carrier: PR #148, branch `codex/econ-context2`
 - LEG/FISCAL interface evidence and explicit unavailable behavior.
 - UI-core handoff and frozen checkpoint.
 - Exact SHA, clean state, tests, CI, remaining defects and acceptance state.
+
+## Current status
+
+- The independently reproducible E-1 symptom—undated normal context exposing a
+  2026-retrieved artifact in a 2024 simulation—is covered and repaired. The full
+  finding text is still unavailable, so the delivery must not claim every
+  clause of E-1 is closed until that exact ledger is recovered.
+- The dated source repair was published separately at `c2eda37`.
+- The all-corpus browser provider, typed graphs, LEG adapter, explicit FISCAL/GDP
+  unavailability, accessible feature-local panel, and deterministic replay proof
+  are implemented locally pending a frozen extension checkpoint.
+- UI-core owns the final normal-player mount and combined prose regeneration.

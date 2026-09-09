@@ -5,6 +5,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type {
+  ArtifactLock,
   CompiledCorpus,
   NormalizedCorpus,
 } from "../../src/source/core/index";
@@ -36,6 +37,26 @@ const corpora: EconomicContextCorpora = {
   bea: readCorpus<BeaObservationRecord>("bea-regional"),
   laus: readCorpus<LausObservationRecord>("bls-laus"),
   hud: readCorpus<HudRecord>("hud-housing"),
+  locks: {
+    bea: JSON.parse(
+      readFileSync(
+        resolve(REPO_ROOT, "data/source/bea-regional/artifact-lock.json"),
+        "utf8",
+      ),
+    ) as ArtifactLock,
+    laus: JSON.parse(
+      readFileSync(
+        resolve(REPO_ROOT, "data/source/bls-laus/artifact-lock.json"),
+        "utf8",
+      ),
+    ) as ArtifactLock,
+    hud: JSON.parse(
+      readFileSync(
+        resolve(REPO_ROOT, "data/source/hud-housing/artifact-lock.json"),
+        "utf8",
+      ),
+    ) as ArtifactLock,
+  },
 };
 
 const model = buildEconomicContextReadModel(corpora, {

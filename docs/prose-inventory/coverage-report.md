@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2054 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5122 |
-| DIAGNOSTIC_OR_TEST | 4217 |
-| **NEEDS_CLASSIFICATION** | **5508** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5140 |
+| DIAGNOSTIC_OR_TEST | 4250 |
+| **NEEDS_CLASSIFICATION** | **5567** |
 
-Scanned 463 files holding 63059 string
+Scanned 470 files holding 63598 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -85,6 +85,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
@@ -93,6 +94,7 @@ literals in total; the table counts only those that read like a sentence.
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
+| 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
 | 19 | `src/player/ShellWorkspaces.tsx` |
 | 19 | `src/presentation/run-a-fixture.ts` |
@@ -121,6 +123,7 @@ literals in total; the table counts only those that read like a sentence.
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
+| 14 | `src/player/EconomicContextPanel.tsx` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |

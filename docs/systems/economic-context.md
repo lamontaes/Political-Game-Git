@@ -6,8 +6,9 @@ economy engine and not simulated future state.
 
 ## Exact geography bindings
 
-The Lexington binding is versioned as `economic-context.lexington-ky.v1` and
-uses provider-native identifiers only:
+The source adapter's Lexington binding is versioned as
+`economic-context.lexington-ky.v1`; the browser registration is
+`economic-context.lexington-ky.v2`. Both use provider-native identifiers only:
 
 | Product    | Provider identity           | Relationship               |
 | ---------- | --------------------------- | -------------------------- |
@@ -69,12 +70,48 @@ boundaries:
 - annual area income is not cash in a player's wallet;
 - real observations do not become simulated future values after a save diverges.
 
-`playerEconomicContextLines` is the browser-safe normal-player seam. It formats
-three dated Lexington context lines from the generated projection and requires
-the canonical simulation date. A row is shown only on or after the conservative
-date by which its committed corpus proves it was present. Because exact source
-release dates are unavailable, the UI exposes that `sourceObservedBy` date and
-retains `sourceReleaseDate: null`; it does not backdate the row to its reference
-period. The function returns an empty list for any place without an exact
-binding. UI-core owns final registration in `PlayerGame.tsx`; the exact handoff
-is recorded in the delivery plan.
+`playerEconomicContextLines` remains a compact browser-safe seam over the
+generated Lexington projection. It requires the canonical simulation date and
+returns an empty list for an unbound place. A row is shown only on or after the
+conservative date by which the exact locked artifact proves it was retrieved.
+Because exact source release dates are unavailable, the UI exposes
+`knownAvailableOn`, its `retrieval-date-fallback` basis, and the full
+`sourceRetrievedAt` instant while retaining `sourceReleaseDate: null`; it does
+not backdate the row to its reference period or corpus vintage.
+
+## Browser corpus and graphs
+
+`npm run export:economic-context-browser` deterministically emits a browser
+manifest plus 292 lazy shards under `public/data/economic-context/v1`. The
+manifest indexes the full committed corpus—58,106 records—by exact provider
+code, not by name:
+
+| Product | Records | Exact geographies | Browser availability        |
+| ------- | ------: | ----------------: | --------------------------- |
+| BEA     |  35,496 |             3,597 | committed comparison window |
+| LAUS    |  13,082 |                79 | committed 2024+ slice only  |
+| HUD     |   9,528 |             4,934 | locked product vintages     |
+
+`createEconomicContextBrowserProvider` accepts an explicit binding and
+simulation date, then fetches only the manifest and shards capable of holding
+those provider codes. It returns fresh projections and reports an exact-code
+miss as unavailable. Tests replay every browser file byte-for-byte, prove that
+a Lexington query loads only its six required resources, preserve the absent
+LAUS parent checksum, and prove that reads do not mutate cached inputs.
+
+The graph read model and `EconomicContextPanel` render only supplied records.
+Observed BEA, LAUS, and HUD history is labeled `historical-observation`;
+simulation history, drafts, forecasts, and outturn are separate typed record
+classes. Missing values break a line and remain present in the exact-value
+table. The locked BEA products contain no GDP series, so GDP is explicitly
+unavailable. No slider or visual control derives a GDP response or other policy
+effect.
+
+The LEG estimate adapter accepts the owning system's typed conditional
+incremental-outlay projection and labels it `forecast`; zero means the
+proposal-specific incremental baseline, not a zero budget. It is not presented
+as an appropriation, enactment, observed budget, or outturn. FISCAL has not
+supplied a typed budget-history/outturn interface, so that graph remains
+unavailable rather than being synthesized here. UI-core owns final normal-player
+registration; the exact handoff is recorded in
+`docs/agent/econ-context2-ui-core-handoff.md`.

@@ -292,3 +292,53 @@ test("normal county selection preserves unspecified town and exact saved jurisdi
     path: info.outputPath("normal-county-reloaded.png"),
   });
 });
+
+for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
+  test(`normal dated economic panel respects canonical place: ${place}`, async ({
+    page,
+  }) => {
+    await page.goto("/?seed=ui-converge4-economics");
+    await startLife(page, { age: 38, place, route: "normal" });
+    await enterOpening(page);
+    await save(page);
+    const initial = await savedWorld(page);
+    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-personal");
+    const panel = page.getByTestId("economic-context-panel");
+    if (place === "Lexington, Kentucky") {
+      await expect(panel).toBeVisible();
+      await expect(panel).toContainText(initial.currentDate);
+      const sources = panel
+        .locator("summary")
+        .filter({ hasText: "Sources and scope" });
+      await sources.click();
+      await expect(
+        panel.getByText(
+          "Reference periods, product vintages, release dates, retrieval dates, and the simulation date remain separate. Missing data stays missing.",
+        ),
+      ).toBeVisible();
+      await sources.press("Enter");
+      await expect(sources.locator("..")).not.toHaveAttribute("open", "");
+      const unavailable = panel
+        .locator("summary")
+        .filter({ hasText: "Unavailable comparisons" });
+      await unavailable.focus();
+      await unavailable.press("Enter");
+      await expect(unavailable.locator("..")).toHaveAttribute("open", "");
+    } else {
+      await expect(panel).toHaveCount(0);
+    }
+    await save(page);
+    expect(await savedWorld(page)).toEqual(initial);
+    await continueSaved(page);
+    await goTo(page, "nav-personal-group");
+    await goTo(page, "nav-personal");
+    if (place === "Lexington, Kentucky") {
+      await expect(panel).toContainText(initial.currentDate);
+    } else {
+      await expect(panel).toHaveCount(0);
+    }
+    await save(page);
+    expect(await savedWorld(page)).toEqual(initial);
+  });
+}

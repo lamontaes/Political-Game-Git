@@ -1,3 +1,7 @@
+import {
+  EconomicContextPanel,
+  LEXINGTON_ECONOMIC_BINDING,
+} from "./EconomicContextPanel";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -480,6 +484,12 @@ export function PersonalWorkspace({
           </p>
         )}
       </section>
+      {economicPlace?.key === LEXINGTON_ECONOMIC_BINDING.placeKey ? (
+        <EconomicContextPanel
+          binding={LEXINGTON_ECONOMIC_BINDING}
+          simulationDate={world.currentDate}
+        />
+      ) : null}
       <header className="pg-personal-identity">
         <h3 data-testid="personal-name">{record.identity.name}</h3>
         <p className="game-band" data-testid="personal-age">
