@@ -25,7 +25,8 @@ export type RuleAuthorityLayer =
   | "joint-rules"
   | "uniform-rules"
   | "statute"
-  | "parliamentary-fallback";
+  | "parliamentary-fallback"
+  | "research-reference";
 
 export type RuleVerificationStatus = "verified" | "partial" | "unresolved";
 

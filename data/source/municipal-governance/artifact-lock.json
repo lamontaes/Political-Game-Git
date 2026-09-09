@@ -40,31 +40,31 @@
             },
             "regions": [
               {
-                "beginsWith": "\u00a7 1. Body politic and corporate name.",
+                "beginsWith": "§ 1. Body politic and corporate name.",
                 "endsWith": "shall continue to be one body politic and corporate in fact and its name shall be the City of Charlottesville."
               },
               {
-                "beginsWith": "\u00a7 5. Elective officers; qualifications and terms of certain officers; form of government; corporate powers vested in city council.",
+                "beginsWith": "§ 5. Elective officers; qualifications and terms of certain officers; form of government; corporate powers vested in city council.",
                 "endsWith": "their duties and liabilities shall be regulated by the general laws of the Commonwealth, not in conflict therewith."
               },
               {
-                "beginsWith": "\u00a7 5.01. City manager. Subject to general control by the council",
+                "beginsWith": "§ 5.01. City manager. Subject to general control by the council",
                 "endsWith": "the city manager shall have the powers vested in city managers in accordance with the general laws of the Commonwealth."
               },
               {
-                "beginsWith": "\u00a7 8. Vacancy in office of mayor or councilor; vacation of office.",
+                "beginsWith": "§ 8. Vacancy in office of mayor or councilor; vacation of office.",
                 "endsWith": "such removal shall operate to vacate such mayor's or councilor's office."
               },
               {
-                "beginsWith": "\u00a7 9. Council--Mayor and vice-mayor.",
+                "beginsWith": "§ 9. Council--Mayor and vice-mayor.",
                 "endsWith": "but in no case shall they be entitled to a second vote on any question."
               },
               {
-                "beginsWith": "\u00a7 12. Same--Council meetings and rules.",
+                "beginsWith": "§ 12. Same--Council meetings and rules.",
                 "endsWith": "except when it votes to hold an executive or closed session pursuant to the general laws of the Commonwealth."
               },
               {
-                "beginsWith": "\u00a7 19. Fiscal year; budget; levy of taxes.",
+                "beginsWith": "§ 19. Fiscal year; budget; levy of taxes.",
                 "endsWith": "The total amount of appropriations shall not exceed the estimated revenues of the city."
               }
             ]
@@ -108,60 +108,72 @@
           "jurisdictionKey": "US-VA",
           "scope": {
             "boundaryKind": "normalized-text-regions",
+            "extracted": {
+              "length": 12916,
+              "sha256": "5010a9c8b6c7bc4ee9dc3596f13c419a8b5e5a1a68cdcfae3fbb443d19e6f9ef"
+            },
             "regions": [
               {
-                "beginsWith": "\u00a7 1.01. Incorporation.",
+                "beginsWith": "§ 1.01. Incorporation.",
                 "endsWith": "may have a corporate seal which it may alter, renew or amend at its pleasure."
               },
               {
-                "beginsWith": "\u00a7 3.01. Election of councilmen; nomination of candidates.",
+                "beginsWith": "§ 3.01. Election of councilmen; nomination of candidates.",
                 "endsWith": "Each council member elected in accordance with this section shall reside in the election district from which such member was elected throughout the member's term on the council."
               },
               {
-                "beginsWith": "\u00a7 4.01. Composition; compensation; appointment of members to office of profit. The council shall consist of nine members",
+                "beginsWith": "§ 4.01. Composition; compensation; appointment of members to office of profit. The council shall consist of nine members",
                 "endsWith": "be appointed to any office of profit under the government of the city."
               },
               {
-                "beginsWith": "\u00a7 4.07. Voting.",
+                "beginsWith": "§ 4.07. Voting.",
                 "endsWith": "the ayes and noes shall be recorded in the journal."
               },
               {
-                "beginsWith": "\u00a7 4.09. Ordinances; form.",
+                "beginsWith": "§ 4.09. Ordinances; form.",
                 "endsWith": "an ordinance shall take effect on the tenth day following its passage."
               },
               {
-                "beginsWith": "\u00a7 4.10. Procedure for passing ordinances.",
+                "beginsWith": "§ 4.10. Procedure for passing ordinances.",
                 "endsWith": "all proceedings had as in the case of a newly introduced ordinance."
               },
               {
-                "beginsWith": "\u00a7 4.11. Emergency ordinances.",
+                "beginsWith": "§ 4.11. Emergency ordinances.",
                 "endsWith": "six affirmative votes shall be necessary for its adoption."
               },
               {
-                "beginsWith": "\u00a7 5.01. Mayor. The mayor shall be the chief executive officer of the city",
+                "beginsWith": "§ 5.01. Mayor. The mayor shall be the chief executive officer of the city",
                 "endsWith": "The office of mayor shall be a full-time position with salary and expenses set by the council."
               },
               {
-                "beginsWith": "\u00a75.01.1. Chief administrative officer. The mayor shall appoint a chief administrative officer",
+                "beginsWith": "§5.01.1. Chief administrative officer. The mayor shall appoint a chief administrative officer",
                 "endsWith": "The mayor shall set the salary of the chief administrative officer subject to the approval of a majority of the members of city council."
               },
               {
-                "beginsWith": "\u00a7 5.05. General duties; mayor.",
+                "beginsWith": "§ 5.05. General duties; mayor.",
                 "endsWith": "however, the appointment of members of a redevelopment and housing authority in the city shall be made by the council; and"
               },
               {
-                "beginsWith": "\u00a7 6.01. Fiscal and tax years.",
+                "beginsWith": "§ 6.01. Fiscal and tax years.",
                 "endsWith": "The rates of all other taxes and levies, except on new sources of tax revenues, shall be fixed before the beginning of the tax year."
               },
               {
-                "beginsWith": "\u00a7 6.02. Submission.",
+                "beginsWith": "§ 6.02. Submission.",
                 "endsWith": "(b) a budget message; and (c) a capital budget."
+              },
+              {
+                "beginsWith": "§ 6.10. Action by council on budget generally.",
+                "endsWith": "additional revenue in the ensuing fiscal year sufficient to make up this difference."
+              },
+              {
+                "beginsWith": "§ 6.11. Adoption of budget, appropriation ordinance and ordinances for additional revenue.",
+                "endsWith": "Vetoes of any one or more items shall not affect other items not vetoed."
+              },
+              {
+                "beginsWith": "§ 6.12. Effective date of budget; certification and availability of copies thereof.",
+                "endsWith": "shall be made available to the public at suitable places in the city."
               }
-            ],
-            "extracted": {
-              "length": 10181,
-              "sha256": "e487b419418df5411c10379205438674728635eb376520c502ead1aa91f26e67"
-            }
+            ]
           }
         },
         "status": "public-domain-government-edict"
@@ -198,7 +210,7 @@
           "doctrine": "us-government-edicts",
           "enactingAuthority": "the General Assembly of Virginia",
           "instrumentKind": "statute",
-          "instrumentTitle": "Code of Virginia \u00a7 15.2-1427, Adoption of ordinances and resolutions generally; amending or repealing ordinances",
+          "instrumentTitle": "Code of Virginia § 15.2-1427, Adoption of ordinances and resolutions generally; amending or repealing ordinances",
           "jurisdictionKey": "US-VA",
           "scope": {
             "boundaryKind": "normalized-text-regions",
@@ -208,7 +220,7 @@
             },
             "regions": [
               {
-                "beginsWith": "\u00a7 15.2-1427 . Adoption of ordinances and resolutions generally; amending or repealing ordinances.",
+                "beginsWith": "§ 15.2-1427 . Adoption of ordinances and resolutions generally; amending or repealing ordinances.",
                 "endsWith": "but, if no effective date is specified, then such ordinance shall become effective upon adoption."
               }
             ]
@@ -248,7 +260,7 @@
           "doctrine": "us-government-edicts",
           "enactingAuthority": "the General Assembly of Virginia",
           "instrumentKind": "statute",
-          "instrumentTitle": "Code of Virginia \u00a7 15.2-1415, At what meetings governing body may act",
+          "instrumentTitle": "Code of Virginia § 15.2-1415, At what meetings governing body may act",
           "jurisdictionKey": "US-VA",
           "scope": {
             "boundaryKind": "normalized-text-regions",
@@ -258,7 +270,7 @@
             },
             "regions": [
               {
-                "beginsWith": "\u00a7 15.2-1415 . At what meetings governing body may act.",
+                "beginsWith": "§ 15.2-1415 . At what meetings governing body may act.",
                 "endsWith": "Meetings of governing bodies shall be subject to the applicable provisions of the Virginia Freedom of Information Act"
               }
             ]
@@ -303,8 +315,8 @@
           "scope": {
             "boundaryKind": "normalized-text-regions",
             "extracted": {
-              "length": 8943,
-              "sha256": "831b2301275e31a80cdf691c60745c600d492176f0a9491ca0582b54f47f6f38"
+              "length": 9778,
+              "sha256": "9949b9c082a7f89b20eed9fc6c5257b0866a77119276f213cfe7b4bd5039a775"
             },
             "regions": [
               {
@@ -318,6 +330,10 @@
               {
                 "beginsWith": "Sec. 2.050 Meetings: Quorum.",
                 "endsWith": "the sessions and all proceedings of the Board must be public."
+              },
+              {
+                "beginsWith": "Sec. 2.100 Ordinances: Passage by bill; amendments; subject matter; title requirements.",
+                "endsWith": "shall indicate new matter by underscoring or by italics."
               },
               {
                 "beginsWith": "Sec. 2.110 Ordinances: Enactment procedure; emergency ordinances.",
@@ -359,7 +375,6 @@
       "rights": {
         "attributionRequired": "UNKNOWN",
         "declaredLicense": null,
-        "status": "public-domain-government-edict",
         "edict": {
           "contentScope": "enacted-legal-text-only",
           "doctrine": "us-government-edicts",
@@ -380,7 +395,8 @@
               }
             ]
           }
-        }
+        },
+        "status": "public-domain-government-edict"
       },
       "storage": "committed"
     }

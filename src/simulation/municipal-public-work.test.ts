@@ -1,3 +1,4 @@
+import { addSimulationMinutes } from "./dates";
 import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld } from "./demo";
@@ -93,6 +94,27 @@ function seatWholeBody(
 }
 
 describe("the municipal corpus reaches the game", () => {
+  it("retains fixed authored provenance even when a caller supplies its own note", () => {
+    const input = cityWorld("3209700");
+    const next = scheduleMunicipalMeeting(input.world, {
+      governmentKey: input.governmentKey,
+      seriesKey: "regular",
+      start: addSimulationMinutes(input.world.currentMoment, 60),
+      end: addSimulationMinutes(input.world.currentMoment, 90),
+      participantPersonIds: [input.people[0]!],
+      responsiblePersonId: input.people[0]!,
+      jurisdictionId: input.jurisdictionId,
+      occurrenceNote: "Caller-supplied context.",
+    });
+    const meeting = municipalMeetings(next, input.governmentKey)[0]!;
+    expect(meeting.title).toMatch(/^Game-authored session:/);
+    expect(meeting.summary).toContain(
+      "Game-authored occurrence; no real meeting notice or published agenda is asserted.",
+    );
+    expect(meeting.summary).toContain("Caller-supplied context.");
+    expect(input.world.history.scheduledActivities).toHaveLength(0);
+  });
+
   it("does not grant a reported veto to an authored mayor without enacted authority", () => {
     const input = cityWorld("3209700");
     let world = input.world;
@@ -277,7 +299,9 @@ describe("a resident and a councilmember are not the same person", () => {
     expect(refusal.ok).toBe(false);
     if (refusal.ok) throw new Error("unreachable");
     expect(refusal.kind).toBe("evidence");
-    expect(refusal.reason).toMatch(/passage threshold/);
+    // The admitted §2.100 now establishes passage; unresolved introduction still refuses.
+    expect(refusal.reason).toMatch(/introduction/);
+    expect(refusal.reason).not.toMatch(/passage threshold/);
   }, 60000);
 });
 

@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import {
   MEETING_PRACTICE_FIXTURE,
   MEETING_PRACTICE_AS_OF,
@@ -479,7 +480,7 @@ function exportReading(
   };
 }
 
-function main(): void {
+export function renderMunicipalGovernments(): string {
   const places = placeIndex();
 
   const production = compileMunicipalProduction(
@@ -610,8 +611,18 @@ export const MUNICIPAL_GOVERNMENTS_JSON: string =
   ${JSON.stringify(payload)};
 `;
 
+  return module;
+}
+
+function main(): void {
+  const module = renderMunicipalGovernments();
   if (process.argv.includes("--check")) {
-    if (readFileSync(resolve(REPO_ROOT, OUTPUT), "utf8") !== module)
+    const checkIndex = process.argv.indexOf("--check-file");
+    const target =
+      checkIndex >= 0
+        ? process.argv[checkIndex + 1]!
+        : resolve(REPO_ROOT, OUTPUT);
+    if (readFileSync(target, "utf8") !== module)
       throw new Error(
         "Municipal browser projection differs from its locked sources. Run export:municipal-governments.",
       );
@@ -621,9 +632,11 @@ export const MUNICIPAL_GOVERNMENTS_JSON: string =
     return;
   }
   writeFileSync(resolve(REPO_ROOT, OUTPUT), module, "utf-8");
-  process.stdout.write(
-    `Wrote ${OUTPUT} — ${ordered.length} governments, ${readings.length} readings, ${module.length} bytes.\n`,
-  );
+  process.stdout.write(`Wrote ${OUTPUT}.\n`);
 }
 
-main();
+if (
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+)
+  main();

@@ -174,10 +174,27 @@ export const MUNICIPAL_SOURCES: readonly MunicipalSourceSpec[] = [
           beginsWith: "§ 6.02. Submission.",
           endsWith: "(b) a budget message; and (c) a capital budget.",
         },
+        {
+          beginsWith: "§ 6.10. Action by council on budget generally.",
+          endsWith:
+            "additional revenue in the ensuing fiscal year sufficient to make up this difference.",
+        },
+        {
+          beginsWith:
+            "§ 6.11. Adoption of budget, appropriation ordinance and ordinances for additional revenue.",
+          endsWith:
+            "Vetoes of any one or more items shall not affect other items not vetoed.",
+        },
+        {
+          beginsWith:
+            "§ 6.12. Effective date of budget; certification and availability of copies thereof.",
+          endsWith:
+            "shall be made available to the public at suitable places in the city.",
+        },
       ],
-      length: 10181,
+      length: 12916,
       sha256:
-        "e487b419418df5411c10379205438674728635eb376520c502ead1aa91f26e67",
+        "5010a9c8b6c7bc4ee9dc3596f13c419a8b5e5a1a68cdcfae3fbb443d19e6f9ef",
     },
   },
   {
@@ -258,6 +275,11 @@ export const MUNICIPAL_SOURCES: readonly MunicipalSourceSpec[] = [
         },
         {
           beginsWith:
+            "Sec. 2.100 Ordinances: Passage by bill; amendments; subject matter; title requirements.",
+          endsWith: "shall indicate new matter by underscoring or by italics.",
+        },
+        {
+          beginsWith:
             "Sec. 2.110 Ordinances: Enactment procedure; emergency ordinances.",
           endsWith:
             "The Clerk shall record all ordinances in a book kept for that purpose together with the affidavits of publication by the publisher.",
@@ -268,9 +290,9 @@ export const MUNICIPAL_SOURCES: readonly MunicipalSourceSpec[] = [
             "The Manager may appoint such clerical personnel and create such administrative positions as he or she considers necessary, subject to the review and approval of the Board.",
         },
       ],
-      length: 8943,
+      length: 9778,
       sha256:
-        "831b2301275e31a80cdf691c60745c600d492176f0a9491ca0582b54f47f6f38",
+        "9949b9c082a7f89b20eed9fc6c5257b0866a77119276f213cfe7b4bd5039a775",
     },
   },
 ];

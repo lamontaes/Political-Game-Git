@@ -17,10 +17,10 @@
  * two readings and a publication before they can pass. Those are three
  * different institutions, and they read differently at every step.
  *
- * What is missing is as declared as what is present. Carson City's charter
- * fixes a quorum and an enactment procedure but nowhere states the vote an
- * ordinance needs, so its passage threshold is UNKNOWN — and a consumer that
- * needs one is refused rather than handed Virginia's.
+ * What is missing is as declared as what is present. Carson City's own whole-
+ * Board passage threshold is compiled from § 2.100. Introduction authority and
+ * the consequences of withholding the required mayoral signature remain
+ * UNKNOWN; a passage threshold alone does not enable ordinance progression.
  */
 
 import { SUPPLEMENTAL_PRODUCTION_PACKS } from "./supplemental-production";
@@ -130,6 +130,19 @@ const CVILLE_BALANCED_EXCERPT =
 const CVILLE_TERM_EXCERPT = "Councilors shall serve terms of four years.";
 const CVILLE_VACANCY_EXCERPT =
   "Whenever, from any cause, a vacancy shall occur in the office of mayor, the council shall elect one of its members as mayor for the remainder of the term. A vacancy in the office of councilor shall be filled by that body in accordance with the general laws of the Commonwealth.";
+
+const CARSON_PASSAGE_EXCERPT =
+  "No ordinance may be passed except by bill and by a majority vote of the whole Board of Supervisors.";
+const RICHMOND_BUDGET_AMENDMENT_EXCERPT =
+  "After the conclusion of the public hearing, the council may insert new items of expenditure or may increase, decrease or strike out items of expenditure in the budget, except that no item of expenditure for debt service or required to be included by this charter or other provision of law shall be reduced or stricken out.";
+const RICHMOND_BUDGET_BALANCE_EXCERPT =
+  "The council shall in no event adopt a budget in which the total of expenditures exceeds the receipts, estimated as provided in § 6.04, unless at the same time it adopts measures for providing additional revenue in the ensuing fiscal year sufficient to make up this difference.";
+const RICHMOND_BUDGET_ADOPTION_EXCERPT =
+  "Not later than the thirty-first day of May in each year the council shall adopt the budget, the appropriation ordinances and such ordinances providing for additional revenue as may be necessary to put the budget in balance.";
+const RICHMOND_BUDGET_FALLBACK_EXCERPT =
+  "If for any reason the council fails to adopt the budget on or before such day, the budget as submitted by the mayor shall be the budget for the ensuing year and the appropriation ordinance and the ordinances providing additional revenue, if any, as recommended by the mayor shall have full force and effect to the same extent as if the same had been adopted by the council, notwithstanding anything to the contrary in this charter.";
+const RICHMOND_BUDGET_VETO_EXCERPT =
+  "The mayor shall have the power to veto any particular item or items of any city budget ordinance by written notice of veto delivered to the city clerk within 14 calendar days of council's action. Council may thereafter override the mayor's veto with a vote of six or more of the currently filled seats on council at any regular or special meeting held within 14 calendar days of the city clerk's receipt of the notice of veto. Vetoes of any one or more items shall not affect other items not vetoed.";
 
 const VA_PASSAGE_EXCERPT =
   "an ordinance may be adopted by majority vote of those present and voting at any lawful meeting";
@@ -939,6 +952,44 @@ const RICHMOND: MunicipalPackInput = {
       "Charter § 6.02",
       RICHMOND_BUDGET_SUBMIT_EXCERPT,
     ),
+    power(
+      "BUDGET_ADOPTION",
+      "COUNCIL",
+      true,
+      {
+        allowed: true,
+        target:
+          "Budget, appropriation ordinances and ordinances for additional revenue",
+        conditions: [
+          RICHMOND_BUDGET_ADOPTION_EXCERPT,
+          RICHMOND_BUDGET_BALANCE_EXCERPT,
+        ],
+        threshold: null,
+        exceptions: [RICHMOND_BUDGET_FALLBACK_EXCERPT],
+      },
+      "va-richmond-charter",
+      "Charter §§ 6.10–6.11",
+      RICHMOND_BUDGET_ADOPTION_EXCERPT,
+    ),
+    power(
+      "LINE_ITEM_VETO",
+      "MAYOR",
+      true,
+      {
+        allowed: true,
+        target: "Particular items of city budget ordinances",
+        conditions: [
+          "Written notice to the city clerk within 14 calendar days of council's action.",
+        ],
+        threshold: null,
+        exceptions: [
+          "Council may override with six or more currently filled seats within 14 calendar days of the clerk's receipt; other items are unaffected.",
+        ],
+      },
+      "va-richmond-charter",
+      "Charter § 6.11",
+      RICHMOND_BUDGET_VETO_EXCERPT,
+    ),
   ],
   legislativeProcedure: {
     measureTypes: said(
@@ -1045,11 +1096,17 @@ const RICHMOND: MunicipalPackInput = {
       "Charter § 6.02",
       RICHMOND_BUDGET_SUBMIT_EXCERPT,
     ),
-    amends: open(
-      "the charter sections read do not state the council's power to amend the submitted budget.",
+    amends: said(
+      "COUNCIL",
+      "va-richmond-charter",
+      "Charter § 6.10",
+      RICHMOND_BUDGET_AMENDMENT_EXCERPT,
     ),
-    adopts: open(
-      "the charter sections read do not state how the council adopts the budget.",
+    adopts: said(
+      "COUNCIL",
+      "va-richmond-charter",
+      "Charter § 6.11",
+      RICHMOND_BUDGET_ADOPTION_EXCERPT,
     ),
     submissionDeadline: said(
       {
@@ -1060,13 +1117,48 @@ const RICHMOND: MunicipalPackInput = {
       "Charter § 6.02",
       RICHMOND_BUDGET_SUBMIT_EXCERPT,
     ),
-    adoptionDeadline: open(
-      "the charter sections read fix no date by which the council must adopt the budget.",
+    adoptionDeadline: said(
+      {
+        monthDay: "05-31",
+        minimumDaysBeforeFiscalYear: null,
+      } satisfies BudgetDeadlineRule,
+      "va-richmond-charter",
+      "Charter § 6.11",
+      RICHMOND_BUDGET_ADOPTION_EXCERPT,
     ),
-    balancedBudgetConstraint: open(
-      "the charter sections read state no balanced-budget constraint.",
+    balancedBudgetConstraint: said(
+      RICHMOND_BUDGET_BALANCE_EXCERPT,
+      "va-richmond-charter",
+      "Charter § 6.10",
+      RICHMOND_BUDGET_BALANCE_EXCERPT,
     ),
   },
+  researchObservations: [
+    said(
+      RICHMOND_BUDGET_AMENDMENT_EXCERPT,
+      "va-richmond-charter",
+      "Charter § 6.10",
+      RICHMOND_BUDGET_AMENDMENT_EXCERPT,
+    ),
+    said(
+      "The council shall not alter the estimates of receipts contained in the said budget except to correct omissions or mathematical errors, and it shall not cause the total of expenditures as recommended by the mayor to be increased without a public hearing on such increase, which shall be held not less than five days after notice thereof has been printed in a newspaper published or in general circulation in the city.",
+      "va-richmond-charter",
+      "Charter § 6.10",
+      "The council shall not alter the estimates of receipts contained in the said budget except to correct omissions or mathematical errors, and it shall not cause the total of expenditures as recommended by the mayor to be increased without a public hearing on such increase, which shall be held not less than five days after notice thereof has been printed in a newspaper published or in general circulation in the city.",
+    ),
+    said(
+      RICHMOND_BUDGET_FALLBACK_EXCERPT,
+      "va-richmond-charter",
+      "Charter § 6.11",
+      RICHMOND_BUDGET_FALLBACK_EXCERPT,
+    ),
+    said(
+      "Upon final adoption, the budget shall be in effect for the ensuing fiscal year. A copy of such budget as finally adopted shall be certified by the city clerk. Copies of the budget, capital program and appropriation and revenue ordinances shall be public records and shall be made available to the public at suitable places in the city.",
+      "va-richmond-charter",
+      "Charter § 6.12",
+      "Upon final adoption, the budget shall be in effect for the ensuing fiscal year. A copy of such budget as finally adopted shall be certified by the city clerk. Copies of the budget, capital program and appropriation and revenue ordinances shall be public records and shall be made available to the public at suitable places in the city.",
+    ),
+  ],
   consolidation: {
     consolidationType: silent(
       "va-richmond-charter",
@@ -1305,6 +1397,28 @@ const CARSON_CITY: MunicipalPackInput = {
       CARSON_MANAGER_EXCERPT,
     ),
     power(
+      "ORDINANCE_ADOPTION",
+      "COMMISSION",
+      true,
+      {
+        allowed: true,
+        target: "Ordinances of Carson City",
+        conditions: [
+          "Passage by bill and majority vote of the whole Board of Supervisors.",
+        ],
+        threshold: {
+          numerator: 1,
+          denominator: 2,
+          denominatorBasis: "TOTAL_MEMBERSHIP",
+          fixedVotesRequired: null,
+        },
+        exceptions: [],
+      },
+      "nv-carson-city-charter",
+      "Charter § 2.100(1)",
+      CARSON_PASSAGE_EXCERPT,
+    ),
+    power(
       "ORDINANCE_AMENDMENT",
       "COMMISSION",
       true,
@@ -1364,8 +1478,11 @@ const CARSON_CITY: MunicipalPackInput = {
       "Charter § 2.050(3)",
       CARSON_QUORUM_EXCERPT,
     ),
-    passageThreshold: open(
-      "the charter sections retrieved fix the enactment procedure but nowhere state the number of votes an ordinance needs to pass, and no Nevada general-law section establishing it has been retrieved.",
+    passageThreshold: said(
+      CARSON_PASSAGE_EXCERPT,
+      "nv-carson-city-charter",
+      "Charter § 2.100(1)",
+      CARSON_PASSAGE_EXCERPT,
     ),
     amendment: said(
       "At the reading following its proposal an ordinance is read as first introduced or as amended, and is then finally voted upon or action on it is postponed.",
@@ -1413,6 +1530,20 @@ const CARSON_CITY: MunicipalPackInput = {
       "the budget sections were not retrieved for this record.",
     ),
   },
+  researchObservations: [
+    said(
+      "No ordinance shall contain more than one subject, which shall be briefly indicated in the title. Where the subject of the ordinance is not so expressed in the title, the ordinance is void as to the matter not expressed in the title.",
+      "nv-carson-city-charter",
+      "Charter § 2.100(2)",
+      "No ordinance shall contain more than one subject, which shall be briefly indicated in the title. Where the subject of the ordinance is not so expressed in the title, the ordinance is void as to the matter not expressed in the title.",
+    ),
+    said(
+      "Any ordinance which amends an existing ordinance shall set out in full the ordinance or sections thereof to be amended, and shall indicate matter to be omitted by enclosing it in brackets and shall indicate new matter by underscoring or by italics.",
+      "nv-carson-city-charter",
+      "Charter § 2.100(3)",
+      "Any ordinance which amends an existing ordinance shall set out in full the ordinance or sections thereof to be amended, and shall indicate matter to be omitted by enclosing it in brackets and shall indicate new matter by underscoring or by italics.",
+    ),
+  ],
   consolidation: {
     consolidationType: said(
       "CITY_COUNTY",

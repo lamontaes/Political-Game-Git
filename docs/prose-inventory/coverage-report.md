@@ -7,16 +7,17 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5068 |
-| DIAGNOSTIC_OR_TEST | 3798 |
-| **NEEDS_CLASSIFICATION** | **3598** |
+| INVENTORIED | 2105 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5051 |
+| DIAGNOSTIC_OR_TEST | 3801 |
+| **NEEDS_CLASSIFICATION** | **3482** |
 
-Scanned 365 files holding 54750 string
+Scanned 364 files holding 54807 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
 
+- `src/simulation/municipal-governments.generated.ts` — Generated municipal source projection and provenance metadata, not authored prose. Authored municipal panels, histories and refusals are separately inventoried computed surfaces.
 - `src/source` — The source substrate is cited evidence about the real world — statute text, agency tables, citations. It is not authored player prose and reaches the world only through a named one-way adapter.
 - `src/authoring` — Authoring-time scene and asset tooling. Its strings describe art pipeline state to a developer, not a life to a player.
 - `src/devtools` — Developer diagnostics. Reachable only from the developer view, which ordinary play never opens.
@@ -36,7 +37,6 @@ literals in total; the table counts only those that read like a sentence.
 | 66 | `src/player/PlayerGame.tsx` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
-| 57 | `src/simulation/municipal-public-work.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
 | 50 | `src/simulation/judicial-office-content.ts` |
@@ -50,7 +50,6 @@ literals in total; the table counts only those that read like a sentence.
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
 | 39 | `src/simulation/episode-bank.ts` |
-| 39 | `src/simulation/municipal-government.ts` |
 | 39 | `src/simulation/player-model.ts` |
 | 39 | `src/simulation/voice-bands.ts` |
 | 37 | `src/simulation/setup-opening-bank.ts` |
@@ -101,7 +100,6 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
-| 15 | `src/player/MunicipalWorkspace.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
@@ -175,7 +173,6 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/life-introduction.ts` |
 | 3 | `src/presentation/life-story.ts` |
-| 3 | `src/presentation/municipal-workspace.ts` |
 | 3 | `src/presentation/production-office.ts` |
 | 3 | `src/simulation/candidacy.ts` |
 | 3 | `src/simulation/demo-jurisdiction-context.ts` |
@@ -191,7 +188,6 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/presentation/title-ambient.ts` |
 | 2 | `src/simulation/evidence-integrity.ts` |
 | 2 | `src/simulation/life-eligibility.ts` |
-| 2 | `src/simulation/municipal-governments.generated.ts` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
 | 1 | `src/player/PlayerConversation.tsx` |

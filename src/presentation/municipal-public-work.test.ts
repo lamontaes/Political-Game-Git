@@ -282,7 +282,7 @@ describe("normal saved home context", () => {
   it.each(["5114968", "3209700"])(
     "initializes one authored public session for %s without acquiring office",
     async (placeKey) => {
-      const { municipalWorkspaceFor, synchronizeMunicipalPublicContext } =
+      const { municipalWorkspaceFor, createAuthoredMunicipalPublicSession } =
         await import("./municipal-workspace");
       const place = requireLifePlace(placeKey);
       const generated = createScenarioWorld(
@@ -299,7 +299,7 @@ describe("normal saved home context", () => {
       };
       const view = municipalWorkspaceFor(world)!;
       expect(view.isHomeGovernment).toBe(true);
-      const initialized = synchronizeMunicipalPublicContext(world);
+      const initialized = createAuthoredMunicipalPublicSession(world);
       expect(initialized.history.organizationParticipations).toEqual(
         world.history.organizationParticipations,
       );
@@ -308,21 +308,23 @@ describe("normal saved home context", () => {
       expect(meetings[0]!.summary).toContain(
         "timing and duration are authored",
       );
-      expect(synchronizeMunicipalPublicContext(initialized)).toBe(initialized);
+      expect(createAuthoredMunicipalPublicSession(initialized)).toBe(
+        initialized,
+      );
       const attended = attendMunicipalPublicMeeting(
         initialized,
         view.government.key,
         meetings[0]!.id,
       );
       expect(attended.ok).toBe(true);
-      const next = synchronizeMunicipalPublicContext(attended.world);
+      const next = createAuthoredMunicipalPublicSession(attended.world);
       const subsequent = municipalMeetings(next, view.government.key);
       expect(subsequent).toHaveLength(2);
       expect(
         scheduledActivityState(next, subsequent[1]!.id).start.date,
       ).not.toBe(scheduledActivityState(next, subsequent[0]!.id).start.date);
       expect(
-        synchronizeMunicipalPublicContext(
+        createAuthoredMunicipalPublicSession(
           deserializeWorld(serializeWorld(next)),
         ),
       ).toEqual(next);
