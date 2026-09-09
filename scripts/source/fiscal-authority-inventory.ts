@@ -7,19 +7,19 @@ const INPUT_DIR = resolve(
   ROOT,
   "data/source/state-local-fiscal-authority/research-input",
 );
-const MASTER = resolve(
+export const FISCAL_DISPOSITION_MASTER = resolve(
   INPUT_DIR,
   "92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
 );
-const MIRROR = resolve(
+export const FISCAL_DISPOSITION_MIRROR = resolve(
   INPUT_DIR,
   "92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.mirror.json",
 );
-const OUTPUT = resolve(
+export const FISCAL_DISPOSITION_OUTPUT = resolve(
   ROOT,
   "data/source/state-local-fiscal-authority/research-disposition.json",
 );
-const EXPECTED_SHA256 =
+export const FISCAL_DISPOSITION_EXPECTED_SHA256 =
   "126ee64509d187f648ca6d67b9db815109868133cda7f02b6fa63621787525a8";
 
 type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
@@ -181,98 +181,104 @@ function disposition(
   };
 }
 
-const masterBytes = readFileSync(MASTER);
-const mirrorBytes = readFileSync(MIRROR);
-if (sha256Hex(masterBytes) !== EXPECTED_SHA256) {
-  throw new Error(
-    "The recovered 92N master does not match the contract digest.",
-  );
-}
-if (!masterBytes.equals(mirrorBytes)) {
-  throw new Error(
-    "The recovered 92N mirror is not byte-identical to the master.",
-  );
-}
+export function buildFiscalAuthorityDisposition(
+  masterBytes: Buffer,
+  mirrorBytes: Buffer,
+): string {
+  if (sha256Hex(masterBytes) !== FISCAL_DISPOSITION_EXPECTED_SHA256) {
+    throw new Error(
+      "The recovered 92N master does not match the contract digest.",
+    );
+  }
+  if (!masterBytes.equals(mirrorBytes)) {
+    throw new Error(
+      "The recovered 92N mirror is not byte-identical to the master.",
+    );
+  }
 
-const matrix = JSON.parse(masterBytes.toString("utf-8")) as Matrix;
-if (matrix.states.length !== 50) {
-  throw new Error(`Expected 50 states in 92N, found ${matrix.states.length}.`);
-}
+  const matrix = JSON.parse(masterBytes.toString("utf-8")) as Matrix;
+  if (matrix.states.length !== 50) {
+    throw new Error(
+      `Expected 50 states in 92N, found ${matrix.states.length}.`,
+    );
+  }
 
-const groups: {
-  stateUsps: string;
-  section: string;
-  group: string;
-  legalSource: Json;
-  matrixClaimedStatus: string | null;
-  claims: {
-    sourcePath: string;
-    value: Json;
-    status: string;
-    reason: string;
-    productionRecordIds: readonly string[];
-  }[];
-}[] = [];
+  const groups: {
+    stateUsps: string;
+    section: string;
+    group: string;
+    legalSource: Json;
+    matrixClaimedStatus: string | null;
+    claims: {
+      sourcePath: string;
+      value: Json;
+      status: string;
+      reason: string;
+      productionRecordIds: readonly string[];
+    }[];
+  }[] = [];
 
-for (const state of matrix.states) {
-  for (const section of [
-    "state_fiscal_authority",
-    "local_fiscal_authority",
-  ] as const) {
-    for (const [groupName, group] of Object.entries(state[section])) {
-      const prefix = `${state.metadata.code}/${section}/${groupName}`;
-      const claims = recordLeaves(group, "")
-        .map((leaf) => ({ ...leaf, relativePath: leaf.path.slice(1) }))
-        .filter((leaf) => !isMetadataLeaf(leaf.relativePath, leaf.value, group))
-        .map((leaf) => {
-          const sourcePath = `${prefix}/${leaf.relativePath}`;
-          return {
-            sourcePath,
-            value: leaf.value,
-            ...disposition(sourcePath, leaf.value, group.legal_source),
-          };
+  for (const state of matrix.states) {
+    for (const section of [
+      "state_fiscal_authority",
+      "local_fiscal_authority",
+    ] as const) {
+      for (const [groupName, group] of Object.entries(state[section])) {
+        const prefix = `${state.metadata.code}/${section}/${groupName}`;
+        const claims = recordLeaves(group, "")
+          .map((leaf) => ({ ...leaf, relativePath: leaf.path.slice(1) }))
+          .filter(
+            (leaf) => !isMetadataLeaf(leaf.relativePath, leaf.value, group),
+          )
+          .map((leaf) => {
+            const sourcePath = `${prefix}/${leaf.relativePath}`;
+            return {
+              sourcePath,
+              value: leaf.value,
+              ...disposition(sourcePath, leaf.value, group.legal_source),
+            };
+          });
+        groups.push({
+          stateUsps: state.metadata.code,
+          section,
+          group: groupName,
+          legalSource: group.legal_source,
+          matrixClaimedStatus: claimedState(group),
+          claims,
         });
-      groups.push({
-        stateUsps: state.metadata.code,
-        section,
-        group: groupName,
-        legalSource: group.legal_source,
-        matrixClaimedStatus: claimedState(group),
-        claims,
-      });
+      }
     }
   }
-}
 
-if (groups.length !== 750) {
-  throw new Error(`Expected 750 state/section groups, found ${groups.length}.`);
-}
+  if (groups.length !== 750) {
+    throw new Error(
+      `Expected 750 state/section groups, found ${groups.length}.`,
+    );
+  }
 
-const claims = groups.flatMap((group) => group.claims);
-const dispositionStatuses = [
-  "BLANK_OR_UNKNOWN",
-  "BLOCKED_CONFLICTING",
-  "BLOCKED_MALFORMED_LOCATOR",
-  "PRIMARY_ARTIFACT_VERIFIED",
-  "PRIMARY_ARTIFACT_VERIFIED_CORRECTED_LOCATOR",
-  "UNSUPPORTED_MATRIX_ONLY",
-] as const;
-const byStatus = Object.fromEntries(
-  dispositionStatuses.map((status) => [
-    status,
-    claims.filter((claim) => claim.status === status).length,
-  ]),
-);
+  const claims = groups.flatMap((group) => group.claims);
+  const dispositionStatuses = [
+    "BLANK_OR_UNKNOWN",
+    "BLOCKED_CONFLICTING",
+    "BLOCKED_MALFORMED_LOCATOR",
+    "PRIMARY_ARTIFACT_VERIFIED",
+    "PRIMARY_ARTIFACT_VERIFIED_CORRECTED_LOCATOR",
+    "UNSUPPORTED_MATRIX_ONLY",
+  ] as const;
+  const byStatus = Object.fromEntries(
+    dispositionStatuses.map((status) => [
+      status,
+      claims.filter((claim) => claim.status === status).length,
+    ]),
+  );
 
-writeFileSync(
-  OUTPUT,
-  toCanonicalJson({
+  return toCanonicalJson({
     schemaVersion: "1.0.0",
     researchInput: {
       driveFileId: "1se9eXvTzsHOESjdbbZPSmxs1rD5R3K13",
       mirrorDriveFileId: "19T_YU2xvrQDFd4D_xGviVG45z_X9G_O3",
       bytes: masterBytes.length,
-      sha256: EXPECTED_SHA256,
+      sha256: FISCAL_DISPOSITION_EXPECTED_SHA256,
       mirrorByteIdentical: true,
       matrixAsOfDate: matrix.as_of_date,
       matrixRetrievalDate: matrix.retrieval_date,
@@ -286,11 +292,56 @@ writeFileSync(
       byStatus,
     },
     groups,
-  }),
-  "utf-8",
-);
+  });
+}
 
-console.log(
-  `Fiscal research disposition: ${matrix.states.length} states, ${groups.length} groups, ${claims.length} claims.`,
-);
-console.log(JSON.stringify(byStatus));
+export function checkFiscalAuthorityDisposition(
+  tracked: string,
+  generated: string,
+): void {
+  if (tracked !== generated) {
+    throw new Error(
+      "Fiscal research disposition is stale or corrupted. Regenerate it without --check.",
+    );
+  }
+}
+
+function main(argv: readonly string[]): void {
+  const check = argv.includes("--check");
+  const unexpected = argv.filter((argument) => argument !== "--check");
+  if (
+    unexpected.length > 0 ||
+    argv.filter((value) => value === "--check").length > 1
+  ) {
+    throw new Error(
+      `Usage: fiscal-authority-inventory.ts [--check]; received ${argv.join(" ")}.`,
+    );
+  }
+  const masterBytes = readFileSync(FISCAL_DISPOSITION_MASTER);
+  const mirrorBytes = readFileSync(FISCAL_DISPOSITION_MIRROR);
+  const generated = buildFiscalAuthorityDisposition(masterBytes, mirrorBytes);
+  if (check) {
+    const tracked = readFileSync(FISCAL_DISPOSITION_OUTPUT, "utf-8");
+    checkFiscalAuthorityDisposition(tracked, generated);
+  } else {
+    writeFileSync(FISCAL_DISPOSITION_OUTPUT, generated, "utf-8");
+  }
+  const inventory = (
+    JSON.parse(generated) as {
+      inventory: {
+        stateCount: number;
+        groupCount: number;
+        claimCount: number;
+        byStatus: Record<string, number>;
+      };
+    }
+  ).inventory;
+  console.log(
+    `Fiscal research disposition: ${inventory.stateCount} states, ${inventory.groupCount} groups, ${inventory.claimCount} claims${check ? " (checked)" : ""}.`,
+  );
+  console.log(JSON.stringify(inventory.byStatus));
+}
+
+if (process.argv[1]?.endsWith("fiscal-authority-inventory.ts")) {
+  main(process.argv.slice(2));
+}

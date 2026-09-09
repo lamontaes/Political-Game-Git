@@ -100,7 +100,12 @@ function readableForProduction(
   }
   let bytes: Buffer;
   try {
-    bytes = extractPinnedEnactedText(artifactId, verifiedBytes, edict.scope);
+    bytes = extractPinnedEnactedText(
+      artifactId,
+      verifiedBytes,
+      edict.scope,
+      artifact.mediaType,
+    );
   } catch (cause) {
     throw new SourceCapabilityError(
       `Artifact "${artifactId}" may not be opened for production: ${(cause as Error).message}`,

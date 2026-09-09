@@ -225,12 +225,23 @@ export interface CitedFiscalAuthority {
   readonly legalLocator: string;
   /** The publisher's URL for the authority, as the research recorded it. */
   readonly authorityUrl: string;
-  /** When the provision took effect, as the research recorded it. */
+  /** Enactment/signing date, only where a first-party artifact establishes it. */
+  readonly enactedDate: string | null;
+  /** When the foundational provision took effect. */
   readonly effectiveDate: string;
+  /** Most recent amendment date, null until its session-law chain is acquired. */
+  readonly lastAmendedDate: string | null;
+  /** Date on which the current statutory wording was retrieved and verified. */
+  readonly observedDate: string;
+  /** Whether the evidence proves a continuous version or only two dated points. */
+  readonly versionApplicability:
+    "CONTINUOUS_INTERVAL" | "FOUNDATIONAL_AND_OBSERVED_POINTS";
   /** `DIRECT` where the text states it; `DERIVED` where a chain was walked. */
   readonly derivation: "DIRECT" | "DERIVED";
   /** The derivation chain, where one was walked. */
   readonly derivationChain: string | null;
+  /** Locked artifacts walked by the derivation, in parent-to-extract order. */
+  readonly derivationArtifactIds: readonly string[];
   /** The research's own paraphrase of the provision. */
   readonly paraphrase: string;
 }

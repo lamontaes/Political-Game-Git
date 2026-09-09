@@ -13,7 +13,14 @@ export interface PortableFiscalSource {
   readonly citation: string;
   readonly url: string;
   readonly evidenceLocator: string;
+  readonly enactedDate?: string | null;
+  readonly effectiveDate?: string;
   readonly effectiveDateDerivation: string | null;
+  readonly effectiveDateEvidenceArtifactIds?: readonly string[];
+  readonly lastAmendedDate?: string | null;
+  readonly observedDate?: string;
+  readonly versionApplicability?:
+    "CONTINUOUS_INTERVAL" | "FOUNDATIONAL_AND_OBSERVED_POINTS";
 }
 
 interface PortableBase {
@@ -100,6 +107,21 @@ function matches(
     : record.kind === "FISCAL_RULE" && record.field === query.field;
 }
 
+function isOperativeOn(
+  record: PortableFiscalAuthorityRecord,
+  asOfDate: string,
+): boolean {
+  if (
+    record.source.versionApplicability === "FOUNDATIONAL_AND_OBSERVED_POINTS"
+  ) {
+    return asOfDate === record.effectiveFrom || asOfDate === record.sourceAsOf;
+  }
+  return (
+    asOfDate >= record.effectiveFrom &&
+    (record.effectiveThrough === null || asOfDate <= record.effectiveThrough)
+  );
+}
+
 export function queryFiscalAuthority(
   records: readonly PortableFiscalAuthorityRecord[],
   query: FiscalAuthorityQuery,
@@ -127,10 +149,7 @@ export function queryFiscalAuthority(
   }
   const operative = candidates.filter(
     (record) =>
-      record.uncertainty === null &&
-      query.asOfDate >= record.effectiveFrom &&
-      (record.effectiveThrough === null ||
-        query.asOfDate <= record.effectiveThrough),
+      record.uncertainty === null && isOperativeOn(record, query.asOfDate),
   );
   if (operative.length > 1) {
     return {
@@ -170,6 +189,20 @@ export function queryFiscalAuthority(
     )[0];
   if (previous) {
     return { state: "NO_LONGER_EFFECTIVE", record: previous };
+  }
+  const pointInTime = candidates.find(
+    (record) =>
+      record.source.versionApplicability === "FOUNDATIONAL_AND_OBSERVED_POINTS",
+  );
+  if (pointInTime) {
+    return {
+      state: "UNESTABLISHED",
+      reason:
+        query.asOfDate > pointInTime.sourceAsOf
+          ? `The current wording was observed on ${pointInTime.sourceAsOf}; this corpus does not project legal authority into a later date.`
+          : `The foundational rule is verified on ${pointInTime.effectiveFrom} and the current wording on ${pointInTime.sourceAsOf}, but the intervening amendment history is not fully acquired.`,
+      record: pointInTime,
+    };
   }
   return {
     state: "UNESTABLISHED",

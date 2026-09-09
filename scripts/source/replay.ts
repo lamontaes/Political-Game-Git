@@ -17,6 +17,12 @@ import { resolve } from "node:path";
 import { toCanonicalJson, writeText } from "../../src/source/core/index";
 import { REPO_ROOT, domainDataDir, loadDomains } from "./registry";
 import { compileDomainInto } from "./compile";
+import {
+  buildFiscalAuthorityDisposition,
+  FISCAL_DISPOSITION_MASTER,
+  FISCAL_DISPOSITION_MIRROR,
+  FISCAL_DISPOSITION_OUTPUT,
+} from "./fiscal-authority-inventory";
 import { buildManifest } from "./manifest";
 
 export interface ReplayDifference {
@@ -54,6 +60,18 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
           });
         }
       }
+    }
+
+    const generatedDisposition = buildFiscalAuthorityDisposition(
+      readFileSync(FISCAL_DISPOSITION_MASTER),
+      readFileSync(FISCAL_DISPOSITION_MIRROR),
+    );
+    const trackedDisposition = readFileSync(FISCAL_DISPOSITION_OUTPUT, "utf-8");
+    if (trackedDisposition !== generatedDisposition) {
+      differences.push({
+        path: "data/source/state-local-fiscal-authority/research-disposition.json",
+        reason: describeDifference(trackedDisposition, generatedDisposition),
+      });
     }
 
     const manifest = await buildManifest(scratch);

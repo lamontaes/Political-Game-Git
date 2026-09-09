@@ -1,9 +1,9 @@
 {
   "asOf": "2026-09-09",
-  "canonicalSha256": "e6078d600bc3f30f90d144ccb795b3d289f633d1da750bc6531f3f66e1371996",
+  "canonicalSha256": "b7107a7608e62217a993db36102a2b7b085cc40e581ea2629e53c2ca8b1f950a",
   "compiler": {
     "name": "state-local-fiscal-authority",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "corpusId": "state-local-fiscal-authority",
   "coverage": {
@@ -13,6 +13,14 @@
   },
   "inputClass": "production",
   "inputs": [
+    {
+      "artifactId": "ak-ch-74-sla-1985-enrolled-session-law",
+      "sha256": "30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f"
+    },
+    {
+      "artifactId": "ak-ch-74-sla-1985-enrolled-session-law-selected-pages",
+      "sha256": "4c6cb6515114178c22b04bb13ac7f959f6bc8f73485631e9ba6660669c04f8a1"
+    },
     {
       "artifactId": "ak-municipal-sales-use-tax-statutes",
       "sha256": "17b394d4fcc7d934aa4bf965973c7144e5a8e43d378fe1075f151413a087eb1b"

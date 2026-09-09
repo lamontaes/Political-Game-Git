@@ -10,7 +10,14 @@ function sourceFor(record: FiscalAuthorityRecord): PortableFiscalSource {
     artifactId: record.evidence.artifactId,
     citation: record.citedAuthority.legalLocator,
     url: record.citedAuthority.authorityUrl,
+    enactedDate: record.citedAuthority.enactedDate,
+    effectiveDate: record.citedAuthority.effectiveDate,
     effectiveDateDerivation: record.citedAuthority.derivationChain,
+    effectiveDateEvidenceArtifactIds:
+      record.citedAuthority.derivationArtifactIds,
+    lastAmendedDate: record.citedAuthority.lastAmendedDate,
+    observedDate: record.citedAuthority.observedDate,
+    versionApplicability: record.citedAuthority.versionApplicability,
     evidenceLocator:
       locator.kind === "legal-section"
         ? locator.pageOrSection
@@ -43,7 +50,7 @@ function sourceAsOf(record: FiscalAuthorityRecord): string {
   const sourced =
     record.kind === "TAX_INSTRUMENT" ? record.authorization : record.rule;
   return sourced.state === "KNOWN"
-    ? sourced.asOf
+    ? record.citedAuthority.observedDate
     : record.citedAuthority.effectiveDate;
 }
 

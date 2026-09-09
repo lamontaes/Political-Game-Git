@@ -21,6 +21,10 @@ import {
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
 import { openFiscalAuthorityWork } from "../../src/presentation/fiscal-authority-work";
+import {
+  LEGISLATIVE_FISCAL_PROPOSAL_INTEGRATION,
+  openLegislativeFiscalProposalAnalysis,
+} from "../../src/presentation/legislative-fiscal-proposal";
 import { resolveActiveMemberSeat } from "../../src/presentation/legislative-member-seat";
 import {
   createNewGameWorld,
@@ -110,6 +114,13 @@ describe("source to record to Work consumer", () => {
         citation: "Alaska Stat. §§ 29.45.090(a), 29.45.100",
       },
     });
+    expect(millage.record.source).toMatchObject({
+      enactedDate: null,
+      effectiveDate: "1986-01-01",
+      lastAmendedDate: null,
+      observedDate: "2026-09-09",
+      versionApplicability: "FOUNDATIONAL_AND_OBSERVED_POINTS",
+    });
     expect(millage.record.source.effectiveDateDerivation).toMatch(
       /ak-ch-74-sla-1985-enrolled-session-law.*30dfaeab42ba7a22/,
     );
@@ -133,16 +144,77 @@ describe("source to record to Work consumer", () => {
     });
   });
 
-  it("opens proposal analysis for the canonical Alaska legislative seat", () => {
+  it("answers real-corpus boundaries without inventing amendment continuity", () => {
+    const records = productionRecords();
+    const query = (asOfDate: string) =>
+      queryFiscalAuthority(records, {
+        stateUsps: "AK",
+        level: "MUNICIPALITY",
+        instrument: "PROPERTY_TAX",
+        asOfDate,
+      });
+    expect(query("1985-12-31").state).toBe("NOT_YET_EFFECTIVE");
+    expect(query("1986-01-01").state).toBe("IN_FORCE");
+    const untraced = query("1990-06-01");
+    expect(untraced.state).toBe("UNESTABLISHED");
+    if (untraced.state === "UNESTABLISHED") {
+      expect(untraced.reason).toMatch(
+        /amendment history is not fully acquired/,
+      );
+    }
+    expect(query("2026-09-09").state).toBe("IN_FORCE");
+    const future = query("2026-09-10");
+    expect(future.state).toBe("UNESTABLISHED");
+    if (future.state === "UNESTABLISHED") {
+      expect(future.reason).toMatch(/does not project legal authority/);
+    }
+
+    const actual = records.find(
+      (record) =>
+        record.kind === "TAX_INSTRUMENT" &&
+        record.recordId === "AK:MUNICIPALITY:instrument:PROPERTY_TAX",
+    );
+    if (!actual) throw new Error("Expected real property-tax record.");
+    expect(
+      queryFiscalAuthority(
+        [...records, { ...actual, recordId: `${actual.recordId}:conflict` }],
+        {
+          stateUsps: "AK",
+          level: "MUNICIPALITY",
+          instrument: "PROPERTY_TAX",
+          asOfDate: "2026-09-09",
+        },
+      ).state,
+    ).toBe("CONFLICTING");
+    expect(
+      queryFiscalAuthority(records, {
+        stateUsps: "AK",
+        level: "SPECIAL_DISTRICT",
+        instrument: "PROPERTY_TAX",
+        asOfDate: "2026-09-09",
+      }).state,
+    ).toBe("UNESTABLISHED");
+  });
+
+  it("opens the LEG proposal adapter for UI's normal Work recipient", () => {
     const won = wonAlaskaSeat();
-    const result = openFiscalAuthorityWork(won.world, productionRecords(), {
-      personId: won.personId,
-      stateUsps: "AK",
-      level: "MUNICIPALITY",
-      instrument: "GENERAL_SALES_TAX",
-      asOfDate: "2026-09-09",
-      action: "propose-authority-change",
+    expect(LEGISLATIVE_FISCAL_PROPOSAL_INTEGRATION).toEqual({
+      authorizationOwner: "LEG",
+      normalWorkMountOwner: "UI",
+      municipalExecutionOwner: "MUNI",
+      unaffectedInterfaces: ["EXEC", "ECON"],
     });
+    const result = openLegislativeFiscalProposalAnalysis(
+      won.world,
+      productionRecords(),
+      {
+        personId: won.personId,
+        stateUsps: "AK",
+        level: "MUNICIPALITY",
+        instrument: "GENERAL_SALES_TAX",
+        asOfDate: "2026-09-09",
+      },
+    );
     expect(result.kind).toBe("opened");
     if (result.kind !== "opened") return;
     expect(result.authority.state).toBe("IN_FORCE");
@@ -164,7 +236,7 @@ describe("source to record to Work consumer", () => {
       result.world,
     );
 
-    const repeated = openFiscalAuthorityWork(
+    const repeated = openLegislativeFiscalProposalAnalysis(
       result.world,
       productionRecords(),
       {
@@ -173,7 +245,6 @@ describe("source to record to Work consumer", () => {
         level: "MUNICIPALITY",
         instrument: "GENERAL_SALES_TAX",
         asOfDate: "2026-09-09",
-        action: "propose-authority-change",
       },
     );
     expect(repeated.kind).toBe("opened");
@@ -226,14 +297,17 @@ describe("source to record to Work consumer", () => {
 
   it("allows proposal work without converting an unknown baseline into current power", () => {
     const won = wonAlaskaSeat();
-    const result = openFiscalAuthorityWork(won.world, productionRecords(), {
-      personId: won.personId,
-      stateUsps: "AK",
-      level: "MUNICIPALITY",
-      instrument: "TRANSIENT_LODGING_TAX",
-      asOfDate: "2026-09-09",
-      action: "propose-authority-change",
-    });
+    const result = openLegislativeFiscalProposalAnalysis(
+      won.world,
+      productionRecords(),
+      {
+        personId: won.personId,
+        stateUsps: "AK",
+        level: "MUNICIPALITY",
+        instrument: "TRANSIENT_LODGING_TAX",
+        asOfDate: "2026-09-09",
+      },
+    );
     expect(result.kind).toBe("opened");
     if (result.kind !== "opened") return;
     expect(result.authority.state).toBe("UNESTABLISHED");

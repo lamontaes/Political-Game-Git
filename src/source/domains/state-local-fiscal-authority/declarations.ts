@@ -1,6 +1,11 @@
 import { known, normalizeRetrievedText } from "../../core/index";
 import type { Evidence, OpenedArtifact } from "../../core/index";
 import { FISCAL_AUTHORITY_AS_OF } from "./acquisition";
+import {
+  ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID,
+  ALASKA_SESSION_LAW_PDF_ARTIFACT_ID,
+  assertAlaskaSessionLawEnactedText,
+} from "./session-law";
 import type {
   CitedFiscalAuthority,
   FiscalAuthorityRecord,
@@ -33,17 +38,17 @@ const SOURCES = {
 
 /** Exact first-party support for the shared Title 29 effective date. */
 export const AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE = {
-  artifactId: "ak-ch-74-sla-1985-enrolled-session-law",
+  artifactId: ALASKA_SESSION_LAW_PDF_ARTIFACT_ID,
+  extractArtifactId: ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID,
   authorityUrl:
     "https://www.akleg.gov/pdf/billfiles/SLAs/SLA%201985/CH%2074%20SLA%201985.pdf",
-  bytes: 36_898_000,
-  sha256: "30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f",
   legalLocator: "ch. 74 SLA 1985, § 90",
   provisionPdfPages: {
-    propertyTax: 101,
-    taxLimitation: 116,
-    generalObligationBondVote: 150,
-    effectiveDate: 211,
+    propertyTax: [101, 102],
+    taxLimitation: [116],
+    salesAndUseTax: [136, 137, 138],
+    generalObligationBondVote: [150],
+    effectiveDate: [211],
   },
   effectiveDate: EFFECTIVE_FROM,
 } as const;
@@ -77,7 +82,7 @@ export type FiscalAuthorityDeclaration =
 const REFERENDUM_EXCERPT =
   "A new sales and use tax or an increase in the rate of levy of a sales tax approved by ordinance does not take effect until ratified by a majority of the voters at an election.";
 
-const TITLE_29_EFFECTIVE_DATE_DERIVATION = `Effective date established by ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.artifactId}, ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.legalLocator} (official enrolled session law PDF p. ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.effectiveDate}); supporting artifact SHA-256 ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.sha256} at ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.authorityUrl}. The relevant enacted provisions appear on PDF pp. ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.propertyTax}, ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.taxLimitation}, and ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages.generalObligationBondVote}.`;
+const TITLE_29_EFFECTIVE_DATE_DERIVATION = `Foundational enactment and effective date are supported by ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.artifactId}, ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.legalLocator}; the deterministic ${AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.extractArtifactId} carries the cited PDF pages ${Object.values(AK_TITLE_29_EFFECTIVE_DATE_EVIDENCE.provisionPdfPages).flat().join(", ")}. The current statute wording is separately observed as of ${FISCAL_AUTHORITY_AS_OF}; continuous wording between those evidence points and later amendment dates are not established.`;
 
 export const FISCAL_AUTHORITY_DECLARATIONS: readonly FiscalAuthorityDeclaration[] =
   [
@@ -173,7 +178,7 @@ export const FISCAL_AUTHORITY_DECLARATIONS: readonly FiscalAuthorityDeclaration[
       value: "AUTHORIZED",
       citation: "Alaska Stat. § 29.45.010(b)",
       excerpt:
-        "A home rule or first class city may levy a property tax subject to AS 29.45.550 � 29.45.560. A second class city may levy a property tax subject to AS 29.45.590 .",
+        "A home rule or first class city may levy a property tax subject to AS 29.45.550 — 29.45.560. A second class city may levy a property tax subject to AS 29.45.590 .",
       paraphrase:
         "Alaska cities may levy property tax through the routes stated for home-rule, first-class, and second-class cities.",
       constraints: [
@@ -236,6 +241,7 @@ function evidence(artifactId: string, citation: string): Evidence {
 
 function citedAuthority(
   declaration: FiscalAuthorityDeclaration,
+  lockedParentSha256: string,
 ): CitedFiscalAuthority {
   return {
     authorityType: "Enacted Statute",
@@ -244,9 +250,21 @@ function citedAuthority(
     lineage: "FIRST_PARTY_LEGAL_ARTIFACT",
     legalLocator: declaration.citation,
     authorityUrl: declaration.authorityUrl,
+    enactedDate: null,
     effectiveDate: EFFECTIVE_FROM,
+    lastAmendedDate: null,
+    observedDate: FISCAL_AUTHORITY_AS_OF,
+    versionApplicability: "FOUNDATIONAL_AND_OBSERVED_POINTS",
     derivation: declaration.derivationChain ? "DERIVED" : "DIRECT",
-    derivationChain: declaration.derivationChain ?? null,
+    derivationChain: declaration.derivationChain
+      ? `${declaration.derivationChain} Locked publisher PDF SHA-256 ${lockedParentSha256}.`
+      : null,
+    derivationArtifactIds: declaration.derivationChain
+      ? [
+          ALASKA_SESSION_LAW_PDF_ARTIFACT_ID,
+          ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID,
+        ]
+      : [],
     paraphrase: declaration.paraphrase,
   };
 }
@@ -255,6 +273,19 @@ export function compileFiscalAuthorityDeclarations(
   opened: Readonly<Record<string, OpenedArtifact>>,
   declarations: readonly FiscalAuthorityDeclaration[] = FISCAL_AUTHORITY_DECLARATIONS,
 ): readonly FiscalAuthorityRecord[] {
+  const sessionLaw = opened[ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID];
+  if (!sessionLaw) {
+    throw new Error(
+      `Missing opened artifact ${ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID}.`,
+    );
+  }
+  assertAlaskaSessionLawEnactedText(sessionLaw.bytes);
+  const lockedParentSha256 = sessionLaw.artifact.derivation?.parentSha256;
+  if (!lockedParentSha256) {
+    throw new Error(
+      `${ALASKA_SESSION_LAW_EXTRACT_ARTIFACT_ID} has no locked parent digest.`,
+    );
+  }
   return declarations.map((declaration) => {
     const artifact = opened[declaration.artifactId];
     if (!artifact)
@@ -269,7 +300,7 @@ export function compileFiscalAuthorityDeclarations(
     const base = {
       stateUsps: "AK",
       level: declaration.level,
-      citedAuthority: citedAuthority(declaration),
+      citedAuthority: citedAuthority(declaration, lockedParentSha256),
       normalizationReviewRequired: false,
       evidence: source,
       constraints: declaration.constraints,

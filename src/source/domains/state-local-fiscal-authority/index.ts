@@ -32,9 +32,11 @@
  */
 
 import {
+  assertValidArtifactLock,
   corpusCanonicalDigest,
   openFixture,
   openProductionArtifacts,
+  requireArtifact,
 } from "../../core/index";
 import type {
   ArtifactLock,
@@ -50,11 +52,16 @@ import { normalizeFiscalAuthority } from "./normalize";
 import { validateFiscalAuthorityCorpus } from "./validate";
 import type { FiscalAuthorityRecord } from "./types";
 import {
+  ALASKA_SESSION_LAW_EXTRACT,
   FISCAL_AUTHORITY_ACQUISITION,
   FISCAL_AUTHORITY_AS_OF,
   FISCAL_AUTHORITY_SOURCES,
 } from "./acquisition";
 import { compileFiscalAuthorityDeclarations } from "./declarations";
+import {
+  ALASKA_SESSION_LAW_PDF_ARTIFACT_ID,
+  ALASKA_SESSION_LAW_SELECTION_PREDICATE,
+} from "./session-law";
 
 export type {
   BalancedBudgetStage,
@@ -116,8 +123,9 @@ export {
 export { validateFiscalAuthorityCorpus } from "./validate";
 export * from "./acquisition";
 export * from "./declarations";
+export * from "./session-law";
 
-export const FISCAL_AUTHORITY_COMPILER_VERSION = "2.0.0";
+export const FISCAL_AUTHORITY_COMPILER_VERSION = "2.1.0";
 export const FISCAL_AUTHORITY_PARSER_VERSION = "2.0.0";
 
 /** The as-of date a fixture corpus is evaluated against. */
@@ -206,7 +214,47 @@ function requireDigest(lock: ArtifactLock, artifactId: string): string {
   return artifact.bytes.sha256;
 }
 
+export function assertFiscalAuthoritySessionLawLock(lock: ArtifactLock): void {
+  assertValidArtifactLock(lock);
+  const parent = requireArtifact(lock, ALASKA_SESSION_LAW_PDF_ARTIFACT_ID);
+  const extract = requireArtifact(lock, ALASKA_SESSION_LAW_EXTRACT.artifactId);
+  if (
+    parent.storage !== "cached-not-committed" ||
+    parent.mediaType !== "application/pdf"
+  ) {
+    throw new Error(
+      `${parent.artifactId} must be the locked cache-only publisher PDF.`,
+    );
+  }
+  if (
+    extract.storage !== "derived-qa-slice" ||
+    extract.derivation?.parentArtifactId !== parent.artifactId ||
+    extract.derivation.parentSha256 !== parent.bytes.sha256
+  ) {
+    throw new Error(
+      `${extract.artifactId} does not resolve to the locked publisher PDF digest.`,
+    );
+  }
+  if (
+    extract.derivation.selectionPredicate !==
+    ALASKA_SESSION_LAW_SELECTION_PREDICATE
+  ) {
+    throw new Error(
+      `${extract.artifactId} does not declare the accepted PDF page decoding predicate.`,
+    );
+  }
+  if (
+    extract.retrieval.url !== parent.retrieval.url ||
+    extract.retrieval.retrievedAt !== parent.retrieval.retrievedAt
+  ) {
+    throw new Error(
+      `${extract.artifactId} is not tied to the parent PDF retrieval receipt.`,
+    );
+  }
+}
+
 export function openFiscalAuthorityArtifacts(lock: ArtifactLock) {
+  assertFiscalAuthoritySessionLawLock(lock);
   return openProductionArtifacts(
     "state-local-fiscal-authority",
     lock,
@@ -234,7 +282,7 @@ export function compileFiscalAuthorityProduction(
         name: "literal-first-party-legal-declarations",
         version: "1.0.0",
       },
-      inputs: FISCAL_AUTHORITY_SOURCES.map((source) => ({
+      inputs: FISCAL_AUTHORITY_ACQUISITION.requests.map((source) => ({
         artifactId: source.artifactId,
         sha256: requireDigest(input.lock, source.artifactId),
       })),

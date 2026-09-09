@@ -1090,7 +1090,7 @@ describe("the production activation", () => {
   });
 
   it("declares the exact official artifacts production reads", () => {
-    expect(sourceDomain.acquisitionPlan.requests).toHaveLength(3);
+    expect(sourceDomain.acquisitionPlan.requests).toHaveLength(5);
     expect(
       sourceDomain.acquisitionPlan.requests.map((request) => ({
         artifactId: request.artifactId,
@@ -1098,6 +1098,16 @@ describe("the production activation", () => {
         rights: request.rights.status,
       })),
     ).toEqual([
+      {
+        artifactId: "ak-ch-74-sla-1985-enrolled-session-law",
+        provider: "Alaska State Legislature",
+        rights: "UNKNOWN",
+      },
+      {
+        artifactId: "ak-ch-74-sla-1985-enrolled-session-law-selected-pages",
+        provider: "Alaska State Legislature",
+        rights: "public-domain-government-edict",
+      },
       {
         artifactId: "ak-municipal-sales-use-tax-statutes",
         provider: "Alaska State Legislature",

@@ -57,8 +57,24 @@ function decodeEntity(entity: string): string {
  * throw here would turn "this page is not what we thought" into a build crash
  * rather than a missing fact.
  */
-export function normalizeRetrievedText(bytes: Uint8Array): string {
-  const raw = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
+function declaredEncoding(mediaType: string | undefined): string {
+  if (!mediaType) return "utf-8";
+  const charset = /(?:^|;)\s*charset\s*=\s*["']?([^;"'\s]+)/i.exec(
+    mediaType,
+  )?.[1];
+  const normalized = charset?.toLowerCase();
+  return normalized === "windows-1252" || normalized === "iso-8859-1"
+    ? "windows-1252"
+    : "utf-8";
+}
+
+export function normalizeRetrievedText(
+  bytes: Uint8Array,
+  mediaType?: string,
+): string {
+  const raw = new TextDecoder(declaredEncoding(mediaType), {
+    fatal: false,
+  }).decode(bytes);
   const withoutScripts = raw
     .replace(/<script\b[\s\S]*?<\/script\s*>/gi, " ")
     .replace(/<style\b[\s\S]*?<\/style\s*>/gi, " ")
