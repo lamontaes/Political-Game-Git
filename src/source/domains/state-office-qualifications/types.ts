@@ -76,11 +76,13 @@ export interface CitedAuthority {
   /** When the provision took effect, as the research recorded it. */
   readonly effectiveDate: string;
   /** `DIRECT` where the text states it; `DERIVED` where a chain was walked. */
-  readonly derivation: "DIRECT" | "DERIVED";
+  readonly derivation: "DIRECT" | "DERIVED" | "HISTORICAL";
   /** The derivation chain, where one was walked. */
   readonly derivationChain: string | null;
   /** The batch's own paraphrase of the provision. */
   readonly paraphrase: string;
+  /** Exact free-form note transported by the source row, if present. */
+  readonly notes: string | null;
 }
 
 export interface QualificationClaim {

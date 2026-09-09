@@ -12,13 +12,16 @@
  */
 
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   QUALIFICATION_COLUMNS,
+  RECOVERED_31D_QUALIFICATION_COLUMNS,
   QUALIFICATIONS_PRODUCTION_GATE,
   REJECTED_PLACEHOLDER_CITATIONS,
   compileQualificationFixture,
+  compileQualificationResearchTransport,
   isOfficeExistence,
   openQualificationFixture,
   parseQualificationMatrix,
@@ -119,6 +122,36 @@ describe("the qualifications compiler", () => {
 });
 
 describe("the matrix reader refuses a shape it cannot transcribe", () => {
+  it("recovers 31D as the exact 14-column transport found in Drive", () => {
+    const bytes = readFileSync(
+      resolve(REPO, "docs/research/31D-recovered-qualifications.tsv"),
+    );
+    expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+      "bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473",
+    );
+    const table = parseQualificationMatrix(bytes);
+    expect(table.schema).toBe("31D-recovered");
+    expect(table.header).toEqual([...RECOVERED_31D_QUALIFICATION_COLUMNS]);
+    expect(table.rows).toHaveLength(601);
+    for (const row of table.rows) expect(row.fields).toHaveLength(14);
+
+    const normalized = compileQualificationResearchTransport(
+      bytes,
+      "drive:31D:1t0n5YuknltD2poTWWCGOvb7bRXaylAd0",
+      "2026-09-08",
+    );
+    expect(normalized.productionStatus).toBe("staged-secondary-research");
+    expect(normalized.records).toHaveLength(601);
+    const derived = normalized.records.find(
+      (record) => record.recordId === "OH:LOWER_CHAMBER:MINIMUM_AGE",
+    );
+    expect(derived?.citedAuthority).toMatchObject({
+      derivation: "DERIVED",
+      derivationChain: "Ohio Const. art. XV § 4 & art. V § 1",
+      notes: "No 21-year requirement in Art. II",
+    });
+  });
+
   it("rejects a matrix whose tab delimiters did not survive — 31F finding 31F-01", () => {
     const spaceSeparated = `${QUALIFICATION_COLUMNS.join(" ")}\nZZ GOVERNOR Minimum Age KNOWN 30\n`;
     expect(() =>

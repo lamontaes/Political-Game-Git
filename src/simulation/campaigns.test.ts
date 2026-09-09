@@ -27,6 +27,11 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
   addDays,
+  assessKentuckyCampaignContribution,
+  campaignCompliancePackFor,
+  committeeCampaignComplianceDocuments,
+  publicCampaignComplianceDocuments,
+  recordCampaignComplianceDocument,
 } from "./index";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -36,6 +41,7 @@ import {
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+import { projectCampaignCompliance } from "../presentation/campaign-compliance-projection";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
@@ -175,7 +181,8 @@ function supportSnapshot(
 describe("candidacy coverage is stated, never assumed", () => {
   it("offers offices only where an accepted rule pack establishes them", () => {
     const coverage = candidacyCoverage();
-    expect(coverage.qualificationsAreSourced).toBe(false);
+    expect(coverage.qualificationsAreSourced).toBe(true);
+    expect(coverage.sourcedOfficeCount).toBe(2);
     expect(coverage.packCount).toBeGreaterThan(0);
 
     for (const place of lifePlaces()) {
@@ -325,6 +332,143 @@ describe("filing", () => {
         treasuryCurrency: makeCurrencyCode("USD"),
       }),
     ).toThrow(/already running/i);
+  });
+  it("records Kentucky compliance drafts, filings, and corrections without calling a filing approval", () => {
+    const filed = fileKentuckyCampaign("compliance-documents");
+    const election = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    expect(filed.campaign.compliancePackId).toBe(
+      "us-ky-candidate-campaign-compliance-v1",
+    );
+    expect(
+      campaignCompliancePackFor(filed.world, filed.campaign.id)
+        ?.contributionLimitMinorUnits.state,
+    ).toBe("UNKNOWN");
+
+    const withDraft = recordCampaignComplianceDocument(filed.world, {
+      stableKey: "report:draft:post-election",
+      campaignId: filed.campaign.id,
+      kind: "periodic-report",
+      schedule: "30-day-postelection",
+      periodStart: filed.campaign.filedAt,
+      periodEnd: election.electionDate,
+      dueOn: addDays(election.electionDate, 30),
+      status: "draft",
+      transport: null,
+      amendsDocumentId: null,
+      correctionReason: null,
+    });
+    expect(
+      publicCampaignComplianceDocuments(withDraft, filed.campaign.id),
+    ).toEqual([]);
+    expect(
+      committeeCampaignComplianceDocuments(
+        withDraft,
+        filed.campaign.organizationId,
+      ),
+    ).toHaveLength(1);
+
+    const withStatement = recordCampaignComplianceDocument(withDraft, {
+      stableKey: "statement:filed",
+      campaignId: filed.campaign.id,
+      kind: "statement-of-spending-intent",
+      schedule: "initial",
+      periodStart: null,
+      periodEnd: null,
+      dueOn: addDays(filed.campaign.filedAt, 5),
+      status: "filed",
+      transport: "KEFMS",
+      amendsDocumentId: null,
+      correctionReason: null,
+    });
+    const original = publicCampaignComplianceDocuments(
+      withStatement,
+      filed.campaign.id,
+    )[0]!;
+    expect(original.status).toBe("filed");
+    expect(original).not.toHaveProperty("approvedAt");
+
+    const corrected = recordCampaignComplianceDocument(withStatement, {
+      stableKey: "statement:correction",
+      campaignId: filed.campaign.id,
+      kind: "amendment",
+      schedule: "correction",
+      periodStart: null,
+      periodEnd: null,
+      dueOn: filed.world.currentDate,
+      status: "filed",
+      transport: "KEFMS",
+      amendsDocumentId: original.id,
+      correctionReason: "Correct the named campaign depository.",
+    });
+    expect(
+      publicCampaignComplianceDocuments(corrected, filed.campaign.id),
+    ).toHaveLength(2);
+    const outsiderId = election.candidatePersonIds.find(
+      (personId) => personId !== filed.candidatePersonId,
+    )!;
+    expect(
+      projectCampaignCompliance(
+        corrected,
+        filed.campaign.id,
+        filed.candidatePersonId,
+      ),
+    ).toMatchObject({ audience: "committee-private", documents: { length: 3 } });
+    expect(
+      projectCampaignCompliance(corrected, filed.campaign.id, outsiderId),
+    ).toMatchObject({ audience: "public", documents: { length: 2 } });
+    expect(deserializeWorld(serializeWorld(corrected))).toStrictEqual(corrected);
+  });
+
+  it("refuses wrong filing transport and dates as zero-write operations", () => {
+    const filed = fileKentuckyCampaign("compliance-refusal");
+    const before = serializeWorld(filed.world);
+    expect(() =>
+      recordCampaignComplianceDocument(filed.world, {
+        stableKey: "bad-statement",
+        campaignId: filed.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(filed.campaign.filedAt, 6),
+        status: "filed",
+        transport: null,
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/KEFMS|five days/i);
+    expect(serializeWorld(filed.world)).toBe(before);
+  });
+
+  it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {
+    const candidateMoney = assessKentuckyCampaignContribution({
+      contributorKind: "candidate",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: "Candidate Example",
+      contributorAddress: "Recorded address",
+      employer: "Self-employed",
+      occupation: "Candidate",
+    });
+    expect(candidateMoney).toMatchObject({
+      acceptableForRecording: true,
+      classification: "candidate-contribution",
+      requiresItemization: true,
+    });
+    const unsupported = assessKentuckyCampaignContribution({
+      contributorKind: "unknown",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: null,
+      contributorAddress: null,
+      employer: null,
+      occupation: null,
+    });
+    expect(unsupported.acceptableForRecording).toBe(false);
+    expect(unsupported.refusals.join(" ")).toMatch(/cannot infer|itemization/i);
   });
 });
 

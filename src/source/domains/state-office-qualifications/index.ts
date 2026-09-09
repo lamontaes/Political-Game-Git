@@ -45,6 +45,7 @@ export type {
 export { isOfficeExistence } from "./types";
 export {
   QUALIFICATION_COLUMNS,
+  RECOVERED_31D_QUALIFICATION_COLUMNS,
   parseQualificationMatrix,
   matrixField,
 } from "./parse";
@@ -75,6 +76,43 @@ export interface QualificationFixtureArtifacts {
   readonly matrixTsv: string;
 }
 
+export interface CompiledQualificationResearchTransport {
+  readonly artifactId: string;
+  readonly schema: "31F-compiler-ready" | "31D-recovered";
+  readonly recordCount: number;
+  readonly canonicalSha256: string;
+  readonly records: readonly QualificationRecord[];
+  readonly productionStatus: "staged-secondary-research";
+}
+
+/** Compile exact research rows for review without crossing the production gate. */
+export function compileQualificationResearchTransport(
+  bytes: Uint8Array,
+  artifactId: string,
+  corpusAsOf: string = QUALIFICATIONS_CORPUS_AS_OF,
+): CompiledQualificationResearchTransport {
+  const table = parseQualificationMatrix(bytes);
+  const normalized = normalizeQualifications(
+    table.rows,
+    artifactId,
+    corpusAsOf,
+    table.header,
+  );
+  if (normalized.defects.length > 0) {
+    throw new Error(
+      `The qualification research transport produced ${normalized.defects.length} defects, the first being: ${normalized.defects[0]?.message}`,
+    );
+  }
+  return {
+    artifactId,
+    schema: table.schema,
+    recordCount: normalized.records.length,
+    canonicalSha256: corpusCanonicalDigest(normalized.records),
+    records: normalized.records,
+    productionStatus: "staged-secondary-research",
+  };
+}
+
 /**
  * Compile a qualifications corpus from a fixture matrix.
  *
@@ -92,6 +130,7 @@ export function compileQualificationFixture(
     table.rows,
     input.fixtureId,
     corpusAsOf,
+    table.header,
   );
   if (defects.length > 0) {
     throw new Error(

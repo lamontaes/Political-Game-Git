@@ -25,7 +25,7 @@ import {
   unknown,
 } from "../../core/index";
 import type { Claim, Evidence, ParseDefect, Sourced } from "../../core/index";
-import { matrixField } from "./parse";
+import { QUALIFICATION_COLUMNS, matrixField } from "./parse";
 import type { DelimitedRow } from "../../core/index";
 import type {
   CitedAuthority,
@@ -45,6 +45,16 @@ const OFFICE_FAMILIES: readonly OfficeFamily[] = [
   "LOWER_CHAMBER",
   "UNICAMERAL_CHAMBER",
 ];
+
+const RECOVERED_OFFICE_FAMILY: Readonly<Record<string, OfficeFamily>> = {
+  GOVERNOR: "GOVERNOR",
+  LT_GOVERNOR: "LIEUTENANT_GOVERNOR",
+  ATTORNEY_GENERAL: "ATTORNEY_GENERAL",
+  SECRETARY_OF_STATE: "SECRETARY_OF_STATE",
+  UPPER_LEGISLATOR: "UPPER_CHAMBER",
+  LOWER_LEGISLATOR: "LOWER_CHAMBER",
+  NEBRASKA_UNICAMERAL: "UNICAMERAL_CHAMBER",
+};
 
 /** 31F's field names, mapped onto this domain's vocabulary. */
 const FIELD_BY_MATRIX_NAME: Readonly<Record<string, QualificationField>> = {
@@ -82,17 +92,24 @@ function requirementValue(raw: string): string | number {
   return raw.trim();
 }
 
-function authorityFrom(row: DelimitedRow): CitedAuthority {
+function authorityFrom(
+  row: DelimitedRow,
+  header: readonly string[],
+): CitedAuthority {
+  const rawDerivation = matrixField(row, "direct_derived", header);
   const derivation =
-    matrixField(row, "direct_derived") === "DERIVED" ? "DERIVED" : "DIRECT";
+    rawDerivation === "DERIVED" || rawDerivation === "HISTORICAL"
+      ? rawDerivation
+      : "DIRECT";
   return {
-    authorityType: matrixField(row, "authority_type"),
-    legalLocator: matrixField(row, "legal_locator"),
-    authorityUrl: matrixField(row, "authority_url"),
-    effectiveDate: matrixField(row, "effective_date"),
+    authorityType: matrixField(row, "authority_type", header),
+    legalLocator: matrixField(row, "legal_locator", header),
+    authorityUrl: matrixField(row, "authority_url", header),
+    effectiveDate: matrixField(row, "effective_date", header),
     derivation,
-    derivationChain: null,
-    paraphrase: matrixField(row, "paraphrase"),
+    derivationChain: matrixField(row, "derivation_chain", header) || null,
+    paraphrase: matrixField(row, "paraphrase", header),
+    notes: matrixField(row, "notes", header) || null,
   };
 }
 
@@ -119,6 +136,13 @@ export function readRequirement(
    * So it stays unresolved and the validator reports the missing date.
    */
   const datable = /^\d{4}-\d{2}-\d{2}$/.test(authority.effectiveDate);
+
+  if (authority.derivation === "HISTORICAL") {
+    return unknown(
+      `The source row is historical context, not a current qualification: ${authority.paraphrase}`,
+      [evidence],
+    );
+  }
 
   switch (status) {
     case "KNOWN":
@@ -179,17 +203,20 @@ export function normalizeQualifications(
   rows: readonly DelimitedRow[],
   artifactId: string,
   corpusAsOf: string,
+  header: readonly string[] = QUALIFICATION_COLUMNS,
 ): QualificationNormalizeResult {
   const records: QualificationRecord[] = [];
   const defects: ParseDefect[] = [];
 
   for (const row of rows) {
-    const stateUsps = matrixField(row, "state").toUpperCase();
-    const officeRaw = matrixField(row, "office_family").toUpperCase();
-    const fieldName = matrixField(row, "fact_field");
-    const status = matrixField(row, "status");
-    const value = matrixField(row, "value");
-    const reviewRequired = matrixField(row, "review_required") === "true";
+    const read = (name: Parameters<typeof matrixField>[1]) =>
+      matrixField(row, name, header);
+    const stateUsps = read("state").toUpperCase();
+    const officeRaw = read("office_family").toUpperCase();
+    const fieldName = read("fact_field");
+    const status = read("status");
+    const value = read("value");
+    const reviewRequired = read("review_required") === "true";
 
     if (!/^[A-Z]{2}$/.test(stateUsps)) {
       defects.push({
@@ -199,7 +226,9 @@ export function normalizeQualifications(
       });
       continue;
     }
-    const officeFamily = OFFICE_FAMILIES.find((family) => family === officeRaw);
+    const officeFamily =
+      OFFICE_FAMILIES.find((family) => family === officeRaw) ??
+      RECOVERED_OFFICE_FAMILY[officeRaw];
     if (!officeFamily) {
       defects.push({
         kind: "unparsable-record",
@@ -209,7 +238,7 @@ export function normalizeQualifications(
       continue;
     }
 
-    const authority = authorityFrom(row);
+    const authority = authorityFrom(row, header);
     const evidence: Evidence = {
       artifactId,
       locator: {

@@ -31,31 +31,66 @@ export const QUALIFICATION_COLUMNS = [
   "paraphrase",
 ] as const;
 
-export type QualificationColumn = (typeof QUALIFICATION_COLUMNS)[number];
+/** The original 31D artifact's exact, recovered 14-column transport. */
+export const RECOVERED_31D_QUALIFICATION_COLUMNS = [
+  "state",
+  "office_family",
+  "fact_field",
+  "status",
+  "value",
+  "authority_url",
+  "authority_type",
+  "legal_locator",
+  "paraphrase",
+  "effective_date",
+  "direct_derived",
+  "derivation_chain",
+  "review_required",
+  "notes",
+] as const;
+
+export type QualificationColumn =
+  | (typeof QUALIFICATION_COLUMNS)[number]
+  | (typeof RECOVERED_31D_QUALIFICATION_COLUMNS)[number];
 
 export interface QualificationTable {
   readonly rows: readonly DelimitedRow[];
   readonly header: readonly string[];
+  readonly schema: "31F-compiler-ready" | "31D-recovered";
 }
 
 /** Parse a qualifications matrix, refusing anything that is not the shape. */
 export function parseQualificationMatrix(
   bytes: Uint8Array,
 ): QualificationTable {
+  const headerLine =
+    Buffer.from(bytes)
+      .toString("utf-8")
+      .replace(/^\uFEFF/, "")
+      .split(/\r?\n/, 1)[0] ?? "";
+  const transportedHeader = headerLine
+    .split("\t")
+    .map((field) => field.trim());
+  const columns =
+    transportedHeader.length === QUALIFICATION_COLUMNS.length
+      ? QUALIFICATION_COLUMNS
+      : transportedHeader.length === RECOVERED_31D_QUALIFICATION_COLUMNS.length
+        ? RECOVERED_31D_QUALIFICATION_COLUMNS
+        : null;
+  if (columns === null) {
+    throw new SourceParseError(
+      `A qualifications matrix has either ${QUALIFICATION_COLUMNS.length} (31F) or ${RECOVERED_31D_QUALIFICATION_COLUMNS.length} (recovered 31D) tab-separated columns; this one has ${transportedHeader.length}. If it reads as one column, its tab characters did not survive transport — see 31F finding 31F-01.`,
+    );
+  }
   const parsed = parseDelimited(bytes, {
     delimiter: "\t",
     hasHeaderRow: true,
-    expectedFieldCount: QUALIFICATION_COLUMNS.length,
+    expectedFieldCount: columns.length,
     trimFields: true,
   });
 
   const header = parsed.header ?? [];
-  if (header.length !== QUALIFICATION_COLUMNS.length) {
-    throw new SourceParseError(
-      `A qualifications matrix has ${QUALIFICATION_COLUMNS.length} tab-separated columns; this one has ${header.length}. If it reads as one column, its tab characters did not survive transport — see 31F finding 31F-01.`,
-    );
-  }
-  for (const [index, expected] of QUALIFICATION_COLUMNS.entries()) {
+  for (const [index, expected] of columns.entries()) {
     if (header[index] !== expected) {
       throw new SourceParseError(
         `Column ${index + 1} of the qualifications matrix is "${header[index]}"; the schema declares "${expected}".`,
@@ -68,13 +103,21 @@ export function parseQualificationMatrix(
     );
   }
 
-  return { rows: parsed.rows, header };
+  return {
+    rows: parsed.rows,
+    header,
+    schema:
+      columns === QUALIFICATION_COLUMNS
+        ? "31F-compiler-ready"
+        : "31D-recovered",
+  };
 }
 
 /** Read a named column out of a matrix row. */
 export function matrixField(
   row: DelimitedRow,
   column: QualificationColumn,
+  header: readonly string[] = QUALIFICATION_COLUMNS,
 ): string {
-  return row.fields[QUALIFICATION_COLUMNS.indexOf(column)] ?? "";
+  return row.fields[header.indexOf(column)] ?? "";
 }

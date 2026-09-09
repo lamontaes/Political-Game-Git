@@ -1,11 +1,12 @@
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
-import { unknownRule } from "./legislature-rules";
+import { knownRule, unknownRule } from "./legislature-rules";
 import type {
   FormalSeatCount,
   LegislativeRulePack,
   RuleValue,
 } from "./legislature-rules";
 import type { ElectiveOfficeRef } from "./types";
+import { candidateQualificationRuleSet } from "./candidate-qualification";
 
 /**
  * Which offices exist to be run for, and on whose authority.
@@ -100,7 +101,8 @@ export interface CandidacyCoverage {
   readonly packCount: number;
   readonly officeCount: number;
   /** True only once real candidate qualifications back the offer. */
-  readonly qualificationsAreSourced: false;
+  readonly qualificationsAreSourced: boolean;
+  readonly sourcedOfficeCount: number;
   readonly outstandingDependency: string;
   /** The same fact, said the way a player should hear it. */
   readonly playerNote: string;
@@ -115,7 +117,56 @@ const NO_MEMBERSHIP_INSTRUMENT =
 const NO_DISTRICT_GEOGRAPHY =
   "The game has no district geography, so a seat in this chamber has no district identity and a contest is for a seat rather than for a numbered district.";
 
-function officeQualification(): ElectiveOfficeQualification {
+function officeQualification(
+  packId: string,
+  chamberKey: string,
+): ElectiveOfficeQualification {
+  const rules = candidateQualificationRuleSet(
+    `${packId}:candidacy`,
+    `${packId}:${chamberKey}`,
+  );
+  if (rules) {
+    const source = {
+      authority: "constitution" as const,
+      citation: rules.minimumAge.state === "KNOWN"
+        ? rules.minimumAge.source.legalLocator
+        : "Qualification source unresolved",
+      sourceTitle: rules.minimumAge.state === "KNOWN"
+        ? rules.minimumAge.source.sourceTitle
+        : "Qualification source unresolved",
+      sourceUrl: rules.minimumAge.state === "KNOWN"
+        ? rules.minimumAge.source.sourceUrl
+        : null,
+      retrievedAt: rules.minimumAge.state === "KNOWN"
+        ? rules.minimumAge.source.retrievedAt
+        : null,
+      verification: "verified" as const,
+      note: rules.minimumAge.state === "KNOWN"
+        ? rules.minimumAge.source.researchLineage
+        : null,
+    };
+    return {
+      minimumAge:
+        rules.minimumAge.state === "KNOWN"
+          ? knownRule(rules.minimumAge.value, source)
+          : unknownRule("Minimum age is not resolved."),
+      residency:
+        rules.stateResidenceYears.state === "KNOWN" &&
+        rules.districtResidenceYears.state === "KNOWN"
+          ? knownRule(
+              `${rules.stateResidenceYears.value} years in the state and ${rules.districtResidenceYears.value} year in the district immediately preceding filing`,
+              source,
+            )
+          : unknownRule("Residence qualification is not resolved."),
+      termYears:
+        rules.termYears.state === "KNOWN"
+          ? knownRule(rules.termYears.value, source)
+          : unknownRule("Term length is not resolved."),
+      filing: unknownRule(
+        "The qualification source establishes who may serve, not a filing deadline or filing authority.",
+      ),
+    };
+  }
   return {
     minimumAge: unknownRule(NO_QUALIFICATION_CORPUS),
     residency: unknownRule(NO_QUALIFICATION_CORPUS),
@@ -150,7 +201,7 @@ export function candidacyPackFromRulePack(
       },
       seats: chamber.seats,
       recordedBy: { packId: pack.packId, packName: pack.displayName },
-      qualification: officeQualification(),
+      qualification: officeQualification(pack.packId, chamber.chamberKey),
       unresolvedGaps: [
         NO_QUALIFICATION_CORPUS,
         NO_MEMBERSHIP_INSTRUMENT,
@@ -224,6 +275,9 @@ export function electiveOfficeOption(
 }
 
 export function candidacyCoverage(): CandidacyCoverage {
+  const sourcedOfficeCount = CANDIDACY_PACKS.flatMap((pack) => pack.offices).filter(
+    (office) => office.qualification.minimumAge.kind === "known",
+  ).length;
   return {
     kind: "derived-from-accepted-rule-packs",
     packCount: CANDIDACY_PACKS.length,
@@ -231,9 +285,10 @@ export function candidacyCoverage(): CandidacyCoverage {
       (total, pack) => total + pack.offices.length,
       0,
     ),
-    qualificationsAreSourced: false,
+    qualificationsAreSourced: sourcedOfficeCount > 0,
+    sourcedOfficeCount,
     outstandingDependency: NO_QUALIFICATION_CORPUS,
     playerNote:
-      "The game knows these seats are elected because it has read the instrument that creates them. It has not read who is allowed to stand for one, so it applies its own adult rule and says so rather than pretending to quote a law.",
+      "Alaska legislative seats carry sourced age and residence rules. Other offered seats retain explicit unknowns and use the labelled game-adult floor; no jurisdiction borrows another's qualifications.",
   };
 }

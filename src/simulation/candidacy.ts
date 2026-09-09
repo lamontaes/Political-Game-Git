@@ -6,6 +6,11 @@ import {
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import { ageOnDate } from "./dates";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { factsForPerson } from "./people";
+import {
+  assessCandidateQualification,
+  candidateQualificationRuleSet,
+} from "./candidate-qualification";
 import type { EntityId, World } from "./types";
 
 /**
@@ -104,6 +109,9 @@ export function candidacyAuthority(
 export type CandidacyBlockKind =
   | "no-sourced-office"
   | "below-game-adult-age"
+  | "sourced-minimum-age"
+  | "sourced-state-residence"
+  | "unproved-district-residence"
   | "lives-elsewhere"
   | "already-a-candidate";
 
@@ -184,7 +192,41 @@ export function candidacyEligibility(
     );
   }
   const age = ageOnDate(person.birthDate, world.currentDate);
-  if (age < GAME_ADULT_CANDIDACY_AGE) {
+  const qualificationRules =
+    pack && option
+      ? candidateQualificationRuleSet(pack.packId, option.officeKey)
+      : null;
+  if (qualificationRules) {
+    const activeResidence = factsForPerson(person)
+      .filter(
+        (fact) =>
+          fact.kind === "residence" &&
+          fact.endedAt === null &&
+          fact.occurredAt <= world.currentDate &&
+          lifePlaceByJurisdictionId(fact.jurisdictionId)
+            ?.stateJurisdictionKey === qualificationRules.jurisdictionKey,
+      )
+      .sort((left, right) => left.occurredAt.localeCompare(right.occurredAt))[0];
+    const assessment = assessCandidateQualification(qualificationRules, {
+      birthDate: person.birthDate,
+      onDate: world.currentDate,
+      stateResidenceSince: activeResidence?.occurredAt ?? null,
+      // The current office is deliberately an unnumbered seat. A state-level
+      // residence fact cannot prove residence in a district that has no ID.
+      districtResidenceSince: null,
+    });
+    for (const refusal of assessment.refusals) {
+      blocks.push({
+        kind:
+          refusal.kind === "minimum-age"
+            ? "sourced-minimum-age"
+            : refusal.kind === "state-residence"
+              ? "sourced-state-residence"
+              : "unproved-district-residence",
+        reason: refusal.reason,
+      });
+    }
+  } else if (age < GAME_ADULT_CANDIDACY_AGE) {
     blocks.push({
       kind: "below-game-adult-age",
       reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
