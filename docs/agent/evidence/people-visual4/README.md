@@ -4,6 +4,12 @@ Code checkpoint: `64b49a7d4a41d6b692ad7eaa566981168cd87408`.
 The following delivery commit adds evidence/documentation only. Same PR134,
 unmerged. No monitoring or server remains running in this lane.
 
+> PEOPLE-SNAPSHOT6 correction: the primary outfit caption in
+> `selected-person-wardrobe-reload.png` displays the stable base recipe, not the
+> effective saved wardrobe. That caption evidence is superseded by
+> [the reproduced and corrected snapshot proof](../people-snapshot6/README.md).
+> Existing fit/source/identity acceptance is preserved.
+
 ## Browser proof
 
 `PEOPLE_VISUAL4_PROOF_REVISION=64b49a7d4a41d6b692ad7eaa566981168cd87408
