@@ -543,12 +543,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which composes current
-    // accepted main with the ENV-ALL1 scenes and activity/travel
-    // adapters. The generator was re-run; these are its numbers.
+    // accepted main with the ENV-ALL1 scene and travel modules. The generator was re-run;
+    // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(57152);
-    expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(395);
+    expect(coverage.totalLiterals).toBe(57925);
+    expect(coverage.counts.INVENTORIED).toBe(2105);
+    expect(coverage.scannedFiles).toBe(405);
   });
 });
 

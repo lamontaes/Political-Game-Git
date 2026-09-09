@@ -33,6 +33,7 @@ import { normalizeRetrievedText } from "./parse/html-text";
 /** The classes of legal instrument this substrate will accept as an edict. */
 export type LegalEdictInstrumentKind =
   | "constitution"
+  | "charter"
   | "statute"
   | "ordinance"
   | "court-opinion"
@@ -98,6 +99,7 @@ const JURISDICTION_KEY = /^[A-Z]{2}-[A-Z0-9]{2,3}$/;
 const INSTRUMENT_KINDS: ReadonlySet<string> = new Set<LegalEdictInstrumentKind>(
   [
     "constitution",
+    "charter",
     "statute",
     "ordinance",
     "court-opinion",

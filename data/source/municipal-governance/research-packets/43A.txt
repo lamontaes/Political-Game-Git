@@ -1,0 +1,2327 @@
+﻿CONTINUATION — 2026-08-25: Municipal/environment research continues in `45_PART_2_MUNICIPAL_AND_ENVIRONMENT_EXPANSION — 2026-08-25` (Drive ID `1Q4oy9o0D0En8of_M3xI3iNCvePy7l0Lj2f5pPC31zt0`). Read 45 after this backbone before treating municipal coverage or room/environment exceptions as current.
+
+
+# Part 2 — Real-World Political Environment Backbone — 2026-08-24
+
+
+## Status
+FIRST-PASS 50-STATE INSTITUTIONAL-LOCATION MATRIX COMPLETE.
+Detailed photographic reference packs are NOT yet complete for every room/building, and the municipal visual sample is NOT yet exhaustively researched in all 50 states. This document distinguishes those stages explicitly.
+
+
+This Part 2 should be read with:
+- `41_REAL_WORLD_POLITICAL_SCENE_REFERENCE_RESEARCH — 2026-08-24`
+- `40_STAGE_6_5_UI_VISUAL_REFERENCE_ARCHIVE_AND_LOCKS_2026-08-24`
+- `42_PART_1_FOUNDATIONAL_GOVERNMENT_DATA_BACKBONE — 2026-08-24`
+
+
+## Purpose
+Make political places feel geographically and institutionally real. A Montana governor, California governor, Illinois senator, Virginia delegate, Tennessee legislator, U.S. representative, and Peoria council member should not inhabit the same generic office with a different flag.
+
+
+This is an environment/reference backbone, NOT permission to regenerate the UI. The approved Political Game shell remains separate. Scene art should normally be generated/constructed cleanly and the locked UI layered deterministically afterward.
+
+
+## Hard environment rules
+1. Research the jurisdiction/building/era before rendering.
+2. Distinguish WORKING OFFICE from CEREMONIAL/RECEPTION/PRESS/CHAMBER/COMMITTEE/DISTRICT/RESIDENCE spaces.
+3. Do not infer a governor works every day in an ornate historic tour room merely because that room is called “Governor’s Office.”
+4. Preserve temporary/swing-space conditions by year.
+5. Architecture/fixed institutional furnishings are base assets. Generic personal decoration is not baked into the base.
+6. Personal/local/career objects are modular and should come from actual character/geographic/history state.
+7. Reuse geometry only when real environments belong to a genuinely similar family; do not erase distinctive buildings for asset convenience.
+8. Photo research needs multiple references where practical: official floor plans/tours, government stills/video, archives/historical agencies, then reputable local journalism when government imagery is inadequate.
+
+
+## Asset/reference taxonomy
+### UNIQUE / MUST CUSTOMIZE
+Architecture/layout is distinctive enough that a generic template would visibly fail. Examples: Hawaii State Capitol, Louisiana Capitol, Nebraska Capitol, New Mexico Roundhouse, North Dakota Capitol, Illinois chambers, Boston City Council chamber, major ornate civic halls.
+
+
+### STATE-SPECIFIC VARIANT
+Shares a broad archetype with other government buildings but local architecture/materials/layout are important enough to preserve.
+
+
+### REUSABLE BASE FAMILY
+Ordinary office/committee geometry may be shared when the real spaces are genuinely similar, but proportions, textures, fixed furniture, windows, state/institutional fixtures, and later personalization modules still vary.
+
+
+### ERA / TEMPORARY OVERRIDE
+Selected year changes where politics physically occurs because of renovation, construction, relocation or swing space. This overrides the “normal” building family for that period.
+
+
+## Federal Washington backbone
+### U.S. House member-office families
+Do not use one “Congress office.” At minimum:
+- Cannon House Office Building — oldest House office-building family; classical/Beaux-Arts institutional detailing; generally older/more compact lineage.
+- Longworth House Office Building — interwar/neoclassical but relatively economical working-office language; historically member suites used greeting/private-room logic.
+- Rayburn House Office Building — larger postwar/mid-century family with expanded offices/committee space.
+Individual member identity belongs in modular district/state/family/career artifacts, not in a baked generic “politician décor” layer.
+
+
+### U.S. Senate member-office families
+- Russell — older Beaux-Arts/classical, richer traditional material/detail lineage.
+- Dirksen — mid-century functional office/committee environment.
+- Hart — modern office/atrium family, dramatically different spatial language.
+
+
+### Federal scene backlog
+Still requires dedicated visual packs for:
+- each House/Senate member-office family;
+- committee/hearing room families;
+- Capitol chamber/lobby/corridor spaces;
+- leadership offices where materially different;
+- district offices (grounded by actual district/local building class rather than Washington styling);
+- White House/EEOB/Cabinet/agency headquarters families if/when executive gameplay enters those locations.
+
+
+# 50-state institutional-location matrix
+The matrix below identifies the first-pass building logic. `VISUAL PACK PENDING` means the location family is known but multiple production-quality photographic references have not yet been collected/annotated.
+
+
+## Alabama
+- Executive: Governor/executive constitutional functions use the historic Alabama State Capitol.
+- Legislature: General Assembly uses the separate Alabama State House, 11 S. Union Street.
+- Core asset logic: SPLIT CAMPUS — historic executive Capitol + more functional legislative State House.
+- Classification: STATE-SPECIFIC VARIANT.
+- Visual pack: PENDING.
+
+
+## Alaska
+- Executive: Governor’s office is in the compact State Capitol in Juneau.
+- Legislature: legislators use numbered rooms in the State Capitol during session; support functions also use the Terry Miller Legislative Office Building across the street.
+- Core asset logic: compact non-domed statehouse + nearby legislative-support building, not a giant classical Capitol.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PARTIAL; deeper room photography pending.
+
+
+## Arizona
+- Executive: contemporary executive offices occupy the Arizona Executive Tower; official directories place executive offices on upper floors and a distinct Governor’s Conference Room on a lower floor.
+- Legislature: House/Senate wings and legislative services are separate components of the Capitol complex.
+- Core asset logic: modern executive tower + legislative campus; do NOT render governor in the historic Capitol museum by default.
+- Classification: UNIQUE MODERN EXECUTIVE FAMILY.
+- Visual pack: PARTIAL.
+
+
+## Arkansas
+- Executive/legislature: official Capitol directories place Governor, House and Senate functions inside the State Capitol (Governor Room 250; House/Senate chamber levels separately).
+- Core asset logic: shared major classical Capitol with role-specific room families.
+- Classification: STATE-SPECIFIC VARIANT.
+- Visual pack: PENDING.
+
+
+## California
+- 2026 ERA OVERRIDE: Governor’s current office address is 1021 O Street, Suite 9000; 1021 O Street is the Capitol Annex Swing Space used during the Capitol Annex project.
+- Legislature: contemporary working offices are also affected by the Annex/swing-space program, while historic Capitol chambers/ceremonial spaces remain a separate visual family.
+- Core asset logic: do NOT automatically use historic Capitol interiors for all 2026 working scenes.
+- Classification: ERA/TEMPORARY OVERRIDE + HISTORIC CAPITOL + MODERN SWING-SPACE FAMILY.
+- Visual pack: high priority PENDING for actual 1021 O Street working interiors.
+
+
+## Colorado
+- Executive/legislature: official Capitol visitor material places Governor, House and Senate functions within the State Capitol (Governor Room 136; House and Senate chambers on upper levels).
+- Core asset logic: restored classical Capitol core with distinct chambers/executive room.
+- Classification: STATE-SPECIFIC VARIANT.
+- Visual pack: PENDING.
+
+
+## Connecticut
+- Capitol: historic State Capitol contains House/Senate chambers and executive spaces.
+- Legislative working space: separate Legislative Office Building, opened in the late 1980s, connected to Capitol by underground concourse; hearing/committee/member activity occurs there.
+- Core asset logic: dual historic Capitol + modern LOB.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: PENDING.
+
+
+## Delaware
+- Legislature: Legislative Hall houses the General Assembly.
+- Executive: Legislative Hall includes a Governor’s Ceremonial Office.
+- CRITICAL verification flag: do not assume the ceremonial office is the governor’s sole/current everyday working office without a separate current source.
+- Core asset logic: small red-brick/colonial-statehouse legislative family + separate everyday executive verification.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PENDING; executive working location verification pending.
+
+
+## Florida
+- Capitol Complex includes modern Capitol plus Historic Capitol and separate Senate/House office/support buildings, including Senate Office Building, House Office Building, Knott and other facilities.
+- Legislature: chambers in modern Capitol; committee/office activity distributed across Capitol Complex buildings.
+- Executive: modern high-rise Capitol complex, not a generic domed statehouse.
+- Core asset logic: modern tower + separate legislative office/committee families + historic Old Capitol ceremonial/history family.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: PENDING.
+
+
+## Georgia
+- Executive/chambers: State Capitol remains core historic setting.
+- Legislative offices/hearings: Coverdell Legislative Office Building is a major current office/hearing family.
+- Core asset logic: historic Capitol + Coverdell working-office family.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: PENDING.
+
+
+## Hawaii
+- Executive/legislature: Governor and legislature share the distinctive open-air 1960s Hawaii State Capitol.
+- Core asset logic: tropical/open modernist statehouse with architecture fundamentally unlike mainland classical capitols.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: high priority PENDING.
+
+
+## Idaho
+- Executive/legislature: restored Idaho State Capitol houses executive and legislative functions.
+- Core asset logic: Renaissance Revival/classical statehouse; role-specific rooms within one core.
+- Classification: STATE-SPECIFIC VARIANT.
+- Visual pack: PENDING.
+
+
+## Illinois
+- Executive/legislature: Illinois State Capitol, Springfield.
+- Chambers: House and Senate are highly ornate but not identical; Senate has distinctive curved desks/gilding/chandeliers/art-glass treatment; House has different gallery/balcony geometry.
+- Core asset logic: chambers must not be one recolored room.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: PARTIAL/STRONG chamber research; legislative working-office family still needs dedicated pack.
+
+
+## Indiana
+- Statehouse houses elected executive offices and legislature.
+- Governor room is unusually specific: ornate historic treatment, chandeliers, marble fireplace, historic/prison-made furnishings and USS Indiana teak desk lineage in official descriptions.
+- Core asset logic: governor working/ceremonial space deserves dedicated custom scene rather than generic classical office.
+- Classification: UNIQUE GOVERNOR ROOM + STATE-SPECIFIC CAPITOL.
+- Visual pack: PENDING.
+
+
+## Iowa
+- Executive/legislature: gold-domed Iowa State Capitol contains Governor and both chambers.
+- Core asset logic: highly recognizable restored Capitol with separate chamber/executive rooms.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PENDING.
+
+
+## Kansas
+- Executive/legislature: Governor and legislature operate from Kansas State Capitol.
+- Core asset logic: monumental restored classical statehouse.
+- Classification: STATE-SPECIFIC VARIANT.
+- Visual pack: PENDING.
+
+
+## Kentucky
+- Capitol: ornate Capitol contains chambers and major ceremonial/executive spaces; State Reception Room historically/physically relates to Governor suite.
+- Legislative working offices: rank-and-file legislators use the Capitol Annex, not ornate chambers as their normal office backdrop.
+- Core asset logic: ornate Capitol/chamber/reception family + much more functional Annex office/committee family.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: high priority PENDING/partial.
+
+
+## Louisiana
+- Executive/legislature: iconic 34-story Art Deco Louisiana State Capitol.
+- Core asset logic: vertical skyscraper statehouse, not domed-neoclassical template.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: high priority PENDING.
+
+
+## Maine
+- Legislature: historic State House plus Cross State Office Building; Cross Building carries substantial committee/hearing/staff activity and is connected through the Capitol complex.
+- Executive: exact 2026 everyday Governor working-room verification should be completed before an exact room render.
+- Core asset logic: historic State House + modern/state-office working family.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: PENDING; executive precise-location flag.
+
+
+## Maryland
+- State House contains General Assembly plus Governor/Lt. Governor and leadership spaces; Governor reception/office spaces are distinct.
+- Government House residence is a separate nearby location.
+- Core asset logic: exceptionally historic colonial statehouse + distinct official residence.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: PENDING.
+
+
+## Massachusetts
+- Executive/legislature: Governor and General Court operate from historic Massachusetts State House in Boston.
+- Core asset logic: historic State House family, visually different from generic modern legislature.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PENDING.
+
+
+## Michigan
+- Legislature: House/Senate chambers in historic Michigan State Capitol.
+- Executive: historical/current state records strongly associate gubernatorial executive-office operations with George W. Romney Building, but the current governor public-contact page does not itself expose a definitive physical working-room address.
+- Legislative office buildings: current member-office family should be explicitly verified/packed before production rather than assumed from older convention.
+- Core asset logic: likely split historic Capitol + executive/legislative office buildings.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Verification flag: exact 2026 Governor working-office and current member-office assignments.
+
+
+## Minnesota
+- Capitol: Governor/chambers use Minnesota State Capitol.
+- Legislature: Minnesota Senate Building and State Office Building form additional working-office families.
+- 2026 ERA FLAG: State Office Building construction/closure/renovation conditions materially affect normal occupancy; temporary space must be researched for selected date.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS + ERA OVERRIDE.
+- Visual pack: PENDING.
+
+
+## Mississippi
+- Capitol: Governor has legislative-session offices there; legislature uses Capitol.
+- Executive: official tour material states Governor’s full-time office is in Walter Sillers Building.
+- This is a critical example of why “Governor’s office” cannot be inferred from Capitol tours.
+- Core asset logic: Capitol session/ceremonial family + Sillers everyday executive family.
+- Classification: STATE-SPECIFIC SPLIT EXECUTIVE.
+- Visual pack: high priority PENDING.
+
+
+## Missouri
+- Executive/legislature: Capitol houses legislature and major statewide executive offices; Governor Room 218 in official materials.
+- Classification: STATE-SPECIFIC CLASSICAL CAPITOL.
+- Visual pack: PENDING.
+
+
+## Montana
+- Governor working office: State Capitol Room 204.
+- Governor Reception Room: separate adjacent historic reception/visitor space with different furnishing/layout function.
+- Legislature: State Capitol.
+- Core asset logic: at least working executive vs ceremonial/reception families; do not make either a mini Oval Office.
+- Classification: STATE-SPECIFIC / STRONG REFERENCE.
+- Visual pack: PARTIAL; further actual-room photography worthwhile.
+
+
+## Nebraska
+- Executive/legislature: Nebraska Capitol; unicameral legislature.
+- Core asset logic: famous Art Deco skyscraper/tower statehouse plus unique unicameral chamber.
+- Current exact governor room should be reverified before exact 2026 render if older map/Blue Book source is used.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: high priority PENDING.
+
+
+## Nevada
+- Executive: Governor’s northern office in historic Nevada State Capitol, Carson City.
+- Legislature: separate Nevada State Legislative Building at 401 S. Carson Street.
+- Core asset logic: small historic executive Capitol + modern/separate legislative building.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: PENDING.
+
+
+## New Hampshire
+- Legislative members/operations use State House plus State House Annex and Legislative Office Building; exact assignments vary.
+- Exceptionally large 400-member House affects chamber/corridor/member-space scale and crowding.
+- Executive: State House complex; exact current governor room should be verified for precise render.
+- Core asset logic: compact historic State House under unusual membership scale + overflow/office buildings.
+- Classification: UNIQUE INSTITUTIONAL SCALE.
+- Visual pack: PENDING.
+
+
+## New Jersey
+- Governor and legislative chambers use historic New Jersey State House; Legislative Annex adds working/committee space.
+- Core asset logic: historic statehouse + annex family.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: PENDING.
+
+
+## New Mexico
+- Roundhouse + Capitol North contain Governor, statewide officers, House/Senate and legislative offices/committee activity.
+- Circular architecture and major New Mexico art identity are foundational, not decoration.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: PARTIAL; high-priority full pack.
+
+
+## New York
+- Executive: Governor Executive Chamber in State Capitol; official schedules/records identify Second Floor, Red Room and other Capitol executive spaces.
+- Legislature: Assembly/Senate chambers in ornate Capitol; many member offices in Legislative Office Building.
+- Core asset logic: extraordinary Capitol executive/chamber family + separate large LOB working-office family.
+- Classification: UNIQUE CAPITOL + STATE-SPECIFIC LOB.
+- Visual pack: high priority PENDING.
+
+
+## North Carolina
+- Legislature: distinctive modernist Legislative Building + Legislative Office Building.
+- Executive: exact 2026 everyday Governor working location still requires direct current confirmation; do not infer solely from ceremonial appearances at the historic State Capitol.
+- Core asset logic: custom 1960s legislative architecture; executive exact-location research pending.
+- Classification: UNIQUE LEGISLATIVE BUILDING.
+- Visual pack: high priority PENDING; executive verification flag.
+
+
+## North Dakota
+- Executive/legislature: high-rise Art Deco State Capitol; official maps locate Governor and legislative chambers/leadership/committee spaces within complex.
+- Core asset logic: skyscraper Capitol/Judicial Wing family.
+- Classification: UNIQUE / MUST CUSTOMIZE.
+- Visual pack: high priority PENDING.
+
+
+## Ohio
+- Governor room: historic office retains strong nineteenth-century character while concealing modern technology; official sources emphasize antique/historic furniture and original-desk lineage.
+- Legislature: Ohio Statehouse with Senate Building/Atrium and distinct chamber/support spaces.
+- Core asset logic: custom governor room + Statehouse complex.
+- Classification: UNIQUE GOVERNOR ROOM / STATE-SPECIFIC CAPITOL.
+- Visual pack: PENDING.
+
+
+## Oklahoma
+- Executive/legislature: restored Oklahoma State Capitol.
+- Classification: STATE-SPECIFIC MONUMENTAL CAPITOL.
+- Visual pack: PENDING.
+
+
+## Oregon
+- Executive: current governor office address is 900 Court Street, Suite 254, Salem.
+- 2026 ERA OVERRIDE: major Capitol Accessibility, Maintenance and Safety restoration/seismic work materially affects Capitol occupancy and circulation.
+- Legislature: exact selected-date temporary/current office locations must be verified before scene generation.
+- Core asset logic: historic/modern Capitol family plus construction-era temporary configuration.
+- Classification: ERA/TEMPORARY OVERRIDE.
+- Visual pack: high priority PENDING for 2026.
+
+
+## Pennsylvania
+- Capitol Complex includes extraordinary main Capitol plus Irvis, Ryan, North Office, East Wing and other facilities.
+- Ryan and other buildings serve legislative working-office functions; exact current chamber/member distributions should be sourced per scene.
+- Core asset logic: ornate American Renaissance Capitol + multiple legislative office-building families.
+- Classification: UNIQUE CAPITOL + STATE-SPECIFIC OFFICE CAMPUS.
+- Visual pack: high priority PENDING.
+
+
+## Rhode Island
+- Governor current office: State House Room 115 in current official materials.
+- House/Senate chambers and many committees operate inside State House.
+- Core asset logic: compact grand State House with many functions concentrated in one building.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PENDING.
+
+
+## South Carolina
+- Executive: Governor office in State House west wing/first-floor complex; separate Governor conference space in Wade Hampton Building.
+- Chambers: State House.
+- House offices/staff: Blatt Building.
+- Senate offices/staff: Gressette Building.
+- Core asset logic: four materially different scene families can exist in one state political campus.
+- Classification: UNIQUE MULTI-BUILDING CAMPUS.
+- Visual pack: high priority PENDING.
+
+
+## South Dakota
+- Executive: current Governor office listed at State Capitol address; distinct Governor conference/Mount Rushmore rooms exist.
+- Legislature: State Capitol.
+- 2026 ERA FLAG: active restoration can change visible/circulation conditions.
+- Classification: STATE-SPECIFIC CAPITOL + RESTORATION CAVEAT.
+- Visual pack: PENDING.
+
+
+## Tennessee
+- Executive/chambers: Governor and House/Senate chambers in historic Tennessee State Capitol.
+- Legislative member offices and committees: Cordell Hull Building; leadership/member suites distributed there.
+- Core asset logic: historic Capitol for chamber/executive scenes + modern Cordell Hull working-office/committee family.
+- Classification: STATE-SPECIFIC SPLIT CAMPUS.
+- Visual pack: high priority PENDING.
+
+
+## Texas
+- Governor spaces are functionally separate in official Capitol directory: Public Reception Room, Press Conference area, Business Office, Legislative Division.
+- Legislature: historic Capitol plus underground Capitol Extension; representatives and committee staff can inhabit materially different office environments.
+- Core asset logic: do not collapse governor into one room or legislature into one background.
+- Classification: UNIQUE/STATE-SPECIFIC MULTI-FAMILY.
+- Visual pack: PARTIAL; high-priority expansion.
+
+
+## Utah
+- Executive: current schedules use Governor’s Office/Formal Office and named Capitol ceremonial/conference rooms.
+- Legislature: chambers and some leadership functions in Capitol; Legislative Services/staff/other offices also use House/North Capitol buildings.
+- Core asset logic: grand restored Capitol + connected support-building families.
+- Classification: STATE-SPECIFIC CAMPUS.
+- Visual pack: PENDING.
+
+
+## Vermont
+- Current State House maps place Governor office and House/Senate chambers plus many committee rooms inside compact historic building.
+- Historical map/source wording sometimes distinguishes a Governor “Ceremonial Office”; preserve vintage/source nuance rather than assuming room function never changed.
+- Legislature can spill support/committee needs across Capitol Complex because of space pressure.
+- Classification: UNIQUE COMPACT STATEHOUSE.
+- Visual pack: PENDING.
+
+
+## Virginia
+- Executive: Governor/cabinet operate from Patrick Henry Building, not from a generic Capitol governor office.
+- Legislature: chambers in historic Virginia Capitol.
+- Member/staff offices: NEW General Assembly Building opened 2023; members/staff moved there from temporary Pocahontas space.
+- Core asset logic: three clear families — Patrick Henry executive, historic Capitol chamber, contemporary General Assembly Building.
+- Classification: UNIQUE MULTI-BUILDING CAMPUS / IMPORTANT CURRENT-ERA CHANGE.
+- Visual pack: high priority PENDING.
+
+
+## Washington
+- Legislative Building: Governor/Lt. Governor/Secretary/Treasurer plus House/Senate chamber/admin functions.
+- Cherberg: Senate offices/committees/hearing rooms.
+- O’Brien: House offices/committees/hearing rooms.
+- Newhouse: Senate/caucus offices and support.
+- Core asset logic: monumental Beaux-Arts legislative core + multiple role-specific office-building families.
+- Classification: UNIQUE/STATE-SPECIFIC CAMPUS.
+- Visual pack: high priority PENDING.
+
+
+## West Virginia
+- Executive: current Governor office at State Capitol address.
+- Legislature: chambers/leadership in core with member offices distributed through wings/complex.
+- Core asset logic: grand Cass Gilbert Capitol with wing/member-office variations.
+- Classification: UNIQUE/STATE-SPECIFIC.
+- Visual pack: PENDING.
+
+
+## Wisconsin
+- Capitol houses Governor, legislature and Supreme Court; official wing organization distinguishes Assembly/Senate/executive/judicial/hearing functions.
+- Governor Conference Room is especially distinctive and actively used for cabinet, press, bill signings and receptions; ornate Venetian Renaissance/cherry/gilded character should be custom.
+- Classification: UNIQUE / MUST CUSTOMIZE key rooms.
+- Visual pack: high priority PENDING/partial.
+
+
+## Wyoming
+- Capitol maps place Governor/elected officers on lower levels, House/Senate chambers above; garden level links restored Capitol to Capitol Extension/Herschler complex with public meeting/media/civic spaces.
+- Core asset logic: restored historic Capitol + integrated underground/modern extension family.
+- Classification: UNIQUE/STATE-SPECIFIC CAMPUS.
+- Visual pack: PENDING.
+
+
+# Cross-state conclusions from the matrix
+## 1. “Governor’s office” is not one universal scene type
+The state pass produced at least these patterns:
+- historic Capitol working office;
+- modern executive tower;
+- separate executive office building;
+- Capitol ceremonial/session office + separate everyday working office;
+- temporary swing-space office during construction;
+- multiple distinct reception/press/business/legislative rooms.
+The game should therefore store `scene_role` and `building/location` separately from political office title.
+
+
+## 2. “State legislator office” is equally nonuniform
+Patterns include:
+- offices inside historic Capitol;
+- dedicated House/Senate office buildings;
+- shared Legislative Office Building;
+- underground Capitol Extension;
+- annexes;
+- modern new General Assembly building;
+- multiple support buildings connected by tunnels/concourses.
+
+
+## 3. Chambers are frequently the most unique assets
+Even where offices can share base geometry, chambers like Illinois, Hawaii, Nebraska, New Mexico, Louisiana and major historic capitols demand dedicated layout/material reference packs.
+
+
+## 4. Time must be part of the scene key
+Minimum scene lookup should resemble:
+`jurisdiction + institution + role/scene_type + building + effective_date_range`
+Examples:
+- California Governor / working office / 1021 O Street / 2026;
+- Virginia legislator / member office / General Assembly Building / 2023+;
+- Minnesota legislator / working office / temporary construction-era assignment / selected year;
+- Oregon legislature / selected temporary/current space / CAMS construction period.
+
+
+# Municipal-government backbone
+## Canonical jurisdiction universe
+Use Census Government Units Survey / 2025 Government Units Listing from Part 1 rather than relying on a hand-maintained city list or on EAVS reporting units. Reconcile Census governments with Census places/county subdivisions and state-specific government forms.
+
+
+## Selection model for visual coverage
+For every state, build at least three municipal reference targets:
+1. MAJOR CITY — generally the largest or most politically/economically important municipal government in the state.
+2. REPRESENTATIVE MEDIUM CITY — selected systematically from the middle of the state’s municipal population distribution, then checked for government-form and regional representativeness rather than hand-picked by fame.
+3. DISTINCTIVE CIVIC HALL — an architecturally/historically/institutionally unusual city/county/municipal chamber worth dedicated art even if population is smaller.
+
+
+Do not hard-code one city per tier forever. The underlying Census government universe means later content can expand to any real jurisdiction.
+
+
+## Proposed systematic municipal selection algorithm
+A. Start from active Census municipal/township governments for the selected state.
+B. Crosswalk to Census place/county-subdivision population estimates where applicable.
+C. Major city = top population/political center, with exception handling for unusual consolidated city-county systems or where the capital is especially gameplay-relevant.
+D. Medium city = choose candidates around the state-specific 50th–75th percentile among meaningful municipal governments, then prefer one with accessible official chamber/office imagery and a government form not redundant with the major city.
+E. Distinctive = search statewide historic-preservation/municipal/architectural sources for unusual civic halls/chambers, regardless of population.
+F. Record mayor-council/council-manager/commission/town-meeting/other form separately from visual architecture.
+G. Never infer government powers from chamber appearance; institutional authority comes from charter/state-law backbone.
+
+
+# Initial municipal visual anchors already researched
+## Peoria, Illinois
+- Council meets in City Hall Room 400.
+- Real chamber imagery shows curved dark-wood dais, large historic mural, coffered/arched ceiling treatment and traditional civic scale.
+- Value: strong medium-city reference; proves “medium city” need not look generic.
+
+
+## Springfield, Illinois
+- Municipal council setting is in Municipal Center West and is entirely separate from the ornate Illinois State Capitol.
+- Value: same city can contain two radically different political architectural families (state vs municipal).
+
+
+## Boston, Massachusetts
+- Council chamber represents Brutalist/modern civic architecture rather than ornate traditional council-hall default.
+- Value: dedicated unique municipal family.
+
+
+## Philadelphia, Pennsylvania
+- Exceptionally ornate historic council chamber in monumental City Hall.
+- Value: dedicated unique municipal family.
+
+
+## San Francisco, California
+- Board of Supervisors chamber is elaborate civic-palace/Beaux-Arts family with carved wood/ornament/chandeliers.
+- Value: dedicated unique municipal family.
+
+
+## Los Angeles, California
+- Large curved/semicircular council layout in monumental City Hall context.
+- Value: large-city civic family separate from San Francisco despite same state.
+
+
+## New York City, New York
+- Historic City Hall chamber with traditional/dark-wood/portrait/red-carpet institutional atmosphere.
+- Value: dedicated major-city historic family; do not confuse NYC municipal architecture with Albany state-government scenes.
+
+
+# Modular office personalization — PROPOSED DIRECTION, NOT YET FULLY LOCKED
+The base institutional environment should be comparatively neutral. Personal meaning is layered from persistent simulation history rather than fabricated decorative clutter.
+
+
+### Layer 1 — fixed institutional room
+Architecture, fixed/built-in furnishings, building-provided desk/seating, required flags/seals, permanent building art, functional equipment, windows/doors/lighting.
+
+
+### Layer 2 — jurisdiction/local modules
+District/state maps, locally plausible landscape/art/history/civic items, university/regional objects when actually relevant. Do NOT turn geography into clichés (Arizona=cactus; Florida=beach) automatically.
+
+
+### Layer 3 — personal-life artifacts
+Family/spouse/child photos, child school pictures that can age/change over years, graduation, military/service history, hobby objects, memorials, gifts, personal achievements.
+
+
+### Layer 4 — political/career artifacts
+Campaign photos/signs, signed laws, constituent gifts, front pages, photos with allies/leaders, awards, district/cause memorabilia, historically meaningful documents/events.
+
+
+### Layer 5 — player display choices / character habits
+Where appropriate, allow the player/character’s actual preferences and staff behavior to determine which owned artifacts are displayed. Offices can become visual biographies over time.
+
+
+Hard rule: no generic books/plants/awards/photographs merely because an image generator thinks a politician’s office should look “busy.” Every nonfunctional object should have an institutional, geographic, personal or historical reason to be there.
+
+
+# Part 2 data structure recommendation
+Maintain a `scene_reference_registry` with at least:
+- scene_reference_id
+- jurisdiction_id / Census government-unit linkage where relevant
+- institution / branch
+- office_role
+- scene_type (working_office, chamber, committee, reception, press, corridor, residence, campaign, etc.)
+- building_name
+- room_name/number if verified
+- address
+- effective_start / effective_end
+- current_status (normal, temporary, swing_space, construction, historic_only, ceremonial_only)
+- asset_family
+- uniqueness_class
+- base_geometry_family
+- fixed_institutional_features
+- photo_pack_status
+- source URLs + source type
+- confidence/verification notes
+- visual anti-assumptions (e.g. `NOT historic Capitol museum`, `ceremonial room only`)
+
+
+A separate `scene_artifact_slot` system should attach modular personal/local/career items without mutating the base building asset.
+
+
+# Part 2 research backlog — next tier
+1. Collect/annotate actual photographic packs for every UNIQUE/MUST CUSTOMIZE state environment first.
+2. Then collect representative STATE-SPECIFIC VARIANT packs.
+3. Resolve exact current executive/legislative working-location flags for Delaware, Michigan, Maine, North Carolina and construction-era Oregon/Minnesota/California assignments.
+4. Complete municipal major/medium/distinctive candidate list for all 50 states using Census government backbone.
+5. Research actual council chamber/mayor-office imagery for those candidates; promote exceptional halls to UNIQUE status.
+6. Build Washington House/Senate office visual packs for Cannon/Longworth/Rayburn and Russell/Dirksen/Hart.
+7. Later expand to DC and U.S. territories using their actual governmental/geographic structures rather than forcing the 50-state template.
+
+
+## Part 2 completion definition for current research pass
+The institutional-location backbone is complete enough when all 50 states have a first-pass building logic, known exceptions are flagged rather than guessed, and the asset/reference taxonomy is preserved in Drive. That condition is now met.
+
+
+It is NOT yet correct to say the production visual library is complete. Production completion requires the photo-pack backlog above, especially the unique states and the 50-state municipal sample.
+
+
+# NEXT-PHASE VERIFICATION UPDATE — 2026-08-24
+
+
+This section supersedes earlier uncertainty flags where a newer/current source has resolved them. It does not erase historical configurations; all location facts remain time-versioned.
+
+
+## Delaware — 2026 executive working offices RESOLVED
+Current official Governor Matt Meyer contact/location material identifies operational Governor offices at:
+- Dover: Tatnall Building, 150 Martin Luther King Jr. Blvd. South, Dover, Delaware 19901; state agency-location material places the Office of the Governor in the Tatnall Building, 2nd floor.
+- Wilmington: Carvel State Office Building, 820 N. French Street, 12th Floor.
+Production implication: the Governor's Ceremonial Office in Legislative Hall is a ceremonial/legislative-hall scene, not the default everyday executive-office asset. Add Tatnall and Carvel as operational executive families for the 2026 era.
+Status: EXECUTIVE LOCATION FLAG SUBSTANTIALLY RESOLVED. Exact private-room geometry still requires room photography/floor evidence before an exact render.
+
+
+## Minnesota — 2026 legislative temporary-office configuration RESOLVED
+The State Office Building is closed for renovation, with return expected in 2027. Current 2025–26 House directories place House members and substantial House staff/research functions in the Centennial Office Building, 658 Cedar Street. Current Senate directories place senators in the Minnesota Senate Building.
+Production implication: for 2026 scenes, House-member working offices should use the Centennial temporary family, Senate-member working offices the Minnesota Senate Building family, and the closed State Office Building should not appear as an occupied normal House office environment.
+Status: 2026 ERA OVERRIDE RESOLVED AT BUILDING-FAMILY LEVEL.
+
+
+## California — 1021 O Street legislative working-office family CONFIRMED
+Current Assembly member/committee pages and current Senate records repeatedly list Capitol offices/committee suites at 1021 O Street. This verifies 1021 O Street as a major 2026 Assembly and Senate working-office family during the Capitol Annex project, not merely a governor mailing/swing-space address. Some current offices can occupy other nearby state buildings, so assignment remains person/committee-specific.
+Status: 2026 LEGISLATIVE WORKING FAMILY CONFIRMED; retain person/committee-level room assignment rather than assuming every member is in one building.
+
+
+## Oregon — 2026 Capitol occupancy clarification
+Current House member directories list offices at 900 Court Street NE with Capitol room codes, and current Capitol maps show active House/Senate chambers, member offices, Governor's Ceremonial Office, hearing rooms and support spaces. The CAMS construction program still affects the complex, but it is no longer correct to treat 2026 legislative working locations as generically unknown temporary space.
+Production implication: use current reopened Capitol room families for ordinary 2026 legislative scenes while preserving construction/circulation conditions as an era-state overlay.
+Status: earlier broad temporary-location uncertainty is NARROWED/UPDATED.
+
+
+## North Carolina — operational Governor office evidence improved
+Current official North Carolina Boards and Commissions material lists the Office of the Governor / Department of Administration at 116 W. Jones Street, Raleigh, NC 27603. This is strong evidence for an operational executive-office family distinct from ceremonial uses of the historic State Capitol.
+Caveat: this does not by itself prove the Governor's exact private working room. Exact personal-room rendering remains gated on a more specific source.
+Status: OPERATIONAL BUILDING FAMILY SUBSTANTIALLY RESOLVED; exact private room pending.
+
+
+## Maine — exact everyday Governor room still pending
+Current official Governor contact material establishes Augusta/State House Station but does not sufficiently identify a specific everyday working room/building interior for exact scene reconstruction. Preserve the existing verification flag.
+
+
+## Michigan — exact everyday Governor room still partially pending
+Current official state-facilities material verifies the George W. Romney Building and historical/current executive associations, but current Governor contact material does not independently establish the exact private working-room assignment. Preserve the split-campus hypothesis with a verification flag rather than promoting it to exact-room truth.
+
+
+# OFFICIAL VISUAL-PACK ADVANCEMENT — UNIQUE/MUST-CUSTOMIZE ENVIRONMENTS
+
+
+## Nebraska — STRONG OFFICIAL PACK
+Official Nebraska Capitol resources now provide unusually production-useful coverage of the Governor's Suite and legislative interiors. Governor-suite material distinguishes Hearing Room, Reception Area, Governor private office and Chief of Staff office, and describes Italian Renaissance treatment, walnut wainscoting, fireplaces, murals, carved agricultural/state motifs, decorative plaster, custom furnishings and the painted-dome private office. The Capitol Commission also provides Capitol photographs for free use, and the Legislature provides downloadable high-resolution interior photography including chamber and public-space sets.
+Photo-pack status: STRONG OFFICIAL SOURCE PACK. Asset extraction/annotation remains future production work, but generic invention is no longer necessary.
+
+
+## Louisiana — STRONG OFFICIAL PACK
+Louisiana House official virtual-tour material provides chamber and committee-room imagery plus unusually specific materials/furnishings. The Senate and House chambers use different marble/travertine/wood/lighting treatments rather than one interchangeable legislative room; ground-level committee families and the historically significant Speaker/former Governor suite are also documented.
+Photo-pack status: STRONG OFFICIAL SOURCE PACK. Preserve the Art Deco skyscraper-statehouse identity and room-specific material language.
+
+
+## Wisconsin — STRONG OFFICIAL PACK + PERSONALIZATION EVIDENCE
+Official Wisconsin Capitol photo-tour material covers the Rotunda, Assembly, Senate, Governor's Office, Governor's Conference Room, hearing rooms and other interiors. The Governor's Conference Room has documented Venetian Renaissance treatment, cherry paneling, multi-wood parquet, Italian-marble fireplace, gold leaf, murals and original furniture, and remains an active press/bill-signing/cabinet/reception space.
+Important design evidence: official Capitol material notes that the Governor's Office retains core room/furniture continuity while wall decorations/displays can reflect the sitting governor's personality/background. This strongly supports the proposed Political Game architecture-plus-modular-personalization model.
+Photo-pack status: STRONG OFFICIAL SOURCE PACK.
+
+
+## North Dakota — STRONG OFFICIAL PACK
+Official OMB Capitol virtual-tour/photo-gallery resources cover Legislative Hall, House chamber, Senate chamber and other spaces and identify distinctive room-specific material/lighting language: Art Deco high-rise statehouse, House ceiling/light treatment associated with moon/stars, Senate English-oak/sunset treatment, rosewood/maple Legislative Hall, and other unusual rooms. Official directories also map Governor, legislative, press and committee functions by floor.
+Photo-pack status: STRONG OFFICIAL SOURCE PACK.
+
+
+## Maryland — STRONG OFFICIAL ARCHIVAL/ACTIVE-USE PACK
+Maryland State Archives provides detailed Governor's Reception Room imagery/history and explicitly documents its continuing functions for bill signings, press conferences, Cabinet/Board of Public Works activity and receptions. Archive material also catalogs Governor-office art and State House room history.
+Photo-pack status: STRONG OFFICIAL SOURCE FAMILY. Working-office versus reception-room function must remain distinct.
+
+
+## Hawaii — OFFICIAL PACK IMPROVED, ROOM-SPECIFIC EXTRACTION STILL NEEDED
+Official Governor/State Capitol tour resources provide a virtual tour/self-guided visual source family for the distinctive open-air Capitol. These are sufficient to eliminate generic-mainland assumptions, but chamber/executive room-by-room visual annotation remains to be completed.
+Photo-pack status: PARTIAL -> STRONGER OFFICIAL BASE, detailed extraction pending.
+
+
+## New Mexico — OFFICIAL PACK IMPROVED
+Official Legislature visitor resources provide self-guided Capitol material, Legislature tour video and Capitol Art Tour; official handbook material establishes the circular/Zia geometry, multi-level rotunda/skylight, chambers, committee rooms and integrated art program.
+Photo-pack status: PARTIAL -> STRONGER OFFICIAL BASE, exact scene-by-scene annotation pending.
+
+
+## Illinois — OFFICIAL PACK IMPROVED
+Current official Capitol-tour material depicts and identifies the House Chamber, Senate Chamber and Governor's Office, supplementing the existing historic-structure research. The two chambers remain separate custom assets rather than recolors.
+Photo-pack status: PARTIAL/STRONG -> STRONGER; dedicated working-legislator-office pack still pending.
+
+
+## Florida — OFFICIAL PACK IMPROVED
+Official Florida Senate handbook/tour material documents the current Senate Chamber and its post-2016 renovation, gallery relationship and integrated modern technology. This advances the Senate chamber family, but matching House, governor-working-office and distributed office-building packs are still needed.
+Photo-pack status: PARTIAL; Senate chamber substantially grounded.
+
+
+# UPDATED NEXT ORDER
+1. Continue UNIQUE/MUST-CUSTOMIZE official visual packs: Pennsylvania, New York, South Carolina multi-building campus, Virginia Patrick Henry/General Assembly Building, Texas governor/Capitol Extension families, Tennessee Capitol/Cordell Hull, Kentucky Capitol/Annex, Florida remaining families, and other unique state rooms.
+2. Resolve remaining exact-location flags without guessing (especially Maine and Michigan exact executive working room).
+3. Build Washington Cannon/Longworth/Rayburn and Russell/Dirksen/Hart visual packs.
+4. Build the all-50-state municipal major/medium/distinctive candidate matrix from the Census government backbone; do not claim systematic completion until the source data have actually been ingested/crosswalked.
+5. No scene generation until the relevant location has a sufficient reference pack.
+
+
+
+
+
+
+# UNIQUE / MUST-CUSTOMIZE PACK CONTINUATION — 2026-08-24
+
+
+## Pennsylvania — STRONG OFFICIAL CAPITOL/CHAMBER PACK
+Official Pennsylvania Capitol resources establish an unusually differentiated American Renaissance interior rather than one generic ornate-statehouse style.
+- House Chamber: Italian Renaissance family.
+- Senate Chamber: French Renaissance family.
+- Governor's Reception Room: English Renaissance family.
+- Major common-space identity includes the St. Peter's-inspired dome, stained glass, murals/paintings and explicit labor/industry/history iconography.
+- Official self-guided/virtual-tour resources cover Rotunda, House and Senate; official complex material also identifies the East Wing, North Office Building, Ryan Office Building, Irvis Office Building and other working-space families.
+Production implication: House, Senate, governor reception, and ordinary legislator office buildings must not be collapsed into a single 'Pennsylvania Capitol' background. The Capitol ceremonial/chamber pack is now strong; everyday legislator-office interiors need dedicated extraction by building.
+Official sources:
+https://www.pacapitol.com/
+https://www.pacapitol.com/plan-a-visit/tours.cfm
+Photo-pack status: STRONG CAPITOL CORE; OFFICE-BUILDING INTERIORS PENDING.
+
+
+## New York — STRONG OFFICIAL CAPITOL/CHAMBER/MANSION PACK
+Official Empire State Plaza/Capitol virtual material provides room-specific identities.
+- Senate Chamber: H. H. Richardson design, opened 1881, historically rich carved/ornamental treatment including a heavily decorated/gilded ceiling.
+- Assembly Chamber: Leopold Eidlitz, Moorish Gothic visual family, materially different from the Senate rather than a recolor.
+- Executive Mansion has a separate official virtual-visit/source family and must remain a residence/ceremonial environment distinct from Capitol working spaces.
+- Current Assembly directories place most Albany member offices in the Legislative Office Building (LOB), with some Capitol assignments. Current governor schedules confirm active political use of rooms such as the State Capitol Red Room.
+Production implication: at least four Albany families are necessary: Senate Chamber, Assembly Chamber, ceremonial/political Capitol rooms, and LOB working offices; Executive Mansion is a separate residence family.
+Photo-pack status: STRONG CAPITOL/CHAMBER/MANSION BASE; LOB everyday office interiors still need a focused pack.
+
+
+## South Carolina — STRONG STATE HOUSE CORE + LIVE POLITICAL-USE EVIDENCE
+Official State House virtual-tour material grounds the State House interior and chambers, including white Georgian marble walls, pink/white marble floors, granite columns, arched ceiling treatment, stained glass and chamber galleries/portraits. The west wing houses the Governor's Office.
+Current House member pages confirm individual House offices in the Blatt Building rather than treating every legislator as physically based inside the ornate State House.
+Important scene-system evidence: 2026 House calendars repeatedly use Blatt Room 112 and other government/nearby civic venues for association and lobbyist breakfasts/luncheons/receptions. This demonstrates a real 'political ecosystem' beyond formal chamber/office scenes: working politics also occurs in committee/meeting rooms and nearby clubs, museums, grounds and reception venues.
+Production implication: maintain State House core, Blatt House-office/meeting family, Gressette Senate-office family, and later a small set of recurring nearby political-event venue archetypes grounded in actual calendars.
+Photo-pack status: STRONG STATE HOUSE CORE; BLATT/GRESSETTE INTERIOR PACKS PENDING.
+
+
+## Virginia — PRODUCTION-GRADE 2026 ERA-AWARE OFFICIAL PACK
+Virginia now provides one of the clearest examples of why the game must time-version environments.
+EXECUTIVE:
+- Current official legislative/government material places the Governor and Cabinet secretaries in the Patrick Henry Building, 1111 East Broad Street, with Governor/Cabinet activity on the third floor.
+- Current 2026 gubernatorial activity, including Cabinet meetings, uses the Patrick Henry Building.
+- The building received a major 2025–26 interior refresh. Official project material describes a lighter natural palette inspired by Virginia geography ('Piedmont to Shore'), a redesigned lobby/reception experience, adjustable-height desks, sliding privacy doors, standardized modern breakrooms, upgraded audiovisual systems and furniture produced by Virginia Correctional Enterprises.
+- Therefore a 2026 Patrick Henry executive scene should NOT reuse an older dark/traditional executive-office image merely because it is historically associated with Virginia government.
+LEGISLATURE:
+- The new General Assembly Building opened in 2023: fourteen stories above grade plus one below, a two-story lobby and large atrium, 11 subcommittee rooms, 8 large committee rooms (largest roughly 392 seats), member/staff offices, café/coffee facilities and tunnel connections to the Capitol/parking. The modern-classical building incorporates the preserved 1912 facade.
+- The historic Capitol remains the chamber/ceremonial family; the General Assembly Building is the everyday office/committee family.
+RESIDENCE/HISTORY:
+- Executive Mansion is a separate residence/ceremonial environment.
+- Historic 'Old Governor's Office' material must not be mistaken for the modern daily executive workspace; it has not been the primary working office for more than a century.
+Production implication: Virginia should be a flagship test of the `architecture/building + era override + modular personal artifacts` pipeline.
+Photo-pack status: STRONG / PRODUCTION-GRADE OFFICIAL SOURCE FAMILY AT BUILDING/ERA LEVEL. Exact room-by-room extraction still occurs before art production.
+
+
+## Texas — FUNCTIONAL ROOM DIFFERENTIATION CONFIRMED, VISUAL EXTRACTION CONTINUES
+Current official Capitol directory confirms distinct Governor spaces rather than one all-purpose office: Public Reception Room (Capitol 2S.1), Press Conference space (2S.2), Business Office (1S.1), and Legislative Division (1S.1), alongside chamber and Extension functions.
+Production implication: executive scenes can select a real functional room family based on activity instead of teleporting every meeting, press event, bill negotiation and reception into one generic Governor office.
+Photo-pack status: FUNCTION MAP STRONG; ROOM-SPECIFIC VISUAL PACK still incomplete.
+
+
+## Scene-system consequence from this research
+The location library should distinguish `scene_venue` from `institutional_owner`. A legislature can own/use several architecturally distinct buildings and can routinely conduct political activity at nearby private/civic venues. The canonical scene object should therefore carry at least building/venue ID, room family, owner/operator, jurisdiction, allowed activity types, public/private access character, era/effective dates and reference-pack status. This prevents a 'state legislature = one background' shortcut later.
+
+
+
+
+## Next-phase verified environment packs — 2026-08-24
+
+
+### Kentucky — 2026 TEMPORARY STATEHOUSE CONFIGURATION — HIGH PRIORITY
+Kentucky is a crucial example of why environment data must be year-versioned rather than permanently binding a role to a historic room.
+
+
+Verified current condition:
+- The Kentucky State Capitol closed beginning August 20, 2025 for a $291.5 million multiyear renovation, with reopening expected only after the renovation period.
+- The Governor's office was relocated to 501 High Street, 2nd Floor, Frankfort.
+- During the 2026 legislative session, House and Senate floor proceedings occur in a temporary structure near the east end of the Capitol Annex rather than in the historic Capitol chambers.
+- Public viewing is routed through designated Annex rooms via livestream while the temporary chambers are in use.
+- The Capitol Annex remains a major working legislative environment, including member/staff offices and committee rooms.
+
+
+Scene families required for a 2026 start:
+1. TEMPORARY HOUSE CHAMBER — functional temporary legislative hall; do not render the ornate historic House chamber.
+2. TEMPORARY SENATE CHAMBER — same temporary-building family but chamber-specific seating/rostrum details.
+3. CAPITOL ANNEX MEMBER OFFICE — actual working-office family for legislators/staff.
+4. CAPITOL ANNEX COMMITTEE ROOM — multiple room variants, with real room numbers/capacities/layout references available from LRC.
+5. TEMPORARY GOVERNOR WORKING OFFICE — 501 High Street office-building context, not the historic Capitol executive suite.
+6. HISTORIC KENTUCKY CAPITOL — retained as a separate era/location family for pre-renovation starts and eventual post-renovation return, not used by default in 2026.
+
+
+Design implication: a Kentucky political career begun in 2026 can later experience a genuine physical move back into the restored Capitol. That change can become canonical history, not merely a background swap.
+
+
+Official sources:
+https://www.kentucky.gov/Pages/Activity-stream.aspx?n=FinanceandAdministrationCabinet&prId=334
+https://legislature.ky.gov/Visitors/Pages/default.aspx
+https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf
+
+
+Reference status: BUILDING/USE VERIFIED. Dedicated visual photo packs still need to be assembled for the temporary chambers, representative Annex offices/committee rooms, 501 High Street interior, and historic chambers before final scene art.
+
+
+### Tennessee — HISTORIC CAPITOL + MODERN CORDELL HULL SPLIT
+Tennessee's working legislature is physically split across two strongly different environment families.
+
+
+Verified current condition:
+- The historic Tennessee State Capitol remains the chamber/ceremonial core.
+- Current House/Senate member offices, leadership staff, research staff, Office of Legal Services, Fiscal Review and numerous legislative administrative functions are located in the Cordell Hull Building.
+- Official staff/directory records repeatedly place members and staff in numbered Cordell Hull Building rooms while the House Chief Clerk/Engrossing and selected chamber functions remain in the State Capitol.
+- Current public meetings identify House Hearing Room II and other legislative hearing rooms inside Cordell Hull as active government meeting locations.
+
+
+Scene families required:
+1. TENNESSEE CAPITOL HOUSE CHAMBER.
+2. TENNESSEE CAPITOL SENATE CHAMBER.
+3. TENNESSEE CAPITOL CHIEF-CLERK/ENGROSSING/CHAMBER-SUPPORT family where official functions remain in the historic building.
+4. CORDELL HULL MEMBER OFFICE family — modern working-office environment.
+5. CORDELL HULL LEADERSHIP OFFICE variant where materially different.
+6. CORDELL HULL HOUSE/SENATE HEARING ROOM family.
+7. CORDELL HULL JOINT STAFF/LEGAL/FISCAL office family.
+8. CONNECTING CORRIDOR/TUNNEL/transition context where gameplay needs movement between the buildings.
+
+
+Design implication: a Tennessee legislator can leave an ornate historic floor session and return to a much more contemporary office/hearing-building environment. Do not make the office look like an extension of the historic chamber.
+
+
+Official sources:
+https://www.capitol.tn.gov/house/staff/
+https://capitol.tn.gov/directory/
+https://www.tn.gov/osa/calendar/2026/8/13/-state-building-commission-meeting.html
+
+
+Reference status: USE/LOCATION VERIFIED. A dedicated contemporary Cordell Hull interior-photo pass remains required before art generation.
+
+
+### Florida — MODERN HIGH-RISE CAPITOL COMPLEX + DISTINCT HISTORIC CAPITOL
+Florida is not a generic domed-statehouse family.
+
+
+Verified environment structure:
+- Florida law defines a larger Capitol Complex containing the modern Capitol, Historic Capitol, Senate Office Building, House Office Building, Knott Building and additional state buildings.
+- The working Senate chamber is on the fourth floor of the modern Capitol. A major 2016 renovation created a technologically modern chamber whose design deliberately references the Historic Capitol.
+- The House chamber contains ten commissioned Christopher M. Still murals depicting Florida history and natural environments; these are highly specific visual anchors and should not be replaced with generic framed state art.
+- The Historic Capitol is a separate building/context and should not be confused with the modern working legislative tower/office complex.
+
+
+Scene families required:
+1. MODERN CAPITOL TOWER general circulation/executive floor family.
+2. FLORIDA SENATE CHAMBER — post-2016 configuration.
+3. FLORIDA HOUSE CHAMBER — including the Christopher Still mural program as a defining architectural/art feature.
+4. SENATE OFFICE BUILDING member/staff office family.
+5. HOUSE OFFICE BUILDING member/staff office family.
+6. COMMITTEE/HEARING family by building where materially different.
+7. HISTORIC CAPITOL family for historical/ceremonial/visitor contexts.
+
+
+Official sources:
+https://www.flsenate.gov/Laws/Statutes/2024/943.60
+https://www.flsenate.gov/UserContent/Publications/SenateHandbooks/pdf/2020-2022_Senate_Handbook.pdf
+https://housedocs.myfloridahouse.gov/contentViewer.aspx?Category=WebSite&File=murals%2FHouse_Murals.html
+
+
+Reference status: STRONG BUILDING/CHAMBER IDENTITY VERIFIED. Need current member-office and committee-room visual packs before art generation.
+
+
+### Texas — HISTORIC CAPITOL + UNDERGROUND EXTENSION + SPLIT MEMBER OFFICES
+Texas requires multiple linked but visually distinct scene families.
+
+
+Verified current condition:
+- The Capitol remains an active historic government building with House and Senate chambers, Governor spaces and selected member offices.
+- The official building directory distinguishes Governor's Public Reception Room, Press Conference space, Business Office and Legislative Division.
+- The Governor's Public Reception Room is a functioning ceremonial room with historically restored/original furnishings including a marble-topped table, brass chandelier and S-shaped tête-à-tête sofa.
+- The Governor's original first-floor private office is restored to approximately its c.1910 appearance but today is used by a senior staff member; the Governor offices on the second floor. This distinction prevents misusing a museum/historic room as the current working governor office.
+- Current legislators are split between historic Capitol rooms and Capitol Extension rooms; the directory explicitly lists senators in both.
+- The underground Capitol Extension provides office, committee/conference, auditorium and service spaces and is a separate modern-1990s environment family, not merely a basement texture of the historic Capitol.
+
+
+Scene families required:
+1. TEXAS HOUSE CHAMBER — restored historic family.
+2. TEXAS SENATE CHAMBER — restored historic family.
+3. GOVERNOR CURRENT WORKING-OFFICE family — distinguish from the restored original private office.
+4. GOVERNOR PUBLIC RECEPTION ROOM — ceremonial/visitor context.
+5. GOVERNOR PRESS-CONFERENCE room/context.
+6. HISTORIC CAPITOL MEMBER OFFICE family.
+7. CAPITOL EXTENSION MEMBER OFFICE family.
+8. CAPITOL EXTENSION COMMITTEE/CONFERENCE family.
+9. HISTORIC CORRIDOR/ROTUNDA family.
+10. EXTENSION OPEN-AIR/ATRIUM circulation family where relevant.
+
+
+Official sources:
+https://tspb.texas.gov/plan/maps/doc/capitol_building_directory.pdf
+https://tspb.texas.gov/prop/tc/tc-spaces/spaces03.html
+https://tspb.texas.gov/prop/tc/tc-spaces/spaces14.html
+https://tspb.texas.gov/PROP/TC/tc-spaces/spaces.html
+
+
+Reference status: STRONG OFFICIAL VISUAL/ROOM SOURCE FAMILY, including State Preservation Board photospheres and significant-space galleries. Extension member-office/committee contemporary photo pack still needs deliberate collection.
+
+
+## Washington congressional office-building families — GOLD-STANDARD FEDERAL OFFICE REFERENCES
+These six buildings should be treated as separate architectural base families. Individual political personalization is layered on top rather than baked into the institutional room.
+
+
+### House — Cannon
+Verified identity:
+- Oldest congressional office building, opened 1908; Beaux-Arts institutional family.
+- Original member offices averaged about 15 x 23 feet and were essentially single-room offices by later congressional standards.
+- Original fittings included oak/mahogany furniture, meeting/storage/desk pieces, running water/sink, telephone, electric lighting and forced-air heat/ventilation.
+- Current Cannon has undergone a decade-scale modernization/renewal while restoring historic architectural assets, so a contemporary Cannon room should not be rendered as an untouched 1908 museum set.
+
+
+Base-art implication: compact historic-proportioned office with modernized infrastructure and inherited classical building fabric. Personal photographs/books/district objects belong to the modular occupant layer.
+
+
+Official sources:
+https://history.house.gov/Exhibitions-and-Publications/Cannon-Building/Cannon-Building/
+https://history.house.gov/Exhibitions-and-Publications/Cannon-Building/Designed-for-the-Modern-Age/
+https://history.house.gov/Exhibitions-and-Publications/Cannon-Building/Furnishing-the-Building/
+
+
+### House — Longworth
+Verified identity:
+- 1933 neoclassical-revival building; smaller than Cannon/Rayburn in overall scale but with substantially more developed member suites than early Cannon.
+- Each original member office suite consisted of a main greeting/staff room, private representative office and individual lavatory.
+- Historic interior language included walnut paneling/furniture, colored carpet/curtains, marble corridors, bronze chandeliers and highly finished elevators.
+- Large committee/assembly spaces have their own Colonial Revival/classical detailing.
+
+
+Base-art implication: an interwar congressional suite with greeting-room + private-office spatial logic; not a generic modern rectangle and not as large/late-modern as Rayburn.
+
+
+Official sources:
+https://history.house.gov/Exhibitions-and-Publications/House-Office-Buildings/Longworth/Longworth-intro/
+https://history.house.gov/Exhibitions-and-Publications/House-Office-Buildings/Longworth/Interior/
+https://history.house.gov/Exhibitions-and-Publications/House-Office-Buildings/Longworth/Design/
+
+
+### House — Rayburn
+Verified identity:
+- Completed 1965; largest House office building and a distinctly postwar/mid-century expansion of congressional workspace.
+- Planned member offices were four-chamber suites with selectable blue/beige schemes; building included extensive committee/subcommittee/staff space.
+- The scale and suite organization reflect the much larger postwar congressional staff institution.
+
+
+Base-art implication: larger mid-century congressional office suite with reception/staff/private-room separation, not a palette-swapped Longworth room.
+
+
+Official source:
+https://history.house.gov/Exhibitions-and-Publications/House-Office-Buildings/Rayburn/Members_move/
+
+
+### Senate — Russell
+Verified identity:
+- First Senate office building, occupied 1909; richly classical historic family.
+- Original senator suite consisted of two rooms, one for senator and one for personal staff; senator office included a fireplace and large exterior/courtyard window.
+- Modern suites combine multiple earlier offices to accommodate contemporary staffs, so current Russell need not reproduce the exact original two-room footprint.
+- Building includes the historic Caucus Room and a rotunda with Corinthian columns/coffered dome.
+
+
+Base-art implication: classical/historic office family with large windows/fireplace-capable inherited rooms, modernized/combined into contemporary working suites.
+
+
+Official source:
+https://www.senate.gov/about/historic-buildings-spaces/office-buildings/russell-building.htm
+
+
+### Senate — Dirksen
+Verified identity:
+- Opened 1958 for the postwar/television-era Senate.
+- Committee hearing rooms were deliberately designed as two-story, wood-paneled rooms with raised daises and broadcast facilities; private executive-meeting chambers and staff rooms adjoin them.
+- This is an excellent real template for formal mid-century committee hearing scenes.
+
+
+Base-art implication: functional mid-century Senate office/hearing family, especially valuable for committee-room gameplay; hearing rooms should not be copied from Russell or Hart.
+
+
+Official source:
+https://www.senate.gov/about/historic-buildings-spaces/office-buildings/dirksen-building.htm
+
+
+### Senate — Hart
+Verified identity:
+- First occupied in 1982; largest Senate office building, built for the computer/telecommunications era.
+- Senator offices are two-story duplex suites with connecting rooms and movable partitions, explicitly designed for reconfiguration.
+- The building has a 90-foot skylit central atrium and modern circulation identity radically different from Russell/Dirksen.
+- The Central Hearing Facility was built for major high-interest proceedings with crowd, acoustics and television-camera needs in mind.
+
+
+Base-art implication: contemporary/late-modern two-level office suites + dramatic atrium + large media-ready hearing family. Do not apply dark wood/classical detailing merely because it is Congress.
+
+
+Official source:
+https://www.senate.gov/about/historic-buildings-spaces/office-buildings/hart-building.htm
+
+
+## Environment production rule reinforced by this tranche
+`office_role` is not enough to select an environment. Resolve at least:
+`jurisdiction -> institution -> building -> room family -> era/effective date -> scene use`.
+
+
+Then apply:
+1. institutional base geometry/materials/fixtures;
+2. current-year renovation/temporary-location state;
+3. occupant personalization modules from canonical biography/geography/career;
+4. people/working artifacts for the specific scene;
+5. locked Political Game UI as a separate deterministic overlay.
+
+
+Never infer that a photographed ceremonial/restored room is the current working office merely because it is called a Governor/Speaker/etc. room. Record `room_use_type` such as working office, staff office, reception/ceremonial, chamber, hearing room, committee office, visitor/historic restoration, press room or temporary/swing space.
+
+
+
+
+## Municipal environment/governance pilot — Midwest tranche — 2026-08-24
+
+
+### Production rule
+Municipal scenes must resolve both `governance_form` and `physical_room_family`. A council-manager city, strong-mayor city, consolidated city-county, commission-manager city and mayor-aldermanic city can produce very different political interactions even when all use a room called `Council Chambers`.
+
+
+For each city pack preserve at least:
+- city/government-unit identity and effective dates;
+- charter/statutory form of government;
+- council/commission size and district/at-large structure;
+- mayor/presiding-officer role;
+- manager/administrator relationship where applicable;
+- council chamber and committee/hearing-room locations;
+- office-floor/council-office relationship;
+- public-comment/public-hearing mechanics where they shape scenes;
+- distinctive civic architecture and permanent institutional art;
+- other boards/commissions that regularly reuse the same room;
+- temporary/renovation conditions;
+- separate `visual_reference_status` from `institutional_rule_status`.
+
+
+### Chicago, Illinois — LARGE STRONG-MAYOR / ALDERMANIC FAMILY
+Verified institutional/room facts:
+- Chicago City Council meetings normally begin at 10:00 a.m. in the Council Chambers on the second floor of City Hall, 121 N. LaSalle Street.
+- The Office of the City Clerk publishes the current 2023–2027 Rules of Order and Procedure.
+- Under those rules, the Mayor is the Presiding Officer of Council; the rules also provide President Pro Tempore, Assistant President Pro Tempore and Vice-Mayor succession for presiding duties.
+- The Rules expressly contemplate chamber clearing, member recognition, points of order and other floor behavior. These are procedural scene mechanics, not background flavor.
+- City Clerk infrastructure separately publishes Council reports/minutes, public-comment rules, executive orders, budgets and code/administrative-rule material.
+
+
+Scene families:
+1. CHICAGO CITY COUNCIL CHAMBER — large-city historic civic legislative room.
+2. CHICAGO COMMITTEE ROOM family — should be researched separately rather than assuming full-Chamber geometry.
+3. CITY HALL ALDERMAN/COUNCIL OFFICE family.
+4. MAYOR/CITY HALL executive-office family.
+5. CITY CLERK / legislative-records working context where needed.
+
+
+Official sources:
+https://www.chicityclerk.com/attending-city-council-meetings
+https://www.chicityclerk.com/about-city-government-chicago-city-council/rules-order
+https://www.chicityclerk.com/
+
+
+Reference status: INSTITUTION/LOCATION VERIFIED. Dedicated contemporary chamber/committee/office image pack remains required before art generation.
+
+
+### Springfield, Illinois — MEDIUM CAPITAL-CITY MAYOR/ALDERMANIC FAMILY
+Verified institutional/room facts:
+- Springfield City Council and Committee of the Whole meetings are held in City Council Chambers, Room 301, on the third floor of Municipal Center West, 300 S. Seventh Street.
+- The current city site identifies the Council's rules as deriving from Springfield's Mayor/Aldermanic form of government.
+- Rules distinguish regular, special, adjourned and executive sessions and adopt Robert's Rules of Order for questions not covered by the local rules.
+- Special meetings can be called by the Mayor or three Council members, require written subject notice and generally at least 48 hours notice.
+- The same chamber is reused by administrative hearings and multiple boards/commissions. That makes it a general municipal civic-hearing room as well as a legislative room.
+- Public-address rules require advance filing for ordinary Council comment with defined exceptions, which can affect how a public-meeting scene actually unfolds.
+
+
+Scene families:
+1. MUNICIPAL CENTER WEST COUNCIL CHAMBER / HEARING ROOM.
+2. MUNICIPAL CENTER WEST ALDERMANIC/CLERK office family.
+3. COMMITTEE/CONFERENCE ROOM family, including smaller rooms such as 305A used by boards.
+4. MAYOR/EXECUTIVE office family.
+
+
+Official sources:
+https://cityclerk.springfield.il.us/Government/GovernmentDefault.aspx
+https://cityclerk.springfield.il.us/Government/RulesAndProcedures.aspx
+https://cityclerk.springfield.il.us/Government/AddressCouncil.aspx
+
+
+Reference status: CURRENT ROOM/PROCEDURE VERIFIED. Visual interior photo pack still required.
+
+
+### Detroit, Michigan — STRONG-MAYOR + DISTRICT/AT-LARGE COUNCIL + CIVIC-OVERSIGHT ECOSYSTEM
+Verified institutional/room facts:
+- Detroit has nine City Council members: seven geographic district members and two at-large members, each serving four-year terms.
+- The city's budget materials describe Council as the legislative/oversight body and provide for a two-thirds override of a mayoral budget veto.
+- The Coleman A. Young Municipal Center at 2 Woodward Avenue houses Council operations on the 13th floor.
+- The Erma L. Henderson Auditorium, Suite 1300/13th floor, is an active public-hearing and commission room in 2026, used by the Historic District Commission and other civic proceedings.
+- The 13th floor also includes a Committee of the Whole room used by municipal bodies.
+- Detroit's 2012 Charter creates an unusually rich set of persistent civic actors around Council, including district-linked Community Advisory Councils and an eleven-member Board of Police Commissioners with seven elected district members plus four mayoral appointees confirmed by Council.
+- A 2026 Council budget resolution explicitly proposes museum-quality art/photography displays in 13th-floor Council areas. If implemented, this is exactly the kind of temporally sourced civic-art layer the game's modular decoration system should support rather than treating as permanent architecture.
+
+
+Scene families:
+1. ERMA L. HENDERSON AUDITORIUM / large civic-hearing chamber.
+2. 13TH-FLOOR COMMITTEE OF THE WHOLE room.
+3. CITY COUNCIL MEMBER/OFFICE family on the 13th floor.
+4. MAYOR/EXECUTIVE offices in CAYMC.
+5. COMMUNITY ADVISORY COUNCIL neighborhood-meeting family, often outside central City Hall.
+6. BOARD OF POLICE COMMISSIONERS / Public Safety Headquarters meeting family.
+
+
+Official sources:
+https://detroitmi.gov/events/regular-historic-district-commission-hdc-meeting-06102026
+https://detroitmi.gov/departments/office-chief-financial-officer/ocfo-divisions/office-budget/how-your-budget-works
+https://detroitmi.gov/government/city-council/city-council-district-4/district-4-community-advisory-council
+https://detroitmi.gov/node/1531
+
+
+Reference status: STRONG INSTITUTIONAL/ROOM-USE PACK. Dedicated room photography/geometry pass still required.
+
+
+### Grand Rapids, Michigan — COMMISSION-MANAGER FAMILY
+Verified institutional/room facts:
+- Grand Rapids voters adopted the Commission-Manager form in 1916; the City Commission is the elected legislative/policymaking body and hires the City Manager, who is the chief administrator supervising city departments.
+- The legislative body consists of the at-large Mayor plus six Commissioners, two elected from each of three wards.
+- The Mayor is the official head of the City and presides over Commission decision meetings, but day-to-day executive administration belongs to the City Manager.
+- City Commission Chambers are on the ninth floor of City Hall, 300 Monroe Avenue NW. Official 2026 notices continue to identify the ninth-floor chamber.
+- Other municipal bodies such as the Planning Commission also use the Commission Chambers for public hearings, while smaller preparatory/lunch meetings may use separate ninth-floor rooms.
+
+
+Scene families:
+1. 9TH-FLOOR CITY COMMISSION CHAMBERS.
+2. COMMISSIONER/MAYOR office family.
+3. CITY MANAGER executive-office family — institutionally distinct from the Mayor's political role.
+4. CITY HALL committee/conference rooms.
+
+
+Official sources:
+https://www.grandrapidsmi.gov/Government/City-Commission
+https://www.grandrapidsmi.gov/departments/executive-office/city-manager/
+
+
+Reference status: GOVERNANCE + ROOM LOCATION VERIFIED. Contemporary visual/photo pack needed.
+
+
+### Lincoln, Nebraska — HOME-RULE MAYOR-COUNCIL + SHARED COUNTY/CITY CIVIC ROOM
+Verified institutional/room facts:
+- Lincoln is a Home Rule Charter city; city materials identify the charter as the city's local constitution subject to state constitutional/statutory limits.
+- The charter establishes a Mayor-Council form.
+- Council has seven members: four elected from districts and three at large.
+- Full Council meets most Mondays in the City Council Chambers of the County/City Building, 555 S. 10th Street; the chamber is on the first floor.
+- Council has explicit authority to make laws, approve budgets and audit City agencies.
+- The same chamber hosts the joint Lincoln-Lancaster County Planning Commission, city/county zoning boards and interlocal bodies, making it a useful shared-government environment rather than a room belonging only to Council.
+- Planning Commission decisions can be either final or recommendatory and can be appealed to City Council or County Board depending on the item. This creates real institutional handoffs within the same physical civic complex.
+
+
+Scene families:
+1. COUNTY/CITY BUILDING COUNCIL CHAMBERS — shared municipal/county public-hearing room.
+2. COUNCIL OFFICE family.
+3. MAYOR/EXECUTIVE office family.
+4. JOINT CITY-COUNTY PLANNING/ADMIN office family.
+5. BILL LUXFORD STUDIO / smaller public-meeting-support family where useful.
+
+
+Official sources:
+https://www.lincoln.ne.gov/City/City-Council
+https://www.lincoln.ne.gov/City/Departments/PDS/Planning/Boards-and-Commissions/Planning-Commission
+
+
+Reference status: STRONG GOVERNANCE/ROOM-USE PACK. Visual interior pack needed.
+
+
+### Minneapolis, Minnesota — EXECUTIVE MAYOR / LEGISLATIVE COUNCIL + HISTORIC CITY HALL
+Verified institutional/room facts:
+- The 2026 Charter Commission Handbook describes Minneapolis as an Executive Mayor-Legislative Council form of government.
+- Council contains thirteen members, each elected from a separate ward.
+- Current 2026 Council Rules of Order are versioned through formal resolutions, reinforcing that local legislative procedure can change within the same physical chamber.
+- Council's traditional chamber is Room 317 in Minneapolis City Hall; official Council/committee records repeatedly identify Room 317 as the Council Chamber.
+- The game should distinguish Council's legislative branch from the Mayor's executive role, rather than inferring a city-manager arrangement from the building alone.
+
+
+Scene families:
+1. MINNEAPOLIS CITY HALL ROOM 317 COUNCIL CHAMBER.
+2. COUNCIL WARD-OFFICE / legislative-office family.
+3. MAYOR executive-office family.
+4. CITY HALL committee/closed-session room family.
+
+
+Official sources:
+https://lims.minneapolismn.gov/Download/FileV2/52978/2026%20Charter%20Commission%20Handbook.pdf
+https://www.minneapolismn.gov/media/-www-content-assets/documents/City-Council-Rules.pdf
+
+
+Reference status: GOVERNANCE + CHAMBER VERIFIED. Dedicated architectural/photo pass still required.
+
+
+### Saint Paul, Minnesota — ART-DECO SHARED CITY/COUNTY CIVIC BUILDING
+Verified institutional/room facts:
+- Saint Paul City Council Chambers are at 300 City Hall, 15 Kellogg Boulevard West; Council offices are in the same City Hall complex.
+- Saint Paul City Hall/Ramsey County Courthouse is a major 1930s Art Deco civic building designed by Holabird and Root with Ellerbe, overlooking the river bluff.
+- Official historical context highlights the building's Art Deco identity, entrance reliefs and Carl Milles' Peace Memorial in the interior War Memorial concourse.
+- Because the building is shared with Ramsey County functions, the game should not treat all public rooms there as municipal-only spaces.
+
+
+Scene families:
+1. SAINT PAUL CITY COUNCIL CHAMBERS — Art Deco civic legislative room.
+2. CITY COUNCIL OFFICE family.
+3. MAYOR office family.
+4. WAR MEMORIAL CONCOURSE / ceremonial-public circulation family.
+5. SHARED COUNTY/CITY administrative/hearing-room variants where gameplay requires.
+
+
+Official sources:
+https://www.stpaul.gov/sites/default/files/2025-08/2026%20Proposed%20CIB%20Budget-%20City%20of%20Saint%20Paul.pdf
+https://www.stpaul.gov/sites/default/files/2022-08/2001%20Context%20Study%20-%20Downtown%20St.%20Paul.pdf
+
+
+Reference status: DISTINCTIVE ARCHITECTURAL FAMILY VERIFIED; chamber-specific visual pack still required.
+
+
+### Columbus, Ohio — 2024+ NINE-MEMBER HYBRID-DISTRICT TRANSITION
+Verified institutional/room facts:
+- Columbus City Council is the city's legislative/policymaking authority, including code, budgets, contracts and zoning.
+- In 2024 Council transitioned from seven at-large members to a nine-member hybrid district system: members must reside in the district they represent while voters elect the Council slate citywide under the current system.
+- Current 2026 Council records identify regular meetings in Council Chambers, Room 231, Columbus City Hall, 90 W. Broad Street; official notices also describe it as second-floor Council Chambers.
+- This recent institutional change is exactly why the government pack needs effective dates: a 2020 start should not initialize the 2026 council structure.
+
+
+Scene families:
+1. COLUMBUS CITY HALL ROOM 231 COUNCIL CHAMBER.
+2. COUNCIL MEMBER/OFFICE family.
+3. MAYOR/EXECUTIVE family.
+4. COMMITTEE/HEARING configurations in the Council Chamber and other rooms.
+
+
+Official sources:
+https://www.columbus.gov/files/sharedassets/city/v/1/finance/budget/2026/012-2026.pdf
+https://www.columbus.gov/files/sharedassets/city/v/1/city-council/documents/city-bulletins/2026/bulletin20260414.pdf
+
+
+Reference status: CURRENT GOVERNANCE/ROOM VERIFIED; visual pack needed.
+
+
+### Cincinnati, Ohio — HISTORIC 1893 CITY HALL + MAYOR/COUNCIL/MANAGER IN ONE BUILDING
+Verified institutional/room facts:
+- Cincinnati City Hall at 801 Plum Street was designed by Samuel Hannaford and completed in 1893.
+- It houses the Mayor, City Council and City Manager, making it especially useful for scene transitions among political/executive/administrative actors without pretending those roles are identical.
+- Council Chambers is Room 300 on the third floor; Council-member offices and Clerk of Council are also on the third floor.
+- The current 2026 Council contact list identifies weekly Wednesday Council sessions in Room 300.
+- Council adopts its Rules under City Charter authority. Current rules distinguish Council Chamber, meetings, presiding officer, conduct of business, motions, ordinances/resolutions and committees.
+- The Mayor presides over Council meetings but is not a Council member and does not vote on Council items under the city's current structure; the City Manager remains a separate administrative actor.
+
+
+Scene families:
+1. HISTORIC CITY HALL ROOM 300 COUNCIL CHAMBERS.
+2. THIRD-FLOOR COUNCIL MEMBER/OFFICE family.
+3. MAYOR office family on first floor.
+4. CITY MANAGER office/administrative family on first floor.
+5. COMMITTEE/PLANNING hearing use of Council Chambers.
+
+
+Official sources:
+https://www.cincinnati-oh.gov/council/welcome-to-city-hall/
+https://www.cincinnati-oh.gov/council/contact-us/council-list/
+https://www.cincinnati-oh.gov/council/references-resources/rules-of-council/
+
+
+Reference status: STRONG HISTORIC BUILDING + GOVERNANCE PACK. Dedicated chamber/office photo pack still needed.
+
+
+### Cleveland, Ohio — LARGE WARD-BASED COUNCIL WITH POPULATION-TRIGGERED SIZE CHANGE
+Verified institutional/room facts:
+- Regular Council meetings occur on the second floor of Cleveland City Hall, 601 Lakeside Avenue; committee meetings use the separate Mercedes Cotner Council Committee Room 217.
+- Council offices/Clerk are concentrated around Room 220.
+- Cleveland's charter ties Council ward count to city population. The post-2020 population level triggered a reduction from 17 wards to 15; the 15-ward configuration takes full effect in 2026.
+- This is a high-value institutional example because demographic data can directly change a governing institution under the charter rather than merely altering election weights.
+
+
+Scene families:
+1. CLEVELAND CITY COUNCIL CHAMBER — second-floor full Council room.
+2. MERCEDES COTNER COMMITTEE ROOM 217 — smaller committee/hearing family.
+3. COUNCIL OFFICE/CLERK family around Room 220.
+4. MAYOR/EXECUTIVE office family.
+
+
+Official sources:
+https://www.clevelandcitycouncil.org/resources/public-comment
+https://www.clevelandcitycouncil.org/sites/default/files/2023%20Year%20End.pdf
+
+
+Reference status: ROOM/STRUCTURAL CHANGE VERIFIED. Need current architectural/interior visual pass and current 15-member rules/charter pack.
+
+
+## Municipal lesson from this tranche
+The game should not expose a generic `city council` object with a universal member count, executive relationship, room or procedure.
+
+
+Already-observed real differences include:
+- Chicago: Mayor presides over a large aldermanic Council under term-specific rules.
+- Springfield: Mayor/Aldermanic body, Robert's Rules fallback, Council Chamber doubles as administrative-hearing room.
+- Detroit: strong-mayor + district/at-large Council + unusually prominent charter-created citizen/police oversight bodies.
+- Grand Rapids: Mayor presides politically while a Council-appointed City Manager is chief administrator.
+- Lincoln: home-rule Mayor-Council with a shared City/County building and joint city-county planning institutions.
+- Minneapolis: executive Mayor + separate 13-member ward legislature.
+- Saint Paul: municipal legislature embedded in a shared Art Deco city/county civic complex.
+- Columbus: council structure itself changed in 2024 and must be time-versioned.
+- Cincinnati: Mayor, Council and professional City Manager coexist as distinct actors within one historic City Hall.
+- Cleveland: charter population thresholds directly changed the Council from 17 to 15 wards for 2026.
+
+
+These institutional differences should affect staffing, appointments, agenda control, vetoes, oversight, constituent work, committee behavior and career progression—not merely visual labels.
+
+
+
+
+## Consolidated governments + distinctive municipal halls — verified tranche — 2026-08-24
+
+
+### Louisville-Jefferson County, Kentucky — CONSOLIDATED METRO + HISTORIC CITY HALL
+Verified governance and room facts:
+- Louisville and Jefferson County merged into Louisville Metro Government in 2003. Current Metro documents identify a mayor-council consolidated form with 26 Council districts and 26 district-elected Council members.
+- Historic City Hall at 601 W. Jefferson Street houses Metro Council offices and chambers. The building was constructed 1870–73 in an Italianate stone civic style with period exterior sculptural/industrial motifs.
+- Metro Council's own 2026 Art in City Hall program demonstrates that public-space decoration is temporally variable: local artwork is selected annually and displayed in the lobby, hallways and public areas rather than being permanent institutional architecture.
+- Current Council policies explicitly distinguish Council staff, Clerk functions and consolidated-government executive units.
+
+
+Scene families:
+1. LOUISVILLE METRO COUNCIL CHAMBER — historic-city-hall legislative family.
+2. METRO COUNCIL MEMBER/OFFICE family in Historic City Hall.
+3. FIRST-FLOOR CONFERENCE / smaller civic-meeting family.
+4. MAYOR / Metro executive-office family — research separately rather than assuming it occupies the Council's historic room family.
+5. TEMPORARY/ROTATING ART layer tied to the annual Art in City Hall exhibition.
+
+
+Simulation implication: consolidated Louisville should not spawn separate independent Louisville city and Jefferson County executive/legislative governments for functions that merger law consolidated. The 26 districts and council structure are legal/institutional facts, while rotating local artwork belongs to the temporal personalization/civic-art layer.
+
+
+Official sources:
+https://louisvilleky.gov/government/metro-council
+https://louisvilleky.gov/government/metro-council/metro-council-policies-procedures
+https://louisvilleky.gov/government/metro-council/art-city-hall-2026-2027
+
+
+Reference status: STRONG GOVERNANCE/BUILDING IDENTITY. Dedicated chamber geometry/interior reference pack still required.
+
+
+### Lexington-Fayette, Kentucky — MERGED URBAN-COUNTY GOVERNMENT + ACTIVE GOVERNMENT-CENTER TRANSITION
+Verified current facts:
+- Lexington-Fayette Urban County Government is a merged urban-county government. The Urban County Council is its legislative branch.
+- Council has 15 members: 12 district members plus three countywide at-large seats; the highest-vote at-large member becomes Vice Mayor under the current system.
+- Current Council meetings, work sessions and many public hearings occur in the second-floor Council Chamber at the Government Center, 200 E. Main Street. Smaller subcommittee work can occur in second-floor caucus or fifth-floor conference rooms.
+- LFUCG is actively pursuing a replacement Government Center. On December 2, 2025 Council authorized P3 agreements to buy and redevelop the Truist Bank Building at 200 W. Vine Street as the future Government Center. The official project page includes a 2026 timeline and June 2026 Council update materials.
+- The planned project consolidates offices now in the Government Center and Switow Building while coordinating with the Phoenix Building Development and Services Center.
+
+
+Scene families by effective date:
+1. CURRENT 200 E. MAIN COUNCIL CHAMBER — second-floor current family.
+2. CURRENT GOVERNMENT CENTER COUNCIL/STAFF OFFICE family.
+3. CURRENT CAUCUS / FIFTH-FLOOR CONFERENCE family.
+4. PHOENIX BUILDING DEVELOPMENT/SERVICES family.
+5. FUTURE 200 W. VINE / TRUIST REDEVELOPED GOVERNMENT CENTER family — activate only after the simulated project is actually completed/opened.
+
+
+Simulation implication: the new Government Center can be a live capital project with procurement, financing, construction, delays, politics and eventual office relocation. A 2026 start should not teleport government into an unfinished future building.
+
+
+Official sources:
+https://www.lexingtonky.gov/government
+https://www.lexingtonky.gov/government/office-urban-county-council/councilmembers
+https://www.lexingtonky.gov/government/visiting-downtown-city-government-buildings
+https://www.lexingtonky.gov/government/initiatives/government-center-development
+
+
+Reference status: STRONG CURRENT/FUTURE LOCATION PACK. Detailed architectural visual packs needed for current and planned families.
+
+
+### Nashville-Davidson County, Tennessee — CONSOLIDATED METRO + LIVE 2026 COUNCIL-SIZE LITIGATION
+Verified current facts:
+- Metropolitan Government of Nashville and Davidson County is a consolidated city-county government effective April 1, 1963.
+- Current Metro Council remains a 40-member legislative body: 35 district members and five at-large members; the Vice Mayor presides.
+- Regular 2026 Council meetings are in the David Scobey Council Chambers at the Historic Metro Courthouse, 1 Public Square. The Metro Council Office is also in the Courthouse.
+- Nashville's charter historically created separate General Services and Urban Services districts, which means consolidated geography does not imply one uniform service/tax layer.
+- IMPORTANT TEMPORAL LEGAL STATE: a Tennessee statute seeking to cap metropolitan councils at 20 members is still being litigated. The Tennessee Supreme Court heard Metro's appeal February 12, 2026 and the docket shows supplemental briefing continuing through July 2026. Therefore 40 members is the current operational structure, while the future rule remains legally contested as of this research date.
+
+
+Scene families:
+1. DAVID SCOBEY COUNCIL CHAMBER — main full-Council/hearing family.
+2. METRO COUNCIL OFFICE / Courthouse legislative-office family.
+3. COURTHOUSE COMMITTEE/CLERK rooms immediately associated with the Council.
+4. MAYOR executive-office family in the Historic Metro Courthouse.
+5. SERVICE-DISTRICT/community settings when governance occurs outside the central building.
+
+
+Simulation implication: institutional litigation can genuinely alter the size/representation structure of a legislature. Store the law, injunction/case state and effective outcome separately; do not pre-resolve the pending 2026 case.
+
+
+Official sources:
+https://www.nashville.gov/departments/council/boards/metro-council
+https://www.nashville.gov/departments/council/boards/metro-council/meetings/metropolitan-council-meeting-july-7-2026
+https://www.nashville.gov/departments/government/history-metro
+https://pch.tncourts.gov/CaseDetails.aspx?id=92054
+
+
+Reference status: STRONG CURRENT GOVERNANCE/ROOM PACK + ACTIVE LEGAL EXCEPTION.
+
+
+### Miami, Florida — DISTRICT COMMISSION + MAYORAL VETO + FORMER PAN AM SEAPLANE TERMINAL CITY HALL
+Verified facts:
+- City Hall is at 3500 Pan American Drive at Dinner Key; current City Commission agendas use this City Hall for Commission meetings.
+- The Commission consists of five commissioners elected from five districts. The governmental structure also includes a separately elected Mayor and a City Manager.
+- Charter Section 4(g)(5), as reproduced in official mayor-signature reports, gives the Mayor veto authority over specified Commission actions, including legislative, zoning/land-use and budget actions; the Commission can override by a four-fifths vote of commissioners present.
+- The City Hall building is exceptionally distinctive: official city planning/infrastructure records identify it as the former Pan American seaplane terminal at Dinner Key, part of Miami's historic aviation/waterfront complex.
+
+
+Scene families:
+1. DINNER KEY CITY COMMISSION CHAMBER — bespoke waterfront/aviation-terminal civic environment.
+2. COMMISSIONER OFFICE family.
+3. MAYOR office family.
+4. CITY MANAGER administrative office family.
+5. WATERFRONT/CITY-HALL APPROACH and public-lobby family where scenes need the site's aviation/marina context.
+
+
+Simulation implication: Miami should visually and institutionally feel unlike a generic Florida office. The Mayor, five-member Commission and professional manager are separate actors; veto/override behavior should be derived from Charter authority rather than a generic mayor-strength number.
+
+
+Official sources:
+https://documents.miamigov.com/WebLink/DocView.aspx?dbid=0&id=1490455&repo=Administration
+https://documents.miamigov.com/WebLink/DocView.aspx?dbid=0&id=1490457&repo=Administration
+https://archive.miamigov.com/miamicapital/docs/ProjectPages/ProcurementOpportunities/Dinner_Key_Design_Build_Repairs/Addend2/6DinnerKeyMarina_AssessmentReport.pdf
+
+
+Reference status: UNIQUE / MUST CUSTOMIZE.
+
+
+### Austin, Texas — COUNCIL-MANAGER + 10-1 DISTRICTS + DESIGNED TRANSPARENCY / ROTATING LOCAL ART
+Verified current facts:
+- Austin Charter establishes a council-manager form. Council is the legislative body; the Council-appointed City Manager runs day-to-day operations and implements ordinances.
+- Since 2015 the elected structure is one at-large Mayor plus ten single-member geographic districts, created after the 2012 charter amendment. District boundaries are adjusted by an independent citizens redistricting commission after each census.
+- Austin City Hall is at 301 W. 2nd Street. The City's own description emphasizes transparency, accessibility, informality, environmental sensitivity and technology as design goals.
+- Completed in 2005 and designed by Antoine Predock, the building uses Texas limestone, recycled copper, a cascading waterfall and asymmetrical forms inspired by Austin-area waterways/canyons; it earned LEED Gold.
+- The People’s Gallery occupies the first three floors as a recurring local/regional art exhibition. Current 2026 city material continues the program and accepts new exhibition applications. This is a strong example of civic decoration that should be time-versioned rather than baked permanently into a base texture.
+
+
+Scene families:
+1. AUSTIN COUNCIL CHAMBER / City Hall public-meeting family.
+2. COUNCIL MEMBER/MAYOR office family on the political floor.
+3. CITY MANAGER administrative-office family.
+4. CITY HALL PUBLIC ATRIUM/PLAZA family.
+5. PEOPLE'S GALLERY modular exhibition layer.
+
+
+Official sources:
+https://www.austintexas.gov/city-manager/city-hall
+https://library.austintexas.gov/peoples
+https://www.austintexas.gov/ps-af/arts-culture/art-public-places/open-calls
+https://www.austintexas.gov/sites/default/files/files/BOE/Budget/FY2025-2026_Proposed_Budget.pdf
+
+
+Reference status: UNIQUE / MUST CUSTOMIZE, with unusually strong official design documentation.
+
+
+### Peoria, Illinois — MEDIUM-CITY COUNCIL-MANAGER + DISTINCTIVE ROOM 400
+Verified current facts:
+- Peoria has a Council-Manager form combining elected political leadership with an appointed professional City Manager.
+- The Mayor and ten Council members comprise the elected Council: five district members and five at-large members.
+- Current 2026 regular meetings occur in City Hall Council Chambers, Room 400, 4th floor, 419 Fulton Street, on the second and fourth Tuesdays.
+- Official schedules also show other municipal commissions using rooms throughout City Hall, allowing smaller room families rather than sending every civic event to the Council chamber.
+- Earlier contemporary reference collection identified Room 400's curved dark-wood dais, historic mural, coffered/arched treatment and presentation infrastructure as a high-value visually distinctive medium-city chamber. That visual pack remains an art-reference task; the current room/location itself is independently verified by official 2026 records.
+
+
+Scene families:
+1. PEORIA ROOM 400 COUNCIL CHAMBER — distinctive medium-city custom family.
+2. MAYOR/COUNCIL OFFICE family.
+3. CITY MANAGER office family.
+4. SMALLER CITY HALL BOARD/COMMISSION room family.
+
+
+Official sources:
+https://www.peoriagov.org/157/Mayor-and-City-Council
+https://peoriagov.org/Calendar.aspx?EID=3098&calType=0&day=14&month=7&year=2026
+https://www.peoriagov.org/DocumentCenter/View/7078
+
+
+Reference status: UNIQUE MEDIUM-CITY CHAMBER / MUST CUSTOMIZE CHAMBER; other offices may use reusable institutional families after visual research.
+
+
+### Boston, Massachusetts — 13-MEMBER COUNCIL + LANDMARK BRUTALIST CITY HALL
+Verified current facts:
+- Boston City Council has 13 members: nine district and four at-large members. The Mayor is the City's chief executive under the Charter.
+- Current 2026 weekly Council meetings are held at noon in the Christopher A. Iannella Chamber on the fifth floor of Boston City Hall, unless otherwise noted. Committee hearings also use the Iannella Chamber.
+- Boston City Hall opened in 1968 after a national design competition and was designed by Kallmann, McKinnell and Knowles. Official landmark documentation identifies it as a major work of American Brutalism using cast-in-place/precast concrete.
+- The original design intentionally exposed different governmental functions in the architecture and carried brick paving from the plaza into the building to express public access. Boston formally moved to landmark the building, including significant interior public/civic elements.
+
+
+Scene families:
+1. IANNELLA COUNCIL CHAMBER — fifth-floor Brutalist legislative/hearing family.
+2. COUNCIL OFFICE/COMMITTEE family on the fifth floor.
+3. MAYOR/EXECUTIVE family.
+4. MAJOR PUBLIC LOBBY/BRICK-PLAZA circulation family.
+5. OTHER PUBLIC-TRANSACTION levels where gameplay uses service delivery.
+
+
+Official sources:
+https://www.boston.gov/departments/city-council
+https://www.boston.gov/public-notices/16552766
+https://www.boston.gov/sites/default/files/file/2024/11/224.07%20Boston%20City%20Hall%20final%20report%20November%202024.pdf
+
+
+Reference status: UNIQUE / MUST CUSTOMIZE.
+
+
+### Philadelphia, Pennsylvania — 17-MEMBER COUNCIL + DESIGNATED HISTORIC INTERIOR
+Verified current facts:
+- Philadelphia's 1951 Home Rule Charter created a 17-member City Council: ten district members and seven at-large members.
+- Regular public sessions are generally held in City Hall Room 400. Council's official procedural summary requires introduced bills to be referred to a standing committee, considered at public hearing/public meeting, reported, printed/distributed and then passed by a majority of all Council members; mayoral veto can be overridden by two-thirds.
+- City Council Chambers, Room 400, is itself a designated interior on the Philadelphia Register of Historic Places. The chamber furniture is separately listed as a designated historic object.
+- The Mayor's Reception Room, Room 202 on the second floor, is a distinct executive/ceremonial setting and should not be merged with the legislative chamber family.
+- Council budget hearings can place all 17 members into Committee of the Whole proceedings in the chamber, so the same room can host a different procedural state without becoming a different canonical location.
+
+
+Scene families:
+1. ROOM 400 CITY COUNCIL CHAMBER — highly ornate historic interior, custom asset.
+2. COUNCIL MEMBER/OFFICE family distributed through City Hall.
+3. MAYOR RECEPTION ROOM 202 — executive/ceremonial family.
+4. MAYOR working-office family separately researched.
+5. CITY HALL CORRIDOR/GRAND PUBLIC circulation family.
+
+
+Official sources:
+https://phlcouncil.com/about-phl-council/
+https://phlcouncil.com/council-members/
+https://www.phila.gov/documents/philadelphia-register-of-historic-places/
+https://www.phila.gov/2025-03-31-mayor-cherelle-l-parkers-public-schedule-for-monday-march-24-2025/
+
+
+Reference status: UNIQUE / MUST CUSTOMIZE.
+
+
+### San Francisco, California — CONSOLIDATED CITY-COUNTY + 11 DISTRICTS + BEAUX-ARTS CIVIC CENTER
+Verified current facts:
+- The Board of Supervisors is the legislative branch of the consolidated City and County of San Francisco. It has 11 district-elected supervisors.
+- Current Board public hearings use the Legislative Chamber, Room 250, San Francisco City Hall; Clerk operations are nearby in Room 244.
+- San Francisco City Hall, completed in 1915, is a major Beaux-Arts civic building and a National Historic Landmark within the Civic Center Historic District. City planning materials identify it as one of the country's notable Beaux-Arts examples.
+- The surrounding Civic Center itself is a historically significant public-political environment for protests, ceremonies and other civic events, so exterior/public scenes should treat it as a persistent political location, not simply a loading screen outside Room 250.
+
+
+Scene families:
+1. ROOM 250 LEGISLATIVE CHAMBER — custom Beaux-Arts board chamber.
+2. BOARD/CLERK OFFICE family around Rooms 244/250.
+3. COMMITTEE ROOM family, including Room 263 where used.
+4. MAYOR executive-office family.
+5. ROTUNDA/GRAND STAIR/CIVIC HALL circulation family.
+6. CIVIC CENTER PLAZA public political-event family.
+
+
+Official sources:
+https://sfbos.org/about-board
+https://sfbos.org/sites/default/files/bag013026_260021_notice.pdf
+https://sfplanning.org/civic-center-cultural-landscape-inventory
+https://sfplanning.org/sites/default/files/documents/preserv/bulletins/CivicCenterCLI_WalkingTourGuide.pdf
+
+
+Reference status: UNIQUE / MUST CUSTOMIZE.
+
+
+### Los Angeles, California — MAYOR-COUNCIL-COMMISSION + 15 DISTRICTS + MULTI-BODY COUNCIL CHAMBER
+Verified current facts:
+- Los Angeles has a Mayor-Council-Commission form under its Charter. Mayor, Controller and City Attorney are elected citywide; 15 Council members represent 15 districts.
+- City departments are often headed by General Managers, with many also overseen by mayor-appointed, Council-confirmed boards/commissions. This creates a larger civic-governance ecosystem than Mayor/Council alone.
+- The Council adopts/modifies the Mayor's proposed budget, confirms/rejects specified appointments, enacts ordinances subject to mayoral approval/veto, and operates through standing committees appointed by the Council President.
+- Current 2026 official records identify the John Ferraro Council Chamber, City Hall Room 340, third floor, 200 N. Spring Street. The chamber is also used by the City Planning Commission for major hearings, demonstrating a multi-body civic-hearing role.
+- Charter rules require a minimum Council meeting cadence, while public meetings/commissions also occur throughout City Hall and elsewhere in the city.
+
+
+Scene families:
+1. JOHN FERRARO COUNCIL CHAMBER, ROOM 340 — full Council + major commission/hearing family.
+2. CITY COUNCIL OFFICE family.
+3. COUNCIL COMMITTEE room family.
+4. MAYOR executive-office family.
+5. BOARD/COMMISSION meeting-room families, some inside City Hall and some agency-specific.
+6. NEIGHBORHOOD COUNCIL/community meeting family outside central City Hall.
+
+
+Official sources:
+https://lacity.gov/government/city-charter-rules-and-codes
+https://lacity.gov/government/elected-officials/city-council
+https://planning.lacity.gov/plndoc/Staff_Reports/2026/03-12-2026/CPC_2023_5444.pdf
+https://lacity.gov/government/boards-commissions
+
+
+Reference status: STRONG INSTITUTIONAL PACK; chamber/City Hall visual-art pass should still distinguish permanent architecture from current occupant/display layers.
+
+
+## Cross-cutting findings from the consolidated/distinctive tranche
+1. Consolidation is not one thing. Louisville, Lexington, Nashville and San Francisco all combine local-government functions differently. Preserve their legal structure instead of setting `is_consolidated = true` and assuming identical powers.
+2. Government buildings themselves can be live political projects. Lexington's Government Center transition and Nashville's contested Council-size law show why both space and institution need effective dates and pending states.
+3. Permanent architecture and rotating civic art must be separate. Louisville's annual Art in City Hall and Austin's People's Gallery are direct official examples.
+4. One physical chamber can host multiple canonical institutions/procedural states: Philadelphia Committee of the Whole, Peoria boards, Los Angeles Planning Commission, Lexington boards/hearings, etc.
+5. Distinctive buildings should be custom assets: Miami Dinner Key, Austin City Hall, Boston City Hall, Philadelphia Room 400, San Francisco City Hall/Civic Center and Peoria Room 400.
+6. `current_operational_structure`, `legally_contested_future_structure`, and `historical_structure` must be separate. Nashville's unresolved 2026 Council-size litigation is the clearest current example.
+
+
+
+
+## Northeast / Mid-Atlantic municipal environment tranche — 2026-08-24
+
+
+### New York City, New York — 51-DISTRICT LEGISLATURE + SPLIT CITY HALL / 250 BROADWAY WORKSPACE
+Verified current facts:
+- New York City Council has 51 members, one elected from each Council district.
+- Council members maintain district offices in the communities they represent as well as legislative offices centered at 250 Broadway in Lower Manhattan.
+- Full Stated Meetings and major legislative proceedings occur in the City Council Chamber at New York City Hall. Committee hearings and other Council proceedings can occur in City Hall committee space or in dedicated hearing rooms at 250 Broadway.
+- Current Council/Legistar records distinguish the City Hall Council Chamber from 250 Broadway Hearing Rooms 1, 2 and 3 rather than treating all Council business as one room.
+- NYC City Hall itself was constructed 1803–1812 in Federal style with French influences; the current Council Chamber was formed from two earlier courtrooms and received its present late-19th/early-20th-century wood gallery, decorative plaster and Taber Sears mural program. A major 2010s rehabilitation preserved the historic chamber while modernizing life-safety/mechanical infrastructure.
+
+
+Scene families:
+1. NYC CITY HALL COUNCIL CHAMBER — bespoke historic federal/French-influenced legislative family.
+2. CITY HALL COMMITTEE / adjacent civic-room family.
+3. 250 BROADWAY LEGISLATIVE OFFICE family.
+4. 250 BROADWAY HEARING ROOMS 1–3 family.
+5. DISTRICT OFFICE family — borough/neighborhood-specific rather than a single Manhattan office template.
+6. CITY HALL ROTUNDA / public ceremonial circulation family.
+7. MAYOR/EXECUTIVE City Hall family separately researched from Council rooms.
+
+
+Simulation implication: a Council member's ordinary work can shift among neighborhood district office, 250 Broadway legislative office, committee hearing and formal City Hall Stated Meeting. Do not collapse `Council office` into one map node.
+
+
+Official sources:
+https://council.nyc.gov/districts/
+https://council.nyc.gov/about/
+https://legistar.council.nyc.gov/
+https://www.nyc.gov/assets/designcommission/downloads/pdf/design-awards-program-31.pdf
+
+
+Reference status: STRONG INSTITUTIONAL + HISTORIC CHAMBER PACK. Contemporary 250 Broadway/member-office visual pass still required.
+
+
+### Buffalo, New York — NINE-DISTRICT COMMON COUNCIL + ART DECO CITY HALL + REAL FACILITY-MAINTENANCE FAILURE
+Verified current facts:
+- Buffalo Common Council is the City's legislative branch and currently has nine district-elected members.
+- Current Council and committee activity occurs in Buffalo City Hall, with the Council Chamber on the 13th floor; additional workshops and meetings use other City Hall rooms such as Room 1417.
+- Buffalo City Hall is a 29-story Art Deco civic tower designed by Dietel and Wade and is a genuinely distinctive municipal-government family.
+- A current 2026 City capital request documents an unusually concrete facility problem: the Council Chamber's climate-control deficiency creates uncomfortable and potentially unsafe temperatures during summer use and requires dedicated capital work. This is an example of a public-building maintenance problem that can be sourced rather than randomly generated.
+- Budget workshops/hearings can occur in multiple City Hall spaces, demonstrating different procedural use of the same government complex.
+
+
+Scene families:
+1. 13TH-FLOOR COMMON COUNCIL CHAMBER — bespoke Art Deco civic chamber.
+2. ROOM 1417 / workshop-conference family.
+3. COMMON COUNCIL MEMBER/OFFICE family.
+4. MAYOR / executive-office family.
+5. ART DECO CITY HALL lobby/elevator/circulation family.
+
+
+Simulation implication: public-facility condition should be capable of affecting meeting comfort, safety, accessibility, capital requests and political accountability. The 2026 chamber HVAC request is a direct failure/opportunity calibration case.
+
+
+Official sources:
+https://www.buffalony.gov/362/Common-Council
+https://www.buffalony.gov/Calendar.aspx
+https://www.buffalony.gov/DocumentCenter/
+
+
+Reference status: UNIQUE ART DECO / MUST CUSTOMIZE CHAMBER AND PUBLIC BUILDING.
+
+
+### Washington, District of Columbia — STATE-LIKE LOCAL GOVERNMENT + FEDERAL CONGRESSIONAL REVIEW DEPENDENCY
+Verified current facts:
+- The Council of the District of Columbia has 13 members: eight ward members, four at-large members and a Council Chair elected at large.
+- The John A. Wilson Building functions simultaneously as the seat of District executive and legislative government. Official building-use materials identify the Council Chamber, multiple hearing rooms, the Mayor's Ceremonial Room, atrium/public spaces and public art.
+- DC also has Advisory Neighborhood Commissions. Current District material identifies 40 ANCs; commissioners are elected in nonpartisan Single Member Districts of roughly 2,000 residents and advise District government on neighborhood matters.
+- DC is not procedurally equivalent to a normal municipality or state. Under the Home Rule Act, most permanent Council legislation must be transmitted to Congress and pass a congressional review period before taking effect. District official material describes a 30-legislative-day review for ordinary legislation and a 60-day review for specified criminal-law measures; Congress retains authority to disapprove local legislation and retains broader constitutional authority over District affairs.
+- The District's own Attorney General has treated the start/end of the congressional review period as legally consequential to whether a Council act becomes effective law.
+
+
+Scene families:
+1. WILSON BUILDING COUNCIL CHAMBER.
+2. WILSON BUILDING HEARING ROOMS 412/120/123 and related committee family.
+3. MAYOR WORKING-OFFICE family.
+4. MAYOR CEREMONIAL ROOM.
+5. WILSON BUILDING ATRIUM/public-art/public-event family.
+6. ANC neighborhood-meeting family — local/community rooms rather than Wilson Building by default.
+7. FEDERAL CONGRESSIONAL review scenes/artifacts occur through Congress rather than fabricating a separate DC local room.
+
+
+Simulation implication: DC legislation needs states such as `council_enacted`, `mayoral_action_complete`, `transmitted_to_congress`, `congressional_review_running`, `disapproval_action`, and `effective_dc_law`. This federal dependency should not be generalized to other cities.
+
+
+Official sources:
+https://dccouncil.gov/
+https://statehood.dc.gov/page/dc-governance
+https://statehood.dc.gov/page/congressional-intervention
+https://oag.dc.gov/about-oag/our-structure-divisions/legal-counsel-division/opinions-attorney-general
+
+
+Reference status: UNIQUE GOVERNANCE / HIGH-PRIORITY FEDERAL-LOCAL EXCEPTION.
+
+
+### Baltimore, Maryland — INDEPENDENT COUNTY-EQUIVALENT CITY + 15-POSITION UNICAMERAL COUNCIL + BOARD OF ESTIMATES
+Verified current facts:
+- Baltimore City has been independent from Baltimore County since 1851 and is treated by Census as a county-level statistical equivalent. It provides the broad local-government range ordinarily split between city/county jurisdictions in many states.
+- Baltimore's Charter creates a single-chamber Council. Current structure consists of 14 district Council members plus a separately elected Council President.
+- Current Council Rules define the Council Chamber as the Clarence `Du` Burns Council Chamber in City Hall.
+- Official current/near-current committee materials continue to identify public hearings in the Clarence Du Burns Council Chamber.
+- Baltimore's executive/fiscal structure contains a distinctive Board of Estimates in addition to Mayor, Comptroller and Council. City financial documents describe it as a central administrative/fiscal body involving the Council President, Mayor, Comptroller and specified executive officials.
+- An official Baltimore Inspector General review of a highly attended 2022 Council committee meeting documented a real meeting-management failure: crowd size exceeded the practical chamber/vestibule planning assumptions, coordination among Council staff, security and fire-safety personnel was inadequate, and procedures needed improvement. This can ground crowd-control/public-access failure generation.
+
+
+Scene families:
+1. CLARENCE DU BURNS COUNCIL CHAMBER — historic City Hall legislative/hearing family.
+2. COUNCIL PRESIDENT / DISTRICT COUNCIL office family.
+3. COMMITTEE/SMALL HEARING family.
+4. MAYOR executive-office family.
+5. BOARD OF ESTIMATES meeting family.
+6. COMPTROLLER office/oversight family.
+7. CITY HALL public/crowd/security circulation family.
+
+
+Official sources:
+https://codes.baltimorecity.gov/us/md/cities/baltimore/charter/III/1
+https://codes.baltimorecity.gov/us/md/cities/baltimore/council/sessions/2024/rules/council-rules-2024.pdf
+https://www.baltimorecity.gov/
+https://www2.census.gov/programs-surveys/popest/about/challenge-program/appendix-c.-county-level-statistical-equivalents.pdf
+
+
+Reference status: STRONG INSTITUTION + COUNTY-EQUIVALENT + FAILURE CASE. Chamber visual geometry pass still needed.
+
+
+### Pittsburgh, Pennsylvania — NINE-DISTRICT COUNCIL + SHARED CITY-COUNTY BUILDING
+Verified current facts:
+- Pittsburgh has nine City Council districts; each district elects a Council member and the Council is the City's legislative branch.
+- Reapportionment follows decennial-census population and neighborhood/minority-representation criteria through a Council reapportionment process.
+- Council Chamber is on the fifth floor of the City-County Building, 414 Grant Street. Current municipal activity continues to use that chamber and the fifth-floor corridor.
+- City Council/Clerk offices and the Mayor's office are concentrated on the fifth floor, while the building is physically shared with Allegheny County government.
+- A shared building does not make Pittsburgh and Allegheny County one consolidated government. Their institutions, elected officials, budgets and procedural rules remain distinct despite common architecture.
+- Current city events demonstrate the surrounding fifth-floor corridor as a civic/political display space; official mayoral portraits are installed there as permanent civic-history objects.
+
+
+Scene families:
+1. FIFTH-FLOOR PITTSBURGH CITY COUNCIL CHAMBER.
+2. CITY COUNCIL / CITY CLERK office family.
+3. MAYOR fifth-floor office family.
+4. FIFTH-FLOOR CIVIC-HISTORY corridor/artifact family.
+5. ALLEGHENY COUNTY rooms within the same building as distinct government scene families.
+
+
+Official sources:
+https://www.pittsburghpa.gov/City-Government/The-City-Council
+https://engage.pittsburghpa.gov/city-council-rac
+https://www.pittsburghpa.gov/City-Government/The-City-Council/Legislative-Information/Council-Re-Apportionment-Committee
+https://www.pittsburghpa.gov/News-articles/Homepage/MEDIA-ADVISORY-MAYOR-ED-GAINEY-Portrait-Unveiling
+
+
+Reference status: SHARED-BUILDING / SEPARATE-SOVEREIGNTY PILOT. Visual photo pack needed.
+
+
+### Richmond, Virginia — INDEPENDENT CITY + NINE-DISTRICT COUNCIL-MAYOR SYSTEM + UNUSUAL MAYORAL ELECTORAL RULE
+Verified current facts:
+- Richmond is a Virginia independent city and Census county-equivalent, separate from surrounding county government.
+- Richmond uses a Council-Mayor form. Nine Council members are elected from nine geographic voter districts.
+- The Mayor is elected at large but, under Richmond's distinctive system, must receive the required majority/plurality condition across at least five of the nine voter districts rather than simply winning one citywide aggregate contest. Current official district material explicitly ties the nine-district map to the mayoral five-of-nine requirement.
+- Council approves the Chief Administrative Officer appointment; the Mayor oversees the CAO while the CAO manages day-to-day administration.
+- Current meetings occur in City Hall Council Chambers, second floor, 900 E. Broad Street. Council/Clerk offices occupy separate suites in the same building.
+- Richmond's 2022 redistricting process used state-law adjusted population that reallocates incarcerated population for local redistricting, another example of a rule-specific population input rather than raw Census headcount alone.
+
+
+Scene families:
+1. SECOND-FLOOR RICHMOND COUNCIL CHAMBER.
+2. COUNCIL / CLERK office family.
+3. MAYOR office family.
+4. CHIEF ADMINISTRATIVE OFFICER executive-administrative family.
+5. DISTRICT/community meeting family.
+
+
+Official sources:
+https://www.rva.gov/richmond-city-council
+https://www.rva.gov/sites/default/files/2023-07/Richmond%20Voter%20District%20Maps%20BIG%20Package%20for%202024%207.24.2023.pdf
+https://www2.census.gov/programs-surveys/popest/about/challenge-program/appendix-c.-county-level-statistical-equivalents.pdf
+
+
+Reference status: HIGH-VALUE ELECTION/GOVERNANCE EXCEPTION; visual pack still needed.
+
+
+### Worcester, Massachusetts — PLAN E COUNCIL-MANAGER + CEREMONIAL/PRESIDING MAYOR + ESTHER HOWLAND CHAMBER
+Verified current facts:
+- Worcester currently uses a Council-Manager / Plan E form. The City states that the current form dates to the 1985 modification of Plan E.
+- Council has 11 members: six at-large and five district Councilors. The popularly elected Mayor is also a Councilor-at-Large and presides, while the Council-appointed City Manager is the chief executive administrator responsible for day-to-day municipal operations, department heads and budget preparation.
+- Current 2026 Council pages continue to use the Esther Howland Chamber at Worcester City Hall, 455 Main Street, including the August 17, 2026 charter-review hearing.
+- Ordinary Council meetings use the Esther Howland Chamber; City records also show other rooms such as Levi Lincoln Chamber used for executive-session/smaller work, supporting more than one room family.
+- City Manager's office is Room 306 and Mayor's office is Room 305, making the institutional separation physically adjacent but legally meaningful.
+
+
+Scene families:
+1. ESTHER HOWLAND CITY COUNCIL CHAMBER.
+2. LEVI LINCOLN / smaller executive-session/conference room family.
+3. MAYOR Room 305 political/presiding-office family.
+4. CITY MANAGER Room 306 executive-administrative family.
+5. COUNCIL MEMBER office family.
+
+
+Official sources:
+https://www.worcesterma.gov/city-council
+https://www.worcesterma.gov/city-manager
+https://www.worcesterma.gov/mayor
+
+
+Reference status: STRONG COUNCIL-MANAGER / ROLE-SEPARATION PILOT.
+
+
+### Providence, Rhode Island — FIFTEEN-WARD COUNCIL + PRESERVED 1878 COUNCIL CHAMBER / FORMER ALDERMEN'S CHAMBER
+Verified current facts:
+- Providence Home Rule Charter provides for an at-large elected Mayor and a 15-member City Council, one member elected from each of 15 wards. Both offices have charter-defined terms/limits and ward boundaries are revisited after the federal decennial census.
+- Council rules specify regular meetings in the City Council Chamber in City Hall and establish Council President/President Pro Tempore presiding structure.
+- Providence City Hall's official building guide identifies the third-floor Council Chamber as one of the building's largest and most ornate rooms and the principal venue for municipal meetings, Council hearings and mayoral State of the City/Budget addresses.
+- The room retains much of its original 1878 appearance, including highly stylized Neo-Grec wall stenciling, restored tile floor, original Council desks and spectator benches, with seating for roughly 150 spectators.
+- The former Aldermen's Chamber is a second distinct historic room. After Providence abolished the Board of Aldermen under its 1940 charter, the room became a smaller reception/meeting/civic-event/exhibit space. This is a useful physical record of an institution that no longer exists.
+
+
+Scene families:
+1. THIRD-FLOOR PROVIDENCE CITY COUNCIL CHAMBER — bespoke Neo-Grec historic chamber.
+2. FORMER ALDERMEN'S CHAMBER — smaller reception/meeting/exhibition family with explicit historical provenance.
+3. MAYOR office family.
+4. COUNCIL ward/office family.
+5. CITY HALL historic public circulation family.
+
+
+Official sources:
+https://council.providenceri.gov/wp-content/uploads/2022/03/Home-Rule-Charter-Editable-Version.pdf
+https://council.providenceri.gov/wp-content/uploads/2026/02/2007-160.pdf
+https://www.providenceri.gov/wp-content/uploads/2019/11/City-Hall-Guide.pdf
+
+
+Reference status: UNIQUE HISTORIC / MUST CUSTOMIZE CHAMBER; former institutional room is a high-value historical-state example.
+
+
+## Northeast / Mid-Atlantic lessons
+1. DC requires a federal-local legislative review dependency that should exist nowhere else unless a jurisdiction's law actually provides one.
+2. Baltimore and Richmond must enter the geography/government backbone as county-equivalent independent cities, not ordinary places nested inside a functioning county government.
+3. NYC demonstrates how one legislator can have a neighborhood district office, centralized legislative office, separate hearing rooms and a formal chamber as different persistent work locations.
+4. Buffalo gives a concrete official facility-failure example: the chamber itself can need HVAC/capital remediation.
+5. Pittsburgh proves that sharing one government building does not imply city-county consolidation.
+6. Richmond's five-of-nine mayoral election rule and adjusted-incarcerated-population redistricting show that election rules may depend on district-level outcomes and legally adjusted populations.
+7. Worcester demonstrates a politically visible Mayor with a separate professional chief executive administrator; titles cannot infer executive power.
+8. Providence preserves a former Aldermen's Chamber whose current use changed when the institution disappeared. Room history should be time-versioned along with government history.
+
+
+
+
+# MUNICIPAL EXCEPTION-ENVIRONMENT TRANCHE — 2026-08-25
+
+
+## Honolulu, Hawaii — COUNTY-DOMINANT GOVERNMENT + HONOLULU HALE
+Honolulu Hale, 530 S. King Street, is the seat of the City and County of Honolulu and therefore represents county-level local government for all of O‘ahu rather than a conventional mainland municipality nested inside a county government.
+
+
+Verified environment facts:
+- Mayor's office is identified in current city material as Room 300; Mayor's Conference Room as Room 304.
+- City Council and City Clerk/elections functions occupy the same civic complex.
+- Official city pages identify the Council Chamber inside Honolulu Hale, but current pages are inconsistent about whether the chamber is described as second- or third-floor. Do not resolve this by guesswork; retain a `source_discrepancy` flag until a floor plan/current room source settles it.
+
+
+Scene families:
+1. HONOLULU HALE COUNCIL CHAMBER — exact floor pending reconciliation.
+2. MAYOR ROOM 300 working-office family.
+3. MAYOR CONFERENCE ROOM 304.
+4. CITY/COUNTY COUNCIL OFFICE family.
+5. CITY CLERK/ELECTIONS administrative family.
+6. HONOLULU HALE public/civic circulation family.
+
+
+Production implication: Hawaii local-government scenes must follow the county-dominant institutional backbone; do not create a generic `Hilo City Hall` or other incorporated-city environment where no such municipal corporation exists.
+
+
+## Indianapolis–Marion County, Indiana — UNIGOV / CITY-COUNTY BUILDING
+The City-County Building at 200 E. Washington Street is a consolidated-government complex rather than a conventional city hall.
+
+
+Verified room-use pattern:
+- Full City-County Council and many committees use the Public Assembly Room (PAR), Room 230.
+- Other committees/boards use smaller meeting rooms such as Rooms 221 and 260.
+- Clerk/election functions also occur within the complex, including current early-voting use.
+
+
+Scene families:
+1. PUBLIC ASSEMBLY ROOM 230 — full City-County Council / major hearing family.
+2. SMALLER CITY-COUNTY MEETING ROOMS 221/260 family.
+3. CITY-COUNTY COUNCIL MEMBER/OFFICE family.
+4. MAYOR/EXECUTIVE family.
+5. COUNTY OFFICER/CLERK/ELECTION family.
+6. PUBLIC SERVICE/COURT/administrative circulation variants as gameplay requires.
+
+
+Production implication: the building can visually host multiple retained/cross-cutting institutions under Unigov. Same building does not imply one undifferentiated government object.
+
+
+## New Orleans, Louisiana — MULTI-BODY CITY HALL / COUNCIL CHAMBER REUSE
+New Orleans City Hall, 1300 Perdido Street, contains multiple municipal institutions and demonstrates why room identity must be separate from institutional-body identity.
+
+
+Verified location/use pattern:
+- City Council offices: second-floor west family.
+- City Clerk: first-floor family.
+- Council Chamber is reused by City Council and other bodies including ethics/planning/historic-review proceedings in current government scheduling.
+- Planning and other bodies can have administrative offices outside the chamber building while still holding formal hearings in the Council Chamber.
+
+
+Scene families:
+1. NEW ORLEANS CITY COUNCIL CHAMBER — shared formal civic-hearing room.
+2. SECOND-FLOOR COUNCIL OFFICE family.
+3. FIRST-FLOOR CLERK family.
+4. MAYOR/EXECUTIVE family.
+5. PLANNING/HISTORIC/ETHICS administrative-office families, linked to the shared chamber when scheduled there.
+
+
+Hard rule reinforced: `meeting.location_id != body_id`. Physical room reuse must never merge institutional histories, memberships or authority.
+
+
+## New England town-meeting venue family
+The legal research changes environment generation as well as procedure.
+
+
+- Town meeting is not automatically a `Town Hall` scene.
+- The legally warned/scheduled venue is canonical and may be a school auditorium, gym, community center, civic hall, church-adjacent public venue where lawful, or another suitable space.
+- Maine law specifically supports outside-municipality venue use under constrained inadequate-facility conditions; Massachusetts law allows multi-space/accommodation mechanics under specified conditions.
+- Open town meeting, representative town meeting, deliberative session and Australian-ballot election may occur in different scene types even within one municipality.
+
+
+Required environment fields:
+`meeting_body_id`, `meeting_type`, `venue_id`, `venue_effective_date`, `capacity`, `accessibility`, `public_access`, `audio_overflow_link`, `temporary_venue_reason`, `source/warrant`.
+
+
+Production implication: do not manufacture a quaint colonial room merely because the jurisdiction is in New England. Research the actual town/meeting venue when the location matters.
+
+
+## Source-discrepancy rule reinforced
+Honolulu's current chamber-floor inconsistency is a useful production test. The scene-reference registry needs:
+- `claim`;
+- `source_id`;
+- `source_date`;
+- `conflicting_source_id`;
+- `discrepancy_status`;
+- `resolution_note`;
+- `render_blocking` boolean.
+
+
+A low-stakes discrepancy can remain unresolved in metadata; an exact-room render should be blocked when the disputed fact controls geometry/location.
+
+
+
+
+# MIDWEST LEGISLATIVE CAMPUS / ROOM-FAMILY TRANCHE — 2026-08-25
+
+
+## Ohio — CAPITOL SQUARE IS A CONNECTED HISTORIC COMPLEX
+Official Statehouse material identifies the Statehouse, Atrium and Senate Building as a connected Capitol Square environment rather than one generic chamber building.
+
+
+Verified families:
+- House Chamber and Senate Chamber are distinct restored historic rooms.
+- Senate Building North and South Hearing Rooms are major current Senate committee spaces; both were originally Ohio Supreme Court hearing rooms and retain/reproduce that historic bench/finish language.
+- House committees use numbered Statehouse hearing rooms such as Room 121 in current 2026 schedules.
+- The Statehouse contains ceremonial offices for statewide executives; treat ceremonial/tour identification separately from confirmed everyday working-office use.
+
+
+Official sources:
+https://www.ohiostatehouse.org/about/capitol-square/statehouse/senate-chamber
+https://www.ohiostatehouse.org/about/capitol-square/senate-building/senate-hearing-rooms
+
+
+Scene families:
+1. OHIO HOUSE CHAMBER.
+2. OHIO SENATE CHAMBER.
+3. SENATE NORTH HEARING ROOM.
+4. SENATE SOUTH HEARING ROOM.
+5. HOUSE/GENERAL COMMITTEE ROOM family including Room 121 where appropriate.
+6. ATRIUM / ROTUNDA / CONNECTING PUBLIC SPACE family.
+7. Ceremonial statewide-executive room family only when source/use is verified for the selected scene.
+
+
+## Michigan — SPLIT CAPITOL + BINSFELD COMMITTEE CAMPUS
+Current Senate calendars and committee pages prove that committee life is distributed between the historic Capitol and the Binsfeld Office Building rather than occurring in one generic hearing-room asset.
+
+
+Verified 2026 examples:
+- Room 1100, 1200 and 1300, Binsfeld Office Building, 201 Townsend Street, host multiple standing/appropriations committees.
+- Harry T. Gast Appropriations Room, 3rd floor Capitol, is a recurring appropriations/hearing environment.
+- Room 403, 4th floor Capitol, hosts multiple Senate committees/subcommittees.
+- A single day's committee calendar can move work among these room families.
+
+
+Official source family:
+https://www.legislature.mi.gov/Committees/
+https://www.legislature.mi.gov/documents/2025-2026/Journal/Senate/
+
+
+Scene families:
+1. MICHIGAN HOUSE CHAMBER.
+2. MICHIGAN SENATE CHAMBER.
+3. CAPITOL ROOM 403 hearing family.
+4. HARRY T. GAST APPROPRIATIONS ROOM.
+5. BINSFELD 1100.
+6. BINSFELD 1200.
+7. BINSFELD 1300.
+8. Capitol/Binsfeld corridors, elevators, lobbies and transit-between-building scenes where gameplay benefits.
+
+
+Production implication: meeting invitations and calendar objects should resolve to real building+room, and a player can plausibly have consecutive meetings requiring movement between buildings.
+
+
+## Minnesota — THREE-BUILDING LEGISLATIVE COMPLEX + TEMPORARY CONSTRUCTION STATE
+Current official Legislature guidance distinguishes the Capitol, State Office Building and Minnesota Senate Building. This topology is time-sensitive: as of 2026 the State Office Building is temporarily closed for construction, altering public/House-space use.
+
+
+Verified current spaces:
+- Capitol public/meeting rooms on the third floor including 309A, 316, 317/317A/317B and Public Business Center 318.
+- Capitol press conference room B971.
+- Senate hearing rooms in the Minnesota Senate Building.
+- Legislative Reference Library locations in the Capitol and Minnesota Senate Building.
+- Public/security rules changed for the 2026 session, including screening at Capitol/Senate Building entrances and additional chamber-gallery screening.
+
+
+Official source:
+https://www.leg.mn.gov/leg/FAQ/faq?subject=14
+
+
+Scene families:
+1. MINNESOTA HOUSE CHAMBER.
+2. MINNESOTA SENATE CHAMBER.
+3. CAPITOL PUBLIC/COMMITTEE/CONFERENCE family.
+4. CAPITOL PRESS ROOM B971.
+5. MINNESOTA SENATE BUILDING HEARING-ROOM family.
+6. MINNESOTA SENATE BUILDING office/circulation family.
+7. STATE OFFICE BUILDING family with year-specific construction/closure status.
+8. Security-screening/entry state as an environmental/access layer, not permanent architecture.
+
+
+Hard rule: the selected year can change which building/room is available. Do not render the State Office Building as normal public House space in a 2026 scene without resolving its construction status.
+
+
+## Iowa — CAPITOL-CENTRIC LEGISLATIVE WORK
+Official Iowa Capitol committee-room maps place legislative committee spaces, both chambers, legislative offices and many support functions inside the Capitol itself. Current 2026 schedules identify recurring rooms such as 22, 103 and 116 for legislative council, fiscal/interim/public-hearing and administrative-rules work.
+
+
+Official sources:
+https://www.legis.iowa.gov/resources/tourCapitol
+https://www.legis.iowa.gov/docs/Resources/LegislativeCommitteeRoomMaps.pdf
+
+
+Scene families:
+1. IOWA HOUSE CHAMBER.
+2. IOWA SENATE CHAMBER.
+3. ROOM 103 public-hearing/fiscal/interim family.
+4. ROOM 116 administrative-rules/meeting family.
+5. ROOM 22 Legislative Council family.
+6. Chamber lobby/lounge family.
+7. Legislative Services Agency / caucus / leadership support spaces where verified.
+
+
+Production implication: unlike Michigan/Minnesota, Iowa can legitimately feel more physically concentrated inside one highly distinctive Capitol building; reuse should come from real floor/room relationships rather than generic office-building geometry.
+
+
+## New campus-topology fields
+Add to the environment/location registry:
+- `campus_id`
+- `building_id`
+- `room_id`
+- `room_function_family`
+- `institutional_body_default_use`
+- `meeting_specific_use`
+- `public_access_state`
+- `security_state`
+- `construction/closure_state`
+- `walking_transition_group`
+- `effective_date_range`
+
+
+This allows calendar/travel/UI logic to distinguish `same room`, `same building`, `same campus/different building`, and `off-campus` without inventing arbitrary travel penalties.
+
+
+
+
+# PLAINS + MOUNTAIN WEST LEGISLATIVE CAMPUS TRANCHE — 2026-08-25
+
+
+## South Dakota — COMPACT CAPITOL-CENTERED ROOM SYSTEM
+Current 2026 committee pages establish a compact State Capitol legislative environment in Pierre with recurring numbered committee rooms rather than a separate legislative-office campus.
+
+
+Verified examples:
+- Senate/House Appropriations — Room 362.
+- Legislative Procedure committees — Room 413.
+- Senate Judiciary — Room 413.
+- House/Senate State Affairs — Room 414.
+- Interim Government Operations and Audit — Room 412.
+- Interim Rules Review — Room 414.
+- House and Senate floor journals confirm the chambers are in the Capitol.
+
+
+Scene families:
+1. SOUTH DAKOTA HOUSE CHAMBER.
+2. SOUTH DAKOTA SENATE CHAMBER.
+3. ROOM 362 appropriations/budget family.
+4. ROOM 413 committee family.
+5. ROOM 414 larger/state-affairs/interim family.
+6. ROOM 412 interim/audit family.
+7. Capitol corridors/rotunda/public circulation.
+
+
+Current committee pages also permit remote testimony requests with advance submission requirements; remote participation should be represented as meeting infrastructure, not as a separate abstract hearing scene.
+
+
+Official source family:
+https://sdlegislature.gov/Session/General/71
+
+
+## North Dakota — NAMED COMMITTEE-ROOM SYSTEM INSIDE THE CAPITOL
+North Dakota provides an unusually clear official room inventory. The Legislative Assembly uses named rooms across the ground floor/legislative wing and tower, including Prairie, Harvest, Roughrider, Red River, Sakakawea, Fort Lincoln, Fort Totten, Fort Union, Peace Garden and Brynhild Haugland Rooms. Current calendars/hearing records tie actual committees to these room names and occasionally to numbered rooms such as 216.
+
+
+Official map/source:
+https://ndlegis.gov/sites/default/files/resource/miscellaneous/capitolbuildingmap_1.pdf
+https://ndlegis.gov/sites/default/files/pdf/committees/69-2025/27.5090.02000appendixh.pdf
+
+
+Scene families:
+1. NORTH DAKOTA HOUSE CHAMBER.
+2. NORTH DAKOTA SENATE CHAMBER.
+3. ROUGHRIDER ROOM.
+4. PEACE GARDEN ROOM.
+5. PIONEER ROOM.
+6. HARVEST / RED RIVER / SAKAKAWEA named-room family, with room-specific references retained.
+7. FORT LINCOLN / FORT TOTTEN / FORT UNION / BRYNHILD HAUGLAND legislative-wing family.
+8. PRAIRIE ROOM tower family.
+9. Capitol atrium/café/public circulation where gameplay uses it.
+
+
+Production implication: these names are meaningful place identities. A calendar should say `Peace Garden Room`, not just `Committee Room B`.
+
+
+## Montana — CAPITOL-CENTERED BUT MULTIPLE DISTINCT HEARING ROOMS + PRESERVED HISTORIC SPACE
+Official 2025/2026 legislative events repeatedly use Capitol Room 102 and Room 137. Legislative space planning identifies additional House hearing spaces including 152, 172 and room 455, and shows that hearing rooms materially differ in area/capacity. Montana law specifically requires preservation of the Senate Chamber and the former Supreme Court chamber for legislative purposes, including preservation of the former court room as a single legislative committee room.
+
+
+Verified examples:
+- House Appropriations repeatedly uses Room 102.
+- House Judiciary and many interim committees use Room 137.
+- official space-planning material identifies Room 102 (~1,239 sq ft), Room 137 (~1,302), Room 152, Room 172 and Room 455 as distinct hearing/meeting assets.
+
+
+Official sources:
+https://www.legmt.gov/event/
+https://archive.legmt.gov/committees/admincom/lc/meeting-info/index.html
+https://mca.legmt.gov/bills/mca/title_0020/chapter_0170/part_0080/section_0100/0020-0170-0080-0100.html
+
+
+Scene families:
+1. MONTANA HOUSE CHAMBER.
+2. MONTANA SENATE CHAMBER — preserve its historic room-specific identity.
+3. FORMER SUPREME COURT / legislative hearing-room family where current use is confirmed.
+4. ROOM 102 large appropriations/hearing family.
+5. ROOM 137 hearing/interim family.
+6. Rooms 152/172/455 and other hearing rooms only after room-specific visual references are collected.
+7. Capitol public circulation/corridors.
+8. Old Board of Health/other legislative branch space only where selected-year use is verified.
+
+
+Hard rule: floor-plan/space-planning evidence identifies geometry/capacity but does not by itself establish the exact committee occupant for every selected year.
+
+
+## Wyoming — RESTORED CAPITOL + CAPITOL EXTENSION
+Current interim committee records repeatedly identify Capitol Extension W006 at 200 West 24th Street, while the historic Capitol contains the legislative chambers. This creates a real two-part legislative environment rather than one generic Wyoming committee room.
+
+
+Verified source family:
+https://wyoleg.gov/InterimCommittee/
+https://www.wyoleg.gov/Legislation/SessionLaws
+
+
+Scene families:
+1. WYOMING HOUSE CHAMBER.
+2. WYOMING SENATE CHAMBER.
+3. CAPITOL EXTENSION W006 hearing family.
+4. additional Capitol Extension committee/LSO rooms as researched.
+5. historic Capitol circulation and chamber-adjacent spaces.
+6. Legislative Service Office/support-office family.
+
+
+Production implication: committees/interim work can legitimately occur in the Extension while floor scenes remain in the restored Capitol. Calendar routing must preserve building identity.
+
+
+## Colorado — CAPITOL + OLD STATE LIBRARY + SEPARATE JBC HEARING ENVIRONMENT
+Current calendars identify the Old State Library as a major joint-committee/presentation room and separately identify a JBC Hearing Room for Joint Budget Committee work. Capitol preservation documents distinguish House/Senate committee-room lobbies, antechambers, chambers and the Old Supreme Court Chamber as separate historic/public/tertiary space types.
+
+
+Verified scene families:
+1. COLORADO HOUSE CHAMBER.
+2. COLORADO SENATE CHAMBER.
+3. OLD STATE LIBRARY joint-hearing/presentation family.
+4. JBC HEARING ROOM budget family.
+5. SCR-numbered Senate committee rooms such as SCR 357.
+6. House committee-room family.
+7. Old Supreme Court Chamber where selected meeting use is verified.
+8. House/Senate antechambers and committee-room lobbies as hallway/transition spaces.
+
+
+Official source family:
+https://leg.colorado.gov/
+
+
+## New Mexico — ROUNDHOUSE ROOM-SPECIFIC COMMITTEE SYSTEM
+Current 2025 official committee schedules expose concrete Roundhouse room identities. Examples include House Appropriations & Finance in Room 307 and House Commerce & Economic Development in Room 317. The schedule also supports remote Zoom attendance, but the physical room remains the canonical meeting location.
+
+
+Official source example:
+https://www.nmlegis.gov/Agendas/Standing/hSched030825.pdf
+
+
+Scene families:
+1. NEW MEXICO HOUSE CHAMBER.
+2. NEW MEXICO SENATE CHAMBER.
+3. ROOM 307 appropriations/finance family.
+4. ROOM 317 committee family.
+5. other numbered Roundhouse hearing rooms after visual/photo reference collection.
+6. Roundhouse rotunda/art/public circulation family.
+7. Capitol North offices where the specific role/office is verified.
+
+
+Production implication: preserve the Roundhouse's circular/art-rich architectural identity, but do not fill every room with generic Southwest decoration; permanent institutional art/architecture belongs in the base asset while occupant decoration remains modular.
+
+
+## Arizona — SEPARATE HOUSE HEARING-ROOM FAMILY / EXECUTIVE-TOWER CONTEXT
+Current House releases identify numbered House Hearing Rooms, including HHR4, at the legislative complex. The House and Senate occupy their own legislative buildings in the Capitol complex rather than a single historic-domed statehouse interior; executive offices are separately associated with the Executive Tower, already recorded elsewhere in the environment backbone.
+
+
+Verified scene family so far:
+1. ARIZONA HOUSE CHAMBER.
+2. ARIZONA SENATE CHAMBER.
+3. HOUSE HEARING ROOM family, including HHR4.
+4. Senate hearing-room family — exact room visual pack still pending.
+5. House/Senate office-building circulation.
+6. Executive Tower is a separate executive campus family, not legislative décor.
+
+
+Status: BUILDING FAMILY ESTABLISHED; detailed room-by-room visual pack remains pending.
+
+
+## Nevada — LEGISLATIVE BUILDING + SEDWAY + LAS VEGAS HEARING-ROOM NODE
+The official Legislative Manual identifies three distinct Carson City support/building families: the Legislative Building at 401 S. Carson Street (Senate/Assembly chambers, chamber staff, Legal/Administrative divisions, Research Library); Sedway Office Building at 333 E. 5th Street (Audit, Fiscal Analysis, Research divisions); and State Printing Office at 301 S. Stewart Street.
+
+
+Current 2025 committee minutes add a remote/satellite institutional node: Room 4100 in the Carson City Legislative Building can be videoconferenced to Nevada Legislature Hearing Rooms at 7120 Amigo Street in Las Vegas.
+
+
+Official source:
+https://www.leg.state.nv.us/Division/Research/Documents/2025LegManual_Ch5.pdf
+
+
+Scene families:
+1. NEVADA ASSEMBLY CHAMBER.
+2. NEVADA SENATE CHAMBER.
+3. LEGISLATIVE BUILDING ROOM 4100 major finance/budget-hearing family.
+4. other Legislative Building numbered hearing rooms after reference collection.
+5. SEDWAY fiscal/research office family.
+6. STATE PRINTING OFFICE/support family if gameplay requires it.
+7. LAS VEGAS LEGISLATIVE HEARING ROOM satellite family.
+
+
+Engine/environment consequence: `meeting_mode = physical | hybrid | videoconference-linked` can connect two real rooms without pretending all participants occupy one scene.
+
+
+## Campus topology lesson from this tranche
+A state can be:
+- tightly Capitol-centered (South Dakota, North Dakota, much of Montana/New Mexico);
+- Capitol + dedicated extension/support complex (Wyoming, Arizona legislative buildings, Nevada support buildings);
+- or Capitol-centered with specialized rooms that have institutional identities stronger than generic `committee room` (Colorado Old State Library/JBC, North Dakota named rooms).
+
+
+Do not choose an asset family solely from state population or building age. Use actual selected-year campus topology and meeting location.

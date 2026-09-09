@@ -773,6 +773,28 @@
             "retrievedDate": "2026-09-06",
             "retrievable": false,
             "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          },
+          {
+            "sourceKey": "research-packet-43A",
+            "authorityType": "Research Synthesis",
+            "title": "Municipal research packet 43A",
+            "issuingAuthority": "Existing project research library",
+            "url": "https://docs.google.com/document/d/1cpmq9z2Dje-CeomODu8u02pqyjiyTnyruWdtYXU6S98/edit",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-08",
+            "retrievable": true,
+            "claimSupported": "Attributed research text, not independently verified current law."
+          },
+          {
+            "sourceKey": "research-packet-44",
+            "authorityType": "Research Synthesis",
+            "title": "Municipal research packet 44",
+            "issuingAuthority": "Existing project research library",
+            "url": "https://docs.google.com/document/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk/edit",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-08",
+            "retrievable": true,
+            "claimSupported": "Attributed research text, not independently verified current law."
           }
         ],
         "budgetProcedure": {
@@ -885,6 +907,22 @@
               "effectiveDate": "2026-09-05",
               "legalLocator": "LFUCG official directory and Council records"
             }
+          }
+        ],
+        "researchObservations": [
+          {
+            "status": "KNOWN",
+            "value": "Research report 43A, Lexington-Fayette, Kentucky — MERGED URBAN-COUNTY GOVERNMENT + ACTIVE GOVERNMENT-CENTER TRANSITION:\nVerified current facts:\n- Lexington-Fayette Urban County Government is a merged urban-county government. The Urban County Council is its legislative branch.\n- Council has 15 members: 12 district members plus three countywide at-large seats; the highest-vote at-large member becomes Vice Mayor under the current system.\n- Current Council meetings, work sessions and many public hearings occur in the second-floor Council Chamber at the Government Center, 200 E. Main Street. Smaller subcommittee work can occur in second-floor caucus or fifth-floor conference rooms.\n- LFUCG is actively pursuing a replacement Government Center. On December 2, 2025 Council authorized P3 agreements to buy and redevelop the Truist Bank Building at 200 W. Vine Street as the future Government Center. The official project page includes a 2026 timeline and June 2026 Council update materials.\n- The planned project consolidates offices now in the Government Center and Switow Building while coordinating with the Phoenix Building Development and Services Center.\n\n\nScene families by effective date:\n1. CURRENT 200 E. MAIN COUNCIL CHAMBER — second-floor current family.\n2. CURRENT GOVERNMENT CENTER COUNCIL/STAFF OFFICE family.\n3. CURRENT CAUCUS / FIFTH-FLOOR CONFERENCE family.\n4. PHOENIX BUILDING DEVELOPMENT/SERVICES family.\n5. FUTURE 200 W. VINE / TRUIST REDEVELOPED GOVERNMENT CENTER family — activate only after the simulated project is actually completed/opened.\n\n\nSimulation implication: the new Government Center can be a live capital project with procurement, financing, construction, delays, politics and eventual office relocation. A 2026 start should not teleport government into an unfinished future building.\n\n\nOfficial sources:\nhttps://www.lexingtonky.gov/government\nhttps://www.lexingtonky.gov/government/office-urban-county-council/councilmembers\nhttps://www.lexingtonky.gov/government/visiting-downtown-city-government-buildings\nhttps://www.lexingtonky.gov/government/initiatives/government-center-development\n\n\nReference status: STRONG CURRENT/FUTURE LOCATION PACK. Detailed architectural visual packs needed for current and planned families.",
+            "sourceKey": "research-packet-43A",
+            "effectiveDate": "2026-08-25",
+            "legalLocator": "Lexington-Fayette, Kentucky — MERGED URBAN-COUNTY GOVERNMENT + ACTIVE GOVERNMENT-CENTER TRANSITION; captured text line 1394"
+          },
+          {
+            "status": "KNOWN",
+            "value": "Research report 44, Lexington-Fayette Urban County Government — CONSOLIDATED URBAN-COUNTY + PROFESSIONAL LEGISLATIVE STAFF:\nVerified:\n- Urban County Council consists of 12 district Council members plus three at-large members; one at-large member serves as Vice Mayor.\n- Current Council, committee and work-session activity is centered on the Council Chamber at 200 E. Main Street.\n- Council has a professional support apparatus including a Council Administrator and research, budget and communications functions rather than relying only on elected members’ personal staff.\n- Official LFUCG materials distinguish ordinances, resolutions, committee referrals and work sessions, providing a real legislative-process backbone for city-level policymaking.\nSimulation implication: Lexington is useful for modeling a local legislature with substantive institutional staff capacity. A council member can ask analysts/budget staff for work instead of every policy action being self-performed.\nScene families:\n1. 200 E. MAIN COUNCIL CHAMBER.\n2. COUNCIL WORK SESSION / committee procedural states.\n3. COUNCIL ADMINISTRATION / RESEARCH / BUDGET staff-office family.\n4. MAYOR executive-office family.\nOfficial source family:\nhttps://www.lexingtonky.gov/government/council\nhttps://www.lexingtonky.gov/government/council/council-office\nStatus: STRONG CURRENT GOVERNANCE/INSTITUTIONAL PACK; existing project continuity also contains Lexington-focused political research.",
+            "sourceKey": "research-packet-44",
+            "effectiveDate": "2026-08-25",
+            "legalLocator": "Lexington-Fayette Urban County Government — CONSOLIDATED URBAN-COUNTY + PROFESSIONAL LEGISLATIVE STAFF; captured text line 888"
           }
         ]
       },
@@ -1683,6 +1721,28 @@
             "retrievedDate": "2026-09-06",
             "retrievable": false,
             "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          },
+          {
+            "sourceKey": "research-packet-43A",
+            "authorityType": "Research Synthesis",
+            "title": "Municipal research packet 43A",
+            "issuingAuthority": "Existing project research library",
+            "url": "https://docs.google.com/document/d/1cpmq9z2Dje-CeomODu8u02pqyjiyTnyruWdtYXU6S98/edit",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-08",
+            "retrievable": true,
+            "claimSupported": "Attributed research text, not independently verified current law."
+          },
+          {
+            "sourceKey": "research-packet-44",
+            "authorityType": "Research Synthesis",
+            "title": "Municipal research packet 44",
+            "issuingAuthority": "Existing project research library",
+            "url": "https://docs.google.com/document/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk/edit",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-08",
+            "retrievable": true,
+            "claimSupported": "Attributed research text, not independently verified current law."
           }
         ],
         "budgetProcedure": {
@@ -1792,6 +1852,22 @@
               "reason": "No statutory city-manager office.",
               "sourceKey": "krs-67c"
             }
+          }
+        ],
+        "researchObservations": [
+          {
+            "status": "KNOWN",
+            "value": "Research report 43A, Louisville-Jefferson County, Kentucky — CONSOLIDATED METRO + HISTORIC CITY HALL:\nVerified governance and room facts:\n- Louisville and Jefferson County merged into Louisville Metro Government in 2003. Current Metro documents identify a mayor-council consolidated form with 26 Council districts and 26 district-elected Council members.\n- Historic City Hall at 601 W. Jefferson Street houses Metro Council offices and chambers. The building was constructed 1870–73 in an Italianate stone civic style with period exterior sculptural/industrial motifs.\n- Metro Council's own 2026 Art in City Hall program demonstrates that public-space decoration is temporally variable: local artwork is selected annually and displayed in the lobby, hallways and public areas rather than being permanent institutional architecture.\n- Current Council policies explicitly distinguish Council staff, Clerk functions and consolidated-government executive units.\n\n\nScene families:\n1. LOUISVILLE METRO COUNCIL CHAMBER — historic-city-hall legislative family.\n2. METRO COUNCIL MEMBER/OFFICE family in Historic City Hall.\n3. FIRST-FLOOR CONFERENCE / smaller civic-meeting family.\n4. MAYOR / Metro executive-office family — research separately rather than assuming it occupies the Council's historic room family.\n5. TEMPORARY/ROTATING ART layer tied to the annual Art in City Hall exhibition.\n\n\nSimulation implication: consolidated Louisville should not spawn separate independent Louisville city and Jefferson County executive/legislative governments for functions that merger law consolidated. The 26 districts and council structure are legal/institutional facts, while rotating local artwork belongs to the temporal personalization/civic-art layer.\n\n\nOfficial sources:\nhttps://louisvilleky.gov/government/metro-council\nhttps://louisvilleky.gov/government/metro-council/metro-council-policies-procedures\nhttps://louisvilleky.gov/government/metro-council/art-city-hall-2026-2027\n\n\nReference status: STRONG GOVERNANCE/BUILDING IDENTITY. Dedicated chamber geometry/interior reference pack still required.",
+            "sourceKey": "research-packet-43A",
+            "effectiveDate": "2026-08-25",
+            "legalLocator": "Louisville-Jefferson County, Kentucky — CONSOLIDATED METRO + HISTORIC CITY HALL; captured text line 1366"
+          },
+          {
+            "status": "KNOWN",
+            "value": "Research report 44, Louisville/Jefferson County Metro — CONSOLIDATED METRO WITH NESTED HOME-RULE CITIES:\nVerified:\n- Louisville Metro Council has 26 single-member geographic districts.\n- Full Council and the 2026 standing committees meet in Metro Council Chambers on the third floor of Historic City Hall, 601 W. Jefferson Street.\n- The Mayor’s Office is physically separate at 527 W. Jefferson Street, so executive and legislative work should not be collapsed into one City Hall interior.\n- Consolidation did not erase every smaller incorporated/home-rule city within Jefferson County. Metro Council districts can contain or overlap retained municipalities such as St. Matthews and other home-rule cities.\nSimulation implication: `consolidated government` does not mean `all subordinate municipal governments abolished`. Nested municipal authority, service responsibility and political identity require explicit representation.\nScene families:\n1. HISTORIC CITY HALL THIRD-FLOOR METRO COUNCIL CHAMBERS.\n2. METRO COUNCIL member/committee office family at 601 W. Jefferson.\n3. MAYOR executive family at 527 W. Jefferson.\n4. HOME-RULE CITY council/mayor families nested within Jefferson County where relevant.\nOfficial source family:\nhttps://louisvilleky.gov/government/metro-council\nhttps://louisvilleky.gov/government/mayor\nStatus: STRONG CURRENT GOVERNANCE/ROOM PACK; dedicated contemporary visual extraction pending.",
+            "sourceKey": "research-packet-44",
+            "effectiveDate": "2026-08-25",
+            "legalLocator": "Louisville/Jefferson County Metro — CONSOLIDATED METRO WITH NESTED HOME-RULE CITIES; captured text line 870"
           }
         ]
       },
@@ -2480,6 +2556,17 @@
             "retrievedDate": "2026-09-06",
             "retrievable": false,
             "claimSupported": "Field-by-field audit input; it is not a production first-party artifact, and conflicting candidate values are rejected."
+          },
+          {
+            "sourceKey": "research-packet-44",
+            "authorityType": "Research Synthesis",
+            "title": "Municipal research packet 44",
+            "issuingAuthority": "Existing project research library",
+            "url": "https://docs.google.com/document/d/1NLddpuRckHQvpjDVUjhVx_HItEubfmDUTAvzrPiBprk/edit",
+            "effectiveDate": null,
+            "retrievedDate": "2026-09-08",
+            "retrievable": true,
+            "claimSupported": "Attributed research text, not independently verified current law."
           }
         ],
         "budgetProcedure": {
@@ -2591,6 +2678,15 @@
               "effectiveDate": "2026-09-05",
               "legalLocator": "City directory and meeting notices"
             }
+          }
+        ],
+        "researchObservations": [
+          {
+            "status": "KNOWN",
+            "value": "Research report 44, Bowling Green — AT-LARGE COMMISSION + CITY MANAGER:\nVerified:\n- Bowling Green uses a Board of Commissioners with four commissioners elected at large plus the Mayor.\n- A professional City Manager is responsible for day-to-day administration.\n- Current 2026 Board meetings/public hearings use the Commission Chamber in City Hall, 1001 College Street.\nProduction implication: this provides a smaller-city Kentucky contrast where geographic wards are absent and coalition/accountability dynamics are citywide.\nScene families:\n1. 1001 COLLEGE STREET COMMISSION CHAMBER.\n2. MAYOR/COMMISSION political-office family.\n3. CITY MANAGER administrative-office family.\nOfficial source family:\nhttps://www.bgky.org/government\nStatus: STRONG GOVERNANCE/ROOM PACK.\n\n\nKentucky matrix status: STRONG. Louisville and Lexington provide two different consolidated-government families; Bowling Green provides a compact at-large commission-manager contrast.",
+            "sourceKey": "research-packet-44",
+            "effectiveDate": "2026-08-25",
+            "legalLocator": "Bowling Green — AT-LARGE COMMISSION + CITY MANAGER; captured text line 906"
           }
         ]
       }

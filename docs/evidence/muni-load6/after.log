@@ -1,0 +1,1062 @@
+[WebServer] (node:46680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:46683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:17:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 1 test using 1 worker
+
+(node:46908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/acceptance/municipal-load.browser.ts:4:1 › the original twelve-navigation authored-bill workload
+[WebServer]   vite:transform 7.35ms /src/main.tsx +0ms
+
+[WebServer]   vite:transform 30.17ms /@react-refresh +39ms
+
+[WebServer]   vite:transform 48.42ms /test-results/cache/muni-load6-after/deps/react.js?v=2ba9b499 +15ms
+
+[WebServer]   vite:transform 51.15ms /test-results/cache/muni-load6-after/deps/react_jsx-dev-runtime.js?v=2ba9b499 +3ms
+
+[WebServer]   vite:transform 40.45ms /src/styles.css +3ms
+
+[WebServer]   vite:transform 41.90ms /src/player/player.css +2ms
+
+[WebServer]   vite:transform 67.85ms /test-results/cache/muni-load6-after/deps/react-dom_client.js?v=cd0e5d47 +19ms
+
+[WebServer]   vite:transform 77.01ms /src/App.tsx +16ms
+
+[WebServer]   vite:transform 4.05ms [skipped] /test-results/cache/muni-load6-after/deps/rolldown-runtime-BvCyGRYZ.js?v=57bc5f91 +3ms
+
+[WebServer]   vite:transform 5.48ms /test-results/cache/muni-load6-after/deps/react-dom.js?v=2ba9b499 +3ms
+
+[WebServer]   vite:transform 15.61ms /@vite/client +10ms
+
+[WebServer]   vite:transform 22.90ms /src/player/MeasureFloorView.tsx +12ms
+
+[WebServer]   vite:transform 23.62ms /src/player/PlayerOffice.tsx +0ms
+
+[WebServer]   vite:transform 24.46ms /src/player/LegislationWorkspace.tsx +1ms
+
+[WebServer]   vite:transform 24.83ms /src/ui/CausalTraceView.tsx +1ms
+
+[WebServer]   vite:transform 26.09ms /src/player/PlayerGame.tsx +1ms
+
+[WebServer]   vite:transform 28.00ms /src/ui/CharacterProofView.tsx +3ms
+
+[WebServer]   vite:transform 28.42ms /src/ui/ContentBrowserView.tsx +0ms
+
+[WebServer]   vite:transform 28.75ms /src/ui/SceneAuthoringProofView.tsx +1ms
+
+[WebServer]   vite:transform 28.86ms /src/ui/ProductionOfficeProofView.tsx +0ms
+
+[WebServer]   vite:transform 29.10ms /src/ui/DeveloperViewer.tsx +0ms
+
+[WebServer]   vite:transform 29.15ms /src/ui/ScenePresentationProofView.tsx +0ms
+
+[WebServer]   vite:transform 41.00ms /src/ui/SceneGalleryView.tsx +12ms
+
+[WebServer]   vite:transform 14.42ms [skipped] /docs/agent/evidence/office-clipping-after-1440x900.png +10ms
+
+[WebServer]   vite:transform 14.49ms [skipped] /docs/agent/evidence/office-clipping-before-1440x900.png +0ms
+
+[WebServer]   vite:transform 16.71ms ../../../Users/lamontae/Documents/Political Game/node_modules/vite/dist/client/env.mjs +3ms
+
+[WebServer]   vite:transform 27.81ms /src/presentation/run-a-learning.ts +19ms
+
+[WebServer]   vite:transform 28.26ms /src/presentation/run-c-document-state.ts +1ms
+
+[WebServer]   vite:transform 28.32ms /src/presentation/run-b-conversation-state.ts +0ms
+
+[WebServer]   vite:transform 28.63ms /src/presentation/run-d-lite-state.ts +0ms
+
+[WebServer]   vite:transform 28.99ms /src/presentation/run-b-conversation-progress.ts +1ms
+
+[WebServer]   vite:transform 29.24ms /src/presentation/unsaved-work-guard.ts +1ms
+
+[WebServer]   vite:transform 28.95ms /src/ui/causal-trace.css +0ms
+
+[WebServer]   vite:transform 28.56ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_conversational_left_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.55ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_gesture_forward_v1.png?url +0ms
+[WebServer]   vite:transform 28.54ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.53ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_seated_guest_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.52ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.51ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_conversational_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.31ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.28ms [skipped] /art/generated/candidates/ocd-p71/bodies/ocd_body_adult_fem_standing_neutral_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.26ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_black_cap_toe_oxford_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.23ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_blue_running_shoe_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.23ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_penny_loafer_v1.png?url +1ms
+[WebServer]   vite:transform 28.23ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_brown_strap_sandal_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.23ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_green_ballet_flat_v1.png?url +0ms
+[WebServer]   vite:transform 28.22ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_court_sneaker_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.22ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_grey_low_block_heel_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.22ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_navy_canvas_plimsoll_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.21ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_olive_hiking_boot_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.21ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_plum_mid_block_heel_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.20ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_tan_work_boot_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.20ms [skipped] /art/generated/candidates/ocd-p71/footwear/ocd_footwear_taupe_chukka_boot_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.20ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_oval_adult_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.19ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_round_young_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.18ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_deep_square_adult_masc_v1.png?url +0ms
+[WebServer]   vite:transform 28.18ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_long_older_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.17ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_fem_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.17ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_oval_young_v1.png?url +0ms
+[WebServer]   vite:transform 28.17ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_lined_v1.png?url +0ms
+[WebServer]   vite:transform 28.16ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_light_square_older_masc_v1.png?url +0ms
+[WebServer]   vite:transform 28.16ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_olive_oval_adult_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.16ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_oval_adult_fem_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.16ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_round_young_v1.png?url +0ms
+[WebServer]   vite:transform 28.15ms [skipped] /art/generated/candidates/ocd-p71/heads/ocd_head_adult_tan_square_adult_masc_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.15ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_conversational_left_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.15ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_gesture_forward_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.14ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.14ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_seated_guest_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.14ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.13ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_conversational_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.12ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.12ms [skipped] /art/generated/candidates/ocd-p76/bodies-despilled/ocd_body_adult_fem_standing_neutral_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.11ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.11ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.10ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.10ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.10ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.09ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_back_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.09ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.08ms [skipped] /art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_profile_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.08ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_brown_fur_hood_parka_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.07ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.07ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_charcoal_blazer_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.06ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_cream_cardigan_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.06ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.06ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_mustard_cable_sweater_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.05ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.05ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_button_up_shirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.05ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_puffer_vest_layered_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.04ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_plaid_overshirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.03ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_tan_utility_shirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.03ms [skipped] /art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_teal_shell_jacket_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.02ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_athletic_sneaker_blue_v1.png?url +0ms
+[WebServer]   vite:transform 28.01ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_canvas_sneaker_navy_v1.png?url +0ms
+
+[WebServer]   vite:transform 28.00ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_chukka_taupe_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.99ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_combat_boot_olive_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.98ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_flat_green_v1.png?url +0ms
+[WebServer]   vite:transform 27.98ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_loafer_brown_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.97ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_low_top_sneaker_gray_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.96ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_oxford_black_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.95ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_burgundy_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.94ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_pump_gray_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.92ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_sandal_brown_v1.png?url +0ms
+[WebServer]   vite:transform 27.92ms [skipped] /art/generated/candidates/recent-drive-sweep/front-facing-footwear/wave_a_footwear_work_boot_tan_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.91ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_black_joggers_v1.png?url +1ms
+
+[WebServer]   vite:transform 27.90ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_blue_straight_jeans_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.90ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_brown_corduroy_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.89ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_charcoal_dress_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.88ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_dark_blue_slim_jeans_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.88ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_chinos_v1.png?url +0ms
+[WebServer]   vite:transform 27.86ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_shorts_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.85ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_blue_dress_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.85ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_gray_dress_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.84ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_navy_work_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.83ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_olive_cargo_trousers_v1.png?url +0ms
+[WebServer]   vite:transform 27.82ms [skipped] /art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_tan_cargo_trousers_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.82ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_brown_fur_hood_parka_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.81ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_burgundy_long_sleeve_polo_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.80ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_blazer_v1.png?url +0ms
+[WebServer]   vite:transform 27.79ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_puffer_vest_layered_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.78ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_cream_cardigan_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.78ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_gray_long_sleeve_tee_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.77ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_green_cable_sweater_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.76ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_navy_zip_hoodie_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.75ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_olive_shell_jacket_v1.png?url +0ms
+[WebServer]   vite:transform 27.74ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_plaid_overshirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.74ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_tan_utility_shirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.73ms [skipped] /art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_white_button_up_shirt_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.72ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.72ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.71ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.70ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.69ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_lectern_interaction_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.68ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png?url +0ms
+[WebServer]   vite:transform 27.67ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.67ms [skipped] /art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.66ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C1_single_phone_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.65ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C2_multiple_notebook_clipboard_lanyard_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.64ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C3_single_earbud_case_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.63ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R1C4_single_usb_cable_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.62ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C1_single_legal_pad_v1.png?url +0ms
+[WebServer]   vite:transform 27.61ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C2_multiple_binder_folder_document_wallet_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C3_single_stapler_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R2C4_single_sticky_notes_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C1_multiple_bottle_note_envelope_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C2_multiple_coffee_mug_keys_writing_news_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.53ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C3_multiple_cards_umbrella_backpack_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/recent-drive-sweep/supplies-coarse-regions/wave_a_supplies_R3C4_multiple_pencil_briefcase_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_seated_interaction_surface_v1.png?url +0ms
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.54ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png?url +0ms
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.55ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.56ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.56ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.56ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.56ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png?url +0ms
+[WebServer]   vite:transform 27.56ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.57ms [skipped] /art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.57ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.57ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.57ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.57ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_conversational_open_hand_v1.png?url +0ms
+[WebServer]   vite:transform 27.58ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.58ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.58ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.58ms [skipped] /art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.59ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png?url +1ms
+
+[WebServer]   vite:transform 27.59ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.59ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_interaction_surface_v1.png?url +0ms
+[WebServer]   vite:transform 27.59ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_conversational_open_hand_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_interaction_surface_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.60ms [skipped] /art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png?url +0ms
+
+[WebServer]   vite:transform 27.17ms /src/presentation/session-seed.ts +1ms
+
+[WebServer]   vite:transform 29.19ms /src/presentation/raster-tiers.ts +2ms
+
+[WebServer]   vite:transform 29.82ms /src/ui/content-browser.css +1ms
+
+[WebServer]   vite:transform 29.88ms /art/manifest/provenance.json +0ms
+
+[WebServer]   vite:transform 43.54ms /src/ui/review-context.tsx +6ms
+
+[WebServer]   vite:transform 49.68ms /src/simulation/serialization.ts +6ms
+
+[WebServer]   vite:transform 50.02ms /src/presentation/legislative-bargaining-fixture.ts +0ms
+
+[WebServer]   vite:transform 50.64ms /src/presentation/run-a-projection.ts +1ms
+
+[WebServer]   vite:transform 51.22ms /src/player/MeasureFloorSurface.tsx +0ms
+
+[WebServer]   vite:transform 51.61ms /src/presentation/run-a-fixture.ts +1ms
+
+[WebServer]   vite:transform 51.78ms /src/presentation/run-a-state.ts +0ms
+
+[WebServer]   vite:transform 51.86ms /src/presentation/run-c-working-document.ts +0ms
+
+[WebServer]   vite:transform 51.88ms /src/presentation/run-d-lite.ts +0ms
+
+[WebServer]   vite:transform 51.82ms /src/presentation/run-b-conversation.ts +0ms
+
+[WebServer]   vite:transform 51.84ms /src/player/CalendarWorkspace.tsx +1ms
+
+[WebServer]   vite:transform 51.87ms /src/player/ConversationStrip.tsx +0ms
+
+[WebServer]   vite:transform 51.91ms /src/presentation/surface-projection.ts +0ms
+
+[WebServer]   vite:transform 51.98ms /src/player/OfficeScene.tsx +0ms
+
+[WebServer]   vite:transform 52.02ms /src/player/PermanentShell.tsx +0ms
+
+[WebServer]   vite:transform 52.00ms /src/player/WorkPendingWorkspace.tsx +0ms
+
+[WebServer]   vite:transform 52.03ms /src/player/WorkingDocumentWorkspace.tsx +0ms
+
+[WebServer]   vite:transform 52.08ms /src/presentation/legislation-projection.ts +0ms
+
+[WebServer]   vite:transform 52.13ms /src/simulation/legislation-scenarios.ts +0ms
+
+[WebServer]   vite:transform 52.14ms /src/presentation/legislation-world.ts +0ms
+
+[WebServer]   vite:transform 52.30ms /src/devtools/index.ts +1ms
+
+[WebServer]   vite:transform 52.32ms /src/presentation/legislation-session.ts +0ms
+
+[WebServer]   vite:transform 52.20ms /src/presentation/new-game.ts +0ms
+
+[WebServer]   vite:transform 52.10ms /src/presentation/browser-world-repository.ts +0ms
+
+[WebServer]   vite:transform 51.95ms /src/presentation/life-story.ts +0ms
+
+[WebServer]   vite:transform 49.00ms /src/presentation/life-record.ts +2ms
+[WebServer]   vite:transform 49.04ms /src/presentation/setup-questionnaire-flow.ts +0ms
+[WebServer]   vite:transform 49.05ms /src/presentation/player-capabilities.ts +0ms
+
+[WebServer]   vite:transform 49.11ms /src/presentation/life-scene-people.ts +0ms
+[WebServer]   vite:transform 49.14ms /src/presentation/life-scene.ts +1ms
+[WebServer]   vite:transform 49.15ms /src/presentation/life-introduction.ts +0ms
+[WebServer]   vite:transform 49.21ms /src/player/SceneBackdrop.tsx +0ms
+
+[WebServer]   vite:transform 49.29ms /src/player/TitleScreen.tsx +0ms
+
+[WebServer]   vite:transform 50.63ms /src/simulation/index.ts +1ms
+
+[WebServer]   vite:transform 50.67ms /src/presentation/new-game-identity.ts +0ms
+
+[WebServer]   vite:transform 50.71ms /src/player/CampaignWorkspace.tsx +0ms
+
+[WebServer]   vite:transform 50.75ms /src/presentation/legislative-bargaining-world.ts +0ms
+
+[WebServer]   vite:transform 50.79ms /src/player/PersonPortrait.tsx +0ms
+
+[WebServer]   vite:transform 50.82ms /src/player/PlayerConversation.tsx +0ms
+[WebServer]   vite:transform 50.83ms /src/presentation/ordinary-life.ts +1ms
+
+[WebServer]   vite:transform 50.82ms /src/player/useSceneTransform.ts +0ms
+
+[WebServer]   vite:transform 50.82ms /src/content/index.ts +0ms
+
+[WebServer]   vite:transform 50.83ms /src/player/ModularCharacter.tsx +0ms
+
+[WebServer]   vite:transform 50.85ms /src/presentation/run-b-fixture.ts +0ms
+
+[WebServer]   vite:transform 50.82ms /src/authoring/authoring-capture.ts +0ms
+
+[WebServer]   vite:transform 50.86ms /src/presentation/character-proof.ts +0ms
+
+[WebServer]   vite:transform 50.98ms /src/presentation/scene-registry.ts +0ms
+
+[WebServer]   vite:transform 51.00ms /src/devtools/review-session.ts +0ms
+
+[WebServer]   vite:transform 51.02ms /src/player/useRasterTier.ts +0ms
+
+[WebServer]   vite:transform 51.10ms /src/presentation/production-office.ts +0ms
+
+[WebServer]   vite:transform 51.12ms /src/ui/EventHistory.tsx +0ms
+
+[WebServer]   vite:transform 51.12ms /src/ui/SceneDebugOverlay.tsx +0ms
+
+[WebServer]   vite:transform 34.04ms /src/authoring/asset-request.ts +9ms
+
+[WebServer]   vite:transform 34.19ms /art/requests/asset-requests.json +0ms
+
+[WebServer]   vite:transform 34.22ms /art/qa/p71/source_intake_dispositions.json +0ms
+
+[WebServer]   vite:transform 57.73ms /src/ui/WorldControls.tsx +0ms
+
+[WebServer]   vite:transform 57.80ms /src/ui/PersonInspector.tsx +0ms
+
+[WebServer]   vite:transform 57.85ms /src/ui/PeopleList.tsx +1ms
+
+[WebServer]   vite:transform 57.88ms /src/ui/WorldSummary.tsx +0ms
+
+[WebServer]   vite:transform 57.94ms /src/presentation/scene-proof.ts +0ms
+
+[WebServer]   vite:transform 57.96ms /src/ui/PoseContactProof.tsx +0ms
+
+[WebServer]   vite:transform 49.55ms /src/presentation/surface-binding.ts +14ms
+
+[WebServer]   vite:transform 49.59ms /src/presentation/surface-review.ts +0ms
+[WebServer]   vite:transform 49.61ms /src/presentation/scene-consumers.ts +0ms
+
+[WebServer]   vite:transform 93.20ms /src/presentation/visual-integration.ts +18ms
+
+[WebServer]   vite:transform 81.09ms /src/simulation/canonical-json.ts +91ms
+
+[WebServer]   vite:transform 81.11ms /src/simulation/ids.ts +0ms
+
+[WebServer]   vite:transform 81.75ms /src/presentation/scene-transform.ts +2ms
+
+[WebServer]   vite:transform 82.05ms /src/simulation/legislature-rules.ts +1ms
+
+[WebServer]   vite:transform 82.17ms /src/simulation/dates.ts +0ms
+
+[WebServer]   vite:transform 82.34ms /src/devtools/observer-trace.ts +0ms
+
+[WebServer]   vite:transform 82.62ms /src/devtools/trace-model.ts +1ms
+
+[WebServer]   vite:transform 82.63ms /src/devtools/trace-sources.ts +0ms
+
+[WebServer]   vite:transform 82.96ms /src/presentation/browser-world-repository-protocol.ts +1ms
+
+[WebServer]   vite:transform 83.02ms /src/devtools/trace-walk.ts +0ms
+
+[WebServer]   vite:transform 81.75ms /src/presentation/scene-placement.ts +3ms
+
+[WebServer]   vite:transform 81.96ms /src/presentation/title-ambient.ts +0ms
+
+[WebServer]   vite:transform 82.52ms /src/simulation/names-data.ts +5ms
+
+[WebServer]   vite:transform 82.53ms /src/simulation/person-identity.ts +0ms
+
+[WebServer]   vite:transform 82.59ms /src/simulation/voice-bands.ts +0ms
+
+[WebServer]   vite:transform 82.81ms /src/simulation/quantity.ts +1ms
+
+[WebServer]   vite:transform 83.23ms /src/simulation/rng.ts +0ms
+
+[WebServer]   vite:transform 83.46ms /src/simulation/sha256.ts +1ms
+
+[WebServer]   vite:transform 83.51ms /src/simulation/player-model.ts +0ms
+
+[WebServer]   vite:transform 83.67ms /src/simulation/setup-opening-bank.ts +1ms
+
+[WebServer]   vite:transform 83.69ms /src/simulation/taxonomy.ts +0ms
+
+[WebServer]   vite:transform 84.17ms /src/presentation/prior-work-evidence.ts +2ms
+
+[WebServer]   vite:transform 84.29ms /src/authoring/canonical-json.ts +0ms
+
+[WebServer]   vite:transform 84.36ms /src/environment/scenes/committee-room-fixture.ts +0ms
+
+[WebServer]   vite:transform 84.42ms /src/environment/scenes/civic-hearing-room-production.ts +0ms
+
+[WebServer]   vite:transform 84.46ms /src/environment/scenes/civic-community-meeting-title-production.ts +0ms
+
+[WebServer]   vite:transform 84.51ms /src/environment/scenes/office-council-staff-fixture.ts +0ms
+
+[WebServer]   vite:transform 84.58ms /src/environment/scenes/residence-apartment-living-production.ts +0ms
+
+[WebServer]   vite:transform 84.62ms /src/environment/scenes/legislative-chamber-production.ts +0ms
+
+[WebServer]   vite:transform 84.66ms /src/environment/scenes/shared-workroom-office-production.ts +0ms
+
+[WebServer]   vite:transform 84.77ms /src/environment/environment-scene-spec.ts +1ms
+
+[WebServer]   vite:transform 84.82ms /art/manifest/asset_manifest.json +0ms
+
+[WebServer]   vite:transform 84.84ms /art/manifest/character_catalog.json +1ms
+
+[WebServer]   vite:transform 67.81ms [skipped] /art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png?url +5ms
+
+[WebServer]   vite:transform 67.83ms [skipped] /art/families/apartment-ordinary/env_residence_apartment_living_ordinary_02_v1.png?url +0ms
+[WebServer]   vite:transform 67.83ms [skipped] /art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_runtime_2048_v1.png?url +0ms
+[WebServer]   vite:transform 67.83ms [skipped] /art/families/civic-community-meeting/title_bg_civic_community_meeting_hero_slot_v1.png?url +0ms
+[WebServer]   vite:transform 67.84ms [skipped] /art/families/civic-hearing-room/env_civic_hearing_room_runtime_2x_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.84ms [skipped] /art/families/civic-hearing-room/env_civic_hearing_room_v1.png?url +0ms
+[WebServer]   vite:transform 67.84ms [skipped] /art/families/council-staff-office/env_lexington_council_staff_office_prompt30_foreground_mask_2x_v1.png?url +0ms
+[WebServer]   vite:transform 67.85ms [skipped] /art/families/council-staff-office/env_lexington_council_staff_office_prompt30_runtime_2x_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.89ms [skipped] /art/families/council-staff-office/env_lexington_council_staff_office_prompt30_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.91ms [skipped] /art/families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.92ms [skipped] /art/families/legislative-chamber/env_legislative_chamber_floor_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.93ms [skipped] /art/families/shared-workroom-office/env_shared_workroom_office_runtime_2x_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.93ms [skipped] /art/families/shared-workroom-office/env_shared_workroom_office_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.93ms [skipped] /art/fixtures/garment-fit/fit_accessory_badge_v1.png?url +0ms
+[WebServer]   vite:transform 67.94ms [skipped] /art/fixtures/garment-fit/fit_body_adult_average_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.94ms [skipped] /art/fixtures/garment-fit/fit_body_adult_heavy_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.94ms [skipped] /art/fixtures/garment-fit/fit_body_adult_lean_standing_v1.png?url +0ms
+[WebServer]   vite:transform 67.94ms [skipped] /art/fixtures/garment-fit/fit_bottom_trousers_average_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.95ms [skipped] /art/fixtures/garment-fit/fit_footwear_derby_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.95ms [skipped] /art/fixtures/garment-fit/fit_top_knit_average_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.95ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_accessory_lanyard_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.97ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.97ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_deep_rich_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.97ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_light_seated_v1.png?url +0ms
+[WebServer]   vite:transform 67.97ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_light_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.97ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_broad_medium_warm_standing_v1.png?url +0ms
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_deep_rich_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_light_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_light_standing_v1.png?url +0ms
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_body_slim_medium_warm_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.98ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_bottom_trousers_seated_v1.png?url +0ms
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_bottom_trousers_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_eyewear_thin_frames_v1.png?url +0ms
+
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_footwear_derby_seated_v1.png?url +0ms
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_footwear_derby_standing_v1.png?url +1ms
+
+[WebServer]   vite:transform 67.99ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_hair_coils_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.00ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_hair_crop_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.00ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_hair_long_back_v1.png?url +0ms
+[WebServer]   vite:transform 68.00ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_hair_long_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.00ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_head_deep_oval_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_head_light_square_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_head_warm_long_v1.png?url +0ms
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_head_warm_round_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_top_knit_olive_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_top_knit_olive_standing_v1.png?url +0ms
+[WebServer]   vite:transform 68.01ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.02ms [skipped] /art/generated/approved/dev-modular-g2/dev_g2_top_suit_charcoal_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.02ms [skipped] /art/generated/approved/dev-modular/dev_accessory_lapel_pin_v1.png?url +0ms
+[WebServer]   vite:transform 68.02ms [skipped] /art/generated/approved/dev-modular/dev_body_adult_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.02ms [skipped] /art/generated/approved/dev-modular/dev_body_adult_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.03ms [skipped] /art/generated/approved/dev-modular/dev_bottom_slacks_charcoal_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.03ms [skipped] /art/generated/approved/dev-modular/dev_bottom_slacks_charcoal_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.03ms [skipped] /art/generated/approved/dev-modular/dev_eyewear_round_glasses_v1.png?url +0ms
+[WebServer]   vite:transform 68.04ms [skipped] /art/generated/approved/dev-modular/dev_footwear_oxford_black_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.04ms [skipped] /art/generated/approved/dev-modular/dev_hair_crop_front_v1.png?url +0ms
+[WebServer]   vite:transform 68.04ms [skipped] /art/generated/approved/dev-modular/dev_hair_long_back_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.04ms [skipped] /art/generated/approved/dev-modular/dev_hair_long_front_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.04ms [skipped] /art/generated/approved/dev-modular/dev_head_oval_v1.png?url +0ms
+[WebServer]   vite:transform 68.05ms [skipped] /art/generated/approved/dev-modular/dev_head_round_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.05ms [skipped] /art/generated/approved/dev-modular/dev_top_blazer_navy_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.05ms [skipped] /art/generated/approved/dev-modular/dev_top_blazer_navy_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.05ms [skipped] /art/generated/approved/dev-modular/dev_top_tee_teal_seated_v1.png?url +0ms
+[WebServer]   vite:transform 68.06ms [skipped] /art/generated/approved/dev-modular/dev_top_tee_teal_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.06ms [skipped] /art/generated/approved/human_candidate_A01_primary_desk_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.06ms [skipped] /art/generated/approved/human_candidate_B01_left_guest_seated_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.06ms [skipped] /art/generated/approved/pg-modular/pg_body_fl_standing_v1.png?url +0ms
+[WebServer]   vite:transform 68.06ms [skipped] /art/generated/approved/pg-modular/pg_body_ml_standing_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.07ms [skipped] /art/generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.07ms [skipped] /art/generated/approved/pg-modular/pg_bottom_001_straight_leg_blue_jeans_ml_v1.png?url +0ms
+[WebServer]   vite:transform 68.07ms [skipped] /art/generated/approved/pg-modular/pg_bottom_005_dress_trousers_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.07ms [skipped] /art/generated/approved/pg-modular/pg_bottom_005_dress_trousers_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.07ms [skipped] /art/generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_bottom_010_a_line_knee_skirt_ml_v1.png?url +0ms
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_001_short_tapered_afro_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_002_rounded_medium_afro_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_004_shoulder_natural_curls_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_005_high_puff_v1.png?url +0ms
+[WebServer]   vite:transform 68.08ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_007_shoulder_box_braids_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.09ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_008_long_box_braids_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.09ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_010_cornrows_low_bun_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.09ms [skipped] /art/generated/approved/pg-modular/pg_hair_f_black_012_shoulder_locs_v1.png?url +0ms
+[WebServer]   vite:transform 68.09ms [skipped] /art/generated/approved/pg-modular/pg_head_f_01_bald_neutral_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.09ms [skipped] /art/generated/approved/pg-modular/pg_head_m_001_black_young_adult_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.10ms [skipped] /art/generated/approved/pg-modular/pg_head_m_002_white_adult_v1.png?url +0ms
+[WebServer]   vite:transform 68.10ms [skipped] /art/generated/approved/pg-modular/pg_head_m_004_east_asian_young_adult_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.10ms [skipped] /art/generated/approved/pg-modular/pg_head_m_005_black_older_adult_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.10ms [skipped] /art/generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.10ms [skipped] /art/generated/approved/pg-modular/pg_shoe_001_low_top_sneakers_ml_v1.png?url +0ms
+[WebServer]   vite:transform 68.11ms [skipped] /art/generated/approved/pg-modular/pg_shoe_004_leather_loafers_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.11ms [skipped] /art/generated/approved/pg-modular/pg_shoe_004_leather_loafers_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.11ms [skipped] /art/generated/approved/pg-modular/pg_shoe_009_low_practical_flats_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 68.11ms [skipped] /art/generated/approved/pg-modular/pg_shoe_009_low_practical_flats_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.33ms [skipped] /art/generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_fl_v1.png?url +1ms
+
+[WebServer]   vite:transform 69.37ms [skipped] /art/generated/approved/pg-modular/pg_top_001_short_sleeve_crew_tee_ml_v1.png?url +0ms
+[WebServer]   vite:transform 69.37ms [skipped] /art/generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_fl_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.37ms [skipped] /art/generated/approved/pg-modular/pg_top_005_long_sleeve_button_shirt_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.38ms [skipped] /art/generated/approved/pg-modular/pg_top_006_pullover_sweater_fl_v1.png?url +0ms
+[WebServer]   vite:transform 69.38ms [skipped] /art/generated/approved/pg-modular/pg_top_006_pullover_sweater_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.38ms [skipped] /art/generated/approved/pg-modular/pg_top_011_structured_blazer_fl_v1.png?url +1ms
+[WebServer]   vite:transform 69.38ms [skipped] /art/generated/approved/pg-modular/pg_top_011_structured_blazer_ml_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.38ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-01.png?url +0ms
+
+[WebServer]   vite:transform 69.39ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-02.png?url +0ms
+[WebServer]   vite:transform 69.39ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-03.png?url +0ms
+
+[WebServer]   vite:transform 69.39ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-04.png?url +0ms
+
+[WebServer]   vite:transform 69.39ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-05.png?url +0ms
+[WebServer]   vite:transform 69.40ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-06.png?url +0ms
+
+[WebServer]   vite:transform 69.40ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-07.png?url +0ms
+
+[WebServer]   vite:transform 69.40ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-08.png?url +0ms
+
+[WebServer]   vite:transform 69.40ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-09.png?url +0ms
+[WebServer]   vite:transform 69.40ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-10.png?url +0ms
+
+[WebServer]   vite:transform 69.41ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-11.png?url +0ms
+
+[WebServer]   vite:transform 69.41ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-12.png?url +0ms
+[WebServer]   vite:transform 69.41ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-13.png?url +0ms
+
+[WebServer]   vite:transform 69.42ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-14.png?url +0ms
+
+[WebServer]   vite:transform 69.43ms [skipped] /art/qa/p95-recent-drive-sweep/drive-visual-review/page-15.png?url +0ms
+
+[WebServer]   vite:transform 69.43ms [skipped] /art/references/approved/packet76/GEMINI_OUTPUT_31_PROMPT34_human_candidate_A01_primary_desk_seated_base_APPROVED_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.43ms [skipped] /art/references/approved/packet76/GEMINI_OUTPUT_32_PROMPT35_human_candidate_B01_left_guest_seated_base_APPROVED_v1.png?url +0ms
+
+[WebServer]   vite:transform 69.43ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/fat man.png?url +0ms
+
+[WebServer]   vite:transform 69.44ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/female top.png?url +0ms
+[WebServer]   vite:transform 69.44ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/male bottom.png?url +0ms
+
+[WebServer]   vite:transform 69.44ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/male tops.png?url +0ms
+
+[WebServer]   vite:transform 69.44ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/shoes.png?url +0ms
+
+[WebServer]   vite:transform 69.44ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/skinny man.png?url +0ms
+[WebServer]   vite:transform 69.45ms [skipped] /art/references/candidates/recent-drive-sweep/source-images/supplies.png?url +0ms
+
+[WebServer]   vite:transform 69.45ms [skipped] /art/references/candidates/wave-a-morphology/source-sheets/additional fat female pose.png?url +0ms
+
+[WebServer]   vite:transform 69.45ms [skipped] /art/references/candidates/wave-a-morphology/source-sheets/average man.png?url +0ms
+
+[WebServer]   vite:transform 69.45ms [skipped] /art/references/candidates/wave-a-morphology/source-sheets/average woman.png?url +0ms
+[WebServer]   vite:transform 69.45ms [skipped] /art/references/candidates/wave-a-morphology/source-sheets/older woman.png?url +0ms
+
+[WebServer]   vite:transform 69.46ms [skipped] /art/references/candidates/wave-a-morphology/source-sheets/skinny woman.png?url +0ms
+
+[WebServer]   vite:transform 69.46ms [skipped] /art/references/plans/texas_senate/normalized/habs_tx3326_00013a_normalized.jpg?url +0ms
+
+[WebServer]   vite:transform 117.35ms /src/presentation/legislative-bargaining.ts +9ms
+
+[WebServer]   vite:transform 117.38ms /src/presentation/legislative-bargaining-brief.ts +0ms
+
+[WebServer]   vite:transform 117.53ms /src/simulation/world.ts +0ms
+
+[WebServer]   vite:transform 117.55ms /src/presentation/legislative-bargaining-actions.ts +0ms
+
+[WebServer]   vite:transform 117.56ms /src/player/MeasurePaperWorkspace.tsx +1ms
+
+[WebServer]   vite:transform 117.57ms /src/presentation/conversation-consequences.ts +0ms
+
+[WebServer]   vite:transform 117.52ms /src/presentation/conversation-subjects.ts +0ms
+
+[WebServer]   vite:transform 117.52ms /src/player/SceneSurfaceLayer.tsx +0ms
+
+[WebServer]   vite:transform 117.41ms /src/simulation/legislation.ts +0ms
+
+[WebServer]   vite:transform 117.45ms /src/player/QuickDossier.tsx +0ms
+
+[WebServer]   vite:transform 117.48ms /src/player/PinRail.tsx +0ms
+
+[WebServer]   vite:transform 117.39ms /src/simulation/people.ts +0ms
+
+[WebServer]   vite:transform 117.45ms /src/simulation/demo.ts +0ms
+
+[WebServer]   vite:transform 117.27ms /src/simulation/legislature-rule-packs.ts +0ms
+
+[WebServer]   vite:transform 117.27ms /src/devtools/trace-adapters.ts +1ms
+
+[WebServer]   vite:transform 117.30ms /src/devtools/trace-fixture.ts +0ms
+
+[WebServer]   vite:transform 117.31ms /src/devtools/trace-index.ts +0ms
+
+[WebServer]   vite:transform 117.29ms /src/devtools/trace-export.ts +0ms
+
+[WebServer]   vite:transform 117.33ms /src/simulation/future-transitions.ts +0ms
+
+[WebServer]   vite:transform 117.30ms /src/presentation/production-world.ts +0ms
+
+[WebServer]   vite:transform 117.31ms /src/devtools/seed-comparison.ts +0ms
+
+[WebServer]   vite:transform 117.29ms /src/simulation/life-queries.ts +0ms
+
+[WebServer]   vite:transform 117.31ms /src/simulation/life-places.ts +0ms
+
+[WebServer]   vite:transform 117.26ms /src/presentation/adult-life.ts +0ms
+
+[WebServer]   vite:transform 117.23ms /src/presentation/formative-play.ts +0ms
+
+[WebServer]   vite:transform 117.20ms /src/presentation/life-narration.ts +0ms
+
+[WebServer]   vite:transform 116.09ms /src/presentation/title-tableau.ts +3ms
+
+[WebServer]   vite:transform 116.15ms /src/presentation/scene-composition.ts +0ms
+
+[WebServer]   vite:transform 116.15ms /src/presentation/title-hero.ts +0ms
+
+[WebServer]   vite:transform 116.20ms /src/player/TitleTableau.tsx +1ms
+
+[WebServer]   vite:transform 116.18ms /src/simulation/candidacy-packs.ts +0ms
+
+[WebServer]   vite:transform 116.18ms /src/simulation/campaign-queries.ts +0ms
+
+[WebServer]   vite:transform 116.21ms /src/simulation/candidacy.ts +0ms
+
+[WebServer]   vite:transform 116.23ms /src/simulation/causal-effects.ts +0ms
+
+[WebServer]   vite:transform 116.30ms /src/simulation/campaigns.ts +0ms
+
+[WebServer]   vite:transform 116.24ms /src/simulation/character-history.ts +0ms
+
+[WebServer]   vite:transform 116.25ms /src/simulation/history.ts +0ms
+
+[WebServer]   vite:transform 116.28ms /src/simulation/incident-catalog.ts +0ms
+
+[WebServer]   vite:transform 116.28ms /src/simulation/campaign-integrity.ts +1ms
+
+[WebServer]   vite:transform 116.36ms /src/simulation/incidents.ts +0ms
+
+[WebServer]   vite:transform 116.36ms /src/simulation/life-sources.ts +0ms
+
+[WebServer]   vite:transform 116.40ms /src/simulation/life-eligibility.ts +0ms
+
+[WebServer]   vite:transform 116.42ms /src/simulation/legislative-member-decisions.ts +0ms
+
+[WebServer]   vite:transform 116.44ms /src/simulation/economy.ts +0ms
+
+[WebServer]   vite:transform 116.49ms /src/simulation/decisions.ts +0ms
+
+[WebServer]   vite:transform 116.34ms /src/simulation/legislative-politics.ts +0ms
+
+[WebServer]   vite:transform 116.26ms /src/simulation/mind.ts +0ms
+
+[WebServer]   vite:transform 116.12ms /src/simulation/executive-authority-rule-packs.ts +0ms
+
+[WebServer]   vite:transform 116.10ms /src/simulation/evidence.ts +1ms
+
+[WebServer]   vite:transform 116.08ms /src/simulation/mind-catalog.ts +0ms
+
+[WebServer]   vite:transform 116.01ms /src/simulation/executive-authority-rules.ts +0ms
+
+[WebServer]   vite:transform 115.91ms /src/simulation/life.ts +0ms
+
+[WebServer]   vite:transform 115.82ms /src/simulation/narrative-threads.ts +0ms
+
+[WebServer]   vite:transform 115.80ms /src/simulation/person-appearance.ts +0ms
+
+[WebServer]   vite:transform 115.78ms /src/simulation/person-context.ts +0ms
+
+[WebServer]   vite:transform 115.65ms /src/simulation/life-episodes.ts +0ms
+
+[WebServer]   vite:transform 115.33ms /src/simulation/episode-bank.ts +0ms
+
+[WebServer]   vite:transform 115.08ms /src/simulation/election-contests.ts +0ms
+
+[WebServer]   vite:transform 115.05ms /src/simulation/portability-fixture.ts +0ms
+
+[WebServer]   vite:transform 115.03ms /src/simulation/perception.ts +1ms
+
+[WebServer]   vite:transform 115.04ms /src/simulation/person-stress-harness.ts +0ms
+
+[WebServer]   vite:transform 115.03ms /src/simulation/policy.ts +0ms
+
+[WebServer]   vite:transform 115.04ms /src/simulation/policy-decision.ts +0ms
+
+[WebServer]   vite:transform 115.09ms /src/simulation/production-catalog.ts +0ms
+
+[WebServer]   vite:transform 115.10ms /src/simulation/politics.ts +0ms
+
+[WebServer]   vite:transform 115.10ms /src/simulation/records.ts +0ms
+
+[WebServer]   vite:transform 115.09ms /src/simulation/policy-semantics.ts +0ms
+
+[WebServer]   vite:transform 115.13ms /src/simulation/relationship-integration.ts +0ms
+
+[WebServer]   vite:transform 115.11ms /src/simulation/queries.ts +0ms
+
+[WebServer]   vite:transform 115.10ms /src/simulation/resource-queries.ts +0ms
+
+[WebServer]   vite:transform 115.08ms /src/simulation/political-belief-formation.ts +0ms
+
+[WebServer]   vite:transform 115.07ms /src/simulation/resources.ts +0ms
+
+[WebServer]   vite:transform 115.08ms /src/simulation/setup-priors.ts +0ms
+
+[WebServer]   vite:transform 115.13ms /src/simulation/resource-pressure.ts +1ms
+
+[WebServer]   vite:transform 115.14ms /src/simulation/setup-generation-inputs.ts +0ms
+
+[WebServer]   vite:transform 114.95ms /src/simulation/adult-situations.ts +0ms
+
+[WebServer]   vite:transform 114.97ms /src/simulation/setup-questionnaire.ts +0ms
+
+[WebServer]   vite:transform 114.98ms /src/simulation/situation-selection.ts +0ms
+
+[WebServer]   vite:transform 114.85ms /src/simulation/setup-questionnaire-bank.ts +0ms
+
+[WebServer]   vite:transform 114.67ms /src/simulation/situation-profiles.ts +0ms
+
+[WebServer]   vite:transform 114.68ms /src/simulation/life-callbacks.ts +0ms
+
+[WebServer]   vite:transform 114.69ms /src/simulation/commitment-seam.ts +0ms
+
+[WebServer]   vite:transform 114.68ms /src/simulation/relationship-leverage.ts +0ms
+
+[WebServer]   vite:transform 114.58ms /src/simulation/life-opportunities.ts +0ms
+
+[WebServer]   vite:transform 114.62ms /src/simulation/life-choice-evidence.ts +0ms
+
+[WebServer]   vite:transform 114.63ms /src/simulation/world-metrics.ts +1ms
+
+[WebServer]   vite:transform 114.66ms /src/simulation/vitality-catalog.ts +0ms
+
+[WebServer]   vite:transform 114.62ms /src/simulation/time-work.ts +0ms
+
+[WebServer]   vite:transform 114.65ms /src/simulation/vitality.ts +0ms
+
+[WebServer]   vite:transform 114.64ms /src/presentation/campaign-projection.ts +0ms
+
+[WebServer]   vite:transform 114.63ms /src/presentation/legislative-member-seat.ts +0ms
+
+[WebServer]   vite:transform 114.65ms /src/content/content-registry.ts +0ms
+
+[WebServer]   vite:transform 114.66ms /src/content/content-export.ts +0ms
+
+[WebServer]   vite:transform 114.72ms /src/presentation/player-conversation.ts +0ms
+
+[WebServer]   vite:transform 114.72ms /src/content/content-bank.ts +0ms
+
+[WebServer]   vite:transform 114.83ms /src/content/adapters/index.ts +0ms
+
+[WebServer]   vite:transform 114.80ms /src/presentation/character-render-plan.ts +0ms
+
+[WebServer]   vite:transform 114.28ms /src/presentation/character-components.ts +0ms
+
+[WebServer]   vite:transform 113.66ms /src/ui/MindProfile.tsx +4ms
+
+[WebServer]   vite:transform 113.60ms /src/ui/PoliticalProfile.tsx +0ms
+
+[WebServer]   vite:transform 113.69ms /src/presentation/pose-proof.ts +0ms
+
+[WebServer]   vite:transform 31.67ms [skipped] /art/pose-control-plates/seated-at-desk__front.svg?url +2ms
+
+[WebServer]   vite:transform 31.64ms [skipped] /art/pose-control-plates/seated-guest-neutral__front.svg?url +0ms
+[WebServer]   vite:transform 31.65ms [skipped] /art/pose-control-plates/standing-listening__front.svg?url +0ms
+
+[WebServer]   vite:transform 31.66ms [skipped] /art/pose-control-plates/standing-conversational__front.svg?url +0ms
+[WebServer]   vite:transform 31.56ms [skipped] /art/pose-control-plates/standing-neutral__front.svg?url +0ms
+
+[WebServer]   vite:transform 31.56ms [skipped] /art/pose-control-plates/standing-podium-or-lectern__front.svg?url +0ms
+
+[WebServer]   vite:transform 24.46ms /src/presentation/garment-fit.ts +1ms
+
+[WebServer]   vite:transform 24.54ms /src/presentation/pose-families.ts +1ms
+
+[WebServer]   vite:transform 24.54ms /art/manifest/pose_families.json +0ms
+
+[WebServer]   vite:transform 24.53ms /art/manifest/garment_fit_profiles.json +0ms
+
+[WebServer]   vite:transform 31.78ms /src/simulation/life-content-92c.ts +39ms
+
+[WebServer]   vite:transform 31.99ms /src/simulation/setup-young-life-bank.ts +1ms
+
+[WebServer]   vite:transform 31.53ms /src/presentation/pose-control-plate.ts +2ms
+
+[WebServer]   vite:transform 33.11ms /src/simulation/national-places.generated.ts +2ms
+
+[WebServer]   vite:transform 43.37ms /src/presentation/legislative-dialogue-motifs.ts +4ms
+
+[WebServer]   vite:transform 43.40ms /src/simulation/evidence-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.39ms /src/simulation/incident-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.33ms /src/simulation/resource-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.35ms /src/simulation/legislation-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.32ms /src/simulation/life-integrity.ts +1ms
+
+[WebServer]   vite:transform 43.36ms /src/simulation/demo-jurisdiction-context.ts +0ms
+
+[WebServer]   vite:transform 43.36ms /src/simulation/legislative-politics-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.41ms /src/simulation/municipal-rule-registry.ts +0ms
+
+[WebServer]   vite:transform 43.40ms /src/presentation/formative-context.ts +0ms
+
+[WebServer]   vite:transform 43.40ms /src/simulation/mind-integrity.ts +0ms
+
+[WebServer]   vite:transform 43.39ms /src/simulation/vitality-integrity.ts +0ms
+
+[WebServer]   vite:transform 42.43ms /src/content/adapters/conversation-subjects.ts +1ms
+
+[WebServer]   vite:transform 42.50ms /src/content/adapters/legislative-blueprints.ts +0ms
+
+[WebServer]   vite:transform 42.44ms /src/content/adapters/life-episodes.ts +0ms
+
+[WebServer]   vite:transform 42.47ms /src/presentation/conversation-continuity.ts +0ms
+
+[WebServer]   vite:transform 42.49ms /src/content/adapters/legislative-rule-packs.ts +1ms
+
+[WebServer]   vite:transform 42.51ms /src/content/adapters/setup-questionnaire.ts +0ms
+[WebServer]   vite:transform 42.54ms /src/content/adapters/ordinary-life.ts +0ms
+[WebServer]   vite:transform 42.55ms /src/content/adapters/life-situations.ts +0ms
+
+[WebServer]   vite:transform 42.61ms /src/content/adapters/simulation-catalogs.ts +0ms
+
+[WebServer]   vite:transform 15.60ms /src/simulation/municipal-rule-registry.generated.ts +41ms
+
+  1 passed (8.8s)
