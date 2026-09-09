@@ -39,6 +39,7 @@ import type {
   ShellRef,
   ShellState,
 } from "../presentation/shell-navigation";
+import { isPinned } from "../presentation/shell-navigation";
 import {
   measureById,
   workPendingEntriesFor,
@@ -185,29 +186,54 @@ export function PeopleWorkspace({
           data-view={state.preferences.peopleView}
           data-testid="people-list"
         >
-          {shown.map((person) => (
-            <li key={person.personId}>
-              <button
-                type="button"
-                className="pg-person-row"
-                data-testid={`people-person-${person.personId}`}
-                onClick={() => onOpenPerson(person.personId)}
-              >
-                <strong>{person.name}</strong>
+          {shown.map((person) => {
+            const ref: ShellRef = { kind: "person", id: person.personId };
+            const pinned = isPinned(state, ref);
+            return (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  className="pg-person-row"
+                  data-testid={`people-person-${person.personId}`}
+                  onClick={() => onOpenPerson(person.personId)}
+                >
+                  <strong>{person.name}</strong>
+                  {/*
+                    What a row carries is the relation the record establishes and
+                    where you know them from. There is deliberately no number: a
+                    score standing for how much somebody likes you is not a fact
+                    this world holds.
+                  */}
+                  {person.relationship ? (
+                    <small>{person.relationship}</small>
+                  ) : person.context ? (
+                    <small>{person.context}</small>
+                  ) : null}
+                </button>
                 {/*
-                  What a row carries is the relation the record establishes and
-                  where you know them from. There is deliberately no number: a
-                  score standing for how much somebody likes you is not a fact
-                  this world holds.
+                  Pinning lives here now.
+
+                  The old people rail listed the whole standing cast and carried
+                  a pin control on every entry, so removing it would have taken
+                  with it the only way to pin somebody who is not in the room.
+                  This is where contact browsing belongs, so this is where the
+                  deliberate act of keeping somebody to hand belongs too.
                 */}
-                {person.relationship ? (
-                  <small>{person.relationship}</small>
-                ) : person.context ? (
-                  <small>{person.context}</small>
-                ) : null}
-              </button>
-            </li>
-          ))}
+                <button
+                  type="button"
+                  className="ui-action ui-action--rail"
+                  data-testid={`people-pin-${person.personId}`}
+                  aria-pressed={pinned}
+                  aria-label={
+                    pinned ? `Unpin ${person.name}` : `Pin ${person.name}`
+                  }
+                  onClick={() => dispatch({ type: "toggle-pin", ref })}
+                >
+                  {pinned ? "★" : "☆"}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       )}
     </>

@@ -33,7 +33,7 @@ async function freshBrowser(page: Page) {
 }
 
 test.describe("A life is played in the room, not on a card", () => {
-  test("opens on the room with the household on a persistent rail", async ({
+  test("opens on the room with the people who are in it on a persistent rail", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -102,17 +102,29 @@ test.describe("A life is played in the room, not on a card", () => {
     const rail = page.getByTestId("people-rail");
     await expect(rail).toBeVisible();
 
-    // Selecting somebody opens the conversation surface over the room.
+    /*
+     * Selecting somebody opens the anchored action menu beside them, carrying
+     * their id. This test used to assert that the click opened the people
+     * overlay and a conversation directly; it had been failing before UI9
+     * touched this file, because selecting a person has not gone straight to
+     * that surface since the anchored menu landed. Asserting the menu is what
+     * the game actually does, and it is the thing worth protecting: every entry
+     * on it is about the person who was clicked.
+     */
     await rail
       .getByTestId(/^rail-person-/)
       .first()
       .click();
-    await expect(page.getByTestId("people-overlay")).toBeVisible();
-    await expect(page.getByTestId("conversations")).toBeVisible();
+    const menu = page.getByTestId("person-action-menu");
+    await expect(menu).toBeVisible();
+    await expect(menu.getByTestId("action-inspect")).toBeVisible();
 
-    // Closing it (via its X) and collapsing the rail are both reachable.
-    await page.getByTestId("people-overlay-close").click();
-    await expect(page.getByTestId("conversations")).toHaveCount(0);
+    // Their full record is one step from here, and Back returns to the room.
+    await menu.getByTestId("action-record").click();
+    await expect(page.getByTestId("person-workspace")).toBeVisible();
+    await page.getByTestId("person-workspace-close").click();
+
+    // Collapsing the rail is reachable.
     await page.getByTestId("people-rail-toggle").click();
     await expect(rail.getByTestId(/^rail-person-/)).toHaveCount(0);
   });

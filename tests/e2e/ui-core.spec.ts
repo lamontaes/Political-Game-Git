@@ -244,16 +244,42 @@ test.describe("people, and who was chosen", () => {
 });
 
 test.describe("mixed pins", () => {
+  /**
+   * Two people to pin, taken from where each is actually pinnable.
+   *
+   * UI9-03 left the room rail carrying only the people present in the scene, so
+   * a life indoors with one guardian offers exactly one rail entry. The second
+   * pin comes from People, which is where contact browsing and the deliberate
+   * act of pinning somebody now live. Both are ordinary player controls.
+   */
+  async function pinTwoPeople(page: Page): Promise<readonly [string, string]> {
+    const present = await railPeople(page);
+    const first = present[0]!;
+    await page.getByTestId(`rail-pin-${first}`).click();
+
+    await goTo(page, "elsewhere-people");
+    const ids = await page
+      .getByTestId("people-list")
+      .locator('[data-testid^="people-person-"]')
+      .evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("data-testid") ?? ""),
+      );
+    const second = ids
+      .map((id) => id.replace("people-person-", ""))
+      .find((id) => id !== first)!;
+    expect(second).toBeTruthy();
+    await page.getByTestId(`people-pin-${second}`).click();
+    await page.getByTestId("people-overlay-close").click();
+    return [first, second];
+  }
+
   test("keep their identity, order and size across navigation and a reload", async ({
     page,
   }) => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const people = await railPeople(page);
-    expect(people.length).toBeGreaterThanOrEqual(2);
-    await page.getByTestId(`rail-pin-${people[0]}`).click();
-    await page.getByTestId(`rail-pin-${people[1]}`).click();
+    const people = await pinTwoPeople(page);
 
     const first = `person:${people[0]}`;
     const second = `person:${people[1]}`;
@@ -318,10 +344,7 @@ test.describe("mixed pins", () => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const people = await railPeople(page);
-    expect(people.length).toBeGreaterThanOrEqual(2);
-    await page.getByTestId(`rail-pin-${people[0]}`).click();
-    await page.getByTestId(`rail-pin-${people[1]}`).click();
+    const people = await pinTwoPeople(page);
 
     const top = page.getByTestId(`pin-person:${people[0]}`);
     const bottom = page.getByTestId(`pin-person:${people[1]}`);
@@ -381,10 +404,17 @@ test.describe("mixed pins", () => {
     await page.getByTestId(`rail-pin-${personId}`).click();
     await expect(page.getByTestId(`pin-person:${personId}`)).toBeVisible();
 
-    /* Away from the room the rail is gone; the pin is not. */
-    await goTo(page, "nav-calendar");
-    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveCount(0);
-    await expect(page.getByTestId(`pin-person:${personId}`)).toBeVisible();
+    /* Pinned, and no more or less in the room for it. */
+    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
+      "data-present",
+      "true",
+    );
+    await page.getByTestId(`rail-pin-${personId}`).click();
+    await expect(page.getByTestId(`pin-person:${personId}`)).toHaveCount(0);
+    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
+      "data-present",
+      "true",
+    );
   });
 });
 
