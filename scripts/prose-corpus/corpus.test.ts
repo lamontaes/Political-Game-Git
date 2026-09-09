@@ -546,9 +546,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // accepted main with the ENV-ALL1 scene and travel modules. The generator was re-run;
     // these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(57925);
-    expect(coverage.counts.INVENTORIED).toBe(2105);
-    expect(coverage.scannedFiles).toBe(405);
+    expect(coverage.totalLiterals).toBe(58537);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(414);
   });
 });
 
