@@ -303,6 +303,57 @@ describe("explicit saved appearance selection", () => {
 });
 
 describe("typed per-person wardrobe preference", () => {
+  it("allows an exact identity in a partial library while refusing its missing bottom", () => {
+    const partialLibrary = createCharacterComponentLibrary(
+      records.filter((entry) => entry.component?.kind !== "bottom"),
+      catalog,
+    );
+    const partialContext = { ...context, library: partialLibrary };
+    expect(
+      listPersonVisualSelections({ ...partialContext, appearance }).some(
+        (entry) =>
+          entry.selection.bodyFamily === selection.bodyFamily &&
+          entry.selection.headFamily === selection.headFamily &&
+          entry.selection.hairFamily === selection.hairFamily,
+      ),
+    ).toBe(true);
+    const updated = setPersonVisualSelection(
+      world,
+      personId,
+      selection,
+      partialContext,
+    );
+    const person = updated.people[personId]!;
+    expect(person.appearance!.selection).toEqual(selection);
+    expect(person.appearance!.seed).toBe(
+      world.people[personId]!.appearance!.seed,
+    );
+    expect(listPersonWardrobeFamilies(person, partialContext).bottom).toEqual(
+      [],
+    );
+    expect(
+      resolvePersonWardrobeContext(
+        person,
+        { personId, families: { top: "tee-grey" } },
+        partialContext,
+      ).families.top,
+    ).toEqual(["tee-grey"]);
+    expect(() =>
+      resolvePersonWardrobeContext(
+        person,
+        { personId, families: { bottom: "slacks-charcoal" } },
+        partialContext,
+      ),
+    ).toThrow(/unavailable/);
+    // This authoring adapter does not change the normal resolver's refusal.
+    expect(() =>
+      resolveCharacterRecipe(
+        { appearance: person.appearance!, poseFamily: context.poseFamily },
+        partialLibrary,
+      ),
+    ).toThrow(/Required character slot 'bottom'/);
+  });
+
   it("lists exact body/pose families, including per-body derivatives", () => {
     const medium = selectedWorld().people[personId]!;
     expect(listPersonWardrobeFamilies(medium, context)).toEqual({

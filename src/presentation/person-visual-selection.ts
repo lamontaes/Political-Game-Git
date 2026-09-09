@@ -68,6 +68,10 @@ function recipeFor(
       appearance,
       poseFamily: context.poseFamily,
       catalogGeneration: generationFor(appearance, context.library),
+      // Identity authoring can expose a partial supplied library. Actual
+      // body/head/hair and every requested wardrobe choice are checked below;
+      // a missing unrelated garment must not erase a valid identity option.
+      unresolvableRequiredSlots: "diagnose",
       ...(wardrobe ? { wardrobe } : {}),
     },
     context.library,
@@ -168,8 +172,7 @@ export function listPersonVisualSelections(
           );
           if (option) options.push(option);
         } catch {
-          // An incompatible identity is not a selectable fallback. Missing
-          // required catalog families also make this combination unavailable.
+          // An incompatible explicit identity is not a selectable fallback.
         }
       }
     }

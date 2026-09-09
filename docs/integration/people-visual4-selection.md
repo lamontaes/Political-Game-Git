@@ -28,6 +28,13 @@ explicitly removes optional front and paired back hair. Options are compatible
 with the actual resolved body, head, pose and facing. Their presence is not a
 complete-wardrobe, measured-fit or human visual-acceptance claim.
 
+The adapter diagnoses missing required wardrobe families while inspecting
+identity. A supplied partial review library can therefore expose a valid
+body/head/hair choice even when a bottom or shoe is absent. Those gaps still
+belong to the render plan; normal resolver defaults and production completion
+gates are unchanged. A requested wardrobe family must still resolve and project
+exactly, so a missing bottom cannot become an accepted saved wardrobe choice.
+
 Only `setPersonVisualSelection` writes the canonical
 `PersonAppearance.selection`. It returns a new World and person while preserving
 the appearance seed, recipe version, catalog pin (including an absent legacy
