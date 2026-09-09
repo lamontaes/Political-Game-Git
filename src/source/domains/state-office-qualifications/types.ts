@@ -59,6 +59,33 @@ export type SelectionMechanism =
   | "APPOINTED_GOVERNOR_CONFIRMED_LEGISLATURE";
 
 /**
+ * What the acquired primary material proves about when a provision can be
+ * used.  This is deliberately not the source snapshot date and deliberately
+ * not the date a research row happened to call "effective".
+ */
+export type ProvisionValidity =
+  | {
+      readonly state: "EXACT_INTERVAL";
+      readonly validFrom: string;
+      readonly validThrough: string | null;
+      readonly basisArtifactId: string;
+      readonly basisLocator: string;
+      readonly basisExcerpt: string;
+      readonly amendmentAnnotations: readonly string[];
+    }
+  | {
+      readonly state: "CURRENT_OBSERVATION";
+      readonly observedOn: string;
+      readonly reason: string;
+      readonly amendmentAnnotations: readonly string[];
+    }
+  | {
+      readonly state: "UNKNOWN";
+      readonly reason: string;
+      readonly amendmentAnnotations: readonly string[];
+    };
+
+/**
  * The legal authority a claim rests on, as the research recorded it.
  *
  * This travels beside the `Sourced` evidence rather than inside it. The
@@ -67,20 +94,34 @@ export type SelectionMechanism =
  * to have read a state constitution it never retrieved.
  */
 export interface CitedAuthority {
+  /** Exact research transport row that nominated this claim for review. */
+  readonly researchTransport?: {
+    readonly batch: "31C" | "31D";
+    readonly artifactId: string;
+    readonly sha256: string;
+  };
   /** "State Constitution", "Enacted Statute", "Court Ruling", verbatim. */
   readonly authorityType: string;
   /** The article, section or statute number, verbatim. */
   readonly legalLocator: string;
   /** The publisher's URL for the authority, as the research recorded it. */
   readonly authorityUrl: string;
-  /** When the provision took effect, as the research recorded it. */
-  readonly effectiveDate: string;
+  /** Exact `effective_date` cell from the research transport. Not legal proof. */
+  readonly researchReportedEffectiveDate: string;
+  /** Provision-specific applicability established from acquired primary bytes. */
+  readonly provisionValidity: ProvisionValidity;
+  /** The source artifact's actual retrieval instant, where one was acquired. */
+  readonly sourceRetrievedAt: string | null;
+  /** Publisher-declared vintage, kept separate from retrieval and validity. */
+  readonly sourceStatedVintage: string | null;
   /** `DIRECT` where the text states it; `DERIVED` where a chain was walked. */
-  readonly derivation: "DIRECT" | "DERIVED";
+  readonly derivation: "DIRECT" | "DERIVED" | "HISTORICAL";
   /** The derivation chain, where one was walked. */
   readonly derivationChain: string | null;
   /** The batch's own paraphrase of the provision. */
   readonly paraphrase: string;
+  /** Exact free-form note transported by the source row, if present. */
+  readonly notes: string | null;
 }
 
 export interface QualificationClaim {

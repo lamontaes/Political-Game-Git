@@ -297,7 +297,12 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
     }
   });
 
-  it("confines edict rights to the two declared legal-source domains", async () => {
+  it("confines edict rights to the declared legal-source domains", async () => {
+    const legalSourceDomains = new Set([
+      "civil-service-labor",
+      "state-campaign-compliance",
+      "state-office-qualifications",
+    ]);
     let checked = 0;
     for (const name of listDomainNames()) {
       if (name === "state-legislatures") continue;
@@ -311,7 +316,7 @@ describe("state instruments: the edicts doctrine covers text, not pages", () => 
       const parsed = JSON.parse(raw) as ArtifactLock;
       for (const entry of parsed.artifacts) {
         if (
-          name !== "civil-service-labor" ||
+          !legalSourceDomains.has(name) ||
           entry.rights.status !== "public-domain-government-edict"
         ) {
           // Statistical and federal-product domains do not acquire an edict claim.

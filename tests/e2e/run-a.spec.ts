@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator } from "./fixtures";
 
 const STORAGE_KEY = "political-game:run-a:learned-concepts:v1";
 const HIDDEN_CANONICAL_TEXT = "Initial synthetic diagnostic record.";

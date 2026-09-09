@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator } from "./fixtures";
 
 const PROOF_URL = "/?view=character-proof&set=real";
 
@@ -108,7 +108,7 @@ test.describe("Real Political Game modular characters", () => {
     await expect(paths.nth(3)).toContainText("placeholder");
 
     await page.screenshot({
-      path: "test-results/character-proof/real-stage.png",
+      path: test.info().outputPath("character-proof/real-stage.png"),
     });
 
     await page.getByTestId("character-proof-save").click();
@@ -166,7 +166,7 @@ test.describe("Real Political Game modular characters", () => {
       0,
     );
     await page.screenshot({
-      path: "test-results/character-proof/office-after.png",
+      path: test.info().outputPath("character-proof/office-after.png"),
     });
   });
 });

@@ -5,6 +5,10 @@ export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./campaign-queries";
+export * from "./campaign-compliance";
+export * from "./campaign-compliance-rules";
+export * from "./candidate-qualification";
+export * from "./office-qualification-rules";
 /**
  * Campaign operations are named one by one on purpose.
  *
@@ -115,6 +119,7 @@ export * from "./adult-situations";
 export * from "./situation-selection";
 export * from "./situation-profiles";
 export * from "./life-callbacks";
+export * from "./life-opportunities";
 export * from "./life-choice-evidence";
 export * from "./commitment-seam";
 export * from "./relationship-leverage";

@@ -340,7 +340,15 @@ export function assertLifeHistoryIntegrity(
     }
     personDate(world, enrollment.personId, state.effectiveAt, state.id);
     assertMember(
-      ["expected", "active", "completed", "withdrawn", "transferred", "ended"],
+      [
+        "expected",
+        "active",
+        "temporarily-inactive",
+        "completed",
+        "withdrawn",
+        "transferred",
+        "ended",
+      ],
       state.status,
       "education enrollment status",
     );

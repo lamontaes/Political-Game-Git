@@ -1,35 +1,57 @@
 /**
  * The state-office qualifications compiler.
  *
- * The domain ships no production records — 31F §8 explains the gate — so these
- * tests are what demonstrate that the compiler is real. They exercise it
- * through the same capability boundary every other domain uses, on the cases
- * that matter: an office that does not exist, an office not yet operative, a
- * requirement nobody has established, and an authority that was read and is
- * silent.
+ * The domain preserves both research transports and promotes only claims that
+ * clear 31F §8's first-party artifact gate. These tests exercise the transport,
+ * fixture, and production boundaries, including an office that does not exist,
+ * an office not yet operative, a requirement nobody has established, and an
+ * authority that was read and is silent.
  *
  * They also pin PR #72's specific failures as permanent validation errors.
  */
 
 import { describe, expect, it } from "vitest";
-import { readFileSync, writeFileSync, rmSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import {
   QUALIFICATION_COLUMNS,
-  QUALIFICATIONS_PRODUCTION_GATE,
+  RECOVERED_31D_QUALIFICATION_COLUMNS,
+  QUALIFICATIONS_SOURCE_BOUNDARY,
   REJECTED_PLACEHOLDER_CITATIONS,
   compileQualificationFixture,
+  compileQualificationResearchTransport,
   isOfficeExistence,
+  openQualificationArtifacts,
   openQualificationFixture,
   parseQualificationMatrix,
   sourceDomain,
   validateQualificationCorpus,
 } from "../../src/source/domains/state-office-qualifications/index";
 import type { QualificationRecord } from "../../src/source/domains/state-office-qualifications/index";
-import { isClean } from "../../src/source/core/index";
+import { qualificationProvisionValidity } from "../../src/source/domains/state-office-qualifications/temporal";
+import { isClean, sha256Hex } from "../../src/source/core/index";
+import type {
+  ArtifactLock,
+  OpenedArtifact,
+  RawArtifact,
+} from "../../src/source/core/index";
 
 const REPO = resolve(import.meta.dirname, "../..");
 const FIXTURE = "fixtures/source/state-office-qualifications/mixed-states.json";
+
+function productionLock(): ArtifactLock {
+  return JSON.parse(
+    readFileSync(
+      resolve(
+        REPO,
+        "data/source/state-office-qualifications/artifact-lock.json",
+      ),
+      "utf8",
+    ),
+  ) as ArtifactLock;
+}
 
 function compiled() {
   return compileQualificationFixture(openQualificationFixture(FIXTURE));
@@ -119,6 +141,50 @@ describe("the qualifications compiler", () => {
 });
 
 describe("the matrix reader refuses a shape it cannot transcribe", () => {
+  it("matches only a complete cited provision, never a section-number prefix", async () => {
+    const { locatorNames } =
+      await import("../../src/source/domains/state-office-qualifications/index");
+    expect(
+      locatorNames("Neb. Const. art. III, § 12", "Neb. Const. art. III, § 1"),
+    ).toBe(false);
+    expect(
+      locatorNames(
+        "Minn. Const. art. VII, § 6; art. IV, § 6",
+        "Minn. Const. art. VII, § 6",
+      ),
+    ).toBe(true);
+  });
+
+  it("recovers 31D as the exact 14-column transport found in Drive", () => {
+    const bytes = readFileSync(
+      resolve(REPO, "docs/research/31D-recovered-qualifications.tsv"),
+    );
+    expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+      "bc8afda99ae2e9e22180126bc4801fbd9fe5c6f9f3e12f442f8e16ab5de50473",
+    );
+    const table = parseQualificationMatrix(bytes);
+    expect(table.schema.schemaId).toBe("31D-export-14");
+    expect(table.header).toEqual([...RECOVERED_31D_QUALIFICATION_COLUMNS]);
+    expect(table.rows).toHaveLength(601);
+    for (const row of table.rows) expect(row.fields).toHaveLength(14);
+
+    const normalized = compileQualificationResearchTransport(
+      bytes,
+      "drive:31D:1t0n5YuknltD2poTWWCGOvb7bRXaylAd0",
+      "2026-09-08",
+    );
+    expect(normalized.productionStatus).toBe("staged-secondary-research");
+    expect(normalized.records).toHaveLength(601);
+    const derived = normalized.records.find(
+      (record) => record.recordId === "OH:LOWER_CHAMBER:MINIMUM_AGE",
+    );
+    expect(derived?.citedAuthority).toMatchObject({
+      derivation: "DERIVED",
+      derivationChain: "Ohio Const. art. XV § 4 & art. V § 1",
+      notes: "No 21-year requirement in Art. II",
+    });
+  });
+
   it("rejects a matrix whose tab delimiters did not survive — 31F finding 31F-01", () => {
     const spaceSeparated = `${QUALIFICATION_COLUMNS.join(" ")}\nZZ GOVERNOR Minimum Age KNOWN 30\n`;
     expect(() =>
@@ -258,13 +324,253 @@ describe("PR #72's failures are permanent validation errors", () => {
   });
 });
 
-describe("the production gate", () => {
-  it("refuses to compile production records, and says why", () => {
+describe("the production source boundary", () => {
+  it("compiles only its own locked authorities", () => {
     expect(() =>
       sourceDomain.compileProduction({ domain: "x", artifacts: [] }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(QUALIFICATIONS_PRODUCTION_GATE);
-    expect(QUALIFICATIONS_PRODUCTION_GATE).toMatch(/31F section 8/);
+    ).toThrow(/was handed the lock for/);
+    expect(sourceDomain.productionGate).toBeUndefined();
+    expect(QUALIFICATIONS_SOURCE_BOUNDARY).toMatch(/31F section 8/);
+
+    const lock = JSON.parse(
+      readFileSync(
+        resolve(
+          REPO,
+          "data/source/state-office-qualifications/artifact-lock.json",
+        ),
+        "utf8",
+      ),
+    ) as ArtifactLock;
+    const compiled = sourceDomain.compileProduction(lock);
+    expect(compiled.corpus.compiler.version).toBe(sourceDomain.compilerVersion);
+    expect(
+      compiled.records.every(
+        (record) => record.citedAuthority.researchTransport !== undefined,
+      ),
+    ).toBe(true);
+    expect(
+      compiled.corpus.inputs.every((input) =>
+        lock.artifacts.some(
+          (artifact) => artifact.artifactId === input.artifactId,
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps transport dates, source snapshots, and provision validity separate", () => {
+    const lock = productionLock();
+    const result = sourceDomain.compileProduction(lock);
+    const ohio = result.records.find(
+      (record) => record.recordId === "OH:GOVERNOR:ELECTOR_REQUIREMENT",
+    )!;
+    expect(ohio.citedAuthority.researchReportedEffectiveDate).toBe(
+      "1851-09-01",
+    );
+    expect(ohio.citedAuthority.provisionValidity).toMatchObject({
+      state: "EXACT_INTERVAL",
+      validFrom: "1953-11-03",
+      basisArtifactId: "oh-constitution-sec-15-4",
+    });
+    expect(ohio.citedAuthority.sourceRetrievedAt).toMatch(/^2026-09-09T/);
+    if ("requirement" in ohio && ohio.requirement.state === "KNOWN") {
+      expect(ohio.requirement.asOf).toBe("2026-09-09");
+      expect(ohio.requirement.asOf).not.toBe(
+        ohio.citedAuthority.researchReportedEffectiveDate,
+      );
+    }
+
+    const nevada = result.records.filter((record) =>
+      record.recordId.startsWith("NV:ATTORNEY_GENERAL:"),
+    );
+    expect(nevada).toHaveLength(3);
+    expect(
+      nevada.every(
+        (record) =>
+          record.citedAuthority.provisionValidity.state === "EXACT_INTERVAL" &&
+          record.citedAuthority.provisionValidity.validFrom === "2021-05-29",
+      ),
+    ).toBe(true);
+  });
+
+  it("pins the exact publisher bytes behind the Ohio and Nevada corrections", () => {
+    const ohio = readFileSync(
+      resolve(
+        REPO,
+        "data/source/state-office-qualifications/raw/oh-constitution-sec-15-4.html",
+      ),
+      "utf8",
+    );
+    expect(ohio).toContain("November 3, 1953");
+
+    const nevadaAct = readFileSync(
+      resolve(
+        REPO,
+        "data/source/state-office-qualifications/raw/nv-2021-chapter-199-ab236.html",
+      ),
+      "utf8",
+    );
+    expect(nevadaAct).toMatch(/\[Approved:\s*May 29, 2021\]/);
+    expect(nevadaAct).toMatch(
+      /This act becomes effective\s*upon passage and approval\./,
+    );
+  });
+
+  it("requires actual verified publisher bytes for every promoted date label", () => {
+    const lock = productionLock();
+    const opened = openQualificationArtifacts(lock).artifacts;
+    const artifactId = "oh-constitution-sec-15-4";
+    const ohio = opened[artifactId]!;
+
+    expect(
+      qualificationProvisionValidity(
+        artifactId,
+        ohio.artifact,
+        opened,
+        new Map(),
+      ),
+    ).toMatchObject({
+      state: "EXACT_INTERVAL",
+      validFrom: "1953-11-03",
+    });
+
+    const withoutReceipt: Record<string, OpenedArtifact> = {
+      ...opened,
+      [artifactId]: { ...ohio, verifiedSourceLiterals: [] },
+    };
+    expect(() =>
+      qualificationProvisionValidity(
+        artifactId,
+        ohio.artifact,
+        withoutReceipt,
+        new Map(),
+      ),
+    ).toThrow(/no verified source-byte receipt/);
+
+    const alteredReceipt: Record<string, OpenedArtifact> = {
+      ...opened,
+      [artifactId]: {
+        ...ohio,
+        verifiedSourceLiterals: ["November 3, 1954"],
+      },
+    };
+    expect(() =>
+      qualificationProvisionValidity(
+        artifactId,
+        ohio.artifact,
+        alteredReceipt,
+        new Map(),
+      ),
+    ).toThrow(/no verified source-byte receipt/);
+
+    const wrongArtifact: Record<string, OpenedArtifact> = {
+      ...opened,
+      [artifactId]: {
+        ...opened["oh-constitution-sec-2-1"]!,
+        verifiedSourceLiterals: ohio.verifiedSourceLiterals,
+      },
+    };
+    expect(() =>
+      qualificationProvisionValidity(
+        artifactId,
+        ohio.artifact,
+        wrongArtifact,
+        new Map(),
+      ),
+    ).toThrow(/that role holds oh-constitution-sec-2-1/);
+
+    const missingArtifact: Record<string, OpenedArtifact> = { ...opened };
+    delete missingArtifact[artifactId];
+    expect(() =>
+      qualificationProvisionValidity(
+        artifactId,
+        ohio.artifact,
+        missingArtifact,
+        new Map(),
+      ),
+    ).toThrow(/requires unopened artifact/);
+  });
+
+  it("refuses altered acquired bytes even when their altered hash is declared", () => {
+    const lock = productionLock();
+    const artifactId = "oh-constitution-sec-15-4";
+    const artifact = lock.artifacts.find(
+      (candidate) => candidate.artifactId === artifactId,
+    )!;
+    const original = readFileSync(resolve(REPO, artifact.localPath!));
+    const altered = Buffer.from(
+      original.toString("utf8").replace("November 3, 1953", "November 3, 1954"),
+      "utf8",
+    );
+    const scratch = mkdtempSync(resolve(tmpdir(), "qual-evidence-"));
+    const alteredPath = resolve(scratch, "altered-ohio.html");
+    writeFileSync(alteredPath, altered);
+
+    const withArtifact = (replacement: RawArtifact): ArtifactLock => ({
+      ...lock,
+      artifacts: lock.artifacts.map((candidate) =>
+        candidate.artifactId === artifactId ? replacement : candidate,
+      ),
+    });
+
+    try {
+      expect(() =>
+        openQualificationArtifacts(
+          withArtifact({ ...artifact, localPath: alteredPath }),
+        ),
+      ).toThrow(/hashes to .* but the lock pins/);
+
+      const alteredAndRelocked: RawArtifact = {
+        ...artifact,
+        localPath: alteredPath,
+        bytes: { length: altered.length, sha256: sha256Hex(altered) },
+        retrieval: {
+          ...artifact.retrieval,
+          responseBytes: altered.length,
+        },
+      };
+      expect(() =>
+        openQualificationArtifacts(withArtifact(alteredAndRelocked)),
+      ).toThrow(/does not contain required source literal "November 3, 1953"/);
+    } finally {
+      rmSync(scratch, { recursive: true, force: true });
+    }
+  });
+
+  it("requires Nevada's exact operative clause in its acquired enacted text", () => {
+    const lock = productionLock();
+    const opened = openQualificationArtifacts(lock).artifacts;
+    const nevada = opened["nv-nrs-228"]!;
+    const basisId = "nv-2021-chapter-199-ab236";
+    const exact = new Map([
+      [
+        `${basisId}::2021 Nev. Stat., ch. 199, § 2`,
+        "This act becomes effective upon passage and approval.",
+      ],
+    ]);
+
+    expect(
+      qualificationProvisionValidity(
+        "nv-nrs-228",
+        nevada.artifact,
+        opened,
+        exact,
+      ),
+    ).toMatchObject({ state: "EXACT_INTERVAL", validFrom: "2021-05-29" });
+
+    const altered = new Map([
+      [
+        `${basisId}::2021 Nev. Stat., ch. 199, § 2`,
+        "This act becomes effective on a different date.",
+      ],
+    ]);
+    expect(() =>
+      qualificationProvisionValidity(
+        "nv-nrs-228",
+        nevada.artifact,
+        opened,
+        altered,
+      ),
+    ).toThrow(/cannot find its operative clause/);
   });
 
   it("keeps the compiler-ready matrix as real TSV, with its delimiters intact", () => {

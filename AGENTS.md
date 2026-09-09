@@ -41,9 +41,13 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run derive:tiers` — derive the runtime raster ladder from an approved master
 - `npm run scaffold:scene` — emit a scene authoring scaffold with explicit unknowns
 - `npm run bank:art` — validate or normalize an asset-bank QA manifest
+- `npm run release:declare -- <id>` — declare a change for the player-facing notes
+- `npm run release:check` — validate versions, notes and pending change declarations
+- `npm run release:preview` — show what the next push to `main` would release
 - `npm run coverage:state-legislatures` — regenerate the state elective-office identity coverage report
 - `npm run readiness:art` — reconcile the asset request queue against art the project already owns
 - `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
+- `npm run measure:arms` — measure each body raster's arms per side and pose, and say what the alpha does not contain
 
 ## Working Rules
 
@@ -54,6 +58,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
 - Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
+- Every post-rollout eligible change declares `impact: patch`, `minor`, or explicit `none` once in `docs/release/changes/`, via `npm run release:declare -- <id>`. Validation compares the actual base/head history; only a branch demonstrably cut at or before the recorded rollout cutoff keeps the legacy exemption. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. See [Releases](docs/release/README.md).
 - Do not use proprietary code, assets, text, or implementation from other political games.
 
 ## Scope and Authorization
@@ -78,6 +83,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 
 ## Coding-Agent Operations
 
+- **use the matching on-demand workflow under `.agents/skills/` when its trigger applies; keep optional workflow detail out of this root file**;
 - **run agent preflight** before substantial coding-agent work;
 - **verify exact workspace, branch, local SHA, and upstream SHA**;
 - **use isolated worktrees** for concurrent work and agent takeovers;
@@ -90,3 +96,13 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **completion reports must include exact SHA, git state, tests actually run, remaining defects, and acceptance state**;
 - **after substantial tasks, perform a small LEARN pass** and encode recurring lessons in the smallest appropriate durable mechanism;
 - **do not solve recurring process problems merely by making prompts larger**.
+
+Plan no helpers by default. Delegate only when the user or repository/skill
+instructions authorize it and the helper has an independently useful bounded
+deliverable. Record its input, base/head, allowed paths and tools, expected
+output, and any model/effort override with its resource rationale. Helpers are
+read-only by default, may not spawn helpers recursively, and do not replace the
+parent's integration and verification. Do not commission redundant
+whole-repository reviews. In trusted fresh Codex sessions, project config caps
+open helper threads at two per parent; that runtime ceiling excludes the
+primary thread and unrelated tasks.

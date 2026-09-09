@@ -72,3 +72,7 @@ Encode a recurring process failure in the smallest durable mechanism — a hook
 for a must-happen-every-time step, a skill for sometimes-relevant knowledge, or
 a config/test change. Do not solve it by making prompts or this file larger.
 Domain detail belongs in packets, `docs/`, `.agents/`, and skills.
+
+Repository workflows that are relevant only on demand live in
+`.agents/skills/`. Follow the matching skill when its trigger applies; the
+bounded delegation contract remains in `AGENTS.md`.

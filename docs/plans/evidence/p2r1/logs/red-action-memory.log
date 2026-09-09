@@ -1,0 +1,237 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/presentation/p2r1-action-memory.test.ts --maxWorkers=2
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-editorial-pilot
+
+ ❯ src/presentation/p2r1-action-memory.test.ts (14 tests | 11 failed) 116ms
+     × adult.community-building/cut-something-else: no unrecorded result in its memory 3ms
+     × adult.partner-plan/your-way: no unrecorded result in its memory 0ms
+     × adult.friend-in-difficulty/keep-it: no unrecorded result in its memory 0ms
+     × adult.incident-aftermath/sort-your-own: no unrecorded result in its memory 0ms
+     × adult.care-request/name-the-limit: no unrecorded result in its memory 0ms
+     × adult.help-with-strings/take-it: no unrecorded result in its memory 0ms
+     × adult.promise-comes-due/renegotiate: no unrecorded result in its memory 0ms
+     × adult.friend-favour/decline: no unrecorded result in its memory 0ms
+     × adult.petition-ask/sign: no unrecorded result in its memory 1ms
+     × adult.volunteer-ask/sign-up: no unrecorded result in its memory 0ms
+     × adult.ordinary-good-day/get-things-done: no unrecorded result in its memory 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.community-building/cut-something-else: no unrecorded result in its memory
+AssertionError: expected 'You argued for paying for it out of s…' not to match /asked.*twice/i
+
+- Expected:
+/asked.*twice/i
+
++ Received:
+"You argued for paying for it out of something else, and were asked, twice, which something."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.partner-plan/your-way: no unrecorded result in its memory
+AssertionError: expected 'You held out for yours, and got it.' not to match /and got it/i
+
+- Expected:
+/and got it/i
+
++ Received:
+"You held out for yours, and got it."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.friend-in-difficulty/keep-it: no unrecorded result in its memory
+AssertionError: expected 'You kept it to yourself, because they…' not to match /because|rather than anybody else/i
+
+- Expected:
+/because|rather than anybody else/i
+
++ Received:
+"You kept it to yourself, because they had told you rather than anybody else."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.incident-aftermath/sort-your-own: no unrecorded result in its memory
+AssertionError: expected 'You got your own household straight b…' not to match /got.*household straight/i
+
+- Expected:
+/got.*household straight/i
+
++ Received:
+"You got your own household straight before anything else."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.care-request/name-the-limit: no unrecorded result in its memory
+AssertionError: expected 'You said exactly what you could manag…' not to match /became assumed|caregiving|its edges/i
+
+- Expected:
+/became assumed|caregiving|its edges/i
+
++ Received:
+"You said exactly what you could manage before it became assumed."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.help-with-strings/take-it: no unrecorded result in its memory
+AssertionError: expected 'You let them sort it out, and it was …' not to match /was sorted out/i
+
+- Expected:
+/was sorted out/i
+
++ Received:
+"You let them sort it out, and it was sorted out."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.promise-comes-due/renegotiate: no unrecorded result in its memory
+AssertionError: expected 'You asked to move it and offered some…' not to match /was accepted/i
+
+- Expected:
+/was accepted/i
+
++ Received:
+"You asked to move it and offered something in its place, and the offer was accepted a little too quickly."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.friend-favour/decline: no unrecorded result in its memory
+AssertionError: expected 'You said no. They said it was fine.' not to match /they said it was fine/i
+
+- Expected:
+/they said it was fine/i
+
++ Received:
+"You said no. They said it was fine."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.petition-ask/sign: no unrecorded result in its memory
+AssertionError: expected 'You signed it, and your name went whe…' not to match /people.*would read/i
+
+- Expected:
+/people.*would read/i
+
++ Received:
+"You signed it, and your name went where people who know you would read it."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.volunteer-ask/sign-up: no unrecorded result in its memory
+AssertionError: expected 'You put your name down, and it turned…' not to match /most Saturdays/i
+
+- Expected:
+/most Saturdays/i
+
++ Received:
+"You put your name down, and it turned out to be most Saturdays rather than one."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  src/presentation/p2r1-action-memory.test.ts > P2R1 action recaps do not invent reactions or completed outcomes > adult.ordinary-good-day/get-things-done: no unrecorded result in its memory
+AssertionError: expected 'You used it on the backlog, cleared m…' not to match /cleared most|felt.*good/i
+
+- Expected:
+/cleared most|felt.*good/i
+
++ Received:
+"You used it on the backlog, cleared most of it, and felt unreasonably good about that."
+
+ ❯ src/presentation/p2r1-action-memory.test.ts:24:33
+     22|     it(`${sceneKey}/${optionKey}: no unrecorded result in its memory`,…
+     23|       const option = adultSituationBank().find(s => s.key === sceneKey…
+     24|       expect(option.memory).not.toMatch(unsupported);
+       |                                 ^
+     25|     });
+     26|   }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  11 failed | 3 passed (14)
+   Start at  10:21:45
+   Duration  1.10s (transform 758ms, setup 0ms, import 887ms, tests 116ms, environment 0ms)
+

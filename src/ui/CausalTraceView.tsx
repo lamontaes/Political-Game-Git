@@ -1,3 +1,4 @@
+import type { World } from "../simulation/types";
 import { useMemo, useState } from "react";
 
 import {
@@ -62,7 +63,9 @@ function matches(node: TraceNode, query: string): boolean {
   );
 }
 
-export function CausalTraceView() {
+export function CausalTraceView({
+  reviewWorld,
+}: { readonly reviewWorld?: World } = {}) {
   const [seed, setSeed] = useState(
     () => readParam("seed") ?? "causal-trace-observer",
   );
@@ -82,15 +85,14 @@ export function CausalTraceView() {
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
 
   const fixture = useMemo(
-    () => createCausalTraceFixture(audibility, seed),
-    [audibility, seed],
+    () => (reviewWorld ? null : createCausalTraceFixture(audibility, seed)),
+    [audibility, seed, reviewWorld],
   );
-  const index = useMemo(() => buildTraceIndex(fixture.world), [fixture]);
+  const world = reviewWorld ?? fixture!.world;
+  const index = useMemo(() => buildTraceIndex(world), [world]);
 
   const defaultRootId =
-    fixture.world.history.decisionTraces.at(-1)?.id ??
-    index.nodes.at(-1)?.id ??
-    null;
+    world.history.decisionTraces.at(-1)?.id ?? index.nodes.at(-1)?.id ?? null;
   const rootId = selectedId ?? defaultRootId;
 
   const visible = index.nodes.filter(
@@ -113,12 +115,12 @@ export function CausalTraceView() {
       : traceExportMarkdown(exportDocument)
     : "";
 
-  const observerTraces = fixture.turns.map((turn) =>
-    projectConversationObserverTrace(fixture.world, {
+  const observerTraces = (fixture?.turns ?? []).map((turn) =>
+    projectConversationObserverTrace(fixture!.world, {
       eventId: turn.eventId,
       declaredPresence: {
         basis: "the scene's recorded physical presence set",
-        personIds: fixture.room.physicallyPresentPersonIds,
+        personIds: fixture!.room.physicallyPresentPersonIds,
         note: "Supplied by the conversation room context, not by the event record.",
       },
       historySpan: turn.historySpan,
@@ -182,7 +184,8 @@ export function CausalTraceView() {
         <label>
           Seed
           <input
-            value={seed}
+            value={reviewWorld?.seed ?? seed}
+            disabled={Boolean(reviewWorld)}
             onChange={(event) => {
               setSeed(event.target.value);
               setSelectedId(null);
@@ -193,6 +196,7 @@ export function CausalTraceView() {
           Audibility
           <select
             value={audibility}
+            disabled={Boolean(reviewWorld)}
             onChange={(event) => {
               setAudibility(event.target.value as ConversationAudibility);
               setSelectedId(null);
@@ -488,7 +492,7 @@ export function CausalTraceView() {
         <section key={trace.eventId} aria-label={`Turn ${position + 1}`}>
           <h3>
             Turn {position + 1} · audibility{" "}
-            {fixture.turns[position]?.audibility ?? "unknown"}
+            {fixture?.turns[position]?.audibility ?? "unknown"}
           </h3>
           <table data-testid={`observer-turn-${position + 1}`}>
             <tbody>

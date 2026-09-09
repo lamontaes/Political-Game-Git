@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run src/simulation/p2r1-callbacks.test.ts --maxWorkers=2
+
+
+ RUN  v4.1.1 /private/tmp/p2r1-production
+
+
+ Test Files  1 passed (1)
+      Tests  137 passed (137)
+   Start at  10:58:20
+   Duration  3.72s (transform 636ms, setup 0ms, import 743ms, tests 2.88s, environment 0ms)
+

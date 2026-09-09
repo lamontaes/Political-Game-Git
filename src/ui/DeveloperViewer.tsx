@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { controlReviewWorld } from "../devtools/review-session";
+import { useReviewEnvironment } from "./review-context";
+import { useEffect, useState } from "react";
 
 import {
   DEFAULT_CORPUS_VERSION,
@@ -51,8 +53,21 @@ function createInitialViewerState(): ViewerState {
 }
 
 export function DeveloperViewer() {
+  const review = useReviewEnvironment();
   const [{ world, selectedPersonId, status }, setViewerState] =
-    useState<ViewerState>(createInitialViewerState);
+    useState<ViewerState>(() =>
+      review
+        ? {
+            world: review.initialWorld,
+            selectedPersonId: firstPersonId(review.initialWorld),
+            status:
+              "Disposable cloned review world. Changes are never saved to normal play.",
+          }
+        : createInitialViewerState(),
+    );
+  useEffect(() => {
+    review?.reportWorld(world);
+  }, [world, review]);
 
   const selectedPerson = selectedPersonId
     ? world.people[selectedPersonId]
@@ -149,6 +164,21 @@ export function DeveloperViewer() {
         {status}
       </p>
 
+      {review && selectedPersonId && (
+        <button
+          type="button"
+          onClick={() =>
+            setViewerState((current) => ({
+              ...current,
+              world: controlReviewWorld(current.world, selectedPersonId),
+              status:
+                "Review control switched. No office, travel, time or history granted.",
+            }))
+          }
+        >
+          Control selected person in review clone
+        </button>
+      )}
       <WorldSummary world={world} />
 
       <div className="viewer-grid">
