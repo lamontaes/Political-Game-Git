@@ -554,8 +554,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // survives composition; re-measuring is what the test asks for. INVENTORIED
     // is unchanged on both sides and stays pinned, which is the assertion
     // actually worth defending: neither change adds prose.
+    // PEOPLE1-R1 moved it again by fifteen: the resolver's new
+    // `slot-family-has-no-art-for-body` and `slot-painted-by-body` diagnostics
+    // and the candidate wardrobe's refusal reasons are developer diagnostics,
+    // not player prose, which is why INVENTORIED below did not move.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(49577);
+    expect(coverage.totalLiterals).toBe(49592);
     expect(coverage.counts.INVENTORIED).toBe(1899);
     expect(coverage.scannedFiles).toBe(322);
   });

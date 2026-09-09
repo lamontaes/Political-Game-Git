@@ -1,7 +1,7 @@
 {
   "counts": {
     "INVENTORIED": 1899,
-    "INTENTIONALLY_NON_PLAYER_FACING": 4628,
+    "INTENTIONALLY_NON_PLAYER_FACING": 4631,
     "DIAGNOSTIC_OR_TEST": 3453,
     "NEEDS_CLASSIFICATION": 2964
   },
@@ -3697,7 +3697,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 192,
+      "line": 223,
       "text": "No {slot.kind} component exists in this review library at all.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3705,7 +3705,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 194,
+      "line": 225,
       "text": "No {slot.kind} declares body family '{bodyFamily}' as compatible: the art has never been drawn for this morphology.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3713,7 +3713,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 196,
+      "line": 227,
       "text": "No {slot.kind} for this body declares pose family '{poseFamily}'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3721,7 +3721,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 198,
+      "line": 229,
       "text": "No {slot.kind} for this body and pose is drawn facing '{headOrientation}'.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3729,7 +3729,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "slots",
-      "line": 207,
+      "line": 238,
       "text": "Every candidate {slot.kind} attaches to an anchor this body does not declare ({wanted.join(\",\")}); the measured silhouette carries {[...anchorIds].sort().join(\",\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3737,7 +3737,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 432,
+      "line": 463,
       "text": "'{bodyAssetId}' declares no rig root, so its sole cannot be placed on a floor line.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3745,7 +3745,7 @@
     {
       "sourcePath": "src/presentation/candidate-review.ts",
       "enclosingSymbol": "reviewPlacementFor",
-      "line": 433,
+      "line": 464,
       "text": "'{bodyAssetId}' declares no foot contacts — the sole band did not resolve two feet — so it is placed by its rig root and its ground contact is unverified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -25788,7 +25788,7 @@
       "sourcePath": "src/presentation/character-components.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Character component assembly for the art pipeline; layer and slot vocabulary.",
-      "count": 116
+      "count": 119
     },
     {
       "sourcePath": "src/presentation/character-components.test.ts",
