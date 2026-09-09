@@ -1,3 +1,5 @@
+import type { CharacterWardrobeContext } from "../presentation/character-components";
+import type { PersonVisualLibraries } from "../presentation/person-visual";
 import { resolvePersonPortrait } from "../presentation/person-visual";
 import { ModularCharacter } from "./ModularCharacter";
 import { personName } from "../simulation";
@@ -5,6 +7,8 @@ import type { EntityId, World } from "../simulation";
 
 export interface PersonPortraitProps {
   readonly world: World;
+  readonly visualLibraries?: PersonVisualLibraries;
+  readonly wardrobe?: CharacterWardrobeContext;
   readonly personId: EntityId;
   readonly size?: "small" | "large";
   /** Shown under the name when the world knows one. */
@@ -16,11 +20,16 @@ export function PersonPortrait({
   personId,
   size = "small",
   note = null,
+  visualLibraries,
+  wardrobe,
 }: PersonPortraitProps) {
   const person = world.people[personId];
   if (!person) return null;
   const name = personName(person);
-  const visual = resolvePersonPortrait(person);
+  const visual = resolvePersonPortrait(person, {
+    libraries: visualLibraries,
+    wardrobe,
+  });
 
   return (
     <figure

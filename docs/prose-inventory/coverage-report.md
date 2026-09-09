@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1914 |
-| INTENTIONALLY_NON_PLAYER_FACING | 4745 |
-| DIAGNOSTIC_OR_TEST | 3675 |
-| **NEEDS_CLASSIFICATION** | **3283** |
+| INTENTIONALLY_NON_PLAYER_FACING | 4768 |
+| DIAGNOSTIC_OR_TEST | 3698 |
+| **NEEDS_CLASSIFICATION** | **3297** |
 
-Scanned 345 files holding 52133 string
+Scanned 353 files holding 52459 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -126,6 +126,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 9 | `src/presentation/production-world.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
+| 9 | `src/ui/PeopleVisual4Review.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/player-capabilities.ts` |
@@ -159,6 +160,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
+| 4 | `src/player/PersonAppearanceControls.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/simulation/person-identity.ts` |
@@ -179,6 +181,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
+| 2 | `src/presentation/life-scene-people.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |
@@ -191,7 +194,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/adult-life.ts` |
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
-| 1 | `src/presentation/life-scene-people.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
 | 1 | `src/simulation/situation-selection.ts` |

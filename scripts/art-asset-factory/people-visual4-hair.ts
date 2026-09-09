@@ -1,3 +1,4 @@
+import { format } from "prettier";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -227,8 +228,10 @@ export async function deriveHair(root = process.cwd(), check = false) {
     }
     return hashArtFile(absolute(file));
   }
-  function json(file: string, value: unknown) {
-    const bytes = JSON.stringify(value, null, 2) + "\n";
+  async function json(file: string, value: unknown) {
+    const bytes = await format(JSON.stringify(value), {
+      parser: "json",
+    });
     if (check) {
       if (fs.readFileSync(absolute(file), "utf8") !== bytes)
         throw new Error(`Manifest replay differs: ${file}`);
@@ -431,8 +434,8 @@ export async function deriveHair(root = process.cwd(), check = false) {
   }
   for (let i = 0; i < sheets.length; i++)
     await emit(`${qa}/contact-${i + 1}.png`, sheets[i]);
-  json(`${qa}/contact-cells.json`, sheetCells);
-  json(`${qa}/pair-report.json`, {
+  await json(`${qa}/contact-cells.json`, sheetCells);
+  await json(`${qa}/pair-report.json`, {
     schema: "people-visual4-hair-pairs-v1",
     source_authoring_sha256: hashArtFile(absolute(sourceManifest)),
     head_authoring_sha256: hashArtFile(absolute(headManifest)),
@@ -446,7 +449,7 @@ export async function deriveHair(root = process.cwd(), check = false) {
       "unknown; source dimensions are not proof of native generation detail",
     pairs,
   });
-  json("art/manifest/character_candidate_visual4_hair_registry.json", {
+  await json("art/manifest/character_candidate_visual4_hair_registry.json", {
     schema: "character-candidate-registry-v1",
     release_status: "candidate-only",
     production_pixels_released: false,

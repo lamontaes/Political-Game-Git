@@ -1,3 +1,4 @@
+import { frameCharacterReview } from "../presentation/character-review-framing";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import wardrobeReport from "../../art/qa/p95-wave-a-morphology/wave-a-wardrobe-report.json";
@@ -67,7 +68,7 @@ const derivedIds = new Set(
   WAVE_A_WARDROBE_RECORDS.map((record) => record.asset_id),
 );
 
-function ReviewStage({
+export function ReviewStage({
   subject,
   debugAnchors,
 }: {
@@ -75,10 +76,17 @@ function ReviewStage({
   readonly debugAnchors: boolean;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
-  const transform = useSceneTransform(
+  const viewportTransform = useSceneTransform(
     viewportRef,
     CANDIDATE_REVIEW_PLATE,
     CHARACTER_PROOF_SCENE.camera,
+  );
+  const transform = frameCharacterReview(
+    viewportTransform.viewport,
+    CANDIDATE_REVIEW_PLATE,
+    [subject.plan],
+    CHARACTER_PROOF_SCENE.camera,
+    viewportTransform.devicePixelRatio,
   );
   const cameraStyle = {
     width: `${CANDIDATE_REVIEW_PLATE.width}px`,
@@ -91,7 +99,7 @@ function ReviewStage({
       ref={viewportRef}
       className="character-proof-stage"
       data-testid="candidate-review-stage"
-      aria-label={`Candidate body ${subject.review.assetId} at gameplay scale`}
+      aria-label={`Candidate body ${subject.review.assetId} in full-figure review framing`}
     >
       <div
         className="scene-camera"

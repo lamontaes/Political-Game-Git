@@ -116,6 +116,8 @@ function optionFor(
 export function listPersonVisualSelections(
   request: PersonVisualSelectionContext & {
     readonly appearance: PersonAppearance;
+    /** Narrow dependent controls without enumerating unrelated combinations. */
+    readonly selectionFilter?: Partial<PersonVisualSelection>;
   },
 ): readonly PersonVisualSelectionOption[] {
   const { appearance, library } = request;
@@ -134,6 +136,11 @@ export function listPersonVisualSelections(
   );
   const options: PersonVisualSelectionOption[] = [];
   for (const bodyFamily of bodies) {
+    if (
+      request.selectionFilter?.bodyFamily !== undefined &&
+      request.selectionFilter.bodyFamily !== bodyFamily
+    )
+      continue;
     const heads = sortedUnique(
       available
         .filter(
@@ -144,6 +151,11 @@ export function listPersonVisualSelections(
         .map((part) => part.definition.family),
     );
     for (const headFamily of heads) {
+      if (
+        request.selectionFilter?.headFamily !== undefined &&
+        request.selectionFilter.headFamily !== headFamily
+      )
+        continue;
       const hairFamilies: readonly (string | null)[] = [
         null,
         ...sortedUnique(
@@ -164,6 +176,11 @@ export function listPersonVisualSelections(
         ),
       ];
       for (const hairFamily of hairFamilies) {
+        if (
+          request.selectionFilter?.hairFamily !== undefined &&
+          request.selectionFilter.hairFamily !== hairFamily
+        )
+          continue;
         const selection = { bodyFamily, headFamily, hairFamily };
         try {
           const option = optionFor(

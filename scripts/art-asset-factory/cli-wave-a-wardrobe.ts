@@ -34,7 +34,14 @@ const REPOSITORY_ROOT = path.resolve(
 
 async function main(): Promise<void> {
   const check = process.argv.includes("--check");
-  const result = await runWaveAWardrobeDerivation(REPOSITORY_ROOT, { check });
+  // Correct evidence over retained historical candidates without resynthesizing
+  // enlarged rasters or changing their registry/acceptance state.
+  const refreshMeasurements = process.argv.includes("--refresh-measurements");
+  if (check && refreshMeasurements)
+    throw new Error("Choose --check or --refresh-measurements.");
+  const result = await runWaveAWardrobeDerivation(REPOSITORY_ROOT, {
+    check: check || refreshMeasurements,
+  });
 
   const records = [...result.bodyRecords, ...result.garmentRecords];
   const candidateErrors = validateCharacterComponentCandidates(records);
@@ -118,6 +125,22 @@ async function main(): Promise<void> {
     WAVE_A_WARDROBE_REGISTRY_PATH,
   );
   const reportPath = path.join(REPOSITORY_ROOT, WAVE_A_WARDROBE_REPORT_PATH);
+
+  if (refreshMeasurements) {
+    if (
+      JSON.stringify(JSON.parse(fs.readFileSync(registryPath, "utf8"))) !==
+      JSON.stringify(registry)
+    ) {
+      throw new Error(
+        "Measurement-only refresh cannot change the candidate registry.",
+      );
+    }
+    await writeFormatted(reportPath, JSON.stringify(report, null, 2));
+    console.log(
+      "Refreshed measurement evidence; source, derivative and registry bytes verified unchanged. No acceptance promotion.",
+    );
+    return;
+  }
 
   if (check) {
     for (const [file, contents] of [

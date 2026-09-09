@@ -1,0 +1,441 @@
+{
+  "schema": "people-visual4-bottom-attachments-v1",
+  "coordinate_convention": "Zero-based source-canvas pixels, x rightward/y downward. Waistband x endpoints are inclusive. All semantic row choices are explicitly game-authored after viewing every image; only file dimensions/hash and sampled alpha values are exact byte facts.",
+  "alpha_threshold": 8,
+  "assets": [
+    {
+      "asset_id": "wave_a_male_bottom_black_joggers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_black_joggers_v1.png",
+        "sha256": "3ca2213e5486b4e83428462fa4913ba5f28b68f664ae1a66d10b2e59c88c379b",
+        "width_px": 638,
+        "height_px": 1199,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 105,
+        "right_x_px": 531,
+        "width_px": 427,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 426,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1130,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Elastic waistband and ribbed ankle cuffs are style geometry; do not force the cuff to a dress-trouser opening.",
+        "White side stripes and relaxed leg ease are intentional.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_blue_straight_jeans_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_blue_straight_jeans_v1.png",
+        "sha256": "32ed4bb5a92dd80320319e58095c182fa326fd5e72c8336b4104887d81d1a7db",
+        "width_px": 625,
+        "height_px": 1220,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 92,
+        "right_x_px": 531,
+        "width_px": 440,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 397,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1145,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Straight-leg denim hem and fly are visible; preserve rise-to-inseam proportions.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_brown_corduroy_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_brown_corduroy_trousers_v1.png",
+        "sha256": "3f2523e146496199acc52aedf3e00fd9d1fcfb296cd106d2938e6a95e976a3da",
+        "width_px": 633,
+        "height_px": 1194,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 93,
+        "right_x_px": 539,
+        "width_px": 447,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 394,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1118,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Corduroy ribs and straight trouser legs are visible; preserve rise-to-inseam proportions.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_charcoal_dress_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_charcoal_dress_trousers_v1.png",
+        "sha256": "3bd6193d36a7f728771d063cddd59af105b753f78b9b52562e6bb141128247ab",
+        "width_px": 629,
+        "height_px": 1223,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 93,
+        "right_x_px": 537,
+        "width_px": 445,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 399,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1150,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Front crease lines and belt extension are baked style details; a crease is not an anatomical landmark.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_dark_blue_slim_jeans_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_dark_blue_slim_jeans_v1.png",
+        "sha256": "ab1566c228c4075cc0ecd0a51c572d07ece8dd6361f2d8cd95bc5c59b6526164",
+        "width_px": 629,
+        "height_px": 1214,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 97,
+        "right_x_px": 530,
+        "width_px": 434,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 395,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1140,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Slim-leg silhouette differs from straight jeans; do not infer universal morphology compatibility from waist width.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_khaki_chinos_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_chinos_v1.png",
+        "sha256": "192f6ca43531b6662b8535a583656ae2eae31fdd2bbfdc4300719ed3f322e6f4",
+        "width_px": 628,
+        "height_px": 1221,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 92,
+        "right_x_px": 534,
+        "width_px": 443,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 399,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1145,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Straight-leg chino silhouette with curved cloth hems; ankle join remains an exact-pair check.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_khaki_shorts_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_khaki_shorts_v1.png",
+        "sha256": "9049e18f48d9233d43bd252a8a1861678ffa0c346bc4ebcbb7e7d353c2bee095",
+        "width_px": 669,
+        "height_px": 790,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 111,
+        "right_x_px": 555,
+        "width_px": 445,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 455,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 715,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "These are shorts with an above-knee style hem, not full-length trousers. Never normalize their height to a trouser height.",
+        "Exposed target legs below the shorts hem are intentional; fit measurement must stop at the authored garment extent.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_light_blue_dress_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_blue_dress_trousers_v1.png",
+        "sha256": "62b05656c23b6d323f4ea9e92a8277d240e24b569acca04410fdf0e0a0d388f2",
+        "width_px": 628,
+        "height_px": 1217,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 96,
+        "right_x_px": 531,
+        "width_px": 436,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 432,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1143,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Front crease lines are garment styling; they do not measure target knees.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_light_gray_dress_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_light_gray_dress_trousers_v1.png",
+        "sha256": "70a47827743d070bef92a1e220f41b1066a76a67a85a1d07cd4936556e81b21d",
+        "width_px": 629,
+        "height_px": 1203,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 95,
+        "right_x_px": 533,
+        "width_px": 439,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 437,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1130,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Front crease lines and belt extension are baked style details; the low front crotch seam has a visible opening.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_navy_work_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_navy_work_trousers_v1.png",
+        "sha256": "b555c371b44e123fa133fb9bdff7cb3279ae817a4ee0c423ba1b360290ad110e",
+        "width_px": 667,
+        "height_px": 1195,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 105,
+        "right_x_px": 544,
+        "width_px": 440,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 416,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1120,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Thigh reinforcement panels and side utility tabs protrude intentionally. Do not use the full opaque bbox width as waistband width.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_olive_cargo_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_olive_cargo_trousers_v1.png",
+        "sha256": "b95c815acdb264529753b365a3d5d714a038c242b4a1647353595e53e01058c2",
+        "width_px": 668,
+        "height_px": 1211,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 114,
+        "right_x_px": 552,
+        "width_px": 439,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 405,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1140,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Cargo pockets extend beyond the leg outline intentionally. Use the visible waistband, not pocket-expanded bbox width, for initial scale.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_bottom_tan_cargo_trousers_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-bottoms/wave_a_male_bottom_tan_cargo_trousers_v1.png",
+        "sha256": "08948b451e6fcdf246313bc17207ed941256ce683254630aad9dd19b68afe100",
+        "width_px": 659,
+        "height_px": 1199,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "view": "front-on standing garment display; no seated compatibility implied",
+      "waistband_reference": {
+        "y_px": 105,
+        "left_x_px": 108,
+        "right_x_px": 550,
+        "width_px": 443,
+        "coordinate_class": "game-authored",
+        "basis": "Reference row explicitly selected through the visible front waistband band, below its rolled top lip. Left/right points snapped to alpha>8 at this authored row; inclusive width. This is garment geometry, not a recovered body joint."
+      },
+      "crotch_opening": {
+        "y_px": 417,
+        "coordinate_class": "game-authored",
+        "basis": "Visible first transparent central crotch opening beneath the fly; alpha<=8 confirms the opening in the visually inspected center neighborhood. It is not the target pelvis root or a body-crotch measurement."
+      },
+      "hem_reference": {
+        "y_px": 1130,
+        "coordinate_class": "game-authored",
+        "basis": "Explicit row near the visible low garment hems; one style-length reference, not a claim that both curved hems terminate at the same exact pixel."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Large thigh reinforcement/utility panels are baked styling. Preserve their width rather than fitting every outer edge tightly to skin.",
+        "Initial normalization does not establish body fit, waist/hip/crotch placement or human visual acceptance. Measure and inspect each exact body pairing."
+      ],
+      "acceptance_status": "unapproved candidate authoring only"
+    }
+  ]
+}

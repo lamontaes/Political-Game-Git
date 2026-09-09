@@ -87,3 +87,45 @@ World serialization, established-recipe reproduction, singleton wardrobe
 serialization and exact-body/pose refusals. Existing character-component and
 PEOPLE1-R1 wardrobe/save identity tests remain regression controls. This adapter
 does not supply browser interaction or visual acceptance evidence.
+
+## Shared controls and portrait consumer
+
+`src/player/PersonAppearanceControls.tsx` accepts `{ world, personId, library,
+poseFamily, preference?, onWorldChange, onPreferenceChange }`. Mount it in the
+existing dossier/personal workspace and persist both callbacks through the
+existing World and per-save interface stores. It creates no preview identity.
+Before creator generation there is no canonical person to pass; mount against
+that generated person afterward.
+
+Dependent controls use `selectionFilter` on the same enumeration API to avoid
+resolving thousands of unrelated body/head/hair combinations on each edit. The
+filter removes work, not content. An incompatible retained wardrobe remains
+visible with an explicit refusal and an unavailable selected option; editing
+one kind does not discard other saved kinds.
+
+`PersonPortrait` accepts optional `visualLibraries: { characters, visuals }`
+and `wardrobe`. `resolvePersonPortrait` accepts the equivalent `libraries` and
+`wardrobe` options. Both retain production defaults and fixture-only likeness
+refusal. A caller supplying a review library must keep that opt-in boundary
+visible and out of ordinary production catalog construction.
+
+The PEOPLE developer review mounts these actual controls, the shared portrait,
+and registered scene compositor against one serialized canonical World. The UI
+owner owns root routes, ordinary save persistence, dossier/conversation/creator
+mounting, and combined browser proof on #144. Candidate presence is not approval.
+
+## Per-person scene wardrobe
+
+```ts
+const people = planLifeScenePeople(world, present, sceneId, legacyWardrobe, {
+  wardrobeByPersonId: savedInterfaceState.personWardrobes,
+});
+```
+
+The fifth argument uses each canonical person's saved preference and the
+compositor's resolved pose. A missing map key retains the legacy global context.
+An invalid explicit preference produces `wardrobeRefusal` and empty art layers
+for that person; it does not fall back to global clothes or affect other people.
+The optional `resolveWardrobe(person, preference, { scene, anchor })` permits a
+caller-owned validation context. Actual `planLifeScenePeople` rendering retains
+its production library; candidate scene proof uses explicit review composition.

@@ -1,0 +1,427 @@
+{
+  "schema": "people-visual4-body-authoring-v1",
+  "coordinate_class": "game-authored",
+  "basis": "New candidate revision: explicit image-space row choices after source inspection; these are not recovered joint coordinates or physical dimensions. Source normalized body pixels are preserved below an explicit neck cut; original registry and raster bytes remain unchanged. New canvas pads to512x960 without enlargement.",
+  "uncertainty": "Stylized seam/region reference rows require overlay verification. No source resolution or rights inference. No acceptance granted.",
+  "bodies": [
+    {
+      "source_asset_id": "wave_a_average_man_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_average_man_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "decd1c4d446653fe1232be4a622071620480d4220d0923c3a641c41cc8c27557",
+      "source_canvas": {
+        "width": 325,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.169,
+        "shoulder": 0.202,
+        "chest": 0.325,
+        "waist": 0.454,
+        "hip": 0.523,
+        "crotch": 0.57,
+        "knee": 0.755,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 143,
+      "head_height": 175,
+      "center_x": 255,
+      "feet": {
+        "leftFoot": {
+          "x": 0.236923,
+          "y": 0.997917
+        },
+        "rightFoot": {
+          "x": 0.763077,
+          "y": 0.997917
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_average_man_standing_neutral_front_b_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_average_man_standing_neutral_front_b_v1_rt960.png",
+      "source_sha256": "fa0e7ba81d86db3d98aaaa82eda7ba1bd04599d0a0483508ae578cccdcd57eff",
+      "source_canvas": {
+        "width": 307,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.17,
+        "shoulder": 0.205,
+        "chest": 0.33,
+        "waist": 0.453,
+        "hip": 0.522,
+        "crotch": 0.565,
+        "knee": 0.755,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 144,
+      "head_height": 176,
+      "center_x": 264,
+      "feet": null,
+      "front_pairing": false,
+      "view_note": "Actual raster is three-quarter despite front filename; do not pair front garments, head or shoes."
+    },
+    {
+      "source_asset_id": "wave_a_average_woman_seated_front_neutral_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_average_woman_seated_front_neutral_v1_rt960.png",
+      "source_sha256": "976b5350108a0a416a1d72e84b11c531d9acbdfe3b159068d686c38690ff2012",
+      "source_canvas": {
+        "width": 334,
+        "height": 960
+      },
+      "pose": "seated-guest-neutral",
+      "game_authored_rows": {
+        "neck": 0.175,
+        "shoulder": 0.207,
+        "chest": 0.335,
+        "waist": 0.45,
+        "hip": 0.535,
+        "crotch": 0.59,
+        "knee": 0.7,
+        "ankle": 0.922
+      },
+      "neck_cut_row": 149,
+      "head_height": 181,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.276946,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.717066,
+          "y": 0.996875
+        },
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.6125
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster. Seated legs require separately authored lower garments."
+    },
+    {
+      "source_asset_id": "wave_a_average_woman_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_average_woman_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "5d09698f20dcf0a6b0ddae96cdce5d3bd5d78ad649454fd0a34db54d23bfb60b",
+      "source_canvas": {
+        "width": 391,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.168,
+        "shoulder": 0.194,
+        "chest": 0.3,
+        "waist": 0.421,
+        "hip": 0.49,
+        "crotch": 0.542,
+        "knee": 0.742,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 142,
+      "head_height": 174,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.320972,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.676471,
+          "y": 0.996875
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_average_woman_standing_neutral_front_b_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_average_woman_standing_neutral_front_b_v1_rt960.png",
+      "source_sha256": "ed094d7e37d1df090458e56b9c5374fd0e9c6c5cbcfa0e54abaefbba634cd5bb",
+      "source_canvas": {
+        "width": 371,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.168,
+        "shoulder": 0.194,
+        "chest": 0.3,
+        "waist": 0.421,
+        "hip": 0.49,
+        "crotch": 0.542,
+        "knee": 0.742,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 142,
+      "head_height": 174,
+      "center_x": 255,
+      "feet": {
+        "leftFoot": {
+          "x": 0.309973,
+          "y": 0.997917
+        },
+        "rightFoot": {
+          "x": 0.685984,
+          "y": 0.997917
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_fat_man_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_fat_man_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "d0811a3bf4f7ede0737d927898a943f46d6ba7bf9afc3c3ff39c870b35fb3197",
+      "source_canvas": {
+        "width": 356,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.171,
+        "shoulder": 0.205,
+        "chest": 0.33,
+        "waist": 0.47,
+        "hip": 0.526,
+        "crotch": 0.569,
+        "knee": 0.756,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 145,
+      "head_height": 177,
+      "center_x": 255,
+      "feet": {
+        "leftFoot": {
+          "x": 0.254213,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.742978,
+          "y": 0.996875
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_older_woman_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_older_woman_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "fe536e1cec2ee6b197fcdf50dcff3aa95c5688857bc07e1b7e9747b00e8ce5ed",
+      "source_canvas": {
+        "width": 458,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.174,
+        "shoulder": 0.205,
+        "chest": 0.325,
+        "waist": 0.443,
+        "hip": 0.51,
+        "crotch": 0.558,
+        "knee": 0.745,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 148,
+      "head_height": 180,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.330786,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.668122,
+          "y": 0.996875
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_older_woman_standing_neutral_front_b_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_older_woman_standing_neutral_front_b_v1_rt960.png",
+      "source_sha256": "133e43f3bc00ae4a8a2a69207452d160e0a4a171d492aaeb357455cb7f30791b",
+      "source_canvas": {
+        "width": 381,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.174,
+        "shoulder": 0.205,
+        "chest": 0.325,
+        "waist": 0.443,
+        "hip": 0.51,
+        "crotch": 0.558,
+        "knee": 0.745,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 148,
+      "head_height": 180,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.292651,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.688976,
+          "y": 0.996875
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_skinny_man_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_skinny_man_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "9bad8d8f89711444f0ad1c585f1fb21e26032a081eadc94f24c4c6070de0db23",
+      "source_canvas": {
+        "width": 305,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.173,
+        "shoulder": 0.205,
+        "chest": 0.33,
+        "waist": 0.456,
+        "hip": 0.535,
+        "crotch": 0.575,
+        "knee": 0.755,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 147,
+      "head_height": 179,
+      "center_x": 255,
+      "feet": {
+        "leftFoot": {
+          "x": 0.236066,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.760656,
+          "y": 0.996875
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_skinny_woman_seated_front_neutral_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_skinny_woman_seated_front_neutral_v1_rt960.png",
+      "source_sha256": "7b7dae87f81ab2cb4bac0a19d244d518c7ddab9b3fbf9a8759ec9a158cffd467",
+      "source_canvas": {
+        "width": 320,
+        "height": 960
+      },
+      "pose": "seated-guest-neutral",
+      "game_authored_rows": {
+        "neck": 0.185,
+        "shoulder": 0.219,
+        "chest": 0.34,
+        "waist": 0.46,
+        "hip": 0.55,
+        "crotch": 0.6,
+        "knee": 0.7,
+        "ankle": 0.922
+      },
+      "neck_cut_row": 158,
+      "head_height": 191,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.28125,
+          "y": 0.996875
+        },
+        "rightFoot": {
+          "x": 0.717188,
+          "y": 0.996875
+        },
+        "seatedPelvis": {
+          "x": 0.5,
+          "y": 0.615625
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster. Seated legs require separately authored lower garments."
+    },
+    {
+      "source_asset_id": "wave_a_skinny_woman_standing_neutral_front_a_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_skinny_woman_standing_neutral_front_a_v1_rt960.png",
+      "source_sha256": "a79689028238e185af38bcedd21db35507da12de104571433adb30c6d806f92c",
+      "source_canvas": {
+        "width": 333,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.171,
+        "shoulder": 0.203,
+        "chest": 0.32,
+        "waist": 0.45,
+        "hip": 0.52,
+        "crotch": 0.57,
+        "knee": 0.75,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 145,
+      "head_height": 177,
+      "center_x": 255,
+      "feet": {
+        "leftFoot": {
+          "x": 0.321321,
+          "y": 0.997917
+        },
+        "rightFoot": {
+          "x": 0.677177,
+          "y": 0.997917
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    },
+    {
+      "source_asset_id": "wave_a_skinny_woman_standing_neutral_front_b_v1_rt960",
+      "source_path": "art/generated/candidates/wave-a-runtime/wave_a_skinny_woman_standing_neutral_front_b_v1_rt960.png",
+      "source_sha256": "8b9987ec1bff1924a6ae9724d61207577e2654dba79d566c17a04cbc7823059e",
+      "source_canvas": {
+        "width": 295,
+        "height": 960
+      },
+      "pose": "standing-neutral",
+      "game_authored_rows": {
+        "neck": 0.171,
+        "shoulder": 0.203,
+        "chest": 0.32,
+        "waist": 0.45,
+        "hip": 0.52,
+        "crotch": 0.57,
+        "knee": 0.75,
+        "ankle": 0.926
+      },
+      "neck_cut_row": 145,
+      "head_height": 177,
+      "center_x": 256,
+      "feet": {
+        "leftFoot": {
+          "x": 0.313559,
+          "y": 0.997917
+        },
+        "rightFoot": {
+          "x": 0.684746,
+          "y": 0.997917
+        }
+      },
+      "front_pairing": true,
+      "view_note": "Front-facing visible raster; exact source/target fit remains separately measured."
+    }
+  ]
+}

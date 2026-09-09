@@ -44,6 +44,27 @@ function selectedWorld(chosen = selection) {
 }
 
 describe("explicit saved appearance selection", () => {
+  it("narrows dependent identity controls without changing the available combinations", () => {
+    const all = listPersonVisualSelections({ ...context, appearance });
+    for (const selectionFilter of [
+      { hairFamily: null },
+      { bodyFamily: "adult-medium", headFamily: "round" },
+      { hairFamily: "short-crop" },
+      { bodyFamily: "absent" },
+    ]) {
+      expect(
+        listPersonVisualSelections({ ...context, appearance, selectionFilter }),
+      ).toEqual(
+        all.filter((entry) =>
+          Object.entries(selectionFilter).every(
+            ([key, value]) =>
+              entry.selection[key as keyof PersonVisualSelection] === value,
+          ),
+        ),
+      );
+    }
+  });
+
   it("preserves the exact pre-extension recipe bytes when selection is absent", () => {
     const recipe = resolveCharacterRecipe(
       { appearance, poseFamily: context.poseFamily, catalogGeneration: 1 },

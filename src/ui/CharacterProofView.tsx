@@ -1,3 +1,5 @@
+import { PeopleVisual4Review } from "./PeopleVisual4Review";
+import { frameCharacterReview } from "../presentation/character-review-framing";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import clippingAfterUrl from "../../docs/agent/evidence/office-clipping-after-1440x900.png";
@@ -64,7 +66,8 @@ function waveAReviewRequested(): boolean {
 const SET_LINKS = (
   <p>
     Sets:{" "}
-    <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
+    <a href="?view=character-proof&set=visual4">Corrected selectable people</a>{" "}
+    · <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
     <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
     <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
   </p>
@@ -181,10 +184,17 @@ interface StageProps {
 
 function ProofStage({ characters, debugAnchors, testId, label }: StageProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
-  const transform = useSceneTransform(
+  const viewportTransform = useSceneTransform(
     viewportRef,
     CHARACTER_PROOF_SCENE.plate,
     CHARACTER_PROOF_SCENE.camera,
+  );
+  const transform = frameCharacterReview(
+    viewportTransform.viewport,
+    CHARACTER_PROOF_SCENE.plate,
+    characters.map((character) => character.plan),
+    CHARACTER_PROOF_SCENE.camera,
+    viewportTransform.devicePixelRatio,
   );
   const cameraStyle = {
     width: `${CHARACTER_PROOF_SCENE.plate.width}px`,
@@ -305,6 +315,8 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
+  if (new URLSearchParams(window.location.search).get("set") === "visual4")
+    return <PeopleVisual4Review />;
   if (waveAReviewRequested()) {
     return (
       <main
