@@ -41,22 +41,33 @@ const inventory = buildProseInventory();
 const records = inventory.records;
 
 /**
- * One transcript per seed, shared across the checks that read it.
+ * One transcript per seed, played once for the whole file.
  *
  * Seven families were being replayed from scratch by five different tests,
- * which is the same deterministic work five times over and was pushing the
- * per-family loops towards the default timeout for no reason. The run is a
- * pure function of (family, inventory), so caching it changes nothing about
- * what is asserted. The determinism check below deliberately does NOT use
- * this — it has to call the real thing twice to mean anything.
+ * which is the same deterministic work five times over. The run is a pure
+ * function of (family, inventory), so sharing it changes nothing about what is
+ * asserted, and the file now does about half the work it used to.
+ *
+ * Playing them here at module scope rather than lazily inside the first test
+ * that asks is deliberate. A lazy cache does not remove the cost, it moves all
+ * of it into whichever test happens to run first, and that test then carries
+ * seven lives' worth of replay against the default five-second per-test
+ * timeout while every later test looks free. Building the lives alongside the
+ * inventory keeps each test timed for what it actually checks.
+ *
+ * The determinism check below deliberately does NOT read this — it has to call
+ * the real thing twice to mean anything.
  */
-const transcriptCache = new Map<string, ReturnType<typeof runSeedTranscript>>();
+const transcripts = new Map(
+  SEED_FAMILIES.map((family) => [
+    family.key,
+    runSeedTranscript(family, inventory),
+  ]),
+);
 function transcriptFor(family: (typeof SEED_FAMILIES)[number]) {
-  const cached = transcriptCache.get(family.key);
-  if (cached) return cached;
-  const fresh = runSeedTranscript(family, inventory);
-  transcriptCache.set(family.key, fresh);
-  return fresh;
+  const played = transcripts.get(family.key);
+  if (!played) throw new Error(`No transcript played for ${family.key}.`);
+  return played;
 }
 
 function fakeRecord(overrides: Partial<ProseRecord> = {}): ProseRecord {
