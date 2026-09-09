@@ -105,6 +105,12 @@ are UNKNOWN. `openFixture` requires _both_ that the resolved real path is under
 path check alone falls to a symlink and a marker alone falls to a file sitting
 in the right directory.
 
+When a compiler needs a publisher-page literal outside its permitted content
+slice, it must declare that literal to `openProductionArtifacts` before the
+artifact is opened. The opener checks the exact literal against the verified
+source bytes and returns only a receipt for the already-known string. It never
+returns the surrounding page, and a digest alone is not an excerpt check.
+
 `openCachedProductionArtifacts` is the equivalent capability for large,
 cache-only products. It requires `cached-not-committed` storage, no committed
 `localPath`, a real path confined beneath `.source-cache/<domain>/`, and a byte

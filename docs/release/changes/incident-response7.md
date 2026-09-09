@@ -1,8 +1,6 @@
 ---
 id: incident-response7
-impact: minor
-section: Added
-title: Incident response work and follow-through
+impact: none
 ---
 
-Adds an incident-response provider for known reports, staff briefings and separately requested, authorized and delivered internal allocations. The feature-local Work panel is supplied for root integration; normal-player mounting is still pending. Historical declaration data remains administrative context, without invented damage or event frequency.
+Incident-response read models for known reports, staff briefings and separately requested, authorized and delivered internal allocations, plus a feature-local Work panel with no production importer. Nothing a player can reach changes yet.
