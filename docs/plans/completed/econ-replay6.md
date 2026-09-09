@@ -56,4 +56,11 @@ regenerated or compared the compact Lexington artifact.
 - Code inspection at UI commit `1119e890c471fbf83b4cd592aabe6b28c5f075b2`
   confirms `PersonalWorkspace` mounts `EconomicContextPanel` once for the exact
   Lexington binding with `simulationDate={world.currentDate}` and `PlayerGame`
-  routes that workspace. No UI file changed here.
+  routes that workspace. **That mount lives on the unmerged
+  `codex/ui-core-release-transfer` branch (PR #144) only.** `1119e890` is an
+  ancestor of neither this branch nor `main`, so the statement above is a fact
+  about that branch, not about reachability here. On this branch and on `main`,
+  `EconomicContextPanel` has one importer — its own test — and
+  `playerEconomicContextLines` has zero non-test callers. The read models and
+  the replay gate land here; a normal player reaches them only once #144 lands.
+  No UI file changed here.

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "../../node_modules/.tmp/judicial-office-proof.tsbuildinfo",
+    "types": ["node", "vite/client"],
+    "composite": false,
+    "incremental": true
+  },
+  "include": ["./*.ts", "./*.tsx"]
+}

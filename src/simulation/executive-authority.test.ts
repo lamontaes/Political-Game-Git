@@ -158,8 +158,14 @@ describe("executive-authority pack integrity", () => {
 // ---------------------------------------------------------------------------
 
 describe("executive-authority: unsupported fields stay unknown", () => {
-  // The exact fields this repair holds at unknown, per jurisdiction, because no
-  // exact operative authority was read that establishes the precise tuple.
+  // The exact fields the corpus holds at unknown, per jurisdiction, AFTER the
+  // R3I compilation of the accepted R3H node set. A field is here for one of
+  // four reasons, and the pack's own note says which: the accepted R3H row is
+  // itself UNKNOWN; the accepted value does not entail the field at the field's
+  // precision (Kentucky's vacancy clause, every reorganization sunset, the
+  // Alaska and Illinois clemency models); the node belongs to the
+  // legislative_powers category R3H routes to R3J (every specialSession field
+  // but the federal convening power); or no research resolved it at all.
   const HELD_UNKNOWN: ReadonlyArray<
     readonly [ExecutiveAuthorityRulePack, readonly string[]]
   > = [
@@ -174,12 +180,8 @@ describe("executive-authority: unsupported fields stay unknown", () => {
         "reorganization.executiveMayReorganize",
         "reorganization.legislativeDisapprovalAvailable",
         "reorganization.sunset",
-        "emergencyDeclaration.executiveMayDeclare",
         "emergencyDeclaration.initialDurationDays",
         "emergencyDeclaration.extension",
-        "emergencyDeclaration.legislativeTermination",
-        "budgetSubmission.executiveMustSubmit",
-        "budgetSubmission.submissionDeadline",
         "administrative.supervisoryAuthority",
       ],
     ],
@@ -189,42 +191,61 @@ describe("executive-authority: unsupported fields stay unknown", () => {
         "appointment.executiveAppoints",
         "appointment.legislativeConfirmationRequired",
         "appointment.confirmingBody",
-        "clemency.model",
-        "clemency.scope",
+        "removal.mode",
+        "specialSession.executiveMayConvene",
+        "specialSession.agendaLimitedToCall",
+        "reorganization.executiveMayReorganize",
+        "emergencyDeclaration.executiveMayDeclare",
+        "budgetSubmission.executiveMustSubmit",
+        "administrative.faithfulExecutionDuty",
       ],
     ],
     [
       NEBRASKA_EXECUTIVE_PACK,
       [
-        "appointment.executiveAppoints",
-        "appointment.legislativeConfirmationRequired",
-        "appointment.confirmingBody",
-        "clemency.model",
-        "clemency.scope",
+        "removal.mode",
+        "specialSession.executiveMayConvene",
+        "specialSession.agendaLimitedToCall",
+        "reorganization.executiveMayReorganize",
+        "emergencyDeclaration.executiveMayDeclare",
+        "budgetSubmission.submissionDeadline",
+        "administrative.faithfulExecutionDuty",
       ],
     ],
     [
       ALASKA_EXECUTIVE_PACK,
-      ["reorganization.sunset", "clemency.model", "clemency.scope"],
+      [
+        "specialSession.executiveMayConvene",
+        "specialSession.agendaLimitedToCall",
+        "reorganization.sunset",
+        "emergencyDeclaration.executiveMayDeclare",
+        "clemency.model",
+        "budgetSubmission.submissionDeadline",
+        "administrative.faithfulExecutionDuty",
+      ],
     ],
     [
       MINNESOTA_EXECUTIVE_PACK,
       [
-        "appointment.executiveAppoints",
-        "appointment.legislativeConfirmationRequired",
-        "appointment.confirmingBody",
+        "removal.mode",
+        "specialSession.executiveMayConvene",
+        "specialSession.agendaLimitedToCall",
+        "reorganization.executiveMayReorganize",
         "clemency.model",
         "clemency.scope",
+        "administrative.faithfulExecutionDuty",
       ],
     ],
     [
       ILLINOIS_EXECUTIVE_PACK,
       [
-        "appointment.executiveAppoints",
-        "appointment.legislativeConfirmationRequired",
-        "appointment.confirmingBody",
+        "specialSession.executiveMayConvene",
+        "specialSession.agendaLimitedToCall",
+        "reorganization.sunset",
+        "emergencyDeclaration.extension",
+        "emergencyDeclaration.legislativeTermination",
         "clemency.model",
-        "clemency.scope",
+        "administrative.faithfulExecutionDuty",
       ],
     ],
   ];
@@ -243,23 +264,57 @@ describe("executive-authority: unsupported fields stay unknown", () => {
     },
   );
 
-  it("keeps the nine unresearched dimensions unknown in every state pack", () => {
+  it("keeps every dimension R3H did not resolve unknown in every state pack", () => {
+    // These are the dimensions whose accepted R3H rows are themselves UNKNOWN
+    // for all five states, so no accepted value exists to compile. They stayed
+    // unknown through the 92A wave and stay unknown through R3I.
     for (const pack of STATE_PACKS) {
       expect(pack.executiveDirective.hasDirectiveAuthority.kind).toBe(
         "unknown",
       );
       expect(pack.executiveDirective.authorityBasis.kind).toBe("unknown");
-      expect(pack.emergencyDeclaration.executiveMayDeclare.kind).toBe(
-        "unknown",
-      );
-      expect(pack.budgetSubmission.executiveMustSubmit.kind).toBe("unknown");
       expect(pack.administrative.faithfulExecutionDuty.kind).toBe("unknown");
       expect(pack.administrative.supervisoryAuthority.kind).toBe("unknown");
-      expect(pack.guard.commandsMilitia.kind).toBe("unknown");
-      expect(pack.removal.mode.kind).toBe("unknown");
+    }
+  });
+
+  it("compiles no specialSession field from a node R3H routes to R3J", () => {
+    // Every state's special-session convening power and agenda restriction is
+    // held by an accepted R3H node, and every one of those nodes sits in the
+    // legislative_powers category R3H routes to R3J. R3I therefore compiles
+    // none of them, even though both target fields exist on this contract —
+    // category ownership withholds them, not contract shape. The federal
+    // convening power is the one specialSession value that is known, and it was
+    // already established from Art. II, Sec. 3 before R3I.
+    for (const pack of STATE_PACKS) {
       expect(pack.specialSession.executiveMayConvene.kind).toBe("unknown");
       expect(pack.specialSession.agendaLimitedToCall.kind).toBe("unknown");
-      expect(pack.reorganization.executiveMayReorganize.kind).toBe("unknown");
+      expect(noteOf(pack.specialSession.executiveMayConvene)).toMatch(
+        /R3J|not resolved by the accepted R3H subset/,
+      );
+    }
+    expect(
+      US_FEDERAL_EXECUTIVE_PACK.specialSession.executiveMayConvene.kind,
+    ).toBe("known");
+    expect(
+      US_FEDERAL_EXECUTIVE_PACK.specialSession.executiveMayConvene.kind ===
+        "known" &&
+        US_FEDERAL_EXECUTIVE_PACK.specialSession.executiveMayConvene.source
+          .citation,
+    ).toMatch(/^U\.S\. Const\. Art\. II/);
+  });
+
+  it("never turns a reorganization disapproval window into a sunset", () => {
+    // Alaska and Illinois both gained a reorganization power and a legislative
+    // disapproval regime from accepted nodes. Neither node says the GRANT of
+    // authority expires, which is what `sunset` asks, so both stay unknown.
+    for (const pack of [ALASKA_EXECUTIVE_PACK, ILLINOIS_EXECUTIVE_PACK]) {
+      expect(pack.reorganization.executiveMayReorganize.kind).toBe("known");
+      expect(pack.reorganization.legislativeDisapprovalAvailable.kind).toBe(
+        "known",
+      );
+      expect(pack.reorganization.sunset.kind).toBe("unknown");
+      expect(noteOf(pack.reorganization.sunset)).toMatch(/not an expiry/i);
     }
   });
 
@@ -598,9 +653,10 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
     }
   });
 
-  it("promotes no executive field other than MN and IL presentment", () => {
-    // The reconciliation is bounded: presentment for two states, nothing else.
-    // Every other value that was unknown before #102 merged is unknown still.
+  it("promotes only fields the accepted R3H node set actually entails", () => {
+    // #102 moved presentment for two states. R3I then compiled the accepted
+    // R3H node set. This test pins what R3I was allowed to move and what it
+    // was not, so a later pass cannot widen the corpus quietly.
     const knownPaths = ALL_RULES.filter((entry) => isKnown(entry.rule)).map(
       (entry) => `${entry.packId}:${entry.path}`,
     );
@@ -611,24 +667,41 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
       "us-il-governor-v1:presentment.legislativeRulePackId",
     );
 
-    // The nine research dimensions 92A did not resolve stay unknown in all
-    // five state packs; this reconciliation was not a source-research pass.
-    const stillUnknown = [
-      "removal.mode",
+    // Dimensions no accepted R3H node resolves for ANY state stay unknown in
+    // all five state packs. R3I was a compilation pass, not a research pass.
+    const stillUnknownEverywhere = [
+      "executiveDirective.hasDirectiveAuthority",
+      "executiveDirective.authorityBasis",
+      "administrative.faithfulExecutionDuty",
+      "administrative.supervisoryAuthority",
       "specialSession.executiveMayConvene",
-      "directive.executiveOrderAuthority",
-      "reorganization.executiveMayReorganize",
-      "emergency.executiveMayDeclare",
-      "clemency.model",
-      "budget.executiveMustSubmit",
-      "administration.faithfulExecutionDuty",
-      "militia.executiveCommands",
+      "specialSession.agendaLimitedToCall",
     ];
     for (const pack of STATE_PACKS) {
-      for (const path of stillUnknown) {
+      for (const path of stillUnknownEverywhere) {
         expect(knownPaths).not.toContain(`${pack.packId}:${path}`);
       }
     }
+
+    // And the jurisdictions R3H left without an accepted node for a dimension
+    // did not acquire one by spillover from a jurisdiction that had one.
+    expect(knownPaths).not.toContain("us-ky-governor-v1:removal.mode");
+    expect(knownPaths).not.toContain("us-ne-governor-v1:removal.mode");
+    expect(knownPaths).not.toContain("us-mn-governor-v1:removal.mode");
+    expect(knownPaths).not.toContain("us-federal-executive-v1:removal.mode");
+    expect(knownPaths).not.toContain(
+      "us-ky-governor-v1:emergencyDeclaration.executiveMayDeclare",
+    );
+    expect(knownPaths).not.toContain(
+      "us-ne-governor-v1:emergencyDeclaration.executiveMayDeclare",
+    );
+    expect(knownPaths).not.toContain(
+      "us-ak-governor-v1:emergencyDeclaration.executiveMayDeclare",
+    );
+    expect(knownPaths).not.toContain("us-mn-governor-v1:clemency.model");
+    expect(knownPaths).not.toContain(
+      "us-ky-governor-v1:reorganization.executiveMayReorganize",
+    );
 
     // The only presentment references that are known are the five compiled
     // states — no sixth appeared, and federal did not move.
@@ -672,11 +745,18 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
 
 describe("executive-authority: rejected national-matrix values are absent", () => {
   it("does not collapse Nebraska's clemency into a board-required model", () => {
-    // Nebraska's clemency was not read at exact operative precision here, so it
-    // is unknown. What it must never be is 'board-required': that is a
-    // different institution from a board that holds the power itself, and the
-    // rejected matrix conflated the two.
-    expect(NEBRASKA_EXECUTIVE_PACK.clemency.model.kind).toBe("unknown");
+    // Nebraska's clemency is now read at exact operative precision: Neb. Const.
+    // art. IV, Sec. 13 constitutes a Board of Pardons from the Governor,
+    // Attorney General and Secretary of State, and that board holds the power.
+    // That is 'board-exclusive'. What it must never be is 'board-required',
+    // which describes a board that only recommends to an executive who still
+    // holds the power — a different institution the rejected matrix conflated
+    // with this one. The accepted encoding is the one this contract kept the
+    // enum open for.
+    expect(NEBRASKA_EXECUTIVE_PACK.clemency.model.kind).toBe("known");
+    expect(knownValueOrNull(NEBRASKA_EXECUTIVE_PACK.clemency.model)).toBe(
+      "board-exclusive",
+    );
     expect(knownValueOrNull(NEBRASKA_EXECUTIVE_PACK.clemency.model)).not.toBe(
       "board-required",
     );
@@ -705,12 +785,17 @@ describe("executive-authority: rejected national-matrix values are absent", () =
   });
 
   it("retains no three-fifths confirmation semantics for Illinois", () => {
+    // Illinois confirmation is now established from Ill. Const. art. V,
+    // Sec. 9(a) via an accepted R3H node — by a MAJORITY of the Senate's
+    // elected members. The rejected matrix's three-fifths figure is still not
+    // carried anywhere, and the compiled value contradicts rather than repeats
+    // it.
     expect(
       ILLINOIS_EXECUTIVE_PACK.appointment.legislativeConfirmationRequired.kind,
-    ).toBe("unknown");
-    expect(ILLINOIS_EXECUTIVE_PACK.appointment.confirmingBody.kind).toBe(
-      "unknown",
-    );
+    ).toBe("known");
+    expect(
+      knownValueOrNull(ILLINOIS_EXECUTIVE_PACK.appointment.confirmingBody),
+    ).toBe("the Senate");
     // No value or note the Illinois EXECUTIVE pack authors asserts a
     // supermajority confirmation rule.
     //
@@ -835,8 +920,9 @@ describe("executive-authority: a rule contract, not a rating engine", () => {
 
   it("holds no bare number outside the one field that is a count of days", () => {
     // The contract has exactly one numeric rule — emergency-declaration
-    // duration — and it is unknown everywhere in this subset. Nothing else in a
-    // pack is a number, which is what keeps it from becoming a rating engine.
+    // duration — and R3I compiled it only where an accepted node stated an
+    // exact whole number of days. Nothing else in a pack is a number, which is
+    // what keeps it from becoming a rating engine.
     for (const entry of ALL_RULES) {
       if (entry.rule.kind !== "known") {
         continue;
@@ -887,35 +973,94 @@ describe("executive-authority: what the verified record establishes", () => {
 
   it("marks the federal sources as retrieved, pinpointed and verified", () => {
     for (const src of US_FEDERAL_EXECUTIVE_PACK.sources) {
-      expect(src.verification).toBe("verified");
       expect(src.sourceUrl).toMatch(/^https:\/\//);
       expect(src.retrievedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      expect(src.citation).toMatch(/^U\.S\. Const\. Art\. II/);
+      expect(isGenericCitation(src.citation)).toBe(false);
+      expect(src.verification).toBe("verified");
+    }
+
+    // The Article II sources carry the operative text they were read from.
+    const articleII = US_FEDERAL_EXECUTIVE_PACK.sources.filter((src) =>
+      src.citation.startsWith("U.S. Const. Art. II"),
+    );
+    expect(articleII).toHaveLength(4);
+    for (const src of articleII) {
+      expect(src.authority).toBe("constitution");
       expect(src.note ?? "").toMatch(/^Operative text: /);
+    }
+
+    // The statutory sources are the three the accepted R3H node set added, and
+    // each names the underlying official instrument rather than the R3H report,
+    // and ties its value back to a certified excerpt hash.
+    const statutory = US_FEDERAL_EXECUTIVE_PACK.sources.filter(
+      (src) => src.authority === "statute",
+    );
+    expect(statutory.map((src) => src.citation)).toEqual([
+      "31 U.S.C. Sec. 1105(a)",
+      "50 U.S.C. Sec. 1621(a)",
+      "50 U.S.C. Sec. 1622(a)(1)",
+    ]);
+    for (const src of statutory) {
+      expect(src.note ?? "").toMatch(/^Accepted R3H node value /);
+      expect(src.note ?? "").toMatch(/excerpt hash [0-9a-f]{16}/);
+      expect(src.note ?? "").not.toMatch(/R3H report|R3H summary/i);
     }
   });
 
-  it("keeps Alaska's confirmation regime, the one state fact read exactly", () => {
+  it("keeps Alaska's confirmation regime exactly as the record states it", () => {
     expect(
-      knownValueOrNull(
-        ALASKA_EXECUTIVE_PACK.appointment.legislativeConfirmationRequired,
-      ),
+      knownValueOrNull(ALASKA_EXECUTIVE_PACK.appointment.executiveAppoints),
     ).toBe(true);
     expect(
       knownValueOrNull(ALASKA_EXECUTIVE_PACK.appointment.confirmingBody),
     ).toMatch(/joint session/);
-    // No other state pack claims a general appointment or confirmation rule.
+    // Alaska stays the outlier: it is the only jurisdiction here whose
+    // confirming body is not a senate or the whole legislature voting normally.
     for (const pack of [
-      KENTUCKY_EXECUTIVE_PACK,
       NEBRASKA_EXECUTIVE_PACK,
       MINNESOTA_EXECUTIVE_PACK,
       ILLINOIS_EXECUTIVE_PACK,
     ]) {
-      expect(pack.appointment.executiveAppoints.kind).toBe("unknown");
-      expect(pack.appointment.legislativeConfirmationRequired.kind).toBe(
-        "unknown",
+      expect(knownValueOrNull(pack.appointment.confirmingBody)).not.toMatch(
+        /joint session/,
       );
-      expect(pack.appointment.confirmingBody.kind).toBe("unknown");
+    }
+  });
+
+  it("leaves Kentucky's appointment power unknown against a narrower node", () => {
+    // The accepted R3H appointment node for Kentucky cites Ky. Const. Sec. 76,
+    // a vacancy-filling clause. appointment.executiveAppoints asks whether the
+    // executive appoints the principal officers of the branch, which is a wider
+    // claim than that clause makes. A KNOWN node therefore stays UNKNOWN in the
+    // runtime: this is the fail-closed translation rule doing its job, not a
+    // missing compilation.
+    expect(KENTUCKY_EXECUTIVE_PACK.appointment.executiveAppoints.kind).toBe(
+      "unknown",
+    );
+    expect(noteOf(KENTUCKY_EXECUTIVE_PACK.appointment.confirmingBody)).toMatch(
+      /Sec\. 76/,
+    );
+  });
+
+  it("compiles a clemency model only where the accepted set establishes one", () => {
+    // Kentucky's three component grants each name sole gubernatorial power, and
+    // Nebraska's each name a board that holds the power, so both composite
+    // models are established. Alaska's and Illinois's subject the power to
+    // procedure or application rules prescribed by law, which may themselves
+    // install a board — so those models stay unknown while their scope is
+    // compiled. No model is ever inferred from silence about a board.
+    expect(knownValueOrNull(KENTUCKY_EXECUTIVE_PACK.clemency.model)).toBe(
+      "executive-sole",
+    );
+    expect(knownValueOrNull(NEBRASKA_EXECUTIVE_PACK.clemency.model)).toBe(
+      "board-exclusive",
+    );
+    for (const pack of [ALASKA_EXECUTIVE_PACK, ILLINOIS_EXECUTIVE_PACK]) {
+      expect(pack.clemency.model.kind).toBe("unknown");
+      expect(pack.clemency.scope.kind).toBe("known");
+      expect(noteOf(pack.clemency.model)).toMatch(
+        /prescribed by law|application/i,
+      );
     }
   });
 

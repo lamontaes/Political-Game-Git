@@ -542,19 +542,14 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose after ECON-GRAPHS4 added its browser
-    // provider, graph read models, player panel and focused tests. The seven
-    // newly scanned feature files account for the file-count change. The
-    // exact E-1 release-status table adds six literals without adding a file;
-    // source-adapter text and generated public shards stay outside this scan.
+    // Re-measured by corpus:prose on the actual LAND-CLOSE8 tree composing
+    // current accepted main with the ECON-GRAPHS4 browser provider, graph
+    // read models and player panel. Neither side's pin was selected; the
+    // combined tree was scanned by the accepted generator.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(52344);
-    expect(coverage.counts.INVENTORIED).toBe(1914);
-    expect(coverage.scannedFiles).toBe(349);
+    expect(coverage.totalLiterals).toBe(55962);
+    expect(coverage.counts.INVENTORIED).toBe(1927);
+    expect(coverage.scannedFiles).toBe(380);
   });
 });
 

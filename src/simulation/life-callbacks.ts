@@ -57,55 +57,85 @@ export const LIFE_CALLBACK_TRANSITION_KEY = "life:callback" as const;
  * record stuttering rather than as a life. The sentence says what returned; it
  * does not say what it is going to cost, because at this point nobody knows
  * and the record should not pretend to.
+ *
+ * Two rules the P2A2 editorial review made necessary. Twenty of these opened
+ * "Your decision about", and thirty-one of thirty-three ended in some form of
+ * "came back up" — one frame applied to a two-week family ask, a debt, a colleague
+ * and a candidacy alike, which is what made the whole surface read as a single
+ * sentence with the nouns swapped.
+ *
+ * So: name the thing rather than the player's decision about the thing, and say
+ * only what the callback has actually established. By the time a line here is
+ * reached the handler has confirmed that the other person is still connected
+ * and that they chose to raise it, so these say it was raised — which is a fact
+ * — and stop. None of them says what was said, how it went, or what it cost.
  */
-const RETURN_SUMMARY: Readonly<Record<string, string>> = {
+export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.family-request":
-    "The two weeks you did or did not give came up again, in a conversation that was about something else.",
-  "adult.care-request":
-    "What you took on came round again, on a week that had no room for it.",
-  "adult.friend-favour":
-    "The favour turned out to have been remembered rather more precisely than you remembered it.",
+    "Your family raised the two weeks they had asked you for.",
+  // Not "the care". What was asked of you has a task behind it, and the
+  // handler has already confirmed the undertaking is still running — but which
+  // way the player answered is not knowable here, so this says what was asked
+  // rather than what was given.
+  "adult.care-request": "The help that was asked of you was raised again.",
+  "adult.friend-favour": "The favour was put to you once more.",
+  // A private disclosure, raised by the person who made it. It does not say
+  // that no one else has heard since; nothing in the world records that.
   "adult.friend-in-difficulty":
-    "What you were told, and what you did about it, came back up.",
-  "adult.work-credit":
-    "The thing about whose work it was had not been dropped after all.",
-  "adult.work-extra-hours":
-    "The hours you took, or did not take, turned out to have been counted.",
-  "adult.work-rule-pressure":
-    "The morning with the rule and the customer came back, from a direction you had not expected.",
-  "adult.local-dispute":
-    "The business with the other household was not over, whatever the meeting had decided.",
-  "adult.community-building":
-    "What was decided about the building came back round, and the people it had cost were still there.",
-  "adult.petition-ask":
-    "Your name on that list was read by somebody who had not been meant to read it.",
+    "They came back to you about what they had told you.",
+  "adult.friend-good-news": "Their good news was mentioned to you again.",
+  "adult.work-credit": "Whose work it had been came up at work again.",
+  "adult.work-extra-hours": "The extra hours were put to you once more.",
+  // The adult scene has senior staff and colleagues in it, not a customer;
+  // that detail belonged to the formative bank and was never true here.
+  "adult.work-rule-pressure": "The rule at work is being argued over again.",
+  "adult.work-colleague-struggling":
+    "Your colleague’s difficulty came up in conversation again.",
+  "adult.local-dispute": "The dispute was put back in front of you.",
+  "adult.community-building": "The building came up for discussion again.",
+  "adult.petition-ask": "You were asked to sign it after all.",
+  // Running for office, in those words. Somebody deciding whether to put their
+  // name on a ballot has to be told that is what this is about.
   "adult.candidacy-approach":
-    "The question about standing for something came back, and this time it was not casual.",
+    "Somebody asked you about running for office again.",
   "adult.incident-aftermath":
-    "What you did in the two weeks afterwards came up again, long after everybody else had stopped talking about it.",
-  "adult.incident-neighbour-help":
-    "What you gave, or kept, after the flooding turned out to have been noticed.",
-  "adult.promise-comes-due":
-    "The thing you rearranged came round a second time, and there was less room to rearrange it.",
-  "adult.old-favour-returns":
-    "It came back a third time, which is when a favour stops being a favour.",
-  "adult.household-standing":
-    "The thing about the week that never gets done was raised again, and this time not by you.",
-  "adult.household-quiet-evening":
-    "An evening you had not thought about turned out to have counted for something.",
-  "adult.partner-plan": "The plan you settled on stopped being settled.",
-  "adult.work-offer-elsewhere":
-    "What you did about the offer got back to somebody it was not supposed to.",
+    "What you did after the incident was brought up with you.",
+  // No incident kind is claimed: the incident engine decides what happened,
+  // and "the flooding" was an invention on top of it.
+  "adult.incident-neighbour-help": "Helping the neighbours came back to you.",
+  "adult.promise-comes-due": "The promise came back round to you.",
+  "adult.old-favour-returns": "The old favour got a mention.",
+  "adult.household-standing": "Who covers what at home is being asked again.",
+  "adult.household-quiet-evening": "That evening came up between you again.",
+  "adult.partner-plan": "The plans were put in front of you again.",
+  "adult.work-offer-elsewhere": "The other job is on the table again.",
+  "adult.debt-call": "Repayment came up between you again.",
+  "adult.housing-cost-change": "What it costs to stay came round again.",
+  "adult.help-with-strings": "The offer of help was put to you once more.",
+  "adult.volunteer-ask": "You were asked to help out again.",
+  "adult.weekend-invitation": "You were asked along again.",
+  // These four situations are withheld from new play, but a save made before
+  // the withholding can still carry a scheduled callback naming them, and a
+  // record that comes due must still read as itself.
+  "adult.household-repair": "The repair at home is still being asked about.",
+  "adult.household-money-shortfall":
+    "The shortfall was put in front of you again.",
+  "adult.housing-repair-standoff":
+    "The repairs and the rent are still between you.",
+  "adult.small-windfall": "What happened to the money got mentioned.",
   "conversation.subject.household-obligation":
-    "The week you handed over turned out to have been counted, and it was raised without much warmth.",
+    "What was said at home about it was raised again.",
   "conversation.subject.neighborhood-meeting":
-    "The evening you said you would give came up again, from somebody who had noticed whether you gave it.",
+    "The neighbourhood meeting came up again.",
   "conversation.subject.school-project":
-    "The half of the work you agreed to was remembered rather more exactly than you remembered agreeing to it.",
+    "The school project was brought up with you again.",
 };
 
-const GENERIC_RETURN =
-  "Something decided a long time earlier turned out to still be there.";
+// The last resort, for an origin whose tag no summary covers. A test holds
+// that every situation able to schedule an aftermath has its own family
+// sentence, so this stays unreachable in ordinary play rather than becoming
+// the corpus's vaguest line by volume.
+const GENERIC_RETURN = "Something from a while back came up again.";
 
 /** Why nothing was scheduled, or why a scheduled thing came to nothing. */
 export type LifeCallbackReason =
@@ -335,7 +365,11 @@ export function lifeCallbackTransitionHandler(
       world,
       status: "blocked",
       reasonKey: "life:actor-lost-standing",
-      context: "The life this was owed to is no longer readable.",
+      // Audit output, not ordinary-life prose. A broken reference is not
+      // something that happened to anybody, so these read as diagnostics in
+      // the third person and are never addressed to a player.
+      context:
+        "Diagnostic: the subject person or the originating event is absent from history.",
       outcomeEventId: null,
     };
   }
@@ -348,7 +382,8 @@ export function lifeCallbackTransitionHandler(
       world,
       status: "blocked",
       reasonKey: "life:actor-lost-standing",
-      context: "The person this concerned is no longer living it.",
+      context:
+        "Diagnostic: the subject person record is absent, or a death is recorded for them.",
       outcomeEventId: null,
     };
   }
@@ -376,7 +411,7 @@ export function lifeCallbackTransitionHandler(
         status: "cancelled",
         reasonKey: "life:issue-overtaken",
         context:
-          "What was undertaken had already ended before anybody could hold them to it.",
+          "Diagnostic: no active life commitment remains for this follow-up.",
         outcomeEventId: null,
       };
     }
@@ -388,7 +423,7 @@ export function lifeCallbackTransitionHandler(
         world,
         status: "cancelled",
         reasonKey: "life:nobody-to-carry-it",
-        context: "The other person is no longer in this life at all.",
+        context: "Diagnostic: the counterpart person record is absent.",
         outcomeEventId: null,
       };
     }
@@ -398,7 +433,7 @@ export function lifeCallbackTransitionHandler(
         status: "cancelled",
         reasonKey: "life:attention-moved",
         context:
-          "The two of them stopped having anything to do with each other, and it never came up again.",
+          "Diagnostic: no household, kinship, employer or organization link between the two people is on record.",
         outcomeEventId: null,
       };
     }
@@ -423,6 +458,8 @@ export function lifeCallbackTransitionHandler(
         world,
         status: "cancelled",
         reasonKey: "life:attention-moved",
+        // Not a diagnostic. Somebody had the chance to raise it and did not,
+        // which is a decision they made rather than a row that is missing.
         context:
           "It was still there to be raised, and the person who could have raised it did not.",
         outcomeEventId: null,
@@ -498,7 +535,7 @@ export function lifeCallbackTransitionHandler(
     world: applied.world,
     status: "resolved",
     reasonKey: "life:came-back",
-    context: "An earlier choice became relevant again.",
+    context: "An earlier choice was raised again by somebody who was there.",
     outcomeEventId: recorded?.id ?? null,
   };
 }
