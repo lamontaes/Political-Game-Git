@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 1927,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5021,
-    "DIAGNOSTIC_OR_TEST": 3761,
-    "NEEDS_CLASSIFICATION": 3480
+    "INTENTIONALLY_NON_PLAYER_FACING": 5024,
+    "DIAGNOSTIC_OR_TEST": 3763,
+    "NEEDS_CLASSIFICATION": 3508
   },
   "needsClassification": [
     {
@@ -2129,7 +2129,7 @@
     {
       "sourcePath": "src/player/LegislationWorkspace.tsx",
       "enclosingSymbol": "LegislationDevRoute",
-      "line": 168,
+      "line": 180,
       "text": "Saved. Reloading will pick the bill up where it is.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2137,7 +2137,7 @@
     {
       "sourcePath": "src/player/LegislationWorkspace.tsx",
       "enclosingSymbol": "LegislationDevRoute",
-      "line": 173,
+      "line": 185,
       "text": "Started again from the day the bill was filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2145,7 +2145,7 @@
     {
       "sourcePath": "src/player/LegislationWorkspace.tsx",
       "enclosingSymbol": "MeasureView",
-      "line": 342,
+      "line": 354,
       "text": "legislation-actions legislation-actions--waiting",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2153,7 +2153,7 @@
     {
       "sourcePath": "src/player/LegislationWorkspace.tsx",
       "enclosingSymbol": "MeasureView",
-      "line": 435,
+      "line": 447,
       "text": "Hide the vote record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2161,7 +2161,7 @@
     {
       "sourcePath": "src/player/LegislationWorkspace.tsx",
       "enclosingSymbol": "MeasureView",
-      "line": 435,
+      "line": 447,
       "text": "Show the vote record",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3241,7 +3241,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "formatRunATime",
-      "line": 96,
+      "line": 98,
       "text": "{hour}:{minute.toString().padStart(2,\"0\")} {suffix}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3249,7 +3249,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "rescheduleFlexibleBlock",
-      "line": 309,
+      "line": 326,
       "text": "The flexible block moved to 11:00 AM–12:00 PM.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3257,7 +3257,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "rescheduleFlexibleBlock",
-      "line": 325,
+      "line": 342,
       "text": "That move is not possible. It conflicts with {conflictNames.join(\"and\",)}; the required travel time stays in place.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3265,7 +3265,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "rescheduleFlexibleBlock",
-      "line": 328,
+      "line": 345,
       "text": "That move is not available for this commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3273,7 +3273,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "delegateMeetingBrief",
-      "line": 336,
+      "line": 353,
       "text": "{world.people[fixture.dLite.collinsPersonId]!.familyName} now owns the meeting brief and can work on it while you handle other commitments.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3281,7 +3281,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "performActivity",
-      "line": 347,
+      "line": 364,
       "text": "That activity is no longer available to perform.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3289,7 +3289,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "performActivity",
-      "line": 363,
+      "line": 380,
       "text": "{entry.execution.verb} cannot begin yet. Complete {blockerNames.join(\",\",)} first; canonical time, Calendar, and Work / Pending are unchanged.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3297,7 +3297,7 @@
     {
       "sourcePath": "src/player/PlayerOffice.tsx",
       "enclosingSymbol": "performActivity",
-      "line": 377,
+      "line": 394,
       "text": "{entry.activity.title} is {updatedEntry?.state.status??\"updated\"} at {formatRunATime(result.currentMoment.minuteOfDay,)} after {entry.execution.totalElapsedMinutes} minutes. {nextCommitment?`Nextcommitment:${nextCommitment.activity.title}at${formatRunATime(nextCommitment.state.start.minuteOfDay,)}.`:\"Nolatercommitmentremainsinthevisibleschedule.\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3753,7 +3753,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "completeRecord",
-      "line": 981,
+      "line": 996,
       "text": "creation time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3761,7 +3761,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "completeRecord",
-      "line": 982,
+      "line": 997,
       "text": "saved time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3769,7 +3769,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1050,
+      "line": 1065,
       "text": "One saved game could not be read at all, and has been set aside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3777,7 +3777,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1070,
+      "line": 1085,
       "text": "One saved game is not in a form this game recognises, and has been set aside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3785,7 +3785,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1082,
+      "line": 1097,
       "text": "One saved game was written by a newer version of the game. It has been kept, not deleted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3793,7 +3793,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1091,
+      "line": 1106,
       "text": "One saved game is missing the world inside it, and has been set aside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3801,7 +3801,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1104,
+      "line": 1119,
       "text": "One saved game holds a world this version of the game cannot open. It has been kept, not deleted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3809,7 +3809,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1113,
+      "line": 1128,
       "text": "One saved game was changed after it was written, and has been set aside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3817,7 +3817,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "readStoredRecord",
-      "line": 1124,
+      "line": 1139,
       "text": "One saved game's summary does not match the world inside it, and has been set aside.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3825,7 +3825,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "openDatabase",
-      "line": 1409,
+      "line": 1424,
       "text": "Saved games could not be opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3833,7 +3833,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "openDatabase",
-      "line": 1414,
+      "line": 1429,
       "text": "Saved games are in use by another tab. Close it and try again.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3841,7 +3841,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runRequest",
-      "line": 1437,
+      "line": 1452,
       "text": "The saved game could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3849,7 +3849,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runRequest",
-      "line": 1447,
+      "line": 1462,
       "text": "The saved game could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3857,7 +3857,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runRequest",
-      "line": 1456,
+      "line": 1471,
       "text": "Saving did not finish.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3865,7 +3865,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runRequest",
-      "line": 1459,
+      "line": 1474,
       "text": "Saving was interrupted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3873,7 +3873,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runCompareAndSwap",
-      "line": 1505,
+      "line": 1520,
       "text": "The saved game could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3881,7 +3881,7 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runCompareAndSwap",
-      "line": 1517,
+      "line": 1532,
       "text": "The saved game could not be written.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3889,32 +3889,8 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runCompareAndSwap",
-      "line": 1527,
+      "line": 1542,
       "text": "Saving did not finish.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/browser-world-repository.ts",
-      "enclosingSymbol": "runCompareAndSwap",
-      "line": 1529,
-      "text": "Saving did not finish.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/browser-world-repository.ts",
-      "enclosingSymbol": "runCompareAndSwap",
-      "line": 1534,
-      "text": "The saved game could not be read.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/presentation/browser-world-repository.ts",
-      "enclosingSymbol": "runCompareAndSwap",
-      "line": 1541,
-      "text": "The saved game could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -3929,7 +3905,31 @@
     {
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "enclosingSymbol": "runCompareAndSwap",
-      "line": 1546,
+      "line": 1549,
+      "text": "The saved game could not be read.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/browser-world-repository.ts",
+      "enclosingSymbol": "runCompareAndSwap",
+      "line": 1556,
+      "text": "The saved game could not be read.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/browser-world-repository.ts",
+      "enclosingSymbol": "runCompareAndSwap",
+      "line": 1559,
+      "text": "Saving did not finish.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/browser-world-repository.ts",
+      "enclosingSymbol": "runCompareAndSwap",
+      "line": 1561,
       "text": "Saving was interrupted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26137,7 +26137,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "observerTraces",
-      "line": 120,
+      "line": 122,
       "text": "the scene's recorded physical presence set",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26145,7 +26145,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "copyExport",
-      "line": 130,
+      "line": 132,
       "text": "Copying is unavailable here; select the text instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26153,7 +26153,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "copyExport",
-      "line": 134,
+      "line": 136,
       "text": "Trace copied.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26161,7 +26161,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "copyExport",
-      "line": 135,
+      "line": 137,
       "text": "Copying was refused; select the text instead.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26169,7 +26169,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 339,
+      "line": 343,
       "text": "not sequenced by the history store",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26177,7 +26177,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 488,
+      "line": 492,
       "text": "Turn {position+1}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26185,7 +26185,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 528,
+      "line": 532,
       "text": "nobody the records can speak about",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26193,7 +26193,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 531,
+      "line": 535,
       "text": "{absence.personId} ({absence.basis})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26201,7 +26201,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 544,
+      "line": 548,
       "text": "{decision.decisionType} → {decision.selectedOptionKey??\"nooption\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26209,7 +26209,7 @@
     {
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "enclosingSymbol": "CausalTraceView",
-      "line": 575,
+      "line": 579,
       "text": "Trace export",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26217,7 +26217,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "RecipeCard",
-      "line": 111,
+      "line": 121,
       "text": "(legacy default)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26225,7 +26225,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "RecipeCard",
-      "line": 111,
+      "line": 121,
       "text": "(pinned by person)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26233,7 +26233,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "cameraStyle",
-      "line": 168,
+      "line": 178,
       "text": "translate3d({transform.xOffset}px, {transform.yOffset}px, 0) scale({transform.uniformScale})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26241,7 +26241,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "ProofStage",
-      "line": 200,
+      "line": 210,
       "text": "Scene anchor: {character.plan.anchorId}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26249,7 +26249,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "rows",
-      "line": 244,
+      "line": 254,
       "text": "flattened (authored recipe)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26257,7 +26257,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "rows",
-      "line": 246,
+      "line": 256,
       "text": "modular (generation {visual.modular.catalogGeneration})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26265,7 +26265,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "rows",
-      "line": 247,
+      "line": 257,
       "text": "placeholder (fail closed)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26273,7 +26273,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 292,
+      "line": 304,
       "text": "Restored the saved world snapshot from browser storage.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26281,7 +26281,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 293,
+      "line": 305,
       "text": "Created a fresh seeded world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26289,7 +26289,15 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 365,
+      "line": 382,
+      "text": "Saved to disposable review memory only; reset or exit discards it.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/CharacterProofView.tsx",
+      "enclosingSymbol": "CharacterProofView",
+      "line": 383,
       "text": "Saved the world snapshot to browser storage. Reload to restore it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26297,7 +26305,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 388,
+      "line": 410,
       "text": "Cleared the saved snapshot and created a fresh world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26305,7 +26313,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 404,
+      "line": 426,
       "text": "Four modular characters standing on a neutral stage",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26313,7 +26321,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 412,
+      "line": 434,
       "text": "The first person again, seated, in another scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26321,7 +26329,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 422,
+      "line": 444,
       "text": " No released body exists for this pose in the person's body family, so the compositor fails closed instead of faking a seated pose.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26329,7 +26337,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 525,
+      "line": 547,
       "text": "Office before the repair",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26337,7 +26345,7 @@
     {
       "sourcePath": "src/ui/CharacterProofView.tsx",
       "enclosingSymbol": "CharacterProofView",
-      "line": 529,
+      "line": 551,
       "text": "Office after the repair",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26535,9 +26543,209 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 90,
+      "text": "People & world",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 91,
+      "text": "Causal trace",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 92,
+      "text": "Rooms & environments",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 93,
+      "text": "Offices & context",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 94,
+      "text": "Content browser",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 95,
+      "text": "Character candidate proof",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 96,
+      "text": "Production office proof",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 97,
+      "text": "Scene & pose proof",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 98,
+      "text": "Scene authoring proof",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 99,
+      "text": "Office workflow fixture",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 100,
+      "text": "Floor workflow fixture",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "VIEWS",
+      "line": 101,
+      "text": "Legislation workflow fixture",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 121,
+      "text": "Generated development world; fictional initialization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "reportWorld",
+      "line": 142,
+      "text": "Disposable {activeView.current} context; authored initialization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "listSaves",
+      "line": 173,
+      "text": "{result.saves.length} saves available; {result.damaged.length} unreadable. No save was opened or changed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "inspectSave",
+      "line": 183,
+      "text": "Read-only snapshot of save {id}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "inspectSave",
+      "line": 184,
+      "text": "Snapshot cloned. Original save and metadata are unchanged.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 274,
+      "text": "Authored development fixture prerequisites; separate disposable context, not the source save",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 286,
+      "text": "Review reset to source snapshot; disposable storage cleared.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 310,
+      "text": "Generated development world; fictional initialization",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 329,
+      "text": "Review contexts",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 348,
+      "text": "Selected review context",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 405,
+      "text": "Supported member seat: {seat.seat.chamberKey}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 406,
+      "text": "No person available.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "enclosingSymbol": "DeveloperReviewHub",
+      "line": 427,
+      "text": "Name not recorded",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "createInitialViewerState",
-      "line": 41,
+      "line": 43,
       "text": "Created a fresh simulation from seed “{world.seed}” ({DEFAULT_PERSON_GENERATOR_VERSION} / {DEFAULT_CORPUS_VERSION}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26545,15 +26753,23 @@
     {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "createInitialViewerState",
-      "line": 49,
+      "line": 51,
       "text": "Created the initial seeded demo world with six lightweight people.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
+      "enclosingSymbol": "DeveloperViewer",
+      "line": 64,
+      "text": "Disposable cloned review world. Changes are never saved to normal play.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "loadWorld",
-      "line": 66,
+      "line": 81,
       "text": "Created a fresh simulation from seed “{nextWorld.seed}” ({DEFAULT_PERSON_GENERATOR_VERSION} / {DEFAULT_CORPUS_VERSION}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26561,7 +26777,7 @@
     {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "advanceTime",
-      "line": 86,
+      "line": 101,
       "text": "Advanced 7 days to {nextWorld.currentDate}; {newEventCount} events were recorded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26569,7 +26785,7 @@
     {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "expandSelectedPerson",
-      "line": 106,
+      "line": 121,
       "text": "That person was already materialized; no facts or history changed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -26577,8 +26793,16 @@
     {
       "sourcePath": "src/ui/DeveloperViewer.tsx",
       "enclosingSymbol": "expandSelectedPerson",
-      "line": 107,
+      "line": 122,
       "text": "Materialized deterministic person detail without changing established facts or history.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/ui/DeveloperViewer.tsx",
+      "enclosingSymbol": "DeveloperViewer",
+      "line": 175,
+      "text": "Review control switched. No office, travel, time or history granted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -27785,7 +28009,7 @@
     {
       "sourcePath": "src/ui/ScenePresentationProofView.tsx",
       "enclosingSymbol": "cameraStyle",
-      "line": 52,
+      "line": 54,
       "text": "translate3d({transform.xOffset}px, {transform.yOffset}px, 0) scale({transform.uniformScale})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -27793,7 +28017,7 @@
     {
       "sourcePath": "src/ui/ScenePresentationProofView.tsx",
       "enclosingSymbol": "SceneStage",
-      "line": 61,
+      "line": 63,
       "text": "{scene.label}, a development fixture scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -27801,7 +28025,7 @@
     {
       "sourcePath": "src/ui/ScenePresentationProofView.tsx",
       "enclosingSymbol": "SceneStage",
-      "line": 108,
+      "line": 110,
       "text": "modular-character-layer modular-character-layer--{layer.kind}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -27809,7 +28033,7 @@
     {
       "sourcePath": "src/ui/ScenePresentationProofView.tsx",
       "enclosingSymbol": "ScenePresentationProofView",
-      "line": 235,
+      "line": 241,
       "text": "no declared complexion",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -27817,7 +28041,7 @@
     {
       "sourcePath": "src/ui/ScenePresentationProofView.tsx",
       "enclosingSymbol": "ScenePresentationProofView",
-      "line": 239,
+      "line": 245,
       "text": "scale {character.placement.scale.toFixed(3)} · floor {character.placement.contactFloorYPercent}% · {character.layers.length} layers",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -28038,6 +28262,12 @@
       "sourcePath": "src/ui/CausalTraceView.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/ui/DeveloperReviewHub.tsx",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -30132,13 +30362,13 @@
       "sourcePath": "src/presentation/browser-world-repository.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 8
+      "count": 10
     },
     {
       "sourcePath": "src/presentation/browser-world-repository.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 69
+      "count": 71
     },
     {
       "sourcePath": "src/presentation/adult-life.ts",

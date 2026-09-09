@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 1927 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5021 |
-| DIAGNOSTIC_OR_TEST | 3761 |
-| **NEEDS_CLASSIFICATION** | **3480** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5024 |
+| DIAGNOSTIC_OR_TEST | 3763 |
+| **NEEDS_CLASSIFICATION** | **3508** |
 
-Scanned 356 files holding 54053 string
+Scanned 359 files holding 54214 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -74,6 +74,7 @@ literals in total; the table counts only those that read like a sentence.
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
+| 25 | `src/ui/DeveloperReviewHub.tsx` |
 | 24 | `src/content/adapters/legislative-rule-packs.ts` |
 | 24 | `src/presentation/browser-world-repository.ts` |
 | 24 | `src/ui/ContentBrowserView.tsx` |
@@ -94,10 +95,10 @@ literals in total; the table counts only those that read like a sentence.
 | 17 | `src/player/ConversationStrip.tsx` |
 | 17 | `src/player/MeasurePaperWorkspace.tsx` |
 | 17 | `src/simulation/executive-governing-kernels.ts` |
+| 17 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/player/WorkingDocumentWorkspace.tsx` |
 | 16 | `src/presentation/run-a-projection.ts` |
 | 16 | `src/simulation/policy-semantics.ts` |
-| 16 | `src/ui/CharacterProofView.tsx` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
 | 15 | `src/simulation/narrative-threads.ts` |
@@ -134,6 +135,7 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/presentation/player-capabilities.ts` |
 | 8 | `src/simulation/future-transitions.ts` |
 | 8 | `src/simulation/incident-catalog.ts` |
+| 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
@@ -151,7 +153,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/simulation/candidacy-packs.ts` |
 | 6 | `src/simulation/names-data.ts` |
 | 6 | `src/simulation/vitality-integrity.ts` |
-| 6 | `src/ui/DeveloperViewer.tsx` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |

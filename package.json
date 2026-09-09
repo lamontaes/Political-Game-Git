@@ -28,7 +28,7 @@
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "tsc -b",
+    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "intake:texas-senate": "node --import tsx scripts/art-asset-factory/cli-intake.ts",

@@ -7,25 +7,36 @@ const nodeBinary = process.execPath;
  * worktrees at once, and `reuseExistingServer` will happily attach to whichever
  * branch got to 4173 first — so one branch's suite silently runs against
  * another branch's build and fails for reasons that are not in its diff.
- * Setting PLAYWRIGHT_PORT gives a concurrent worktree a server of its own. The
- * default is unchanged, so CI and a single checkout behave exactly as before.
+ * Setting PLAYWRIGHT_PORT gives a concurrent worktree a server of its own. The port
+ * default is unchanged; server reuse now requires explicit opt-in plus identity verification.
  */
-const port = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
-const origin = `http://127.0.0.1:${port}`;
+import { runConfig } from "./scripts/dev-lab/run-config";
+import { historicalEvidenceHashes } from "./scripts/dev-lab/historical-evidence";
+import { sourceIdentity } from "./scripts/dev-lab/identity";
+const run = runConfig();
+process.env.PG_RUN_ID = run.runId;
+const expectedIdentity = sourceIdentity();
 
 export default defineConfig({
   testDir: "./tests/e2e",
-  outputDir: "test-results",
+  outputDir: `${run.artifacts}/results`,
+  globalSetup: "./scripts/dev-lab/verify-server.ts",
+  globalTeardown: "./scripts/dev-lab/verify-evidence.ts",
+  metadata: {
+    expectedIdentity,
+    artifacts: run.artifacts,
+    historicalEvidence: historicalEvidenceHashes(),
+  },
   fullyParallel: false,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: run.workers,
   reporter: [
     ["line"],
-    ["html", { open: "never", outputFolder: "playwright-report" }],
+    ["html", { open: "never", outputFolder: `${run.artifacts}/report` }],
   ],
   use: {
-    baseURL: origin,
+    baseURL: run.baseURL,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "off",
@@ -41,9 +52,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `"${nodeBinary}" node_modules/vite/bin/vite.js --host 127.0.0.1 --port ${port}`,
-    url: origin,
-    reuseExistingServer: !process.env.CI,
+    command: `"${nodeBinary}" scripts/dev-identified.mjs --host ${run.host} --port ${run.port}`,
+    url: `${run.baseURL}/__dev/identity`,
+    reuseExistingServer: process.env.PLAYWRIGHT_EXTERNAL_SERVER === "1",
     timeout: 120_000,
   },
 });

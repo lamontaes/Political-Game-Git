@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { configDefaults, defineConfig } from "vitest/config";
@@ -13,11 +14,17 @@ import {
 // what the game would display equals what the package says.
 const buildIdentity = resolveBuildIdentity(process.cwd());
 
+import { identifiedBuild } from "./scripts/dev-lab/vite-identity";
+
 export default defineConfig({
-  plugins: [react(), sites()],
+  cacheDir:
+    process.env.PG_CACHE_DIR ??
+    resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
+  plugins: [react(), sites(), identifiedBuild()],
   define: buildIdentityDefines(buildIdentity),
   build: {
     outDir: "dist/client",
+    rolldownOptions: { input: { app: "index.html", review: "review.html" } },
   },
   test: {
     exclude: [...configDefaults.exclude, "tests/e2e/**"],

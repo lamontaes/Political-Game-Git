@@ -546,14 +546,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // were carried over from a measurement taken before the template-span fix
     // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
     // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual LAND-WAVE4 combined tree after
-    // #90, #132, #139, and #129 landed, with the P01 campaign-clock regression
-    // tests composed on top. Neither side's pin was chosen; the combined tree
-    // was scanned and these are what it measures.
+    // Re-measured by corpus:prose on the actual LAND-READY6 combined tree.
+    // Neither side's pin is selected; the combined tree is scanned and these
+    // values are updated from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(54053);
+    expect(coverage.totalLiterals).toBe(54214);
     expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(356);
+    expect(coverage.scannedFiles).toBe(359);
   });
 });
 

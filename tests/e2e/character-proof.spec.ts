@@ -1,4 +1,4 @@
-import { expect, test, type Locator, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "./fixtures";
 
 // This suite is the DEV-fixture regression surface, so it names that set
 // explicitly. The route now defaults to the banked production candidates,
@@ -102,7 +102,7 @@ test.describe("Modular character runtime proof", () => {
     );
 
     await page.screenshot({
-      path: "test-results/character-proof/stage.png",
+      path: test.info().outputPath("character-proof/stage.png"),
       fullPage: false,
     });
   });
@@ -152,7 +152,7 @@ test.describe("Modular character runtime proof", () => {
       page.getByTestId("character-proof-stage-character-root-marker").first(),
     ).toHaveClass(/character-anchor-marker--root/);
     await stage.screenshot({
-      path: "test-results/character-proof/anchors.png",
+      path: test.info().outputPath("character-proof/anchors.png"),
     });
     await page.getByTestId("character-proof-debug-anchors").uncheck();
     await expect(
@@ -196,7 +196,7 @@ test.describe("Modular character runtime proof", () => {
       page.getByTestId("character-proof-side-character"),
     ).toHaveAttribute("data-recipe-key", before[0]!);
     await page.screenshot({
-      path: "test-results/character-proof/restored.png",
+      path: test.info().outputPath("character-proof/restored.png"),
     });
 
     await page.getByTestId("character-proof-clear").click();
