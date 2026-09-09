@@ -867,3 +867,23 @@ the authored fixture roster's membership and presence, matching main's scenario
 adapter. A regression checks both vote records while the formal capacity stays
 unknown. No source fact, rule pack, bargaining evaluator, ownership guard or
 player-route behavior is redefined.
+
+## ECON-CONTEXT2 Source-to-Read-Model Audit — 2026-09-08
+
+This audit rechecks the source/simulation boundary, D-042 observation separation,
+the frozen Stage 6 economy, the accepted Stage 6.5 work, and later-stage gates.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                       |
+| ------------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Geography identity       | Confirmed exact       | Bindings accept provider codes with explicit levels/relationships; malformed and duplicate keys fail, and names cannot be supplied as join inputs.                                                                                                                           |
+| Units and vintage        | Confirmed preserved   | BEA units, LAUS rate/person units and seasonal adjustment, HUD monthly/annual units, observation periods, product/corpus vintages, and revision state remain distinct.                                                                                                       |
+| Known/unavailable        | Confirmed fail-closed | Unbound or absent exact codes return typed unavailable coverage. Source `UNKNOWN` values remain valueless and cannot become analyst inputs.                                                                                                                                  |
+| Observation boundaries   | Confirmed separated   | Source readings create no World truth, forecast, baseline, policy effect, personal employment, resource, housing, or lease record. Containing geographies have no Lexington World scope; same-jurisdiction projections remain unavailable without an evidenced release date. |
+| Economy ownership        | Confirmed reused      | Compatible analyst inputs name existing metric definitions; no metric catalog, economy evaluator, causal mechanism, or effect writer is added.                                                                                                                               |
+| NEWS ownership           | Confirmed explicit    | Latest observations become `not-published` candidates only. No event, publication, knowledge, or news record is written by a read.                                                                                                                                           |
+| Determinism and mutation | Confirmed             | Focused tests prove repeated projections are equal and leave source corpora and World JSON unchanged. Source replay covers the expanded BEA comparison window.                                                                                                               |
+| Player/UI ownership      | Confirmed bounded     | A generated browser-safe projection and typed player lines are supplied. The final `PlayerGame.tsx` append remains an exact UI-core handoff rather than an overlapping feature-branch edit.                                                                                  |
+
+LEARN: a source product's observation as-of date is not evidence of its release
+date. Typed unavailability at the adapter boundary is the smallest durable guard
+against silently converting an observed period into a publication event.
