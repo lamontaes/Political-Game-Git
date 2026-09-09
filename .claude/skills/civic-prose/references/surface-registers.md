@@ -45,8 +45,10 @@ differently per surface; a universal register is itself a defect.
 - **Second person throughout — no exceptions.** A role noun on the packet's
   CHARACTER line ("state representative", "circuit judge") says who the player
   is; it is never a way to refer to them.
-- Open inside the moment. No preamble re-establishing office, term, title, or
-  authorship of the player's own bill.
+- Open inside the moment when context is clear. One concise, packet-grounded
+  context line or recap is permitted when needed to understand the immediate
+  scene; never re-establish office, term, title, or authorship of the player's
+  own bill merely to orient.
 - Direct dialogue common; strongest legal personality coloration, still
   bounded by facts actually present.
 - Reach the decision pressure, then stop. Returning control explicitly ("How

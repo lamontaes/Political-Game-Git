@@ -139,13 +139,15 @@ state/seed/content stays reproducible.
   authoritative simulation/source data and must not be creatively rewritten
   into a different meaning.
 
-## Owner rules — locked 2026-09-05
+## Owner rules — calibrated 2026-09-05; context update 2026-09-08
 
 Source: `WAVE_1_OWNER_VERDICTS — LOCKED — 2026-09-05` (Drive), the owner's
-review recorded before any source mapping was opened and treated as immutable.
-The rules below restate that record; the wording of the defects is the owner's
-own. They govern quality. The hard rules above govern legality, and they win:
-nothing here authorizes inventing a fact to produce a better sentence.
+review recorded before any source mapping was opened. The rules below retain
+that calibration except for the current owner's targeted rule 2 correction:
+brief canonical context or recap may orient a moment without redundantly
+reintroducing the player's stable state. They govern quality. The hard rules
+above govern legality, and they win: nothing here authorizes inventing a fact to
+produce a better sentence.
 
 The judged calibration set that produced these rules is retired from held-out
 use and may inform examples. The remaining sealed reserve packets stay unread:
@@ -172,12 +174,16 @@ The only exemption is the in-world artifact surfaces (9a–9e): a news article,
 letter, court document, memo, or dossier keeps its native third-person
 register, because the player is reading it, not living it.
 
-### 2. Do not restate character state the player already knows
+### 2. Orient briefly when needed; do not reintroduce known character state
 
 A fact appearing in the packet is not a reason to say it. Player-facing prose
-must not orient the player to their own life. Never open by re-establishing
-office, term, chamber, title, tenure, authorship of the player's own bill, or
-a household relationship the player has lived in for years.
+may use one concise, canonical context line or recap when the immediate scene
+would otherwise be unclear — for example, an established time or place, the
+participants, a relevant prior event, or the current decision pressure. Use only
+packet-supplied facts, do not repeat the recap when the UI or preceding scene
+already carries it, and never open by re-establishing office, term, chamber,
+title, tenure, authorship of the player's own bill, or a household relationship
+the player has lived in for years.
 
 - Rejected: "You're a second-term state representative." — the player knows.
 - Rejected: "HB 214 — your bill — comes up Thursday." The bill designation is
@@ -185,9 +191,10 @@ a household relationship the player has lived in for years.
   Thursday."
 - Rejected: "your spouse of eighteen years" — dossier exposition, not play.
 
-Include a relationship, history, or credential only when the immediate scene
-is not intelligible without it, and then say it the way a person would, once.
-The default is to start inside the moment.
+Include a relationship, history, or credential only when the immediate scene is
+not intelligible without it, and then say it the way a person would, once. A
+recap never licenses invented connective events, reactions, or exposition. The
+default remains to start inside the moment when context is already clear.
 
 ### 3. Plain political language, not literary phrasing
 

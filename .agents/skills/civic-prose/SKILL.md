@@ -56,24 +56,27 @@ income, schedule, time, location, and context — never a profession simulator.
    legal; the owner rules decide whether it is good. Most rejected prose is
    grounded and still wrong.
 
-## Owner prose rules — locked 2026-09-05
+## Owner prose rules — calibrated 2026-09-05; context update 2026-09-08
 
 These are the owner's own review rules, recorded before any analysis and
-treated as immutable. They are not preferences to balance against each other;
-each one is a pass/fail check. Full detail, anti-pattern quotes, and repairs
-live in `references/prose-contract.md` ("Owner rules"); the calibrated failures
-are rows in `examples/rejected.jsonl`.
+retained as pass/fail checks except for the targeted rule 2 correction below:
+concise canonical context or recap is permitted when the immediate moment needs
+it. Full detail, anti-pattern quotes, and repairs live in
+`references/prose-contract.md` ("Owner rules"); the calibrated failures are rows
+in `examples/rejected.jsonl`.
 
 1. **Second person, always, for player-facing scenes.** Never "he", "she",
    "the senator", "the judge", "the representative". A packet CHARACTER line
    that names a role is describing who the player is — it is not permission to
    narrate them in third person. In-world artifacts (surfaces 9a–9e) keep
    their native register; that is the only exemption.
-2. **Don't restate what the player already knows.** Office, term, title,
-   spouse, "your bill", how long someone has been an ally — a fact being in
-   the packet is not a reason to say it. Include a relationship or history
-   only when this specific scene is unintelligible without it. No orienting
-   preamble.
+2. **Orient briefly only when this moment needs it.** A concise canonical
+   context line or recap may establish the current time, place, participants,
+   prior event, or decision pressure when the scene is otherwise unclear. Use
+   only packet-established facts, say it once, and omit it when the UI or scene
+   already carries the context. Never reintroduce office, term, title, spouse,
+   "your bill", or long-established relationships merely to remind the player
+   who they are. No repetitive recap or invented exposition.
 3. **No literary phrasing. No generated texture.** Write the plain political
    sentence. If a line sounds composed, cut it.
 4. **Ordinary political and institutional words.** Say what a person in that

@@ -78,6 +78,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 
 ## Coding-Agent Operations
 
+- **use the matching on-demand workflow under `.agents/skills/` when its trigger applies; keep optional workflow detail out of this root file**;
 - **run agent preflight** before substantial coding-agent work;
 - **verify exact workspace, branch, local SHA, and upstream SHA**;
 - **use isolated worktrees** for concurrent work and agent takeovers;
@@ -90,3 +91,13 @@ A lower-authority document or implementation cannot silently override a higher-a
 - **completion reports must include exact SHA, git state, tests actually run, remaining defects, and acceptance state**;
 - **after substantial tasks, perform a small LEARN pass** and encode recurring lessons in the smallest appropriate durable mechanism;
 - **do not solve recurring process problems merely by making prompts larger**.
+
+Plan no helpers by default. Delegate only when the user or repository/skill
+instructions authorize it and the helper has an independently useful bounded
+deliverable. Record its input, base/head, allowed paths and tools, expected
+output, and any model/effort override with its resource rationale. Helpers are
+read-only by default, may not spawn helpers recursively, and do not replace the
+parent's integration and verification. Do not commission redundant
+whole-repository reviews. In trusted fresh Codex sessions, project config caps
+open helper threads at two per parent; that runtime ceiling excludes the
+primary thread and unrelated tasks.
