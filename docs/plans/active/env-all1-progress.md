@@ -121,3 +121,21 @@ OPENING adapter integration/frozen commit is pending from its owner.
 non-home setting is not replaced with home art. This remains separate from the
 immediate performed-activity aftermath. No persistent place store or second clock
 was added.
+
+### Architecture integrity audit of this delta
+
+- Existing primitives: scene spec/registry, scheduled activity/state, completion
+  event, canonical clock, immutable returned World and snapshot codec reused.
+- Closed semantics: travel versus non-travel; completed versus scheduled;
+  production release versus preview. Open location keys remain provider data.
+- Context/access: exact person, origin event, endpoint IDs and participant
+  completion evidence; no name-only joins, household teleport, or court-kind
+  inference. Provider rechecked after elapsed time.
+- History/determinism: append-only activity/arrival, stable keys from canonical
+  sequence, no read mutation or simulation randomness from preview/pinning.
+- Retroactive compatibility: household selection remains unchanged absent an
+  explicit contradictory place/travel record; scheduled-only tests now refuse.
+- Scope: no political rule/election engine, simulation semantics redesign,
+  release activation, new art, or duplicate person subsystem.
+- Limits: full gates and human visual acceptance pending; UI/OPENING/MUNI
+  integration is separately evidenced, not inferred from exported interfaces.

@@ -145,7 +145,17 @@ export function travelToPlace(
   const next = performScheduledActivity(scheduled, activity.id, handlers);
   if (next === scheduled) return world;
   const state = scheduledActivityState(next, activity.id);
-  if (state.status !== "completed") return next;
+  if (
+    state.status !== "completed" ||
+    route.participantPersonIds.some(
+      (id) =>
+        !next.people[id] ||
+        next.history.personDeaths.some(
+          (death) => death.personId === id && death.diedAt <= next.currentDate,
+        ),
+    )
+  )
+    return next;
   const rechecked = provider(next, personId, destinationKey);
   if (
     rechecked.kind !== "available" ||
