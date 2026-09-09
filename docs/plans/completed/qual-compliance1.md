@@ -1,6 +1,6 @@
 # QUAL-COMPLIANCE1
 
-Status: active
+Status: completed
 
 ## Ownership and base
 
@@ -29,13 +29,14 @@ Status: active
 - [x] Add canonical committee obligations, filing/reporting constraints, contribution/committee rules, and amendment/correction behavior without a second money or clock system.
 - [x] Add feature-local projections/adapters only; do not write municipal procedure or global UI roots.
 - [x] Prove deterministic replay, success/refusal, private/public access, zero-write refusals, save/reload, and unchanged campaign clock behavior.
-- [ ] Update architecture/system/acceptance documentation, run validation, perform LEARN, publish one draft PR, and stop.
+- [x] Update architecture/system/acceptance documentation, run validation, perform LEARN, publish one draft PR, and stop.
 
 ## Coordination
 
 - MUNI-PLAY1 owns governing/meeting actions. The shared boundary uses explicit canonical jurisdiction/government/office/role IDs.
 - UI owners retain global navigation and root wiring. This branch supplies feature-local read models and typed checks.
 - PR #135 remains the campaign-clock owner and is not modified or merged here.
+- Draft PR: `https://github.com/lamontaes/Political-Game-Git/pull/146`.
 
 ## Shared Recovery H transfer
 
