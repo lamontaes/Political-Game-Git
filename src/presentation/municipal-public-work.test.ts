@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { createScenarioWorld } from "../simulation/demo";
 import { requireLifePlace } from "../simulation/life-places";
-import { addSimulationMinutes } from "../simulation/dates";
+import {
+  addSimulationMinutes,
+  simulationMinutesBetween,
+} from "../simulation/dates";
+import {
+  scheduledActivityState,
+  workItemState,
+  createScheduledActivity,
+} from "../simulation/time-work";
+import { recordOrganizationParticipationState } from "../simulation/life";
 import { deserializeWorld, serializeWorld } from "../simulation";
 import {
   attendMunicipalPublicMeeting,
@@ -9,7 +18,10 @@ import {
   municipalMeetings,
   scheduleMunicipalMeeting,
   seatMunicipalMember,
+  performMunicipalMeetingNotes,
 } from "../simulation/municipal-public-work";
+import { municipalVenueForActivity } from "./municipal-venue";
+import bindings from "./municipal-venue-bindings.json";
 import { prepareMunicipalMeetingNotes } from "./municipal-workspace";
 
 function context(governmentKey: string, placeKey: string, seriesKey: string) {
@@ -41,7 +53,151 @@ function context(governmentKey: string, placeKey: string, seriesKey: string) {
   };
 }
 
+describe("explicit municipal venue candidates", () => {
+  it.each(bindings)(
+    "preserves exact source venue for $governmentKey / $seriesKey",
+    (binding) => {
+      const input = context(
+        binding.governmentKey,
+        "3209700",
+        binding.seriesKey,
+      );
+      const venue = municipalVenueForActivity(input.world, input.meeting.id);
+      expect(venue?.sceneId).toBe(binding.sceneId);
+      expect(venue?.reason).toContain(binding.venue);
+      expect(venue?.reason).toContain(binding.representation);
+      const unanchored = {
+        ...input.world,
+        history: {
+          ...input.world.history,
+          scheduledActivities: input.world.history.scheduledActivities.map(
+            (row) =>
+              row.id === input.meeting.id
+                ? { ...row, sourceEntityIds: [] }
+                : row,
+          ),
+        },
+      };
+      expect(
+        municipalVenueForActivity(unanchored, input.meeting.id),
+      ).toBeNull();
+      const privateWork = {
+        ...input.world,
+        history: {
+          ...input.world.history,
+          scheduledActivities: input.world.history.scheduledActivities.map(
+            (row) =>
+              row.id === input.meeting.id
+                ? {
+                    ...row,
+                    location: {
+                      ...row.location,
+                      locationKey: `municipal-notes:${binding.governmentKey}:${input.personId}`,
+                    },
+                  }
+                : row,
+          ),
+        },
+      };
+      expect(
+        municipalVenueForActivity(privateWork, input.meeting.id),
+      ).toBeNull();
+    },
+  );
+});
+
 describe("municipal public work shares saved canonical state", () => {
+  it("completes authorized personal work once through canonical time and saved Work", () => {
+    const input = context("us-nv-carson-city", "3209700", "regular");
+    expect(
+      performMunicipalMeetingNotes(
+        input.world,
+        input.governmentKey,
+        input.meeting.id,
+      ).world,
+    ).toBe(input.world);
+    const member = seatMunicipalMember(input.world, {
+      governmentKey: input.governmentKey,
+      personId: input.personId,
+      startedAt: input.world.currentDate,
+      role: "member",
+      seatLabel: "Explicit test seat",
+    });
+    const ready = prepareMunicipalMeetingNotes(
+      member,
+      input.governmentKey,
+      input.meeting.id,
+    ).world;
+    const item = ready.history.workItems.at(-1)!;
+    expect(workItemState(ready, item.id).status).toBe("active");
+    const result = performMunicipalMeetingNotes(
+      ready,
+      input.governmentKey,
+      input.meeting.id,
+    );
+    expect(result.ok).toBe(true);
+    expect(
+      simulationMinutesBetween(ready.currentMoment, result.world.currentMoment),
+    ).toBe(20);
+    const finished = workItemState(result.world, item.id);
+    expect(finished.status).toBe("completed");
+    expect(finished.completedEffortMinutes).toBe(20);
+    expect(
+      result.world.history.events.some(
+        (event) => event.id === finished.outcomeEventId,
+      ),
+    ).toBe(true);
+    const restored = deserializeWorld(serializeWorld(result.world));
+    expect(restored).toEqual(result.world);
+    expect(
+      performMunicipalMeetingNotes(
+        restored,
+        input.governmentKey,
+        input.meeting.id,
+      ).world,
+    ).toBe(restored);
+    expect(restored.history.organizationParticipations).toEqual(
+      member.history.organizationParticipations,
+    );
+
+    const state = ready.history.organizationParticipationStates.at(-1)!;
+    const departed = recordOrganizationParticipationState(ready, {
+      ...state,
+      stableKey: "test:municipal-departure",
+      status: "ended",
+      effectiveAt: ready.currentDate,
+      supersedesStateId: state.id,
+    });
+    expect(
+      performMunicipalMeetingNotes(
+        departed,
+        input.governmentKey,
+        input.meeting.id,
+      ).world,
+    ).toBe(departed);
+
+    const conflict = createScheduledActivity(ready, {
+      stableKey: "test:municipal-conflict",
+      title: "Existing personal commitment",
+      summary: "Explicit test conflict",
+      kind: "confirmed",
+      start: addSimulationMinutes(ready.currentMoment, 5),
+      end: addSimulationMinutes(ready.currentMoment, 30),
+      participantPersonIds: [input.personId],
+      responsiblePersonId: input.personId,
+      location: input.meeting.location,
+      sourceEntityIds: [input.meeting.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [input.personId] },
+    });
+    expect(
+      performMunicipalMeetingNotes(
+        conflict,
+        input.governmentKey,
+        input.meeting.id,
+      ).world,
+    ).toBe(conflict);
+  });
   it.each([
     ["us-va-charlottesville", "5114968", "stated-meeting"],
     ["us-nv-carson-city", "3209700", "regular"],
@@ -153,13 +309,23 @@ describe("normal saved home context", () => {
         "timing and duration are authored",
       );
       expect(synchronizeMunicipalPublicContext(initialized)).toBe(initialized);
+      const attended = attendMunicipalPublicMeeting(
+        initialized,
+        view.government.key,
+        meetings[0]!.id,
+      );
+      expect(attended.ok).toBe(true);
+      const next = synchronizeMunicipalPublicContext(attended.world);
+      const subsequent = municipalMeetings(next, view.government.key);
+      expect(subsequent).toHaveLength(2);
       expect(
-        attendMunicipalPublicMeeting(
-          initialized,
-          view.government.key,
-          meetings[0]!.id,
-        ).ok,
-      ).toBe(true);
+        scheduledActivityState(next, subsequent[1]!.id).start.date,
+      ).not.toBe(scheduledActivityState(next, subsequent[0]!.id).start.date);
+      expect(
+        synchronizeMunicipalPublicContext(
+          deserializeWorld(serializeWorld(next)),
+        ),
+      ).toEqual(next);
       expect(
         municipalWorkspaceFor(initialized, "us-nh-new-london")
           ?.isHomeGovernment,

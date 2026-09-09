@@ -51,8 +51,10 @@ import {
   createWorkItem,
   performScheduledActivity,
   scheduledActivityState,
+  workItemState,
 } from "./time-work";
-import { recordWorldEvent } from "./world";
+import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { addSimulationMinutes } from "./dates";
 import type {
   EntityId,
   IsoDate,
@@ -62,6 +64,7 @@ import type {
   ScheduledActivityRecord,
   SimulationMoment,
   World,
+  WorkItemStateRecord,
 } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -308,6 +311,18 @@ export function municipalActionAuthority(
     );
   }
   const reading = primaryReading(government);
+  if (
+    ["act-on-adopted-ordinance", "appoint-the-manager"].includes(
+      input.action,
+    ) &&
+    reading.evidence !== "enacted-text"
+  ) {
+    return refuse(
+      input.action,
+      "evidence",
+      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
+    );
+  }
   const standing = municipalStanding(world, input);
   const isMember =
     standing.roles.includes("member") ||
@@ -754,7 +769,8 @@ export function scheduleMunicipalMeeting(
         : "Game-authored occurrence; no real meeting notice is asserted. ") +
       (venue
         ? `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}, at ${venue}.${!series.venue && reportedVenue ? " Venue is from the separately attributed research report." : ""}`
-        : `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}. Nothing read names where it sits, so no room is asserted.`),
+        : `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}. Nothing read names where it sits, so no room is asserted.`) +
+      ` Reference: ${reading.evidence}, snapshot ${reading.asOf}. ${series.publicAttendance?.note ?? "Public access was not established."}`,
     kind: "confirmed",
     start: input.start,
     end: input.end,
@@ -777,6 +793,8 @@ function humanSeries(kind: string): string {
   switch (kind) {
     case "REGULAR_MEETING":
       return "regular meeting";
+    case "SPECIAL_MEETING":
+      return "special meeting";
     case "WORK_SESSION":
       return "work session";
     case "CAUCUS":
@@ -1075,6 +1093,148 @@ export function openMunicipalWork(
     blocker: null,
     scheduledActivityId: input.scheduledActivityId,
   });
+}
+
+/** Explicit personal work uses the existing calendar and appends a canonical
+ * Work state. No role, cash, legislative authority or published agenda is made.
+ */
+export function performMunicipalMeetingNotes(
+  world: World,
+  governmentKey: string,
+  meetingId: EntityId,
+  transitionHandlers?: FutureTransitionHandlerRegistry,
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const hasRole = (candidate: World) =>
+    municipalStanding(candidate, {
+      governmentKey,
+      personId,
+      residentPlaceGeoid: null,
+    }).roles.some((role) => role !== "resident");
+  if (!hasRole(world))
+    return no("A current role in this government is required.");
+  const meeting = municipalMeetings(world, governmentKey).find(
+    (entry) => entry.id === meetingId,
+  );
+  const item = world.history.workItems.find(
+    (entry) =>
+      entry.stableKey ===
+      `municipal-work:${governmentKey}:meeting-notes:${meetingId}:${personId}`,
+  );
+  if (!meeting || !item?.effort)
+    return no(
+      "No meeting-notes work is recorded for this person and government.",
+    );
+  const before = workItemState(world, item.id);
+  if (before.status !== "active")
+    return no("Meeting notes are already complete or unavailable.");
+  if (
+    before.blocker ||
+    before.waitingOnPersonIds.length ||
+    !before.assignedPersonIds.includes(personId)
+  )
+    return no("This meeting-notes work is blocked or assigned elsewhere.");
+  const minutes = item.effort.requiredMinutes - before.completedEffortMinutes;
+  if (minutes <= 0) return no("No remaining work is established.");
+  const stableKey = `municipal-notes-session:${item.id}:${before.id}`;
+  if (
+    world.history.scheduledActivities.some(
+      (entry) => entry.stableKey === stableKey,
+    )
+  )
+    return no("This work session is already recorded.");
+  try {
+    const planned = createScheduledActivity(world, {
+      stableKey,
+      title: `Prepare meeting notes: ${meeting.title}`,
+      summary:
+        "Game-authored work duration: review the recorded meeting references and measure history. This does not create a published agenda or exercise legislative authority.",
+      kind: "confirmed",
+      start: world.currentMoment,
+      end: addSimulationMinutes(world.currentMoment, minutes),
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        jurisdictionId: item.jurisdictionId,
+        locationKey: `municipal-notes:${governmentKey}:${personId}`,
+        label: "Private meeting preparation; no chamber presence is asserted",
+      },
+      sourceEntityIds: [item.id, meeting.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+    const activity = planned.history.scheduledActivities.find(
+      (entry) => entry.stableKey === stableKey,
+    )!;
+    const performed = performScheduledActivity(
+      planned,
+      activity.id,
+      transitionHandlers,
+    );
+    const completion = scheduledActivityState(performed, activity.id);
+    if (completion.status !== "completed")
+      return no("An existing calendar commitment prevents this work.");
+    if (
+      !hasRole(performed) ||
+      workItemState(performed, item.id).id !== before.id
+    )
+      return no("The role or work assignment changed during this session.");
+    const stateKey = `municipal-notes-completed:${item.id}:${activity.id}`;
+    const recorded = recordWorldEvent(performed, {
+      stableKey: `${stateKey}:event`,
+      type: "municipal.meeting-notes-prepared",
+      occurredAt: performed.currentDate,
+      recordedAt: performed.currentDate,
+      jurisdictionId: item.jurisdictionId,
+      involvedEntityIds: [item.id, meeting.id, activity.id, personId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["municipal", "work.completed"],
+      summary: `Prepared private meeting notes for ${meeting.title} using the recorded references and measure history.`,
+      context: {
+        location: null,
+        socialContext:
+          "Explicitly performed private municipal work; no published agenda or chamber presence is asserted.",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const state: WorkItemStateRecord = {
+      ...before,
+      id: createStableId("work-item-state", `${world.id}:${stateKey}`),
+      stableKey: stateKey,
+      sequence: recorded.history.nextSequence,
+      recordedAt: performed.currentMoment,
+      status: "completed",
+      playerRequirement: "none",
+      completedEffortMinutes: item.effort.requiredMinutes,
+      outcomeEventId: recorded.history.events.at(-1)!.id,
+      supersedesStateId: before.id,
+    };
+    const next: World = {
+      ...recorded,
+      history: {
+        ...recorded.history,
+        nextSequence: recorded.history.nextSequence + 1,
+        workItemStates: [...recorded.history.workItemStates, state],
+      },
+    };
+    assertWorldIntegrity(next);
+    return { ok: true, world: next };
+  } catch (error) {
+    if (error instanceof Error && /conflict|past/.test(error.message))
+      return no(error.message);
+    throw error;
+  }
 }
 
 // ---------------------------------------------------------------------------

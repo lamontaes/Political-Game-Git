@@ -157,6 +157,32 @@ export function includeExistingResearch(
       sources: government.sources.some((entry) => entry.key === sourceKey)
         ? government.sources
         : [...government.sources, source],
+      meetingSeries:
+        key === "us-ca-oakland" &&
+        report.packet === "45" &&
+        report.text.includes(
+          "Regular City Council and committee meetings have operated in-person with teleconference/Zoom public participation since March 2023.",
+        ) &&
+        !government.meetingSeries.some(
+          (series) => series.seriesKey === "regular",
+        )
+          ? [
+              ...government.meetingSeries,
+              {
+                seriesKey: "regular",
+                kind: "REGULAR_MEETING",
+                bodyName: "City Council",
+                cadence: null,
+                venue: null,
+                publicAttendance: {
+                  openToPublic: true,
+                  publicCommentOffered: "UNKNOWN",
+                  note: "The August 2026 research report describes in-person and Zoom public participation since March 2023. The official-page retrieval failed; this remains secondary research, not operative law or a published meeting notice. The chamber location and comment rules were not established.",
+                },
+                sourceKey,
+              },
+            ]
+          : government.meetingSeries,
       observations: [
         ...(government.observations ?? []),
         {

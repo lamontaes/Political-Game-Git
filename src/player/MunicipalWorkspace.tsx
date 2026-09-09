@@ -6,7 +6,10 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import type { FutureTransitionHandlerRegistry } from "../simulation/types";
 import type { World } from "../simulation/types";
-import { attendMunicipalPublicMeeting } from "../simulation/municipal-public-work";
+import {
+  attendMunicipalPublicMeeting,
+  performMunicipalMeetingNotes,
+} from "../simulation/municipal-public-work";
 import { scheduledActivityState } from "../simulation/time-work";
 import { measureActions } from "../simulation/legislation";
 import {
@@ -38,6 +41,7 @@ export function MunicipalWorkspace({
 }) {
   const [message, setMessage] = useState("");
   const [inspectionKey, setInspectionKey] = useState("");
+  const [selectedSeriesKey, setSelectedSeriesKey] = useState("");
   const view = municipalWorkspaceFor(world, inspectionKey || undefined);
   const directory = (
     <label>
@@ -161,7 +165,9 @@ export function MunicipalWorkspace({
           <summary>
             {reading.evidence === "enacted-text"
               ? "Retrieved law"
-              : "Research report — not operative law"}{" "}
+              : reading.evidence === "reference-observation"
+                ? "Dated meeting reference — not operative law"
+                : "Research report — not operative law"}{" "}
             · {reading.asOf}
           </summary>
           <dl>
@@ -250,33 +256,65 @@ export function MunicipalWorkspace({
       </details>
       <h3>Public meetings</h3>
       {view.meetings.length === 0 && (
+        <p>No session is recorded on this world's calendar.</p>
+      )}
+      {view.isHomeGovernment && view.availableMeetingSeries.length > 0 && (
         <>
-          <p>No session is recorded on this world's calendar.</p>
-          {view.isHomeGovernment && view.attendanceAuthority.ok && (
-            <>
-              <p>
-                Add a game-authored public session in one hour, lasting 90
-                minutes. This is a fictional world occurrence, not a published
-                real-world meeting notice.
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  const next = synchronizeMunicipalPublicContext(world);
-                  if (next !== world) {
-                    onWorldChange(next);
-                    setMessage("Public session added to your calendar.");
-                  }
-                }}
-              >
-                Add public session to this world
-              </button>
-            </>
-          )}
+          <p>
+            Add an explicitly game-authored public session lasting 90 minutes,
+            starting in one hour (tomorrow if this series already met today).
+            This is not a real published notice or agenda. Closed and executive
+            sessions are excluded.
+          </p>
+          <label>
+            Public session type
+            <select
+              value={
+                view.availableMeetingSeries.some(
+                  (series) => series.seriesKey === selectedSeriesKey,
+                )
+                  ? selectedSeriesKey
+                  : view.availableMeetingSeries[0]!.seriesKey
+              }
+              onChange={(event) => setSelectedSeriesKey(event.target.value)}
+            >
+              {view.availableMeetingSeries.map((series) => (
+                <option key={series.seriesKey} value={series.seriesKey}>
+                  {series.bodyName ?? view.government.displayName} ·{" "}
+                  {humanLabel(series.kind)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="button"
+            onClick={() => {
+              const selected = view.availableMeetingSeries.some(
+                (series) => series.seriesKey === selectedSeriesKey,
+              )
+                ? selectedSeriesKey
+                : view.availableMeetingSeries[0]!.seriesKey;
+              const next = synchronizeMunicipalPublicContext(world, selected);
+              if (next !== world) {
+                onWorldChange(next);
+                setMessage("Public session added to your calendar.");
+              } else
+                setMessage(
+                  "A session of this type is already on your calendar.",
+                );
+            }}
+          >
+            Add public session to this world
+          </button>
         </>
       )}
       {view.meetings.map((meeting) => {
         const state = scheduledActivityState(world, meeting.id);
+        const notes = view.meetingNotes.find(
+          ({ item }) =>
+            item.stableKey ===
+            `municipal-work:${view.government.key}:meeting-notes:${meeting.id}:${view.standing.personId}`,
+        );
         return (
           <article key={meeting.id} aria-label={meeting.title}>
             <h4>{meeting.title}</h4>
@@ -323,6 +361,35 @@ export function MunicipalWorkspace({
             >
               Prepare meeting notes
             </button>
+            {notes && (
+              <div>
+                <p>
+                  Meeting notes: {humanLabel(notes.state.status)}. Completed
+                  effort: {notes.state.completedEffortMinutes} minutes.
+                </p>
+                {notes.state.status === "active" && (
+                  <button
+                    type="button"
+                    disabled={!canWork}
+                    onClick={() =>
+                      act(
+                        performMunicipalMeetingNotes(
+                          world,
+                          view.government.key,
+                          meeting.id,
+                          transitionHandlers,
+                        ),
+                      )
+                    }
+                  >
+                    Work on meeting notes ·{" "}
+                    {(notes.item.effort?.requiredMinutes ?? 0) -
+                      notes.state.completedEffortMinutes}{" "}
+                    minutes
+                  </button>
+                )}
+              </div>
+            )}
           </article>
         );
       })}

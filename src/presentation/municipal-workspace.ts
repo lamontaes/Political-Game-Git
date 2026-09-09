@@ -1,3 +1,7 @@
+import {
+  scheduledActivityState,
+  workPendingEntriesFor,
+} from "../simulation/time-work";
 import { addSimulationMinutes } from "../simulation/dates";
 import { municipalCapacityObservations } from "../simulation/municipal-capacity";
 import { resolvePlayerCapabilities } from "./player-capabilities";
@@ -5,7 +9,7 @@ import {
   municipalGovernmentByKey,
   municipalGovernmentForLifePlace,
   primaryReading,
-  municipalMeetingReading,
+  municipalPublicMeetingSeries,
 } from "../simulation/municipal-government";
 import {
   installMunicipalGovernment,
@@ -53,6 +57,12 @@ export function municipalWorkspaceFor(world: World, inspectionKey?: string) {
   });
   return {
     publicReferences,
+    availableMeetingSeries: municipalPublicMeetingSeries(government),
+    meetingNotes: workPendingEntriesFor(world, personId).filter(({ item }) =>
+      item.stableKey.startsWith(
+        `municipal-work:${government.key}:meeting-notes:`,
+      ),
+    ),
     government,
     isHomeGovernment: homeGovernment?.key === government.key,
     capacity: municipalCapacityObservations(
@@ -136,20 +146,37 @@ export function prepareMunicipalMeetingNotes(
  * The session is explicitly authored game history, not a scraped real-world
  * meeting notice. Timing and duration are scenario inputs, not charter rules.
  */
-export function synchronizeMunicipalPublicContext(world: World): World {
+export function synchronizeMunicipalPublicContext(
+  world: World,
+  seriesKey?: string,
+): World {
   const view = municipalWorkspaceFor(world);
   if (!view || !view.attendanceAuthority.ok) return world;
-  const series = municipalMeetingReading(view.government).meetingSeries.find(
-    (row) => row.publicAttendance?.openToPublic === true,
+  const series = view.availableMeetingSeries.find((row) =>
+    seriesKey ? row.seriesKey === seriesKey : true,
   );
   if (!series) return world;
-  if (municipalMeetings(world, view.government.key).length > 0) return world;
+  const prefix = `municipal-meeting:${view.government.key}:${series.seriesKey}:`;
+  const existing = municipalMeetings(world, view.government.key).filter(
+    (meeting) => meeting.stableKey.startsWith(prefix),
+  );
+  if (
+    existing.some(
+      (meeting) =>
+        scheduledActivityState(world, meeting.id)?.status === "scheduled",
+    )
+  )
+    return world;
   let next = installMunicipalGovernment(world, {
     governmentKey: view.government.key,
     jurisdictionId: world.people[view.standing.personId]!.homeJurisdictionId,
     formedAt: world.currentDate,
   });
-  const start = addSimulationMinutes(world.currentMoment, 60);
+  let start = addSimulationMinutes(world.currentMoment, 60);
+  if (
+    existing.some((meeting) => meeting.stableKey === `${prefix}${start.date}`)
+  )
+    start = addSimulationMinutes(start, 24 * 60);
   next = scheduleMunicipalMeeting(next, {
     governmentKey: view.government.key,
     seriesKey: series.seriesKey,

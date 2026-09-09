@@ -15,7 +15,7 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
   for (const place of ["5114968", "3209700"]) {
     test(`citizen ${place}: attend, reload, refuse duplicate without writes`, async ({
       page,
-    }) => {
+    }, testInfo) => {
       await page.goto(`/tests/browser/municipal.html?place=${place}`);
       await expect(
         page.getByText("Linked to your saved home place."),
@@ -72,7 +72,7 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
       await records.focus();
       await page.keyboard.press("Enter");
       await page.screenshot({
-        path: `docs/evidence/muni-play1-recovery/citizen-${place}.png`,
+        path: testInfo.outputPath(`citizen-${place}.png`),
         fullPage: true,
       });
     });

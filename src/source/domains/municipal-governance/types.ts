@@ -335,6 +335,7 @@ export interface MayoralActionWindow {
 /** What kind of sitting a recurring meeting series is. */
 export type MeetingSeriesKind =
   | "REGULAR_MEETING"
+  | "SPECIAL_MEETING"
   | "WORK_SESSION"
   | "CAUCUS"
   | "COMMITTEE"

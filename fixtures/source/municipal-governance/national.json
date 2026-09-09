@@ -4617,7 +4617,38 @@
           }
         },
         "meetingPlaces": [],
-        "meetingSeries": [],
+        "meetingSeries": [
+          {
+            "seriesKey": "regular",
+            "kind": "REGULAR_MEETING",
+            "bodyName": {
+              "status": "KNOWN",
+              "value": "City Council",
+              "sourceKey": "research-packet-45",
+              "effectiveDate": "2026-08-25",
+              "legalLocator": "regular body"
+            },
+            "cadence": {
+              "status": "UNKNOWN",
+              "reason": "regular: the pass named no published cadence."
+            },
+            "venue": {
+              "status": "UNKNOWN",
+              "reason": "regular: the pass named no current venue."
+            },
+            "publicAttendance": {
+              "status": "KNOWN",
+              "value": {
+                "openToPublic": true,
+                "publicCommentOffered": "UNKNOWN",
+                "note": "The August 2026 research report describes in-person and Zoom public participation since March 2023. The official-page retrieval failed; this remains secondary research, not operative law or a published meeting notice. The chamber location and comment rules were not established."
+              },
+              "sourceKey": "research-packet-45",
+              "effectiveDate": "2026-08-25",
+              "legalLocator": "regular public participation"
+            }
+          }
+        ],
         "researchObservations": [
           {
             "status": "KNOWN",
@@ -25381,7 +25412,7 @@
               "status": "KNOWN",
               "value": {
                 "openToPublic": true,
-                "publicCommentOffered": false,
+                "publicCommentOffered": "UNKNOWN",
                 "note": "The Board meets publicly in the Commission Chambers; the pass did not establish a public-comment rule."
               },
               "sourceKey": "fargo-commission",
@@ -37752,7 +37783,7 @@
               "status": "KNOWN",
               "value": {
                 "openToPublic": true,
-                "publicCommentOffered": false,
+                "publicCommentOffered": "UNKNOWN",
                 "note": "Public seating in the chamber is bounded behind a wooden railing, so the room's geometry separates the public from the members. The pass did not establish a public-comment rule."
               },
               "sourceKey": "morgantown-council",

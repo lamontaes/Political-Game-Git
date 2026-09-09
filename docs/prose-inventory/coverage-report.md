@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2054 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5121 |
-| DIAGNOSTIC_OR_TEST | 4207 |
-| **NEEDS_CLASSIFICATION** | **5488** |
+| DIAGNOSTIC_OR_TEST | 4215 |
+| **NEEDS_CLASSIFICATION** | **5506** |
 
-Scanned 463 files holding 62928 string
+Scanned 463 files holding 63023 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,6 +42,7 @@ literals in total; the table counts only those that read like a sentence.
 | 69 | `src/simulation/character-history.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
 | 59 | `src/simulation/adult-situations.ts` |
+| 57 | `src/simulation/municipal-public-work.ts` |
 | 57 | `src/simulation/opening-life-content.ts` |
 | 54 | `src/presentation/run-c-working-document.ts` |
 | 51 | `src/simulation/resources.ts` |
@@ -56,7 +57,6 @@ literals in total; the table counts only those that read like a sentence.
 | 43 | `src/presentation/legislative-bargaining-brief.ts` |
 | 42 | `src/simulation/demo.ts` |
 | 40 | `src/simulation/decisions.ts` |
-| 40 | `src/simulation/municipal-public-work.ts` |
 | 40 | `src/ui/SceneGalleryView.tsx` |
 | 39 | `src/simulation/episode-bank.ts` |
 | 39 | `src/simulation/municipal-government.ts` |
@@ -117,6 +117,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
 | 15 | `src/player/LifePathsPanel.tsx` |
+| 15 | `src/player/MunicipalWorkspace.tsx` |
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
@@ -126,7 +127,6 @@ literals in total; the table counts only those that read like a sentence.
 | 14 | `src/presentation/pose-control-plate.ts` |
 | 14 | `src/presentation/surface-projection.ts` |
 | 14 | `src/simulation/incidents.ts` |
-| 13 | `src/player/MunicipalWorkspace.tsx` |
 | 13 | `src/player/OfficeScene.tsx` |
 | 13 | `src/player/WorkPendingWorkspace.tsx` |
 | 13 | `src/simulation/election-contests.ts` |
@@ -253,7 +253,6 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/life-scene-people.ts` |
-| 1 | `src/presentation/municipal-venue.ts` |
 | 1 | `src/presentation/opening-life.ts` |
 | 1 | `src/presentation/people-directory.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
