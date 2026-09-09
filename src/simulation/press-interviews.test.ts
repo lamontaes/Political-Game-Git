@@ -12,6 +12,7 @@ import {
   createWorkRelationship,
   deserializeWorld,
   projectPublicInformationDigest,
+  publishPublicEvent,
   recordEventKnowledge,
   recordClaim,
   recordWorldEvent,
@@ -484,6 +485,23 @@ describe("press interviews over canonical people, time, work and publication", (
         confirmedWording: "Different wording.",
       }),
     ).toThrow(/match the displayed draft exactly/u);
+    const confirmed = confirmPressResponse(world, {
+      stableKey: "news-press4-controls:confirmed",
+      activityId: arranged.activityId,
+      confirmedWording: "Exact consequential wording.",
+    });
+    const confirmationEvent = confirmed.history.events.find(
+      (event) =>
+        event.type === "press.response-confirmed" &&
+        event.involvedEntityIds.includes(arranged.activityId),
+    )!;
+    expect(confirmationEvent.visibility).toBe("limited");
+    expect(() =>
+      publishPublicEvent(confirmed, {
+        stableKey: "news-press4-controls:premature-publication",
+        sourceEventId: confirmationEvent.id,
+      }),
+    ).toThrow(/Only a completed public civic event/u);
     expect(
       world.history.claims.some((claim) =>
         claim.statement.includes("Exact consequential"),

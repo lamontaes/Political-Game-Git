@@ -493,7 +493,7 @@ export function confirmPressResponse(
       },
     ],
     personFactConstraints: [],
-    visibility: press.terms === "on-record" ? "public" : "limited",
+    visibility: "limited",
     tags: [
       PRESS_TAG,
       `${TERMS_PREFIX}${press.terms}`,
@@ -991,8 +991,7 @@ function assertCanonicalPitch(
 }
 
 function claimAudience(terms: PressRecordTerms): ClaimAudience {
-  if (terms === "on-record") return "public";
-  if (terms === "on-background") return "limited";
+  if (terms === "on-record" || terms === "on-background") return "limited";
   return "private";
 }
 
