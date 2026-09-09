@@ -885,3 +885,19 @@ regular-session outer-limit data and production action-time refusal; it does not
 create a second calendar or mark pending bills dead. UI's refusal handler is
 consumed from its owner's exact `5df86b856d946fddfb8e63ad682a43cb076f8b4a`
 patch. Final tests and human/independent acceptance are reported separately.
+
+### LEG-ENTRY6 — normal member filing boundary
+
+The normal route reuses CampaignWorkspace, the existing candidacy writer,
+recorded election result, winner work relationship and member-seat resolver.
+The feature-local filing projection is read-only and its result is recomputed
+when filing. The UI may explain/disable unauthorized introduction while retaining
+staff draft preview. No root route, office grant, result calculation, clock,
+publication producer or saved-bill migration is added. Negative controls cover
+staff, an actual lost campaign, ended membership and ambiguous seat claims.
+Malformed duplicate claims are refusal-only probes, never normal success data.
+
+The frozen UI control `1119e890` does not yet call QUAL's newer qualification
+adapter in candidacy.ts. That integration is explicitly coordinated with QUAL
+and UI, not replaced by LEG-authored legal assumptions. Source integration,
+automated entry proof and independent/human acceptance remain separate claims.
