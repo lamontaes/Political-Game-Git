@@ -608,6 +608,24 @@ describe("filing", () => {
         correctionReason: null,
       }),
     ).toThrow(/within 5 days/i);
+    const lateWorld = advanceWorld(supported.world, 6);
+    const lateBefore = serializeWorld(lateWorld);
+    expect(() =>
+      recordCampaignComplianceDocument(lateWorld, {
+        stableKey: "late-current-statement",
+        campaignId: supported.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(supported.campaign.filedAt, 5),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/after its recorded .* deadline/i);
+    expect(serializeWorld(lateWorld)).toBe(lateBefore);
   });
 
   it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {

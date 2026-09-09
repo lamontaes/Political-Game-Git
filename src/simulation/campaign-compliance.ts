@@ -397,6 +397,11 @@ export function recordCampaignComplianceDocument(
           `The spending-intent statement deadline must be within ${pack.statementOfIntentWithinDays.value} days after candidacy filing.`,
         );
       }
+      if (world.currentDate > input.dueOn) {
+        throw new Error(
+          `The spending-intent statement is being filed after its recorded ${input.dueOn} deadline.`,
+        );
+      }
     }
   }
   let amended: CampaignComplianceDocumentRecord | null = null;
