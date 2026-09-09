@@ -520,48 +520,69 @@ it("produces a periodic follow-up once and preserves unhandled future work", () 
   );
 });
 
-it("stops canonical staff progress after that engagement ends", () => {
-  let world = incoming(staff(officeWorld()));
-  const seeded = facts(
-    world,
-    EXECUTIVE_GOVERNING_KERNELS.find((k) => k.row.id === "92H-K-001")!
-      .requiredFactKeys,
-  );
-  world = seeded.world;
-  const action = actOnExecutiveWork(
-    world,
-    seeded.item.id,
-    "92H-K-001",
-    "continue",
-  );
-  expect(action.ok).toBe(true);
-  world = action.world;
-  const work = world.history.workItems.at(-1)!;
-  const personId = workItemState(world, work.id).assignedPersonIds[0]!;
-  const worker = activeLifePathWorkers(
-    world,
-    resolveExecutiveOffice(world)!.organizationId,
-  ).find(
-    (w) =>
-      w.personId === personId &&
-      w.relationship.kind === "employment:executive-staff",
-  )!;
-  world = recordWorkStatus(world, {
-    stableKey: "staff-left",
-    workRelationshipId: worker.relationship.id,
-    effectiveAt: world.currentDate,
-    status: "ended",
-    reason: "Synthetic departure proof.",
-    provenance: { kind: "authored", note: "Synthetic departure." },
-    supersedesStatusId: worker.status.id,
-  });
-  const advanced = advanceWorldMinutes(
-    world,
-    30,
-    composeExecutiveWorkHandlers(),
-  );
-  expect(workItemState(advanced, work.id).completedEffortMinutes).toBe(0);
-});
+it.each(["staff", "principal"] as const)(
+  "stops saved staff progress after the %s engagement ends",
+  (departing) => {
+    let world = incoming(staff(officeWorld()));
+    const seeded = facts(
+      world,
+      EXECUTIVE_GOVERNING_KERNELS.find((k) => k.row.id === "92H-K-001")!
+        .requiredFactKeys,
+    );
+    world = seeded.world;
+    const action = actOnExecutiveWork(
+      world,
+      seeded.item.id,
+      "92H-K-001",
+      "continue",
+    );
+    expect(action.ok).toBe(true);
+    world = action.world;
+    const work = world.history.workItems.at(-1)!;
+    const personId = workItemState(world, work.id).assignedPersonIds[0]!;
+    const worker = activeLifePathWorkers(
+      world,
+      resolveExecutiveOffice(world)!.organizationId,
+    ).find(
+      (w) =>
+        w.personId === personId &&
+        w.relationship.kind === "employment:executive-staff",
+    )!;
+    const ending =
+      departing === "staff"
+        ? worker
+        : activeLifePathWorkers(
+            world,
+            resolveExecutiveOffice(world)!.organizationId,
+          ).find(
+            (w) =>
+              w.relationship.id ===
+              resolveExecutiveOffice(world)!.relationship.id,
+          )!;
+    world = advanceWorldMinutes(world, 10, composeExecutiveWorkHandlers());
+    expect(workItemState(world, work.id).completedEffortMinutes).toBe(10);
+    world = deserializeWorld(serializeWorld(world));
+    world = recordWorkStatus(world, {
+      stableKey: "staff-left",
+      workRelationshipId: ending.relationship.id,
+      effectiveAt: world.currentDate,
+      status: "ended",
+      reason: "Synthetic departure proof.",
+      provenance: { kind: "authored", note: "Synthetic departure." },
+      supersedesStatusId: ending.status.id,
+    });
+    const advanced = advanceWorldMinutes(
+      world,
+      30,
+      composeExecutiveWorkHandlers(),
+    );
+    expect(workItemState(advanced, work.id).completedEffortMinutes).toBe(10);
+    expect(
+      actOnExecutiveWork(advanced, seeded.item.id, "92H-K-001", "continue")
+        .world,
+    ).toBe(advanced);
+  },
+);
 
 it.each(["return-for-work", "defer"] as const)(
   "records %s as real pending work before a decision",

@@ -569,6 +569,18 @@ describe("Stage 6.5 Run D-Lite canonical agenda", () => {
       workItemState(world, fixture.dLite.delegableWorkItemId),
     ).toMatchObject({ status: "active", completedEffortMinutes: 65 });
 
+    // Persist the partially completed 90-minute item and untouched 50-minute
+    // item; subsequent canonical activity must consume only the remaining75.
+    world = deserializeWorld(serializeWorld(world));
+    expect(
+      workItemState(world, fixture.dLite.delegableWorkItemId)
+        .completedEffortMinutes,
+    ).toBe(65);
+    expect(
+      workItemState(world, fixture.dLite.staffWorkItemId)
+        .completedEffortMinutes,
+    ).toBe(0);
+
     const afterBriefing = JSON.stringify(world);
     expect(() =>
       performRunDScheduledActivity(
