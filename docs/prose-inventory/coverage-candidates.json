@@ -1,9 +1,9 @@
 {
   "counts": {
-    "INVENTORIED": 2236,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5484,
-    "DIAGNOSTIC_OR_TEST": 4443,
-    "NEEDS_CLASSIFICATION": 5684
+    "INVENTORIED": 2297,
+    "INTENTIONALLY_NON_PLAYER_FACING": 5489,
+    "DIAGNOSTIC_OR_TEST": 4453,
+    "NEEDS_CLASSIFICATION": 5724
   },
   "needsClassification": [
     {
@@ -2121,7 +2121,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 234,
+      "line": 235,
       "text": "Bill number or title",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2129,7 +2129,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 243,
+      "line": 244,
       "text": "{page.total} {page.total===1?\"bill\":\"bills\"} on the docket.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2137,7 +2137,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 244,
+      "line": 245,
       "text": "{page.matching} of {page.total} bills match.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2145,7 +2145,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 246,
+      "line": 247,
       "text": " Showing {page.offset+1}–{page.offset+page.bills.length}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2153,7 +2153,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 261,
+      "line": 262,
       "text": "docket-entry docket-entry-open",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2161,7 +2161,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 344,
+      "line": 345,
       "text": "Leave the drafting table",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2169,7 +2169,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DocketWorkspace",
-      "line": 344,
+      "line": 345,
       "text": "Start a new bill",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2177,7 +2177,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "recordEstimate",
-      "line": 474,
+      "line": 475,
       "text": "Choose valid start and end dates for the spending scenario.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2185,7 +2185,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 494,
+      "line": 495,
       "text": "Not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2193,7 +2193,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 501,
+      "line": 502,
       "text": "You are the sponsor of record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2201,7 +2201,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 503,
+      "line": 504,
       "text": "You carry it for the member whose office you work in.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2209,7 +2209,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 504,
+      "line": 505,
       "text": "No sponsor is recorded on this measure.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2217,7 +2217,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 509,
+      "line": 510,
       "text": "Not yet before a chamber",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2225,7 +2225,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 522,
+      "line": 523,
       "text": "Not recorded",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2233,7 +2233,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 577,
+      "line": 578,
       "text": "This Act states no amount.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2241,7 +2241,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 579,
+      "line": 580,
       "text": "The sections would provide {analysis.fiscal.statedCeilingLabel} if enacted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2249,7 +2249,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 581,
+      "line": 582,
       "text": "The sections propose {analysis.fiscal.statedCeilingLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2257,7 +2257,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 582,
+      "line": 583,
       "text": "The sections propose authorization of up to {analysis.fiscal.statedCeilingLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2265,7 +2265,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 589,
+      "line": 590,
       "text": ", which states no amount of its own.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2273,7 +2273,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 590,
+      "line": 591,
       "text": ", which states {analysis.fiscal.headroom.allowedLabel}. The difference from this bill is {analysis.fiscal.headroom.remainingLabel}; this is not an available balance.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2281,7 +2281,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 595,
+      "line": 596,
       "text": "{analysis.estimate.statement} That can be estimated: somebody has established where it stands today.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2289,7 +2289,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "FiledBillPanel",
-      "line": 596,
+      "line": 597,
       "text": "No estimate is available. {analysis.estimate.reason}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2297,7 +2297,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "base",
-      "line": 711,
+      "line": 712,
       "text": "This bill cannot be recomposed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2305,7 +2305,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "preview",
-      "line": 728,
+      "line": 729,
       "text": "These changes cannot be combined.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2313,7 +2313,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "BillCompositionEditor",
-      "line": 801,
+      "line": 802,
       "text": "Proposed changes saved. The bill’s text is unchanged.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2321,7 +2321,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "BillCompositionEditor",
-      "line": 807,
+      "line": 808,
       "text": "The amendment could not be offered.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2329,7 +2329,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 966,
+      "line": 968,
       "text": "drafting-option drafting-option-chosen",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2337,7 +2337,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1015,
+      "line": 1017,
       "text": "An appropriation has to name a program that is already authorized to spend — pass one first, or choose a different kind of bill.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2345,7 +2345,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1016,
+      "line": 1018,
       "text": "It has to name something that already exists.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2353,7 +2353,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1026,
+      "line": 1028,
       "text": "drafting-authority-option drafting-authority-chosen",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2361,7 +2361,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1046,
+      "line": 1048,
       "text": "It states no amount.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2369,7 +2369,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1047,
+      "line": 1049,
       "text": "It authorizes {candidate.authorizedCeilingLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2377,7 +2377,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1116,
+      "line": 1118,
       "text": "As you would file it, this Act provides {asChosen.draft.appropriatedLabel}{asChosen.draft.predicateAuthority?.authorizedCeilingMinorUnits===null?\".\":`,againstthe${formatMinorUnits(asChosen.draft.predicateAuthority?.authorizedCeilingMinorUnits??0,\"USD\",)}that${asChosen.draft.predicateAuthority?.citationLabel}authorizes.`}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2385,7 +2385,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1127,
+      "line": 1129,
       "text": "As you would file it, this Act charges {asChosen.draft.revenueLabel}. What that raises depends on how many pay it, and nothing here knows that.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2393,7 +2393,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1129,
+      "line": 1131,
       "text": "This configuration authorizes no money at all.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2401,7 +2401,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "DraftingTable",
-      "line": 1130,
+      "line": 1132,
       "text": "As you would file it, this Act authorizes up to {asChosen.draft.authorizedCeilingLabel}. Stating a ceiling is not providing the money.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2409,7 +2409,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "ParameterControl",
-      "line": 1245,
+      "line": 1253,
       "text": "{value.years} years",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2417,7 +2417,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "stageLabel",
-      "line": 1305,
+      "line": 1313,
       "text": "Filed, awaiting referral",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2425,7 +2425,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "stageLabel",
-      "line": 1307,
+      "line": 1315,
       "text": "In committee",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2433,7 +2433,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "stageLabel",
-      "line": 1309,
+      "line": 1317,
       "text": "On the floor",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2441,7 +2441,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "stageLabel",
-      "line": 1311,
+      "line": 1319,
       "text": "With the other chamber",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -2449,7 +2449,7 @@
     {
       "sourcePath": "src/player/DocketWorkspace.tsx",
       "enclosingSymbol": "stageLabel",
-      "line": 1313,
+      "line": 1321,
       "text": "With the Governor",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6945,7 +6945,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "haystack",
-      "line": 447,
+      "line": 446,
       "text": "{bill.designation} {bill.shortTitle}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6953,7 +6953,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "availableAuthorities",
-      "line": 564,
+      "line": 563,
       "text": "{bill.designation} ({bill.shortTitle})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6961,7 +6961,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "availableAuthorities",
-      "line": 565,
+      "line": 564,
       "text": "the program described in {bill.designation}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6969,7 +6969,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "availableAuthorities",
-      "line": 573,
+      "line": 572,
       "text": "Enactment recorded for {bill.designation}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6977,7 +6977,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "availableAuthorities",
-      "line": 574,
+      "line": 573,
       "text": "{bill.designation} is a proposal, not law. Any linked bill is conditional on its enactment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6985,7 +6985,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "resolveAuthority",
-      "line": 642,
+      "line": 641,
       "text": "{bill.designation} ({bill.shortTitle})",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6993,7 +6993,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "resolveAuthority",
-      "line": 643,
+      "line": 642,
       "text": "the program described in {bill.designation}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7001,7 +7001,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "previewDraft",
-      "line": 695,
+      "line": 694,
       "text": "{designationPrefix(chamberKey)} {400+input.provisionalSequence}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7009,7 +7009,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "draft",
-      "line": 854,
+      "line": 853,
       "text": "{designationPrefix(chamberKey)} {400+sequence}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7017,7 +7017,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "fileDraft",
-      "line": 951,
+      "line": 950,
       "text": "Authored program parameters chosen in play. Not a statute, not a measurement, and not a claim about any real program.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7025,7 +7025,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "fileDraft",
-      "line": 959,
+      "line": 958,
       "text": "{draft.designation} — {draft.shortTitle}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7033,7 +7033,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "recompileSavedBill",
-      "line": 1032,
+      "line": 1021,
       "text": "This bill records no drafting configuration.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7041,7 +7041,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "recompileSavedBill",
-      "line": 1039,
+      "line": 1028,
       "text": "The '{lineage.familyKey}' family is no longer in the content bank, so this bill's configuration cannot be re-read. Its filed text is unaffected.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7049,7 +7049,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "recompileSavedBill",
-      "line": 1044,
+      "line": 1033,
       "text": "This bill was drafted at {lineage.familyKey} {lineage.familyVersion} and the bank now carries {family.familyVersion}. Its filed text stands as filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -7057,7 +7057,7 @@
     {
       "sourcePath": "src/presentation/legislation-docket.ts",
       "enclosingSymbol": "recompileSavedBill",
-      "line": 1064,
+      "line": 1053,
       "text": "This bill was written against {lineage.authorityKey}, which is no longer available to read. Its filed text stands as filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9705,7 +9705,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "label",
-      "line": 279,
+      "line": 311,
       "text": "In your neighborhood",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9713,7 +9713,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 292,
+      "line": 324,
       "text": "Present in the authored scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9721,7 +9721,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 299,
+      "line": 331,
       "text": "Present in the authored scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9729,7 +9729,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 308,
+      "line": 340,
       "text": "Present in the authored household scene",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9737,7 +9737,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "next",
-      "line": 411,
+      "line": 446,
       "text": "Present for the choice",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9745,7 +9745,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "provider",
-      "line": 534,
+      "line": 569,
       "text": "In your neighborhood",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9753,7 +9753,7 @@
     {
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "enclosingSymbol": "provider",
-      "line": 542,
+      "line": 577,
       "text": "OPENING-LIFE1 authored short local walk; no measured distance or travel speed is asserted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10585,7 +10585,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 231,
+      "line": 234,
       "text": "The character this life follows",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10593,7 +10593,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 237,
+      "line": 240,
       "text": "{name} is {age}, and lives in {place.displayName}. This is where their life is picked up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10601,7 +10601,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 244,
+      "line": 247,
       "text": "The start of a working life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10609,7 +10609,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 245,
+      "line": 248,
       "text": "The start of a life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10617,7 +10617,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 249,
+      "line": 252,
       "text": "A childhood already under way, in a household the character did not choose.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10625,7 +10625,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 250,
+      "line": 253,
       "text": "An ordinary adult life already under way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10633,7 +10633,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 294,
+      "line": 298,
       "text": "{player.familyName} household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10641,7 +10641,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 295,
+      "line": 299,
       "text": "{personName(player)}'s household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10649,7 +10649,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "establishAgeEligibleState",
-      "line": 754,
+      "line": 758,
       "text": "This parent died before the current life began. The cause is not recorded.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10657,7 +10657,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "employInLegislativeOffice",
-      "line": 817,
+      "line": 821,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -37288,8 +37288,328 @@
     },
     {
       "sourcePath": "src/simulation/opening-life-content.ts",
-      "enclosingSymbol": "OPENING_LIFE_FAMILIES",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 600,
+      "text": "You traded snacks with {person} despite the lunch rule. The exchanged snack is still in front of you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 605,
+      "text": "You offer {person} their snack back and ask for yours.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 610,
+      "text": "You keep the snack you received from {person}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 617,
+      "text": "You suggested a trial round to {person}; you have not yet agreed to keep the new rule.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 622,
+      "text": "You play one round with the new rule alongside {person}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 628,
+      "text": "You tell {person} you want to stick with the rules you agreed first.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 635,
+      "text": "You asked {person} how they knew the story. You still have no evidence that it happened.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
       "line": 647,
+      "text": "You tell {person} you will not repeat the story without knowing it is true.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 654,
+      "text": "You stayed beside {person} after their snack fell. Your own snack is still yours.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 659,
+      "text": "You offer {person} a piece of your snack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 664,
+      "text": "You stay with {person} and keep your snack.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 671,
+      "text": "You told {person} that you do not want pushing during tag. You can decide whether to join another round.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 682,
+      "text": "You tell {person} you are done with tag for now.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 689,
+      "text": "You laughed with {person} during the quiet reading. The reading is still going on.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 699,
+      "text": "You move away from {person} and listen from another spot.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 706,
+      "text": "You handed the blue crayon to {person} and chose another color. Your drawing is still in front of you.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 717,
+      "text": "You ask {person} to pass the blue crayon back when they finish.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 724,
+      "text": "You asked {person} for a turn on the swing. Asking has not given you a turn yet.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 734,
+      "text": "You tell {person} you are going to play somewhere else.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 746,
+      "text": "You offer {person} a fresh sheet of paper.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 751,
+      "text": "You ask {person} what they want you to do next.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 758,
+      "text": "You asked {person} for more time with the toy. You have not been given permission to stay up.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 769,
+      "text": "You ask {person} whether a few more minutes are possible.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 776,
+      "text": "You told {person} how the mug broke. Pieces are still on the floor.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 787,
+      "text": "You point out the broken pieces to {person} without touching them.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 804,
+      "text": "You tell {person} you have tried it and do not want another bite.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 829,
+      "text": "You showed {person} the broken wheel and apologized. The toy is still broken.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 835,
+      "text": "You ask {person} whether they want you to try putting the wheel back.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 840,
+      "text": "You give {person} the truck and its loose wheel.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 864,
+      "text": "You asked {person} about school. Your question does not establish any facts about their childhood.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 869,
+      "text": "You leave space for {person} to answer if they want to.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 875,
+      "text": "You ask {person} whether they would rather talk about something else.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 899,
+      "text": "You asked {person} for quiet time. You have stated what you need, not made a shared agreement.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 909,
+      "text": "You tell {person} you would like to talk another time.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 916,
+      "text": "You pointed out the cat and flyer to {person}. A resemblance does not establish that this is the missing cat.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 922,
+      "text": "You stay beside {person} and watch the cat from a distance.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 928,
+      "text": "You ask {person} to look at the flyer and the cat together.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 935,
+      "text": "You stopped at the curb and {person} caught up. You are still on the sidewalk.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 940,
+      "text": "You continue along the sidewalk beside {person}.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FOLLOWUPS",
+      "line": 945,
+      "text": "You ask {person} to hold your hand before going farther.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/opening-life-content.ts",
+      "enclosingSymbol": "OPENING_LIFE_FAMILIES",
+      "line": 1012,
       "text": "{scene.minutes} minutes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -47755,10 +48075,10 @@
       "count": 44
     },
     {
-      "sourcePath": "src/presentation/player-capabilities.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 11
+      "sourcePath": "src/presentation/player-capabilities.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
     },
     {
       "sourcePath": "src/presentation/person-visual-selection.ts",
@@ -47797,6 +48117,12 @@
       "count": 11
     },
     {
+      "sourcePath": "src/presentation/player-capabilities.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 11
+    },
+    {
       "sourcePath": "src/presentation/p2r1-grounding.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -47821,10 +48147,10 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/player-capabilities.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
+      "sourcePath": "src/presentation/opening-repair6.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 4
     },
     {
       "sourcePath": "src/presentation/opening-officeholders.ts",
@@ -47905,10 +48231,10 @@
       "count": 14
     },
     {
-      "sourcePath": "src/presentation/life-story.ts",
+      "sourcePath": "src/presentation/life-scene.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 5
     },
     {
       "sourcePath": "src/presentation/life-scene.test.ts",
@@ -47932,13 +48258,7 @@
       "sourcePath": "src/presentation/life-scene-flow.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 5
-    },
-    {
-      "sourcePath": "src/presentation/life-scene.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 5
+      "count": 6
     },
     {
       "sourcePath": "src/presentation/economic-graphs.ts",
@@ -48004,7 +48324,13 @@
       "sourcePath": "src/presentation/legislative-member-seat.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 23
+      "count": 28
+    },
+    {
+      "sourcePath": "src/presentation/legislative-filing-entry.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 5
     },
     {
       "sourcePath": "src/presentation/legislative-dialogue-motifs.ts",
@@ -48043,6 +48369,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/municipal-venue.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/legislative-bargaining-world.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -48073,9 +48405,9 @@
       "count": 1
     },
     {
-      "sourcePath": "src/presentation/municipal-venue.ts",
+      "sourcePath": "src/presentation/life-story.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
     },
     {
@@ -48160,7 +48492,7 @@
       "sourcePath": "src/presentation/legislation-docket.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 9
+      "count": 8
     },
     {
       "sourcePath": "src/presentation/legislation-docket.test.ts",
@@ -48490,7 +48822,7 @@
       "sourcePath": "src/presentation/adaptive-life.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 26
+      "count": 27
     },
     {
       "sourcePath": "src/player/PersonAppearanceControls.tsx",

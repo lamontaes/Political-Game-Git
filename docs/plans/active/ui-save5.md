@@ -92,3 +92,18 @@ are unchanged. Donor evidence docs/systems/life-paths2-validation.md attributes
 the35.061s measurement to hosted34315596484 oncb8f97e. This is a named test-only
 budget delta, not a global timeout or simulation-time change. No local rerun
 while MUNI holds the heavy slot.
+
+## Combined focused proof after donor consumption
+
+MUNI explicitly released the slot. On clean local828ed1e96dcb99b1fc6967a05ca6ce02cb9bd640,
+97/97 tests passed across adaptive-life, dialogue-reachability,
+ordinary-conversation-integration, opening-repair6, opening-life-scenes,
+legislative-member-seat and legislative-session-window (12.39s). The three
+original OPENING failures now pass with their assertions intact. This is actual
+combined proof, distinct from the earlier donor runs.
+
+Accepted anchor tooling minted/reworded/retired zero IDs. Combined corpus
+regenerated2453templates,270warnings,5724unclassified candidates,0hard errors;
+check passes with seven byte-identical artifacts and the review packet differing
+only by recorded commit. Full/browser acceptance still requires QUAL delivery
+and the remaining NEWS producers. No old browser identity is relabeled.

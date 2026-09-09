@@ -1134,7 +1134,14 @@
     "evidence": "and it"
   },
   {
-    "id": "prose:life:episode:opening.adult.home.free-time/moment#option:draw:label",
+    "id": "prose:life:episode:opening.early.home.bedtime-delay/follow-through#option:put-away:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "rather-than-scaffold",
+    "message": "The \"rather than\" scaffold. Often correct; counted so its corpus-wide density can be seen.",
+    "evidence": "rather than"
+  },
+  {
+    "id": "prose:life:episode:opening.young.home.ask-about-childhood/follow-through#option:change:memory",
     "severity": "REVIEW_WARNING",
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
