@@ -380,6 +380,20 @@ describe("consolidation is a set of relationships, not a boolean", () => {
 });
 
 describe("unknown stays unknown, and provenance survives", () => {
+  it("retains usable structure when current partisanship is unresolved", () => {
+    const corpus = compiled();
+    const records = corpus.records.map((record) => ({
+      ...record,
+      electedStructure: { ...record.electedStructure, partisanshipHistory: [] },
+    }));
+    expect(
+      validateMunicipalGovernanceCorpus({ ...corpus, records }).findings.filter(
+        (finding) => finding.severity === "error",
+      ),
+    ).toEqual([]);
+    expect(records[0]?.electedStructure.bodySize.state).toBe("KNOWN");
+  });
+
   it("leaves no value key on a fact nobody established", () => {
     const { louisville } = byId(compiled().records);
     const exactNestedCount = louisville.consolidation.nestedGovernmentCount;
