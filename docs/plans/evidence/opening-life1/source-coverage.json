@@ -37,10 +37,7 @@
       "key": "early.school.crayon-sharing",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.school.crayon-sharing",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 10,
@@ -51,10 +48,7 @@
       "key": "early.school.playground-turn",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.school.playground-turn",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 10,
@@ -151,10 +145,7 @@
       "key": "early.school.lunchbox-swap",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.school.lunchbox-swap",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 5,
@@ -165,10 +156,7 @@
       "key": "early.school.spilled-paint",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.school.spilled-paint",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 10,
@@ -208,10 +196,7 @@
       "key": "early.home.bedtime-delay",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.home.bedtime-delay",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "home",
       "cast": "guardian",
       "minutes": 10,
@@ -255,10 +240,7 @@
       "key": "early.home.broken-mug",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.home.broken-mug",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "home",
       "cast": "guardian",
       "minutes": 10,
@@ -269,10 +251,7 @@
       "key": "early.home.food-refusal",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.home.food-refusal",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "home",
       "cast": "guardian",
       "minutes": 10,
@@ -350,10 +329,7 @@
       "key": "early.home.closet-fear",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.home.closet-fear",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "home",
       "cast": "alone",
       "minutes": 10,
@@ -364,10 +340,7 @@
       "key": "early.peer.sidewalk-game",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.peer.sidewalk-game",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 10,
@@ -417,10 +390,7 @@
       "key": "early.peer.secret-whisper",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.peer.secret-whisper",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 5,
@@ -431,10 +401,7 @@
       "key": "early.peer.toy-damage-accidental",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.peer.toy-damage-accidental",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 10,
@@ -445,10 +412,7 @@
       "key": "early.peer.dropped-treat",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.peer.dropped-treat",
-      "ages": [
-        5,
-        7
-      ],
+      "ages": [5, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 5,
@@ -459,10 +423,7 @@
       "key": "early.peer.roughhouse-line",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.peer.roughhouse-line",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "school",
       "cast": "peer",
       "minutes": 5,
@@ -473,10 +434,7 @@
       "key": "early.community.lost-pet-flyer",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.community.lost-pet-flyer",
-      "ages": [
-        6,
-        7
-      ],
+      "ages": [6, 7],
       "setting": "neighborhood",
       "cast": "guardian",
       "minutes": 5,
@@ -487,10 +445,7 @@
       "key": "early.community.sidewalk-curb",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.community.sidewalk-curb",
-      "ages": [
-        5,
-        6
-      ],
+      "ages": [5, 6],
       "setting": "neighborhood",
       "cast": "guardian",
       "minutes": 5,
@@ -507,10 +462,7 @@
       "key": "early.community.library-quiet",
       "status": "opening-adaptation",
       "episodeKey": "opening.early.community.library-quiet",
-      "ages": [
-        5,
-        6
-      ],
+      "ages": [5, 6],
       "setting": "school",
       "cast": "peer",
       "minutes": 5,

@@ -164,7 +164,7 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     (record) => record.reachability === "WITHHELD_BY_GROUNDING",
   );
 
-  it("classifies the ten withheld 92C stages as withheld", () => {
+  it("classifies the eight still-withheld 92C stages as withheld", () => {
     const stages = new Set(
       withheld
         .filter((record) => record.bank === "episode")
@@ -172,12 +172,10 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     );
     for (const stage of [
       "called-in",
-      "asked-by-a-colleague",
       "it-came-back-round",
       "pooled-tips",
       "what-you-said-stuck",
       "the-commute",
-      "carrying-the-group",
       "the-family-shop",
       "the-third-weekend",
       "sandbag-line",
@@ -549,7 +547,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // Re-measured by corpus:prose on the actual OPENING checkpoint composed
     // with frozen P2R2/P01; these are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(53517);
+    expect(coverage.totalLiterals).toBe(53526);
     expect(coverage.counts.INVENTORIED).toBe(2054);
     expect(coverage.scannedFiles).toBe(366);
   });

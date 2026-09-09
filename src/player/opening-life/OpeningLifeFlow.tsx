@@ -39,7 +39,24 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         onSkip={enter}
       />
     );
-  if (continuing) return props.continuingLife;
+  if (continuing)
+    return (
+      <>
+        {props.continuingLife}
+        <button
+          type="button"
+          className="ui-action"
+          onClick={() => {
+            props.onWorldChange(
+              openNextLifeScene(props.world, props.playerPersonId),
+            );
+            setContinuing(false);
+          }}
+        >
+          Return to your day
+        </button>
+      </>
+    );
   return (
     <LifeScenePanel
       world={props.world}

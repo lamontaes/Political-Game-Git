@@ -4,7 +4,7 @@ import {
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
 import { useState } from "react";
-import { personName } from "../../simulation";
+import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
   World,
@@ -49,6 +49,22 @@ export function LifeScenePanel({
     ? projectLifeConversation(world, playerPersonId, selected)
     : null;
   const reflection = lifeReflectionOffer(world, playerPersonId);
+  const lastSceneEvent = world.history.events
+    .filter(
+      (event) =>
+        (event.type === "life.scene.opened" ||
+          event.type === "life.scene.resolved") &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === playerPersonId &&
+            participant.role === "focus:subject",
+        ),
+    )
+    .at(-1);
+  const aftermath =
+    !scene && lastSceneEvent?.type === "life.scene.resolved"
+      ? lastSceneEvent.summary
+      : null;
   function commit(run: () => World) {
     try {
       const next = run();
@@ -67,12 +83,16 @@ export function LifeScenePanel({
     }
   }
   return (
-    <section className="game-scene-panel" data-testid="opening-life-scene">
+    <section
+      className="life-moment"
+      data-testid="opening-life-scene"
+    >
       <p data-testid="life-identity">
         {identity.name} · Age {identity.age} · {identity.date} ·{" "}
         {identity.place}
       </p>
       {problem ? <p role="alert">{problem}</p> : null}
+      {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>
           <p className="game-scene">{scene.prose}</p>
@@ -111,6 +131,10 @@ export function LifeScenePanel({
                   onClick={() => setSelected(id)}
                 >
                   {personName(world.people[id]!)}
+                  {describePersonContext(world, playerPersonId, id)
+                    ?.relationship
+                    ? ` · ${describePersonContext(world, playerPersonId, id)!.relationship}`
+                    : ""}
                 </button>
               ))}
           </nav>

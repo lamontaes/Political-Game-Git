@@ -3,7 +3,7 @@
     "INVENTORIED": 2054,
     "INTENTIONALLY_NON_PLAYER_FACING": 4766,
     "DIAGNOSTIC_OR_TEST": 3748,
-    "NEEDS_CLASSIFICATION": 3451
+    "NEEDS_CLASSIFICATION": 3452
   },
   "needsClassification": [
     {
@@ -3697,7 +3697,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "commit",
-      "line": 57,
+      "line": 73,
       "text": "No change was made. Check your current commitments before advancing time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3705,7 +3705,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "commit",
-      "line": 65,
+      "line": 81,
       "text": "That action is no longer available.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3713,7 +3713,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 102,
+      "line": 122,
       "text": "People here",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3721,7 +3721,15 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 118,
+      "line": 136,
+      "text": " · {describePersonContext(world,playerPersonId,id)!.relationship}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
+      "enclosingSymbol": "LifeScenePanel",
+      "line": 142,
       "text": "Conversation with {talk.person.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."

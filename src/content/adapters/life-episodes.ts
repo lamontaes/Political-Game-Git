@@ -258,12 +258,12 @@ function describeRequirement(
   switch (requirement.kind) {
     case "home-recorded":
       return {
-        key: "home-recorded",
+        key: "home-recorded:current",
         description: "A current household is recorded.",
       };
     case "local-time-window":
       return {
-        key: `local-time:${requirement.startMinute}:${requirement.endMinuteExclusive}`,
+        key: `local-time-window:${requirement.startMinute}:${requirement.endMinuteExclusive}`,
         description:
           "The canonical moment is inside the declared local time window.",
       };

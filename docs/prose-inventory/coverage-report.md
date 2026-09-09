@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2054 |
 | INTENTIONALLY_NON_PLAYER_FACING | 4766 |
 | DIAGNOSTIC_OR_TEST | 3748 |
-| **NEEDS_CLASSIFICATION** | **3451** |
+| **NEEDS_CLASSIFICATION** | **3452** |
 
-Scanned 366 files holding 53517 string
+Scanned 366 files holding 53526 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -158,6 +158,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/player/CampaignWorkspace.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
+| 5 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 5 | `src/presentation/browser-world-repository-protocol.ts` |
 | 5 | `src/presentation/legislative-bargaining-world.ts` |
 | 5 | `src/presentation/life-conversation.ts` |
@@ -168,7 +169,6 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/TitleScreen.tsx` |
-| 4 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/simulation/life-personality.ts` |
 | 4 | `src/simulation/person-identity.ts` |
