@@ -54,7 +54,7 @@ have regression controls. Canonical tests cover citizen attendance in Carson Cit
 and Charlottesville, member work completion, save/reload, duplicates, departure,
 calendar conflict, repeated sessions and every explicit venue binding.
 
-`tests/acceptance/municipal-member.spec.ts` is a separate normal-route test for
+`tests/acceptance/municipal-member.browser.ts` is a separate normal-route test for
 UI-core's composed candidate. It creates a real Carson City citizen save, authors
 only an explicitly disclosed member fixture into that isolated save, then uses
 normal controls for work and persistence. It must be run on the identified UI
