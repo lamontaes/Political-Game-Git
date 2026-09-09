@@ -200,7 +200,7 @@ test("derives truthful work groups and advances staff work during player activit
     "Transit draft follow-up",
   );
   await openPlanning(page, "Work / Pending");
-  await expect(page.getByTestId("work-group-completed-ready")).toContainText(
+  await expect(page.getByTestId("work-group-staff-handling")).toContainText(
     "Collins's transit analysis summary",
   );
   await expect(page.getByTestId("work-group-staff-handling")).toContainText(
