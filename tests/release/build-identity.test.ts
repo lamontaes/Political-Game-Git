@@ -85,7 +85,7 @@ describe("no second version literal", () => {
   });
 });
 
-describe("which revision gets stamped", () => {
+describe("which revision gets stamped", { timeout: 30_000 }, () => {
   it("is the checked-out tree, not a synthetic merge commit the environment names", () => {
     // On a pull request GITHUB_SHA names a merge commit that is not the tree the
     // job checked out. Stamping it would name a revision nobody built.

@@ -55,6 +55,7 @@
     "release:check": "node --import tsx scripts/release/index.ts check",
     "release:preview": "node --import tsx scripts/release/index.ts preview",
     "release:apply": "node --import tsx scripts/release/index.ts apply",
+    "release:recover": "node --import tsx scripts/release/index.ts recover",
     "release:declare": "node --import tsx scripts/release/index.ts declare",
     "agent:preflight": "node scripts/agent-preflight.mjs",
     "dev:identified": "node scripts/dev-identified.mjs",

@@ -7,7 +7,7 @@
  * change, and publishing it is one push that either lands whole or not at all.
  */
 
-import { readFileSync, rmSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { ChangeDeclaration, ReleasePlan } from "./model";
 import { insertReleaseSection } from "./notes";
@@ -22,6 +22,11 @@ import {
 import { loadDeclarations } from "./declarations";
 import { planRelease } from "./plan";
 import { readPackageVersion } from "./build-identity";
+import { bumpLockfileVersion } from "./package-metadata";
+import {
+  commitReleaseTransaction,
+  recoverReleaseTransaction,
+} from "./transaction";
 
 export const NOTES_PATH = "PATCH_NOTES.md";
 export const PACKAGE_PATH = "package.json";
@@ -59,38 +64,6 @@ export function bumpPackageVersion(
     );
   }
   return text.replace(pattern, `$1${to}$2`);
-}
-
-/**
- * The lockfile records the package's own version twice.
- *
- * `npm ci` reconciles them, so leaving one behind turns every later install
- * into a spurious diff. Both are the same literal edit, and both are required.
- */
-export function bumpLockfileVersion(
-  text: string,
-  from: string,
-  to: string,
-): string {
-  const escaped = from.replace(/\./g, "\\.");
-  const pattern = new RegExp(
-    `^(\\s*"version"\\s*:\\s*")${escaped}(",?)$`,
-    "gm",
-  );
-  const matches = text.match(pattern);
-  if (!matches || matches.length < 2) {
-    throw new Error(
-      `Expected the lockfile to carry version "${from}" for the root package twice; found ${matches?.length ?? 0}.`,
-    );
-  }
-  // Only the first two occurrences belong to the root package: the top-level
-  // field and packages[""]. A dependency that happens to share the version
-  // number is not ours to move.
-  let seen = 0;
-  return text.replace(pattern, (match, prefix: string, suffix: string) => {
-    seen += 1;
-    return seen <= 2 ? `${prefix}${to}${suffix}` : match;
-  });
 }
 
 /** Compute every byte the release writes, without writing any of them. */
@@ -152,12 +125,7 @@ export function planWrites(
 }
 
 export function commitWrites(root: string, applied: AppliedRelease): void {
-  for (const write of applied.writes) {
-    writeFileSync(join(root, write.path), write.contents);
-  }
-  for (const path of applied.deletions) {
-    rmSync(join(root, path), { force: true });
-  }
+  commitReleaseTransaction(root, applied);
 }
 
 /**
@@ -172,6 +140,7 @@ export function releaseTree(
   isoDate: string,
   revision: string,
 ): ReleasePlan {
+  recoverReleaseTransaction(root);
   const plan = planRelease({
     currentVersion: readPackageVersion(root),
     notesText: readFileSync(join(root, NOTES_PATH), "utf8"),

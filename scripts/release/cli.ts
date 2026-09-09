@@ -16,28 +16,31 @@ import { acceptedVersions, parseNotes } from "./notes";
 import { planRelease } from "./plan";
 import { NOTES_PATH, commitWrites, planWrites } from "./apply";
 import { readPackageVersion, resolveBuildIdentity } from "./build-identity";
+import {
+  assertVersionMetadataAgreement,
+  readLockfileVersionMetadata,
+} from "./package-metadata";
+import {
+  checkDeclarationTransition,
+  type DeclarationComparison,
+  type DeclarationComparisonMode,
+} from "./transition";
+import {
+  hasReleaseTransaction,
+  recoverReleaseTransaction,
+} from "./transaction";
 import { parseVersion } from "./version";
 import type { ReleasePlan } from "./model";
 
 export const REPO_ROOT = process.cwd();
 
-function lockfileVersion(root: string): string | null {
-  const path = join(root, "package-lock.json");
-  if (!existsSync(path)) return null;
-  const parsed: unknown = JSON.parse(readFileSync(path, "utf8"));
-  const version = (parsed as { version?: unknown }).version;
-  return typeof version === "string" ? version : null;
-}
-
 /**
  * The deterministic gate `npm run validate` runs.
- *
- * It checks what is in the tree; it does not require a declaration to be there.
- * Demanding one would retroactively fail every branch cut before this
- * convention existed, and would push agents into writing a fake player note for
- * a parser change rather than admitting the change has nothing to say.
  */
-export function check(root: string): string[] {
+export function check(
+  root: string,
+  comparison?: DeclarationComparison,
+): string[] {
   const problems: string[] = [];
   const record = (error: unknown): void => {
     problems.push((error as Error).message);
@@ -52,12 +55,13 @@ export function check(root: string): string[] {
   }
 
   if (packageVersion !== null) {
-    const locked = lockfileVersion(root);
-    if (locked !== null && locked !== packageVersion) {
-      problems.push(
-        `package-lock.json records version ${locked} while package.json records ${packageVersion}. ` +
-          `The accepted release version has one source; the lockfile mirrors it.`,
+    try {
+      assertVersionMetadataAgreement(
+        packageVersion,
+        readLockfileVersionMetadata(root),
       );
+    } catch (error) {
+      record(error);
     }
     try {
       const notes = parseNotes(readFileSync(join(root, NOTES_PATH), "utf8"));
@@ -105,7 +109,75 @@ export function check(root: string): string[] {
     record(error);
   }
 
+  if (hasReleaseTransaction(root)) {
+    problems.push(
+      "A release transaction journal is present. Run 'npm run release:recover' before validation.",
+    );
+  }
+
+  if (comparison !== undefined) {
+    try {
+      problems.push(...checkDeclarationTransition(root, comparison).problems);
+    } catch (error) {
+      record(error);
+    }
+  }
+
   return problems;
+}
+
+function optionalFlag(
+  rest: readonly string[],
+  name: string,
+): string | undefined {
+  const at = rest.indexOf(name);
+  if (at === -1) return undefined;
+  const value = rest[at + 1];
+  if (value === undefined || value.startsWith("--")) {
+    throw new Error(`${name} requires a value.`);
+  }
+  return value;
+}
+
+function gitRevision(root: string, args: readonly string[]): string | null {
+  try {
+    return execFileSync("git", [...args], {
+      cwd: root,
+      stdio: ["ignore", "pipe", "ignore"],
+      encoding: "utf8",
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+function declarationComparison(
+  root: string,
+  rest: readonly string[],
+): DeclarationComparison {
+  const baseFlag = optionalFlag(rest, "--base");
+  const headFlag = optionalFlag(rest, "--head");
+  const modeValue =
+    optionalFlag(rest, "--mode") ??
+    process.env.RELEASE_DECLARATION_MODE ??
+    "pr";
+  if (modeValue !== "pr" && modeValue !== "push") {
+    throw new Error("--mode must be 'pr' or 'push'.");
+  }
+  const mode = modeValue as DeclarationComparisonMode;
+  const head =
+    headFlag ??
+    process.env.RELEASE_DECLARATION_HEAD ??
+    gitRevision(root, ["rev-parse", "HEAD"]);
+  if (!head)
+    throw new Error("Could not resolve a declaration comparison head.");
+  const base =
+    baseFlag ??
+    process.env.RELEASE_DECLARATION_BASE ??
+    gitRevision(root, ["rev-parse", "origin/main"]) ??
+    gitRevision(root, ["rev-parse", "HEAD^"]) ??
+    head;
+  return { base, head, mode };
 }
 
 /** The calendar date of the revision being released — not the wall clock. */
@@ -195,7 +267,8 @@ function run(argv: readonly string[], root: string): number {
   const [command, ...rest] = argv;
   switch (command) {
     case "check": {
-      const problems = check(root);
+      const comparison = declarationComparison(root, rest);
+      const problems = check(root, comparison);
       if (problems.length > 0) {
         for (const problem of problems)
           console.error(`release:check — ${problem}`);
@@ -204,7 +277,8 @@ function run(argv: readonly string[], root: string): number {
       const identity = resolveBuildIdentity(root);
       console.log(
         `release:check — version ${identity.version}, revision ${identity.revisionShort}${identity.dirty ? " (dirty)" : ""}, ` +
-          `${loadDeclarations(root).length} pending declaration(s). OK.`,
+          `${loadDeclarations(root).length} pending declaration(s), declaration range ` +
+          `${comparison.base}..${comparison.head} (${comparison.mode}). OK.`,
       );
       return 0;
     }
@@ -221,6 +295,12 @@ function run(argv: readonly string[], root: string): number {
       return plan.outcome === "blocked" ? 1 : 0;
     }
     case "apply": {
+      const recovery = recoverReleaseTransaction(root);
+      if (recovery !== "none") {
+        console.log(
+          `release:apply — recovered an interrupted transaction (${recovery}).`,
+        );
+      }
       const isoDate = revisionDate(root);
       const plan = currentPlan(root, isoDate);
       if (plan.outcome === "blocked") {
@@ -251,6 +331,11 @@ function run(argv: readonly string[], root: string): number {
       console.log(`release:apply — released ${plan.nextVersion}.`);
       return 0;
     }
+    case "recover": {
+      const recovery = recoverReleaseTransaction(root);
+      console.log(`release:recover — ${recovery}.`);
+      return 0;
+    }
     case "declare": {
       const id = rest[0];
       if (!id) {
@@ -264,7 +349,7 @@ function run(argv: readonly string[], root: string): number {
     }
     default:
       console.error(
-        "usage: release <check|preview [--json]|apply [--dry-run]|declare <id>>",
+        "usage: release <check [--base REV --head REV --mode pr|push]|preview [--json]|apply [--dry-run]|recover|declare <id>>",
       );
       return 1;
   }

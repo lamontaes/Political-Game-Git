@@ -36,7 +36,28 @@ jobs:
         run: npm ci
 
       - name: Run repository validation
-        run: npm run validate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          VALIDATED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            declaration_base="$PR_BASE_SHA"
+            declaration_mode="pr"
+          elif [[ -n "$EVENT_BEFORE" && ! "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            declaration_base="$EVENT_BEFORE"
+            declaration_mode="push"
+          else
+            declaration_base="$(git merge-base HEAD origin/main)"
+            declaration_mode="pr"
+          fi
+          RELEASE_DECLARATION_BASE="$declaration_base" \
+          RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
+          RELEASE_DECLARATION_MODE="$declaration_mode" \
+            npm run validate
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium

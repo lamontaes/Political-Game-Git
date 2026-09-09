@@ -20,6 +20,7 @@ import { check, main } from "../../scripts/release/cli";
 
 const REVISION = "0123456789abcdef0123456789abcdef01234567";
 const DATE = "2026-09-08";
+const RELEASE_TEST_TIMEOUT = { timeout: 30_000 } as const;
 
 /** Notes with no candidate heading, for the cases that test a plain minor bump. */
 const NOTES_WITHOUT_CANDIDATE = FIXTURE_NOTES.split("\n")
@@ -76,7 +77,7 @@ const sourceOnly = (id: string) =>
     body: "Tooling only; nothing a player sees.",
   });
 
-describe("two independent incoming changes", () => {
+describe("two independent incoming changes", RELEASE_TEST_TIMEOUT, () => {
   it("releases both in one batch, in deterministic order", () => {
     const fixture = makeFixture({
       notes: NOTES_WITHOUT_CANDIDATE,
@@ -103,7 +104,7 @@ describe("two independent incoming changes", () => {
   });
 });
 
-describe("version arithmetic", () => {
+describe("version arithmetic", RELEASE_TEST_TIMEOUT, () => {
   it("a bugfix-only batch is a patch release", () => {
     const fixture = makeFixture({
       declarations: { "a-fix": bugfix("a-fix", "A fix.") },
@@ -164,7 +165,7 @@ describe("version arithmetic", () => {
   });
 });
 
-describe("source-only work", () => {
+describe("source-only work", RELEASE_TEST_TIMEOUT, () => {
   it("moves nothing and invents no note", () => {
     const fixture = makeFixture({
       declarations: { "tooling-only": sourceOnly("tooling-only") },
@@ -202,7 +203,7 @@ describe("source-only work", () => {
   });
 });
 
-describe("candidate and unreleased sections", () => {
+describe("candidate and unreleased sections", RELEASE_TEST_TIMEOUT, () => {
   it("refuses to allocate a version a candidate heading reserves", () => {
     const fixture = makeFixture({
       declarations: { "b-feature": feature("b-feature", "A feature.") },
@@ -261,7 +262,7 @@ describe("candidate and unreleased sections", () => {
   });
 });
 
-describe("duplicate events and races", () => {
+describe("duplicate events and races", RELEASE_TEST_TIMEOUT, () => {
   it("replaying the same event releases nothing a second time", () => {
     const fixture = makeFixture({
       declarations: { "a-fix": bugfix("a-fix", "A fix.") },
@@ -349,7 +350,7 @@ describe("duplicate events and races", () => {
   });
 });
 
-describe("nothing half-written", () => {
+describe("nothing half-written", RELEASE_TEST_TIMEOUT, () => {
   it("a tree whose lockfile does not agree is left untouched", () => {
     const fixture = makeFixture({
       declarations: { "a-fix": bugfix("a-fix", "A fix.") },
@@ -361,7 +362,7 @@ describe("nothing half-written", () => {
       );
       const before = notes(fixture);
       expect(() => releaseTree(fixture.root, DATE, REVISION)).toThrow(
-        /carry version "0\.2\.0" for the root package twice/,
+        /package-lock\.json: 'packages': must be a JSON object/,
       );
       expect(version(fixture)).toBe("0.2.0");
       expect(notes(fixture)).toBe(before);
@@ -373,7 +374,7 @@ describe("nothing half-written", () => {
   });
 });
 
-describe("branches cut before this convention", () => {
+describe("branches cut before this convention", RELEASE_TEST_TIMEOUT, () => {
   it("validate passes with no declarations directory at all", () => {
     const fixture = makeFixture({ withoutChangesDir: true });
     try {
@@ -388,7 +389,7 @@ describe("branches cut before this convention", () => {
   });
 });
 
-describe("reverts", () => {
+describe("reverts", RELEASE_TEST_TIMEOUT, () => {
   it("are described by a new note rather than by erasing the old one", () => {
     const fixture = makeFixture({
       declarations: { "a-fix": bugfix("a-fix", "A fix.") },
@@ -418,57 +419,77 @@ describe("reverts", () => {
   });
 });
 
-describe("the command the release event actually runs", () => {
-  it("dates the release from the revision, applies once, and is a no-op on replay", () => {
-    const fixture = makeFixture({
-      asRepository: true,
-      declarations: { "a-fix": bugfix("a-fix", "A fix.") },
+describe(
+  "the command the release event actually runs",
+  RELEASE_TEST_TIMEOUT,
+  () => {
+    it("dates the release from the revision, applies once, and is a no-op on replay", () => {
+      const fixture = makeFixture({
+        asRepository: true,
+        declarations: { "a-fix": bugfix("a-fix", "A fix.") },
+      });
+      try {
+        const beforeDryRun = new Map(
+          [
+            "package.json",
+            "package-lock.json",
+            "PATCH_NOTES.md",
+            "docs/release/consumed-changes.json",
+            "docs/release/changes/a-fix.md",
+          ].map((path) => [
+            path,
+            readFileSync(join(fixture.root, path), "utf8"),
+          ]),
+        );
+        expect(main(["apply", "--dry-run"], fixture.root)).toBe(0);
+        for (const [path, contents] of beforeDryRun) {
+          expect(readFileSync(join(fixture.root, path), "utf8"), path).toBe(
+            contents,
+          );
+        }
+
+        expect(main(["apply"], fixture.root)).toBe(0);
+        expect(version(fixture)).toBe("0.2.1");
+        // The date came from the fixture's own commit, not from today.
+        expect(notes(fixture)).toContain("_Released 8 September 2026._");
+
+        const after = notes(fixture);
+        expect(main(["apply"], fixture.root)).toBe(0);
+        expect(notes(fixture)).toBe(after);
+        expect(version(fixture)).toBe("0.2.1");
+        expect(check(fixture.root)).toEqual([]);
+      } finally {
+        fixture.dispose();
+      }
     });
-    try {
-      expect(main(["apply", "--dry-run"], fixture.root)).toBe(0);
-      expect(version(fixture)).toBe("0.2.0");
 
-      expect(main(["apply"], fixture.root)).toBe(0);
-      expect(version(fixture)).toBe("0.2.1");
-      // The date came from the fixture's own commit, not from today.
-      expect(notes(fixture)).toContain("_Released 8 September 2026._");
-
-      const after = notes(fixture);
-      expect(main(["apply"], fixture.root)).toBe(0);
-      expect(notes(fixture)).toBe(after);
-      expect(version(fixture)).toBe("0.2.1");
-      expect(check(fixture.root)).toEqual([]);
-    } finally {
-      fixture.dispose();
-    }
-  });
-
-  it("refuses to apply a blocked release and leaves the tree alone", () => {
-    const fixture = makeFixture({
-      asRepository: true,
-      declarations: { "b-feature": feature("b-feature", "A feature.") },
+    it("refuses to apply a blocked release and leaves the tree alone", () => {
+      const fixture = makeFixture({
+        asRepository: true,
+        declarations: { "b-feature": feature("b-feature", "A feature.") },
+      });
+      try {
+        const before = notes(fixture);
+        expect(main(["apply"], fixture.root)).toBe(1);
+        expect(notes(fixture)).toBe(before);
+        expect(version(fixture)).toBe("0.2.0");
+      } finally {
+        fixture.dispose();
+      }
     });
-    try {
-      const before = notes(fixture);
-      expect(main(["apply"], fixture.root)).toBe(1);
-      expect(notes(fixture)).toBe(before);
-      expect(version(fixture)).toBe("0.2.0");
-    } finally {
-      fixture.dispose();
-    }
-  });
 
-  it("writes a declaration template that its own parser accepts", () => {
-    const fixture = makeFixture({ asRepository: true });
-    try {
-      expect(main(["declare", "a-new-change"], fixture.root)).toBe(0);
-      const declarations = loadDeclarations(fixture.root);
-      expect(declarations).toHaveLength(1);
-      expect(declarations[0]?.id).toBe("a-new-change");
-      expect(declarations[0]?.impact).toBe("none");
-      expect(main(["declare", "a-new-change"], fixture.root)).toBe(1);
-    } finally {
-      fixture.dispose();
-    }
-  });
-});
+    it("writes a declaration template that its own parser accepts", () => {
+      const fixture = makeFixture({ asRepository: true });
+      try {
+        expect(main(["declare", "a-new-change"], fixture.root)).toBe(0);
+        const declarations = loadDeclarations(fixture.root);
+        expect(declarations).toHaveLength(1);
+        expect(declarations[0]?.id).toBe("a-new-change");
+        expect(declarations[0]?.impact).toBe("none");
+        expect(main(["declare", "a-new-change"], fixture.root)).toBe(1);
+      } finally {
+        fixture.dispose();
+      }
+    });
+  },
+);

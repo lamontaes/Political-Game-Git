@@ -57,7 +57,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - Update affected documentation and tests with behavioral changes.
 - Run the Architecture Integrity Audit at major scope boundaries and whenever a new rule could affect completed work; earlier work is not grandfathered.
 - Start work in `docs/plans/active/`; move completed plans to `docs/plans/completed/`.
-- Declare player-facing changes once, in `docs/release/changes/`, via `npm run release:declare -- <id>`. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. Source-only work declares `impact: none` rather than inventing a player note, and needs no declaration at all. See [Releases](docs/release/README.md).
+- Every post-rollout eligible change declares `impact: patch`, `minor`, or explicit `none` once in `docs/release/changes/`, via `npm run release:declare -- <id>`. Validation compares the actual base/head history; only a branch demonstrably cut at or before the recorded rollout cutoff keeps the legacy exemption. `package.json.version` and `PATCH_NOTES.md` stay canonical and are advanced by the release on `main`, never by a branch and never by an agent choosing a number. See [Releases](docs/release/README.md).
 - Do not use proprietary code, assets, text, or implementation from other political games.
 
 ## Scope and Authorization
