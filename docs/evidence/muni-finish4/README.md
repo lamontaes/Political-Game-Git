@@ -78,3 +78,49 @@ regeneration; this branch's inventory is generated locally from its own tree.
 Recurring source-scope errors now have executable negative controls: quote/hash
 verification, unknown-versus-false comment handling and non-enacted power refusal.
 The smallest durable repair is those controls, rather than a larger handoff prompt.
+
+## Executed final gates
+
+The corrected municipal source head is
+`c23d8489f968675b482c0e3d485024211fc951fa`. Hosted run
+[34316641782](https://github.com/lamontaes/Political-Game-Git/actions/runs/34316641782)
+completed `Run repository validation` successfully. This is the actual full
+`npm run validate` step. Its later workflow browser result is not claimed here.
+Local art validation, inventory and QA generation also passed.
+
+The composed normal-route proof ran on UI-core's authorized frozen
+`8c18cd8efbf2325bedde31d63c53f0bf9adfbea2`, containing that municipal source,
+plus exactly the test-only changes in `normal-route-tests.patch`. Both browser
+tests passed in 16.6 seconds with one worker. Production source was unchanged.
+The patch was supplied to the UI owner for its existing carrier.
+
+The first failing control selected the county-equivalent result from the creator's
+full-name query. The municipal adapter correctly refused that unverified place
+join. The test now queries the shorter name and selects the visible Nevada
+locality explicitly via the existing scope label. No government join was added.
+A second member-test failure was exclusively `favicon.ico` returning 404; that
+known optional asset defect is separately recorded while other application errors
+remain fatal. Both work/save/reload flows had already passed their assertions.
+Native Node also required the repository's TypeScript loader for generated JSON.
+
+Command (port was verified unused; server stopped after the run):
+
+```sh
+NODE_OPTIONS='--import=tsx' PLAYWRIGHT_PORT=5396 PG_RUN_ID=muni-finish4-8c18cd8-final npx playwright test tests/e2e/municipal-member.spec.ts tests/e2e/ui-converge4.spec.ts --grep 'normal saved municipal member|normal Carson City citizen' --workers=1
+```
+
+Citizen proof: normal creator, pointer and keyboard activation, public attendance,
+current released venue, save/reload, unchanged roles and duplicate/read purity.
+Member proof: the normal creator's saved World receives only an explicitly
+identified canonical member fixture before reload; subsequent normal controls
+complete 20 authored minutes of private Work, persist the result, and refuse a
+duplicate without writes. This fixture is not a production route into office.
+
+Screenshots were inspected: `normal-municipal-current-room.png` and
+`normal-municipal-member.png`. They show the current public room and completed
+private notes respectively; they are engineering evidence, not human visual
+acceptance. The unresolved favicon remains disclosed. Independent ACCEPT-CLOSE4
+findings have not been supplied, so independent acceptance is still open.
+
+The heavy/browser slot was explicitly released to FISCAL. No server, deployment,
+merge or background monitor remains active from this proof.
