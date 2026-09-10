@@ -12,6 +12,10 @@ import {
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
+  legislationEntityAvailableAt,
+  legislationEntityExists,
+} from "./legislation";
+import {
   policySemanticsEntityAvailableAt,
   policySemanticsEntityExists,
 } from "./policy-semantics";
@@ -1499,6 +1503,11 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     world.history.events.some((record) => record.id === id) ||
     lifeEntityExists(world, id) ||
     policySemanticsEntityExists(world, id) ||
+    // A work item focused on legislative material needs the measure it is
+    // about to count as canonical provenance. The `legislative-material` focus
+    // kind already existed; nothing legislative could satisfy it, so a docket
+    // of bills had no way to appear in Work at all.
+    legislationEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -1524,8 +1533,16 @@ function canonicalSourceAvailable(
       sequenceExclusive,
     );
   }
+  // Both clauses are required, and in the same order `canonicalSourceExists`
+  // accepts them. That function already admits life entities and legislative
+  // material; if either one is missing here it falls through to the work-item
+  // lookup, finds nothing, and a canonical source the world does accept is
+  // reported unavailable.
   if (lifeEntityExists(world, id))
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  if (legislationEntityExists(world, id)) {
+    return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;
 }

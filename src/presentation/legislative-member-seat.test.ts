@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
+import { fileDraftFromOffice } from "./legislation-docket";
 
 import {
   assertWorldIntegrity,
@@ -6,6 +8,7 @@ import {
   createWorkRelationship,
   recordWorkStatus,
   serializeWorld,
+  deserializeWorld,
   requireLifePlace,
   type EntityId,
   type World,
@@ -172,6 +175,23 @@ function world79r1Date(world: World): string {
   return world.currentDate;
 }
 
+function expectFilingRefused(world: World, personId: EntityId) {
+  const before = JSON.stringify(world);
+  expect(resolveLegislativeFilingEntry(world, personId).kind).toBe(
+    "unavailable",
+  );
+  expect(() =>
+    fileDraftFromOffice(world, {
+      playerPersonId: personId,
+      scenarioKey: "kentucky-house",
+      jurisdictionId: requireLifePlace("kentucky").context.jurisdiction.id,
+      familyKey: "education-facilities",
+      variantKey: "school-repair-authorization",
+    }),
+  ).toThrow(/member seat|no active office/);
+  expect(JSON.stringify(world)).toBe(before);
+}
+
 describe("79R1 blocker 1 — employment prefix is not voting membership", () => {
   it("withholds bargaining from legislative staff who never won a seat", () => {
     const staffed = employedInLegislature(
@@ -192,6 +212,7 @@ describe("79R1 blocker 1 — employment prefix is not voting membership", () => 
     if (entry.kind === "unavailable") {
       expect(entry.reason.length).toBeGreaterThan(0);
     }
+    expectFilingRefused(world, staffed.personId);
     // A refused entry changes nothing.
     expect(serializeWorld(world)).toBe(before);
   });
@@ -270,6 +291,7 @@ describe("79R1 blocker 1 — employment prefix is not voting membership", () => 
     });
 
     expect(resolveActiveMemberSeat(ended, won.personId).kind).toBe("unseated");
+    expectFilingRefused(ended, won.personId);
     expect(
       openLegislativeBargaining(ended, { playerPersonId: won.personId }).kind,
     ).toBe("unavailable");
@@ -315,6 +337,7 @@ describe("79R1 — a member label cannot borrow an outcome it does not have", ()
 
   it("refuses a seat record whose campaign recorded a loss", () => {
     const lost = lostSeat();
+    expectFilingRefused(lost.world, lost.personId);
     const campaign = (lost.world.history.campaigns ?? []).find(
       (record) => record.candidatePersonId === lost.personId,
     )!;
@@ -459,5 +482,88 @@ describe("79R1 blocker 2 — entry invents no prior history", () => {
     for (const person of entry.seat.scenePeople) {
       expect(person.qualitativeRead).not.toMatch(/worked together before/i);
     }
+  });
+});
+
+describe("LEG-ENTRY6 normal filing authority", () => {
+  it("files under the actual winner and preserves the election chain through reload", () => {
+    const won = wonSeat();
+    const before = serializeWorld(won.world);
+    const entry = resolveLegislativeFilingEntry(won.world, won.personId);
+    expect(serializeWorld(won.world)).toBe(before);
+    expect(entry.kind).toBe("available");
+    if (entry.kind !== "available")
+      throw new Error("Expected canonical member entry");
+    const filed = fileDraftFromOffice(won.world, {
+      playerPersonId: won.personId,
+      scenarioKey: entry.scenarioKey,
+      jurisdictionId: entry.jurisdictionId,
+      familyKey: "education-facilities",
+      variantKey: "school-repair-authorization",
+    });
+    const measure = filed.world.history.legislativeMeasures!.find(
+      (r) => r.id === filed.bill.measureId,
+    )!;
+    expect(measure.sponsorPersonId).toBe(won.personId);
+    expect(measure.originChamberKey).toBe(entry.seat.chamberKey);
+    expect(filed.world.history.campaigns).toEqual(won.world.history.campaigns);
+    expect(filed.world.history.electionContestResults).toEqual(
+      won.world.history.electionContestResults,
+    );
+    expect(filed.world.history.workRelationships).toEqual(
+      won.world.history.workRelationships,
+    );
+    const restored = deserializeWorld(serializeWorld(filed.world));
+    expect(resolveLegislativeFilingEntry(restored, won.personId)).toEqual(
+      entry,
+    );
+    assertWorldIntegrity(restored);
+  });
+
+  it("refuses ambiguous active seat records without choosing the first", () => {
+    const won = wonSeat();
+    const seat = resolveActiveMemberSeat(won.world, won.personId);
+    if (seat.kind !== "seated") throw new Error("Expected canonical member");
+    const original = won.world.history.workRelationships.find(
+      (r) => r.id === seat.seat.relationshipId,
+    )!;
+    // Deliberate malformed-save control: two active claims backed by the same
+    // outcome must never be resolved by array order. No success uses this data.
+    const duplicateId = `${original.id}:ambiguous` as EntityId;
+    const ambiguous = {
+      ...won.world,
+      history: {
+        ...won.world.history,
+        workRelationships: [
+          ...won.world.history.workRelationships,
+          { ...original, id: duplicateId },
+        ],
+        workStatuses: [
+          ...won.world.history.workStatuses,
+          ...won.world.history.workStatuses
+            .filter((r) => r.workRelationshipId === original.id)
+            .map((r) => ({
+              ...r,
+              id: `${r.id}:ambiguous` as EntityId,
+              workRelationshipId: duplicateId,
+            })),
+        ],
+        workRoles: [
+          ...won.world.history.workRoles,
+          ...won.world.history.workRoles
+            .filter((r) => r.workRelationshipId === original.id)
+            .map((r) => ({
+              ...r,
+              id: `${r.id}:ambiguous` as EntityId,
+              workRelationshipId: duplicateId,
+            })),
+        ],
+      },
+    };
+    expect(resolveActiveMemberSeat(ambiguous, won.personId)).toMatchObject({
+      kind: "unseated",
+      reason: expect.stringMatching(/More than one/),
+    });
+    expectFilingRefused(ambiguous, won.personId);
   });
 });
