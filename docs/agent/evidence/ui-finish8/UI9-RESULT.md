@@ -74,3 +74,59 @@ build with the served checkout verified. **Not an art approval.** The work and
 study panel's presentation defects reported in the previous return — duplicated
 heading, inconsistent institution rows, clipped last row — are unchanged and
 remain open.
+
+## Browser evidence, and what it exposed
+
+The Playwright suite was collecting **zero tests** on this branch and had never
+run. `municipal-capacity.ts` imported its generated JSON without an import
+attribute; Vite and Vitest transform that, native Node ESM — which Playwright
+uses to collect spec files — does not, and it throws during collection. The run
+reported `Total: 0 tests in 0 files` with no failing test to point at, and every
+filtered per-spec run passed, which is how it survived. Reported by D, diagnosed
+by C, verified here.
+
+Reachable only through this branch's own composed specs: `municipal-member`
+imports `municipalWorkspaceFor`, which reaches municipal-capacity. That spec is
+in neither accepted main nor the MUNI donor.
+
+**Remedy taken: the import attribute, not decoupling the spec.** The spec's own
+runtime is Node too, so a dynamic import hits the same restriction, and the only
+way to keep presentation out of its graph is to delete the canonical-state
+assertions it makes. Paying real coverage to avoid one attribute is the wrong
+trade. Every other bare JSON import is untouched — nothing else is reachable
+from a spec, which is why the convention is fine everywhere else, and that
+reason is written at the import site.
+
+`tests/browser-suite-collects.test.ts` now asserts every spec on disk is
+collectable, so the next unloadable module fails in the unit suite instead of
+silently emptying the browser run. Verified by removing the attribute.
+
+### Attribution of the first full run
+
+360 passed, 27 failed. Re-run at the pre-UI9 head (`ff0a5b32`) with only the
+collection fix applied, **23 of the 27 fail identically**. They are #144's, and
+they were hidden behind a suite that collected nothing — not caused by the UI9
+corrections and not fixed by them. They span `pennywise-adaptive-life` (7),
+`packet77-presentation` (4), `owner-play-repair` (3), `legislation-docket` (2),
+and one each in `ui-converge4`, `scene-authoring`, `people1-r1`,
+`p2r2-sustained-play`, `p2r1-editorial`, `edu-path7`, `character-context` and
+`campaign-first-election`.
+
+One of them is worth C's attention specifically: `packet77` fails on
+`life-introduction`, a section main renders and #144's base does not. The
+composition therefore drops a behavior main has. That is a merge decision for
+the LAND owner, not something to restore unilaterally here.
+
+**Four were mine, all repaired**, and one of those was a real regression rather
+than a stale test: Work mounted study and jobs only for lives without a
+legislative office, so removing the day's duplicate copy left an office-holding
+character with no route to them at all. Work owns those panels for every life
+now.
+
+Re-run after the repairs: **364 passed, 23 failed**, and the 23 are exactly the
+pre-UI9 baseline set — a set difference against the baseline failures is empty.
+Nothing new was introduced.
+
+## Unit suite
+
+273 files, 4238 passed, 2 skipped, 0 failed, with bounded workers.
