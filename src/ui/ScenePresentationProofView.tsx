@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useReviewEnvironment } from "./review-context";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import {
@@ -140,11 +142,15 @@ function SceneStage({
 }
 
 export function ScenePresentationProofView() {
+  const review = useReviewEnvironment();
   const [debug, setDebug] = useState(true);
   const world = useMemo(
     () => createSceneProofWorld(PRODUCTION_CHARACTER_LIBRARY),
     [],
   );
+  useEffect(() => {
+    review?.reportWorld(world);
+  }, [world, review]);
   const composition = useMemo(
     () =>
       composeSceneProof(

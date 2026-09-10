@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "tsBuildInfoFile": "./test-results/typecheck/tsconfig.node.tsbuildinfo",
     "target": "ES2023",
     "lib": ["ES2023", "DOM"],
     "module": "ESNext",
@@ -13,6 +13,9 @@
   },
   "include": [
     "playwright.config.ts",
+    "playwright.municipal-load.config.ts",
+    "tests/acceptance/municipal-load.browser.ts",
+    "scripts/dev-lab/**/*.ts",
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",

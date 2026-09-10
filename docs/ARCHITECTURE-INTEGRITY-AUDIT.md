@@ -867,3 +867,228 @@ the authored fixture roster's membership and presence, matching main's scenario
 adapter. A regression checks both vote records while the formal capacity stays
 unknown. No source fact, rule pack, bargaining evaluator, ownership guard or
 player-route behavior is redefined.
+
+## DEV-LAB2 disposable review / harness boundary audit
+
+Scope: source base `1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b` to the DEV-LAB2
+candidate. Existing simulation transitions, schemas, seeded controls, art
+registries/compositors/anchors and normal-player navigation are preserved.
+
+- **Identity and history:** cloning uses canonical serialization; stable IDs,
+  seed and history survive. Review control changes only the disposable clone's
+  control pointer and creates no office, trip, time or history record.
+- **Persistence:** `inspectSnapshot` validates/reads an existing slot without
+  updating `lastPlayedAt` or acquiring its write generation. Its regression
+  checks entire stored-record bytes and later write refusal. No save migration
+  or parallel World/store has been introduced.
+- **Reuse / ownership:** the hub composes the existing developer/trace/content,
+  character/scene/office and floor/legislation viewers. Optional in-memory
+  storage is supplied only within review. App/PlayerGame remain unchanged;
+  UI-CORE-RELEASE receives an exact registration patch. Candidate visual
+  acceptance and normal reachability remain separate.
+- **Fixture truth:** authored workflow prerequisites remain labeled; the hub
+  reports their actual World seed instead of claiming the requested seed was
+  used. A supported picture or work record never grants legal power.
+- **Harness integrity:** startup identity binds source tree plus actual dirty
+  bytes to checkout/head and detects subsequent edits. Strict ports, bounded
+  workers, isolated cache/build-info/artifact paths and direct-child shutdown
+  prevent silent shared-server/output reuse. Tests do not write historical
+  proof files, and a guard verifies all tracked evidence hashes.
+- **Retroactive compatibility:** accepted standalone route behavior and test
+  assertions remain. E2E imports adopt one provenance fixture and screenshot
+  path changes are mechanical. No gameplay test is skipped or weakened, and
+  dev entry is never substituted for normal-player proof.
+
+Validation and exact final head are recorded in the DEV-LAB2 owning plan and
+PR. Human visual and independent acceptance are not implied by this audit.
+
+## QUAL-DATES4 Qualification and Campaign-Compliance Audit — 2026-09-09
+
+This audit applies Game Constitution principles 9, 25, and 31 to the bounded
+QUAL-COMPLIANCE1 source and consumer seams. It rechecks completed candidacy,
+campaign, history, persistence, privacy, and clock behavior without reopening
+the Stage 6 baseline or campaign-clock ownership.
+
+| Concern                         | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                |
+| ------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historical applicability        | Corrected fail-closed | Research date, source retrieval/vintage, provision validity, amendment annotations, and simulation `onDate` are independent fields. Exact intervals require clause-specific primary support; later current observations yield `UNKNOWN` for earlier dates.                                            |
+| Ohio / Nevada reviewer findings | Corrected             | Ohio article XV, section 4 preserves the 1851 research cell but supports the current provision only from the official 1953 date. Nevada NRS 228.010 uses 2021 chapter 199's May 29 approval/effective date for the age, residence, and State Bar clauses; the later 2025 annotation remains separate. |
+| Corpus-wide application         | Confirmed             | All 63 accepted qualification rows and all three Minnesota/Nebraska campaign-obligation rows carry a reviewed temporal classification. Tests cover exact boundaries and later-observation/earlier-life refusal.                                                                                       |
+| Kentucky evidence               | Corrected fail-closed | Ten field rows are loaded from a reviewed transcription tied to exact hashes of the official statute PDF and Registry FAQ. Nine are date-bounded `KNOWN`; the unsupported contribution-limit amount remains `UNKNOWN`. Duplicate fields or parent-hash drift fail validation.                         |
+| Filing semantics                | Corrected             | Reporting points remain period anchors. The seven-business-day receipt constraint is explicit; periodic filings are refused until an exact Kentucky business-day calendar exists, while private drafts remain appendable. Filing never implies approval or absence of a violation.                    |
+| Money and privacy               | Confirmed             | Candidate-origin money may enter only the committee contribution path; no personal treasury is written. Private drafts are absent from public projections, and filed records become public only when the date-bound source supports that boundary.                                                    |
+| Persistence and history         | Confirmed             | Successful statements/corrections are append-only, refused writes are zero-write, and save/reload preserves the exact records.                                                                                                                                                                        |
+| Clock and ownership             | Confirmed unchanged   | Compliance writers retain the world's existing date/moment/action sequence. No #135 clock file, municipal procedure, or global navigation root is changed.                                                                                                                                            |
+
+## ECON-CONTEXT2 Source-to-Read-Model Audit — 2026-09-08
+
+This audit rechecks the source/simulation boundary, D-042 observation separation,
+the frozen Stage 6 economy, the accepted Stage 6.5 work, and later-stage gates.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                   |
+| ------------------------ | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Geography identity       | Confirmed exact       | Bindings accept provider codes with explicit levels/relationships; malformed and duplicate keys fail, and names cannot be supplied as join inputs.                                                                                                                                                       |
+| Units and vintage        | Confirmed preserved   | BEA units, LAUS rate/person units and seasonal adjustment, HUD monthly/annual units, observation periods, product/corpus vintages, and revision state remain distinct.                                                                                                                                   |
+| Known/unavailable        | Confirmed fail-closed | Unbound or absent exact codes return typed unavailable coverage. Source `UNKNOWN` values remain valueless and cannot become analyst inputs.                                                                                                                                                              |
+| Observation boundaries   | Confirmed separated   | Source readings create no World truth, forecast, baseline, policy effect, personal employment, resource, housing, or lease record. Containing geographies have no Lexington World scope; same-jurisdiction projections remain unavailable without an evidenced release date.                             |
+| Economy ownership        | Confirmed reused      | Compatible analyst inputs name existing metric definitions; no metric catalog, economy evaluator, causal mechanism, or effect writer is added.                                                                                                                                                           |
+| NEWS ownership           | Confirmed explicit    | Latest observations become `not-published` candidates only. No event, publication, knowledge, or news record is written by a read.                                                                                                                                                                       |
+| Determinism and mutation | Confirmed             | Focused tests prove repeated projections are equal and leave source corpora and World JSON unchanged. Source replay covers the expanded BEA comparison window.                                                                                                                                           |
+| Player/UI ownership      | Confirmed integrated  | A generated browser-safe projection, typed player lines, and feature-local graph panel are supplied. UI-core registered the panel on the normal saved-World route at `b4910c09` and consumed the final HUD date separation at `2fe0b090`, preserving exact home-place identity and canonical World date. |
+
+LEARN: a source product's observation as-of date is not evidence of its release
+date. Typed unavailability at the adapter boundary is the smallest durable guard
+against silently converting an observed period into a publication event.
+
+## ECON-GRAPHS4 Browser and Graph Extension Audit — 2026-09-09
+
+This extension rechecks the ECON-CONTEXT2 boundary against the source substrate,
+D-042 observation separation, frozen economy ownership, and the UI/LEG/FISCAL
+coordination boundaries.
+
+| Concern                 | Disposition                 | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                            |
+| ----------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Historical availability | Confirmed conservative      | Normal presentation requires a simulation date. Publisher release dates remain null; the locked artifact retrieval date is separately labeled as the fallback date on which the observation is known available. Earlier simulations withhold it.                                                                                                                                  |
+| Browser corpus          | Confirmed bounded           | A deterministic manifest indexes all 58,106 committed BEA/LAUS/HUD records into exact-code lazy shards. A query downloads only matching shards and never joins by name. The absent full LAUS parent remains unavailable with its checksum disclosed.                                                                                                                              |
+| Graph semantics         | Confirmed separated         | Graph points carry one of five record classes. Missing values remain gaps and exact-value rows. No observation becomes simulation history, a draft, forecast or outturn.                                                                                                                                                                                                          |
+| Economy ownership       | Confirmed unchanged         | The extension is a read model and renderer. The locked BEA tables have no GDP series; no slider, elasticity, metric writer, budget engine or policy-effect engine is added.                                                                                                                                                                                                       |
+| LEG/FISCAL inputs       | Confirmed typed/fail-closed | The frozen LEG incremental-outlay projection is adapted as a conditional forecast with its qualification and interval. FISCAL supplied no typed history/outturn producer, so fiscal history remains unavailable.                                                                                                                                                                  |
+| Replay and mutation     | Confirmed                   | A temp-directory replay reproduces all 293 browser files byte-for-byte. Provider tests prove fresh returned projections and unchanged cached shards.                                                                                                                                                                                                                              |
+| UI ownership            | Confirmed integrated        | Feature-local panel code remains on PR #148. UI-core registered it through the normal Begin → Personal route at `b4910c09` and consumed the final HUD date separation at `2fe0b090` on PR #144, using the saved home-place key and canonical World date. UI-core reports 2/2 browser proofs for pointer/keyboard disclosures, non-Lexington absence, and save/reload read purity. |
+
+LEARN: source availability is a property that must travel with every browser
+record. A static asset being deployable does not make its observations known to
+an earlier simulated date.
+
+## ECON E-1 Exact Mixed-Vintage Repair — 2026-09-09
+
+Authority: ACCEPT-WAVE3 full ledger section 8, Drive document
+`1GTRZOYjt9W8s7AdsxI0pRqiZ8w1fLz9TVlJjOxgsxWc`. E-1 is only the absence of
+release classification on historical-comparison endpoints.
+
+| Concern                    | Disposition           | Evidence and rationale                                                                                                                                                                          |
+| -------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exact defect               | Corrected             | `EconomicHistoricalComparison` now carries nullable `earlierRelease` and `laterRelease`, copied directly from each endpoint's observation vintage.                                              |
+| Frozen comparison behavior | Preserved             | Series identity, endpoint selection, periods, values, absolute subtraction, comparison kind, geography and interpretation boundary are unchanged.                                               |
+| Committed artifact         | Corrected             | The two BEA comparisons declare `FINAL` → `FINAL`; the LAUS 2025-M07 → 2026-M07 comparison declares `FINAL` → `PRELIMINARY`.                                                                    |
+| Unknown release            | Confirmed fail-closed | A synthetic two-vintage HUD control proves null release classifications remain null at both endpoints.                                                                                          |
+| Graph presentation         | Corrected             | Historical graph points expose nullable release status and the exact-value table renders null as “Not established”; non-observation record classes carry null rather than a fabricated release. |
+| Existing boundaries        | Preserved             | No grouping, arithmetic, date cutoff, World write, NEWS publication, forecast, GDP response or policy effect changed.                                                                           |
+
+LEARN: comparison provenance must be endpoint-specific. Retaining vintage on
+the source observations is insufficient if a derived comparison drops it.
+
+## ECON Compact Projection Replay — 2026-09-09
+
+Authority: ACCEPT-PEOPLE6 FOLLOW-THROUGH, ECON-REPLAY6. The accepted E-1
+semantics and normal Personal mount are unchanged.
+
+| Concern                 | Disposition           | Evidence and rationale                                                                                                                                             |
+| ----------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Prior replay coverage   | Gap confirmed         | `source:replay` covered compiled source corpora and their manifest; the 292-shard test covered only the full browser export. Neither regenerated the compact file. |
+| Existing producer reuse | Corrected             | `exportEconomicContext` now accepts a target path, and `source:replay` invokes that producer into a scratch directory before comparing the tracked compact file.   |
+| Snapshot sensitivity    | Confirmed fail-closed | A corruption control changes the LAUS later endpoint from `PRELIMINARY` to `FINAL` and proves the replay reports the exact differing line.                         |
+| Accepted semantics      | Preserved             | The generated bytes, date gates, endpoint releases/nulls, observation values, 292 shards and browser provider are unchanged.                                       |
+| UI and World ownership  | Preserved             | No root, navigation, panel registration, economic mutation or second exporter was added.                                                                           |
+
+LEARN: deterministic producers are insufficient until a required committed
+projection is registered in a gate that regenerates elsewhere and compares the
+result without rewriting the expected artifact.
+
+### LEG-FINISH4 — targeted composition and calendar boundary review
+
+The delta retains one World, the existing clock, existing vote records and the
+existing adopted-provision writer. Typed working copies use explicit private
+history events; comparison/read/reload does not write. Batch adoption validates
+all current section references before appending and preserves original filed
+text and identities. The consumer requires exact proposal-to-recorded-vote
+provenance rather than inferring adoption from conversation or unrelated votes.
+
+Ordinary filing resolves the member's existing election/work chain, sponsor and
+origin chamber. Employment, sponsorship, referral and committee appointment are
+kept distinct. No term dates, staffing authority, committee appointments,
+economic effects or production catalogs are synthesized. P12 adds sourced
+regular-session outer-limit data and production action-time refusal; it does not
+create a second calendar or mark pending bills dead. UI's refusal handler is
+consumed from its owner's exact `5df86b856d946fddfb8e63ad682a43cb076f8b4a`
+patch. Final tests and human/independent acceptance are reported separately.
+
+### LEG-ENTRY6 — normal member filing boundary
+
+The normal route reuses CampaignWorkspace, the existing candidacy writer,
+recorded election result, winner work relationship and member-seat resolver.
+The feature-local filing projection is read-only and its result is recomputed
+when filing. The UI may explain/disable unauthorized introduction while retaining
+staff draft preview. No root route, office grant, result calculation, clock,
+publication producer or saved-bill migration is added. Negative controls cover
+staff, an actual lost campaign, ended membership and ambiguous seat claims.
+Malformed duplicate claims are refusal-only probes, never normal success data.
+
+The frozen UI control `1119e890` does not yet call QUAL's newer qualification
+adapter in candidacy.ts. That integration is explicitly coordinated with QUAL
+and UI, not replaced by LEG-authored legal assumptions. Source integration,
+automated entry proof and independent/human acceptance remain separate claims.
+
+## NEWS-HELP2 Public Information Audit — 2026-09-08
+
+This audit rechecks the new public-information rule against canonical history,
+legislative identity, disclosure, persistence, scene ownership, and the
+accepted Stage 6/6.5 boundaries.
+
+| Concern                                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                             |
+| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Canonical occurrence versus publication | Preserved            | `PublicationRecord` cites one earlier `HistoricalEvent`; event time, publication time, and append sequence remain separate. Projection never invokes the writer.                                                                                                   |
+| Vote truth versus intention             | Fail-closed          | Only a `LegislativeActionRecord.eventId` with an existing canonical `voteId` resolves as `recorded-vote`. Commitments and future questions cannot provide a tally.                                                                                                 |
+| Disclosure and private state            | Fail-closed          | Sources must be public and completed. Private, future, missing, setup, clock, discovery, and publication plumbing are rejected atomically. No mind, appraisal, prior, forecast, or external headline reader is imported.                                           |
+| History and persistence                 | Compatible extension | The optional family joins the existing contiguous sequence and stable-ID set. Root and correction editions are append-only; older snapshots with no family read as an empty digest. Existing JSON, SQLite, and browser payloads remain the only persistence paths. |
+| Shared newspaper/screen truth           | Preserved            | `projectPublicInformationDigest` owns accessible copy. The feature panel and `headline` surface adapter consume that same item; there is no second headline generator.                                                                                             |
+| ENV/UI-core ownership                   | Preserved            | No scene rectangle, z-order, access class, anchor, `PlayerGame`, or permanent-shell file changes. ENV's binder still decides physical receipt; UI-core receives a typed panel model and callbacks for final placement.                                             |
+| Inline help and people                  | Typed and read-only  | Civic concepts are selected by stable IDs and carry official-reference metadata. Person controls carry canonical `personId`; no name matching or glossary fallback exists. Browser tests cover Enter, touch, focus, Escape, and exact World read purity.           |
+| Stage scope                             | Bounded              | No live-news import, media business, audience/opinion system, institution/law rewrite, automatic knowledge propagation, or Stage 7 mechanic is added.                                                                                                              |
+
+LEARN: public visibility and publication are separate states. The durable guard
+is a typed publication source plus negative tests at the writer boundary; an
+empty television is never sufficient reason to widen disclosure.
+
+## NEWS-PRESS4 Press Communication Audit — 2026-09-09
+
+This audit rechecks the repaired public-screen boundary and the bounded press
+loop against canonical history, disclosure, people, time/work, publication and
+UI ownership.
+
+| Concern                    | Disposition     | Evidence and rationale                                                                                                                                                                                                                         |
+| -------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| N-1 locality               | Closed          | The surface projection passes normalized `null` as a real filter. A regression places a newer local publication beside an older unlocated publication and proves an unknown-location room receives only the latter.                            |
+| Conversation and people    | Canonical reuse | Arrangement requires an exact existing pitch claim between the controlled person and an actual current journalist. Preparation and feedback require an actual current colleague assigned to the canonical work item. No person is synthesized. |
+| Time and work              | Canonical reuse | Arrangement creates an existing fixed scheduled activity and work item; readiness and completion use existing state resolvers and clock transitions. No timer, task store or second calendar exists.                                           |
+| Consequential wording      | Fail-closed     | Drafting is private. Confirmation must match the displayed wording exactly before the source claim exists. Confirmation is not editorial approval.                                                                                             |
+| Terms and disclosure       | Fail-closed     | On-record/background/off-record terms are explicit. Background hides the typed source and uses its saved attribution; off-record has no publication route. Question bases require actual reporter knowledge or publication.                    |
+| Publication and correction | Single path     | Press stories call the existing NEWS-HELP2 writer. PR #144's legislative transition remains the sole legislative caller. Digest, supported screen, correction and persistence paths are unchanged.                                             |
+| UI/ENV ownership           | Preserved       | `PressInterviewPanel` is feature-local and unmounted globally. UI-core owns the single root and placement; ENV owns physical screen geometry/access. Native controls and browser tests cover keyboard, touch, focus and Escape.                |
+| Stage scope                | Bounded         | No polling, audience score, predicted reception, favorable-coverage modifier, live headline import, law engine or automatic knowledge propagation is added.                                                                                    |
+
+LEARN: an accepted arrangement must cite the recorded conversational pitch,
+not merely repeat pitch text in a later event. Exact claim identity plus a
+negative missing-claim regression keeps the conversation-to-schedule boundary
+inspectable.
+
+## NEWS-PRODUCERS6 Producer Audit — 2026-09-09
+
+This re-audit covers the normal request and staffing producers added in front
+of the accepted PRESS4 loop. It does not reopen the separately repaired N-1
+baseline.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Producer purity          | Preserved             | Reporter and adviser choices are pure projections over existing people, current work and saved knowledge. Opening or rendering a screen calls no writer and creates no request, event, schedule, work or publication.                                                                                                                                                     |
+| Knowledge and consent    | Fail-closed           | The request, reporter response and adviser response are separate canonical records. Feature-owned producers durably evaluate each NPC from current role, knowledge, shared work and functional availability; UI supplies no acceptance flag or statement. Only affirmative records can reach arrangement.                                                                 |
+| Staffing                 | Canonical reuse       | Adviser eligibility requires an active work relationship in an organization shared with the source. Family and household records grant neither employment nor willingness. The existing work item retains the accepted adviser as its assignee.                                                                                                                           |
+| Preparation and feedback | Subjective, evidenced | Preparation derives facts, follow-ups and options from the assigned adviser's own knowledge records. Feedback requires the actual publication plus media knowledge acquired by that adviser and derives its statement from the publication and confirmed answer. No caller-authored NPC prose enters either record; feedback remains explicitly fallible and non-polling. |
+| Terms and wording        | Preserved             | The request retains exact channel, record terms, background attribution, pitch, question and bases. PRESS4 still owns private draft, byte-exact confirmation, completion and off-record refusal. Condensed play changes presentation only.                                                                                                                                |
+| Publication              | Single path           | The producer adapter delegates to accepted PRESS4, whose story transition calls the existing NEWS writer. The test observes that publication through the shared digest and typed person references; no headline generator or second publisher is added.                                                                                                                   |
+| Persistence              | Existing path         | All producer evidence uses existing event, claim, knowledge, relationship, schedule, work and publication families, and the complete normal path round-trips through the existing World serializer.                                                                                                                                                                       |
+| UI/ENV ownership         | Preserved             | No `PlayerGame`, global navigation, scene geometry, slot, anchor, fallback, `PressWorkspace` or `PressInterviewPanel` edit is made. UI #144 remains the sole mounting/placement owner; ENV remains the physical-screen owner.                                                                                                                                             |
+
+LEARN: a normal producer should save each person's decision before it creates
+downstream work. Request identity plus separate affirmative response records
+makes consent auditable without inventing agreement in a scheduling adapter.

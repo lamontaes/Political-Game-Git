@@ -144,3 +144,18 @@ The floor fixture uses main's canonical dynamic-surface projection for its own
 world. It is still a developer route. Player-world construction and the
 OfficeScene paper/floor navigation remain the PR85 ownership handoff after that
 route lands; missing canonical measure content must fail closed.
+
+## Typed working copies and section packages
+
+`legislation-composition.ts` compares compatible typed parameter changes against
+current canonical sections. Saving a comparison records an actor-private working
+copy in the existing World history. It does not change the bill or record a vote.
+The normal docket can reopen those choices after a save/reload.
+
+`carryAdoptedBillComposition` requires an existing adopted amendment whose vote
+provenance names that exact working-copy event. Parameters, version, current
+section IDs, actor, measure and chamber must reconcile. It uses
+`adoptProvisionRevisions`, which validates the entire section package before
+appending any revision. One adopted amendment may carry distinct sections in one
+call; a later call cannot extend the same amendment. Original sections and draft
+lineage remain intact. No new vote evaluator or effect model is introduced.

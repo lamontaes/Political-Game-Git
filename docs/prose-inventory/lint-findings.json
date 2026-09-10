@@ -98,6 +98,20 @@
     "evidence": "someone"
   },
   {
+    "id": "prose:governing:municipal-authority-refusals:mayorTitle-0001#text",
+    "severity": "REVIEW_WARNING",
+    "family": "third-person-player",
+    "message": "Third-person role reference on a character-facing surface, where second person is the register.",
+    "evidence": "the mayor"
+  },
+  {
+    "id": "prose:governing:municipal-law-projection:municipalRulePackFor-0002#text",
+    "severity": "REVIEW_WARNING",
+    "family": "third-person-player",
+    "message": "Third-person role reference on a character-facing surface, where second person is the register.",
+    "evidence": "the mayor"
+  },
+  {
     "id": "prose:legislative:measure-briefing:ACTION_HEADLINES-0017#text",
     "severity": "REVIEW_WARNING",
     "family": "third-person-player",

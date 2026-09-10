@@ -73,7 +73,11 @@ describe("ordinary play cannot reach the development route", () => {
         join(sourceRoot, "ui"),
         (path) =>
           (path.endsWith(".ts") || path.endsWith(".tsx")) &&
-          !path.endsWith("CausalTraceView.tsx"),
+          ![
+            "CausalTraceView.tsx",
+            "DeveloperReviewHub.tsx",
+            "DeveloperViewer.tsx",
+          ].some((name) => path.endsWith(name)),
       )),
     ];
     expect(playerFacing.length).toBeGreaterThan(0);
@@ -88,6 +92,7 @@ describe("ordinary play cannot reach the development route", () => {
       expect(module.source, name).not.toMatch(/["']causal-trace["']/);
       expect(module.source, name).not.toContain("CausalTraceView");
       expect(module.source, name).not.toContain("../devtools");
+      expect(module.source, name).not.toContain("DeveloperReviewHub");
     }
   });
 
@@ -98,6 +103,19 @@ describe("ordinary play cannot reach the development route", () => {
     // a `view` the player never sets.
     const occurrences = app.split("causal-trace").length - 1;
     expect(occurrences).toBe(1);
+  });
+
+  it("mounts the disposable hub only through an explicit development entry", async () => {
+    const entry = await readFile(join(sourceRoot, "review.tsx"), "utf8");
+    expect(entry).toContain("DeveloperReviewHub");
+    const playerEntry = await readFile(join(sourceRoot, "main.tsx"), "utf8");
+    expect(playerEntry).not.toContain("DeveloperReviewHub");
+    const hub = await readFile(
+      join(sourceRoot, "ui", "DeveloperReviewHub.tsx"),
+      "utf8",
+    );
+    expect(hub).toContain("cloneForReview");
+    expect(hub).toContain("DISPOSABLE REVIEW");
   });
 
   it("is not a capability the world ever grants a character", () => {

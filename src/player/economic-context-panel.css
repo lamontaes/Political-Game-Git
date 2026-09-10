@@ -1,0 +1,242 @@
+.economic-context-panel {
+  width: min(100%, 72rem);
+  max-height: min(88svh, 58rem);
+  margin: auto;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  overflow: auto;
+  border-radius: 0.35rem;
+}
+
+.economic-context-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--run-a-line);
+  padding-bottom: 0.8rem;
+}
+
+.economic-context-header h2,
+.economic-context-header p {
+  margin: 0;
+}
+
+.economic-context-kicker {
+  color: var(--run-a-gold);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.economic-context-boundary {
+  max-width: 62rem;
+  margin: 1rem 0;
+  color: var(--run-a-muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.economic-availability {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.economic-availability li {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.045);
+  border-left: 0.25rem solid #64a8c9;
+}
+
+.economic-availability li[data-status="unavailable"] {
+  border-left-color: #a69a84;
+}
+
+.economic-availability span,
+.economic-graph figcaption span,
+.economic-sources span {
+  color: var(--run-a-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.economic-graph-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.economic-graph {
+  min-width: 0;
+  margin: 0;
+  padding: 1rem;
+  background: rgba(3, 10, 18, 0.58);
+  border: 1px solid rgba(180, 201, 220, 0.32);
+}
+
+.economic-graph figcaption {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 4.2rem;
+}
+
+.economic-graph figcaption strong {
+  font-size: 1.05rem;
+}
+
+.economic-graph svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0.65rem;
+  overflow: visible;
+}
+
+.economic-axis {
+  stroke: rgba(218, 198, 153, 0.54);
+  stroke-width: 2;
+}
+
+.economic-line {
+  fill: none;
+  stroke: #71b8d8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5;
+}
+
+.economic-line--simulated-history {
+  stroke: #c29b48;
+}
+
+.economic-line--draft {
+  stroke: #b99add;
+  stroke-dasharray: 13 8;
+}
+
+.economic-line--forecast {
+  stroke: #e59a55;
+  stroke-dasharray: 4 8;
+}
+
+.economic-line--outturn {
+  stroke: #78bb84;
+}
+
+.economic-mark {
+  fill: #71b8d8;
+}
+
+.economic-mark--forecast {
+  fill: #e59a55;
+}
+
+.economic-mark--draft {
+  fill: #b99add;
+}
+
+.economic-mark--outturn {
+  fill: #78bb84;
+}
+
+.economic-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.economic-legend span {
+  padding: 0.3rem 0.5rem;
+  color: var(--run-a-ink);
+  background: rgba(113, 184, 216, 0.13);
+  border: 1px solid rgba(113, 184, 216, 0.52);
+  font-size: 0.8rem;
+}
+
+.economic-legend span[data-record-class="draft"] {
+  border-style: dashed;
+  border-color: #b99add;
+}
+
+.economic-legend span[data-record-class="forecast"] {
+  border-style: dotted;
+  border-color: #e59a55;
+}
+
+.economic-legend span[data-record-class="outturn"] {
+  border-color: #78bb84;
+}
+
+.economic-graph details,
+.economic-unavailable,
+.economic-sources {
+  margin-top: 0.8rem;
+}
+
+.economic-context-panel summary {
+  min-height: 2.75rem;
+  padding: 0.7rem 0;
+  cursor: pointer;
+  color: var(--run-a-ink);
+}
+
+.economic-context-panel summary:focus-visible {
+  outline: 3px solid var(--run-a-focus);
+  outline-offset: 3px;
+}
+
+.economic-graph table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.economic-graph th,
+.economic-graph td {
+  padding: 0.45rem;
+  border-bottom: 1px solid rgba(218, 198, 153, 0.22);
+  text-align: left;
+  vertical-align: top;
+}
+
+.economic-graph-boundary,
+.economic-sources p {
+  color: var(--run-a-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.economic-sources ul,
+.economic-unavailable ul {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.economic-sources li {
+  display: grid;
+  gap: 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+.economic-sources a {
+  color: #9dd8f0;
+}
+
+@media (max-width: 760px) {
+  .economic-availability,
+  .economic-graph-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .economic-context-header {
+    align-items: start;
+    flex-direction: column;
+  }
+}

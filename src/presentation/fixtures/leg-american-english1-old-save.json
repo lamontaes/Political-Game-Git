@@ -1,0 +1,5130 @@
+{
+  "format": "political-life-world",
+  "formatVersion": 15,
+  "snapshotId": "snapshot_22bd39bfc16b0584",
+  "worldId": "world_f9cee3b387625cca",
+  "savedAtWorldDate": "2026-01-05",
+  "world": {
+    "schemaVersion": 15,
+    "generatorVersion": "demo-world-v15",
+    "id": "world_f9cee3b387625cca",
+    "seed": "legislative-core-kentucky-2026",
+    "startedAt": "2026-01-05",
+    "currentDate": "2026-01-05",
+    "currentMoment": {
+      "date": "2026-01-05",
+      "minuteOfDay": 550,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "actionSequence": 0,
+    "jurisdictions": {
+      "jurisdiction_6752b5a7cd79cafe": {
+        "id": "jurisdiction_6752b5a7cd79cafe",
+        "slug": "us-ky-commonwealth-placeholder",
+        "name": "Kentucky",
+        "kind": "state-placeholder",
+        "parentName": "United States",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_6752b5a7cd79cafe",
+          "status": "placeholder"
+        }
+      }
+    },
+    "jurisdictionOrder": ["jurisdiction_6752b5a7cd79cafe"],
+    "people": {
+      "person_c1b023ca0dfa5ea4": {
+        "id": "person_c1b023ca0dfa5ea4",
+        "generationKey": "person-v5:0",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Vivian",
+        "familyName": "Doyle",
+        "birthDate": "1970-01-15",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_1ee2c32cccf7f4fc",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_e27e5f2ebc94e299",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1970-01-15",
+            "jurisdictionId": null,
+            "summary": "Vivian Doyle's birth date is established as 1970-01-15.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_10cfac76842818f5",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1970-01-15",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Vivian Doyle's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_f5dae3968bda111d",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Vivian Doyle resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_c1b024ca0dfa6057": {
+        "id": "person_c1b024ca0dfa6057",
+        "generationKey": "person-v5:1",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Alexander",
+        "familyName": "Thompson",
+        "birthDate": "2000-07-05",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_a43c50f070225ed0",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_ee4cb6d4cb635431",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "2000-07-05",
+            "jurisdictionId": null,
+            "summary": "Alexander Thompson's birth date is established as 2000-07-05.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_cfb6a94f8eb28dcd",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "2000-07-05",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Alexander Thompson's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_92349570ef8056b5",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Alexander Thompson resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_c1b025ca0dfa620a": {
+        "id": "person_c1b025ca0dfa620a",
+        "generationKey": "person-v5:2",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Jasmine",
+        "familyName": "Noel",
+        "birthDate": "1984-08-12",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_c8d14f11d41d418e",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_1de072790c52e853",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1984-08-12",
+            "jurisdictionId": null,
+            "summary": "Jasmine Noel's birth date is established as 1984-08-12.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_0229ece049a0a893",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1984-08-12",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Jasmine Noel's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_2ca1a98ecf93bf5b",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Jasmine Noel resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_c1b026ca0dfa63bd": {
+        "id": "person_c1b026ca0dfa63bd",
+        "generationKey": "person-v5:3",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Curtis",
+        "familyName": "Serrano",
+        "birthDate": "1967-09-15",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_5e4d4304e3592917",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_dac5ca69e4d63b02",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1967-09-15",
+            "jurisdictionId": null,
+            "summary": "Curtis Serrano's birth date is established as 1967-09-15.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_d1b85d3178c4ba6e",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1967-09-15",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Curtis Serrano's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_a28c898a63843678",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Curtis Serrano resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_c1b01fca0dfa57d8": {
+        "id": "person_c1b01fca0dfa57d8",
+        "generationKey": "person-v5:4",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Malcolm",
+        "familyName": "Mendez",
+        "birthDate": "1953-01-10",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_c6b0be05f6df0421",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_2a74fac6101e1d9c",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1953-01-10",
+            "jurisdictionId": null,
+            "summary": "Malcolm Mendez's birth date is established as 1953-01-10.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_a8c51ed0ac514a8c",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1953-01-10",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Malcolm Mendez's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_95ab48c1820e6cfe",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Malcolm Mendez resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_c1b020ca0dfa598b": {
+        "id": "person_c1b020ca0dfa598b",
+        "generationKey": "person-v5:5",
+        "generatorVersion": "person-v5",
+        "corpusVersion": "names-v1",
+        "givenName": "Deborah",
+        "familyName": "Lin",
+        "birthDate": "1962-05-18",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "appearance": {
+          "seed": "app_176029c297ba5a92",
+          "recipeVersion": "appearance-recipe-v1"
+        },
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_591aa25196f02363",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1962-05-18",
+            "jurisdictionId": null,
+            "summary": "Deborah Lin's birth date is established as 1962-05-18.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_5011fda75fb4b763",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1962-05-18",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Deborah Lin's birthplace is established in the world record.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          },
+          {
+            "id": "fact_afce9cbc6213b72b",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Deborah Lin resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "procedural-placeholder",
+              "sourceEventId": null,
+              "note": "Synthetic deterministic fixture."
+            }
+          }
+        ]
+      },
+      "person_58ac8dec0bf40460": {
+        "id": "person_58ac8dec0bf40460",
+        "generationKey": "life-context-v1:legislative-work:kentucky:member",
+        "givenName": "Emil",
+        "familyName": "Malone",
+        "birthDate": "1979-01-05",
+        "homeJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+        "detailLevel": "lightweight",
+        "establishedFacts": [
+          {
+            "id": "fact_99bfb0ca043453e5",
+            "stableKey": "birth-date",
+            "kind": "birth-date",
+            "occurredAt": "1979-01-05",
+            "jurisdictionId": null,
+            "summary": "Emil Malone's birth date is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_c0b34b7e93bd6921",
+            "stableKey": "birthplace",
+            "kind": "birthplace",
+            "occurredAt": "1979-01-05",
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Emil Malone's birthplace is established.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          },
+          {
+            "id": "fact_8b4c321eda85ff59",
+            "stableKey": "residence:initial",
+            "kind": "residence",
+            "occurredAt": "2026-01-05",
+            "endedAt": null,
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "summary": "Emil Malone resides in the recorded home jurisdiction.",
+            "provenance": {
+              "method": "manual",
+              "sourceEventId": null,
+              "note": "Character-history bounded context population."
+            }
+          }
+        ]
+      }
+    },
+    "personOrder": [
+      "person_c1b023ca0dfa5ea4",
+      "person_c1b024ca0dfa6057",
+      "person_c1b025ca0dfa620a",
+      "person_c1b026ca0dfa63bd",
+      "person_c1b01fca0dfa57d8",
+      "person_c1b020ca0dfa598b",
+      "person_58ac8dec0bf40460"
+    ],
+    "policyCatalog": {
+      "catalogVersion": "synthetic-stage-3-v2",
+      "domains": {
+        "policy-domain_394d05cd4b1d1b40": {
+          "id": "policy-domain_394d05cd4b1d1b40",
+          "stableKey": "labor",
+          "name": "Labor",
+          "description": "Workplace power, worker organization, and employment standards."
+        },
+        "policy-domain_d0f44f913d553a1d": {
+          "id": "policy-domain_d0f44f913d553a1d",
+          "stableKey": "reproductive-health",
+          "name": "Reproductive health",
+          "description": "Policy concerning pregnancy, abortion, and reproductive care."
+        },
+        "policy-domain_0ead6e408ebc9e9f": {
+          "id": "policy-domain_0ead6e408ebc9e9f",
+          "stableKey": "environment",
+          "name": "Environment",
+          "description": "Environmental protection, pollution, and conservation."
+        },
+        "policy-domain_96ef679969fe9711": {
+          "id": "policy-domain_96ef679969fe9711",
+          "stableKey": "firearms",
+          "name": "Firearms",
+          "description": "Civilian firearm ownership, carrying, and safety policy."
+        },
+        "policy-domain_1122a4458f465cf7": {
+          "id": "policy-domain_1122a4458f465cf7",
+          "stableKey": "foreign-policy",
+          "name": "Foreign policy",
+          "description": "National security, diplomacy, and defense readiness."
+        },
+        "policy-domain_8c9fa62c9edc6e59": {
+          "id": "policy-domain_8c9fa62c9edc6e59",
+          "stableKey": "healthcare",
+          "name": "Healthcare",
+          "description": "Health coverage, access, payment, and delivery."
+        },
+        "policy-domain_1e76d99c474eed8a": {
+          "id": "policy-domain_1e76d99c474eed8a",
+          "stableKey": "energy",
+          "name": "Energy",
+          "description": "Energy production, reliability, technology, and transition."
+        },
+        "policy-domain_5123327980de131e": {
+          "id": "policy-domain_5123327980de131e",
+          "stableKey": "economy",
+          "name": "Economy",
+          "description": "Markets, monetary policy, inequality, and public finance."
+        }
+      },
+      "domainOrder": [
+        "policy-domain_394d05cd4b1d1b40",
+        "policy-domain_d0f44f913d553a1d",
+        "policy-domain_0ead6e408ebc9e9f",
+        "policy-domain_96ef679969fe9711",
+        "policy-domain_1122a4458f465cf7",
+        "policy-domain_8c9fa62c9edc6e59",
+        "policy-domain_1e76d99c474eed8a",
+        "policy-domain_5123327980de131e"
+      ],
+      "issues": {
+        "policy-issue_7d959c7f38bcf9d8": {
+          "id": "policy-issue_7d959c7f38bcf9d8",
+          "stableKey": "labor.collective-bargaining",
+          "domainId": "policy-domain_394d05cd4b1d1b40",
+          "name": "Collective bargaining",
+          "description": "Rules governing worker organization and bargaining rights."
+        },
+        "policy-issue_1066a25300087328": {
+          "id": "policy-issue_1066a25300087328",
+          "stableKey": "reproductive-health.abortion-restrictions",
+          "domainId": "policy-domain_d0f44f913d553a1d",
+          "name": "Abortion restrictions",
+          "description": "Legal limits and exceptions affecting abortion access."
+        },
+        "policy-issue_0c49b03ebea84c97": {
+          "id": "policy-issue_0c49b03ebea84c97",
+          "stableKey": "environment.clean-electricity",
+          "domainId": "policy-domain_0ead6e408ebc9e9f",
+          "name": "Clean electricity",
+          "description": "Policy for electricity-sector emissions and generation sources."
+        },
+        "policy-issue_566a9ff0e6cf99e9": {
+          "id": "policy-issue_566a9ff0e6cf99e9",
+          "stableKey": "firearms.public-carry",
+          "domainId": "policy-domain_96ef679969fe9711",
+          "name": "Public carry",
+          "description": "Rules for carrying firearms in public."
+        },
+        "policy-issue_ff35275d1d828c4d": {
+          "id": "policy-issue_ff35275d1d828c4d",
+          "stableKey": "foreign-policy.defense-readiness",
+          "domainId": "policy-domain_1122a4458f465cf7",
+          "name": "Defense readiness",
+          "description": "Force readiness, capacity, and strategic posture."
+        },
+        "policy-issue_90cd500c2f37de80": {
+          "id": "policy-issue_90cd500c2f37de80",
+          "stableKey": "healthcare.coverage",
+          "domainId": "policy-domain_8c9fa62c9edc6e59",
+          "name": "Health coverage",
+          "description": "Design and availability of health coverage."
+        },
+        "policy-issue_9f9fb750aaa9f724": {
+          "id": "policy-issue_9f9fb750aaa9f724",
+          "stableKey": "healthcare.prescription-drugs",
+          "domainId": "policy-domain_8c9fa62c9edc6e59",
+          "name": "Prescription drugs",
+          "description": "Pricing and purchasing rules for prescription medicines."
+        },
+        "policy-issue_a929e0cf8392a9a3": {
+          "id": "policy-issue_a929e0cf8392a9a3",
+          "stableKey": "energy.nuclear-power",
+          "domainId": "policy-domain_1e76d99c474eed8a",
+          "name": "Nuclear power",
+          "description": "Policy governing nuclear generation and investment."
+        },
+        "policy-issue_8ed8b54607a9b6af": {
+          "id": "policy-issue_8ed8b54607a9b6af",
+          "stableKey": "economy.monetary-policy",
+          "domainId": "policy-domain_5123327980de131e",
+          "name": "Monetary policy",
+          "description": "Central-bank tools, inflation, employment, and financial conditions."
+        }
+      },
+      "issueOrder": [
+        "policy-issue_7d959c7f38bcf9d8",
+        "policy-issue_1066a25300087328",
+        "policy-issue_0c49b03ebea84c97",
+        "policy-issue_566a9ff0e6cf99e9",
+        "policy-issue_ff35275d1d828c4d",
+        "policy-issue_90cd500c2f37de80",
+        "policy-issue_9f9fb750aaa9f724",
+        "policy-issue_a929e0cf8392a9a3",
+        "policy-issue_8ed8b54607a9b6af"
+      ],
+      "propositions": {
+        "proposition_c7f4b175505e0de0": {
+          "id": "proposition_c7f4b175505e0de0",
+          "stableKey": "labor.protect-collective-bargaining",
+          "issueId": "policy-issue_7d959c7f38bcf9d8",
+          "name": "Protect collective bargaining",
+          "question": "Should the law strengthen protections for collective bargaining?",
+          "parameters": [],
+          "tags": []
+        },
+        "proposition_b121c5fe4c8c001c": {
+          "id": "proposition_b121c5fe4c8c001c",
+          "stableKey": "reproductive-health.restrict-abortion-six-weeks",
+          "issueId": "policy-issue_1066a25300087328",
+          "name": "Six-week abortion restriction",
+          "question": "Should abortion generally be prohibited after six weeks, subject to listed exceptions?",
+          "parameters": [{ "key": "general-limit", "value": "six-weeks" }],
+          "tags": []
+        },
+        "proposition_c3fb58c752d72455": {
+          "id": "proposition_c3fb58c752d72455",
+          "stableKey": "environment.clean-electricity-standard",
+          "issueId": "policy-issue_0c49b03ebea84c97",
+          "name": "Clean-electricity standard",
+          "question": "Should electricity providers meet an increasing clean-generation standard?",
+          "parameters": [],
+          "tags": []
+        },
+        "proposition_aa56b5cff261e264": {
+          "id": "proposition_aa56b5cff261e264",
+          "stableKey": "firearms.permit-concealed-carry",
+          "issueId": "policy-issue_566a9ff0e6cf99e9",
+          "name": "Permit concealed carry",
+          "question": "Should qualified adults be permitted to carry concealed firearms?",
+          "parameters": [],
+          "tags": []
+        },
+        "proposition_be188e44fe2c2a3e": {
+          "id": "proposition_be188e44fe2c2a3e",
+          "stableKey": "foreign-policy.increase-defense-readiness",
+          "issueId": "policy-issue_ff35275d1d828c4d",
+          "name": "Increase defense readiness",
+          "question": "Should defense readiness investment increase over the next four years?",
+          "parameters": [{ "key": "time-horizon", "value": "four-years" }],
+          "tags": []
+        },
+        "proposition_badc10ff6800b3f7": {
+          "id": "proposition_badc10ff6800b3f7",
+          "stableKey": "healthcare.universal-public-plan",
+          "issueId": "policy-issue_90cd500c2f37de80",
+          "name": "Universal public health plan",
+          "question": "Should every resident be eligible for a universal publicly administered health plan?",
+          "parameters": [],
+          "tags": []
+        },
+        "proposition_c9b5a5d8a9b79555": {
+          "id": "proposition_c9b5a5d8a9b79555",
+          "stableKey": "healthcare.medicare-drug-negotiation",
+          "issueId": "policy-issue_9f9fb750aaa9f724",
+          "name": "Medicare drug-price negotiation",
+          "question": "Should Medicare negotiate prices for a defined set of prescription drugs?",
+          "parameters": [{ "key": "scope", "value": "defined-set" }],
+          "tags": []
+        },
+        "proposition_af5b8a8a52a292cf": {
+          "id": "proposition_af5b8a8a52a292cf",
+          "stableKey": "healthcare.prescription-out-of-pocket-cap",
+          "issueId": "policy-issue_9f9fb750aaa9f724",
+          "name": "Prescription out-of-pocket cap",
+          "question": "Should annual out-of-pocket prescription costs be capped at a fixed amount?",
+          "parameters": [
+            { "key": "annual-cap", "value": "fixed-statutory-amount" }
+          ],
+          "tags": []
+        },
+        "proposition_651f44c13a840430": {
+          "id": "proposition_651f44c13a840430",
+          "stableKey": "energy.new-nuclear-investment",
+          "issueId": "policy-issue_a929e0cf8392a9a3",
+          "name": "New nuclear investment",
+          "question": "Should public financing support construction of new nuclear generation?",
+          "parameters": [],
+          "tags": []
+        },
+        "proposition_8881a1899cceed95": {
+          "id": "proposition_8881a1899cceed95",
+          "stableKey": "economy.dual-mandate-framework",
+          "issueId": "policy-issue_8ed8b54607a9b6af",
+          "name": "Dual-mandate monetary framework",
+          "question": "Should monetary policy continue to balance price stability and employment goals?",
+          "parameters": [],
+          "tags": []
+        }
+      },
+      "propositionOrder": [
+        "proposition_c7f4b175505e0de0",
+        "proposition_b121c5fe4c8c001c",
+        "proposition_c3fb58c752d72455",
+        "proposition_aa56b5cff261e264",
+        "proposition_be188e44fe2c2a3e",
+        "proposition_badc10ff6800b3f7",
+        "proposition_c9b5a5d8a9b79555",
+        "proposition_af5b8a8a52a292cf",
+        "proposition_651f44c13a840430",
+        "proposition_8881a1899cceed95"
+      ],
+      "subjects": {
+        "subject_5d62cafbe34cd427": {
+          "id": "subject_5d62cafbe34cd427",
+          "stableKey": "policy.labor",
+          "name": "Labor policy",
+          "description": "Substantive familiarity with labor and collective-bargaining policy.",
+          "scope": "domain",
+          "referenceId": "policy-domain_394d05cd4b1d1b40",
+          "tags": []
+        },
+        "subject_032210b207ead264": {
+          "id": "subject_032210b207ead264",
+          "stableKey": "policy.healthcare",
+          "name": "Healthcare policy",
+          "description": "Substantive familiarity with healthcare coverage and delivery.",
+          "scope": "domain",
+          "referenceId": "policy-domain_8c9fa62c9edc6e59",
+          "tags": ["background.occupation.community-health"]
+        },
+        "subject_74b9ea4e87309be7": {
+          "id": "subject_74b9ea4e87309be7",
+          "stableKey": "policy.nuclear-power",
+          "name": "Nuclear power policy",
+          "description": "Technical and policy knowledge concerning nuclear generation.",
+          "scope": "issue",
+          "referenceId": "policy-issue_a929e0cf8392a9a3",
+          "tags": []
+        },
+        "subject_832b4120af392b69": {
+          "id": "subject_832b4120af392b69",
+          "stableKey": "policy.monetary-policy",
+          "name": "Monetary policy",
+          "description": "Technical knowledge of monetary-policy institutions and tradeoffs.",
+          "scope": "issue",
+          "referenceId": "policy-issue_8ed8b54607a9b6af",
+          "tags": []
+        },
+        "subject_60e73d74f54b46b2": {
+          "id": "subject_60e73d74f54b46b2",
+          "stableKey": "technical.local-finance",
+          "name": "Local finance",
+          "description": "Practical and technical work with local or small-business finance.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.local-finance"]
+        },
+        "subject_d76f33f7e48ed3d0": {
+          "id": "subject_d76f33f7e48ed3d0",
+          "stableKey": "technical.public-health",
+          "name": "Public health practice",
+          "description": "Practical work with public-health programs and community outreach.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.community-health"]
+        },
+        "subject_8cdf02bd50713fb9": {
+          "id": "subject_8cdf02bd50713fb9",
+          "stableKey": "technical.construction-logistics",
+          "name": "Construction and logistics",
+          "description": "Practical construction, scheduling, and workplace logistics.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.construction"]
+        },
+        "subject_d6f515cb7f563048": {
+          "id": "subject_d6f515cb7f563048",
+          "stableKey": "technical.hospitality-management",
+          "name": "Hospitality management",
+          "description": "Practical hospitality operations and staff management.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.hospitality"]
+        },
+        "subject_64a79e442a971a64": {
+          "id": "subject_64a79e442a971a64",
+          "stableKey": "technical.insurance-case-review",
+          "name": "Insurance and case review",
+          "description": "Practical insurance claims and case-review experience.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.insurance"]
+        },
+        "subject_c2dc39fae0a7e4bb": {
+          "id": "subject_c2dc39fae0a7e4bb",
+          "stableKey": "technical.public-programs",
+          "name": "Public programs and research",
+          "description": "Practical public-program delivery and applied research.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.occupation.public-programs"]
+        },
+        "subject_fefdbf94cf60651e": {
+          "id": "subject_fefdbf94cf60651e",
+          "stableKey": "technical.skilled-trades",
+          "name": "Skilled trades",
+          "description": "Education and practice in skilled trades.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.education.skilled-trades"]
+        },
+        "subject_0bfb0da603e2771e": {
+          "id": "subject_0bfb0da603e2771e",
+          "stableKey": "technical.general-studies",
+          "name": "General studies",
+          "description": "Broad postsecondary study without a narrow technical specialization.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.education.general-studies"]
+        },
+        "subject_70f565e1bbb8b5c4": {
+          "id": "subject_70f565e1bbb8b5c4",
+          "stableKey": "technical.public-administration",
+          "name": "Public administration",
+          "description": "Study of public organizations, administration, and governance.",
+          "scope": "technical",
+          "referenceId": null,
+          "tags": ["background.education.public-administration"]
+        }
+      },
+      "subjectOrder": [
+        "subject_5d62cafbe34cd427",
+        "subject_032210b207ead264",
+        "subject_74b9ea4e87309be7",
+        "subject_832b4120af392b69",
+        "subject_60e73d74f54b46b2",
+        "subject_d76f33f7e48ed3d0",
+        "subject_8cdf02bd50713fb9",
+        "subject_d6f515cb7f563048",
+        "subject_64a79e442a971a64",
+        "subject_c2dc39fae0a7e4bb",
+        "subject_fefdbf94cf60651e",
+        "subject_0bfb0da603e2771e",
+        "subject_70f565e1bbb8b5c4"
+      ],
+      "principles": {
+        "principle-definition_02d52be37ccbc02a": {
+          "id": "principle-definition_02d52be37ccbc02a",
+          "stableKey": "markets.government-restraint",
+          "name": "Government restraint in markets",
+          "description": "Government should generally avoid unnecessary intervention in markets."
+        },
+        "principle-definition_49a2bd9731aa5afe": {
+          "id": "principle-definition_49a2bd9731aa5afe",
+          "stableKey": "equality.reduce-severe-inequality",
+          "name": "Reduce severe inequality",
+          "description": "Government has an obligation to reduce severe inequality."
+        },
+        "principle-definition_cc418d5d05a54f37": {
+          "id": "principle-definition_cc418d5d05a54f37",
+          "stableKey": "liberty.strong-protection",
+          "name": "Protect individual liberty",
+          "description": "Individual liberty should receive strong protection."
+        },
+        "principle-definition_c79ebcd48e43a76f": {
+          "id": "principle-definition_c79ebcd48e43a76f",
+          "stableKey": "institutions.stability",
+          "name": "Institutional stability",
+          "description": "Institutional stability deserves especially serious consideration."
+        }
+      },
+      "principleOrder": [
+        "principle-definition_02d52be37ccbc02a",
+        "principle-definition_49a2bd9731aa5afe",
+        "principle-definition_cc418d5d05a54f37",
+        "principle-definition_c79ebcd48e43a76f"
+      ]
+    },
+    "mindCatalog": {
+      "catalogVersion": "mind-catalog-v1",
+      "tendencies": {
+        "personality-tendency-definition_35db4d880429e6a3": {
+          "id": "personality-tendency-definition_35db4d880429e6a3",
+          "stableKey": "risk-approach",
+          "name": "Risk approach",
+          "description": "How a person tends to approach uncertainty and exposure to loss.",
+          "expressions": [
+            {
+              "key": "cautious",
+              "label": "Cautious",
+              "description": "Usually prefers reducing avoidable risk."
+            },
+            {
+              "key": "risk-seeking",
+              "label": "Risk-seeking",
+              "description": "Often accepts uncertainty for a possible gain."
+            }
+          ]
+        },
+        "personality-tendency-definition_cc3599b3d7454bba": {
+          "id": "personality-tendency-definition_cc3599b3d7454bba",
+          "stableKey": "response-tempo",
+          "name": "Response tempo",
+          "description": "How quickly a person tends to react when circumstances change.",
+          "expressions": [
+            {
+              "key": "patient",
+              "label": "Patient",
+              "description": "Often waits for more context before reacting."
+            },
+            {
+              "key": "reactive",
+              "label": "Reactive",
+              "description": "Often responds quickly to immediate circumstances."
+            }
+          ]
+        },
+        "personality-tendency-definition_0695adaccddd0ad0": {
+          "id": "personality-tendency-definition_0695adaccddd0ad0",
+          "stableKey": "conflict-approach",
+          "name": "Conflict approach",
+          "description": "How a person tends to engage interpersonal or political conflict.",
+          "expressions": [
+            {
+              "key": "conflict-averse",
+              "label": "Conflict-averse",
+              "description": "Often seeks to reduce direct confrontation."
+            },
+            {
+              "key": "combative",
+              "label": "Combative",
+              "description": "Often accepts or initiates direct confrontation."
+            }
+          ]
+        },
+        "personality-tendency-definition_167ac1b02b1d43f0": {
+          "id": "personality-tendency-definition_167ac1b02b1d43f0",
+          "stableKey": "curiosity",
+          "name": "Curiosity",
+          "description": "A unipolar tendency to seek unfamiliar information or experience.",
+          "expressions": [
+            {
+              "key": "curious",
+              "label": "Curious",
+              "description": "Often seeks additional information and novel context."
+            }
+          ]
+        },
+        "personality-tendency-definition_445059843308883c": {
+          "id": "personality-tendency-definition_445059843308883c",
+          "stableKey": "loyalty-tendency",
+          "name": "Loyalty tendency",
+          "description": "A tendency to preserve commitments to people or groups.",
+          "expressions": [
+            {
+              "key": "loyal",
+              "label": "Loyal",
+              "description": "Often gives established commitments special weight."
+            }
+          ]
+        },
+        "personality-tendency-definition_cd77b60b2df6a15a": {
+          "id": "personality-tendency-definition_cd77b60b2df6a15a",
+          "stableKey": "ambition",
+          "name": "Ambition",
+          "description": "A tendency to pursue advancement or consequential achievement.",
+          "expressions": [
+            {
+              "key": "ambitious",
+              "label": "Ambitious",
+              "description": "Often pursues greater responsibility or achievement."
+            }
+          ]
+        }
+      },
+      "tendencyOrder": [
+        "personality-tendency-definition_35db4d880429e6a3",
+        "personality-tendency-definition_cc3599b3d7454bba",
+        "personality-tendency-definition_0695adaccddd0ad0",
+        "personality-tendency-definition_167ac1b02b1d43f0",
+        "personality-tendency-definition_445059843308883c",
+        "personality-tendency-definition_cd77b60b2df6a15a"
+      ],
+      "values": {
+        "value-definition_d2a477430c4173b4": {
+          "id": "value-definition_d2a477430c4173b4",
+          "stableKey": "loyalty",
+          "name": "Loyalty",
+          "description": "Keeping faith with people and commitments."
+        },
+        "value-definition_fff6cc7b46fe34a4": {
+          "id": "value-definition_fff6cc7b46fe34a4",
+          "stableKey": "honesty",
+          "name": "Honesty",
+          "description": "Accuracy and candor in conduct and speech."
+        },
+        "value-definition_c67d045205d47a82": {
+          "id": "value-definition_c67d045205d47a82",
+          "stableKey": "family",
+          "name": "Family",
+          "description": "Protecting and supporting family relationships."
+        },
+        "value-definition_1223453bd26a38a0": {
+          "id": "value-definition_1223453bd26a38a0",
+          "stableKey": "freedom",
+          "name": "Freedom",
+          "description": "Preserving meaningful personal or civic autonomy."
+        },
+        "value-definition_8b17e87690853fba": {
+          "id": "value-definition_8b17e87690853fba",
+          "stableKey": "equality",
+          "name": "Equality",
+          "description": "Reducing unjust differences in standing or opportunity."
+        },
+        "value-definition_4740edf1ce39430e": {
+          "id": "value-definition_4740edf1ce39430e",
+          "stableKey": "order",
+          "name": "Order",
+          "description": "Maintaining predictable rules and social stability."
+        },
+        "value-definition_75e363607bd084fd": {
+          "id": "value-definition_75e363607bd084fd",
+          "stableKey": "achievement",
+          "name": "Achievement",
+          "description": "Accomplishing demanding or consequential aims."
+        },
+        "value-definition_5c2bcfffa2fff645": {
+          "id": "value-definition_5c2bcfffa2fff645",
+          "stableKey": "reputation",
+          "name": "Reputation",
+          "description": "Protecting how one's conduct is understood by others."
+        },
+        "value-definition_4c95cbab757766ad": {
+          "id": "value-definition_4c95cbab757766ad",
+          "stableKey": "service",
+          "name": "Service",
+          "description": "Contributing to a community or public purpose."
+        },
+        "value-definition_98258b7a38897774": {
+          "id": "value-definition_98258b7a38897774",
+          "stableKey": "compassion",
+          "name": "Compassion",
+          "description": "Responding to suffering and vulnerability."
+        },
+        "value-definition_30792509977fa6ff": {
+          "id": "value-definition_30792509977fa6ff",
+          "stableKey": "fairness",
+          "name": "Fairness",
+          "description": "Applying standards and burdens justly."
+        },
+        "value-definition_485185ae918ee32f": {
+          "id": "value-definition_485185ae918ee32f",
+          "stableKey": "institutional-stability",
+          "name": "Institutional stability",
+          "description": "Preserving reliable institutions and orderly transitions."
+        },
+        "value-definition_2a504e40921e1276": {
+          "id": "value-definition_2a504e40921e1276",
+          "stableKey": "winning",
+          "name": "Winning",
+          "description": "Securing a desired competitive outcome."
+        }
+      },
+      "valueOrder": [
+        "value-definition_d2a477430c4173b4",
+        "value-definition_fff6cc7b46fe34a4",
+        "value-definition_c67d045205d47a82",
+        "value-definition_1223453bd26a38a0",
+        "value-definition_8b17e87690853fba",
+        "value-definition_4740edf1ce39430e",
+        "value-definition_75e363607bd084fd",
+        "value-definition_5c2bcfffa2fff645",
+        "value-definition_4c95cbab757766ad",
+        "value-definition_98258b7a38897774",
+        "value-definition_30792509977fa6ff",
+        "value-definition_485185ae918ee32f",
+        "value-definition_2a504e40921e1276"
+      ]
+    },
+    "metricCatalog": {
+      "catalogVersion": "world-metric-catalog-v2",
+      "definitions": {
+        "world-metric-definition_a019e54dacfb0a89": {
+          "stableKey": "population.resident-count",
+          "name": "Resident population",
+          "description": "Canonical resident population at an explicit point in time.",
+          "domainKey": "population.demography",
+          "valueKind": "quantity",
+          "quantityUnit": "count:people",
+          "measureNature": "stock",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only across caller-proven disjoint geographic scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["population.residents"],
+          "id": "world-metric-definition_a019e54dacfb0a89"
+        },
+        "world-metric-definition_193560c4f916be4f": {
+          "stableKey": "labor.employment-rate",
+          "name": "Employment rate",
+          "description": "Employment share measured over an explicit interval.",
+          "domainKey": "labor.employment",
+          "valueKind": "quantity",
+          "quantityUnit": "rate:share",
+          "measureNature": "rate",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": "world-metric-definition_a019e54dacfb0a89",
+          "aggregationKind": "derived-only",
+          "aggregationNote": "Rates require denominator-aware derivation and cannot be summed directly.",
+          "stateSemantics": "primitive",
+          "tags": ["labor.rate"],
+          "id": "world-metric-definition_193560c4f916be4f"
+        },
+        "world-metric-definition_86372c4e9b915699": {
+          "stableKey": "income.aggregate-personal",
+          "name": "Aggregate personal income",
+          "description": "Exact aggregate personal income over an explicit interval.",
+          "domainKey": "economy.income",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, period, and disjoint scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["economy.income"],
+          "id": "world-metric-definition_86372c4e9b915699"
+        },
+        "world-metric-definition_d2710452d3a27d11": {
+          "stableKey": "labor.force-count",
+          "name": "Labor force",
+          "description": "Canonical labor-force population at a point in time.",
+          "domainKey": "labor.population",
+          "valueKind": "quantity",
+          "quantityUnit": "count:people",
+          "measureNature": "stock",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": "world-metric-definition_a019e54dacfb0a89",
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only across caller-proven disjoint scopes at the same point.",
+          "stateSemantics": "primitive",
+          "tags": ["labor.population"],
+          "id": "world-metric-definition_d2710452d3a27d11"
+        },
+        "world-metric-definition_2c5ca094ee469ed1": {
+          "stableKey": "labor.employed-count",
+          "name": "Employed population",
+          "description": "Canonical employed labor-force population at a point in time.",
+          "domainKey": "labor.population",
+          "valueKind": "quantity",
+          "quantityUnit": "count:people",
+          "measureNature": "stock",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": "world-metric-definition_d2710452d3a27d11",
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only across caller-proven disjoint scopes at the same point.",
+          "stateSemantics": "primitive",
+          "tags": ["labor.employment", "labor.population"],
+          "id": "world-metric-definition_2c5ca094ee469ed1"
+        },
+        "world-metric-definition_6864507216fdceee": {
+          "stableKey": "labor.unemployed-count",
+          "name": "Unemployed population",
+          "description": "Derived labor force minus employed population.",
+          "domainKey": "labor.population",
+          "valueKind": "quantity",
+          "quantityUnit": "count:people",
+          "measureNature": "stock",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": "world-metric-definition_d2710452d3a27d11",
+          "aggregationKind": "derived-only",
+          "aggregationNote": "Derived from coherent same-scope labor-force and employed counts; never independently summed or written.",
+          "stateSemantics": "derived",
+          "tags": ["labor.unemployment"],
+          "id": "world-metric-definition_6864507216fdceee"
+        },
+        "world-metric-definition_7efb05eee18af346": {
+          "stableKey": "labor.unemployment-rate",
+          "name": "Unemployment rate",
+          "description": "Derived unemployed population divided by labor force.",
+          "domainKey": "labor.employment",
+          "valueKind": "quantity",
+          "quantityUnit": "rate:share",
+          "measureNature": "rate",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": "world-metric-definition_d2710452d3a27d11",
+          "aggregationKind": "derived-only",
+          "aggregationNote": "Derived from coherent same-scope counts and cannot be summed or written independently.",
+          "stateSemantics": "derived",
+          "tags": ["labor.rate", "labor.unemployment"],
+          "id": "world-metric-definition_7efb05eee18af346"
+        },
+        "world-metric-definition_a379ec7436ae0751": {
+          "stableKey": "labor.aggregate-income",
+          "name": "Aggregate labor income",
+          "description": "Exact aggregate labor-income proxy over an explicit interval.",
+          "domainKey": "labor.income",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, interval, and disjoint scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["economy.income", "labor.income"],
+          "id": "world-metric-definition_a379ec7436ae0751"
+        },
+        "world-metric-definition_2a7cb078dbc1a14a": {
+          "stableKey": "prices.cost-level",
+          "name": "Cost level",
+          "description": "Exact aggregate price/cost index at a point in time.",
+          "domainKey": "economy.prices",
+          "valueKind": "quantity",
+          "quantityUnit": "index:cost-level",
+          "measureNature": "index",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": null,
+          "aggregationKind": "not-aggregatable",
+          "aggregationNote": "Index levels cannot be summed across scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["economy.cost", "economy.prices"],
+          "id": "world-metric-definition_2a7cb078dbc1a14a"
+        },
+        "world-metric-definition_f2acf9698e80dd03": {
+          "stableKey": "economy.consumption-demand",
+          "name": "Aggregate consumption demand",
+          "description": "Exact aggregate consumption/demand proxy over an interval.",
+          "domainKey": "economy.demand",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, interval, and disjoint scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["economy.consumption", "economy.demand"],
+          "id": "world-metric-definition_f2acf9698e80dd03"
+        },
+        "world-metric-definition_0e65b688cf9fcf57": {
+          "stableKey": "economy.output-activity",
+          "name": "Aggregate output activity",
+          "description": "Exact aggregate output/business-activity proxy over an interval.",
+          "domainKey": "economy.output",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, interval, and disjoint scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["economy.business-activity", "economy.output"],
+          "id": "world-metric-definition_0e65b688cf9fcf57"
+        },
+        "world-metric-definition_c3dddbaa794b2988": {
+          "stableKey": "housing.availability-pressure",
+          "name": "Housing availability pressure",
+          "description": "Exact aggregate housing availability/pressure index at a point.",
+          "domainKey": "housing.conditions",
+          "valueKind": "quantity",
+          "quantityUnit": "index:housing-pressure",
+          "measureNature": "index",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": null,
+          "aggregationKind": "not-aggregatable",
+          "aggregationNote": "Pressure indexes cannot be summed across scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["housing.aggregate", "housing.pressure"],
+          "id": "world-metric-definition_c3dddbaa794b2988"
+        },
+        "world-metric-definition_8180dba2c4524249": {
+          "stableKey": "government.revenue",
+          "name": "Government revenue",
+          "description": "Exact aggregate government revenue over an interval.",
+          "domainKey": "government.fiscal",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["government.fiscal", "government.revenue"],
+          "id": "world-metric-definition_8180dba2c4524249"
+        },
+        "world-metric-definition_dade15c5237bd1da": {
+          "stableKey": "government.outlays",
+          "name": "Government outlays",
+          "description": "Exact aggregate government outlays over an interval.",
+          "domainKey": "government.fiscal",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "sum-compatible",
+          "aggregationNote": "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+          "stateSemantics": "primitive",
+          "tags": ["government.fiscal", "government.outlays"],
+          "id": "world-metric-definition_dade15c5237bd1da"
+        },
+        "world-metric-definition_3de737c216cf149e": {
+          "stableKey": "government.debt",
+          "name": "Government debt",
+          "description": "Exact aggregate government debt outstanding at a point.",
+          "domainKey": "government.fiscal",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "stock",
+          "referencePeriodKind": "point",
+          "denominatorMetricId": null,
+          "aggregationKind": "not-aggregatable",
+          "aggregationNote": "Debt stocks require authority-aware consolidation and cannot be automatically summed.",
+          "stateSemantics": "primitive",
+          "tags": ["government.debt", "government.fiscal"],
+          "id": "world-metric-definition_3de737c216cf149e"
+        },
+        "world-metric-definition_5fdb99d26958c05c": {
+          "stableKey": "government.fiscal-balance",
+          "name": "Government fiscal balance",
+          "description": "Derived revenue minus outlays for one scope, interval, and currency.",
+          "domainKey": "government.fiscal",
+          "valueKind": "money",
+          "quantityUnit": null,
+          "measureNature": "flow",
+          "referencePeriodKind": "interval",
+          "denominatorMetricId": null,
+          "aggregationKind": "derived-only",
+          "aggregationNote": "Derived from same-scope, same-period, same-currency revenue and outlays; never independently written.",
+          "stateSemantics": "derived",
+          "tags": ["government.balance", "government.fiscal"],
+          "id": "world-metric-definition_5fdb99d26958c05c"
+        }
+      },
+      "definitionOrder": [
+        "world-metric-definition_a019e54dacfb0a89",
+        "world-metric-definition_193560c4f916be4f",
+        "world-metric-definition_86372c4e9b915699",
+        "world-metric-definition_d2710452d3a27d11",
+        "world-metric-definition_2c5ca094ee469ed1",
+        "world-metric-definition_6864507216fdceee",
+        "world-metric-definition_7efb05eee18af346",
+        "world-metric-definition_a379ec7436ae0751",
+        "world-metric-definition_2a7cb078dbc1a14a",
+        "world-metric-definition_f2acf9698e80dd03",
+        "world-metric-definition_0e65b688cf9fcf57",
+        "world-metric-definition_c3dddbaa794b2988",
+        "world-metric-definition_8180dba2c4524249",
+        "world-metric-definition_dade15c5237bd1da",
+        "world-metric-definition_3de737c216cf149e",
+        "world-metric-definition_5fdb99d26958c05c"
+      ]
+    },
+    "causalMechanismCatalog": {
+      "catalogVersion": "causal-mechanism-catalog-v1",
+      "definitions": {
+        "causal-mechanism-definition_0c9182066cfe1c0e": {
+          "stableKey": "mechanism.linear-transition",
+          "name": "Linear transition",
+          "description": "A contribution phases linearly from zero to its exact magnitude.",
+          "domainKey": "causal.general",
+          "responseCurve": { "kind": "linear" },
+          "tags": ["causal.linear"],
+          "id": "causal-mechanism-definition_0c9182066cfe1c0e"
+        },
+        "causal-mechanism-definition_52ae656f556f231c": {
+          "stableKey": "mechanism.bounded-ease-out",
+          "name": "Bounded ease-out transition",
+          "description": "A nonlinear exact contribution approaches its magnitude with a bounded quadratic ease-out curve.",
+          "domainKey": "causal.general",
+          "responseCurve": { "kind": "bounded-ease-out" },
+          "tags": ["causal.bounded", "causal.nonlinear"],
+          "id": "causal-mechanism-definition_52ae656f556f231c"
+        }
+      },
+      "definitionOrder": [
+        "causal-mechanism-definition_0c9182066cfe1c0e",
+        "causal-mechanism-definition_52ae656f556f231c"
+      ]
+    },
+    "incidentCatalog": {
+      "catalogVersion": "incident-catalog-v1",
+      "definitions": {
+        "incident-definition_8b0b6891758d2bab": {
+          "stableKey": "incident.localized-natural-hazard",
+          "label": "Localized natural hazard",
+          "description": "Synthetic localized storm or flood-like hazard with explicit risk inputs.",
+          "incidentKind": "incident:natural-hazard",
+          "occurrenceMode": "probabilistic",
+          "baseLikelihood": {
+            "numerator": 1,
+            "denominator": 4,
+            "unit": "rate:share"
+          },
+          "prerequisites": [],
+          "blockers": [],
+          "likelihoodModifiers": [],
+          "tags": ["incident.hazard", "incident.local"],
+          "id": "incident-definition_8b0b6891758d2bab"
+        },
+        "incident-definition_bd794bd5afc74548": {
+          "stableKey": "incident.economic-slowdown",
+          "label": "Economic slowdown",
+          "description": "Synthetic persistent economic condition intended for explicit metric-driven evaluation.",
+          "incidentKind": "incident:economic-slowdown",
+          "occurrenceMode": "probabilistic",
+          "baseLikelihood": {
+            "numerator": 1,
+            "denominator": 5,
+            "unit": "rate:share"
+          },
+          "prerequisites": [
+            {
+              "kind": "metric-comparison",
+              "stableKey": "incident:housing-pressure-elevated",
+              "metricId": "world-metric-definition_c3dddbaa794b2988",
+              "reference": { "kind": "at-evaluation" },
+              "comparison": "at-least",
+              "threshold": {
+                "kind": "quantity",
+                "quantity": {
+                  "numerator": 100,
+                  "denominator": 1,
+                  "unit": "index:housing-pressure"
+                }
+              },
+              "reasonKey": "incident:housing-pressure-elevated"
+            }
+          ],
+          "blockers": [],
+          "likelihoodModifiers": [],
+          "tags": ["incident.condition", "incident.economy"],
+          "id": "incident-definition_bd794bd5afc74548"
+        },
+        "incident-definition_26f3c959111ee894": {
+          "stableKey": "incident.bounded-outbreak",
+          "label": "Bounded outbreak condition",
+          "description": "Synthetic bounded condition with no individual health or mortality model.",
+          "incidentKind": "incident:outbreak",
+          "occurrenceMode": "probabilistic",
+          "baseLikelihood": {
+            "numerator": 1,
+            "denominator": 6,
+            "unit": "rate:share"
+          },
+          "prerequisites": [],
+          "blockers": [],
+          "likelihoodModifiers": [],
+          "tags": ["incident.condition", "incident.outbreak"],
+          "id": "incident-definition_26f3c959111ee894"
+        },
+        "incident-definition_8824a5dc9561b323": {
+          "stableKey": "incident.actor-initiated-civic-occurrence",
+          "label": "Actor-initiated civic occurrence",
+          "description": "Synthetic adapter proving an actor-initiated occurrence uses ordinary event and causal history.",
+          "incidentKind": "incident:civic-occurrence",
+          "occurrenceMode": "actor-initiated",
+          "baseLikelihood": {
+            "numerator": 1,
+            "denominator": 1,
+            "unit": "rate:share"
+          },
+          "prerequisites": [],
+          "blockers": [],
+          "likelihoodModifiers": [],
+          "tags": ["incident.actor-initiated", "incident.civic"],
+          "id": "incident-definition_8824a5dc9561b323"
+        }
+      },
+      "definitionOrder": [
+        "incident-definition_8b0b6891758d2bab",
+        "incident-definition_bd794bd5afc74548",
+        "incident-definition_26f3c959111ee894",
+        "incident-definition_8824a5dc9561b323"
+      ]
+    },
+    "vitalityCatalog": {
+      "catalogVersion": "vitality-catalog-v1",
+      "mortalityTables": {
+        "mortality-table-definition_0834e8fd78a4f24f": {
+          "stableKey": "vitality.synthetic-survival",
+          "label": "Synthetic survival fixture",
+          "description": "Non-actuarial zero-probability table for deterministic engine validation.",
+          "sourceKey": "source:synthetic-validation-only",
+          "rates": [
+            {
+              "age": 0,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 1,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 2,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 3,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 4,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 5,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 6,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 7,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 8,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 9,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 10,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 11,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 12,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 13,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 14,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 15,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 16,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 17,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 18,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 19,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 20,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 21,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 22,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 23,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 24,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 25,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 26,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 27,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 28,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 29,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 30,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 31,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 32,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 33,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 34,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 35,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 36,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 37,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 38,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 39,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 40,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 41,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 42,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 43,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 44,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 45,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 46,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 47,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 48,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 49,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 50,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 51,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 52,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 53,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 54,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 55,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 56,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 57,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 58,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 59,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 60,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 61,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 62,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 63,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 64,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 65,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 66,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 67,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 68,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 69,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 70,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 71,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 72,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 73,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 74,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 75,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 76,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 77,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 78,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 79,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 80,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 81,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 82,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 83,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 84,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 85,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 86,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 87,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 88,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 89,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 90,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 91,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 92,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 93,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 94,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 95,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 96,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 97,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 98,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 99,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 100,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 101,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 102,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 103,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 104,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 105,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 106,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 107,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 108,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 109,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 110,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 111,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 112,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 113,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 114,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 115,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 116,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 117,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 118,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 119,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 120,
+              "annualProbability": {
+                "numerator": 0,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            }
+          ],
+          "id": "mortality-table-definition_0834e8fd78a4f24f"
+        },
+        "mortality-table-definition_1af2f4e55c0961ee": {
+          "stableKey": "vitality.synthetic-certain-death",
+          "label": "Synthetic certain-death fixture",
+          "description": "Non-actuarial unit-probability table for deterministic engine validation.",
+          "sourceKey": "source:synthetic-validation-only",
+          "rates": [
+            {
+              "age": 0,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 1,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 2,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 3,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 4,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 5,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 6,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 7,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 8,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 9,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 10,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 11,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 12,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 13,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 14,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 15,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 16,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 17,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 18,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 19,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 20,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 21,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 22,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 23,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 24,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 25,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 26,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 27,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 28,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 29,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 30,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 31,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 32,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 33,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 34,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 35,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 36,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 37,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 38,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 39,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 40,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 41,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 42,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 43,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 44,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 45,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 46,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 47,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 48,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 49,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 50,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 51,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 52,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 53,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 54,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 55,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 56,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 57,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 58,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 59,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 60,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 61,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 62,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 63,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 64,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 65,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 66,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 67,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 68,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 69,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 70,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 71,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 72,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 73,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 74,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 75,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 76,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 77,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 78,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 79,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 80,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 81,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 82,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 83,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 84,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 85,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 86,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 87,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 88,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 89,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 90,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 91,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 92,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 93,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 94,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 95,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 96,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 97,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 98,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 99,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 100,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 101,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 102,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 103,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 104,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 105,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 106,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 107,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 108,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 109,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 110,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 111,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 112,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 113,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 114,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 115,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 116,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 117,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 118,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 119,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            },
+            {
+              "age": 120,
+              "annualProbability": {
+                "numerator": 1,
+                "denominator": 1,
+                "unit": "rate:share"
+              }
+            }
+          ],
+          "id": "mortality-table-definition_1af2f4e55c0961ee"
+        }
+      },
+      "mortalityTableOrder": [
+        "mortality-table-definition_0834e8fd78a4f24f",
+        "mortality-table-definition_1af2f4e55c0961ee"
+      ]
+    },
+    "control": { "kind": "person", "personId": "person_c1b023ca0dfa5ea4" },
+    "history": {
+      "nextSequence": 62,
+      "organizations": [
+        {
+          "id": "organization_e02e69a440ad337a",
+          "stableKey": "initial:organization:community-services-cooperative",
+          "sequence": 22,
+          "formedAt": "2026-01-05",
+          "detailLevel": "lightweight",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "organizationProfiles": [
+        {
+          "id": "organization-profile_e4db7919adb65597",
+          "stableKey": "initial:organization:community-services-cooperative:profile:initial",
+          "sequence": 23,
+          "organizationId": "organization_e02e69a440ad337a",
+          "effectiveAt": "2026-01-05",
+          "name": "Synthetic Community Services Cooperative",
+          "classification": "custom:community-services-cooperative",
+          "locationJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesProfileId": null
+        }
+      ],
+      "educationEnrollments": [],
+      "educationEnrollmentStates": [],
+      "organizationParticipations": [],
+      "organizationParticipationStates": [],
+      "workRelationships": [
+        {
+          "id": "work-relationship_3a55b57172887aa4",
+          "stableKey": "initial:work:person_c1b023ca0dfa5ea4:community-services",
+          "sequence": 24,
+          "personId": "person_c1b023ca0dfa5ea4",
+          "organizationId": "organization_e02e69a440ad337a",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "employment:staff",
+          "compensation": "paid",
+          "authority": "directed",
+          "dependency": "dependent",
+          "economicRisk": "organization-borne",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "work-relationship_d6616652dacc1ec0",
+          "stableKey": "initial:work:person_c1b024ca0dfa6057:volunteer-repair",
+          "sequence": 27,
+          "personId": "person_c1b024ca0dfa6057",
+          "organizationId": "organization_e02e69a440ad337a",
+          "recordedAt": "2026-01-05",
+          "startedAt": "2026-01-05",
+          "kind": "volunteer:repair-support",
+          "compensation": "unpaid",
+          "authority": "shared",
+          "dependency": "independent",
+          "economicRisk": "shared",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "workStatuses": [
+        {
+          "id": "work-status_781e35cbb789c6e2",
+          "stableKey": "initial:work:person_c1b023ca0dfa5ea4:community-services:status:initial",
+          "sequence": 25,
+          "workRelationshipId": "work-relationship_3a55b57172887aa4",
+          "effectiveAt": "2026-01-05",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStatusId": null
+        },
+        {
+          "id": "work-status_ba59337b51bbe31e",
+          "stableKey": "initial:work:person_c1b024ca0dfa6057:volunteer-repair:status:initial",
+          "sequence": 28,
+          "workRelationshipId": "work-relationship_d6616652dacc1ec0",
+          "effectiveAt": "2026-01-05",
+          "status": "active",
+          "reason": null,
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStatusId": null
+        }
+      ],
+      "workRoles": [
+        {
+          "id": "work-role_399906bafc191116",
+          "stableKey": "initial:work:person_c1b023ca0dfa5ea4:community-services:role:initial",
+          "sequence": 26,
+          "workRelationshipId": "work-relationship_3a55b57172887aa4",
+          "effectiveAt": "2026-01-05",
+          "title": "Community services coordinator",
+          "occupationClassification": "service:community-coordination",
+          "locationJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 32, "maximumHours": 40 },
+            "attention": "high",
+            "concurrency": "mostly-exclusive",
+            "scheduleRigidity": "mixed",
+            "interruptibility": "limited",
+            "locationJurisdictionId": "jurisdiction_6752b5a7cd79cafe"
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesRoleId": null
+        },
+        {
+          "id": "work-role_8821df5b461ea74e",
+          "stableKey": "initial:work:person_c1b024ca0dfa6057:volunteer-repair:role:initial",
+          "sequence": 29,
+          "workRelationshipId": "work-relationship_d6616652dacc1ec0",
+          "effectiveAt": "2026-01-05",
+          "title": "Volunteer repair mentor",
+          "occupationClassification": "custom:repair-mentorship",
+          "locationJurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 4, "maximumHours": 8 },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": "jurisdiction_6752b5a7cd79cafe"
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesRoleId": null
+        }
+      ],
+      "households": [
+        {
+          "id": "household_e62004748ee7a228",
+          "stableKey": "initial:household:shared-residence",
+          "sequence": 30,
+          "formedAt": "2026-01-05",
+          "label": "Synthetic shared residence household",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "household_d044747dd0883d33",
+          "stableKey": "initial:household:care-recipient",
+          "sequence": 31,
+          "formedAt": "2026-01-05",
+          "label": "Synthetic separate care-recipient household",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "householdLocations": [
+        {
+          "stableKey": "initial:household-location:shared",
+          "householdId": "household_e62004748ee7a228",
+          "effectiveAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "label": "Synthetic Kentucky location",
+          "kind": "residence:community-base",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesLocationId": null,
+          "id": "household-location_3d1e891152e43bbd",
+          "sequence": 32
+        },
+        {
+          "stableKey": "initial:household-location:recipient",
+          "householdId": "household_d044747dd0883d33",
+          "effectiveAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "label": "Synthetic Kentucky location",
+          "kind": "residence:community-base",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesLocationId": null,
+          "id": "household-location_954feca1529f589f",
+          "sequence": 33
+        }
+      ],
+      "householdMemberships": [
+        {
+          "id": "household-membership_3e527ab01f4d1fd7",
+          "stableKey": "initial:household-membership:person_c1b023ca0dfa5ea4",
+          "sequence": 34,
+          "personId": "person_c1b023ca0dfa5ea4",
+          "householdId": "household_e62004748ee7a228",
+          "startedAt": "2026-01-05",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "household-membership_fc942559420e3a4b",
+          "stableKey": "initial:household-membership:person_c1b024ca0dfa6057",
+          "sequence": 36,
+          "personId": "person_c1b024ca0dfa6057",
+          "householdId": "household_e62004748ee7a228",
+          "startedAt": "2026-01-05",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        },
+        {
+          "id": "household-membership_4554ad2318bcce5d",
+          "stableKey": "initial:household-membership:person_c1b025ca0dfa620a",
+          "sequence": 38,
+          "personId": "person_c1b025ca0dfa620a",
+          "householdId": "household_d044747dd0883d33",
+          "startedAt": "2026-01-05",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "householdMembershipStates": [
+        {
+          "id": "household-membership-state_df74d7c052942b9a",
+          "stableKey": "initial:household-membership:person_c1b023ca0dfa5ea4:state:initial",
+          "sequence": 35,
+          "membershipId": "household-membership_3e527ab01f4d1fd7",
+          "effectiveAt": "2026-01-05",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:member",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStateId": null
+        },
+        {
+          "id": "household-membership-state_1a139c452dadb1be",
+          "stableKey": "initial:household-membership:person_c1b024ca0dfa6057:state:initial",
+          "sequence": 37,
+          "membershipId": "household-membership_fc942559420e3a4b",
+          "effectiveAt": "2026-01-05",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:member",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStateId": null
+        },
+        {
+          "id": "household-membership-state_c5ef4f718b713570",
+          "stableKey": "initial:household-membership:person_c1b025ca0dfa620a:state:initial",
+          "sequence": 39,
+          "membershipId": "household-membership_4554ad2318bcce5d",
+          "effectiveAt": "2026-01-05",
+          "status": "resident",
+          "residenceRole": "primary",
+          "kind": "resident:member",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStateId": null
+        }
+      ],
+      "kinshipRelationships": [],
+      "partnerships": [],
+      "partnershipStates": [],
+      "careResponsibilities": [
+        {
+          "id": "care-responsibility_4c66189214c399c3",
+          "stableKey": "initial:care:person_c1b023ca0dfa5ea4:person_c1b025ca0dfa620a",
+          "sequence": 40,
+          "caregiverPersonId": "person_c1b023ca0dfa5ea4",
+          "recipientPersonId": "person_c1b025ca0dfa620a",
+          "startedAt": "2026-01-05",
+          "kind": "custom:appointment-and-language-support",
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          }
+        }
+      ],
+      "careResponsibilityStates": [
+        {
+          "id": "care-state_8f9ca2164cff1711",
+          "stableKey": "initial:care:person_c1b023ca0dfa5ea4:person_c1b025ca0dfa620a:state:initial",
+          "sequence": 41,
+          "careResponsibilityId": "care-responsibility_4c66189214c399c3",
+          "effectiveAt": "2026-01-05",
+          "status": "active",
+          "share": "shared",
+          "context": "Periodic appointment and language support across households",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 4, "maximumHours": 10 },
+            "attention": "low",
+            "concurrency": "mostly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "supersedesStateId": null
+        }
+      ],
+      "childAuthorities": [],
+      "childAuthorityStates": [],
+      "lifeCommitments": [
+        {
+          "stableKey": "initial:commitment:person_c1b023ca0dfa5ea4:mutual-aid-circle",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "startsAt": "2026-01-05",
+          "endsAt": null,
+          "kind": "custom:mutual-aid-circle",
+          "label": "Mutual-aid coordination circle",
+          "timeDemand": {
+            "expectedWeekly": { "minimumHours": 3, "maximumHours": 6 },
+            "attention": "moderate",
+            "concurrency": "partly-concurrent",
+            "scheduleRigidity": "flexible",
+            "interruptibility": "interruptible",
+            "locationJurisdictionId": null
+          },
+          "provenance": {
+            "kind": "authored",
+            "note": "Synthetic Stage 5.1 diagnostic fixture."
+          },
+          "id": "life-commitment_f0c171946d14fc70",
+          "sequence": 42
+        }
+      ],
+      "lifeLoadResolutions": [],
+      "resourcePositions": [],
+      "resourceFlows": [],
+      "resourceFlowTerms": [],
+      "resourceTransferOutcomes": [],
+      "resourceObligations": [],
+      "resourceObligationStates": [],
+      "dwellings": [],
+      "dwellingOccupancies": [],
+      "dwellingOccupancyStates": [],
+      "housingTenures": [],
+      "housingTenureStates": [],
+      "metricStates": [],
+      "metricObservations": [],
+      "causalProcesses": [],
+      "effectActivations": [],
+      "policyAlternatives": [],
+      "policyBaselines": [],
+      "policyOperations": [],
+      "policyImplementationProfiles": [],
+      "policyEstimates": [],
+      "policyRealizations": [],
+      "incidents": [],
+      "incidentStates": [],
+      "incidentTransitionPlans": [],
+      "mortalityCheckPlans": [],
+      "mortalityCheckResults": [],
+      "personDeaths": [],
+      "personFunctionalCapacities": [],
+      "evidenceArtifacts": [],
+      "evidenceDiscoveries": [],
+      "scheduledActivities": [],
+      "scheduledActivityStates": [],
+      "workItems": [
+        {
+          "id": "work-item_137bd63575938ab9",
+          "stableKey": "legislative-docket:kentucky:bill-001:work",
+          "sequence": 60,
+          "createdAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "title": "HB 401 — School repair authorization",
+          "summary": "Authorizes a repair programme for public education facilities, with a choice of project priority and a separate appropriation still required.",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "sourceEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec"
+          ],
+          "focus": {
+            "kind": "legislative-material",
+            "targetKey": "legislative-docket:kentucky:bill-001",
+            "sourceEntityId": "legislative-measure_be635966afccbfec"
+          },
+          "effort": null,
+          "access": { "kind": "office" }
+        }
+      ],
+      "workItemStates": [
+        {
+          "id": "work-item-state_c6d8b5b5e3d0e1a2",
+          "stableKey": "legislative-docket:kentucky:bill-001:work:state:active",
+          "sequence": 61,
+          "workItemId": "work-item_137bd63575938ab9",
+          "recordedAt": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "status": "active",
+          "assignedPersonIds": ["person_c1b023ca0dfa5ea4"],
+          "playerRequirement": "decision",
+          "waitingOnPersonIds": [],
+          "blocker": null,
+          "completedEffortMinutes": 0,
+          "scheduledActivityId": null,
+          "outcomeEventId": null,
+          "supersedesStateId": null
+        }
+      ],
+      "futureDueItems": [],
+      "futureDueItemStates": [],
+      "events": [
+        {
+          "id": "event_495714ebd06bd867",
+          "stableKey": "initial:world-created",
+          "sequence": 0,
+          "type": "world.created",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": ["jurisdiction_6752b5a7cd79cafe"],
+          "participants": [],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": ["simulation.world-created"],
+          "summary": "Seeded world created with a Kentucky placeholder for legislative play.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic foundation data; not a sourced real-world civic snapshot.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_46d7d1c354e099bf",
+          "stableKey": "initial:lightweight-person:person_c1b023ca0dfa5ea4",
+          "sequence": 1,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b023ca0dfa5ea4"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b023ca0dfa5ea4",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Vivian Doyle entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_0f36395ec97ef513",
+          "stableKey": "initial:lightweight-person:person_c1b024ca0dfa6057",
+          "sequence": 2,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b024ca0dfa6057"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b024ca0dfa6057",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Alexander Thompson entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_cbac83dbefbb19e5",
+          "stableKey": "initial:lightweight-person:person_c1b025ca0dfa620a",
+          "sequence": 3,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b025ca0dfa620a"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b025ca0dfa620a",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Jasmine Noel entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_0fd8c70110d8ad9e",
+          "stableKey": "initial:lightweight-person:person_c1b026ca0dfa63bd",
+          "sequence": 4,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b026ca0dfa63bd"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b026ca0dfa63bd",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Curtis Serrano entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_119097ebbf86a444",
+          "stableKey": "initial:lightweight-person:person_c1b01fca0dfa57d8",
+          "sequence": 5,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b01fca0dfa57d8"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b01fca0dfa57d8",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Malcolm Mendez entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_ce0f1701bae87479",
+          "stableKey": "initial:lightweight-person:person_c1b020ca0dfa598b",
+          "sequence": 6,
+          "type": "person.lightweight-generated",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "person_c1b020ca0dfa598b"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b020ca0dfa598b",
+              "role": "focus:subject",
+              "detail": "Generated person"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "private",
+          "tags": ["person.generated", "simulation.fixture"],
+          "summary": "Deborah Lin entered the active simulation as a lightweight person.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": "Synthetic development fixture"
+            },
+            "socialContext": "Synthetic progressive-generation demonstration event.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_2e43a1959aa380cb",
+          "stableKey": "event:kentucky:measure:introduced",
+          "sequence": 44,
+          "type": "legislation.measure-introduced",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_ac82af2101295ed9",
+            "person_c1b023ca0dfa5ea4"
+          ],
+          "participants": [
+            {
+              "personId": "person_c1b023ca0dfa5ea4",
+              "role": "agency:sponsor",
+              "detail": "Sponsor of HB 214"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": ["chamber:house", "legislation", "legislation.introduced"],
+          "summary": "HB 214 — Transit Access Pilot — was filed in the House of Representatives.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Filed in the House of Representatives.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_109ea90c40404f80",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:measure:introduced",
+          "sequence": 47,
+          "type": "legislation.measure-introduced",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Sponsor of HB 401"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": ["chamber:house", "legislation", "legislation.introduced"],
+          "summary": "HB 401 — School repair authorization — was filed in the House of Representatives.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Filed in the House of Representatives.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_90d7a901f12e7e9c",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:school-repair-authorization-scope",
+          "sequence": 49,
+          "type": "legislation.provision-filed",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Carries the measure this section belongs to"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "legislation",
+            "legislation.provision",
+            "legislation.provision.general-application"
+          ],
+          "summary": "HB 401 was filed with language reaching public bodies operating public education facilities in Section 1, Application.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Section 1, Application of HB 401.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_9bbdd05a947eb2dc",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:school-repair-authorization-operative-duty",
+          "sequence": 51,
+          "type": "legislation.provision-filed",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Carries the measure this section belongs to"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "legislation",
+            "legislation.provision",
+            "legislation.provision.general-application"
+          ],
+          "summary": "HB 401 was filed with language reaching public bodies operating public education facilities in Section 2, Which eligible repairs take priority.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Section 2, Which eligible repairs take priority of HB 401.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_40d51a194fa9a32e",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:school-repair-authorization-safeguard",
+          "sequence": 53,
+          "type": "legislation.provision-filed",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Carries the measure this section belongs to"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "legislation",
+            "legislation.provision",
+            "legislation.provision.general-application"
+          ],
+          "summary": "HB 401 was filed with language reaching public bodies operating public education facilities in Section 3, Limits and safeguards.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Section 3, Limits and safeguards of HB 401.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_b0074af12750640b",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:school-repair-authorization-commencement",
+          "sequence": 55,
+          "type": "legislation.provision-filed",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Carries the measure this section belongs to"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "legislation",
+            "legislation.provision",
+            "legislation.provision.general-application"
+          ],
+          "summary": "HB 401 was filed with language reaching public bodies operating public education facilities in Section 4, Commencement.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Section 4, Commencement of HB 401.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        },
+        {
+          "id": "event_01d59dc024933c80",
+          "stableKey": "event:legislative-docket:kentucky:bill-001:school-repair-authorization-programme-ceiling",
+          "sequence": 57,
+          "type": "legislation.provision-filed",
+          "occurredAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "involvedEntityIds": [
+            "jurisdiction_6752b5a7cd79cafe",
+            "legislative-measure_be635966afccbfec",
+            "person_58ac8dec0bf40460"
+          ],
+          "participants": [
+            {
+              "personId": "person_58ac8dec0bf40460",
+              "role": "agency:sponsor",
+              "detail": "Carries the measure this section belongs to"
+            }
+          ],
+          "personFactConstraints": [],
+          "visibility": "public",
+          "tags": [
+            "legislation",
+            "legislation.provision",
+            "legislation.provision.general-application"
+          ],
+          "summary": "HB 401 was filed with language reaching public bodies operating public education facilities in Section 5, Total authorization.",
+          "context": {
+            "location": {
+              "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+              "label": "Kentucky",
+              "setting": null
+            },
+            "socialContext": "Section 5, Total authorization of HB 401.",
+            "pressure": null,
+            "choice": null,
+            "motivation": null,
+            "immediateReaction": null
+          }
+        }
+      ],
+      "memories": [],
+      "knowledge": [],
+      "claims": [],
+      "relationshipInteractions": [],
+      "propositionExposures": [
+        {
+          "stableKey": "initial:exposure:person_c1b023ca0dfa5ea4:drug-negotiation",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_c9b5a5d8a9b79555",
+          "encounteredAt": "2026-01-05",
+          "summary": "Encountered the synthetic drug-negotiation proposition without an automatically assigned view.",
+          "provenance": {
+            "kind": "manual",
+            "note": "Authored fixture used to demonstrate sparse proposition exposure."
+          },
+          "id": "proposition-exposure_e159ee969d491c1c",
+          "sequence": 7
+        },
+        {
+          "stableKey": "initial:exposure:person_c1b023ca0dfa5ea4:drug-price-caps",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_af5b8a8a52a292cf",
+          "encounteredAt": "2026-01-05",
+          "summary": "Encountered a synthetic proposal framed as limiting selected out-of-pocket drug prices.",
+          "provenance": {
+            "kind": "manual",
+            "note": "Synthetic diagnostic framing, not a sourced policy-effect claim."
+          },
+          "id": "proposition-exposure_d30ab8fdcfc1d762",
+          "sequence": 18
+        }
+      ],
+      "privateBeliefs": [
+        {
+          "stableKey": "initial:belief:person_c1b023ca0dfa5ea4:drug-negotiation",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_c9b5a5d8a9b79555",
+          "formedAt": "2026-01-05",
+          "position": "support",
+          "conviction": "tentative",
+          "salience": "moderate",
+          "flexibility": "open",
+          "rationale": "Initial synthetic diagnostic record.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": [],
+            "sourceFactIds": [],
+            "propositionExposureIds": ["proposition-exposure_e159ee969d491c1c"],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": [],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Authored fixture; not inferred from personality or biography."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_a995214dd9c315af",
+          "sequence": 8
+        },
+        {
+          "stableKey": "initial:belief-formation:person_c1b023ca0dfa5ea4:drug-price-caps:belief",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_af5b8a8a52a292cf",
+          "formedAt": "2026-01-05",
+          "position": "support",
+          "conviction": "tentative",
+          "salience": "high",
+          "flexibility": "open",
+          "rationale": "Autonomous proposal selected tentative-support; see durable decision trace.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": [],
+            "sourceFactIds": [],
+            "propositionExposureIds": ["proposition-exposure_d30ab8fdcfc1d762"],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": ["decision-trace_f9279219f196bb7b"],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Applied by the Stage 4 general decision engine's political-belief adapter."
+          },
+          "supersedesBeliefId": null,
+          "id": "belief_8135f32f65f99ab0",
+          "sequence": 21
+        }
+      ],
+      "publicPositions": [
+        {
+          "stableKey": "initial:public-position:person_c1b023ca0dfa5ea4:drug-negotiation",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_c9b5a5d8a9b79555",
+          "statedAt": "2026-01-05",
+          "stance": "undecided",
+          "statement": "I remain publicly undecided on this proposal.",
+          "audience": "public",
+          "venue": "Synthetic developer fixture",
+          "sourceEventId": null,
+          "supersedesPublicPositionId": null,
+          "id": "public-position_515c8b77034b8d0b",
+          "sequence": 9
+        }
+      ],
+      "campaignCommitments": [
+        {
+          "stableKey": "initial:commitment:person_c1b023ca0dfa5ea4:drug-negotiation",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "propositionId": "proposition_c9b5a5d8a9b79555",
+          "madeAt": "2026-01-05",
+          "stance": "oppose",
+          "level": "pledge",
+          "statement": "I pledge to oppose this proposal in the synthetic campaign record.",
+          "conditions": null,
+          "sourceEventId": null,
+          "supersedesCommitmentId": null,
+          "id": "commitment_53b5418678c4a093",
+          "sequence": 10
+        }
+      ],
+      "principles": [
+        {
+          "stableKey": "initial:principle:person_c1b023ca0dfa5ea4:reduce-inequality",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "principleId": "principle-definition_49a2bd9731aa5afe",
+          "formedAt": "2026-01-05",
+          "stance": "endorses",
+          "conviction": "moderate",
+          "flexibility": "conditional",
+          "qualification": "Institutional stability also matters.",
+          "formation": {
+            "reason": "reflection:initial",
+            "relevantEventIds": [],
+            "sourceFactIds": [],
+            "propositionExposureIds": [],
+            "memoryIds": [],
+            "eventKnowledgeIds": [],
+            "claimIds": [],
+            "relationshipInteractionIds": [],
+            "subjectKnowledgeIds": [],
+            "decisionTraceIds": [],
+            "cue": null,
+            "evidenceReference": null,
+            "note": "Authored fixture; no proposition positions were inferred."
+          },
+          "supersedesPrincipleRecordId": null,
+          "id": "principle_dd0699ec8b16dc91",
+          "sequence": 11
+        }
+      ],
+      "subjectKnowledge": [
+        {
+          "stableKey": "initial:subject-knowledge:person_c1b023ca0dfa5ea4:healthcare",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "subjectId": "subject_032210b207ead264",
+          "recordedAt": "2026-01-05",
+          "familiarity": "aware",
+          "understanding": "minimal",
+          "expertise": "none",
+          "practicalExperience": "indirect",
+          "provenance": {
+            "kind": "manual",
+            "note": "Synthetic diagnostic scaffold, not an assertion of correctness."
+          },
+          "supersedesKnowledgeId": null,
+          "id": "subject-knowledge_4ad5880ca51a4206",
+          "sequence": 12
+        }
+      ],
+      "personalityTendencies": [
+        {
+          "stableKey": "initial:tendency:person_c1b023ca0dfa5ea4:risk-approach",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "tendencyId": "personality-tendency-definition_35db4d880429e6a3",
+          "recordedAt": "2026-01-05",
+          "expressionKey": "cautious",
+          "strength": "moderate",
+          "confidence": "medium",
+          "scopeTags": ["decision.uncertainty"],
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "Synthetic diagnostic fixture; not inferred from biography."
+          },
+          "supersedesTendencyId": null,
+          "id": "personality-tendency_42772dc0a949673e",
+          "sequence": 13
+        }
+      ],
+      "personalValues": [
+        {
+          "stableKey": "initial:value:person_c1b023ca0dfa5ea4:compassion",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "valueId": "value-definition_98258b7a38897774",
+          "recordedAt": "2026-01-05",
+          "orientation": "embraces",
+          "strength": "strong",
+          "salience": "high",
+          "qualification": "Especially when concrete hardship is visible.",
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "Synthetic diagnostic fixture; no policy position is implied."
+          },
+          "supersedesValueId": null,
+          "id": "personal-value_302d842f5f42eefa",
+          "sequence": 14
+        }
+      ],
+      "goalStates": [
+        {
+          "stableKey": "initial:goal:person_c1b023ca0dfa5ea4:understand-local-needs",
+          "goalKey": "understand-local-needs",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "recordedAt": "2026-01-05",
+          "objective": "Understand one concrete local need before taking a firm view.",
+          "domain": "community-learning",
+          "scope": "Kentucky placeholder",
+          "priority": "moderate",
+          "status": "active",
+          "targetEntityId": "jurisdiction_6752b5a7cd79cafe",
+          "deadline": null,
+          "outcome": null,
+          "provenance": {
+            "kind": "authored",
+            "sourceRefs": [],
+            "note": "Synthetic diagnostic goal."
+          },
+          "replacesGoalId": null,
+          "supersedesGoalStateId": null,
+          "goalId": "goal_a16b5448c81b33ae",
+          "createdAt": "2026-01-05",
+          "id": "goal-state_9b53567ee820632d",
+          "sequence": 15
+        }
+      ],
+      "appraisals": [
+        {
+          "stableKey": "initial:appraisal:person_c1b023ca0dfa5ea4:entry",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "eventId": "event_46d7d1c354e099bf",
+          "memoryId": null,
+          "eventKnowledgeId": null,
+          "appraisedAt": "2026-01-05",
+          "meanings": [
+            {
+              "key": "new-responsibility",
+              "label": "New responsibility",
+              "valence": "mixed",
+              "intensity": "moderate"
+            }
+          ],
+          "interpretation": "Entering the active simulation feels like an invitation to learn before committing.",
+          "confidence": "medium",
+          "involvedPersonIds": ["person_c1b023ca0dfa5ea4"],
+          "provenance": {
+            "kind": "reflection",
+            "sourceRefs": [
+              {
+                "kind": "historical-event",
+                "eventId": "event_46d7d1c354e099bf"
+              }
+            ],
+            "note": "Synthetic diagnostic appraisal, separate from event truth."
+          },
+          "supersedesAppraisalId": null,
+          "id": "appraisal_f294d9a005f8123f",
+          "sequence": 16
+        }
+      ],
+      "perceptions": [
+        {
+          "stableKey": "initial:perception:person_c1b023ca0dfa5ea4:drug-price-caps",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "perceivedAt": "2026-01-05",
+          "subjectKind": "domain:policy-proposition",
+          "subjectKey": "proposition:proposition_af5b8a8a52a292cf",
+          "subjectEntityId": "proposition_af5b8a8a52a292cf",
+          "assertion": "This proposal might reduce hardship for some people who buy medicine.",
+          "confidence": "low",
+          "sourceCredibility": "unknown",
+          "source": {
+            "kind": "proposition-exposure",
+            "exposureId": "proposition-exposure_d30ab8fdcfc1d762"
+          },
+          "supersedesPerceptionId": null,
+          "id": "perception_7137c9de0a5c3c7f",
+          "sequence": 19
+        }
+      ],
+      "temporaryStates": [
+        {
+          "stableKey": "initial:temporary-state:person_c1b023ca0dfa5ea4:heightened-attention",
+          "personId": "person_c1b023ca0dfa5ea4",
+          "stateKey": "heightened-attention",
+          "label": "Heightened attention",
+          "recordedAt": "2026-01-05",
+          "startsAt": "2026-01-05",
+          "endsAt": "2026-01-06",
+          "intensity": "subtle",
+          "decisionTags": ["political-belief-formation"],
+          "provenance": {
+            "kind": "reflection",
+            "sourceRefs": [
+              {
+                "kind": "appraisal",
+                "appraisalId": "appraisal_f294d9a005f8123f"
+              }
+            ],
+            "note": "Short-lived context, not a permanent mood meter."
+          },
+          "id": "temporary-state_040546438a173007",
+          "sequence": 17
+        }
+      ],
+      "decisionTraces": [
+        {
+          "decisionId": "decision_cdbb631b432c3f4d",
+          "context": {
+            "stableKey": "initial:belief-formation:person_c1b023ca0dfa5ea4:drug-price-caps",
+            "decisionType": "political-belief-formation",
+            "actorPersonId": "person_c1b023ca0dfa5ea4",
+            "cutoff": {
+              "asOfDate": "2026-01-05",
+              "historySequenceExclusive": 20
+            },
+            "subject": {
+              "kind": "domain:policy-proposition",
+              "key": "proposition:proposition_af5b8a8a52a292cf",
+              "entityId": "proposition_af5b8a8a52a292cf"
+            },
+            "options": [
+              {
+                "key": "conflicted",
+                "label": "conflicted",
+                "description": "Form a private view that retains materially conflicting considerations."
+              },
+              {
+                "key": "defer",
+                "label": "defer",
+                "description": "Recognize the question but defer forming a private view."
+              },
+              {
+                "key": "no-opinion",
+                "label": "no opinion",
+                "description": "Do not form a private view at this time."
+              },
+              {
+                "key": "opposition",
+                "label": "opposition",
+                "description": "Form a private view in opposition."
+              },
+              {
+                "key": "support",
+                "label": "support",
+                "description": "Form a private view in support."
+              },
+              {
+                "key": "tentative-opposition",
+                "label": "tentative opposition",
+                "description": "Form a tentative private view in opposition."
+              },
+              {
+                "key": "tentative-support",
+                "label": "tentative support",
+                "description": "Form a tentative private view in support."
+              }
+            ],
+            "constraints": [],
+            "considerations": [
+              {
+                "stableKey": "default:no-opinion",
+                "optionKey": "no-opinion",
+                "sourceType": "context:opinion-readiness",
+                "direction": "supports",
+                "importance": "moderate",
+                "confidence": "medium",
+                "explanation": "Without enough personally meaningful reason, the actor may leave the question unresolved.",
+                "sourceRefs": []
+              },
+              {
+                "stableKey": "factor:compassion-under-perceived-hardship",
+                "optionKey": "tentative-support",
+                "sourceType": "mind:value",
+                "direction": "supports",
+                "importance": "strong",
+                "confidence": "medium",
+                "explanation": "In this specific encounter, perceived hardship makes the actor's compassion value relevant without creating a universal value-to-policy rule.",
+                "sourceRefs": [
+                  {
+                    "kind": "perception",
+                    "perceptionId": "perception_7137c9de0a5c3c7f"
+                  },
+                  {
+                    "kind": "personal-value",
+                    "valueRecordId": "personal-value_302d842f5f42eefa"
+                  },
+                  {
+                    "kind": "proposition-exposure",
+                    "exposureId": "proposition-exposure_d30ab8fdcfc1d762"
+                  }
+                ]
+              }
+            ],
+            "perceptionIds": ["perception_7137c9de0a5c3c7f"],
+            "randomness": "none",
+            "retention": "durable"
+          },
+          "optionEvaluations": [
+            {
+              "optionKey": "conflicted",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [],
+              "preference": "mixed",
+              "randomContribution": "none",
+              "finalRank": 3
+            },
+            {
+              "optionKey": "defer",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [],
+              "preference": "mixed",
+              "randomContribution": "none",
+              "finalRank": 4
+            },
+            {
+              "optionKey": "no-opinion",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": ["default:no-opinion"],
+              "preference": "supported",
+              "randomContribution": "none",
+              "finalRank": 2
+            },
+            {
+              "optionKey": "opposition",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [],
+              "preference": "mixed",
+              "randomContribution": "none",
+              "finalRank": 5
+            },
+            {
+              "optionKey": "support",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [],
+              "preference": "mixed",
+              "randomContribution": "none",
+              "finalRank": 6
+            },
+            {
+              "optionKey": "tentative-opposition",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [],
+              "preference": "mixed",
+              "randomContribution": "none",
+              "finalRank": 7
+            },
+            {
+              "optionKey": "tentative-support",
+              "available": true,
+              "blockedByConstraintKeys": [],
+              "considerationKeys": [
+                "factor:compassion-under-perceived-hardship"
+              ],
+              "preference": "strongly-supported",
+              "randomContribution": "none",
+              "finalRank": 1
+            }
+          ],
+          "outcomeKind": "selected",
+          "selectedOptionKey": "tentative-support",
+          "sourceSnapshots": [
+            {
+              "reference": {
+                "kind": "perception",
+                "perceptionId": "perception_7137c9de0a5c3c7f"
+              },
+              "label": "Perception · domain:policy-proposition",
+              "content": "This proposal might reduce hardship for some people who buy medicine. (low confidence; unknown source credibility)"
+            },
+            {
+              "reference": {
+                "kind": "personal-value",
+                "valueRecordId": "personal-value_302d842f5f42eefa"
+              },
+              "label": "Value · Compassion",
+              "content": "embraces; strong strength; high salience"
+            },
+            {
+              "reference": {
+                "kind": "proposition-exposure",
+                "exposureId": "proposition-exposure_d30ab8fdcfc1d762"
+              },
+              "label": "Proposition exposure",
+              "content": "Encountered a synthetic proposal framed as limiting selected out-of-pocket drug prices."
+            }
+          ],
+          "rngVersion": "decision-rng-v1",
+          "stableKey": "initial:belief-formation:person_c1b023ca0dfa5ea4:drug-price-caps:trace",
+          "recordedAt": "2026-01-05",
+          "id": "decision-trace_f9279219f196bb7b",
+          "sequence": 20
+        }
+      ],
+      "legislativeMeasures": [
+        {
+          "id": "legislative-measure_ac82af2101295ed9",
+          "stableKey": "kentucky:measure",
+          "sequence": 43,
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "rulePackId": "us-ky-general-assembly-v1",
+          "designation": "HB 214",
+          "shortTitle": "Transit Access Pilot",
+          "summary": "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.",
+          "origin": "member-introduction",
+          "subjectClass": "general-policy",
+          "originChamberKey": "house",
+          "sponsorPersonId": "person_c1b023ca0dfa5ea4",
+          "introducedAt": "2026-01-05",
+          "sourceDocumentKey": null,
+          "policyAlternativeIds": []
+        },
+        {
+          "id": "legislative-measure_be635966afccbfec",
+          "stableKey": "legislative-docket:kentucky:bill-001:measure",
+          "sequence": 46,
+          "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+          "rulePackId": "us-ky-general-assembly-v1",
+          "designation": "HB 401",
+          "shortTitle": "School repair authorization",
+          "summary": "Authorizes a repair programme for public education facilities, with a choice of project priority and a separate appropriation still required.",
+          "origin": "member-introduction",
+          "subjectClass": "general-policy",
+          "originChamberKey": "house",
+          "sponsorPersonId": "person_58ac8dec0bf40460",
+          "introducedAt": "2026-01-05",
+          "sourceDocumentKey": null,
+          "policyAlternativeIds": []
+        }
+      ],
+      "legislativeActions": [
+        {
+          "id": "legislative-action_972a4bdecf1c675d",
+          "stableKey": "kentucky:measure:introduced",
+          "sequence": 45,
+          "measureId": "legislative-measure_ac82af2101295ed9",
+          "kind": "introduced",
+          "occurredAt": "2026-01-05",
+          "chamberKey": "house",
+          "committeeKey": null,
+          "floorStageKey": null,
+          "actorLabel": "Vivian Doyle",
+          "rationale": "Filed in the House of Representatives.",
+          "eventId": "event_2e43a1959aa380cb",
+          "voteId": null,
+          "amendmentId": null
+        },
+        {
+          "id": "legislative-action_a2afdb4d55b72980",
+          "stableKey": "legislative-docket:kentucky:bill-001:measure:introduced",
+          "sequence": 48,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "kind": "introduced",
+          "occurredAt": "2026-01-05",
+          "chamberKey": "house",
+          "committeeKey": null,
+          "floorStageKey": null,
+          "actorLabel": "Emil Malone",
+          "rationale": "Filed in the House of Representatives.",
+          "eventId": "event_109ea90c40404f80",
+          "voteId": null,
+          "amendmentId": null
+        }
+      ],
+      "legislativeProvisions": [
+        {
+          "id": "legislative-provision_6c98eaeca54a4401",
+          "stableKey": "legislative-docket:kentucky:bill-001:school-repair-authorization-scope",
+          "sequence": 50,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "provisionKey": "school-repair-authorization-scope",
+          "sectionNumber": 1,
+          "heading": "Application",
+          "text": "A school repair assistance programme is established. A public body operating a public education facility in this state may apply for assistance with repair of that facility; new construction is ineligible. Eligibility establishes no right to an award.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "public bodies operating public education facilities"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-01-05",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_90d7a901f12e7e9c"
+        },
+        {
+          "id": "legislative-provision_698ebd58ead6837f",
+          "stableKey": "legislative-docket:kentucky:bill-001:school-repair-authorization-operative-duty",
+          "sequence": 52,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "provisionKey": "school-repair-authorization-operative-duty",
+          "sectionNumber": 2,
+          "heading": "Which eligible repairs take priority",
+          "text": "When ranking eligible applications, the administering body shall give priority to repairs needed for safe entry, exit and physical accessibility, and shall publish its reasons for each ranking.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "public bodies operating public education facilities"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-01-05",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_9bbdd05a947eb2dc"
+        },
+        {
+          "id": "legislative-provision_3b0d4c170f46098f",
+          "stableKey": "legislative-docket:kentucky:bill-001:school-repair-authorization-safeguard",
+          "sequence": 54,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "provisionKey": "school-repair-authorization-safeguard",
+          "sectionNumber": 3,
+          "heading": "Limits and safeguards",
+          "text": "An application shall identify the proposed repair and the evidence supporting its priority. A priority finding under this Act is not a finding that a building complies with any other law. Assistance may not be used for operating salaries.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "public bodies operating public education facilities"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-01-05",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_40d51a194fa9a32e"
+        },
+        {
+          "id": "legislative-provision_321bc46a0726e9d8",
+          "stableKey": "legislative-docket:kentucky:bill-001:school-repair-authorization-commencement",
+          "sequence": 56,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "provisionKey": "school-repair-authorization-commencement",
+          "sectionNumber": 4,
+          "heading": "Commencement",
+          "text": "This Act takes effect upon enactment.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "public bodies operating public education facilities"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": null,
+          "fiscalExposureMinorUnits": null,
+          "recordedAt": "2026-01-05",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_b0074af12750640b"
+        },
+        {
+          "id": "legislative-provision_f3d5ee856bda469d",
+          "stableKey": "legislative-docket:kentucky:bill-001:school-repair-authorization-programme-ceiling",
+          "sequence": 58,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "provisionKey": "school-repair-authorization-programme-ceiling",
+          "sectionNumber": 5,
+          "heading": "Total authorization",
+          "text": "There is authorized not more than $6,000,000 in total for the programme established by this Act. This is a single ceiling for the whole programme, not a recurring authorization. No money is appropriated by this Act. No award may be paid without a separate appropriation and designation under applicable law of a public body to administer the programme.",
+          "beneficiary": {
+            "kind": "general-application",
+            "appliesToLabel": "public bodies operating public education facilities"
+          },
+          "applicationScope": {
+            "jurisdictionId": "jurisdiction_6752b5a7cd79cafe",
+            "segmentKey": null
+          },
+          "fiscalExposureLabel": "$6,000,000 total programme authorization",
+          "fiscalExposureMinorUnits": 600000000,
+          "recordedAt": "2026-01-05",
+          "supersedesProvisionId": null,
+          "originAmendmentId": null,
+          "eventId": "event_01d59dc024933c80"
+        }
+      ],
+      "legislativeDraftLineages": [
+        {
+          "id": "legislative-draft-lineage_66562dbeea223bcf",
+          "stableKey": "legislative-docket:kentucky:bill-001:lineage",
+          "sequence": 59,
+          "measureId": "legislative-measure_be635966afccbfec",
+          "familyKey": "education-facilities",
+          "familyVersion": "v1",
+          "variantKey": "school-repair-authorization",
+          "compiledAt": "2026-01-05",
+          "recordedAt": "2026-01-05",
+          "parameters": [
+            {
+              "parameterKey": "commencement",
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            },
+            {
+              "parameterKey": "operative-choice",
+              "kind": "enumerated",
+              "value": "safe-access"
+            },
+            {
+              "parameterKey": "programme-ceiling",
+              "kind": "money",
+              "minorUnits": 600000000,
+              "currency": "USD"
+            }
+          ],
+          "provenanceNote": "Authored programme parameters chosen in play. Not a statute, not a measurement, and not a claim about any real programme."
+        }
+      ]
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { createStableId } from "./ids";
 import type {
   CampaignActionRecord,
   CampaignActionResultRecord,
+  CampaignComplianceDocumentRecord,
   CampaignRecord,
   CampaignStateRecord,
   EntityId,
@@ -51,7 +52,8 @@ function assertIdentity(
     | "campaign"
     | "campaign-state"
     | "campaign-action"
-    | "campaign-action-result",
+    | "campaign-action-result"
+    | "campaign-compliance-document",
 ): void {
   if (ids.has(record.id)) {
     throw new Error(`Duplicate campaign history identity: ${record.id}`);
@@ -123,6 +125,14 @@ function assertCampaignRoots(
   ) {
     throw new Error(
       `Campaign cites an office no accepted candidacy pack supports: ${campaign.id}`,
+    );
+  }
+  if (
+    campaign.compliancePackId !== null &&
+    campaign.compliancePackId.trim().length === 0
+  ) {
+    throw new Error(
+      `Campaign compliance pack identity is invalid: ${campaign.id}`,
     );
   }
 
@@ -549,6 +559,8 @@ export function assertCampaignIntegrity(
   assertOrdered(campaignStateRecords(world), "campaign state");
   assertOrdered(campaignActionRecords(world), "campaign action");
   assertOrdered(campaignActionResultRecords(world), "campaign action result");
+  const complianceDocuments = world.history.campaignComplianceDocuments ?? [];
+  assertOrdered(complianceDocuments, "campaign compliance document");
 
   const campaignById = new Map<EntityId, CampaignRecord>();
   for (const campaign of campaignRecords) {
@@ -580,4 +592,65 @@ export function assertCampaignIntegrity(
 
   const actionById = assertCampaignActions(world, ids, campaignById);
   assertCampaignActionResults(world, ids, campaignById, actionById);
+
+  const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
+  for (const filingRecord of complianceDocuments) {
+    assertIdentity(ids, world, filingRecord, "campaign-compliance-document");
+    const campaign = campaignById.get(filingRecord.campaignId);
+    if (
+      !campaign ||
+      campaign.sequence >= filingRecord.sequence ||
+      filingRecord.committeeOrganizationId !== campaign.organizationId ||
+      filingRecord.rulePackId !== campaign.compliancePackId
+    ) {
+      throw new Error(
+        `Campaign compliance document linkage is invalid: ${filingRecord.id}`,
+      );
+    }
+    if (
+      (filingRecord.status === "draft" &&
+        (filingRecord.visibility !== "committee-private" ||
+          filingRecord.transport !== null ||
+          filingRecord.filedAt !== null)) ||
+      (filingRecord.status === "filed" &&
+        (filingRecord.visibility !== "public-record" ||
+          filingRecord.transport !== "KEFMS" ||
+          filingRecord.filedAt === null))
+    ) {
+      throw new Error(
+        `Campaign compliance document state is invalid: ${filingRecord.id}`,
+      );
+    }
+    if (
+      filingRecord.kind === "amendment" &&
+      (!filingRecord.amendsDocumentId ||
+        !filingRecord.correctionReason?.trim() ||
+        filingRecord.schedule !== "correction")
+    ) {
+      throw new Error(
+        `Campaign compliance amendment is incomplete: ${filingRecord.id}`,
+      );
+    }
+    if (
+      filingRecord.kind !== "amendment" &&
+      filingRecord.amendsDocumentId !== null
+    ) {
+      throw new Error(
+        `Non-amendment document claims an amended filing: ${filingRecord.id}`,
+      );
+    }
+    if (filingRecord.amendsDocumentId) {
+      const prior = complianceById.get(filingRecord.amendsDocumentId);
+      if (
+        !prior ||
+        prior.campaignId !== filingRecord.campaignId ||
+        prior.status !== "filed"
+      ) {
+        throw new Error(
+          `Campaign compliance amendment target is invalid: ${filingRecord.id}`,
+        );
+      }
+    }
+    complianceById.set(filingRecord.id, filingRecord);
+  }
 }

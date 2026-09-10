@@ -11,10 +11,12 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import {
+  MUNICIPAL_NATIONAL_FIXTURE_PATH,
   MUNICIPAL_PRODUCTION_GATE,
+  MUNICIPAL_PRODUCTION_PACKS,
+  PRODUCTION_PACK_ARTIFACTS,
+  municipalSourceById,
   compileMunicipalFixture,
   openMunicipalFixture,
   parseMunicipalArtifacts,
@@ -24,7 +26,6 @@ import {
 import type { MunicipalGovernanceRecord } from "../../src/source/domains/municipal-governance/index";
 import { isClean, isUnresolved } from "../../src/source/core/index";
 
-const REPO = resolve(import.meta.dirname, "../..");
 const FIXTURE = "fixtures/source/municipal-governance/kentucky-pilot.json";
 
 function compiled() {
@@ -380,6 +381,20 @@ describe("consolidation is a set of relationships, not a boolean", () => {
 });
 
 describe("unknown stays unknown, and provenance survives", () => {
+  it("retains usable structure when current partisanship is unresolved", () => {
+    const corpus = compiled();
+    const records = corpus.records.map((record) => ({
+      ...record,
+      electedStructure: { ...record.electedStructure, partisanshipHistory: [] },
+    }));
+    expect(
+      validateMunicipalGovernanceCorpus({ ...corpus, records }).findings.filter(
+        (finding) => finding.severity === "error",
+      ),
+    ).toEqual([]);
+    expect(records[0]?.electedStructure.bodySize.state).toBe("KNOWN");
+  });
+
   it("leaves no value key on a fact nobody established", () => {
     const { louisville } = byId(compiled().records);
     const exactNestedCount = louisville.consolidation.nestedGovernmentCount;
@@ -598,29 +613,63 @@ describe("municipal semantic validation fails closed", () => {
   });
 });
 
-describe("the production gate", () => {
-  it("refuses to compile production records, and says why", () => {
+describe("the production boundary", () => {
+  it("refuses a lock that is not this domain's", () => {
     expect(() =>
-      sourceDomain.compileProduction({ domain: "x", artifacts: [] }),
-    ).toThrow(/compiles no production corpus/);
-    expect(sourceDomain.productionGate).toBe(MUNICIPAL_PRODUCTION_GATE);
-    expect(MUNICIPAL_PRODUCTION_GATE.length).toBeGreaterThan(40);
-    expect(MUNICIPAL_PRODUCTION_GATE).toMatch(
-      /secondary synthesis|first-party/,
-    );
+      sourceDomain.compileProduction({ domain: "places", artifacts: [] }),
+    ).toThrow(/places/);
   });
 
-  it("commits no production corpus for the gated domain", () => {
-    const corpusPath = resolve(
-      REPO,
-      "data/source/municipal-governance/corpus.json",
+  it("refuses to compile production without the locked enacted text", () => {
+    expect(() =>
+      sourceDomain.compileProduction({
+        domain: "municipal-governance",
+        artifacts: [],
+      }),
+    ).toThrow(/not in the municipal-governance lock/);
+  });
+
+  it("still says which governments are a transcription rather than a reading", () => {
+    expect(MUNICIPAL_PRODUCTION_GATE.length).toBeGreaterThan(40);
+    expect(MUNICIPAL_PRODUCTION_GATE).toMatch(
+      /attributed research|first-party/,
     );
-    let exists = true;
-    try {
-      readFileSync(corpusPath);
-    } catch {
-      exists = false;
+    // The domain no longer declares a gate, because it does compile production.
+    expect(sourceDomain.productionGate).toBeUndefined();
+  });
+
+  it("compiles production only from governments whose law was retrieved", () => {
+    const keys = MUNICIPAL_PRODUCTION_PACKS.map(
+      (pack) => pack.sourceGovernmentKey,
+    );
+    expect(keys).toEqual([
+      "us-va-charlottesville",
+      "us-va-richmond",
+      "us-nv-carson-city",
+      "us-or-portland",
+    ]);
+    for (const pack of MUNICIPAL_PRODUCTION_PACKS) {
+      const allowed = PRODUCTION_PACK_ARTIFACTS[pack.sourceGovernmentKey];
+      expect(allowed && allowed.length).toBeGreaterThan(0);
+      for (const artifactId of allowed ?? []) {
+        expect(() => municipalSourceById(artifactId)).not.toThrow();
+      }
     }
-    expect(exists).toBe(false);
+  });
+
+  it("keeps the fixture corpora fixture-class however wide they get", () => {
+    const national = compileMunicipalFixture(
+      openMunicipalFixture(MUNICIPAL_NATIONAL_FIXTURE_PATH),
+    );
+    expect(national.corpus.inputClass).toBe("fixture");
+    expect(national.records.length).toBeGreaterThan(30);
+    // Not one national record may claim a procedural rule: the pass never read
+    // an instrument, so every legislative-procedure leaf is unresolved.
+    for (const record of national.records) {
+      expect(record.legislativeProcedure.passageThreshold.state).not.toBe(
+        "KNOWN",
+      );
+      expect(record.legislativeProcedure.quorumRule.state).not.toBe("KNOWN");
+    }
   });
 });
