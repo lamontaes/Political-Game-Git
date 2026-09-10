@@ -380,3 +380,19 @@ The American English checker is supplied by SKILL-OPS1 (#147), not duplicated
 here. The full expanded N ledger remains requested; the accessible owner return
 links to an external ledger and is not a full expanded acceptance verdict.
 Final checkpoint validation passed: 190 files / 3,385 tests, two skipped; all remaining validation stages and ordinary Chrome proofs passed. See [exact gate evidence](../../agent/evidence/leg-content1/finish4-checkpoint.md). The owned server is stopped and the heavy slot was released to ENV. Expanded human acceptance and the documented record/interface gaps remain open.
+
+### LEG-ENTRY6 active repair
+
+Section 5 and shared RETURN-CLEAR6 contract read in full. Baseline LEG `4444629`,
+UI `1119e890`, fetched main `a73cf386`. The normal UI already exposes the accepted
+campaign writer and canonical election transition under The day. The two UI
+success cases instead select custom Legislative staff, which correctly lacks a
+member seat. Preserve their seeds and prove the existing normal entry rather
+than granting authority to staff or changing election outcomes.
+
+Add a shared read-only filing-entry projection consumed again at the filing
+boundary and by the feature-local draft control. Preserve drafting for staff;
+only introduction requires the reconciled seat. Add normal success and explicit
+staff/lost/ended/ambiguous refusals, then deliver precise UI test patches. UI
+retains root/publication ownership. No new seat store, election mechanism, legal
+term assumption or qualification override. Validation and browser proof pending.

@@ -1,6 +1,7 @@
-import { expect, test, type Page } from "./fixtures";
+import { expect, test, type Page } from "@playwright/test";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
+import { shotPath } from "./support/shot-path";
 
 /**
  * Owner-facing capture of the docket click path.
@@ -60,14 +61,14 @@ test("captures the five-minute click path", async ({ page }) => {
 
   // 1. Work, with an empty docket and a way to start.
   await page.screenshot({
-    path: test.info().outputPath("01-work-empty-docket.png"),
+    path: shotPath("01-work-empty-docket.png"),
     fullPage: true,
   });
 
   // 2. The drafting table: four families, eight configurations.
   await page.getByTestId("open-drafting-table").click();
   await page.screenshot({
-    path: test.info().outputPath("02-drafting-options.png"),
+    path: shotPath("02-drafting-options.png"),
     fullPage: true,
   });
 
@@ -76,7 +77,7 @@ test("captures the five-minute click path", async ({ page }) => {
     .getByTestId("drafting-option-water-service-lines-inventory-and-plan")
     .click();
   await page.screenshot({
-    path: test.info().outputPath("03-unfunded-mandate.png"),
+    path: shotPath("03-unfunded-mandate.png"),
     fullPage: true,
   });
 
@@ -85,7 +86,7 @@ test("captures the five-minute click path", async ({ page }) => {
     .getByTestId("drafting-option-bridge-maintenance-worst-first-condition")
     .click();
   await page.screenshot({
-    path: test.info().outputPath("04-compare-as-offered.png"),
+    path: shotPath("04-compare-as-offered.png"),
     fullPage: true,
   });
 
@@ -97,7 +98,7 @@ test("captures the five-minute click path", async ({ page }) => {
   await money.focus();
   await money.press("End");
   await page.screenshot({
-    path: test.info().outputPath("05-compare-changed.png"),
+    path: shotPath("05-compare-changed.png"),
     fullPage: true,
   });
 
@@ -105,7 +106,7 @@ test("captures the five-minute click path", async ({ page }) => {
   await page.getByTestId("file-the-draft").click();
   await expect(page.getByTestId("docket-bill")).toBeVisible();
   await page.screenshot({
-    path: test.info().outputPath("06-filed-bill.png"),
+    path: shotPath("06-filed-bill.png"),
     fullPage: true,
   });
 
@@ -120,7 +121,7 @@ test("captures the five-minute click path", async ({ page }) => {
     await expect(page.getByTestId("docket-bill")).toBeVisible();
   }
   await page.screenshot({
-    path: test.info().outputPath("07-three-bills.png"),
+    path: shotPath("07-three-bills.png"),
     fullPage: true,
   });
 
@@ -129,7 +130,7 @@ test("captures the five-minute click path", async ({ page }) => {
     .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
     .click();
   await page.screenshot({
-    path: test.info().outputPath("08-reopened-first.png"),
+    path: shotPath("08-reopened-first.png"),
     fullPage: true,
   });
 });

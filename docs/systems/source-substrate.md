@@ -19,19 +19,24 @@ not have to be caught in review.
 
 ## The command matrix
 
-| Command                                  | Network | Writes                                 | Purpose                                                            |
-| ---------------------------------------- | ------- | -------------------------------------- | ------------------------------------------------------------------ |
-| `npm run source:acquire -- --domain <d>` | yes     | `artifact-lock.json`, raw bytes, cache | retrieve artifacts, hash what came back, record the real retrieval |
-| `npm run source:verify-artifacts`        | no      | nothing                                | re-hash every locally present artifact against the lock            |
-| `npm run source:compile`                 | no      | `data/source/*/corpus.json`            | every domain, always all of them                                   |
-| `npm run source:manifest`                | no      | `data/source/MANIFEST.json`            | corpus digests and coverage claims, no wall clock                  |
-| `npm run source:validate`                | no      | nothing                                | schema, algebra, oracles, coverage, wall-clock sweep               |
-| `npm run source:replay`                  | no      | a temp tree                            | regenerate everything and fail on any tracked byte that differs    |
+| Command                                  | Network | Writes                                 | Purpose                                                              |
+| ---------------------------------------- | ------- | -------------------------------------- | -------------------------------------------------------------------- |
+| `npm run source:acquire -- --domain <d>` | yes     | `artifact-lock.json`, raw bytes, cache | retrieve artifacts, hash what came back, record the real retrieval   |
+| `npm run source:verify-artifacts`        | no      | nothing                                | re-hash every locally present artifact against the lock              |
+| `npm run source:compile`                 | no      | `data/source/*/corpus.json`            | every domain, always all of them                                     |
+| `npm run source:manifest`                | no      | `data/source/MANIFEST.json`            | corpus digests and coverage claims, no wall clock                    |
+| `npm run source:validate`                | no      | nothing                                | schema, algebra, oracles, coverage, wall-clock sweep                 |
+| `npm run source:replay`                  | no      | a temp tree                            | regenerate source artifacts and registered projections byte-for-byte |
 
 `source:acquire` is the only command that touches the network. The domain list
 comes from the directory listing of `src/source/domains/`, so a domain is
 covered by every command by existing, and a directory that does not export a
 `sourceDomain` fails loudly rather than being skipped.
+
+The replay gate also registers derived projections outside `data/source`. The
+compact Lexington economic context is regenerated through its existing
+producer into a scratch directory and compared byte-for-byte with the tracked
+artifact.
 
 `npm run validate` runs `source:validate` and `source:replay` before the build.
 
@@ -104,6 +109,12 @@ are UNKNOWN. `openFixture` requires _both_ that the resolved real path is under
 `fixtures/source/` and that the file declares `{"__fixture": true}`, because a
 path check alone falls to a symlink and a marker alone falls to a file sitting
 in the right directory.
+
+When a compiler needs a publisher-page literal outside its permitted content
+slice, it must declare that literal to `openProductionArtifacts` before the
+artifact is opened. The opener checks the exact literal against the verified
+source bytes and returns only a receipt for the already-known string. It never
+returns the surrounding page, and a digest alone is not an excerpt check.
 
 `openCachedProductionArtifacts` is the equivalent capability for large,
 cache-only products. It requires `cached-not-committed` storage, no committed

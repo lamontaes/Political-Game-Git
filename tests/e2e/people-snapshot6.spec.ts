@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { expect, test, type Page } from "./fixtures";
+import { expect, test, type Page } from "@playwright/test";
 
 const key = "political-game:people-visual4:review-snapshot:v1";
 const body = "wave_a_average_man_standing_neutral_front_a_v1_pv4";

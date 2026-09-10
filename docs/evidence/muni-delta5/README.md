@@ -72,3 +72,26 @@ source-locator/authority enum values classify evidence and grant no capability.
 LEARN: encode source projection freshness and evidence-class semantics as executable
 negative controls; keep omitted admitted-region facts distinct from genuinely
 missing primary inputs. Prose classification must not silently omit JSX text.
+
+## Executed reconciled-tree gate
+
+Repair source head: `c9f0a44b4ff30703d095ea030e9729708a697b45`.
+The complete `VITEST_MAX_WORKERS=1 npm run validate` passed: 193 test files,
+3,549 tests passed and two skipped, followed by source validation/replay, both
+municipal projection checks, production build, demo and art validation. Art
+inventory/QA also passed. The gate ran on the repair tree before its publication;
+the browser regression then ran on the clean published commit.
+
+`PLAYWRIGHT_PORT=5397 npx playwright test tests/e2e/municipal-public-work.spec.ts --workers=1`
+passed all three tests in 6.6 seconds. Pointer and keyboard actions, distinct
+Charlottesville/Carson contexts, saved state and duplicate no-write behavior
+remain proven. `charlottesville.png` and `carson-city.png` were visually inspected;
+these are explicitly isolated feature captures, not new normal-root or human
+visual acceptance. Git remained clean after the browser run, directly preserving
+finding 7's repair. The server stopped and the heavy slot was released to LAND.
+
+The newer FINISH4 normal creator/member/venue proof remains preserved at its
+identified UI source plus exact test-only patch. DELTA5's frozen donor has been
+sent to the sole UI owner for the current normal-route matrix. No old normal
+capture is relabeled as a capture of this delta. Narrow independent acceptance
+of these eight dispositions remains with the original reviewer.

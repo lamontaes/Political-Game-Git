@@ -56,3 +56,13 @@ LEARN: generated prose counts are now checked against the live scanner and commi
 Resumed on published 93328bd76f6b191a35ec472bc0f6738f44e9c2c8; fresh main is 6b95f3713590f18973e5e54a3da86e6cd66aa734. Existing ownership/process check found no overlapping municipal writer. Read SHARED EXECUTION CONTRACT and G from Drive 1L5NDuhmPzJ5Nio8hnnfQWl6_kZqmS7uL5RjdS5toVfk. No recovery replay or superseded #98 adoption.
 
 Remaining execution: source-verified missing operational content in the existing declared corpus; precise per-field/source dates and scope; normal-route citizen/member work and save/reload through UI-core/ENV; one actual final gate after the stale-count repair; concrete independent ACCEPT-CLOSE4 findings on the same PR. Report counts are inventory, not complete governmental authority. UI-core owns root and combined corpus regeneration; only feature-owned source/runtime/presentation files change here. Independent review requested on PR149; no finding is inferred while absent. LAND holds the current heavy-validation slot; focused work proceeds.
+
+FINISH4 engineering execution: source/runtime head c23d848 passed the fresh hosted
+`npm run validate` gate. The composed normal-route citizen/member proof passed
+2/2 on UI8c18cd8 plus the exact test-only scope-selection patch preserved in
+`docs/evidence/muni-finish4/normal-route-tests.patch`. Actual pointer/keyboard,
+20-minute Work completion, saved roles, current venue, reload and no-write repeat
+assertions passed. UI owns applying the supplied test correction. The only observed
+optional asset defect was favicon404; independent ACCEPT-CLOSE4 findings and human
+acceptance remain open. Heavy/browser slot released to FISCAL; no monitor or server.
+See the final-gate evidence section for exact source identities and limitations.

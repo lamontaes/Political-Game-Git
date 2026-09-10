@@ -85,3 +85,13 @@ passed. Art validation/inventory/QA ran (1868 inventory items; duplicate-source
 hash diagnostics retained). Full validation/build and browser proof run only in
 the coordinated PEOPLE slot after ENV. Do not treat this checkpoint as that
 pending evidence or as human acceptance.
+
+## Delivery gate
+
+Frozen code64b49a7 passed2/2 final browser proofs. Screenshots and machine-readable
+saved identity/wardrobe evidence are banked. Full validation phases completed;
+stale prose/fit expectations found by the initial full suite were corrected and
+all four affected suites passed127 tests. Source/build/demo/art/admission/replay
+gates passed. #144 mounted the first published adapter and receives the frozen
+follow-up. The finite heavy slot was released to MUNI. Remaining art/engineering
+and human/combined-UI acceptance needs are explicit; no monitoring follows.

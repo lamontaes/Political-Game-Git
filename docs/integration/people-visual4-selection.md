@@ -129,3 +129,10 @@ for that person; it does not fall back to global clothes or affect other people.
 The optional `resolveWardrobe(person, preference, { scene, anchor })` permits a
 caller-owned validation context. Actual `planLifeScenePeople` rendering retains
 its production library; candidate scene proof uses explicit review composition.
+
+`familyLabels` optionally supplies user-facing names keyed by family. Without
+caller labels, controls use numbered Body/Face/Hairstyle and wardrobe choices;
+internal IDs remain values rather than ordinary product text. The identity
+controls have stable `person-appearance-bodyFamily`, `-headFamily`, `-hairFamily`
+test IDs and accessible names Body, Face and Hairstyle. Responsive styles are
+feature-local in `PersonAppearanceControls.css`.

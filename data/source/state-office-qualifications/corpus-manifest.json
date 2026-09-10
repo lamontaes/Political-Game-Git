@@ -1,0 +1,126 @@
+{
+  "asOf": "2026-09-09",
+  "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+  "compiler": {
+    "name": "state-office-qualifications",
+    "version": "2.1.1"
+  },
+  "corpusId": "state-office-qualifications",
+  "coverage": {
+    "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Office qualifications for MN, MO, NE, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "mn-constitution",
+      "sha256": "90c292cf969f958a4828ea9ed000e9fa73a3316bab5251db9c38a75a93cf082a"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-2",
+      "sha256": "be0effa2ba1b8db2df6ce186a41f7896bc506a252469c1cab12e6a29ff69b86e"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-4",
+      "sha256": "9b107854e8db404a69b670f8855554bd547dda9c085ee193f923e9cec0f86649"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-6",
+      "sha256": "3d2abef4709411c22edb74a779bd272ab8006fe58762ca011e202376f6168f80"
+    },
+    {
+      "artifactId": "mo-constitution-art-3-sec-8",
+      "sha256": "06d26e862170905ee17516ca4143612ad8fe2326ae32158711a8ab8630ce9ed5"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-1",
+      "sha256": "a3fff2d12e77b78d0c77335452173dff6be17b910ca35962591a449c10f39e60"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-3",
+      "sha256": "b6c46f81e4294197549e3e5a5d6e23be1ff2842315f2eaad473a39f6196d2cd7"
+    },
+    {
+      "artifactId": "mo-constitution-art-4-sec-17",
+      "sha256": "be7c65231256a3422e1cff5d4725ee87a845465997cfbfe0bebfc7a1ea211064"
+    },
+    {
+      "artifactId": "mo-statutes-27-010",
+      "sha256": "acc19669e1784cf1450926bd2b1829ffde9c92c4a9e5ebc01023fdb9218ebd4a"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-1",
+      "sha256": "082ece96c7a9794bf882ee910ef716c0a335652aaea02edbda92334cc4896bbf"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-7",
+      "sha256": "e0b19fe5b8ab18407d3a2645a064cedbcb30737f063371704a806a5b80fbb125"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-8",
+      "sha256": "a274888006bee5ac2a98fbcdf7967ed6a189de4ce448347c5043c881b3600918"
+    },
+    {
+      "artifactId": "ne-constitution-art-3-sec-12",
+      "sha256": "a8a5156871bfe2e0e8bf0b7bb006b9b670ce98bd60c17b85807c7484dcf55219"
+    },
+    {
+      "artifactId": "ne-constitution-art-4-sec-1",
+      "sha256": "4b0e2978fcf51e911743f7e82ffd083dd99fba2bb3f932fa883b5aa3761a8d3b"
+    },
+    {
+      "artifactId": "ne-constitution-art-4-sec-2",
+      "sha256": "d77dfe7885d2fe586f928383229f445fef514fbe7153fcae2e272053271174de"
+    },
+    {
+      "artifactId": "nv-nrs-228",
+      "sha256": "2037751332b3b6a1b8fa0bbcdfaacd5f0ab9f3d309e602b128ebe4391a4c0cf5"
+    },
+    {
+      "artifactId": "nv-2021-chapter-199-ab236",
+      "sha256": "1fa7afb406235b229871c6cd3d5d389b45d9b6f0a47dc62b3c757d07d865cccf"
+    },
+    {
+      "artifactId": "nv-nrs-218a",
+      "sha256": "4153e3d848066df1b32c1a7c6b9af68d694822f34aa2e666bb7a5869f50776a8"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-1",
+      "sha256": "620f7ab377e0a7438bd5947dc9d872efa3d5f6f44d97400ba9e114b8a9594b3e"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-2",
+      "sha256": "33a1992a486be48d3fb08387f5f645582df6fb44207ecf160f4968a0213eaba0"
+    },
+    {
+      "artifactId": "oh-constitution-sec-2-3",
+      "sha256": "0588dacd1ae83fd205b9206c31202fcfb0b8f27c622f2d877b838b60632e9df6"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-1",
+      "sha256": "03b439d7c98d214c985b8ff94c6a31f83edd4da14876cbb7caf790d5e8eddb3c"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-1b",
+      "sha256": "f9d7f39d25a9514f0bc2ef02bf06756f4e1557a9e248b506055fa11dd4d2594e"
+    },
+    {
+      "artifactId": "oh-constitution-sec-3-2",
+      "sha256": "1bd73628c5bc73cb3d3ca398762a11d055a253668b4c57b822b5a0f24fafde25"
+    },
+    {
+      "artifactId": "oh-constitution-sec-15-4",
+      "sha256": "d0eaf41e2c74711ee61e3131f09b5c6194c259c5cb859b867e17bba7c18e68da"
+    },
+    {
+      "artifactId": "oh-revised-code-109-02",
+      "sha256": "81cf4198453023bef34f47443296b64c6c9f83b0e5a038f8096f60f2fa2cad63"
+    }
+  ],
+  "parser": {
+    "name": "qualification-matrix-tsv",
+    "version": "2.0.0"
+  },
+  "recordCount": 63
+}

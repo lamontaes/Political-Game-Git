@@ -1,7 +1,8 @@
 import { programConfigurations } from "../../src/simulation/legislation-program-families";
-import { expect, test, type Page } from "./fixtures";
+import { shotPath } from "./support/shot-path";
+import { expect, test, type Page } from "@playwright/test";
 
-import { enterLife, goTo, openElsewhere, startLife } from "./support/creator";
+import { enterLife, openElsewhere, startLife } from "./support/creator";
 
 /**
  * The owner's click path, in a browser, through the ordinary game entry.
@@ -258,8 +259,8 @@ test.describe("the docket, from the ordinary route", () => {
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
-    await goTo(page, "keep-world");
-    await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+    await page.getByTestId("keep-world").click();
+    await expect(page.getByTestId("keep-world")).toHaveCount(0);
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -348,12 +349,7 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await page.getByTestId("composition-comparison").scrollIntoViewIfNeeded();
   await page.screenshot({
     fullPage: true,
-    /*
-     * This run's own artifact, not the banked LEG-CONTENT1 capture. An ordinary
-     * suite run rewriting tracked evidence is how identified captures drift
-     * without anyone declaring a recapture.
-     */
-    path: test.info().outputPath("finish4-private-comparison.png"),
+    path: shotPath("finish4-private-comparison.png"),
   });
   await expectNoDeveloperLeak(page);
   expect(errors).toEqual([]);
@@ -399,7 +395,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: test.info().outputPath("transfer-unavailable-estimate.png"),
+    path: shotPath("american-english1-unavailable-estimate.png"),
   });
 
   await page.getByTestId("open-drafting-table").click();
@@ -416,8 +412,8 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-001")
     .click();
-  await goTo(page, "keep-world");
-  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await page.getByTestId("keep-world").click();
+  await expect(page.getByTestId("keep-world")).toHaveCount(0);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
@@ -429,7 +425,7 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   await expect(page.getByTestId("docket-recorded-estimate")).toHaveCount(0);
   await page.screenshot({
     fullPage: true,
-    path: test.info().outputPath("transfer-reloaded-selection.png"),
+    path: shotPath("american-english1-reloaded-selection.png"),
   });
   await page
     .getByTestId("docket-open-legislative-docket:kentucky:bill-002")

@@ -40,6 +40,11 @@ acceptance. Integration application and normal-route proof must be recorded.
 Checkpoint: all 29 accepted fields are projected with semantic attributes,
 nulls, citations, byte hashes and explicit date/class limitations. Private
 preparation enters the existing Work/history graph, including when employer
+jurisdiction is unknown. Eighteen source/consumer tests and one component
+pointer/keyboard/snapshot browser test passed; the latter is explicitly diagnostic.
+Typecheck, feature lint/format, projection replay and all three required art
+commands passed. The UI owner published registration and the normal test at
+`2da3404325b1041cde2bdcb0c22bd8b79a6cb3da`; normal-route execution is pending. The
 jurisdiction is unknown. Source/consumer tests pass (18/18). The component
 browser harness is under verification; its proof is explicitly diagnostic.
 The exact UI registration patch applies to the pinned UI source. The

@@ -129,3 +129,12 @@ canonical records. A draft is private; confirmation creates the source claim;
 completion uses the canonical clock; publication remains a separate explicit
 transition. Save/reload therefore preserves the full loop through the existing
 World snapshot and integrity paths.
+
+NEWS-PRODUCERS6 likewise adds no store. A normal request is an ordinary limited
+event, exact source claim, knowledge for the two participants and a relationship
+interaction. Reporter consent and adviser willingness are separate events and
+claims tied to that request. The arrangement writer accepts only affirmative
+records from the actual reporter and a current colleague. Preparation cites the
+assigned adviser's existing knowledge IDs; feedback cites new media knowledge
+of the actual saved publication. These records use the existing global sequence,
+stable IDs and save/reload validation, so screen projection remains read-only.

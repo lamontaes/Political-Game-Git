@@ -790,6 +790,53 @@
     {
       "artifacts": [
         {
+          "artifactId": "mn-statutes-10a-105",
+          "sha256": "65913f12e96ec7bc8ed1a3bbeeced7f07f12ec85899292db26ddecb1fa7a6460",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-statutes-49-1446",
+          "sha256": "8569e63146ab5c90917aade0d7ee494a125ef68491113801fe7df9f9f3c7350a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-krs-121-180-2026-pdf",
+          "sha256": "b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-2026-chapter-175-hb139",
+          "sha256": "88ca9202606e50a5afec14334828b89254e03b4c0b91f1b299671ce5b2b530ea",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ky-kref-kefms-faq-2025",
+          "sha256": "068c8b9c7e5656e89de5123566f3b8e4fd2a01f7b9c00d42454590b058172440",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "Two regimes. Nebraska because it is the state the game can actually hold a legislative election in, so the rule reaches a real campaign; Minnesota because a second state's differently-shaped obligation is what stops one statute's structure being mistaken for the shape of campaign law. No other state's campaign-finance law has been read, and none is implied by these.",
+      "canonicalSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
+      "compiler": {
+        "name": "state-campaign-compliance",
+        "version": "2.0.0"
+      },
+      "corpusFileSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
+      "corpusId": "state-campaign-compliance",
+      "domain": "state-campaign-compliance",
+      "isCompleteUniverse": false,
+      "recordCount": 3,
+      "universeDescription": "Three obligations: two from Minn. Stat. § 10A.105, subd. 1, and one from Neb. Rev. Stat. § 49-1446. Two states, two provisions."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "ak-constitution",
           "sha256": "d72b68a640262aad7c25d7906741bda4ee19aef529a3a4cb896580570d63d476",
           "sliceOfParent": null,
@@ -911,6 +958,179 @@
       "isCompleteUniverse": true,
       "recordCount": 50,
       "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "mn-constitution",
+          "sha256": "6bfe2bc1b70379d84df07ea00d6c5c516f1ba4388bd941662c2c5c7a0b834254",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-3-sec-2",
+          "sha256": "8924ad4b23ef33ded6d02048cbe003e35343c68394fa1d62b091daf69fb26b89",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-3-sec-4",
+          "sha256": "fafe12de09dc9f3c312bec1e437a6ea5cd948e0460c1b881ca5c1a80792169a0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-3-sec-6",
+          "sha256": "02aab2b1bab75464c26b344ca8a179215ae4b6c09478acf01a192d1795a64da0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-3-sec-8",
+          "sha256": "a33bb7bdc5a91b912020b5751a4e40906e14f57a007788151a313c410f2dc4b2",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-4-sec-1",
+          "sha256": "b4892f84f179d3751372892787a062e554c05a63d0df65b70c40397d7ad974ce",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-4-sec-3",
+          "sha256": "d381d7d3d120e5e328337afcd7033de0f7d4cd87c858ef315cfbe6ec39458db0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-constitution-art-4-sec-17",
+          "sha256": "5e6ce739c4b6684661ef487c32dec92c55d34904ce083966b4073372b472cdc0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "mo-statutes-27-010",
+          "sha256": "8798d960a4d8022da94da16b621bd286366feecd57f09bc9dda798d48744283d",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-3-sec-1",
+          "sha256": "2ed607f4e464aa948660171723f4de09de3551a4b9da82e0e82353a22d2df084",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-3-sec-7",
+          "sha256": "dcfbeb1eeda13357a669f82bd4ff604bf7172c5758afd6d4b106d1f181aed654",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-3-sec-8",
+          "sha256": "321aa2f39717f7f0e71ce49ebe41f9b47dd678a13500e364683d80b221158c7a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-3-sec-12",
+          "sha256": "d5e79e153f3059ae3eea74e8113b2403c0f586821ee5a7500944b9f5ecc8a281",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-4-sec-1",
+          "sha256": "3f5aa8fd8fa79ae46f43fc16acc006931866d7bee76c46a7255cf24020534d69",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ne-constitution-art-4-sec-2",
+          "sha256": "c0d29d9ddc2545251196a2eadea6bfad01caef552952098271bfc0356c483649",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-nrs-228",
+          "sha256": "e906a26ee66c30077ca3abf328d6a42a145328ce8f681b12c086d6f729360111",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-2021-chapter-199-ab236",
+          "sha256": "2cf36d81887dd99caffc672378d9070f247502eaad3bc931f77d57ba1b55293f",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "nv-nrs-218a",
+          "sha256": "28645d3a4c9022dc43646b2c15b65d5e75cc2df954c9271cb306156b91fa2af3",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-2-1",
+          "sha256": "d3b2e8dc45e3cea2127ee08a36014934d095de5812e84e385e869cc4747c7ca1",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-2-2",
+          "sha256": "540f8504ae89dd007eb034ddff903450ec1e088c32440c4479d7147d3596b4cc",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-2-3",
+          "sha256": "7d7b95f2f2522798c68a1ab9917fa83384651540e1286542b6d2ac5d021148f6",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-3-1",
+          "sha256": "e27beb20b79d707924e2fff413de75411dafb6c7ca10d3b3b0063a53e0f6731a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-3-1b",
+          "sha256": "b426c0eb07fb4ab0c926a20294149016bb3db54aaf67fb2e9031fbdc09ab861e",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-3-2",
+          "sha256": "bc59569375c14165ebcc4adbe00a1091d0b775e4d105a8cc1fd2e1d9eaa0ea11",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-constitution-sec-15-4",
+          "sha256": "10a67d0f57df124931579e63f7eb38ee04849f6e52b8a317795b2af04e08b2f8",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "oh-revised-code-109-02",
+          "sha256": "7bc9daf91ecaa3be278bacdcdde04ed0c860904a8fb6f6c501caf499ef2aec4c",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "A bounded set of states, not a national corpus. The other forty-odd states are absent because their authorities were not retrieved in this pass, which is a fact about this repository and never a fact about those states. docs/research/qualification-source-ledger.md accounts for every research row.",
+      "canonicalSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+      "compiler": {
+        "name": "state-office-qualifications",
+        "version": "2.1.1"
+      },
+      "corpusFileSha256": "b9d1607a4079ca2fb5fd2515878910d05215e39fedacc803783de80f9b1664be",
+      "corpusId": "state-office-qualifications",
+      "domain": "state-office-qualifications",
+      "isCompleteUniverse": false,
+      "recordCount": 63,
+      "universeDescription": "Office qualifications for MN, MO, NE, NV, OH, compiled only where a research claim's words were found in an authority this repository retrieved and hashed."
     }
   ],
   "gatedDomains": [
@@ -921,10 +1141,6 @@
     {
       "domain": "state-local-fiscal-authority",
       "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
-    },
-    {
-      "domain": "state-office-qualifications",
-      "productionGate": "31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8."
     }
   ],
   "manifestVersion": "1"

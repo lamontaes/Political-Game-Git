@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect } from "@playwright/test";
 
 /** Component activation proof only. This does not claim normal-route or legal-journey acceptance. */
 test("CIVIL-WORK7 private Work supports pointer, keyboard and canonical snapshot reload", async ({

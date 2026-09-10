@@ -1,4 +1,3 @@
-import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -11,6 +10,7 @@ import {
   simulationMinutesBetween,
 } from "./dates";
 import { createStableId } from "./ids";
+import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -1523,6 +1523,9 @@ function canonicalSourceAvailable(
   const event = world.history.events.find((record) => record.id === id);
   if (event)
     return event.sequence < sequenceExclusive && event.occurredAt <= at.date;
+  if (lifeEntityExists(world, id)) {
+    return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
   if (policySemanticsEntityExists(world, id)) {
     return policySemanticsEntityAvailableAt(
       world,
@@ -1531,6 +1534,11 @@ function canonicalSourceAvailable(
       sequenceExclusive,
     );
   }
+  // Both clauses are required, and in the same order `canonicalSourceExists`
+  // accepts them. That function already admits life entities and legislative
+  // material; if either one is missing here it falls through to the work-item
+  // lookup, finds nothing, and a canonical source the world does accept is
+  // reported unavailable.
   if (lifeEntityExists(world, id))
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
