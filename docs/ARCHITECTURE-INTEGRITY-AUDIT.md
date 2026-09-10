@@ -1028,3 +1028,67 @@ The frozen UI control `1119e890` does not yet call QUAL's newer qualification
 adapter in candidacy.ts. That integration is explicitly coordinated with QUAL
 and UI, not replaced by LEG-authored legal assumptions. Source integration,
 automated entry proof and independent/human acceptance remain separate claims.
+
+## NEWS-HELP2 Public Information Audit — 2026-09-08
+
+This audit rechecks the new public-information rule against canonical history,
+legislative identity, disclosure, persistence, scene ownership, and the
+accepted Stage 6/6.5 boundaries.
+
+| Concern                                 | Disposition          | Evidence and rationale                                                                                                                                                                                                                                             |
+| --------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Canonical occurrence versus publication | Preserved            | `PublicationRecord` cites one earlier `HistoricalEvent`; event time, publication time, and append sequence remain separate. Projection never invokes the writer.                                                                                                   |
+| Vote truth versus intention             | Fail-closed          | Only a `LegislativeActionRecord.eventId` with an existing canonical `voteId` resolves as `recorded-vote`. Commitments and future questions cannot provide a tally.                                                                                                 |
+| Disclosure and private state            | Fail-closed          | Sources must be public and completed. Private, future, missing, setup, clock, discovery, and publication plumbing are rejected atomically. No mind, appraisal, prior, forecast, or external headline reader is imported.                                           |
+| History and persistence                 | Compatible extension | The optional family joins the existing contiguous sequence and stable-ID set. Root and correction editions are append-only; older snapshots with no family read as an empty digest. Existing JSON, SQLite, and browser payloads remain the only persistence paths. |
+| Shared newspaper/screen truth           | Preserved            | `projectPublicInformationDigest` owns accessible copy. The feature panel and `headline` surface adapter consume that same item; there is no second headline generator.                                                                                             |
+| ENV/UI-core ownership                   | Preserved            | No scene rectangle, z-order, access class, anchor, `PlayerGame`, or permanent-shell file changes. ENV's binder still decides physical receipt; UI-core receives a typed panel model and callbacks for final placement.                                             |
+| Inline help and people                  | Typed and read-only  | Civic concepts are selected by stable IDs and carry official-reference metadata. Person controls carry canonical `personId`; no name matching or glossary fallback exists. Browser tests cover Enter, touch, focus, Escape, and exact World read purity.           |
+| Stage scope                             | Bounded              | No live-news import, media business, audience/opinion system, institution/law rewrite, automatic knowledge propagation, or Stage 7 mechanic is added.                                                                                                              |
+
+LEARN: public visibility and publication are separate states. The durable guard
+is a typed publication source plus negative tests at the writer boundary; an
+empty television is never sufficient reason to widen disclosure.
+
+## NEWS-PRESS4 Press Communication Audit — 2026-09-09
+
+This audit rechecks the repaired public-screen boundary and the bounded press
+loop against canonical history, disclosure, people, time/work, publication and
+UI ownership.
+
+| Concern                    | Disposition     | Evidence and rationale                                                                                                                                                                                                                         |
+| -------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| N-1 locality               | Closed          | The surface projection passes normalized `null` as a real filter. A regression places a newer local publication beside an older unlocated publication and proves an unknown-location room receives only the latter.                            |
+| Conversation and people    | Canonical reuse | Arrangement requires an exact existing pitch claim between the controlled person and an actual current journalist. Preparation and feedback require an actual current colleague assigned to the canonical work item. No person is synthesized. |
+| Time and work              | Canonical reuse | Arrangement creates an existing fixed scheduled activity and work item; readiness and completion use existing state resolvers and clock transitions. No timer, task store or second calendar exists.                                           |
+| Consequential wording      | Fail-closed     | Drafting is private. Confirmation must match the displayed wording exactly before the source claim exists. Confirmation is not editorial approval.                                                                                             |
+| Terms and disclosure       | Fail-closed     | On-record/background/off-record terms are explicit. Background hides the typed source and uses its saved attribution; off-record has no publication route. Question bases require actual reporter knowledge or publication.                    |
+| Publication and correction | Single path     | Press stories call the existing NEWS-HELP2 writer. PR #144's legislative transition remains the sole legislative caller. Digest, supported screen, correction and persistence paths are unchanged.                                             |
+| UI/ENV ownership           | Preserved       | `PressInterviewPanel` is feature-local and unmounted globally. UI-core owns the single root and placement; ENV owns physical screen geometry/access. Native controls and browser tests cover keyboard, touch, focus and Escape.                |
+| Stage scope                | Bounded         | No polling, audience score, predicted reception, favorable-coverage modifier, live headline import, law engine or automatic knowledge propagation is added.                                                                                    |
+
+LEARN: an accepted arrangement must cite the recorded conversational pitch,
+not merely repeat pitch text in a later event. Exact claim identity plus a
+negative missing-claim regression keeps the conversation-to-schedule boundary
+inspectable.
+
+## NEWS-PRODUCERS6 Producer Audit — 2026-09-09
+
+This re-audit covers the normal request and staffing producers added in front
+of the accepted PRESS4 loop. It does not reopen the separately repaired N-1
+baseline.
+
+| Concern                  | Disposition           | Evidence and rationale                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Producer purity          | Preserved             | Reporter and adviser choices are pure projections over existing people, current work and saved knowledge. Opening or rendering a screen calls no writer and creates no request, event, schedule, work or publication.                                                                                                                                                     |
+| Knowledge and consent    | Fail-closed           | The request, reporter response and adviser response are separate canonical records. Feature-owned producers durably evaluate each NPC from current role, knowledge, shared work and functional availability; UI supplies no acceptance flag or statement. Only affirmative records can reach arrangement.                                                                 |
+| Staffing                 | Canonical reuse       | Adviser eligibility requires an active work relationship in an organization shared with the source. Family and household records grant neither employment nor willingness. The existing work item retains the accepted adviser as its assignee.                                                                                                                           |
+| Preparation and feedback | Subjective, evidenced | Preparation derives facts, follow-ups and options from the assigned adviser's own knowledge records. Feedback requires the actual publication plus media knowledge acquired by that adviser and derives its statement from the publication and confirmed answer. No caller-authored NPC prose enters either record; feedback remains explicitly fallible and non-polling. |
+| Terms and wording        | Preserved             | The request retains exact channel, record terms, background attribution, pitch, question and bases. PRESS4 still owns private draft, byte-exact confirmation, completion and off-record refusal. Condensed play changes presentation only.                                                                                                                                |
+| Publication              | Single path           | The producer adapter delegates to accepted PRESS4, whose story transition calls the existing NEWS writer. The test observes that publication through the shared digest and typed person references; no headline generator or second publisher is added.                                                                                                                   |
+| Persistence              | Existing path         | All producer evidence uses existing event, claim, knowledge, relationship, schedule, work and publication families, and the complete normal path round-trips through the existing World serializer.                                                                                                                                                                       |
+| UI/ENV ownership         | Preserved             | No `PlayerGame`, global navigation, scene geometry, slot, anchor, fallback, `PressWorkspace` or `PressInterviewPanel` edit is made. UI #144 remains the sole mounting/placement owner; ENV remains the physical-screen owner.                                                                                                                                             |
+
+LEARN: a normal producer should save each person's decision before it creates
+downstream work. Request identity plus separate affirmative response records
+makes consent auditable without inventing agreement in a scheduling adapter.

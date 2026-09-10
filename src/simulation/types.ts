@@ -95,6 +95,7 @@ export type EntityKind =
   | "policy-implementation-profile"
   | "policy-operation"
   | "policy-realization"
+  | "publication"
   | "principle"
   | "principle-definition"
   | "proposition-exposure"
@@ -3138,6 +3139,41 @@ export interface CampaignComplianceDocumentRecord {
   readonly correctionReason: string | null;
 }
 
+// ---------------------------------------------------------------------------
+// Public information — explicit publication of already-recorded world truth
+// ---------------------------------------------------------------------------
+
+export type PublicationKind =
+  "legislative-development" | "recorded-vote" | "civic-event";
+
+/**
+ * One edition of a public-information item.
+ *
+ * The root edition and every correction are separate append-only records.
+ * `sourceEventId` keeps the publication distinct from what happened;
+ * `publishedAt` keeps both distinct from when this record entered history.
+ */
+export interface PublicationRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly kind: PublicationKind;
+  readonly sourceEventId: EntityId;
+  /** Canonical domain records that substantiate the source event, when any. */
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly jurisdictionId: EntityId | null;
+  readonly outletKey: "civic-ledger";
+  readonly outletName: "Civic Ledger";
+  readonly headline: string;
+  readonly body: string;
+  readonly publishedAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  /** Null on the first edition; otherwise the immediately preceding edition. */
+  readonly correctsPublicationId: EntityId | null;
+  /** Null on the first edition; required on a correction. */
+  readonly correctionNote: string | null;
+}
+
 export interface HistoryStore {
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
@@ -3203,6 +3239,8 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  /** Optional so pre-NEWS-HELP2 snapshots remain structurally readable. */
+  readonly publications?: readonly PublicationRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
