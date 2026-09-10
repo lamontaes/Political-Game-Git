@@ -19,6 +19,17 @@ const EVIDENCE_DIRECTORY = path.resolve(
   "docs/agent/evidence/people1",
 );
 
+/**
+ * Banking this set into tracked evidence is an explicit act.
+ *
+ * The captures stay the deliverable and every run still produces a complete set
+ * — into its own artifact directory, which is what an owner opens. What changed
+ * is that an ordinary suite run no longer rewrites the banked historical set as
+ * a side effect: replacing it requires `PEOPLE1_EVIDENCE=1` and a commit that
+ * says so. Capturing is still not an art approval.
+ */
+const banksEvidence = Boolean(process.env.PEOPLE1_EVIDENCE);
+
 const OWNER_REVIEW_SET = [
   "pg_body_fl_standing_v1",
   "pg_body_ml_standing_v1",
@@ -187,8 +198,11 @@ test.describe("Wave A candidate admission review", () => {
     );
   });
 
-  test("captures the owner review set", async ({ page }) => {
-    fs.mkdirSync(EVIDENCE_DIRECTORY, { recursive: true });
+  test("captures the owner review set", async ({ page }, testInfo) => {
+    const target = banksEvidence
+      ? EVIDENCE_DIRECTORY
+      : testInfo.outputPath("owner-review-set");
+    fs.mkdirSync(target, { recursive: true });
     const select = page.getByTestId("candidate-review-body-select");
     for (const assetId of OWNER_REVIEW_SET) {
       await select.selectOption(assetId);
@@ -213,10 +227,10 @@ test.describe("Wave A candidate admission review", () => {
         )
         .toBe(true);
       await stage.screenshot({
-        path: path.join(EVIDENCE_DIRECTORY, `${assetId}.png`),
+        path: path.join(target, `${assetId}.png`),
       });
     }
-    expect(fs.readdirSync(EVIDENCE_DIRECTORY).length).toBeGreaterThanOrEqual(
+    expect(fs.readdirSync(target).length).toBeGreaterThanOrEqual(
       OWNER_REVIEW_SET.length,
     );
   });

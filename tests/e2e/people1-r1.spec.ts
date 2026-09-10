@@ -1,13 +1,36 @@
 import fs from "node:fs";
 import path from "node:path";
-import { expect, test } from "@playwright/test";
+import { expect, test, type TestInfo } from "@playwright/test";
 
-const evidence = path.resolve("docs/agent/evidence/people1-r1");
+/**
+ * Where this run's captures go.
+ *
+ * Every run gets its own artifact directory. Writing into
+ * `docs/agent/evidence/people1-r1` unconditionally is what silently rewrote the
+ * identified PEOPLE1-R1 captures twice — once inside a commit that said it only
+ * repaired four tests, and once inside a commit that said it only recorded a
+ * browser count. Neither declared an art recapture, and the second one is what
+ * failed the push-scope declaration gate.
+ *
+ * Banking a capture into tracked evidence is therefore an explicit act, exactly
+ * as `people-snapshot6` already does it: set `PEOPLE1_R1_EVIDENCE=1` when you
+ * mean to replace the historical set, and say so in the commit. A test capture
+ * is never an art approval either way.
+ */
+const bankedEvidence = process.env.PEOPLE1_R1_EVIDENCE
+  ? path.resolve("docs/agent/evidence/people1-r1")
+  : null;
+
+function capturePath(testInfo: TestInfo, name: string): string {
+  if (bankedEvidence === null) return testInfo.outputPath(name);
+  fs.mkdirSync(bankedEvidence, { recursive: true });
+  return path.join(bankedEvidence, name);
+}
 
 for (const set of ["dev", "real"]) {
   test(`saved ${set} world keeps identity across actual wardrobe changes, pointer and keyboard`, async ({
     page,
-  }) => {
+  }, testInfo) => {
     await page.goto(`/?view=character-proof&set=${set}`);
     const authored = page
       .getByTestId("people1-dossier-consumers")
@@ -56,16 +79,15 @@ for (const set of ["dev", "real"]) {
         .getAttribute("data-asset-id"),
     ).not.toBe(casualTop);
     await expect(person).toHaveAttribute("data-complete", "true");
-    fs.mkdirSync(evidence, { recursive: true });
     await page
       .getByTestId("character-proof-stage")
-      .screenshot({ path: path.join(evidence, `saved-formal-${set}.png`) });
+      .screenshot({ path: capturePath(testInfo, `saved-formal-${set}.png`) });
   });
 }
 
 test("normalized candidate states name head and fit limitations beside the actual layers", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.goto("/?view=character-proof&set=wave-a");
   await page
     .getByTestId("candidate-review-body-select")
@@ -86,9 +108,8 @@ test("normalized candidate states name head and fit limitations beside the actua
   await page
     .getByRole("checkbox", { name: "Show root and attachment anchors" })
     .click();
-  fs.mkdirSync(evidence, { recursive: true });
   await page.getByTestId("candidate-review-stage").screenshot({
-    path: path.join(evidence, "normalized-standing-candidate.png"),
+    path: capturePath(testInfo, "normalized-standing-candidate.png"),
   });
   await page
     .getByTestId("candidate-review-body-select")
@@ -103,12 +124,12 @@ test("normalized candidate states name head and fit limitations beside the actua
   ).toHaveCount(0);
   await page
     .getByTestId("candidate-review-stage")
-    .screenshot({ path: path.join(evidence, "seated-candidate-gaps.png") });
+    .screenshot({ path: capturePath(testInfo, "seated-candidate-gaps.png") });
 });
 
 test("normal play uses the canonical person's portrait fallback and named people", async ({
   page,
-}) => {
+}, testInfo) => {
   const { startLife, enterLife } = await import("./support/creator");
   await page.goto("/");
   await startLife(page, {
@@ -129,13 +150,12 @@ test("normal play uses the canonical person's portrait fallback and named people
   await expect(people).toBeVisible();
   await expect(people.getByRole("listitem")).toHaveCount(2);
   await page.getByTestId("elsewhere-people").click();
-  fs.mkdirSync(evidence, { recursive: true });
   await page.screenshot({
-    path: path.join(evidence, "normal-player-people-1440.png"),
+    path: capturePath(testInfo, "normal-player-people-1440.png"),
   });
   await page.setViewportSize({ width: 1200, height: 720 });
   await expect(portrait).toBeVisible();
   await page.screenshot({
-    path: path.join(evidence, "normal-player-people-1200.png"),
+    path: capturePath(testInfo, "normal-player-people-1200.png"),
   });
 });

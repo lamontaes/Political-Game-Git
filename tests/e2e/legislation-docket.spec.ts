@@ -348,7 +348,12 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await page.getByTestId("composition-comparison").scrollIntoViewIfNeeded();
   await page.screenshot({
     fullPage: true,
-    path: "docs/agent/evidence/leg-content1/finish4-private-comparison.png",
+    /*
+     * This run's own artifact, not the banked LEG-CONTENT1 capture. An ordinary
+     * suite run rewriting tracked evidence is how identified captures drift
+     * without anyone declaring a recapture.
+     */
+    path: test.info().outputPath("finish4-private-comparison.png"),
   });
   await expectNoDeveloperLeak(page);
   expect(errors).toEqual([]);
