@@ -1,0 +1,423 @@
+/*
+ * Styling that belongs to the docket and the drafting table, and to nothing
+ * else.
+ *
+ * Kept in its own file rather than added to player.css so this feature can be
+ * read, changed or removed without touching the shell's established look. It
+ * borrows the shell's own variables where they exist and invents no new visual
+ * direction: the approved presentation is not reopened here.
+ */
+
+.docket {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-block-start: 1rem;
+}
+
+.docket-heading {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.docket-subheading {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.docket-empty {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.docket-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.docket-entry-button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(4.5rem, auto) 1fr auto;
+  gap: 0.6rem;
+  align-items: baseline;
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.docket-entry-button:hover,
+.docket-entry-button:focus-visible {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.docket-entry-open .docket-entry-button {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.docket-designation {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.docket-stage {
+  opacity: 0.75;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.docket-bill,
+.drafting {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.docket-bill-heading {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.docket-identity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+
+.docket-identity dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.65;
+}
+
+.docket-identity dd {
+  margin: 0.1rem 0 0;
+}
+
+.docket-clauses {
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.docket-clause {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-inline-start: 0.6rem;
+  border-inline-start: 2px solid rgba(255, 255, 255, 0.22);
+}
+
+.docket-clause-heading {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.docket-clause-text {
+  line-height: 1.45;
+}
+
+.docket-clause-money {
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+}
+
+.docket-analysis {
+  margin: 0.35rem 0;
+  line-height: 1.45;
+}
+
+.docket-limits {
+  margin: 0.25rem 0;
+  padding-inline-start: 1.1rem;
+  opacity: 0.85;
+}
+
+.docket-error {
+  margin: 0.35rem 0;
+  padding: 0.4rem 0.55rem;
+  border-inline-start: 3px solid rgba(255, 140, 120, 0.85);
+  background: rgba(255, 140, 120, 0.1);
+}
+
+/* The drafting table ------------------------------------------------------ */
+
+.drafting-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.4rem;
+}
+
+.drafting-option {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.drafting-option:hover,
+.drafting-option:focus-visible {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.drafting-option-chosen {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.drafting-option-family {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  opacity: 0.65;
+}
+
+.drafting-option-variant {
+  font-weight: 600;
+}
+
+.drafting-option-synopsis {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.drafting-mechanism {
+  margin: 0.6rem 0 0;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+.drafting-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.drafting-control {
+  display: grid;
+  grid-template-columns: minmax(9rem, 14rem) 1fr auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.drafting-control-label {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.drafting-control-value {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.drafting-compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block-start: 0.35rem;
+}
+
+.drafting-compare th,
+.drafting-compare td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.4rem 0.5rem;
+  border-block-end: 1px solid rgba(255, 255, 255, 0.12);
+  line-height: 1.4;
+}
+
+.drafting-compare thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.65;
+}
+
+.drafting-row-changed td:last-child {
+  background: rgba(255, 235, 160, 0.13);
+}
+
+@media (max-width: 46rem) {
+  .drafting-control {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .docket-entry-button {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .drafting-compare,
+  .drafting-compare tbody,
+  .drafting-compare tr,
+  .drafting-compare td,
+  .drafting-compare th {
+    display: block;
+  }
+
+  .drafting-compare thead {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Filtering, kinds of act, and the authority a bill acts on.
+
+   Added with the instrument work. Everything here is scoped to the docket
+   surface; player.css is still untouched and none of the prototype design is
+   absorbed.
+   ------------------------------------------------------------------------- */
+
+.docket-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.docket-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  min-width: 9rem;
+}
+
+.docket-filter > span {
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+.docket-filter select,
+.docket-filter input {
+  font: inherit;
+  padding: 0.3rem 0.4rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+}
+
+.docket-count {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0.25rem 0;
+}
+
+.docket-paging {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.docket-instrument,
+.drafting-option-instrument {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.drafting-instrument {
+  margin: 0.5rem 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.drafting-authority-list {
+  list-style: none;
+  margin: 0.25rem 0 0.75rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.drafting-authority-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem 0.6rem;
+  border-radius: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.drafting-authority-chosen {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drafting-authority-citation {
+  font-weight: 600;
+}
+
+.drafting-authority-note,
+.drafting-authority-ceiling {
+  font-size: 0.78rem;
+  opacity: 0.78;
+}
+
+/* Keep the expanded bank usable beside the document it produces. */
+.drafting-options {
+  max-height: 24rem;
+  overflow-y: auto;
+  padding: 0.2rem;
+  overscroll-behavior: contain;
+}
+
+.docket-estimate-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0.75rem 0;
+  padding: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.docket-estimate-controls p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.docket-estimate-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}

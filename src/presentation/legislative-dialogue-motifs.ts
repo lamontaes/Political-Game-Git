@@ -382,7 +382,7 @@ const CONTENT: Readonly<Record<LegislativeMotifFamily, FamilyContent>> = {
         {
           key: "competing-need",
           line: () =>
-            `“I'm not asking you for a favour. I'm telling you my people are already paying for a service they can't get, and this bill doesn't change that.”`,
+            `“I'm not asking you for a favor. I'm telling you my people are already paying for a service they can't get, and this bill doesn't change that.”`,
         },
       ],
     },

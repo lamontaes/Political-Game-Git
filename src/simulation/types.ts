@@ -50,6 +50,7 @@ export type EntityKind =
   | "legislative-amendment"
   | "legislative-commitment"
   | "legislative-committee-action"
+  | "legislative-draft-lineage"
   | "legislative-enactment"
   | "legislative-measure"
   | "legislative-negotiation"
@@ -2336,6 +2337,83 @@ export interface AuthoredWorkEffort {
   readonly requiredMinutes: number;
 }
 
+/**
+ * One parameter value, as a saved bill records it.
+ *
+ * Written as a discriminated record rather than as a loose JSON blob so the
+ * serialized world stays inspectable and a value cannot arrive as a string that
+ * something later parses back into a number. The shapes mirror the compiler's
+ * parameter kinds exactly.
+ */
+export type LegislativeDraftParameterRecord =
+  | {
+      readonly parameterKey: string;
+      readonly kind: "money";
+      readonly minorUnits: number;
+      readonly currency: CurrencyCode;
+    }
+  | {
+      readonly parameterKey: string;
+      readonly kind: "enumerated";
+      readonly value: string;
+    }
+  | {
+      readonly parameterKey: string;
+      readonly kind: "duration-years";
+      readonly years: number | null;
+    }
+  | {
+      readonly parameterKey: string;
+      readonly kind: "integer";
+      readonly value: number;
+    };
+
+/**
+ * Which library configuration produced a measure's filed text.
+ *
+ * This is the one canonical shape the composable-bill work adds, and it exists
+ * because nothing already in the store can express it. A measure records what a
+ * bill is called and what it is about; provisions record its operative text and
+ * every later version of that text. Neither records that the text was compiled
+ * from a named programme family, at a named version of that family, from a
+ * named set of parameter values — and without that, reopening a saved bill
+ * cannot say which family it belongs to, which amendment its politics are
+ * about, or whether a later edit to the content bank has moved underneath it.
+ *
+ * Pinning `familyVersion` here is the whole point of the record: the filed text
+ * is authoritative and lives in provisions, so widening a bound or rewording a
+ * clause in the bank changes what a *new* bill would say and cannot reroll a
+ * bill a player already filed. The lineage is written once, when the bill is
+ * filed, and is never rewritten — an amended bill's text moves through the
+ * accepted provision writers, and its lineage still records where it started.
+ */
+export interface LegislativeDraftLineageRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly measureId: EntityId;
+  readonly familyKey: string;
+  readonly familyVersion: string;
+  readonly variantKey: string;
+  readonly compiledAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly parameters: readonly LegislativeDraftParameterRecord[];
+  /**
+   * The authority this bill was written against, where its instrument takes
+   * one.
+   *
+   * Optional, so every lineage written before instruments existed reads back
+   * unchanged. `authorityKey` identifies a standing statute declared in the
+   * content bank; `authorityMeasureId` is present instead when the bill was
+   * written against another measure on the same docket, which is what lets a
+   * saved appropriation still say which of the player's own bills it funds.
+   */
+  readonly authorityKey?: string;
+  readonly authorityMeasureId?: EntityId;
+  /** Said plainly in the save: this configuration is authored fiction. */
+  readonly provenanceNote: string;
+}
+
 export interface WorkItemRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3138,6 +3216,7 @@ export interface HistoryStore {
   readonly committeeActions?: readonly CommitteeActionRecord[];
   readonly legislativeAmendments?: readonly LegislativeAmendmentRecord[];
   readonly legislativeProvisions?: readonly LegislativeProvisionRecord[];
+  readonly legislativeDraftLineages?: readonly LegislativeDraftLineageRecord[];
   readonly legislativeCommitments?: readonly LegislativeCommitmentRecord[];
   readonly legislativeNegotiations?: readonly LegislativeNegotiationRecord[];
   readonly legislativeVotes?: readonly LegislativeVoteRecord[];
@@ -3485,6 +3564,8 @@ export type LegislativeProvisionBeneficiary =
  * procedural position does, and nothing is quietly rewritten in place.
  */
 export interface LegislativeProvisionRecord {
+  /** Explicit annual amount; omission preserves older whole-programme records. */
+  readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;

@@ -1201,7 +1201,7 @@ _Present: Emily Vance, your mom_
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 6 beats, 28 realized lines, 17 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, legislative-session-unavailable, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1210,16 +1210,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 - Sessions: 2
 - Resolved: true (won)
 
-### Legislative surface reached
-
-- HB 214 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2026-10-25. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by 15 April; odd-year sessions run 30 legislative days and adjourn by 30 March.
+_Legislative work unavailable: The configured regular session cannot continue after 2026-04-15 (Ky. Const. Sec. 42). No exceptional-session record authorizes this action._
 
 
 ### Beats

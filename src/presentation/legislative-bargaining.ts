@@ -227,7 +227,7 @@ export function availableBargainingIntents(
       key: "refuse-request",
       label: isAdvocate
         ? `Tell ${name} the bill stays as it is`
-        : `Tell ${name} you are not cutting the programme`,
+        : `Tell ${name} you are not cutting the program`,
       description: isAdvocate
         ? `Decline to write a named section, and hear what that costs you.`
         : `Decline to narrow ${facts.programSectionLabel}, and hear what that costs you.`,
@@ -531,7 +531,7 @@ function decide(
         outcome: "proposal-refused",
         perception: isAdvocate
           ? `${personName(input.speaker)} took the refusal as an answer about their district, not about the policy.`
-          : `${personName(input.speaker)} accepted the programme in principle while keeping their objection to how it is built.`,
+          : `${personName(input.speaker)} accepted the program in principle while keeping their objection to how it is built.`,
         proposition: "leave-the-bill-alone",
         consequence: {
           negotiation: {
@@ -574,7 +574,7 @@ function decide(
         ...say(tracedWorld, input, {
           family: capped ? "demand-narrower-scope" : "press-visibility-concern",
           outcome: "proposal-countered",
-          perception: `${personName(input.speaker)} sees the named section as a cost and a headline before it is a favour.`,
+          perception: `${personName(input.speaker)} sees the named section as a cost and a headline before it is a favor.`,
           proposition: capped
             ? "cap-the-local-section"
             : "write-in-the-local-section",
