@@ -1077,3 +1077,22 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+/*
+ * The development art preview says so, in a band nobody can mistake for the
+ * game. It sits above the room rather than over it so it cannot be cropped out
+ * of a screenshot of the scene, which is the way an unreleased likeness would
+ * otherwise end up circulating as approved art.
+ */
+.art-preview-banner {
+  position: relative;
+  z-index: 6;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  background: #4a1d1d;
+  color: #ffd9d9;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+}

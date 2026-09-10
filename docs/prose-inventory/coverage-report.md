@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2302 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5637 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5638 |
 | DIAGNOSTIC_OR_TEST | 4580 |
-| **NEEDS_CLASSIFICATION** | **6027** |
+| **NEEDS_CLASSIFICATION** | **6035** |
 
-Scanned 540 files holding 69867 string
+Scanned 541 files holding 69907 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -207,6 +207,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/legislative-bargaining-fixture.ts` |
+| 6 | `src/presentation/life-scene-people.ts` |
 | 6 | `src/presentation/ordinary-community.ts` |
 | 6 | `src/presentation/raster-tiers.ts` |
 | 6 | `src/presentation/run-b-fixture.ts` |
@@ -232,6 +233,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
+| 4 | `src/presentation/art-preview.ts` |
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
@@ -263,7 +265,6 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
-| 2 | `src/presentation/life-scene-people.ts` |
 | 2 | `src/presentation/scene-proof.ts` |
 | 2 | `src/presentation/surface-review.ts` |
 | 2 | `src/presentation/title-ambient.ts` |

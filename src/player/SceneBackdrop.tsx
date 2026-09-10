@@ -208,6 +208,14 @@ export function SceneBackdrop({
                 data-occlusion-count={masks.length}
                 data-has-art={person.hasArt ? "true" : "false"}
                 data-relationship={person.relationship ?? ""}
+                /*
+                 * The compositor's reason, carried to where it can be read.
+                 * A person who does not draw was previously indistinguishable
+                 * in the DOM from one the room simply had no art for, so
+                 * neither a developer nor a browser test could say which
+                 * refusal they were looking at. Empty when a picture drew.
+                 */
+                data-art-refusal={person.artRefusal ?? ""}
                 style={
                   {
                     left: `${topLeft.x}px`,

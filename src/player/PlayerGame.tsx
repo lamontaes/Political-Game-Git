@@ -75,6 +75,12 @@ import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
+import {
+  ART_PREVIEW_LABEL,
+  artPreviewLibraries,
+  artPreviewMode,
+  previewDatabaseName,
+} from "../presentation/art-preview";
 import { SceneBackdrop } from "./SceneBackdrop";
 import {
   AmbientTableau,
@@ -192,14 +198,30 @@ interface Session {
 }
 
 export function PlayerGame() {
+  /*
+   * Development art preview. `import.meta.env.DEV` is replaced with a literal
+   * `false` in a production build, so this whole branch is dead code the
+   * bundler drops and no query string can reach candidate art in a shipped
+   * game. See `src/presentation/art-preview.ts`.
+   */
+  const previewMode = useMemo(
+    () => artPreviewMode(window.location.search, import.meta.env.DEV),
+    [],
+  );
   const shellStore = useMemo(() => new BrowserShellStateStore(), []);
   const store = useMemo(() => {
     try {
-      return new BrowserSaveStore();
+      // The preview keeps its lives in a physically separate database, so
+      // opting into candidate pixels cannot edit a life played on production
+      // art — a wardrobe choice made against a candidate outfit would land in
+      // the ordinary save otherwise.
+      return new BrowserSaveStore({
+        databaseName: previewDatabaseName(previewMode),
+      });
     } catch {
       return null;
     }
-  }, []);
+  }, [previewMode]);
   // A replay seed is honoured for the whole session; otherwise every trip to
   // the setup screen draws a new one, so starting a second life does not
   // quietly rebuild the first.
@@ -1627,6 +1649,21 @@ function PlayingScreen({
   );
 
   /*
+   * Read here rather than threaded down from `PlayerGame`. It is a pure
+   * function of the address and the build mode, so both readings agree by
+   * construction, and passing it through every screen in between would put a
+   * development-only concern in the signature of surfaces that have nothing to
+   * do with art.
+   */
+  const artPreview = useMemo(
+    () =>
+      artPreviewLibraries(
+        artPreviewMode(window.location.search, import.meta.env.DEV),
+      ),
+    [],
+  );
+
+  /*
    * One shell for the whole life: what is open, how the player got there, and
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
@@ -1716,6 +1753,7 @@ function PlayingScreen({
         {
           wardrobeByPersonId: shell.personWardrobes,
           snapshotsByPersonId: renderSnapshots,
+          ...(artPreview ? { artPreview } : {}),
         },
       ),
     [
@@ -1724,6 +1762,7 @@ function PlayingScreen({
       sceneId,
       shell.personWardrobes,
       renderSnapshots,
+      artPreview,
     ],
   );
 
@@ -1995,6 +2034,22 @@ function PlayingScreen({
         people this life has are a rail on the right, and everything else is a
         quiet cluster in the corner that grows as you reach for it.
       */}
+          {artPreview ? (
+            /*
+             * Said out loud, on the screen, for as long as the mode is on.
+             * A preview that looked like the game would be worse than no
+             * preview: somebody would screenshot unreleased art as if it had
+             * been approved. `role="status"` so it is announced rather than
+             * only seen.
+             */
+            <p
+              className="art-preview-banner"
+              role="status"
+              data-testid="art-preview-banner"
+            >
+              {ART_PREVIEW_LABEL}
+            </p>
+          ) : null}
           <SceneBackdrop
             sceneId={sceneId}
             people={scenePeople}

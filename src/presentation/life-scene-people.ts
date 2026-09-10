@@ -13,17 +13,47 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
 } from "./visual-integration";
 import { derivePersonAppearance } from "../simulation";
-import type { CharacterWardrobeContext } from "./character-components";
+import type {
+  CharacterComponentLibrary,
+  CharacterWardrobeContext,
+} from "./character-components";
+import type { PoseArtIndex } from "./pose-families";
+import type { RuntimeVisualLibrary } from "./visual-integration";
 import {
   resolvePersonWardrobeContext,
   type PersonWardrobePreference,
 } from "./person-visual-selection";
+import { previewArtRefusal } from "./art-preview";
 import type { ScenePerson } from "./life-story";
 import type { Person, World } from "../simulation";
+
+/**
+ * A LOCAL DEVELOPMENT override of which art the room composes against.
+ *
+ * Absent — which is every production caller — nothing below changes: the
+ * production libraries are used, unreleased and fixture art is refused, and an
+ * incomplete composition draws nothing. Present, the same compositor runs
+ * against the review libraries and the two release gates are lifted, because
+ * refusing unreleased art is precisely what the preview exists to suspend.
+ *
+ * The placement gate is NOT lifted. `complete` also covers a placement the
+ * scene warned about, and a preview that hid a misplaced figure would defeat
+ * its own purpose; the diagnostics come back named instead, on the person.
+ *
+ * See `src/presentation/art-preview.ts` for how a page enters this mode and why
+ * it cannot exist in a shipped build.
+ */
+export interface LifeSceneArtPreview {
+  readonly characters: CharacterComponentLibrary;
+  readonly visuals: RuntimeVisualLibrary;
+  readonly poseArt: PoseArtIndex;
+}
 
 export interface LifeSceneWardrobeOptions {
   /** Optional shared presentation snapshots; production eligibility still applies. */
   readonly snapshotsByPersonId?: Readonly<Record<string, PersonRenderSnapshot>>;
+  /** Development only. Absent leaves every production default exactly as it is. */
+  readonly artPreview?: LifeSceneArtPreview;
   readonly wardrobeByPersonId: Readonly<
     Record<string, PersonWardrobePreference>
   >;
@@ -85,6 +115,15 @@ export interface PlacedScenePerson {
   readonly presence: string;
   /** Explicit saved choices that cannot resolve suppress this person's art only. */
   readonly wardrobeRefusal?: string;
+  /**
+   * Why this person is not drawn, in the compositor's own words.
+   *
+   * Absent when a full picture drew. Every refusal used to collapse into an
+   * empty layer list, so "why is my mother a pair of initials" had no answer
+   * anywhere on the screen or in the DOM; this carries the real one out. It is
+   * a development diagnostic and never player-facing copy.
+   */
+  readonly artRefusal?: string;
 }
 
 function resolveSavedWardrobe(
@@ -117,6 +156,55 @@ function resolveSavedWardrobe(
   });
 }
 
+/**
+ * Put a composed figure inside the box the placement already reserved for it.
+ *
+ * DEVELOPMENT PREVIEW ONLY, and only for a room that declares no floor
+ * calibration. The compositor sizes a body from the scene's measured standard
+ * body width; with no such measurement it falls back to something very small,
+ * and the banked art was rendering as a sixteen-pixel person — a defect of the
+ * scene's missing calibration that made the art itself impossible to look at.
+ *
+ * This invents no measurement. It reuses the anchor's own declared footprint,
+ * which is authored scene data and is already what the placeholder occupies,
+ * and maps the layers' union bounding box onto it while preserving every
+ * layer's relative position and proportion. It is a review convenience for
+ * looking at art, not a placement any production surface may rely on, and the
+ * `scene-declares-no-floor-calibration` diagnostic still travels with the
+ * person so nobody reads this as a calibrated room.
+ */
+function fitLayersToBox(
+  layers: readonly ScenePersonLayer[],
+  box: {
+    readonly leftPercent: number;
+    readonly topPercent: number;
+    readonly widthPercent: number;
+    readonly heightPercent: number;
+  },
+): readonly ScenePersonLayer[] {
+  if (layers.length === 0) return layers;
+  const left = Math.min(...layers.map((layer) => layer.leftPercent));
+  const top = Math.min(...layers.map((layer) => layer.topPercent));
+  const right = Math.max(
+    ...layers.map((layer) => layer.leftPercent + layer.widthPercent),
+  );
+  const bottom = Math.max(
+    ...layers.map((layer) => layer.topPercent + layer.heightPercent),
+  );
+  const width = right - left;
+  const height = bottom - top;
+  if (width <= 0 || height <= 0) return layers;
+  const scaleX = box.widthPercent / width;
+  const scaleY = box.heightPercent / height;
+  return layers.map((layer) => ({
+    url: layer.url,
+    leftPercent: box.leftPercent + (layer.leftPercent - left) * scaleX,
+    topPercent: box.topPercent + (layer.topPercent - top) * scaleY,
+    widthPercent: layer.widthPercent * scaleX,
+    heightPercent: layer.heightPercent * scaleY,
+  }));
+}
+
 /** A standing figure is roughly this many times as tall as it is wide. */
 const STANDING_HEIGHT_RATIO = 2.55;
 /** A seated figure occupies less height above its contact line. */
@@ -124,6 +212,7 @@ const SEATED_HEIGHT_RATIO = 1.5;
 
 function placeableAnchors(
   scene: RegisteredScene,
+  preview?: LifeSceneArtPreview,
 ): readonly RegisteredSceneAnchor[] {
   const anchors = [...scene.anchors.values()].filter(
     (anchor) =>
@@ -132,10 +221,30 @@ function placeableAnchors(
   );
   // Seats first, then floor spots; each group left-to-right, so a fuller room
   // reads front-to-back and the assignment is deterministic.
-  return anchors.sort((left, right) => {
+  const ordered = anchors.sort((left, right) => {
     if (left.kind !== right.kind) return left.kind === "seat" ? -1 : 1;
     return left.xPercent - right.xPercent;
   });
+  if (!preview) return ordered;
+  /*
+   * Development preview only: put the spots this art can actually fill first.
+   *
+   * The banked review bodies carry `standing-neutral` and nothing else, and
+   * seats come first in the production order, so the first household member is
+   * assigned a sofa the bank cannot draw and the room stays empty — a preview
+   * that shows nothing because of an assignment rule rather than because of
+   * the art. The pose-art index answers which anchors are fillable, so the
+   * question is asked rather than assumed, and the day a seated body is banked
+   * this reorders itself back.
+   *
+   * Order within each group is unchanged, so the assignment stays
+   * deterministic and nobody is placed anywhere the registry did not offer.
+   */
+  const fillable = (anchor: RegisteredSceneAnchor): boolean =>
+    (anchor.allowedPoseFamilies ?? []).some((family) =>
+      preview.poseArt.bodyFamiliesByPose.has(family),
+    );
+  return [...ordered.filter(fillable), ...ordered.filter((a) => !fillable(a))];
 }
 
 function releasedLayers(
@@ -145,38 +254,100 @@ function releasedLayers(
   anchor: RegisteredSceneAnchor,
   wardrobe?: CharacterWardrobeContext,
   snapshot?: PersonRenderSnapshot,
-): readonly ScenePersonLayer[] {
+  preview?: LifeSceneArtPreview,
+): { readonly layers: readonly ScenePersonLayer[]; readonly refusal: string } {
   // Ask #86's resolver for a real picture. Today this returns nothing — no body
   // master is released — but the call is the seam the released art lands on, so
   // it is made rather than assumed. Any throw from an unresolvable recipe is an
   // absent picture, not a broken screen.
-  if (!scene.floorCalibration || scene.standardBodyWidthPercent === null)
-    return [];
+  const uncalibrated =
+    !scene.floorCalibration || scene.standardBodyWidthPercent === null;
+  /*
+   * An uncalibrated room refuses everybody, in production, on purpose: a
+   * figure placed without the plate's measured floor ramp and standard body
+   * width is a figure at a guessed size, and a guessed size is exactly the
+   * fabricated measurement this project does not allow into the game.
+   *
+   * It is worth naming what that means today, because it is not an art
+   * problem: every residence scene in the registry — the room a life actually
+   * starts in — declares no floor calibration and no standard body width, so
+   * releasing a body master would still not put anybody in the player's living
+   * room. That is authoring work on the scene, measured from its plate, and
+   * nothing here may invent it.
+   *
+   * The preview goes on anyway and says so. The compositor has its own
+   * fallback and reports `scene-declares-no-floor-calibration` when it uses
+   * it; carrying the figure out with that attached is the whole point of a
+   * review surface, because a wrongly-sized person the owner can see and
+   * reject is worth more than an empty room they cannot diagnose.
+   */
+  if (uncalibrated && !preview)
+    return { layers: [], refusal: "scene-declares-no-floor-calibration" };
+  const library = preview?.characters ?? PRODUCTION_CHARACTER_LIBRARY;
+  if (preview) {
+    // The compositor is age-blind, and the banked bodies are adult bodies.
+    // Nobody's child gets an adult body just because a preview is on.
+    const known = world.people[person.id];
+    const refused = known
+      ? previewArtRefusal(known, world.currentDate)
+      : "candidate-bank: no canonical person to check age";
+    if (refused) return { layers: [], refusal: refused };
+  }
   try {
     const record = world.people[person.id];
     const appearance = record?.appearance ?? derivePersonAppearance(person.id);
     const presentation = composeSceneCharacter({
-      snapshot,
+      /*
+       * A shared render snapshot is bound to the library that produced it, and
+       * it validates that binding: handing a production-derived snapshot to a
+       * composition against the review libraries is rejected outright, which
+       * turned every previewed adult into a thrown mismatch. The preview
+       * composes fresh instead. It costs the snapshot's cross-surface identity
+       * guarantee, which is a production guarantee about production art, and
+       * the person, their appearance and their wardrobe are unchanged either
+       * way.
+       */
+      snapshot: preview ? undefined : snapshot,
       wardrobe,
       personId: person.id,
       displayName: person.displayName,
       appearance,
       scene,
       anchor,
-      library: PRODUCTION_CHARACTER_LIBRARY,
-      visualLibrary: PRODUCTION_VISUAL_LIBRARY,
+      library,
+      visualLibrary: preview?.visuals ?? PRODUCTION_VISUAL_LIBRARY,
       poseRegistry: PRODUCTION_POSE_REGISTRY,
-      poseArt: PRODUCTION_POSE_ART,
+      poseArt: preview?.poseArt ?? PRODUCTION_POSE_ART,
     });
-    if (
-      !presentation.complete ||
-      presentation.layers.some(
-        (layer) =>
-          PRODUCTION_CHARACTER_LIBRARY.components.get(layer.assetId)?.fixture,
-      )
-    )
-      return [];
-    return presentation.layers
+    /*
+     * The compositor already knows why it could not draw somebody, and every
+     * one of these branches used to discard that and return an empty array.
+     * That is the whole reason a household member could only ever be initials
+     * with no way to ask why. The refusal is carried out now instead.
+     */
+    const fixtures = presentation.layers.filter(
+      (layer) => library.components.get(layer.assetId)?.fixture,
+    );
+    if (!presentation.complete) {
+      const named = [
+        ...presentation.poseGaps.map((gap) => gap.code),
+        ...presentation.diagnostics.map((entry) => entry.code),
+      ].filter(Boolean);
+      const refusal = named.length
+        ? `incomplete-composition: ${[...new Set(named)].join(", ")}`
+        : "incomplete-composition";
+      // A preview shows the defect rather than hiding it, as long as there is
+      // anything drawable to show; that judgement is the owner's to make.
+      if (!preview || presentation.layers.every((layer) => !layer.url)) {
+        return { layers: [], refusal };
+      }
+    } else if (fixtures.length > 0 && !preview) {
+      return {
+        layers: [],
+        refusal: `development-fixture-only: ${fixtures.length} of ${presentation.layers.length} layer(s)`,
+      };
+    }
+    const drawn = presentation.layers
       .filter((layer): layer is typeof layer & { url: string } =>
         Boolean(layer.url),
       )
@@ -187,8 +358,18 @@ function releasedLayers(
         widthPercent: layer.widthPercent,
         heightPercent: layer.heightPercent,
       }));
-  } catch {
-    return [];
+    return {
+      layers: drawn,
+      refusal: drawn.length === 0 ? "composition-drew-no-layers" : "",
+    };
+  } catch (error) {
+    // The compositor's own message, not a flattened one. An unresolvable recipe
+    // is still an absent picture rather than a broken screen, but now it says
+    // which recipe and why.
+    return {
+      layers: [],
+      refusal: `composition-threw: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }
 
@@ -210,7 +391,7 @@ export function planLifeScenePeople(
   if (!sceneId) return [];
   const scene = SCENE_REGISTRY.scenes.get(sceneId);
   if (!scene || !scene.raster) return [];
-  const anchors = placeableAnchors(scene);
+  const anchors = placeableAnchors(scene, savedWardrobes?.artPreview);
   if (anchors.length === 0) return [];
 
   const people = [...present]
@@ -258,9 +439,9 @@ export function planLifeScenePeople(
           error instanceof Error ? error.message : String(error);
       }
     }
-    const layers =
+    const drawing =
       wardrobeRefusal !== undefined
-        ? []
+        ? { layers: [], refusal: wardrobeRefusal }
         : releasedLayers(
             world,
             { id: person.personId, displayName: person.name },
@@ -268,7 +449,22 @@ export function planLifeScenePeople(
             anchor,
             personWardrobe,
             savedWardrobes?.snapshotsByPersonId?.[person.personId],
+            savedWardrobes?.artPreview,
           );
+    /*
+     * An uncalibrated room only reaches here in the preview; production
+     * refused it above. Fitting is what makes the art visible enough to judge.
+     */
+    const layers =
+      savedWardrobes?.artPreview &&
+      (!scene.floorCalibration || scene.standardBodyWidthPercent === null)
+        ? fitLayersToBox(drawing.layers, {
+            leftPercent,
+            topPercent,
+            widthPercent,
+            heightPercent,
+          })
+        : drawing.layers;
     return {
       personId: person.personId,
       name: person.name,
@@ -285,6 +481,7 @@ export function planLifeScenePeople(
         ? `${person.name}, ${person.relationship}`
         : person.name,
       ...(wardrobeRefusal !== undefined ? { wardrobeRefusal } : {}),
+      ...(drawing.refusal ? { artRefusal: drawing.refusal } : {}),
     } satisfies PlacedScenePerson;
   });
 

@@ -836,3 +836,21 @@ export const CANDIDATE_REVIEW_VISUAL_LIBRARY = createRuntimeVisualLibrary(
   candidateReview.records as readonly RuntimeVisualAssetRecord[],
   repositoryUrls(),
 );
+
+/**
+ * Which candidate bodies can be drawn in which posture.
+ *
+ * The production index is built from the manifest filtered to released art, so
+ * it knows nothing about a candidate and a scene anchor asking it for a pose
+ * gets an empty answer. Standing a candidate person in a room needs the same
+ * index over the same lifted records — the ones `liftCandidatesForReview`
+ * already stamped approved and released for the throwaway review ledger.
+ *
+ * It is the pose half of a pair that was previously incomplete: the review
+ * libraries could compose a portrait, which needs no pose art, and could not
+ * compose a scene, which does. Nothing here is released and nothing is written
+ * back; the index is derived from the same in-memory lift.
+ */
+export const CANDIDATE_REVIEW_POSE_ART = indexPoseArt(
+  candidateReview.records as readonly CharacterComponentManifestRecord[],
+);
