@@ -753,6 +753,22 @@ function SetupScreen({
       seed,
     },
   );
+  /**
+   * What the age field currently shows, which is not always a number.
+   *
+   * `Number(event.target.value)` reads an empty field as 0 and wrote it
+   * straight into the setup, so clearing the box to retype an age snapped it to
+   * 0 and every following keystroke appended to that: the owner's "0-2-5". A
+   * number input has intermediate states that are not numbers — empty while
+   * retyping, "-" before a digit — and the setup only ever wants a real age.
+   *
+   * So the field owns its own text and the setup keeps the last age that
+   * actually parsed. Nothing downstream sees a partial edit; the childhood,
+   * office-eligibility and range checks keep reading a real number throughout.
+   * Blur puts the committed age back on screen, so an abandoned empty field
+   * shows what the game will actually use rather than staying blank.
+   */
+  const [ageText, setAgeText] = useState(String(setup.startAge));
   const custom = setup.startKind === "custom";
   const steps: readonly CreatorStep[] = custom
     ? CUSTOM_CREATOR_STEPS
@@ -919,13 +935,20 @@ function SetupScreen({
                 data-testid="start-age"
                 min={MINIMUM_START_AGE}
                 max={MAXIMUM_START_AGE}
-                value={setup.startAge}
-                onChange={(event) =>
-                  setSetup((now) => ({
-                    ...now,
-                    startAge: Number(event.target.value),
-                  }))
-                }
+                value={ageText}
+                onChange={(event) => {
+                  const text = event.target.value;
+                  setAgeText(text);
+                  /*
+                   * Commit only a real age. An empty or half-typed field leaves
+                   * the last committed one alone rather than becoming 0.
+                   */
+                  if (text.trim() === "") return;
+                  const parsed = Number(text);
+                  if (!Number.isFinite(parsed)) return;
+                  setSetup((now) => ({ ...now, startAge: parsed }));
+                }}
+                onBlur={() => setAgeText(String(setup.startAge))}
               />
             </label>
           </div>

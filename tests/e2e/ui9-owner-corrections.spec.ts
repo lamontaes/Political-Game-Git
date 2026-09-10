@@ -1,5 +1,11 @@
 import { expect, test } from "./fixtures";
-import { enterLife, goTo, startLife, saveLife } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  openCreator,
+  startLife,
+  saveLife,
+} from "./support/creator";
 
 /**
  * The corrections the owner's playthrough asked for, walked as a player.
@@ -117,4 +123,34 @@ test("UI9-06, UI9-07: a child is told why a walk is refused, and what a walk cos
     "You are already out in your neighborhood.",
   );
   await expect(page.getByTestId("life-walk-home")).toBeEnabled();
+});
+
+test("UI9-10: clearing the age field and retyping does not leave a leading zero", async ({
+  page,
+}) => {
+  await page.goto("/?seed=ui9-age-buffer");
+  await openCreator(page);
+  await page.getByTestId("start-normal").click();
+  await expect(page.getByTestId("creator-stage-character")).toBeVisible();
+
+  const age = page.getByTestId("start-age");
+
+  /*
+   * The owner's "0-2-5". Clearing the box used to write 0 into the setup
+   * immediately, and because the field was bound to that number it redrew as
+   * "0" — so typing 2 then 5 gave "025" rather than "25". The field now holds
+   * its own text and only a real age is committed.
+   */
+  await age.fill("");
+  await expect(age).toHaveValue("");
+  await age.pressSequentially("25");
+  await expect(age).toHaveValue("25");
+
+  /*
+   * Leaving the field empty is not silently an age of 0: blur puts back the
+   * age the game will actually use, which is the last one that parsed.
+   */
+  await age.fill("");
+  await page.getByLabel("First name", { exact: true }).click();
+  await expect(age).toHaveValue("25");
 });
