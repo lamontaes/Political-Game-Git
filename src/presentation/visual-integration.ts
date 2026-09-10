@@ -328,6 +328,17 @@ export function createRuntimeVisualLibrary(
   return library;
 }
 
+/**
+ * Repository-path to bundled-URL index for every runtime raster.
+ *
+ * Exported because a review surface builds its own visual library out of
+ * candidate records and needs the same index; it resolves paths and grants
+ * nothing.
+ */
+export function repositoryVisualUrls(): Readonly<Record<string, string>> {
+  return repositoryUrls();
+}
+
 function repositoryUrls(): Readonly<Record<string, string>> {
   return Object.fromEntries(
     Object.entries(runtimeUrls).map(([modulePath, url]) => [

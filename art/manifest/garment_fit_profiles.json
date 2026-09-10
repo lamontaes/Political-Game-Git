@@ -32,7 +32,7 @@
       "kind": "top",
       "classification": "affine-reusable",
       "authored_for_body_family": "dev-g2-broad",
-      "basis": "One axis-aligned scale brings the worst edge error from 22.99px (8.64%) to 2.79px (1.01%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 24.21px (9.53%) to 2.11px (0.82%), inside the 3.0% bound.",
+      "basis": "One axis-aligned scale brings the worst edge error from 22.99px (10.64%) to 2.79px (1.16%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 24.21px (10.62%) to 2.11px (0.83%), inside the 3.0% bound.",
       "profiles": [
         {
           "target_body_family": "dev-g2-slim",
@@ -83,7 +83,7 @@
       "kind": "top",
       "classification": "affine-reusable",
       "authored_for_body_family": "dev-g2-broad",
-      "basis": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.15%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 23.92px (9.42%) to 2.26px (0.87%), inside the 3.0% bound.",
+      "basis": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.20%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 23.92px (10.94%) to 2.26px (0.87%), inside the 3.0% bound.",
       "profiles": [
         {
           "target_body_family": "dev-g2-slim",
@@ -126,7 +126,7 @@
       "kind": "bottom",
       "classification": "affine-reusable",
       "authored_for_body_family": "dev-g2-broad",
-      "basis": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound.",
+      "basis": "One axis-aligned scale brings the worst edge error from 17.98px (10.69%) to 3.05px (1.55%), inside the 3.0% bound. One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.43%), inside the 3.0% bound.",
       "profiles": [
         {
           "target_body_family": "dev-g2-slim",

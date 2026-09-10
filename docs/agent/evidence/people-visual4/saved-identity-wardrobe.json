@@ -1,0 +1,35 @@
+{
+  "codeRevision": "64b49a7d4a41d6b692ad7eaa566981168cd87408",
+  "personId": "person_0e9af7c31bff1267",
+  "identity": "app_20393356640f1fec@appearance-recipe-v1#g1:wave-a-average-man-standing-neutral-front-a-v1-pv4|pv4-ocd_head_adult_light_square_older_lined_v1|accessory=-,body=wave-a-average-man-standing-neutral-front-a-v1-pv4,bottom=pv4-wave-a-male-bottom-blue-straight-jeans-v1,eyewear=-,facial-hair=-,footwear=pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4,hair=pv4-hair-01-light-square-older-lined-v1-front,head=pv4-ocd_head_adult_light_square_older_lined_v1,top=pv4-wave-a-male-top-green-cable-sweater-v1",
+  "layersA": [
+    "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_wave_a_male_bottom_black_joggers_v1",
+    "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+    "pv4_ocd_head_adult_light_square_older_lined_v1",
+    "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_hair_01_light_square_older_lined_v1_front"
+  ],
+  "layersB": [
+    "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_wave_a_male_bottom_black_joggers_v1",
+    "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+    "pv4_ocd_head_adult_light_square_older_lined_v1",
+    "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_hair_01_light_square_older_lined_v1_front"
+  ],
+  "restoredLayerIds": [
+    "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_wave_a_male_bottom_black_joggers_v1",
+    "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+    "pv4_ocd_head_adult_light_square_older_lined_v1",
+    "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+    "pv4_hair_01_light_square_older_lined_v1_front"
+  ],
+  "selectedBody": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+  "selectedHead": "pv4-ocd_head_adult_light_square_older_lined_v1",
+  "selectedHair": "pv4-hair-01-light-square-older-lined-v1-front",
+  "portraitKind": "modular",
+  "sceneStatus": "Complete candidate through the registered scene compositor.",
+  "acceptance": "Candidate engineering proof only; no human art acceptance or production promotion."
+}

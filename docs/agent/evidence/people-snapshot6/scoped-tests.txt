@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run --maxWorkers=1 src/presentation/person-render-snapshot.test.ts src/presentation/people-visual4-review.test.ts src/presentation/person-visual-selection.test.ts src/presentation/life-scene-people.test.ts src/presentation/character-render-plan.test.ts src/presentation/scene-composition.test.ts src/presentation/people1-r1.test.ts
+
+
+ RUN  v4.1.1 /private/tmp/pg-people1-r1
+
+
+ Test Files  6 passed (6)
+      Tests  61 passed (61)
+   Start at  13:31:41
+   Duration  21.53s (transform 7.09s, setup 0ms, import 13.08s, tests 7.05s, environment 1ms)
+

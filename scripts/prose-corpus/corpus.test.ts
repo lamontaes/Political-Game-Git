@@ -547,11 +547,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   it("reports counts that match a live measurement, not a stale run", () => {
     // Re-measured by corpus:prose on this tree, which reconciles the accepted
     // FISCAL-ACTIVATE1/FISCAL-PORTABILITY8 fiscal-authority work onto current
-    // main. The generator was re-run; these are the numbers it reports.
+    // main (now including the PEOPLE-VISUAL4 candidate assembly modules). The
+    // generator was re-run; these are the numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(64762);
+    expect(coverage.totalLiterals).toBe(65409);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(454);
+    expect(coverage.scannedFiles).toBe(465);
   });
 });
 

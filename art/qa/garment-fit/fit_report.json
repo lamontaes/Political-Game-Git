@@ -133,7 +133,7 @@
           "undercoverageAtRow": 453,
           "worstPx": 22.99,
           "worstAtRow": 389,
-          "worstFractionOfBodySpan": 0.0864,
+          "worstFractionOfBodySpan": 0.1064,
           "rowsCompared": 320,
           "rowsInWindow": 320
         },
@@ -163,7 +163,7 @@
             "undercoverageAtRow": 453,
             "worstPx": 2.79,
             "worstAtRow": 426,
-            "worstFractionOfBodySpan": 0.0101,
+            "worstFractionOfBodySpan": 0.0116,
             "rowsCompared": 320,
             "rowsInWindow": 320
           },
@@ -223,7 +223,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 22.99px (8.64%) to 2.79px (1.01%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 22.99px (10.64%) to 2.79px (1.16%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_top_knit_olive_seated_v1",
@@ -250,7 +250,7 @@
           "undercoverageAtRow": -1,
           "worstPx": 24.21,
           "worstAtRow": 356,
-          "worstFractionOfBodySpan": 0.0953,
+          "worstFractionOfBodySpan": 0.1062,
           "rowsCompared": 236,
           "rowsInWindow": 236
         },
@@ -280,7 +280,7 @@
             "undercoverageAtRow": 380,
             "worstPx": 2.11,
             "worstAtRow": 368,
-            "worstFractionOfBodySpan": 0.0082,
+            "worstFractionOfBodySpan": 0.0083,
             "rowsCompared": 236,
             "rowsInWindow": 236
           },
@@ -340,7 +340,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 24.21px (9.53%) to 2.11px (0.82%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 24.21px (10.62%) to 2.11px (0.83%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_accessory_lanyard_v1",
@@ -467,7 +467,7 @@
             "undercoverageAtRow": -1,
             "worstPx": 3.23,
             "worstAtRow": 453,
-            "worstFractionOfBodySpan": 0.0115,
+            "worstFractionOfBodySpan": 0.012,
             "rowsCompared": 320,
             "rowsInWindow": 320
           },
@@ -527,7 +527,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.15%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 23.04px (10.97%) to 3.23px (1.20%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_top_suit_charcoal_seated_v1",
@@ -554,7 +554,7 @@
           "undercoverageAtRow": -1,
           "worstPx": 23.92,
           "worstAtRow": 356,
-          "worstFractionOfBodySpan": 0.0942,
+          "worstFractionOfBodySpan": 0.1094,
           "rowsCompared": 236,
           "rowsInWindow": 236
         },
@@ -644,7 +644,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 23.92px (9.42%) to 2.26px (0.87%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 23.92px (10.94%) to 2.26px (0.87%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_bottom_trousers_standing_v1",
@@ -671,7 +671,7 @@
           "undercoverageAtRow": 462,
           "worstPx": 17.98,
           "worstAtRow": 480,
-          "worstFractionOfBodySpan": 0.0913,
+          "worstFractionOfBodySpan": 0.1069,
           "rowsCompared": 331,
           "rowsInWindow": 331
         },
@@ -767,7 +767,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 17.98px (9.13%) to 3.05px (1.55%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 17.98px (10.69%) to 3.05px (1.55%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "dev_g2_bottom_trousers_seated_v1",
@@ -824,7 +824,7 @@
             "undercoverageAtRow": -1,
             "worstPx": 0.7,
             "worstAtRow": 430,
-            "worstFractionOfBodySpan": 0.0039,
+            "worstFractionOfBodySpan": 0.0043,
             "rowsCompared": 181,
             "rowsInWindow": 181
           },
@@ -884,7 +884,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.39%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 18.61px (11.35%) to 0.7px (0.43%), inside the 3.0% bound."
       }
     ],
     "body_references": [
@@ -1218,11 +1218,11 @@
             "undercoverageAtRow": 136,
             "worstPx": 5.97,
             "worstAtRow": 136,
-            "worstFractionOfBodySpan": 0.0288,
+            "worstFractionOfBodySpan": 0.0314,
             "rowsCompared": 320,
             "rowsInWindow": 320
           },
-          "withinBound": true
+          "withinBound": false
         },
         "boundedWarp": {
           "transform": {
@@ -1276,9 +1276,9 @@
           },
           "withinBound": true
         },
-        "classification": "affine-reusable",
+        "classification": "bounded-warp-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 18.06px (12.12%) to 5.97px (2.88%), inside the 3.0% bound."
+        "reason": "A single affine leaves 5.97px (3.14%), outside the 3.0% bound, because the morphology change is not uniform down the garment. The bounded warp reaches 1.88px (1.12%)."
       },
       {
         "garmentAssetId": "fit_top_knit_average_standing_v1",
@@ -1422,7 +1422,7 @@
           "undercoverageAtRow": -1,
           "worstPx": 13.78,
           "worstAtRow": 455,
-          "worstFractionOfBodySpan": 0.0825,
+          "worstFractionOfBodySpan": 0.108,
           "rowsCompared": 331,
           "rowsInWindow": 331
         },
@@ -1518,7 +1518,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 13.78px (8.25%) to 1.81px (1.80%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 13.78px (10.80%) to 1.81px (1.80%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "fit_bottom_trousers_average_standing_v1",
@@ -1545,7 +1545,7 @@
           "undercoverageAtRow": 455,
           "worstPx": 22.67,
           "worstAtRow": 476,
-          "worstFractionOfBodySpan": 0.103,
+          "worstFractionOfBodySpan": 0.1046,
           "rowsCompared": 331,
           "rowsInWindow": 331
         },
@@ -1576,7 +1576,7 @@
             "undercoverageAtRow": -1,
             "worstPx": 3.16,
             "worstAtRow": 531,
-            "worstFractionOfBodySpan": 0.0152,
+            "worstFractionOfBodySpan": 0.0166,
             "rowsCompared": 331,
             "rowsInWindow": 331
           },
@@ -1641,7 +1641,7 @@
         },
         "classification": "affine-reusable",
         "evidence": "measured",
-        "reason": "One axis-aligned scale brings the worst edge error from 22.67px (10.30%) to 3.16px (1.52%), inside the 3.0% bound."
+        "reason": "One axis-aligned scale brings the worst edge error from 22.67px (10.46%) to 3.16px (1.66%), inside the 3.0% bound."
       },
       {
         "garmentAssetId": "fit_footwear_derby_standing_v1",

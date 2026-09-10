@@ -1,0 +1,795 @@
+{
+  "schema": "people-visual4-top-attachments-v1",
+  "authoring_basis": "All 24 source rasters individually inspected at their actual rendered images. Attachment points and hem rows are explicitly game-authored choices in unchanged source-canvas pixel coordinates.",
+  "coordinate_convention": "Zero-based x rightward, y downward in the source canvas. Collar point denotes center back-neck/collar seam; it is not crop top, shoulder attachment or the front V-opening tip. A compositor must explicitly map this source point to its corresponding authored target neck point.",
+  "boundaries": [
+    "No source raster was modified.",
+    "These records neither repair nor inherit D-068 banked body anchors.",
+    "Source hashes and dimensions describe bytes; authored coordinate integers are not anatomical measurement precision.",
+    "No fit bound, release status, rights status or visual acceptance is granted by these records.",
+    "Do not infer transparent pixels from the speckled viewer backdrop; inspect alpha separately if masking is needed."
+  ],
+  "assets": [
+    {
+      "asset_id": "wave_a_male_top_brown_fur_hood_parka_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_brown_fur_hood_parka_v1.png",
+        "sha256": "ce4e1abe5ed2d67ce9be7a6eca90cd5fd60e4121fff718bea920e8e4c02e97b0",
+        "width_px": 1004,
+        "height_px": 1239,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 501,
+        "y_px": 228,
+        "coordinate_class": "game-authored",
+        "basis": "Center of the visible inner back collar seam below the fur hood.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1165,
+        "coordinate_class": "game-authored",
+        "basis": "The coat hem curves; row tracks the low torso hem, not cuff bottoms.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Fur hood and opaque inner lining need explicit neck/head occlusion handling.",
+        "Coat length must retain its own style; do not force this hem to a shirt hem.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_burgundy_long_sleeve_polo_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+        "sha256": "551970660fa522654e720a06ab1536ad1aa6e66b6732590dea1694942280d3be",
+        "width_px": 968,
+        "height_px": 1091,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 484,
+        "y_px": 125,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the folded collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1015,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of curved torso hem.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_charcoal_blazer_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_blazer_v1.png",
+        "sha256": "3b9a37c78f16f1b8eeb15d26f6468caaacbf1b32b7c87c706ddac638ed124a86",
+        "width_px": 964,
+        "height_px": 1127,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 482,
+        "y_px": 116,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam above the opaque inner lining.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1045,
+        "coordinate_class": "game-authored",
+        "basis": "Representative low front-panel hem row; central split rises above this row.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque V-shaped inner lining is not transparent skin or a separately selectable undershirt.",
+        "Front split and lapels must not be scored as tight body-edge conformity.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_charcoal_puffer_vest_layered_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_charcoal_puffer_vest_layered_v1.png",
+        "sha256": "d7832e3182b2e9f21be0b2fea99692fecbbc45e8ea9a7e3a9442b32338c4052b",
+        "width_px": 981,
+        "height_px": 1083,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 490,
+        "y_px": 160,
+        "coordinate_class": "game-authored",
+        "basis": "Center back seam of the visible cream shirt collar inside the vest collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 990,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso vest hem, excluding longer sleeve cuffs.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Cream shirt and vest are baked together; they are one composite top choice.",
+        "Raised vest collar requires head/neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_cream_cardigan_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_cream_cardigan_v1.png",
+        "sha256": "711f1e30c8ca0d905faa9e4c781d2eb9697ae2664a1932de6e7355a9257d00ff",
+        "width_px": 988,
+        "height_px": 1036,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 494,
+        "y_px": 125,
+        "coordinate_class": "game-authored",
+        "basis": "Center of the back-neck band inside the cardigan.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 955,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of knitted torso hem band, excluding sleeve cuffs.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque V-neck interior belongs to this flat-lay source; skin or an independent undershirt would require explicit occlusion/masking.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_gray_long_sleeve_tee_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_gray_long_sleeve_tee_v1.png",
+        "sha256": "cfed1f9537a711dfacd1699fb0004e8c37619de2dcd9a1bdf0fd67caac7070e2",
+        "width_px": 960,
+        "height_px": 1038,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 480,
+        "y_px": 96,
+        "coordinate_class": "game-authored",
+        "basis": "Center back edge of the crew-neck opening, above the front neck curve.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 962,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of torso hem stitch band.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque crew-neck interior must not erase the selected neck when composed.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_green_cable_sweater_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_green_cable_sweater_v1.png",
+        "sha256": "1eb6764ac1199f74bfee7cd0f3167decbf93bfe3d35819076e0ddf7667a674df",
+        "width_px": 979,
+        "height_px": 1071,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 489,
+        "y_px": 103,
+        "coordinate_class": "game-authored",
+        "basis": "Center back inner edge of the ribbed crew-neck band.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 973,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the torso ribbed hem, excluding cuff bottoms.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque crew-neck interior requires neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_navy_zip_hoodie_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_navy_zip_hoodie_v1.png",
+        "sha256": "92ae4a33324dd91f639e0de0180e688e50a367aca5dedbdacf0821e9aa6c6d6b",
+        "width_px": 1001,
+        "height_px": 1097,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 500,
+        "y_px": 153,
+        "coordinate_class": "game-authored",
+        "basis": "Center back neck seam within the lowered hood.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1025,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso waistband at zipper center.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Hood and opaque lining are baked with front garment; head/back-hair occlusion must be authored.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_olive_shell_jacket_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_olive_shell_jacket_v1.png",
+        "sha256": "c5757b751af3183291fe1d4d9a222b886f6d4238cf2d5f9e4578caad21f621e4",
+        "width_px": 1003,
+        "height_px": 1110,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 500,
+        "y_px": 156,
+        "coordinate_class": "game-authored",
+        "basis": "Center back seam inside the standing collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1035,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso hem at zipper center.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Standing collar and opaque lining need neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_plaid_overshirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_plaid_overshirt_v1.png",
+        "sha256": "e8af739512747fa15daf239c570a3159458ae583e53d8f9c28b96b579d456386",
+        "width_px": 988,
+        "height_px": 1118,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 494,
+        "y_px": 123,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar edge above the baked gray crew-neck shirt.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1040,
+        "coordinate_class": "game-authored",
+        "basis": "Low overshirt front-panel hem; gray undershirt ends earlier around row 960.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Gray undershirt is baked in and cannot be selected independently.",
+        "Central open-hem gap is intentional garment construction.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_tan_utility_shirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_tan_utility_shirt_v1.png",
+        "sha256": "07a5c1ca4e2ae6a184012c59d54271049ab809d644e7dde86c2c790e199f832f",
+        "width_px": 999,
+        "height_px": 1133,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 500,
+        "y_px": 126,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the folded collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1060,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved shirttail.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_male_top_white_button_up_shirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/male-tops/wave_a_male_top_white_button_up_shirt_v1.png",
+        "sha256": "544f2dbc58ec6b7dddcaf83a9bcae170f317e0acfff1b0b16904036cce345060",
+        "width_px": 995,
+        "height_px": 1126,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 498,
+        "y_px": 123,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the folded collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1050,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved shirttail.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_brown_fur_hood_parka_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_brown_fur_hood_parka_v1.png",
+        "sha256": "0fd48c0aa095b87df31c661205d5db11bb2e0e21c88a78a0ed842cd291f1a604",
+        "width_px": 1113,
+        "height_px": 1284,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 556,
+        "y_px": 226,
+        "coordinate_class": "game-authored",
+        "basis": "Center inner back collar seam below the fur hood.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1208,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso coat hem at the central closure.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Fur hood and opaque inner lining need explicit neck/head occlusion handling.",
+        "Asymmetric closure is visible; do not center the garment by its button line.",
+        "Long coat hem is a style feature, not a shirt-length target.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_burgundy_short_sleeve_polo_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+        "sha256": "564ae37f67ef25f042dcf91beea4f52e9c1fdb9dbeceed8965f28efa062f2bee",
+        "width_px": 1092,
+        "height_px": 1120,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 546,
+        "y_px": 130,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the folded collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1020,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved torso hem; forearms extend below it.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Painted light-skin forearms are baked into this source below both short sleeves and end at cut wrists.",
+        "Exclude unmasked use as a complexion-independent garment. Author arm masks or declare exact compatible body, complexion and pose before using.",
+        "Short sleeves require exact shoulder/upper-arm alignment."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_charcoal_blazer_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_charcoal_blazer_v1.png",
+        "sha256": "584abc22a8e3313e865f2c71913083128a339a1d79dddd7a52ccb5597c1c81c4",
+        "width_px": 1102,
+        "height_px": 1134,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 551,
+        "y_px": 128,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam above the opaque inner lining.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1055,
+        "coordinate_class": "game-authored",
+        "basis": "Low front-panel hem row; the central vent rises above it.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque inner V lining is not a transparent neckline or independently selectable undershirt.",
+        "Fitted chest/waist shading constrains exact morphology pairing; alpha-edge fit alone does not establish visual fit.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_cream_cardigan_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_cream_cardigan_v1.png",
+        "sha256": "4588d83dc0f3eb88340251185b20cef75706d14472b80998a9b07cd3243fb23f",
+        "width_px": 1102,
+        "height_px": 1109,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 551,
+        "y_px": 125,
+        "coordinate_class": "game-authored",
+        "basis": "Center back-neck band inside the cardigan.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1035,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the ribbed torso hem.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Opaque V-neck interior needs explicit neck/undershirt handling.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_gray_short_sleeve_tee_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_gray_short_sleeve_tee_v1.png",
+        "sha256": "51e5e23e6d21473eda212d368e59ea674782b4ecbe25f642893706f366582949",
+        "width_px": 924,
+        "height_px": 1000,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 462,
+        "y_px": 108,
+        "coordinate_class": "game-authored",
+        "basis": "Center back edge of the crew-neck opening, above the front curve.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 925,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved torso hem.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "No forearms are painted in this crop; sleeve-to-actual-arm edge alignment remains an exact-pair check.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Short sleeves require exact shoulder/upper-arm alignment."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_mustard_cable_sweater_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_mustard_cable_sweater_v1.png",
+        "sha256": "0a72d8194152ed711a657871fbddaeac134474010c4731e93173cc09351d2201",
+        "width_px": 1096,
+        "height_px": 1080,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 548,
+        "y_px": 112,
+        "coordinate_class": "game-authored",
+        "basis": "Center back inner edge of the ribbed crew-neck band.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 975,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of ribbed torso hem, excluding sleeve cuffs.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Opaque crew-neck interior requires neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_navy_zip_hoodie_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_navy_zip_hoodie_v1.png",
+        "sha256": "b2ef42b821bc7e4904efcc3bf1f4475e6bd7e7ad23563b377ae69bec48821ef5",
+        "width_px": 1080,
+        "height_px": 1137,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 540,
+        "y_px": 164,
+        "coordinate_class": "game-authored",
+        "basis": "Center back neck seam inside the lowered hood.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1063,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso waistband at zipper center.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Hood and opaque lining are baked with front garment; head/back-hair occlusion must be authored.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_olive_button_up_shirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_button_up_shirt_v1.png",
+        "sha256": "b9cba6f0582af7874f4bef7ec8f0306fa24a52982c23ee9a67d807c178d8644f",
+        "width_px": 1093,
+        "height_px": 1130,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 546,
+        "y_px": 123,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the closed collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1057,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved shirttail.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Closed collar has a small neck opening; neck width and front-collar occlusion need exact-pair inspection.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_olive_puffer_vest_layered_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_olive_puffer_vest_layered_v1.png",
+        "sha256": "efce6486c6dabaec07deba4eabc4589a479738ac98359850d3e9ae72bebf4231",
+        "width_px": 1091,
+        "height_px": 1133,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 545,
+        "y_px": 154,
+        "coordinate_class": "game-authored",
+        "basis": "Center back seam inside the raised vest collar above the gray base layer.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1035,
+        "coordinate_class": "game-authored",
+        "basis": "Low vest front-panel hems; gray base-layer hem is around row 1008.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Gray long-sleeve base and vest are baked together; they are one composite top choice.",
+        "Raised collar and opaque inner neck region require explicit neck overlap inspection.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_plaid_overshirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_plaid_overshirt_v1.png",
+        "sha256": "70de10e2457e02caf7341fd3dc7d2f4598fc16eac9d4c1994ddb3512f0cbd4b2",
+        "width_px": 1091,
+        "height_px": 1146,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 545,
+        "y_px": 129,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam above the cream base layer.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1069,
+        "coordinate_class": "game-authored",
+        "basis": "Low outer overshirt front panels; cream base-layer hem is around row 986.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Cream base layer is baked in and cannot be selected independently.",
+        "Central open-hem gap is intentional garment construction.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_tan_utility_shirt_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_tan_utility_shirt_v1.png",
+        "sha256": "7f700ef99d564666ba24585338843870c3f2a9309a56a3bf6ae00b7ffb3cdbed",
+        "width_px": 1093,
+        "height_px": 1145,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 546,
+        "y_px": 132,
+        "coordinate_class": "game-authored",
+        "basis": "Center back collar seam inside the folded collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1070,
+        "coordinate_class": "game-authored",
+        "basis": "Low center of the curved shirttail.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    },
+    {
+      "asset_id": "wave_a_female_top_teal_shell_jacket_v1",
+      "source": {
+        "repository_path": "art/generated/candidates/recent-drive-sweep/female-tops/wave_a_female_top_teal_shell_jacket_v1.png",
+        "sha256": "d53f4fe3473cd7e4c418c3c57cfa04ac7e009c5db68be342ca582b223a00e247",
+        "width_px": 1096,
+        "height_px": 1144,
+        "dimensions_confidence": "exact",
+        "rights_review": "not evaluated here; inherit canonical source provenance"
+      },
+      "visually_inspected": true,
+      "observed_view": "front-on garment display; exact-body compatibility is not established",
+      "collar_attachment": {
+        "x_px": 548,
+        "y_px": 132,
+        "coordinate_class": "game-authored",
+        "basis": "Center back seam inside the standing collar.",
+        "uncertainty": "Author-selected pixel coordinate on a stylized seam; not recovered physical anatomy. Needs exact body/head overlay verification."
+      },
+      "hem_reference": {
+        "y_px": 1070,
+        "coordinate_class": "game-authored",
+        "basis": "Low torso hem at zipper center.",
+        "uncertainty": "One authored style-length reference row on a curved or split hem; not an all-columns coverage claim."
+      },
+      "visual_exclusions_or_uncertainty": [
+        "Standing collar and opaque lining need neck overlap inspection.",
+        "Chest and waist shaping is baked; inspect exact body morphology.",
+        "Long-sleeve cuffs require wrist/hand alignment on the exact target body; source has no interchangeable hand geometry."
+      ],
+      "pair_fit_status": "unmeasured",
+      "acceptance_status": "unapproved candidate authoring only"
+    }
+  ]
+}

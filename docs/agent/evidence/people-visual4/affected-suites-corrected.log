@@ -1,0 +1,9 @@
+
+ RUN  v4.1.1 /private/tmp/pg-people1-r1
+
+
+ Test Files  4 passed (4)
+      Tests  127 passed (127)
+   Start at  02:41:48
+   Duration  82.87s (transform 867ms, setup 0ms, import 2.16s, tests 80.35s, environment 0ms)
+
