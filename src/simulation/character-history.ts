@@ -56,6 +56,7 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { drawCanonicalName } from "./people";
+import { derivePersonAppearance } from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
@@ -484,6 +485,24 @@ export function createCharacterHistoryContextPerson(
     homeJurisdictionId: input.homeJurisdictionId,
     ...(input.identity === undefined ? {} : { identity: input.identity }),
     detailLevel: "lightweight",
+    /*
+     * The household has faces too.
+     *
+     * `createLightweightPerson` and `createStartingPerson` both derive an
+     * appearance; this writer did not, and it is the one that makes the people
+     * a life is written around — the guardian, the parent, the sibling. So the
+     * player got an appearance and everyone they live with got none, and
+     * `resolvePersonPortrait` refused them at its very first check with
+     * `appearance-unassigned`. On screen that is initials, and it looks exactly
+     * like missing art. It is not: nothing had been asked to draw them.
+     *
+     * Derived from the person's own id through the same canonical writer, so it
+     * is deterministic, stable across saves and reloads, and identical for the
+     * same person every time. No seed is chosen here, no demographic is
+     * asserted, and nobody is rerolled: an appearance is a stable handle for a
+     * renderer, not a claim about who this person is.
+     */
+    appearance: derivePersonAppearance(id),
     establishedFacts: facts,
   };
   const next: World = {

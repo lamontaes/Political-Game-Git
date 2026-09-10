@@ -171,36 +171,36 @@ describe("committed education catalogs", () => {
     ).rejects.toThrow(/Invalid directory manifest/i);
   });
 
-  it("does not claim a producer replay it does not have", () => {
+  it("is backed by a real producer replay, wired into the gate", () => {
     /*
-     * Stated so nobody reads the checks above as more than they are.
+     * This replaces the assertion that used to live here.
      *
-     * Every assertion in this file compares a committed catalog against a
-     * digest committed beside it by the same `writeFileSync` run. That catches
-     * a hand-edited catalog, which is the risk excluding these files from the
-     * formatter creates. It does NOT catch a corrupted GENERATION: rerun the
-     * export with a broken input and the file and its manifest entry move
-     * together, consistently, and everything here still passes.
+     * It pinned the ABSENCE of a producer runner and said, in as many words,
+     * that the day one was added it should fail and be rewritten to check the
+     * runner instead of describing its lack. That day came: the compilation
+     * moved into `scripts/source/education-export.ts` as a builder that writes
+     * nothing, `scripts/source/check-education.ts` replays it against the
+     * committed catalogs byte for byte, and `education:check` runs in
+     * `validate`.
      *
-     * `source:replay` covers `data/source/<domain>` only and never reaches
-     * `public/education/`, and `scripts/source/export-education.ts` has no npm
-     * script, no CI step and no --check mode — it is referenced nowhere in the
-     * tree but here. So 78 MB the player's education panel fetches sits outside
-     * every producer-replay gate in the repository.
-     *
-     * This test pins that statement to the tree, so the day a runner is added
-     * this fails and is rewritten to check it instead of describing its
-     * absence.
+     * So the statement inverts rather than disappears. Everything above still
+     * establishes only INTERNAL CONSISTENCY — a catalog matching a digest
+     * committed beside it by the same run — and that is still not producer
+     * replay. What changed is that the replay now exists somewhere, and this
+     * asserts it stays wired rather than silently dropping out of the gate and
+     * leaving 78 MB the education panel fetches outside every producer check
+     * again.
      */
     const scripts = JSON.parse(readFileSync("package.json", "utf8")) as {
       scripts: Record<string, string>;
     };
-    const runners = Object.entries(scripts.scripts).filter(([, command]) =>
-      command.includes("export-education"),
-    );
     expect(
-      runners,
-      "export-education.ts now has a runner; make this a real replay check",
-    ).toEqual([]);
+      scripts.scripts["education:check"],
+      "the education producer replay lost its npm script",
+    ).toContain("check-education");
+    expect(
+      scripts.scripts.validate,
+      "education:check dropped out of the validate gate",
+    ).toContain("education:check");
   });
 });
