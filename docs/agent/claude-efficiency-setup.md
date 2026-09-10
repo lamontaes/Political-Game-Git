@@ -47,7 +47,15 @@ version-sensitive facts below if the installed Claude Code version changes.
 | ---------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `civic-prose-writer`               | `claude-fable-5`            | `claude-fable-5` (confirmed via a live `claude -p --agent civic-prose-writer` run; `modelUsage` reported it, no substitution) | Read, Grep, Glob | `effort: low` is intent only — the agent's own file documents that frontmatter `effort` does not pin and the `--effort low` CLI flag is required. |
 | `civic-prose-grounding-reviewer`   | `claude-haiku-4-5-20251001` | `claude-haiku-4-5-20251001` (confirmed live, exact match)                                                                     | Read, Grep, Glob | Same `effort:` caveat as above; the model itself reports no effort field at all.                                                                  |
-| `civic-prose-terminology-reviewer` | none (inherits parent)      | not independently tested — inherits by design                                                                                 | Read, Grep, Glob | Correctly has no `model:`; nothing to verify beyond confirming the field is absent, not stale.                                                    |
+| `civic-prose-terminology-reviewer` | none — no `model:` field    | **not measured** — no live invocation, so no `modelUsage` evidence                                                            | Read, Grep, Glob | No `model:` field means configured inheritance, not an observed route; see below.                                                                 |
+
+`civic-prose-terminology-reviewer` was not live-invoked by this task. The
+only verified fact is that its frontmatter has no `model:` field. By the
+documented resolution order above, that configures it to fall through to
+`CLAUDE_CODE_SUBAGENT_MODEL` (unset here) and then to the invoking session's
+model — so the model that serves it depends on whoever invokes it. That is a
+configuration reading, not an observed routing result; do not cite it as a
+served-model confirmation unless a live run's `modelUsage` is recorded.
 
 `claude-fable-5` was worth checking directly: current model-family docs name
 `claude-fable-5-1` as the latest Fable ID, so a stale `claude-fable-5` pin
@@ -95,10 +103,12 @@ authored this file does not itself see the new agent until it reloads.
   discovery where its cost is acceptable; reach for `repo-fact-extractor`
   specifically when the lookup is exact, bounded, and recurring enough that a
   predictable low-cost model matters.
-- Every custom agent definition pins `model` and `tools` explicitly rather
-  than relying on inheritance, exactly because inheritance is no longer
-  reliably cheap (Explore) and frontmatter `effort` is not runtime-enforced
-  (documented per-agent above).
+- `civic-prose-writer`, `civic-prose-grounding-reviewer` and
+  `repo-fact-extractor` pin `model` and `tools` explicitly rather than relying
+  on inheritance, because inheritance is no longer reliably cheap (Explore)
+  and frontmatter `effort` is not runtime-enforced (documented per-agent
+  above). `civic-prose-terminology-reviewer` pins `tools` only; its model is
+  inherited from the invoking session and has not been measured.
 - Skills load on demand via each agent's `skills:` frontmatter (the writer
   preloads `civic-prose`; the new extractor preloads none, since it has no
   fixed domain). Don't preload a skill a helper doesn't need.
@@ -110,11 +120,12 @@ authored this file does not itself see the new agent until it reloads.
 
 `scripts/agent-preflight.mjs` already reports workspace, branch, local/upstream
 SHA, and dirty-tree state before work starts. `scripts/agent-run-receipt.mjs`
-extends the same checkout-identity check to one executed command, so a
-result can't outlive the checkout it was measured against:
+extends the same checkout-identity check to one executed command, and binds
+the result to the exact source bytes it ran against, so a result can't
+outlive the checkout or the source it was measured against:
 
 ```
-node scripts/agent-run-receipt.mjs --stage <name> [--out <dir>] -- <command> [args...]
+node scripts/agent-run-receipt.mjs --stage <name> [--writes] [--out <dir>] -- <command> [args...]
 node scripts/agent-run-receipt.mjs --verify <receipt.json> [--expect-branch <branch>]
 ```
 
@@ -129,10 +140,57 @@ node scripts/agent-run-receipt.mjs --verify <receipt.json> [--expect-branch <bra
 - Full stdout/stderr is streamed live to the terminal and duplicated into a
   local `<stage>.log` file next to the receipt — evidence stays available
   without re-running anything.
-- `--verify` recomputes the current branch/HEAD and refuses the receipt if:
-  the recorded run failed, HEAD has moved past the recorded SHA (stale
-  revision), or (with `--expect-branch`) the recorded or current branch
-  doesn't match (wrong checkout).
+
+**Command completion is not source certification.** Every receipt records
+`commandSucceeded` (exit 0) separately from `certifiesSource`. A receipt
+certifies source only when all of these hold: it is a check receipt (no
+`--writes`), the command succeeded, HEAD and branch did not change during the
+run, and the source identity at the end of the run equals the one at its
+start. Otherwise `certificationBlockers` says why.
+
+**Source identity** is a SHA-256 over the HEAD tree plus the raw working-tree
+bytes (and executable bit or symlink target) of every path `git status`
+reports as differing from it: modified, staged, deleted, renamed, or
+untracked and not ignored. Paths and contents are hashed as bytes, never
+decoded as text, so two binary edits can't collapse to one identity. An edit
+that leaves the dirty-file count unchanged still changes the identity. The
+receipt's own directory is left out, and `--out` refuses the repository root
+or any directory that holds tracked files, so it can't be used to hide
+source.
+
+**`--writes` operation receipts.** Declare `--writes` for a rewriting command
+(`format:write`, `lint --fix`, codegen). Its receipt keeps the stage, exit
+code, log, and before/after source identity, so the operation stays on
+record. It never certifies the output it wrote, and `--verify` refuses it.
+To certify the rewritten files, run a check stage on them afterwards. A check
+stage whose command rewrites source anyway fails certification through the
+start/end comparison.
+
+**`--verify`** recomputes branch, HEAD and source identity and refuses the
+receipt if any of the following is true:
+
+- it predates source identity (schema 1);
+- it is an operation receipt;
+- the recorded run failed or did not certify;
+- HEAD has moved (stale revision);
+- the current source bytes differ from the certified ones, even without a new
+  commit (source changed after the run);
+- with `--expect-branch`, the recorded or current branch doesn't match (wrong
+  checkout).
+
+What this does **not** guarantee:
+
+- **Not continuous.** Source identity is sampled at the start and end of a run
+  and again at verify — three samples, no watcher and no polling. An edit
+  made and then reverted while the command runs is invisible. It detects a
+  net difference, not every intermediate state.
+- **Relies on `git status`** to list any tracked path whose bytes differ from
+  the index, with git's own stat and racy-timestamp handling.
+- **Blind spots.** Paths hidden with `assume-unchanged` or `skip-worktree`,
+  ignored files, and the contents of nested repositories and submodules
+  (only their path is recorded) are not part of the identity.
+- **Cost.** Each sample costs one `git status` plus hashing only the
+  differing files. It does not re-hash the whole repository.
 
 Receipts and logs are local-only (`.agent-receipts/` is gitignored) — this is
 a per-run mechanical check, not tracked historical evidence, and it does not
@@ -158,6 +216,22 @@ Run at this checkout (`53d7847`):
 - Live agent invocations (see per-agent notes above) confirming served model
   for `civic-prose-writer`, `civic-prose-grounding-reviewer`, and the new
   `repo-fact-extractor`, plus the tool-restriction check on the latter.
+  `civic-prose-terminology-reviewer` was not invoked; its model is unmeasured.
+
+EFF-R1 correction (source identity), added after the run above:
+`scripts/agent-run-receipt.test.ts` gained negative controls for:
+
+- a same-dirty-count edit after the run with HEAD unchanged;
+- two binary edits that decode to identical UTF-8 text;
+- a new untracked file;
+- a check command that rewrites source mid-run;
+- `--writes` operation receipts, both succeeding and failing;
+- schema-1 receipts;
+- receipt directories that would hide source.
+
+It also gained one positive control: staging identical bytes must not
+invalidate a receipt. Against the pre-correction script, a same-count text
+and binary edit verified **VALID**; the corrected script rejects it.
 
 Not covered here, and not this task's scope: the desktop/web session load
 path for `.claude/agents` and `.claude/skills`; any change to global

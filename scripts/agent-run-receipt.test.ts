@@ -1,5 +1,11 @@
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +36,47 @@ function runReceipt(cwd: string, args: string[]) {
   return spawnSync("node", [SCRIPT, ...args], { cwd, encoding: "utf8" });
 }
 
+function record(
+  cwd: string,
+  stage: string,
+  script: string,
+  extra: string[] = [],
+) {
+  return runReceipt(cwd, [
+    "--stage",
+    stage,
+    ...extra,
+    "--out",
+    ".agent-receipts",
+    "--",
+    "node",
+    "-e",
+    script,
+  ]);
+}
+
+function readReceipt(cwd: string, stage: string) {
+  return JSON.parse(
+    readFileSync(join(cwd, ".agent-receipts", `${stage}.json`), "utf8"),
+  );
+}
+
+function verify(cwd: string, stage: string) {
+  return runReceipt(cwd, [
+    "--verify",
+    join(".agent-receipts", `${stage}.json`),
+  ]);
+}
+
+function dirtyTrackedCount(cwd: string) {
+  return execFileSync("git", ["status", "--porcelain"], {
+    cwd,
+    encoding: "utf8",
+  })
+    .split("\n")
+    .filter((line) => line && !line.startsWith("??")).length;
+}
+
 const cleanupDirs: string[] = [];
 afterEach(() => {
   while (cleanupDirs.length > 0) {
@@ -39,7 +86,7 @@ afterEach(() => {
 });
 
 describe("agent-run-receipt: recording a command", () => {
-  it("passes through a succeeding command's own exit code and marks the receipt PASS", () => {
+  it("passes through a succeeding command's own exit code and records both command success and source certification", () => {
     const dir = makeFixtureRepo();
     cleanupDirs.push(dir);
 
@@ -58,7 +105,8 @@ describe("agent-run-receipt: recording a command", () => {
     const receipt = JSON.parse(
       readFileSync(join(dir, ".agent-receipts", "smoke.json"), "utf8"),
     );
-    expect(receipt.passed).toBe(true);
+    expect(receipt.commandSucceeded).toBe(true);
+    expect(receipt.certifiesSource).toBe(true);
     expect(receipt.exitCode).toBe(0);
     expect(receipt.stage).toBe("smoke");
   });
@@ -82,7 +130,8 @@ describe("agent-run-receipt: recording a command", () => {
     const receipt = JSON.parse(
       readFileSync(join(dir, ".agent-receipts", "smoke-fail.json"), "utf8"),
     );
-    expect(receipt.passed).toBe(false);
+    expect(receipt.commandSucceeded).toBe(false);
+    expect(receipt.certifiesSource).toBe(false);
     expect(receipt.exitCode).toBe(7);
   });
 
@@ -247,5 +296,199 @@ describe("agent-run-receipt: verifying a receipt", () => {
     ]);
     expect(verify.status).toBe(0);
     expect(verify.stdout).toMatch(/VALID/);
+  });
+
+  it("refuses a receipt written before source identity existed (schemaVersion 1)", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "legacy", "process.exit(0)").status).toBe(0);
+    const receiptPath = join(dir, ".agent-receipts", "legacy.json");
+    const legacy = { ...readReceipt(dir, "legacy"), schemaVersion: 1 };
+    writeFileSync(receiptPath, JSON.stringify(legacy));
+
+    const result = verify(dir, "legacy");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/predates binary-safe source identity/);
+  });
+});
+
+describe("agent-run-receipt: source identity (EFF-R1)", () => {
+  it("rejects a passing receipt when source bytes change after the run without HEAD moving, even at the same dirty-file count", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    writeFileSync(join(dir, "file.txt"), "dirty-a\n");
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    expect(readReceipt(dir, "test").certifiesSource).toBe(true);
+    expect(verify(dir, "test").status).toBe(0);
+
+    const headBefore = execFileSync("git", ["rev-parse", "HEAD"], {
+      cwd: dir,
+      encoding: "utf8",
+    });
+    writeFileSync(join(dir, "file.txt"), "dirty-b\n");
+
+    // The control the old receipt relied on cannot see this edit.
+    expect(dirtyTrackedCount(dir)).toBe(
+      readReceipt(dir, "test").dirtyTrackedCountAfter,
+    );
+    expect(
+      execFileSync("git", ["rev-parse", "HEAD"], {
+        cwd: dir,
+        encoding: "utf8",
+      }),
+    ).toBe(headBefore);
+
+    const result = verify(dir, "test");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/source changed after the run/);
+  });
+
+  it("hashes raw bytes: two binary edits that decode to the same UTF-8 text still differ", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+    const binary = join(dir, "asset.bin");
+    writeFileSync(binary, Buffer.from([0x00, 0x01, 0x02, 0x03, 0x04]));
+    execFileSync("git", ["add", "asset.bin"], { cwd: dir });
+    execFileSync("git", ["commit", "--quiet", "-m", "binary"], { cwd: dir });
+
+    const first = Buffer.from([0xff, 0x00, 0x41]);
+    const second = Buffer.from([0xfe, 0x00, 0x41]);
+    // Both are invalid UTF-8 and decode to the same replacement text, so a
+    // text-decoded identity would call them equal.
+    expect(first.toString("utf8")).toBe(second.toString("utf8"));
+
+    writeFileSync(binary, first);
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "test").status).toBe(0);
+
+    writeFileSync(binary, second);
+    const result = verify(dir, "test");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/source changed after the run/);
+  });
+
+  it("rejects a passing receipt once a new untracked source file appears", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    writeFileSync(join(dir, "new-source.ts"), "export const x = 1;\n");
+
+    const result = verify(dir, "test");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/source changed after the run/);
+  });
+
+  it("does not invalidate on index-only changes: staging identical bytes leaves the source identity unchanged", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    writeFileSync(join(dir, "file.txt"), "dirty-a\n");
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    execFileSync("git", ["add", "file.txt"], { cwd: dir });
+
+    expect(verify(dir, "test").status).toBe(0);
+  });
+
+  it("keeps command completion separate from certification: a check command that rewrites source succeeds but certifies nothing", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    const result = record(
+      dir,
+      "test",
+      "require('fs').writeFileSync('file.txt', 'rewritten during run\\n')",
+    );
+    expect(result.status).toBe(0);
+    expect(result.stdout).toMatch(/command succeeded; does NOT certify source/);
+
+    const receipt = readReceipt(dir, "test");
+    expect(receipt.kind).toBe("check");
+    expect(receipt.commandSucceeded).toBe(true);
+    expect(receipt.exitCode).toBe(0);
+    expect(receipt.sourceChangedAcrossRun).toBe(true);
+    expect(receipt.certifiesSource).toBe(false);
+
+    const verified = verify(dir, "test");
+    expect(verified.status).not.toBe(0);
+    expect(verified.stderr).toMatch(/did not certify source when recorded/);
+  });
+
+  it("preserves a --writes operation receipt without treating its rewritten output as tested; a later check certifies it", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    const write = record(
+      dir,
+      "format-write",
+      "require('fs').writeFileSync('file.txt', 'formatted\\n')",
+      ["--writes"],
+    );
+    expect(write.status).toBe(0);
+    const operation = readReceipt(dir, "format-write");
+    expect(operation.kind).toBe("operation");
+    expect(operation.commandSucceeded).toBe(true);
+    expect(operation.sourceChangedAcrossRun).toBe(true);
+    expect(operation.certifiesSource).toBe(false);
+
+    const refused = verify(dir, "format-write");
+    expect(refused.status).not.toBe(0);
+    expect(refused.stderr).toMatch(/operation receipt/);
+
+    // The rewritten bytes are certified only by a check that actually ran on them.
+    expect(record(dir, "format-check", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "format-check").status).toBe(0);
+    expect(verify(dir, "format-write").status).not.toBe(0);
+  });
+
+  it("still propagates a failing --writes operation's exit code", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    const result = record(dir, "format-write", "process.exit(3)", ["--writes"]);
+    expect(result.status).toBe(3);
+    const receipt = readReceipt(dir, "format-write");
+    expect(receipt.exitCode).toBe(3);
+    expect(receipt.commandSucceeded).toBe(false);
+    expect(receipt.certifiesSource).toBe(false);
+  });
+
+  it("refuses a receipt directory that holds tracked files, since it is left out of the source identity", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    const result = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      ".",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(result.status).toBe(2);
+    expect(result.stderr).toMatch(/must not be the repository root/);
+
+    mkdirSync(join(dir, "tracked-dir"));
+    writeFileSync(join(dir, "tracked-dir", "keep.txt"), "x\n");
+    execFileSync("git", ["add", "."], { cwd: dir });
+    execFileSync("git", ["commit", "--quiet", "-m", "tracked dir"], {
+      cwd: dir,
+    });
+    const tracked = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "tracked-dir",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(tracked.status).toBe(2);
+    expect(tracked.stderr).toMatch(/contains tracked files/);
   });
 });
