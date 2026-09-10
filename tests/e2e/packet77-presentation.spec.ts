@@ -313,10 +313,37 @@ test.describe("A life happens in the room the records put it in", () => {
 
     const introduction = page.getByTestId("life-introduction");
     await expect(introduction).toBeVisible();
+
+    /*
+     * The introduction is two beats now, not one: the world this life starts
+     * in, then the household in it. The information and the gate are the same
+     * ones main had — the same producer writes both, and the scene still waits
+     * behind them — so this walks to where the household is said rather than
+     * asserting it on the first screen.
+     */
+    await expect(introduction).toHaveAttribute(
+      "data-introduction-phase",
+      "world",
+    );
+    await page.getByTestId("introduction-continue").click();
+    await expect(introduction).toHaveAttribute(
+      "data-introduction-phase",
+      "household",
+    );
+
     const said = await introduction.innerText();
-    // Everybody named is named with what the record says they are, which is
-    // the whole difference between this and "Maya Pittman is in the house".
-    expect(said).toMatch(/your (mom|dad|parent|older|younger)/i);
+    /*
+     * Everybody named is named with what the record says they are, which is
+     * the whole difference between this and "Maya Pittman is in the house".
+     *
+     * "guardian" belongs in this list. The household record does not always
+     * hold a parent, and when it holds somebody who is not one the honest
+     * relation IS guardian — inventing a mother to satisfy a regex would be
+     * the exact failure the assertion exists to catch.
+     */
+    expect(said).toMatch(
+      /your (mom|dad|parent|guardian|older|younger|sister|brother)/i,
+    );
     // Word boundaries, so a generated surname that merely contains "tier" or
     // "seed" as a substring is not mistaken for machinery language.
     expect(said).not.toMatch(

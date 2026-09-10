@@ -135,13 +135,37 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  */
 export async function enterLife(page: Page): Promise<void> {
   await expect(page.getByTestId("play-screen")).toBeVisible();
+
+  /*
+   * Wait for the introduction to settle before deciding whether there is one.
+   *
+   * `isVisible()` answers immediately and does not wait, so on a slower render
+   * this walked straight past a panel that was about to appear, clicked
+   * nothing, and left the life sitting behind its own gate. Every later step
+   * then timed out somewhere else entirely — on `play-screen`, on `keep-world`,
+   * on `elsewhere-work` — which is why one race showed up as failures spread
+   * across a dozen specs that have nothing to do with each other.
+   *
+   * Racing to a decision is the bug, so this waits for the page to be in one of
+   * the two states it can actually be in: showing the introduction, or already
+   * past it. A life with no household on record has nothing to introduce and
+   * shows no gate, and that is still tolerated — by waiting for the alternative
+   * rather than by failing to notice the panel.
+   */
   const opening = page.getByTestId("opening-life-panel");
-  if (await opening.isVisible()) {
+  const scene = page.getByTestId("opening-life-scene");
+  await expect
+    .poll(async () =>
+      (await opening.count()) > 0 || (await scene.count()) > 0 ? "ready" : "",
+    )
+    .toBe("ready");
+
+  if ((await opening.count()) > 0) {
+    // Two beats: the world, then the household. Both use the same control.
     await opening.getByRole("button", { name: "Meet your household" }).click();
     await opening.getByRole("button", { name: "Step inside" }).click();
   }
-  const scene = page.getByTestId("opening-life-scene");
-  if (await scene.isVisible()) {
+  if ((await scene.count()) > 0) {
     await page
       .getByRole("button", { name: "Continue your life", exact: true })
       .first()
