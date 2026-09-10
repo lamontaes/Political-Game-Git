@@ -255,6 +255,131 @@ describe("proof A — win, govern, bargain, from the production route", () => {
     expect(vote.memberAccounts.length).toBeGreaterThan(0);
   });
 
+  it("writes the legacy adopted provision under the stable key saves already hold", () => {
+    /**
+     * A save-identity regression, not a naming preference.
+     *
+     * The authored Kentucky sitting has written its adopted provision under a
+     * stable key ending `:section-4` since the sitting existed. Making the
+     * amendment producer read its own facts — which is what let a broadband
+     * bill be amended about broadband — also made the suffix follow the
+     * provision key, and for this sitting that key is `local-project-match`.
+     * The record would have been silently renamed, and a world saved before
+     * that change holds it under the old key.
+     *
+     * This drives the actual legacy route: a real life, a won seat, the
+     * authored sitting, an adopted amendment. It asserts the persisted key,
+     * because the persisted key is the thing that broke.
+     */
+    const seatWorld = wonAndOnTheFloor();
+    const entry = openLegislativeBargaining(seatWorld.world, {
+      playerPersonId: seatWorld.personId,
+    });
+    expect(entry.kind).toBe("available");
+    if (entry.kind !== "available") return;
+    let world = entry.world;
+    const seat = entry.seat;
+
+    const spoken = talk(world, seat, seat.progress, "ask-what-they-want");
+    world = spoken.world;
+    world = reviewFiscalNoteFor(world, seat);
+
+    const amendment = offerNegotiatedAmendment(
+      world,
+      seat,
+      spoken.progress,
+      "capped",
+    );
+    world = amendment.world;
+
+    const adopted = (world.history.legislativeProvisions ?? []).filter(
+      (record) =>
+        record.measureId === seat.measureId &&
+        record.originAmendmentId !== null,
+    );
+
+    if (amendment.adopted) {
+      expect(adopted).toHaveLength(1);
+      // The key ends in the legacy suffix, and specifically not in the
+      // provision key, which is what it would have become.
+      expect(adopted[0]!.stableKey.endsWith(":section-4")).toBe(true);
+      expect(adopted[0]!.stableKey.endsWith(":local-project-match")).toBe(
+        false,
+      );
+      // The provision key itself is unchanged and is still the one the rest of
+      // the sitting reads by.
+      expect(adopted[0]!.provisionKey).toBe("local-project-match");
+    } else {
+      // A rejected amendment writes no provision at all, which is the other
+      // accepted outcome and is asserted rather than assumed.
+      expect(adopted).toHaveLength(0);
+    }
+  });
+
+  it("writes the accepted sitting's own records and words, not generalized ones", () => {
+    /**
+     * The claim this replaces was "byte-identical", asserted of the whole
+     * path. It was not true: making the amendment producer read its own facts
+     * also changed the fiscal exposure label, the question the chamber votes
+     * on, and the amendment's description — three strings that are written
+     * into history, not display sugar.
+     *
+     * So they are carried on the facts now, and this asserts the exact
+     * accepted values rather than describing them. Anything that generalises
+     * one of these sentences again fails here with the old string in the
+     * message.
+     */
+    const seatWorld = wonAndOnTheFloor();
+    const entry = openLegislativeBargaining(seatWorld.world, {
+      playerPersonId: seatWorld.personId,
+    });
+    expect(entry.kind).toBe("available");
+    if (entry.kind !== "available") return;
+    let world = entry.world;
+    const seat = entry.seat;
+    const facts = seat.progress.subjectFacts;
+
+    // The phrases the persisted records are built from.
+    expect(facts.requestedExposurePhrase).toBe("local match");
+    expect(facts.requestedQuestionSubject).toBe("local match amendment");
+    expect(facts.requestedDescriptionSubject).toBe(
+      "Section 4, a local project match",
+    );
+    expect(facts.requestedProvisionStableKeySuffix).toBe("section-4");
+
+    const spoken = talk(world, seat, seat.progress, "ask-what-they-want");
+    world = spoken.world;
+    world = reviewFiscalNoteFor(world, seat);
+    const amendment = offerNegotiatedAmendment(
+      world,
+      seat,
+      spoken.progress,
+      "capped",
+    );
+    world = amendment.world;
+
+    const [record] = measureAmendments(world, seat.measureId);
+    expect(record).toBeDefined();
+    // The amendment's own description, as this sitting has always written it.
+    expect(record!.description).toBe(
+      `Add Section 4, a local project match of not more than ${facts.cappedAmountLabel} for ${facts.requestedBeneficiaryLabel}.`,
+    );
+
+    const adopted = (world.history.legislativeProvisions ?? []).find(
+      (provision) =>
+        provision.measureId === seat.measureId &&
+        provision.originAmendmentId !== null,
+    );
+    if (amendment.adopted) {
+      expect(adopted).toBeDefined();
+      expect(adopted!.fiscalExposureLabel).toBe(
+        `${facts.cappedAmountLabel} local match`,
+      );
+      expect(adopted!.text).toBe(facts.cappedText);
+      expect(adopted!.provisionKey).toBe("local-project-match");
+    }
+  });
+
   it("derives the same dialogue word for word on the same records", () => {
     const seatWorld = wonAndOnTheFloor();
     const first = openLegislativeBargaining(seatWorld.world, {

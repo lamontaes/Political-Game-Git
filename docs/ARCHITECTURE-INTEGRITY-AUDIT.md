@@ -994,3 +994,37 @@ semantics and normal Personal mount are unchanged.
 LEARN: deterministic producers are insufficient until a required committed
 projection is registered in a gate that regenerates elsewhere and compares the
 result without rewriting the expected artifact.
+
+### LEG-FINISH4 — targeted composition and calendar boundary review
+
+The delta retains one World, the existing clock, existing vote records and the
+existing adopted-provision writer. Typed working copies use explicit private
+history events; comparison/read/reload does not write. Batch adoption validates
+all current section references before appending and preserves original filed
+text and identities. The consumer requires exact proposal-to-recorded-vote
+provenance rather than inferring adoption from conversation or unrelated votes.
+
+Ordinary filing resolves the member's existing election/work chain, sponsor and
+origin chamber. Employment, sponsorship, referral and committee appointment are
+kept distinct. No term dates, staffing authority, committee appointments,
+economic effects or production catalogs are synthesized. P12 adds sourced
+regular-session outer-limit data and production action-time refusal; it does not
+create a second calendar or mark pending bills dead. UI's refusal handler is
+consumed from its owner's exact `5df86b856d946fddfb8e63ad682a43cb076f8b4a`
+patch. Final tests and human/independent acceptance are reported separately.
+
+### LEG-ENTRY6 — normal member filing boundary
+
+The normal route reuses CampaignWorkspace, the existing candidacy writer,
+recorded election result, winner work relationship and member-seat resolver.
+The feature-local filing projection is read-only and its result is recomputed
+when filing. The UI may explain/disable unauthorized introduction while retaining
+staff draft preview. No root route, office grant, result calculation, clock,
+publication producer or saved-bill migration is added. Negative controls cover
+staff, an actual lost campaign, ended membership and ambiguous seat claims.
+Malformed duplicate claims are refusal-only probes, never normal success data.
+
+The frozen UI control `1119e890` does not yet call QUAL's newer qualification
+adapter in candidacy.ts. That integration is explicitly coordinated with QUAL
+and UI, not replaced by LEG-authored legal assumptions. Source integration,
+automated entry proof and independent/human acceptance remain separate claims.

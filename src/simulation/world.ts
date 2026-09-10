@@ -135,6 +135,10 @@ import { assertLegislationIntegrity } from "./legislation-integrity";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
 import { legislativePoliticsHistoryRecords } from "./legislative-politics";
 import {
+  assertDraftLineageIntegrity,
+  draftLineageHistoryRecords,
+} from "./legislation-draft-lineage";
+import {
   assertOpenTaxonomyKey,
   assertDottedContentKey,
   BELIEF_FORMATION_REASON_NAMESPACES,
@@ -1428,6 +1432,7 @@ function validateHistoryIntegrity(world: World): void {
     ...campaignHistoryRecords(world),
     ...legislationHistoryRecords(world),
     ...legislativePoliticsHistoryRecords(world),
+    ...draftLineageHistoryRecords(world),
     ...futureTransitionHistoryRecords(world),
     ...history.events,
     ...history.memories,
@@ -1493,6 +1498,10 @@ function validateHistoryIntegrity(world: World): void {
     "legislative provision",
   );
   assertSequenceOrdered(
+    history.legislativeDraftLineages ?? [],
+    "legislative draft lineage",
+  );
+  assertSequenceOrdered(
     history.legislativeCommitments ?? [],
     "legislative commitment",
   );
@@ -1534,6 +1543,7 @@ function validateHistoryIntegrity(world: World): void {
   assertCampaignIntegrity(world, ids);
   assertLegislationIntegrity(world, ids);
   assertLegislativePoliticsIntegrity(world, ids);
+  assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1566,6 +1576,10 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(
     history.legislativeProvisions ?? [],
     "legislative provision",
+  );
+  assertUniqueStableKeys(
+    history.legislativeDraftLineages ?? [],
+    "legislative draft lineage",
   );
   assertUniqueStableKeys(
     history.legislativeCommitments ?? [],
