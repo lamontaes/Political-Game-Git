@@ -130,3 +130,73 @@ Nothing new was introduced.
 ## Unit suite
 
 273 files, 4238 passed, 2 skipped, 0 failed, with bounded workers.
+
+---
+
+# UI-COMPLETE10 continuation — disposition at 6a0e4487
+
+Same PR, same owner role. This section records what changed after the 4310af1d
+attribution above, and what is still open. It does not restate that report.
+
+## The publication gate
+
+The hosted run failed `release:check` on the push range 241115c3..4310af1, not
+on the PR range: two non-declaration paths with no declaration. The PR-scope
+check passed the whole time, which is why it looked like nothing was wrong.
+
+The changed image was **not** an intentional recapture. Five capture sites wrote
+screenshots directly into `docs/agent/evidence/`, so every browser run redrew
+identified historical captures as a side effect; it happened under
+"repair the four cases I broke" (three images) and again under "record the
+browser attribution" (one). `verify-evidence.ts` refuses this at run time and
+stays, but it compares against the tree as the run starts — committing the drift
+makes the changed bytes the next baseline and the guard goes quiet.
+
+Repaired: the three images are restored to their identified capture at 44aea4bf;
+every capture site writes to the run's own artifact directory; banking one into
+tracked evidence now takes an explicit env gate; and
+`tests/captures-stay-out-of-tracked-evidence.test.ts` holds the specs to it,
+verified by reintroducing both forms of the old code.
+
+## Items closed since 4310af1d
+
+| #                            | Disposition                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI9-10                       | **Closed.** The age field holds its own text; the setup keeps the last age that parsed. Browser proof walks the owner's "0-2-5".                                                                                                                                                                                                                                                                                                                              |
+| UI9-14                       | **Diagnosed and closed at this seam.** The docket collapsed `drafting` and `awaiting-referral` into one "Filed, awaiting referral", so a bill still being written reported itself filed and waiting on somebody else. Drafting is now its own stage. Whether a filed bill is then referred remains LEG/time work.                                                                                                                                             |
+| Work/study duplicate heading | **Closed.** The frame and the panel inside it both drew "Education and work".                                                                                                                                                                                                                                                                                                                                                                                 |
+| Duplicate study search       | **Closed.** The education proof mounted the options panel directly and through `LifePathsPanel`, so "Search institutions" resolved to two boxes and `edu-path7` could fill neither.                                                                                                                                                                                                                                                                           |
+| U-1                          | **Verified, unchanged.** The loader test is honest and already says it is not producer replay.                                                                                                                                                                                                                                                                                                                                                                |
+| U-2                          | **Closed.** `npm run education:check` replays the real exporter from the artifact lock and compares byte for byte (132,874 institutions, ~8s); it is in `validate`. Five negative controls executed: altered manifest, missing manifest, one flipped catalog byte, a lock pinning a digest the bytes do not have, and a removed raw source. All exit 1 with the specific reason.                                                                              |
+| Life introduction            | **Preserved in the new shell.** `projectOpeningLife` already calls the same `buildLifeIntroduction` main renders, and the opening panel's household phase shows the same sentences and grounding. What was missing was the way in, so the panel now carries `life-introduction`, `life-grounding` and `introduction-continue`, and the spec walks to where the household is said. The permanent people rail main paired it with is deliberately NOT restored. |
+
+## Still open, with the evidence for each
+
+- **UI9-05** discoverable Places and real travel. Not built. The destination list
+  has no Places entry; travel exists only as the life-scene walks.
+- **UI9-12** raw research presentation. Not repaired. `municipalWorkspaceFor`
+  already resolves the player's home government first, so current-locality-first
+  is the default; the defect is presentation — the surface still renders Census
+  dataset links, per-source `<a href>` citations and a raw public-reference URL
+  list in normal play.
+- **UI9-09** guardian opening exchange. Not implemented.
+- **pennywise-adaptive-life (7 failures)** — the calibration screen. A run ends
+  with "Who are you?" still on screen and `play-screen` never mounting. Not the
+  introduction: the panel is gone by then. Not diagnosed further.
+- **legislation-docket (3)** — `elsewhere-work` never appears after `enterLife`.
+- **packet77 (2 remaining)** — title randomness, and normal-versus-custom build.
+
+## Browser harness in this checkout
+
+This container ships Chromium 1194 while `@playwright/test` 1.62.1 resolves
+build 1234, so a plain run fails every test before a body executes — 776 result
+directories, zero tests run. Every browser figure here was produced through a
+local config that points the repository's own config at the installed binary and
+changes nothing else; it is deliberately not committed. The 364/23 baseline
+above was measured on a working harness and has NOT been reproduced identically
+here, so this section reports what its own runs showed rather than claiming that
+number.
+
+One run was invalidated by editing source while it was in flight; the served
+checkout guard caught it (`Served checkout mismatch: sourceDigest`) and that
+inventory was discarded rather than used.
