@@ -2638,6 +2638,7 @@ function renderWorkspace({
               world={session.world}
               onWorldChange={onWorldChange}
               transitionHandlers={createCampaignElectionTransitionRegistry()}
+              headed={false}
             />
             <CivilPersonnelPanel
               world={session.world}

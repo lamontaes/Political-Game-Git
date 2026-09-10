@@ -44,11 +44,14 @@ export interface LifePathsPanelProps {
   readonly world: World;
   readonly onWorldChange: (world: World) => void;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  /** False when the surface mounting this already carries the same title. */
+  readonly headed?: boolean;
 }
 export function LifePathsPanel({
   world,
   onWorldChange,
   transitionHandlers,
+  headed = true,
 }: LifePathsPanelProps) {
   const [notice, setNotice] = useState("");
   const [person, setPerson] = useState<EntityId | "">("");
@@ -85,7 +88,13 @@ export function LifePathsPanel({
     world.people[id]?.givenName + " " + world.people[id]?.familyName;
   return (
     <section aria-label="Education and work">
-      <h2>Education and work</h2>
+      {/*
+        The frame that opens this panel is already titled "Education and work",
+        so repeating it here is the duplicated heading the owner reported. The
+        proofs that mount this panel on their own still want a heading, and the
+        region keeps its accessible name either way.
+      */}
+      {headed ? <h2>Education and work</h2> : null}
       <p role="status" aria-live="polite">
         {notice}
       </p>
