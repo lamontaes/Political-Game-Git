@@ -68,7 +68,21 @@ function newAlaskaLife(seed: string) {
 
 function wonAlaskaSeat(): { world: World; personId: EntityId } {
   const life = newAlaskaLife("fiscal-activate1-alaska-seat");
-  let world = fileForOffice(life.world, life.personId);
+  // Two accepted current-main facts now gate filing, neither of which this
+  // fixture's `startAge: 34, questionnaire: "skipped"` setup satisfies at the
+  // canonical world-creation date:
+  //  - QUAL-COMPLIANCE1 pins the Alaska Constitution candidacy source as
+  //    observed on 2026-09-06; a date before that honestly returns UNKNOWN
+  //    rather than backdating knowledge the source cannot support.
+  //  - `character-history` establishes state residence "proved" only from
+  //    world creation forward (procedural-placeholder, not backdated to
+  //    birthplace even when it matches), so the sourced 3-year state
+  //    residency requirement needs 3 elapsed in-game years, not just the
+  //    observation date, before it is satisfied.
+  // Advance past both before filing, rather than asking either accepted rule
+  // to answer for a date it was never established to cover.
+  const filingWorld = passOrdinaryDays(life.world, 1200);
+  let world = fileForOffice(filingWorld, life.personId);
   world = spendAnAfternoon(world, life.personId, "fundraising");
   for (let index = 0; index < 3; index += 1) {
     world = passOrdinaryDays(world);

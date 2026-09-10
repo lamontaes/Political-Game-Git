@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5424 |
-| DIAGNOSTIC_OR_TEST | 4316 |
-| **NEEDS_CLASSIFICATION** | **5546** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5433 |
+| DIAGNOSTIC_OR_TEST | 4327 |
+| **NEEDS_CLASSIFICATION** | **5557** |
 
-Scanned 450 files holding 64602 string
+Scanned 454 files holding 64762 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -156,6 +156,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/simulation/production-catalog.ts` |
 | 10 | `src/simulation/setup-questionnaire-bank.ts` |
 | 10 | `src/ui/CausalTraceView.tsx` |
+| 9 | `src/presentation/fiscal-authority-work.ts` |
 | 9 | `src/presentation/production-world.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
@@ -224,6 +225,7 @@ literals in total; the table counts only those that read like a sentence.
 | 3 | `src/simulation/perception.ts` |
 | 3 | `src/simulation/policy-decision.ts` |
 | 3 | `src/ui/WorldControls.tsx` |
+| 2 | `src/fiscal-authority/query.ts` |
 | 2 | `src/player/IncidentResponsePanel.tsx` |
 | 2 | `src/presentation/character-proof.ts` |
 | 2 | `src/presentation/legislation-docket-selection.ts` |
