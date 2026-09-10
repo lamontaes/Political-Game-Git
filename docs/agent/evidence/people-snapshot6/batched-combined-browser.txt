@@ -1,0 +1,42 @@
+[WebServer] (node:75085) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+(node:75097) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/people-snapshot6.spec.ts:132:1 › saved outfit and person A/B/A keep captions and decoded layers aligned under delayed loading
+  1) [chromium] › tests/e2e/people-snapshot6.spec.ts:132:1 › saved outfit and person A/B/A keep captions and decoded layers aligned under delayed loading 
+
+    Error: Test timeout of 30000ms exceeded
+
+      80 |         ),
+      81 |       )
+    > 82 |       .toBe(true);
+         |        ^
+      83 |     const pixels = await images.evaluateAll(async (elements, references) => {
+      84 |       async function digest(image: HTMLImageElement) {
+      85 |         const canvas = document.createElement("canvas");
+        at loadedProof (/private/tmp/pg-people1-r1/tests/e2e/people-snapshot6.spec.ts:82:8)
+        at /private/tmp/pg-people1-r1/tests/e2e/people-snapshot6.spec.ts:269:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/people-snapshot6-saved-out-7638c-igned-under-delayed-loading-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/people-snapshot6-saved-out-7638c-igned-under-delayed-loading-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/people-snapshot6-saved-out-7638c-igned-under-delayed-loading-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/people-snapshot6-saved-out-7638c-igned-under-delayed-loading-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › tests/e2e/people-snapshot6.spec.ts:132:1 › saved outfit and person A/B/A keep captions and decoded layers aligned under delayed loading 

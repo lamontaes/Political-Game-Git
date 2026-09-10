@@ -49,6 +49,8 @@
     "scaffold:scene": "node --import tsx scripts/art-asset-factory/cli-scene-scaffold.ts",
     "bank:art": "node --import tsx scripts/art-asset-factory/cli-asset-bank.ts",
     "chop:source-sheet": "node --import tsx scripts/art-asset-factory/cli-source-sheet-chop.ts",
+    "admit:wave-a-candidates": "node --import tsx scripts/art-asset-factory/cli-wave-a-admission.ts",
+    "derive:wave-a-wardrobe": "node --import tsx scripts/art-asset-factory/cli-wave-a-wardrobe.ts",
     "derive:scene-tiers": "node --import tsx scripts/art-asset-factory/cli-scene-master-derive.ts",
     "derive:office-plate": "node --import tsx scripts/art-asset-factory/cli-office-plate-derive.ts",
     "derive:pose-plates": "node --import tsx scripts/art-asset-factory/cli-pose-control-plates.ts",
@@ -59,7 +61,7 @@
     "derive:garment-fit": "node --import tsx scripts/art-asset-factory/cli-garment-fit.ts",
     "measure:arms": "node --import tsx scripts/art-asset-factory/cli-arm-measure.ts",
     "intake:pg-modular": "node --import tsx scripts/art-asset-factory/cli-pg-modular-intake.ts",
-    "validate": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run test && npm run source:validate && npm run source:replay && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art",
+    "validate": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run test && npm run source:validate && npm run source:replay && npm run check:municipal-generated && npm run build && npm run demo -- validation-seed && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",
     "release:check": "node --import tsx scripts/release/index.ts check",
     "release:preview": "node --import tsx scripts/release/index.ts preview",
     "release:apply": "node --import tsx scripts/release/index.ts apply",
@@ -78,7 +80,8 @@
     "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts",
     "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",
     "export:municipal-governments": "node --import tsx scripts/source/export-municipal-governments.ts",
-    "check:municipal-generated": "node --import tsx scripts/source/export-municipal-governments.ts --check && node --import tsx scripts/source/export-municipal-capacity.ts --check"
+    "check:municipal-generated": "node --import tsx scripts/source/export-municipal-governments.ts --check && node --import tsx scripts/source/export-municipal-capacity.ts --check",
+    "derive:people-visual4": "node --import tsx scripts/art-asset-factory/people-visual4.ts"
   },
   "dependencies": {
     "react": "19.2.6",
