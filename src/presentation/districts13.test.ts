@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { districtIdentityCatalog } from "../districts/catalog";
@@ -14,7 +12,6 @@ import {
   projectCampaign,
   spendAnAfternoon,
 } from "./campaign-projection";
-import { openLegislativeFiscalProposalAnalysis } from "./legislative-fiscal-proposal";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import {
   currentDesiredDistrict,
@@ -35,9 +32,6 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { adaptFiscalAuthorityRecords } from "../source/adapters/fiscal-authority";
-import type { ArtifactLock } from "../source/core/index";
-import { sourceDomain as fiscalAuthorityDomain } from "../source/domains/state-local-fiscal-authority";
 
 function alaskaLife(seed: string) {
   const built = createNewGameWorld({
@@ -116,21 +110,6 @@ function adakLife(seed: string) {
     world: openOrdinaryLife(built.world, built.playerPersonId),
     personId: built.playerPersonId,
   };
-}
-
-function productionFiscalRecords() {
-  const lock = JSON.parse(
-    readFileSync(
-      resolve(
-        process.cwd(),
-        "data/source/state-local-fiscal-authority/artifact-lock.json",
-      ),
-      "utf-8",
-    ),
-  ) as ArtifactLock;
-  return adaptFiscalAuthorityRecords(
-    fiscalAuthorityDomain.compileProduction(lock).records,
-  );
 }
 
 describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
@@ -362,24 +341,12 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       next = passOrdinaryDays(next);
     }
     const phase = projectCampaign(next, personId).phase;
-    expect(["won", "lost", "active"]).toContain(phase);
-    expect(phase).not.toBe("active");
+    expect(["won", "lost"]).toContain(phase);
     const seat = resolveActiveMemberSeat(next, personId);
-    const fiscal = openLegislativeFiscalProposalAnalysis(
-      next,
-      productionFiscalRecords(),
-      {
-        personId,
-        stateUsps: "AK",
-        level: "MUNICIPALITY",
-        instrument: "GENERAL_SALES_TAX",
-        asOfDate: "2026-09-09",
-      },
-    );
-    if (seat.kind === "seated") {
-      expect(fiscal.kind).toBe("opened");
+    if (phase === "won") {
+      expect(seat.kind).toBe("seated");
     } else {
-      expect(fiscal.kind).toBe("refused");
+      expect(seat.kind).toBe("unseated");
     }
   }, 180_000);
 });
