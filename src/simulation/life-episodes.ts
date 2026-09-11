@@ -1,4 +1,8 @@
-import { lifeCircumstancesFor } from "./life-circumstances";
+import {
+  lifeCircumstancesFor,
+  recordedSupervisorsAt,
+  type LifeCircumstanceKind,
+} from "./life-circumstances";
 import type { AdultAftermathKind, LifeStakesTier } from "./adult-situations";
 import {
   applyCharacterHistoryPlan,
@@ -112,7 +116,19 @@ export type EpisodeFactKey =
   | "person.recurring"
   | "thread.pressing"
   | "work.coverage-requested"
-  | "school.shared-assignment";
+  | "school.shared-assignment"
+  | "work.supervisor-shift-requested"
+  | "school.commute-schedule-conflict"
+  | "work.class-schedule-conflict"
+  | "work.own-shift-coverage-needed"
+  | "household.move-preparation"
+  | "life.education-work-crossroad"
+  /**
+   * Somebody else takes part in the same political organization this person
+   * does. The counterpart is that person, so a scene can require that the
+   * member it names is one from the political group and not from a choir.
+   */
+  | "political.co-participant";
 
 /**
  * What a character is actually in a position to do.
@@ -323,6 +339,13 @@ export type EpisodeRoleKey =
    */
   | "familiar"
   | "colleague"
+  /**
+   * Somebody whose work at the same employer directs others while the
+   * player's is directed — read off both work records by
+   * `recordedSupervisorsAt`. A colleague is not a supervisor because a scene
+   * calls them one, and a title string is never read.
+   */
+  | "supervisor"
   | "community-member";
 
 export interface EpisodeRoleBinding {
@@ -758,6 +781,45 @@ export function episodeFacts(
     "A participation whose own kind names politics.",
   );
 
+  const politicalOrganizationIds = new Set(
+    political.map((entry) => entry.participation.organizationId),
+  );
+  const coParticipant = [...world.personOrder].sort().flatMap((otherId) => {
+    if (
+      otherId === personId ||
+      !world.people[otherId] ||
+      world.history.personDeaths.some((death) => death.personId === otherId)
+    )
+      return [];
+    const shared = activeOrganizationParticipationsAt(
+      world,
+      otherId,
+      cutoff,
+    ).find((entry) =>
+      politicalOrganizationIds.has(entry.participation.organizationId),
+    );
+    return shared ? [{ otherId, shared }] : [];
+  })[0];
+  facts.set("political.co-participant", {
+    key: "political.co-participant",
+    holds: coParticipant !== undefined,
+    ...(coParticipant ? { counterpartPersonId: coParticipant.otherId } : {}),
+    anchors: coParticipant
+      ? [
+          {
+            store: "organizationParticipations",
+            recordId: coParticipant.shared.participation.id,
+            stableKey: coParticipant.shared.participation.stableKey,
+            at: coParticipant.shared.participation.startedAt,
+            sequence: coParticipant.shared.participation.sequence,
+            role: "context",
+            note: "Their participation in the same political organization.",
+          },
+        ]
+      : [],
+    detail: "Somebody else takes part in the same political organization.",
+  });
+
   record(
     "commitment.open",
     activeLifeCommitmentsAt(world, personId, cutoff).map((commitment) => ({
@@ -808,13 +870,58 @@ export function episodeFacts(
     "Something on an open thread has come due.",
   );
 
+  const circumstanceFacts: Readonly<
+    Record<
+      LifeCircumstanceKind,
+      { readonly key: EpisodeFactKey; readonly detail: string }
+    >
+  > = {
+    "colleague-coverage-request": {
+      key: "work.coverage-requested",
+      detail:
+        "A colleague asked for shift coverage and stated a funeral reason.",
+    },
+    "shared-assignment": {
+      key: "school.shared-assignment",
+      detail:
+        "A recorded shared assignment is due with the named person's contribution outstanding.",
+    },
+    "supervisor-extra-shift": {
+      key: "work.supervisor-shift-requested",
+      detail:
+        "The recorded supervisor asked for an extra evening shift that was not scheduled.",
+    },
+    "commute-schedule-conflict": {
+      key: "school.commute-schedule-conflict",
+      detail:
+        "Retired: no transit mode, journey or timetable is modeled, so this never holds.",
+    },
+    "class-work-schedule-conflict": {
+      key: "work.class-schedule-conflict",
+      detail:
+        "The recorded supervisor asked for a shift at the same time as a booked class session.",
+    },
+    "own-shift-coverage-needed": {
+      key: "work.own-shift-coverage-needed",
+      detail:
+        "This life needs a shift covered, and the colleague whose shift it worked months ago still works there.",
+    },
+    "household-move-preparation": {
+      key: "household.move-preparation",
+      detail:
+        "Retired: no pending household move is modeled, so this never holds.",
+    },
+    "education-work-crossroad": {
+      key: "life.education-work-crossroad",
+      detail:
+        "Further study and full-time work are both open paths at the same time.",
+    },
+  };
+
   for (const circumstance of lifeCircumstancesFor(world, personId, cutoff)) {
-    const key: EpisodeFactKey =
-      circumstance.kind === "colleague-coverage-request"
-        ? "work.coverage-requested"
-        : "school.shared-assignment";
-    facts.set(key, {
-      key,
+    const mapped = circumstanceFacts[circumstance.kind];
+    facts.set(mapped.key, {
+      key: mapped.key,
       holds: true,
       ...(circumstance.counterpartPersonId
         ? { counterpartPersonId: circumstance.counterpartPersonId }
@@ -830,10 +937,7 @@ export function episodeFacts(
           note: "The actual request and named counterpart.",
         },
       ],
-      detail:
-        circumstance.kind === "colleague-coverage-request"
-          ? "A colleague asked for shift coverage and stated a funeral reason."
-          : "A recorded shared assignment is due with the named person's contribution outstanding.",
+      detail: mapped.detail,
     });
   }
   return facts;
@@ -1075,6 +1179,33 @@ export function episodeRoleBindings(
         },
       ]);
     }
+  }
+
+  for (const supervisor of recordedSupervisorsAt(world, personId, cutoff)) {
+    const theirs = world.history.workRelationships.find(
+      (relationship) => relationship.id === supervisor.supervisorRelationshipId,
+    );
+    const ours = world.history.workRelationships.find(
+      (relationship) => relationship.id === supervisor.relationshipId,
+    );
+    if (!theirs || !ours) continue;
+    bind(
+      "supervisor",
+      supervisor.personId,
+      "Their work at the same organization directs others; the player's is directed.",
+      [ours, theirs].map((relationship) => ({
+        store: "workRelationships" as const,
+        recordId: relationship.id,
+        stableKey: relationship.stableKey,
+        at: relationship.startedAt,
+        sequence: relationship.sequence,
+        role: "context" as const,
+        note:
+          relationship === ours
+            ? "The player's directed work relationship."
+            : "Their work relationship, whose authority directs others.",
+      })),
+    );
   }
 
   for (const entry of activeOrganizationParticipationsAt(

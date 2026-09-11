@@ -1,6 +1,6 @@
 result: SAFE_RENDER
-prose: You need a shift covered, and {role:colleague} is on the rota that day. Some months ago you took their shift when they asked.
+prose: You need someone to cover one of your shifts. More than four months ago, {role:colleague} asked you to work one of theirs, and you did.
 
-1. Ask and bring it up — you ask {role:colleague} to cover the shift and mention the one you took for them — memory: You asked {role:colleague} to cover the shift and brought up the one you took for them.
-2. Ask without bringing it up — you ask {role:colleague} to cover the shift and leave the earlier one out of it — memory: You asked {role:colleague} to cover the shift and didn't mention the one you took for them.
-3. Don't ask {role:colleague} — you don't ask them to cover the shift — memory: You didn't ask {role:colleague} to cover the shift.
+1. Ask and name the favour — ask {role:colleague} to cover it and bring up the shift you worked for them — memory: You asked {role:colleague} to cover your shift and reminded them you'd worked theirs.
+2. Just ask — ask {role:colleague} to cover it without mentioning that shift — memory: You asked {role:colleague} to cover your shift and didn't bring up the one you'd worked for them.
+3. Don't ask — leave {role:colleague} out of it — memory: You needed a shift covered and didn't ask {role:colleague}.
