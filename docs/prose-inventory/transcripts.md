@@ -16,7 +16,7 @@ quietly passing.
 Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
 14 beats, 57 realized lines, 40 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.sidewalk-game, episode:opening.early.school.crayon-sharing, episode:opening.early.school.spilled-paint, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.sidewalk-game, episode:opening.early.school.crayon-sharing, episode:opening.early.school.spilled-paint, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
 
 
@@ -189,33 +189,33 @@ _Present: Idris Lawrence, your dad_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Idris Lawrence: A parental:primary authority record over the player._
 
-#### Beat 12 — 2026-06-27, age 7 (episode, opening.early.home.food-refusal/moment)
+#### Beat 12 — 2026-06-27, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
 
 
-There's broccoli on your plate. Idris Lawrence asks you to try a bite.
+A neighbor working in the front yard leans on the fence and asks what grade you are in and what your name is. Idris Lawrence is beside you.
 
-- Try a bite
-- Say you don't want it
-- **Ask to leave it** ← chosen
-
-_Present: Idris Lawrence, your dad_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Idris Lawrence: A parental:primary authority record over the player._
-
-#### Beat 13 — 2026-06-27, age 7 (episode, opening.early.community.lost-pet-flyer/moment)
-
-
-
-Walking with Idris Lawrence, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.
-
-- Point out the cat
-- Stop and watch
-- **Ask if it might be the missing cat** ← chosen
+- **Give your first name and grade** ← chosen
+- Wave and stay quiet
+- Let Idris Lawrence answer
 
 _Present: Idris Lawrence, your dad_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Idris Lawrence: A parental:primary authority record over the player._
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Idris Lawrence: A parental:primary authority record over the player._
+
+#### Beat 13 — 2026-06-27, age 7 (episode, opening.early.community.curious-neighbor/follow-through)
+
+
+
+The neighbor asks whether you like your teacher this year.
+
+- **Say you like your teacher** ← chosen
+- Say not really
+- Shrug
+
+_Present: Idris Lawrence, your dad_
+
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Idris Lawrence: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-06-27._
 
 
 ---
@@ -696,9 +696,9 @@ _Grounded by: Age 36; needs at least 18.; Age 36; needs to be under 111.; Requir
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 151 realized lines, 121 linked back to a template.
+40 beats, 151 realized lines, 120 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.home.food-refusal, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, thread-recap
 
 
 
@@ -857,32 +857,33 @@ _Present: Catherine Fleming, your younger sister_
 
 _Grounded by: household.shared: Somebody else is on the household record.; household-peer is Catherine Fleming, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
 
-#### Beat 11 — 2026-06-27, age 7 (episode, opening.early.home.broken-mug/moment)
+#### Beat 11 — 2026-06-27, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
 
 
-Your sleeve catches a mug. It falls and breaks. Catherine Fleming asks what happened.
+A neighbor working in the front yard leans on the fence and asks what grade you are in and what your name is. Catherine Fleming is beside you.
 
-- **Say you knocked it over** ← chosen
-- Ask for help with the pieces
-- Say nothing
-
-_Present: Catherine Fleming, your mom_
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player._
-
-#### Beat 12 — 2026-06-27, age 7 (episode, opening.early.home.broken-mug/follow-through)
-
-
-
-You told Catherine Fleming how the mug broke. Pieces are still on the floor.
-
-- **Step away from the broken mug pieces** ← chosen
-- Point out where the mug pieces fell
+- **Give your first name and grade** ← chosen
+- Wave and stay quiet
+- Let Catherine Fleming answer
 
 _Present: Catherine Fleming, your mom_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose tell, on 2026-06-27._
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Catherine Fleming: A parental:primary authority record over the player._
+
+#### Beat 12 — 2026-06-27, age 7 (episode, opening.early.community.curious-neighbor/follow-through)
+
+
+
+The neighbor asks whether you like your teacher this year.
+
+- **Say you like your teacher** ← chosen
+- Say not really
+- Shrug
+
+_Present: Catherine Fleming, your mom_
+
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-06-27._
 
 #### Beat 13 — 2026-06-27, age 7 (episode, opening.early.community.lost-pet-flyer/moment)
 
@@ -911,7 +912,34 @@ _Present: Catherine Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose show, on 2026-06-27._
 
-#### Beat 15 — 2026-06-27, age 7 (episode, opening.early.home.food-refusal/moment)
+#### Beat 15 — 2026-06-27, age 7 (episode, opening.early.home.broken-mug/moment)
+
+
+
+Your sleeve catches a mug. It falls and breaks. Catherine Fleming asks what happened.
+
+- **Say you knocked it over** ← chosen
+- Ask for help with the pieces
+- Say nothing
+
+_Present: Catherine Fleming, your mom_
+
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player._
+
+#### Beat 16 — 2026-06-27, age 7 (episode, opening.early.home.broken-mug/follow-through)
+
+
+
+You told Catherine Fleming how the mug broke. Pieces are still on the floor.
+
+- **Step away from the broken mug pieces** ← chosen
+- Point out where the mug pieces fell
+
+_Present: Catherine Fleming, your mom_
+
+_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose tell, on 2026-06-27._
+
+#### Beat 17 — 2026-06-27, age 7 (episode, opening.early.home.food-refusal/moment)
 
 
 
@@ -925,7 +953,7 @@ _Present: Catherine Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player._
 
-#### Beat 16 — 2026-06-27, age 7 (episode, opening.early.home.food-refusal/follow-through)
+#### Beat 18 — 2026-06-27, age 7 (episode, opening.early.home.food-refusal/follow-through)
 
 
 
@@ -938,7 +966,7 @@ _Present: Catherine Fleming, your mom_
 
 _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose try, on 2026-06-27._
 
-#### Beat 17 — 2026-06-27, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
+#### Beat 19 — 2026-06-27, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
 
 
 
@@ -950,7 +978,7 @@ The class is being put into pairs for a piece of work, and you've been put with 
 
 _Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 7.; Age 7; needs to be under 8._
 
-#### Beat 18 — 2026-07-31, age 7 (episode, school.the-thing-you-got-blamed-for/blamed)
+#### Beat 20 — 2026-07-31, age 7 (episode, school.the-thing-you-got-blamed-for/blamed)
 
 
 
@@ -962,7 +990,7 @@ Something got broken in the corridor at your school and your name is the one tha
 
 _Grounded by: school.enrolled: An active education enrollment.; Age 7; needs to be under 18._
 
-#### Beat 19 — 2026-10-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
+#### Beat 21 — 2026-10-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
 
 > A couple of months on, and you're 8 now.
 
@@ -976,7 +1004,7 @@ _Present: Catherine Fleming, your mom_
 
 _Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player._
 
-#### Beat 20 — 2026-10-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
+#### Beat 22 — 2026-10-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
 
 
 
@@ -989,7 +1017,7 @@ _Present: Catherine Fleming, your mom_
 
 _Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Catherine Fleming: A parental:primary authority record over the player.; At moment they chose ask, on 2026-10-10._
 
-#### Beat 21 — 2026-10-10, age 8 (episode, opening.young.home.choose-activity/moment)
+#### Beat 23 — 2026-10-10, age 8 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1001,7 +1029,7 @@ You have a little free time at home. What would you like to do?
 
 _Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 22 — 2026-10-10, age 8 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 24 — 2026-10-10, age 8 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1012,7 +1040,7 @@ You spent some time drawing. You can decide what to do with the picture you made
 
 _Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-10-10._
 
-#### Beat 23 — 2026-10-10, age 8 (formative)
+#### Beat 25 — 2026-10-10, age 8 (formative)
 
 
 
@@ -1024,7 +1052,7 @@ Something got said that should not have been, and now the two of you are being c
 
 _Present: Catherine Hunter, who is in your class_
 
-#### Beat 24 — 2027-04-26, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
+#### Beat 26 — 2027-04-26, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
 
 
@@ -1035,7 +1063,7 @@ The person you named has not spoken to you since, and has told other people thei
 
 _Grounded by: At blamed they chose name-them, on 2026-07-31.; 269 day(s) since blamed; needs 200._
 
-#### Beat 25 — 2027-05-30, age 8 (episode, opening.young.home.choose-activity/moment)
+#### Beat 27 — 2027-05-30, age 8 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1047,7 +1075,7 @@ You have a little free time at home. What would you like to do?
 
 _Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 26 — 2027-05-30, age 8 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 28 — 2027-05-30, age 8 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1058,7 +1086,7 @@ You spent some time drawing. You can decide what to do with the picture you made
 
 _Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2027-05-30._
 
-#### Beat 27 — 2027-05-30, age 8 (formative)
+#### Beat 29 — 2027-05-30, age 8 (formative)
 
 
 
@@ -1070,7 +1098,7 @@ The table is full except for one gap, and someone is standing at the end of it h
 
 _Present: Catherine Hunter, who is in your class_
 
-#### Beat 28 — 2027-12-11, age 9 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
+#### Beat 30 — 2027-12-11, age 9 (episode, growing-up.a-friend-over-years/the-year-it-cooled)
 
 > Half a year on, and you're 9 now.
 
@@ -1083,7 +1111,7 @@ _Present: Catherine Hunter, who is in your class_
 
 _Grounded by: familiar is Catherine Hunter: 22 record(s) name the two of them, none of them family or household; the most recent is 2027-05-30.; Stage the-year-you-were-inseparable was played on 2026-02-08.; 671 day(s) since the-year-you-were-inseparable; needs 500._
 
-#### Beat 29 — 2028-01-14, age 9 (episode, opening.young.home.choose-activity/moment)
+#### Beat 31 — 2028-01-14, age 9 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1095,7 +1123,7 @@ You have a little free time at home. What would you like to do?
 
 _Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 30 — 2028-01-14, age 9 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 32 — 2028-01-14, age 9 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1106,7 +1134,7 @@ You spent some time drawing. You can decide what to do with the picture you made
 
 _Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2028-01-14._
 
-#### Beat 31 — 2028-01-14, age 9 (formative)
+#### Beat 33 — 2028-01-14, age 9 (formative)
 
 
 
@@ -1117,7 +1145,7 @@ A teacher keeps you back for a minute after the others go, and offers to help wi
 
 _Present: Felix Price_
 
-#### Beat 32 — 2028-07-26, age 9 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
+#### Beat 34 — 2028-07-26, age 9 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
 
 
@@ -1131,7 +1159,7 @@ _Present: Felix Price_
 
 _Grounded by: familiar is Felix Price: 2 record(s) name the two of them, none of them family or household; the most recent is 2028-01-14.; Age 9; needs to be under 18._
 
-#### Beat 33 — 2028-08-29, age 9 (episode, opening.young.home.choose-activity/moment)
+#### Beat 35 — 2028-08-29, age 9 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -1143,7 +1171,7 @@ You have a little free time at home. What would you like to do?
 
 _Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 34 — 2028-08-29, age 9 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 36 — 2028-08-29, age 9 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1154,7 +1182,7 @@ You spent some time drawing. You can decide what to do with the picture you made
 
 _Grounded by: Age 9; needs at least 5.; Age 9; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2028-08-29._
 
-#### Beat 35 — 2028-08-29, age 9 (formative)
+#### Beat 37 — 2028-08-29, age 9 (formative)
 
 
 
@@ -1164,7 +1192,7 @@ The house needs you on the same afternoons the thing you signed up for does.
 - Keep the commitment
 - Try to do both
 
-#### Beat 36 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/moment)
+#### Beat 38 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/moment)
 
 > Half a year on, and you're 10 now.
 
@@ -1176,7 +1204,7 @@ You have a little free time at home. What would you like to do?
 
 _Grounded by: Age 10; needs at least 5.; Age 10; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 37 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 39 — 2029-03-11, age 10 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -1186,27 +1214,6 @@ You spent some time drawing. You can decide what to do with the picture you made
 - Put your picture somewhere safe
 
 _Grounded by: Age 10; needs at least 5.; Age 10; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2029-03-11._
-
-#### Beat 38 — 2029-03-11, age 10 (formative)
-
-
-
-The thing that was planned for this month is not happening any more. The reason given is short, and the subject gets changed.
-
-- **Ask what happened** ← chosen
-- Let it go
-
-#### Beat 39 — 2029-10-25, age 11 (episode, opening.young.home.choose-activity/moment)
-
-> A year on, and you're 11 now.
-
-You have a little free time at home. What would you like to do?
-
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
-
-_Grounded by: Age 11; needs at least 5.; Age 11; needs to be under 18.; Requires a recorded current household._
 
 
 ---

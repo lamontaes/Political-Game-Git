@@ -840,6 +840,41 @@
     "evidence": "Don't answer either way"
   },
   {
+    "id": "prose:life:episode:growing-up.a-friend-over-years/dropped-pass#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:growing-up.a-friend-over-years/dropped-pass#option:point-it-out:description",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:growing-up.a-friend-over-years/dropped-pass#option:point-it-out:label",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:growing-up.a-friend-over-years/dropped-pass#option:point-it-out:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:growing-up.a-friend-over-years/dropped-pass#option:pretend-not-to-see:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "something"
+  },
+  {
     "id": "prose:life:episode:growing-up.a-friend-over-years/still-there-later#line:0",
     "severity": "REVIEW_WARNING",
     "family": "and-it-scaffold",
@@ -1148,6 +1183,13 @@
     "evidence": "and it"
   },
   {
+    "id": "prose:life:episode:opening.early.community.curious-neighbor/moment#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "anonymous-actor",
+    "message": "Names a person by category while the record binds a canonical person for that role.",
+    "evidence": "A neighbor"
+  },
+  {
     "id": "prose:life:episode:opening.early.home.bedtime-delay/follow-through#option:put-away:memory",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",
@@ -1167,6 +1209,20 @@
     "family": "vague-referent",
     "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
     "evidence": "something"
+  },
+  {
+    "id": "prose:life:episode:political.what-your-name-is-for/between-doors#option:ask-to-switch-partner:description",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
+  },
+  {
+    "id": "prose:life:episode:political.what-your-name-is-for/between-doors#option:ask-to-switch-partner:memory",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
   },
   {
     "id": "prose:life:episode:political.what-your-name-is-for/kept-your-distance#line:1",
@@ -1321,6 +1377,13 @@
     "family": "label-restated-in-description",
     "message": "The description repeats 71% of its own label's words.",
     "evidence": "Won't take the shift"
+  },
+  {
+    "id": "prose:life:episode:work.the-shift-you-were-asked-for/it-came-back-round#line:0",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"someone\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "someone"
   },
   {
     "id": "prose:life:episode:work.where-you-stand-there/it-came-back-down#line:0",
