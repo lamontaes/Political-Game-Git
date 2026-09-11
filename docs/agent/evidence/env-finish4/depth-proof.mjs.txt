@@ -1,0 +1,16 @@
+import {chromium} from '/private/tmp/pg-env-all1-transfer/node_modules/playwright/index.mjs';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const out='/private/tmp/env-finish4-depth';mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true});const results=[];
+try {for(const scene of ["office","hall"]) for(const width of [1440,960]) {
+ const page=await browser.newPage({viewport:{width,height:900}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`http://127.0.0.1:5362/tests/e2e/support/scene-depth.html?scene=${scene}`);
+ const button=page.getByRole('button',{name:'Toggle depth control'});await button.waitFor();
+ if(width===1440) await button.click();else await button.press('Enter');
+ await page.getByTestId('scene-person-depth-control').waitFor();
+ await page.waitForFunction(()=>[...document.images].every(img=>img.complete&&img.naturalWidth>0));
+ const depths=await page.getByTestId('scene-person-depth-control').evaluate(el=>({mask:getComputedStyle(el).maskImage,count:el.dataset.occlusionCount}));
+ assert.equal(depths.count,'1');assert.match(depths.mask,/linear-gradient/);assert.deepEqual(errors,[]);
+ await page.screenshot({path:`${out}/depth-${scene}-${width}.png`});results.push({scene,width,depths,errors});await page.close();
+}writeFileSync(`${out}/results.json`,JSON.stringify({head:process.argv[2],results},null,2)+'\n');console.log(JSON.stringify(results));}finally{await browser.close();}

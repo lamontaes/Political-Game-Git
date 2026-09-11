@@ -1,0 +1,33 @@
+import { chromium } from '/private/tmp/pg-env-all1-transfer/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import { mkdirSync, writeFileSync } from 'node:fs';
+const out='/private/tmp/pg-env-all1-transfer/docs/agent/evidence/env-all1-recovery';
+mkdirSync(out,{recursive:true});
+const browser=await chromium.launch({channel:'chrome',headless:true});
+const results=[];
+try {
+ for (const [width,activation] of [[1440,'pointer'],[960,'keyboard']]) {
+  const context=await browser.newContext({viewport:{width,height:900}});
+  const page=await context.newPage();
+  const errors=[], images=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('request',r=>{if(r.resourceType()==='image') images.push(r.url());});
+  await page.goto('http://127.0.0.1:5326/?view=scene-gallery');
+  const card=page.locator('[data-testid="scene-gallery-card"][data-scene-id="courtroom-empty-production"]');
+  await card.waitFor();
+  assert.equal(await card.getAttribute('data-has-plate'),'false');
+  assert.equal(images.some(url=>url.includes('/courtroom/')),false);
+  const button=card.getByRole('button',{name:'Preview unreleased courtroom',exact:true});
+  if(activation==='pointer') await button.click(); else await button.press('Enter');
+  await card.locator('img').waitFor();
+  await page.waitForFunction(()=>{const img=document.querySelector('[data-scene-id="courtroom-empty-production"] img');return img?.complete && img.naturalWidth>0;});
+  assert.equal(await card.getAttribute('data-has-plate'),'true');
+  assert.match(await card.innerText(),/Unreleased courtroom preview/);
+  await card.screenshot({path:`${out}/courtroom-preview-${width}.png`});
+  assert.deepEqual(errors,[]);
+  results.push({width,activation,unreleased:true,initialRasterRequest:false,loadedWidth:await card.locator('img').evaluate(img=>img.naturalWidth),errors});
+  await context.close();
+ }
+ writeFileSync(`${out}/gallery-browser.json`,JSON.stringify({head:process.argv[2],url:'http://127.0.0.1:5326/?view=scene-gallery',results},null,2)+'\n');
+ console.log(JSON.stringify(results));
+} finally { await browser.close(); }
