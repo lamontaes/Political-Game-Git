@@ -88,13 +88,27 @@ export async function chooseCreatorLocation(
     return;
   }
 
-  const locality = namedState(requested) ? "Lexington" : requested;
-  await page.getByTestId("place-search").fill(locality.slice(0, 8));
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(locality, "i") })
-    .first()
-    .click();
+  // In-state search matches the town label, not "Town, State". A bare state
+  // name means that state is already chosen. Kentucky still opens on
+  // Lexington, the authored hometown; other states take the first listed town
+  // rather than searching for Lexington there.
+  const town = namedState(requested)
+    ? state.usps === "KY"
+      ? "Lexington"
+      : null
+    : (requested.split(",")[0]?.trim() ?? requested);
+  if (town) {
+    await page.getByTestId("place-search").fill(town.slice(0, 8));
+  }
+  const choices = page.getByTestId("place-choices").getByRole("button");
+  if (town) {
+    await choices
+      .filter({ hasText: new RegExp(town, "i") })
+      .first()
+      .click();
+  } else {
+    await choices.first().click();
+  }
   await page.getByTestId("creator-continue-place").click();
 }
 
