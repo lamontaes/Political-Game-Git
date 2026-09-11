@@ -99,6 +99,18 @@ export interface LayerRegistration {
   } | null;
 }
 
+/**
+ * What KIND of output a placement produced.
+ *
+ * Counting "a figure drew" in one number was the flaw that let this report be
+ * read as a coverage claim. A fixture body drawing is not the game having art;
+ * a candidate-review body drawing is not production; and a runtime refusal is a
+ * result, not an absence of one. They are four different answers and they are
+ * now four different buckets.
+ */
+export type ArtClass =
+  "production-real" | "production-fixture" | "candidate-review" | "refused";
+
 export interface FigureMeasurement {
   readonly sceneId: string;
   readonly anchorId: string;
@@ -119,6 +131,16 @@ export interface FigureMeasurement {
   readonly contactResidualPercent: MeasuredValue | null;
   /** True when the union box escapes the plate on any side. */
   readonly cropped: boolean | null;
+  /** Which of the four output classes this placement produced. */
+  readonly artClass: ArtClass;
+  /**
+   * True only when the compositor had NOTHING to say about this composition.
+   *
+   * A placement that drew some layers and reported a missing slot is a partial
+   * draw, and lumping it in with a clean one is how a layer count turns into a
+   * false completion claim.
+   */
+  readonly completeRecipe: boolean;
   readonly layers: readonly LayerRegistration[];
   /** Why nothing drew, when nothing drew. */
   readonly refusal: string | null;
@@ -315,6 +337,8 @@ export function measureFigureFraming(options: {
           fittedHeightPercent: null,
           contactResidualPercent: null,
           cropped: null,
+          artClass: "refused",
+          completeRecipe: false,
           layers: [],
           refusal: error instanceof Error ? error.message : String(error),
           diagnostics: [],
@@ -335,6 +359,25 @@ export function measureFigureFraming(options: {
       const drawn = presentation.layers.filter((layer) => layer.url !== null);
       const composed = unionBox(drawn);
       const reserved = reservedBox(scene, anchor);
+
+      /*
+       * Classify by what the LIBRARY says these components are, not by whether
+       * pixels appeared. `fixture` is the manifest's own development-fixture
+       * flag and `released` is runtime eligibility; a candidate library's
+       * records are lifted copies stamped released for a throwaway ledger, so
+       * the candidate run is named by which library it is, not by that stamp.
+       */
+      const anyFixture = drawn.some(
+        (layer) => characters.components.get(layer.assetId)?.fixture === true,
+      );
+      const artClass: ArtClass =
+        drawn.length === 0
+          ? "refused"
+          : options.candidate
+            ? "candidate-review"
+            : anyFixture
+              ? "production-fixture"
+              : "production-real";
 
       let fittedHeight: MeasuredValue | null = null;
       let contactResidual: MeasuredValue | null = null;
@@ -390,6 +433,9 @@ export function measureFigureFraming(options: {
         fittedHeightPercent: fittedHeight,
         contactResidualPercent: contactResidual,
         cropped,
+        artClass,
+        completeRecipe:
+          drawn.length > 0 && presentation.diagnostics.length === 0,
         layers: registrationOf(
           presentation,
           characters,
