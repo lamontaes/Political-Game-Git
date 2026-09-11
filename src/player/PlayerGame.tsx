@@ -662,8 +662,11 @@ function SetupScreen({
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
-    <main className="game-setup game-creator" data-testid="setup-screen">
-      <h1>Your new life</h1>
+    <main
+      className="game-title game-setup game-creator"
+      data-testid="setup-screen"
+    >
+      <h1>Our Civic Duty</h1>
 
       {/*
             Finished steps, collapsed. Each is a one-line summary the player can
@@ -1198,10 +1201,11 @@ function QuestionnaireScreenView({
   const note = questionnaireContentNote();
   return (
     <main
-      className="game-setup game-creator"
+      className="game-title game-setup game-creator"
       data-testid="questionnaire-screen"
     >
-      <h1>Who are you?</h1>
+      <h1>Our Civic Duty</h1>
+      <h2>Who are you?</h2>
       {/*
             What these questions actually are, said once and plainly: they are
             about the player, they orient what the game offers, and they decide
