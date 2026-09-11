@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2302 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5638 |
-| DIAGNOSTIC_OR_TEST | 4580 |
-| **NEEDS_CLASSIFICATION** | **6035** |
+| DIAGNOSTIC_OR_TEST | 4604 |
+| **NEEDS_CLASSIFICATION** | **6039** |
 
-Scanned 541 files holding 69910 string
+Scanned 543 files holding 69999 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -153,6 +153,7 @@ literals in total; the table counts only those that read like a sentence.
 | 12 | `src/simulation/quantity.ts` |
 | 12 | `src/simulation/vitality.ts` |
 | 11 | `src/content/adapters/life-situations.ts` |
+| 11 | `src/player/PublicInformationPanel.tsx` |
 | 11 | `src/presentation/life-scene-flow.ts` |
 | 11 | `src/presentation/run-b-conversation-progress.ts` |
 | 11 | `src/presentation/scene-placement.ts` |
@@ -188,7 +189,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/DeveloperViewer.tsx` |
 | 8 | `src/ui/PersonInspector.tsx` |
 | 8 | `src/ui/PoseContactProof.tsx` |
-| 7 | `src/player/PublicInformationPanel.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
 | 7 | `src/player/ShellNav.tsx` |
