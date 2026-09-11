@@ -549,9 +549,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // main, including PEOPLE-VISUAL4, plus EDU-PATH7) is scanned and these
     // values are updated from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(65864);
+    expect(coverage.totalLiterals).toBe(65888);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(477);
+    expect(coverage.scannedFiles).toBe(479);
   });
 });
 

@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2107 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5475 |
-| DIAGNOSTIC_OR_TEST | 4402 |
-| **NEEDS_CLASSIFICATION** | **5614** |
+| DIAGNOSTIC_OR_TEST | 4406 |
+| **NEEDS_CLASSIFICATION** | **5612** |
 
-Scanned 477 files holding 65864 string
+Scanned 479 files holding 65888 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -42,7 +42,7 @@ literals in total; the table counts only those that read like a sentence.
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
 | 69 | `src/simulation/character-history.ts` |
-| 67 | `src/player/PlayerGame.tsx` |
+| 64 | `src/player/PlayerGame.tsx` |
 | 64 | `src/simulation/press-interview-producers.ts` |
 | 61 | `src/simulation/press-interviews.ts` |
 | 59 | `src/presentation/legislative-dialogue-motifs.ts` |
@@ -252,6 +252,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/campaign-projection.ts` |
 | 1 | `src/presentation/legislation-projection.ts` |
 | 1 | `src/presentation/legislative-session-window.ts` |
+| 1 | `src/presentation/place-start-summary.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |
