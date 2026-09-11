@@ -1140,3 +1140,18 @@ baseline.
 LEARN: a normal producer should save each person's decision before it creates
 downstream work. Request identity plus separate affirmative response records
 makes consent auditable without inventing agreement in a scheduling adapter.
+
+## PRESS-REACH13 Normal Reachability Audit — 2026-09-11
+
+This audit covers the missing journalism-role and public-pitch path in front of
+the accepted PRESS4/PRODUCERS6 loop. It does not add a publisher, News search
+or second consent engine.
+
+| Concern          | Disposition          | Evidence and rationale                                                                                                                                                                                                                                                                                                                                      |
+| ---------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Population       | Canonical generation | `seekCivicPressContact` prefers a living, available current journalist. Otherwise it creates a new person through `createCharacterHistoryContextPerson` and employs only that person via `createOrganization` / `createWorkRelationship`. Existing family and colleagues are not reassigned. Dead, unavailable and expired journalism roles are not reused. |
+| Knowledge        | Fail-closed          | Eligibility accepts a public, non-future civic basis. The request may convey that basis as `told-by` knowledge. Private, future and missing events stay ineligible.                                                                                                                                                                                         |
+| Consent          | Fail-closed          | Reporter decisions remain autonomous and durable: accept, defer for unfinished assigned work, or decline. Arrangement requires an accepted response. Adviser preparation stays optional.                                                                                                                                                                    |
+| Time and work    | Canonical reuse      | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                                                                                                                                                                                                |
+| Publication      | Single path          | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                                                                                                                                                                                                 |
+| UI/ENV ownership | Preserved            | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                                                                                                                                                                                        |

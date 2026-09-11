@@ -13,7 +13,6 @@ import {
   createCampaignElectionTransitionRegistry,
   type HistoricalEvent,
   projectEligiblePressReporters,
-  projectPublicInformationDigest,
   recordPressRequest,
   PRESS_INTERVIEW_CHANNELS,
   PRESS_RECORD_TERMS,
@@ -24,6 +23,9 @@ import {
   draftPressResponse,
   projectPressInterview,
   publishPressInterview,
+  projectPitchablePressBases,
+  projectPressReachSnapshot,
+  seekCivicPressContact,
   type EntityId,
   type World,
 } from "../simulation";
@@ -56,13 +58,16 @@ export function PressWorkspace({
   );
   const controlledPersonId =
     world.control.kind === "person" ? world.control.personId : null;
-  const topics = projectPublicInformationDigest(world).items;
-  const topic = topics.find((item) => item.sourceEventId === basisId);
+  const reach = projectPressReachSnapshot(world);
+  const topics = controlledPersonId
+    ? projectPitchablePressBases(world, controlledPersonId)
+    : [];
+  const topic = topics.find((item) => item.eventId === basisId);
   const reporters =
     controlledPersonId && topic
       ? projectEligiblePressReporters(world, {
           sourcePersonId: controlledPersonId,
-          questionBasisEventIds: [topic.sourceEventId],
+          questionBasisEventIds: [topic.eventId],
         })
       : [];
   const reporter = reporters.find((item) => item.workRoleId === reporterRoleId);
@@ -99,9 +104,22 @@ export function PressWorkspace({
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
           <p>
-            Choose a published story and a reporter who already knows its basis.
-            A request does not establish acceptance.
+            Choose a public civic development and a reporter who holds a current
+            journalism role. A request does not establish acceptance. An adviser
+            is optional unless you ask one to prepare you.
           </p>
+          {reach.journalistCount === 0 ? (
+            <p>
+              No current journalism role is recorded in this life.
+              <button
+                type="button"
+                data-testid="press-establish-reporter"
+                onClick={() => change(() => seekCivicPressContact(world).world)}
+              >
+                Establish an authored civic reporter
+              </button>
+            </p>
+          ) : null}
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -111,17 +129,14 @@ export function PressWorkspace({
                   stableKey: `press-request:${controlledPersonId}:${world.actionSequence}`,
                   reporterPersonId: reporter.personId,
                   reporterWorkRoleId: reporter.workRoleId,
-                  jurisdictionId:
-                    world.history.events.find(
-                      (entry) => entry.id === topic.sourceEventId,
-                    )?.jurisdictionId ?? null,
+                  jurisdictionId: topic.jurisdictionId,
                   channel,
                   terms,
                   backgroundAttribution:
                     terms === "on-background" ? attribution : null,
                   pitch,
                   primaryQuestion: question,
-                  questionBasisEventIds: [topic.sourceEventId],
+                  questionBasisEventIds: [topic.eventId],
                 });
                 setRequestNotice(
                   "Request recorded. Awaiting the reporter’s response.",
@@ -131,18 +146,19 @@ export function PressWorkspace({
             }}
           >
             <label>
-              Published story
+              Public development
               <select
+                data-testid="press-basis-select"
                 value={basisId}
                 onChange={(event) => {
                   setBasisId(event.target.value);
                   setReporterRoleId("");
                 }}
               >
-                <option value="">Choose a story</option>
+                <option value="">Choose a public development</option>
                 {topics.map((item) => (
-                  <option key={item.publicationId} value={item.sourceEventId}>
-                    {item.headline}
+                  <option key={item.eventId} value={item.eventId}>
+                    {item.summary}
                   </option>
                 ))}
               </select>
@@ -150,6 +166,7 @@ export function PressWorkspace({
             <label>
               Reporter
               <select
+                data-testid="press-reporter-select"
                 value={reporterRoleId}
                 onChange={(event) => setReporterRoleId(event.target.value)}
               >
@@ -166,7 +183,8 @@ export function PressWorkspace({
             </label>
             {topic && reporters.length === 0 ? (
               <p>
-                No eligible reporter with knowledge of this story is recorded.
+                No current journalist can be asked about this public
+                development.
               </p>
             ) : null}
             <label>
@@ -279,8 +297,9 @@ export function PressWorkspace({
           onClose={() => setSelected(null)}
           onOpenPerson={onOpenPerson}
           onReviewPreparation={() =>
-            change(() =>
-              producePressPreparation(world, {
+            change(() => {
+              if (!view.adviserPersonId) return world;
+              return producePressPreparation(world, {
                 stableKey: `${view.activityId}:preparation`,
                 activityId: view.activityId,
                 adviserPersonId: view.adviserPersonId,
@@ -292,17 +311,18 @@ export function PressWorkspace({
                       activity!.sourceEntityIds.includes(record.eventId),
                   )
                   .map((record) => record.id),
-              }),
-            )
+              });
+            })
           }
           onRequestAdviserFeedback={() =>
-            change(() =>
-              producePressAdviserFeedback(world, {
+            change(() => {
+              if (!view.adviserPersonId) return world;
+              return producePressAdviserFeedback(world, {
                 stableKey: `${view.activityId}:feedback`,
                 activityId: view.activityId,
                 adviserPersonId: view.adviserPersonId,
-              }),
-            )
+              });
+            })
           }
           onDraftResponse={(input) =>
             change(() => draftPressResponse(world, input))
@@ -376,18 +396,17 @@ function PressRequestActions({
   )!.personId;
   const advisers = projectEligiblePressAdvisers(world, source);
   const validTiming =
-    [delay, duration, preparation].every(Number.isSafeInteger) &&
+    [delay, duration].every(Number.isSafeInteger) &&
     delay >= 0 &&
     duration > 0 &&
-    preparation > 0;
+    (adviserReply?.context.choice !== "accepted" ||
+      (Number.isSafeInteger(preparation) && preparation > 0));
   const start = addSimulationMinutes(
     world.currentMoment,
     validTiming ? delay : 0,
   );
   const end = addSimulationMinutes(start, validTiming ? duration : 1);
-  const allowed =
-    reporterReply?.context.choice === "accepted" &&
-    adviserReply?.context.choice === "accepted";
+  const allowed = reporterReply?.context.choice === "accepted";
   return (
     <li data-testid="press-saved-request">
       <strong>{request.context.motivation}</strong>
@@ -397,6 +416,7 @@ function PressRequestActions({
       ) : (
         <button
           type="button"
+          data-testid="press-ask-reporter"
           onClick={() =>
             onChange(
               () =>
@@ -497,23 +517,26 @@ function PressRequestActions({
           </p>
           <button
             type="button"
+            data-testid="press-arrange-exchange"
             disabled={
               !place.trim() ||
-              ![delay, duration, preparation].every(Number.isSafeInteger) ||
+              ![delay, duration].every(Number.isSafeInteger) ||
               delay < 0 ||
               duration < 1 ||
-              preparation < 1
+              (adviserReply?.context.choice === "accepted" &&
+                (!Number.isSafeInteger(preparation) || preparation < 1))
             }
             onClick={() =>
               onChange(() => {
+                const prepared = adviserReply?.context.choice === "accepted";
                 const result = arrangeAcceptedPressInterview(world, {
                   stableKey: `${request.id}:arrangement`,
                   requestEventId: request.id,
                   reporterResponseEventId: reporterReply!.id,
-                  adviserResponseEventId: adviserReply!.id,
+                  adviserResponseEventId: prepared ? adviserReply!.id : null,
                   start,
                   end,
-                  preparationMinutes: preparation,
+                  preparationMinutes: prepared ? preparation : 0,
                   location: {
                     locationKey: `press-planned:${request.id}`,
                     label: place.trim(),

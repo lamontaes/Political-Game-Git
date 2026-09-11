@@ -134,7 +134,9 @@ NEWS-PRODUCERS6 likewise adds no store. A normal request is an ordinary limited
 event, exact source claim, knowledge for the two participants and a relationship
 interaction. Reporter consent and adviser willingness are separate events and
 claims tied to that request. The arrangement writer accepts only affirmative
-records from the actual reporter and a current colleague. Preparation cites the
+records from the actual reporter. A current colleague is required only when
+preparation is actually assigned. Preparation cites the
 assigned adviser's existing knowledge IDs; feedback cites new media knowledge
-of the actual saved publication. These records use the existing global sequence,
+of the actual saved publication. A public pitch may add `told-by` knowledge of
+its named public basis. These records use the existing global sequence,
 stable IDs and save/reload validation, so screen projection remains read-only.
