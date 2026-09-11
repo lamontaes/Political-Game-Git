@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2107,
     "INTENTIONALLY_NON_PLAYER_FACING": 5675,
-    "DIAGNOSTIC_OR_TEST": 4533,
+    "DIAGNOSTIC_OR_TEST": 4541,
     "NEEDS_CLASSIFICATION": 5848
   },
   "needsClassification": [
@@ -48674,7 +48674,7 @@
       "sourcePath": "src/simulation/civil-personnel-import-graph.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 4
+      "count": 12
     },
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
