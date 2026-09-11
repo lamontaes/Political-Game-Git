@@ -22,9 +22,9 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2458 templates, 2322 distinct texts.
-- 34 exact duplicate groups.
-- 40 normalized duplicate groups.
+- 2468 templates, 2334 distinct texts.
+- 33 exact duplicate groups.
+- 39 normalized duplicate groups.
 - 19 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each

@@ -57,7 +57,8 @@ test.describe("municipal feature pointer, keyboard and saved state", () => {
         page.getByText("Library inspection.", { exact: false }),
       ).toBeVisible();
       await expect(page.getByTestId("sequence")).toHaveText(sequence!);
-      await selector.selectOption("");
+      await selector.selectOption({ index: 0 });
+      await page.getByText("Source review", { exact: true }).click();
       const records = page.getByText(
         "Cited public records and meeting material",
         { exact: true },

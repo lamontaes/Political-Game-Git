@@ -1195,30 +1195,6 @@
       "textRevision": "398ae82a08fa"
     },
     {
-      "anchor": "MunicipalWorkspace-0028",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 0,
-      "textRevision": "eda1cb399538"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0029",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 1,
-      "textRevision": "eda1cb399538"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0030",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Municipal government",
-      "occurrence": 2,
-      "textRevision": "eda1cb399538"
-    },
-    {
       "anchor": "MunicipalWorkspace-0031",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1331,14 +1307,6 @@
       "textRevision": "0f73e8e53d10"
     },
     {
-      "anchor": "MunicipalWorkspace-0045",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Public visitor",
-      "occurrence": 0,
-      "textRevision": "710d5ca056e7"
-    },
-    {
       "anchor": "MunicipalWorkspace-0046",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1427,14 +1395,6 @@
       "textRevision": "a56300e7ca19"
     },
     {
-      "anchor": "MunicipalWorkspace-0057",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "No recorded standing here",
-      "occurrence": 0,
-      "textRevision": "3a74ac0b2b07"
-    },
-    {
       "anchor": "MunicipalWorkspace-0058",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1465,6 +1425,102 @@
       "text": "☆ Pin this government",
       "occurrence": 0,
       "textRevision": "c3868f824680"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0062",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " ({state.completedEffortMinutes}/{item.effort?.requiredMinutes??0} minutes)",
+      "occurrence": 0,
+      "textRevision": "cdca0bf4c235"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0063",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — not represented in this save",
+      "occurrence": 0,
+      "textRevision": "0dfa192540cf"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0064",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Known people",
+      "occurrence": 0,
+      "textRevision": "9604f2b8d524"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0065",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Local government",
+      "occurrence": 0,
+      "textRevision": "95710bbf0f02"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0066",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Municipal government",
+      "occurrence": 0,
+      "textRevision": "eda1cb399538"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0067",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No current officeholders are recorded in this save.",
+      "occurrence": 0,
+      "textRevision": "581e508b3632"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0068",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No public meeting attendance is recorded for this government.",
+      "occurrence": 0,
+      "textRevision": "6d362e69fc90"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0069",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Pending work",
+      "occurrence": 0,
+      "textRevision": "f18b96b68dbd"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0070",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen.",
+      "occurrence": 0,
+      "textRevision": "351a6b46e08d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0071",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Source review",
+      "occurrence": 0,
+      "textRevision": "9de096fb3a0f"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0072",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "You live in ",
+      "occurrence": 0,
+      "textRevision": "adac08386791"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0073",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your standing here",
+      "occurrence": 0,
+      "textRevision": "95f6140cbf90"
     },
     {
       "anchor": "PHASE_SENTENCES-0001",
@@ -2897,6 +2953,30 @@
       "text": "My home government",
       "occurrence": 0,
       "textRevision": "902955604322"
+    },
+    {
+      "anchor": "directory-0003",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Name or state",
+      "occurrence": 0,
+      "textRevision": "012a130c6f2e"
+    },
+    {
+      "anchor": "directory-0004",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "No supported government matches that search.",
+      "occurrence": 0,
+      "textRevision": "9a78a34afcdd"
+    },
+    {
+      "anchor": "directory-0005",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "directory",
+      "text": "Search other supported governments",
+      "occurrence": 0,
+      "textRevision": "77334b43988c"
     },
     {
       "anchor": "elapsedPhrase-0001",
