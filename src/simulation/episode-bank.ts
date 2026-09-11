@@ -8,6 +8,9 @@ import type {
 } from "./life-episodes";
 import {
   LIFE_CONTENT_92C_CIVIC_STAGES,
+  LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
+  LIFE_CONTENT_92C_POLITICAL_STAGES,
+  LIFE_CONTENT_92C_WORK_STAGES,
   LIFE_CONTENT_92C_FAMILIES,
   LIFE_CONTENT_92C_HOME_STAGES,
   LIFE_CONTENT_92C_SCHOOL_STAGES,
@@ -455,6 +458,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
   authority: PLAYTEST_AUTHORITY,
   roles: ["familiar"],
   stages: [
+    ...LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
     {
       key: "the-year-you-were-inseparable",
       requires: [needsFamiliar, { kind: "age-below", age: 18 }],
@@ -1109,6 +1113,7 @@ const WORK_STANDING: EpisodeFamily = {
   authority: PLAYTEST_AUTHORITY,
   roles: ["colleague"],
   stages: [
+    ...LIFE_CONTENT_92C_WORK_STAGES,
     {
       key: "the-rule-and-the-person",
       requires: [
@@ -2057,6 +2062,7 @@ const POLITICAL_APPROACH: EpisodeFamily = {
   authority: EPISODE_AUTHORITY,
   roles: ["community-member"],
   stages: [
+    ...LIFE_CONTENT_92C_POLITICAL_STAGES,
     {
       key: "the-approach",
       requires: [

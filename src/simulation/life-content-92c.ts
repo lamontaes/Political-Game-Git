@@ -294,21 +294,21 @@ export const LIFE_CONTENT_92C_KERNELS: readonly KernelProvenance[] = [
   },
   {
     kernelId: "rel.encounter.shift-breakroom",
-    episodeKey: "work.a-break-in-the-breakroom",
+    episodeKey: "work.where-you-stand-there",
     stageKey: "calibration-chart",
     track: "C",
     isKernel: true,
   },
   {
     kernelId: "rel.encounter.bus-stop-regular",
-    episodeKey: "companionship.the-person-at-the-stop",
+    episodeKey: "growing-up.a-friend-over-years",
     stageKey: "dropped-pass",
     track: "C",
     isKernel: true,
   },
   {
     kernelId: "rel.encounter.campaign-canvass-partner",
-    episodeKey: "civic.the-doors-you-were-paired-for",
+    episodeKey: "political.what-your-name-is-for",
     stageKey: "between-doors",
     track: "C",
     isKernel: true,
@@ -988,7 +988,7 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
       options: [
         {
           key: "take-the-shift",
-          label: "Say yes",
+          label: "Take the extra shift",
           description: "Agree to take the shift.",
           nudges: [
             nudge("security-stability", 0.35),
@@ -999,8 +999,8 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
         },
         {
           key: "turn-it-down",
-          label: "Say no",
-          description: "Turn the shift down.",
+          label: "Turn the shift down",
+          description: "Say you can't take it.",
           nudges: [
             nudge("achievement-ambition", 0.35),
             nudge("security-stability", -0.25),
@@ -1925,15 +1925,33 @@ export const LIFE_CONTENT_92C_CIVIC_STAGES: readonly EpisodeStage[] = [
   ...WATER_CAME_UP.stages,
 ].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
 
+/**
+ * LIFE-CONTENT13's three relationship encounters, hosted the same way.
+ *
+ * Each is one moment with no answer-dependent continuation of its own, so it
+ * joins the accepted family that already binds the same person and domain —
+ * work standing (a colleague), the political family (somebody in the same
+ * group) and the friend-over-years family (a familiar) — rather than standing
+ * up a one-stage family that is a folder, not a thread.
+ */
+export const LIFE_CONTENT_92C_WORK_STAGES: readonly EpisodeStage[] = [
+  ...BREAKROOM_ENCOUNTER.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
+export const LIFE_CONTENT_92C_POLITICAL_STAGES: readonly EpisodeStage[] = [
+  ...CAMPAIGN_CANVASS_PARTNER.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
+export const LIFE_CONTENT_92C_COMPANIONSHIP_STAGES: readonly EpisodeStage[] = [
+  ...BUS_STOP_REGULAR.stages,
+].map((stage) => ({ ...stage, authority: RESEARCH_AUTHORITY }));
+
 /** New causal families whose reviewed 92C stages genuinely turn on answers. */
 export const LIFE_CONTENT_92C_FAMILIES: readonly EpisodeFamily[] = [
   FRIEND_YOU_NAMED,
   SHIFT_ASKED_FOR,
   MONEY_NOBODY_COUNTS,
   WORK_NOT_PAID,
-  BREAKROOM_ENCOUNTER,
-  BUS_STOP_REGULAR,
-  CAMPAIGN_CANVASS_PARTNER,
 ];
 
 const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
@@ -1951,6 +1969,18 @@ const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
   {
     episodeKey: "civic.the-thing-nobody-else-turned-up-for",
     stages: LIFE_CONTENT_92C_CIVIC_STAGES,
+  },
+  {
+    episodeKey: "work.where-you-stand-there",
+    stages: LIFE_CONTENT_92C_WORK_STAGES,
+  },
+  {
+    episodeKey: "political.what-your-name-is-for",
+    stages: LIFE_CONTENT_92C_POLITICAL_STAGES,
+  },
+  {
+    episodeKey: "growing-up.a-friend-over-years",
+    stages: LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
   },
 ];
 

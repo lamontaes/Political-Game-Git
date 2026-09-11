@@ -714,7 +714,7 @@ describe("the newly eligible encounters bind people the records support", () => 
     const encounter = beat(
       fixture.world,
       fixture.playerId,
-      "work.a-break-in-the-breakroom",
+      "work.where-you-stand-there",
       "calibration-chart",
     );
     expect(encounter?.bindings[0]?.personId).toBe(fixture.otherId);
@@ -771,7 +771,7 @@ describe("the newly eligible encounters bind people the records support", () => 
     const encounter = beat(
       paired.world,
       paired.playerId,
-      "civic.the-doors-you-were-paired-for",
+      "political.what-your-name-is-for",
       "between-doors",
     );
     expect(encounter?.bindings[0]?.personId).toBe(paired.otherId);
@@ -788,7 +788,7 @@ describe("the newly eligible encounters bind people the records support", () => 
       beat(
         alone.world,
         alone.playerId,
-        "civic.the-doors-you-were-paired-for",
+        "political.what-your-name-is-for",
         "between-doors",
       ),
     ).toBeUndefined();

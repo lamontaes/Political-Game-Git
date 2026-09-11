@@ -1062,12 +1062,11 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   },
   "early.community.curious-neighbor": {
     afterChoice: "answer-politely",
-    premise:
-      "The neighbor smiles and asks whether you like your teacher this year.",
+    premise: "The neighbor asks whether you like your teacher this year.",
     choices: [
       {
         key: "say-yes",
-        label: "Say yes",
+        label: "Say you like your teacher",
         aftermath: "You tell the neighbor you like your teacher.",
       },
       {
