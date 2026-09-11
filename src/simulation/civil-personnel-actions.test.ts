@@ -606,6 +606,49 @@ describe("CIVIL-AUTHORITY13 persistence integrity", () => {
     expect(() => deserializeWorld(JSON.stringify(second))).toThrow();
   });
 
+  it("rejects saves that rewrite who acted, the class, the deadline math or a timeliness flag", () => {
+    const { f, world, actionId } = discharged("civil-authority13-b");
+    let full = ok(fileNoticeWithCommissioner(world, { actionId })).world;
+    full = ok(produceDischargedEmployeeAppealChoice(full, { actionId })).world;
+    full = ok(
+      produceCommissionerSettlementDecision(full, {
+        appealId: personnelAppealsFor(full)[0]!.id,
+      }),
+    ).world;
+    expect(() => reload(full)).not.toThrow();
+    const tamper = (edit: (records: Record<string, unknown>[]) => void) => {
+      const snapshot = JSON.parse(serializeWorld(full));
+      edit(snapshot.world.history.personnelRecords);
+      return () => deserializeWorld(JSON.stringify(snapshot));
+    };
+    const byKind = (records: Record<string, unknown>[], kind: string) =>
+      records.find((r) => r.kind === kind)!;
+    expect(
+      tamper(
+        (r) => (byKind(r, "disciplinary-action").actorPersonId = f.relative),
+      ),
+    ).toThrow();
+    expect(
+      tamper((r) => (byKind(r, "disciplinary-action").ground = "rudeness")),
+    ).toThrow();
+    expect(
+      tamper(
+        (r) => (byKind(r, "disciplinary-action").appealDeadline = "2026-12-31"),
+      ),
+    ).toThrow();
+    expect(
+      tamper((r) => (byKind(r, "commissioner-filing").timely = false)),
+    ).toThrow();
+    expect(
+      tamper(
+        (r) => (byKind(r, "settlement-decision").actorPersonId = f.employee),
+      ),
+    ).toThrow();
+    expect(
+      tamper((r) => (byKind(r, "incumbency").tenure = "probationary")),
+    ).toThrow();
+  });
+
   it("control switching cannot stand in for another person's decision", () => {
     const { world } = discharged();
     // The director's open Work belongs to the director; the world refuses a

@@ -1,6 +1,73 @@
+import sourceData from "./civil-personnel-sources.json";
+import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import { activeOrganizationParticipationsAt } from "./life-queries";
 import { PERSONNEL_PROCEDURE_KEYS } from "./civil-personnel-contract";
-import type { EntityId, PersonnelPower, PersonnelRecord, World } from "./types";
+import type { PersonnelSourceProjection } from "./civil-personnel-contract";
+import type {
+  EntityId,
+  IsoDate,
+  PersonnelAuthorityDesignationRecord,
+  PersonnelPower,
+  PersonnelRecord,
+  World,
+} from "./types";
+
+const procedures = (sourceData as unknown as PersonnelSourceProjection)
+  .procedures;
+
+function term(key: string, name: string): number | readonly string[] {
+  const value = procedures.find((p) => p.key === key)?.terms[name];
+  if (value === undefined)
+    throw new Error(`Personnel integrity needs ${key} term ${name}.`);
+  return value;
+}
+
+function observedOn(key: string): IsoDate {
+  const found = procedures.find((p) => p.key === key);
+  if (!found) throw new Error(`Personnel integrity needs procedure ${key}.`);
+  return makeIsoDate(found.validity.observedOn);
+}
+
+function yearsAfter(date: IsoDate, years: number): IsoDate {
+  const [y, m, d] = date.split("-").map(Number) as [number, number, number];
+  const target = new Date(Date.UTC(y + years, m - 1, d));
+  if (target.getUTCMonth() !== m - 1) target.setUTCDate(0);
+  return makeIsoDate(target.toISOString().slice(0, 10));
+}
+
+/** Whether the person held the designated role when the record was written. */
+function heldRole(
+  world: World,
+  personId: EntityId,
+  designation: PersonnelAuthorityDesignationRecord,
+  record: PersonnelRecord,
+): boolean {
+  if (!world.people[personId]) return false;
+  return activeOrganizationParticipationsAt(world, personId, {
+    asOfDate: record.recordedAt,
+    historySequenceExclusive: record.sequence,
+  }).some(
+    (r) =>
+      r.participation.organizationId === designation.organizationId &&
+      r.state.roleKind === designation.roleKind,
+  );
+}
+
+function endedOn(
+  world: World,
+  workRelationshipId: EntityId,
+  record: PersonnelRecord,
+): IsoDate | null {
+  const latest = world.history.workStatuses
+    .filter(
+      (s) =>
+        s.workRelationshipId === workRelationshipId &&
+        s.sequence < record.sequence,
+    )
+    .at(-1);
+  return latest?.status === "ended" ? latest.effectiveAt : null;
+}
 
 /**
  * The only organizations an authored charter or position may describe: game
@@ -171,7 +238,9 @@ export function assertPersonnelIntegrity(
             response.offerId !== offer.id ||
             response.response !== "accepted" ||
             response.workRelationshipId !== record.workRelationshipId ||
-            offer.positionId !== record.positionId
+            offer.positionId !== record.positionId ||
+            record.tenure !==
+              (offer.probation === "required" ? "probationary" : "unknown")
           )
             fail(record, "is not the accepted reinstatement it names.");
         }
@@ -179,19 +248,62 @@ export function assertPersonnelIntegrity(
         break;
       }
       case "informal-resolution": {
-        earlier(record, record.incumbencyId, "incumbency");
-        earlier(record, record.designationId, "authority-designation");
+        const incumbency = earlier(record, record.incumbencyId, "incumbency");
+        const position = earlier(record, incumbency.positionId, "position");
+        const designation = earlier(
+          record,
+          record.designationId,
+          "authority-designation",
+        );
         if (
-          !world.history.scheduledActivities.some(
-            (a) => a.id === record.scheduledActivityId,
-          )
+          designation.power !== "appointing-authority" ||
+          designation.organizationId !== position.organizationId ||
+          !heldRole(world, record.actorPersonId, designation, record)
         )
-          fail(record, "names a missing meeting.");
+          fail(record, "was not held by the employer's appointing authority.");
+        const activity = world.history.scheduledActivities.find(
+          (a) => a.id === record.scheduledActivityId,
+        );
+        const state = world.history.scheduledActivityStates
+          .filter((s) => s.activityId === record.scheduledActivityId)
+          .at(-1);
+        if (
+          !activity ||
+          state?.status !== "completed" ||
+          !activity.participantPersonIds.includes(record.actorPersonId) ||
+          !activity.participantPersonIds.includes(incumbency.personId)
+        )
+          fail(record, "names no meeting both people attended.");
         break;
       }
       case "disciplinary-action": {
         const incumbency = earlier(record, record.incumbencyId, "incumbency");
-        earlier(record, record.designationId, "authority-designation");
+        const position = earlier(record, incumbency.positionId, "position");
+        const designation = earlier(
+          record,
+          record.designationId,
+          "authority-designation",
+        );
+        if (
+          designation.power !== "appointing-authority" ||
+          designation.organizationId !== position.organizationId ||
+          !heldRole(world, record.actorPersonId, designation, record) ||
+          record.actorPersonId === incumbency.personId
+        )
+          fail(record, "was not taken by the employer's appointing authority.");
+        if (
+          position.jurisdictionKey !== "US-MN" ||
+          position.civilClass !== "classified" ||
+          position.agreementCoverage !== "not-covered" ||
+          incumbency.tenure !== "permanent" ||
+          record.recordedAt < observedOn("mn-discipline-notice") ||
+          record.effectiveOn !== record.recordedAt ||
+          !(
+            term("mn-just-cause-grounds", "grounds") as readonly string[]
+          ).includes(record.ground) ||
+          !record.reasons.trim()
+        )
+          fail(record, "is outside the compiled just-cause procedure.");
         const attempt = earlier(
           record,
           record.informalResolutionId,
@@ -213,6 +325,26 @@ export function assertPersonnelIntegrity(
           discharge !== (record.endedWorkStatusId !== null)
         )
           fail(record, "carries deadlines that do not match its action.");
+        if (
+          discharge &&
+          (record.appealDeadline !==
+            addDays(
+              record.effectiveOn,
+              term(
+                "mn-discipline-notice",
+                "appealWithinCalendarDays",
+              ) as number,
+            ) ||
+            record.commissionerFilingDeadline !==
+              addDays(
+                record.effectiveOn,
+                term(
+                  "mn-discipline-notice",
+                  "commissionerFilingWithinCalendarDays",
+                ) as number,
+              ))
+        )
+          fail(record, "carries deadlines the statute does not set.");
         if (discharge) {
           const status = world.history.workStatuses.find(
             (s) => s.id === record.endedWorkStatusId,
@@ -234,6 +366,15 @@ export function assertPersonnelIntegrity(
           action.actorPersonId !== record.actorPersonId
         )
           fail(record, "is not the acting appointing authority's filing.");
+        if (
+          record.timely !==
+          daysBetween(action.effectiveOn, record.recordedAt) <=
+            (term(
+              "mn-discipline-notice",
+              "commissionerFilingWithinCalendarDays",
+            ) as number)
+        )
+          fail(record, "misstates whether it was timely.");
         only(record, `filing:${action.id}`);
         break;
       }
@@ -259,8 +400,15 @@ export function assertPersonnelIntegrity(
           record.designationId,
           "authority-designation",
         );
-        if (designation.power !== "commissioner-settlement")
-          fail(record, "was not decided under the commissioner's power.");
+        const action = earlier(record, appeal.actionId, "disciplinary-action");
+        if (
+          designation.power !== "commissioner-settlement" ||
+          !heldRole(world, record.actorPersonId, designation, record) ||
+          record.actorPersonId === appeal.personId ||
+          record.actorPersonId === action.actorPersonId ||
+          record.recordedAt < observedOn("mn-commissioner-settlement")
+        )
+          fail(record, "was not decided by the commissioner's office holder.");
         only(record, `settlement:${record.appealId}`);
         break;
       }
@@ -273,11 +421,27 @@ export function assertPersonnelIntegrity(
         );
         const former = earlier(record, record.formerIncumbencyId, "incumbency");
         const formerPosition = earlier(record, former.positionId, "position");
+        const separated = endedOn(world, former.workRelationshipId, record);
         if (
           designation.power !== "appointing-authority" ||
           designation.organizationId !== position.organizationId ||
+          !heldRole(world, record.actorPersonId, designation, record) ||
+          record.actorPersonId === record.personId ||
           former.personId !== record.personId ||
-          formerPosition.classKey !== position.classKey
+          former.tenure === "unknown" ||
+          formerPosition.classKey !== position.classKey ||
+          position.jurisdictionKey !== "US-MN" ||
+          formerPosition.jurisdictionKey !== "US-MN" ||
+          position.civilClass !== "classified" ||
+          record.recordedAt < observedOn("mn-reinstatement") ||
+          !separated ||
+          record.recordedAt >
+            yearsAfter(
+              separated,
+              term("mn-reinstatement", "withinYearsOfSeparation") as number,
+            ) ||
+          (record.probation === "required" &&
+            formerPosition.organizationId === position.organizationId)
         )
           fail(
             record,
