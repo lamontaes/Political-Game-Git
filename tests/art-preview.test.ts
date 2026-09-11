@@ -17,6 +17,7 @@ import { resolveLifeScene } from "../src/presentation/life-scene";
 import { resolvePersonPortrait } from "../src/presentation/person-visual";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../src/presentation/visual-integration";
+import { wearableChoicesIn } from "../src/player/SavedAppearance";
 import type { ScenePerson } from "../src/presentation/life-story";
 import type { EntityId, NewGameSetup, Person, World } from "../src/simulation";
 
@@ -89,6 +90,20 @@ describe("the development art preview is opt-in and development-only", () => {
     expect(previewDatabaseName("candidate-review")).not.toBe(
       previewDatabaseName("production"),
     );
+  });
+
+  it("separates every store it touches, not just the one for worlds", () => {
+    /*
+     * A life is not kept in one database. The world goes in one store and the
+     * shell's own per-slot state goes in another — and a wardrobe CHOICE is
+     * shell state. Isolating only the world left the preview writing candidate
+     * outfits into the ordinary database under the ordinary slot id, so an
+     * opt-in development preview was editing a production save through the
+     * other door.
+     */
+    const base = "some-other-store";
+    expect(previewDatabaseName("candidate-review", base)).not.toBe(base);
+    expect(previewDatabaseName("production", base)).toBe(base);
   });
 
   it("hands production callers nothing to override with", () => {
@@ -475,6 +490,32 @@ describe("one catalog decides the whole of one person's picture", () => {
     });
     expect(seen.length).toBeGreaterThan(0);
     expect(seen.every(Boolean)).toBe(true);
+  });
+});
+
+describe("clothes can be chosen out of the catalog that draws them", () => {
+  it("has nothing wearable in production today, which is why the control was dead", () => {
+    /*
+     * Not a complaint — the record of why the wardrobe control said there was
+     * nothing to choose. Every released production component is fixture
+     * regression art, so filtering to released-and-not-fixture empties the
+     * catalog. That sentence is correct about production and was a dead end in
+     * the preview, where real garments exist and the one surface for putting
+     * them on somebody could not see them.
+     */
+    expect(
+      wearableChoicesIn(PRODUCTION_CHARACTER_LIBRARY).components.size,
+    ).toBe(0);
+  });
+
+  it("offers real garments from the review catalog", () => {
+    const wearable = wearableChoicesIn(PREVIEW.characters);
+    expect(wearable.components.size).toBeGreaterThan(0);
+    // And they are not fixtures wearing a different label.
+    for (const component of wearable.components.values()) {
+      expect(component.fixture).toBeFalsy();
+      expect(component.released).toBe(true);
+    }
   });
 });
 

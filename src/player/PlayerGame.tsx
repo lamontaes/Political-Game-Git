@@ -208,7 +208,22 @@ export function PlayerGame() {
     () => artPreviewMode(window.location.search, import.meta.env.DEV),
     [],
   );
-  const shellStore = useMemo(() => new BrowserShellStateStore(), []);
+  /*
+   * The shell's own per-slot state lives in the same database as the worlds,
+   * in a different object store — and a wardrobe CHOICE is shell state, not
+   * world state. Isolating only the world store therefore isolated the wrong
+   * half: a candidate outfit picked in the preview was written straight into
+   * the ordinary database under the ordinary slot id. Both take the mode's
+   * name now, so opting into candidate pixels cannot reach a production save
+   * through either door.
+   */
+  const shellStore = useMemo(
+    () =>
+      new BrowserShellStateStore({
+        databaseName: previewDatabaseName(previewMode),
+      }),
+    [previewMode],
+  );
   const store = useMemo(() => {
     try {
       // The preview keeps its lives in a physically separate database, so
