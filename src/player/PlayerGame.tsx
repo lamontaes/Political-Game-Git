@@ -133,7 +133,6 @@ import {
   projectPersonDossier,
   type PersonDossier,
 } from "../presentation/person-dossier";
-import { CANONICAL_VERSION } from "../presentation/release-identity";
 import {
   activeView,
   canGoBack,
@@ -158,6 +157,7 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { PlayerVersion } from "./PlayerVersion";
 
 /**
  * The game.
@@ -2378,13 +2378,7 @@ function PlayingScreen({
             onOpen={openEntity}
           />
 
-          {/*
-        The build's own version, quiet in the corner and read from the checkout
-        rather than restated. Nothing on this route can change it.
-      */}
-          <p className="pg-version" data-testid="shell-version">
-            v{CANONICAL_VERSION}
-          </p>
+          <PlayerVersion />
 
           {floorSeat ? (
             <div
