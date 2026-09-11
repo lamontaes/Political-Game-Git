@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2334,
     "INTENTIONALLY_NON_PLAYER_FACING": 5641,
-    "DIAGNOSTIC_OR_TEST": 4647,
-    "NEEDS_CLASSIFICATION": 6109
+    "DIAGNOSTIC_OR_TEST": 4656,
+    "NEEDS_CLASSIFICATION": 6132
   },
   "needsClassification": [
     {
@@ -3799,17 +3799,9 @@
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
-      "sourcePath": "src/player/PlayerConversation.tsx",
-      "enclosingSymbol": "PlayerConversation",
-      "line": 205,
-      "text": "That did not come out right.",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 290,
+      "line": 291,
       "text": "That replay address could not be rebuilt.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3817,7 +3809,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 323,
+      "line": 324,
       "text": "{result.reason} This life is still here — keep it again to store it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3825,7 +3817,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "keepThisWorld",
-      "line": 387,
+      "line": 388,
       "text": "Your life was saved, but your pins and display preferences could not be kept.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3833,7 +3825,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "keepThisWorld",
-      "line": 391,
+      "line": 392,
       "text": "This game could not be saved just now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3841,7 +3833,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "continueMostRecent",
-      "line": 402,
+      "line": 403,
       "text": "There is nothing to continue yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3849,7 +3841,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "continueMostRecent",
-      "line": 407,
+      "line": 408,
       "text": "Saved games could not be read.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3857,7 +3849,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "loadSave",
-      "line": 416,
+      "line": 417,
       "text": "That saved game could not be opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3865,7 +3857,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "loadSave",
-      "line": 422,
+      "line": 423,
       "text": "That saved game could not be opened.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3873,7 +3865,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "deleteSave",
-      "line": 434,
+      "line": 435,
       "text": "That saved game could not be removed just now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3881,7 +3873,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "leaveGame",
-      "line": 468,
+      "line": 469,
       "text": "{flushed.reason} This life is still here — leaving now would lose what is not saved.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3889,7 +3881,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 526,
+      "line": 527,
       "text": "Patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3897,7 +3889,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayerGame",
-      "line": 569,
+      "line": 570,
       "text": "This life could not be started.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3905,7 +3897,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "placeContextLines",
-      "line": 747,
+      "line": 748,
       "text": "The game models this state's legislature, so political office is reachable here later.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3913,7 +3905,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "placeContextLines",
-      "line": 748,
+      "line": 749,
       "text": "The game does not model a legislature here yet, so this is an everyday life for now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3921,7 +3913,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 842,
+      "line": 843,
       "text": "Custom start",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3929,7 +3921,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 842,
+      "line": 843,
       "text": "Start a life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3937,7 +3929,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 845,
+      "line": 846,
       "text": "A name you'll be given",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3945,7 +3937,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 846,
+      "line": 847,
       "text": "age {setup.startAge}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3953,7 +3945,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 854,
+      "line": 855,
       "text": "Lives alone",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3961,7 +3953,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 854,
+      "line": 855,
       "text": "Shares a home",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3969,7 +3961,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 856,
+      "line": 857,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3977,7 +3969,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 857,
+      "line": 858,
       "text": "Everyday life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3985,7 +3977,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 862,
+      "line": 863,
       "text": "Discover through play",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -3993,7 +3985,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "summaryText",
-      "line": 863,
+      "line": 864,
       "text": "Answering a few questions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4001,7 +3993,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 868,
+      "line": 869,
       "text": "game-setup game-creator",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4009,7 +4001,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1010,
+      "line": 1011,
       "text": "game-choices game-choices-inline",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4017,7 +4009,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1054,
+      "line": 1055,
       "text": "Type a state or a city",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4025,7 +4017,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1087,
+      "line": 1088,
       "text": "Statewide — not a hometown",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4033,7 +4025,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1089,
+      "line": 1090,
       "text": "County or county equivalent",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4041,7 +4033,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1116,
+      "line": 1117,
       "text": "A whole state, chosen as the scope of this life.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4049,7 +4041,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1118,
+      "line": 1119,
       "text": "County or county equivalent. Your town is unspecified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4057,7 +4049,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1119,
+      "line": 1120,
       "text": "This is the exact place this life will be lived in.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4065,7 +4057,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1160,
+      "line": 1161,
       "text": "Play the early years one at a time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4073,7 +4065,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1161,
+      "line": 1162,
       "text": "Only for a character under eighteen.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4081,7 +4073,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1220,
+      "line": 1221,
       "text": "{place.displayName} has no legislature you can work in yet.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4089,7 +4081,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1222,
+      "line": 1223,
       "text": "Available for characters {LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4097,7 +4089,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1223,
+      "line": 1224,
       "text": "Working for a state legislature.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4105,7 +4097,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1267,
+      "line": 1268,
       "text": "One adult raising you, and no other children.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4113,7 +4105,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1268,
+      "line": 1269,
       "text": "You live on your own.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4121,7 +4113,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1284,
+      "line": 1285,
       "text": "A brother or a sister in the house too.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4129,7 +4121,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1285,
+      "line": 1286,
       "text": "One other adult shares the household.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4137,7 +4129,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1400,
+      "line": 1401,
       "text": ", which was supplied to reproduce an earlier one.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4145,7 +4137,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SetupScreen",
-      "line": 1401,
+      "line": 1402,
       "text": ", drawn fresh for this session.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4153,7 +4145,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 1436,
+      "line": 1437,
       "text": "Somewhere to start",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4161,7 +4153,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 1437,
+      "line": 1438,
       "text": "A little wider",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4169,7 +4161,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PHASE_LINE",
-      "line": 1438,
+      "line": 1439,
       "text": "Nearly there",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4177,7 +4169,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "QuestionnaireScreenView",
-      "line": 1457,
+      "line": 1458,
       "text": "game-setup game-creator",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4185,7 +4177,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "SavesScreen",
-      "line": 1541,
+      "line": 1542,
       "text": " · {save.residence.name}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4193,7 +4185,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 1833,
+      "line": 1835,
       "text": "School, and anything waiting on you",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4201,7 +4193,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 1838,
+      "line": 1840,
       "text": "your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4209,7 +4201,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 1840,
+      "line": 1842,
       "text": "running for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4217,7 +4209,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "workHint",
-      "line": 1841,
+      "line": 1843,
       "text": "jobs and study",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4225,7 +4217,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1853,
+      "line": 1855,
       "text": "What is happening, what is next, and your time",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4233,7 +4225,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1870,
+      "line": 1872,
       "text": "Your commitments, and the chamber's",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4241,7 +4233,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1877,
+      "line": 1879,
       "text": "People / Friends",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4249,7 +4241,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1878,
+      "line": 1880,
       "text": "Family, friends, work, politics",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4257,7 +4249,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1886,
+      "line": 1888,
       "text": "You, the household, money",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4265,7 +4257,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1911,
+      "line": 1913,
       "text": "Where you are, where you can go, and what is on there",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4273,7 +4265,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1919,
+      "line": 1921,
       "text": "Public meetings and your municipal work",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4281,7 +4273,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1927,
+      "line": 1929,
       "text": "Published public records",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4289,7 +4281,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1935,
+      "line": 1937,
       "text": "Chapters, and what is still open",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4297,7 +4289,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1943,
+      "line": 1945,
       "text": "Settings this game actually reads",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4305,7 +4297,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1950,
+      "line": 1952,
       "text": "Patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4313,7 +4305,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "destinations",
-      "line": 1951,
+      "line": 1953,
       "text": "What has changed, read from this build",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4321,7 +4313,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "dossierFor",
-      "line": 1980,
+      "line": 1982,
       "text": "Here in the room with you.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4329,7 +4321,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "openTheBill",
-      "line": 2011,
+      "line": 2013,
       "text": "This work is not available in the current world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4337,7 +4329,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 2182,
+      "line": 2209,
       "text": "pg-action-menu civic-glass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4345,7 +4337,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 2184,
+      "line": 2211,
       "text": "{actionPerson.name} actions",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4353,7 +4345,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 2301,
+      "line": 2325,
       "text": "life-hud-note life-hud-note--problem",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4361,7 +4353,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PlayingScreen",
-      "line": 2321,
+      "line": 2345,
       "text": "life-hud-note life-hud-note--problem",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4369,15 +4361,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 2568,
-      "text": "ui-action ui-action--subtle",
-      "verdict": "NEEDS_CLASSIFICATION",
-      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
-    },
-    {
-      "sourcePath": "src/player/PlayerGame.tsx",
-      "enclosingSymbol": "renderWorkspace",
-      "line": 2692,
+      "line": 2689,
       "text": "Money and property",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4385,7 +4369,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 2692,
+      "line": 2689,
       "text": "Who you are",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4393,7 +4377,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 2765,
+      "line": 2762,
       "text": "Patch notes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4401,7 +4385,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2873,
+      "line": 2870,
       "text": "a measure this world no longer holds",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4409,7 +4393,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2881,
+      "line": 2878,
       "text": " has it next. ",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4417,7 +4401,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2884,
+      "line": 2881,
       "text": " It needs {workingGate.thresholdLabel}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4425,7 +4409,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2891,
+      "line": 2888,
       "text": "another measure",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4433,7 +4417,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2900,
+      "line": 2897,
       "text": "Close the bill",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4441,7 +4425,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2900,
+      "line": 2897,
       "text": "Look at what is moving",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4449,7 +4433,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2933,
+      "line": 2930,
       "text": "Unpin {workingName??\"themeasureyouareworkingon\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4457,7 +4441,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2934,
+      "line": 2931,
       "text": "Pin {workingName??\"themeasureyouareworkingon\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4465,7 +4449,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2949,
+      "line": 2946,
       "text": "ui-action ui-action--rail",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4473,7 +4457,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2960,
+      "line": 2957,
       "text": "Unpin {assignmentName??\"thisbill\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4481,7 +4465,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "legislativeOffice",
-      "line": 2961,
+      "line": 2958,
       "text": "Pin {assignmentName??\"thisbill\"}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4489,7 +4473,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 2981,
+      "line": 2978,
       "text": "Your court",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4497,7 +4481,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3000,
+      "line": 2997,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4505,7 +4489,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3015,
+      "line": 3012,
       "text": "Your office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4513,7 +4497,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3022,
+      "line": 3019,
       "text": "Running for office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4521,7 +4505,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3040,
+      "line": 3037,
       "text": "Jobs and study",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4529,7 +4513,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3088,
+      "line": 3085,
       "text": "Judicial office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4537,7 +4521,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3090,
+      "line": 3087,
       "text": "Executive office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4545,7 +4529,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3092,
+      "line": 3089,
       "text": "Legislative office",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4553,7 +4537,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "renderWorkspace",
-      "line": 3094,
+      "line": 3091,
       "text": "Growing up",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4561,7 +4545,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3155,
+      "line": 3152,
       "text": "game-story life-moment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4569,7 +4553,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3167,
+      "line": 3164,
       "text": "game-story life-moment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4577,7 +4561,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3178,
+      "line": 3175,
       "text": "game-scene-header life-moment-head",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4585,7 +4569,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3187,
+      "line": 3184,
       "text": " · {moment.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4593,7 +4577,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3223,
+      "line": 3220,
       "text": "game-choices life-choices",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4601,7 +4585,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3228,
+      "line": 3225,
       "text": "ui-action ui-action--choice",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4609,7 +4593,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3246,
+      "line": 3243,
       "text": "ui-action ui-action--choice ui-action--quiet",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4617,7 +4601,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3252,
+      "line": 3249,
       "text": "Let the year run on",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4625,7 +4609,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3252,
+      "line": 3249,
       "text": "Let time pass",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4633,7 +4617,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3281,
+      "line": 3278,
       "text": "Close the journal",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4641,7 +4625,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "StoryView",
-      "line": 3282,
+      "line": 3279,
       "text": "Open the journal — everything that has happened",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4649,7 +4633,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3423,
+      "line": 3420,
       "text": "game-day pg-today",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4657,7 +4641,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3426,
+      "line": 3423,
       "text": " · {today.placeName}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4665,7 +4649,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3451,
+      "line": 3448,
       "text": "ui-action ui-action--subtle pg-today-link",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4673,7 +4657,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3487,
+      "line": 3484,
       "text": "From today",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4681,7 +4665,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3490,
+      "line": 3487,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4689,7 +4673,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3499,
+      "line": 3496,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4697,7 +4681,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "TodayView",
-      "line": 3508,
+      "line": 3505,
       "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4705,7 +4689,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "PassDayControl",
-      "line": 3543,
+      "line": 3540,
       "text": "game-choices pg-pass-day",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -4713,7 +4697,7 @@
     {
       "sourcePath": "src/player/PlayerGame.tsx",
       "enclosingSymbol": "WorkLayout",
-      "line": 3599,
+      "line": 3596,
       "text": "On this page",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -5123,6 +5107,182 @@
       "enclosingSymbol": "masking",
       "line": 219,
       "text": "{transform.xOffset-topLeft.x}px {transform.yOffset-topLeft.y}px",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "name",
+      "line": 177,
+      "text": "Everyone here",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "say",
+      "line": 211,
+      "text": "No time passed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "say",
+      "line": 213,
+      "text": "{formatMinute(before.minuteOfDay)} → {formatMinute(after.minuteOfDay)}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "say",
+      "line": 214,
+      "text": "{formatMinute(before.minuteOfDay)} → {formatMinute(after.minuteOfDay)}, {after.date}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "say",
+      "line": 226,
+      "text": "[data-testid=\"conversation-intents\"] button, [data-testid=\"talk-back\"]",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "say",
+      "line": 232,
+      "text": "That did not come out right.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 244,
+      "text": "Conversation with {name}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 267,
+      "text": "ui-action ui-action--subtle pg-talk-back",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 291,
+      "text": "Who you are talking to",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 353,
+      "text": "What you say",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 389,
+      "text": "pg-talk-chip pg-talk-listen",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 399,
+      "text": "pg-talk-row pg-talk-volume",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 401,
+      "text": "How you say it",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 408,
+      "text": "pg-talk-chip pg-talk-chip--small",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 464,
+      "text": "{bystanders.join(\"and\")} {bystanders.length===1?\"hears\":\"hear\"} this too.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 467,
+      "text": "Nobody else hears this.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "SceneConversation",
+      "line": 469,
+      "text": " Each exchange takes 2 minutes; spending time together takes 30.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "HeardNote",
+      "line": 592,
+      "text": "{facingName} was there and heard that.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "HeardNote",
+      "line": 593,
+      "text": "{facingName} did not hear that.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "ConversationStarters",
+      "line": 628,
+      "text": "pg-personal-section pg-talk-starters",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "ConversationStarters",
+      "line": 643,
+      "text": "ui-action ui-action--subtle",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/SceneConversation.tsx",
+      "enclosingSymbol": "ConversationStarters",
+      "line": 650,
+      "text": " · settled for now",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -6033,7 +6193,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "commit",
-      "line": 93,
+      "line": 100,
       "text": "Nothing changed. No time passed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6041,7 +6201,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "clock",
-      "line": 102,
+      "line": 109,
       "text": "{formatMinute(beforeMoment.minuteOfDay)} → {formatMinute(after.minuteOfDay)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6049,7 +6209,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "clock",
-      "line": 103,
+      "line": 110,
       "text": "{formatMinute(beforeMoment.minuteOfDay)} → {formatMinute(after.minuteOfDay)}, {after.date}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6057,7 +6217,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "moved",
-      "line": 105,
+      "line": 112,
       "text": " · {afterPlace}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6065,7 +6225,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "commit",
-      "line": 111,
+      "line": 118,
       "text": "Done. No time passed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6073,7 +6233,7 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "commit",
-      "line": 120,
+      "line": 127,
       "text": "That action is no longer available.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6081,7 +6241,23 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 163,
+      "line": 133,
+      "text": "life-moment pg-opening-flow",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
+      "enclosingSymbol": "LifeScenePanel",
+      "line": 158,
+      "text": "What you do",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
+      "enclosingSymbol": "LifeScenePanel",
+      "line": 188,
       "text": "People here",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -6089,24 +6265,24 @@
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 177,
-      "text": " · {describePersonContext(world,playerPersonId,id)!.relationship}",
+      "line": 203,
+      "text": "ui-action ui-action--subtle",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
       "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
       "enclosingSymbol": "LifeScenePanel",
-      "line": 183,
-      "text": "Conversation with {talk.person.name}",
+      "line": 210,
+      "text": " · {relationship}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
     {
-      "sourcePath": "src/player/opening-life/OpeningLifeFlow.tsx",
-      "enclosingSymbol": "OpeningLifeFlow",
-      "line": 61,
-      "text": "life-moment pg-opening-flow",
+      "sourcePath": "src/player/opening-life/LifeScenePanel.tsx",
+      "enclosingSymbol": "LifeScenePanel",
+      "line": 233,
+      "text": "Nothing else is waiting here right now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -10905,7 +11081,7 @@
     {
       "sourcePath": "src/presentation/life-talk-conversation.ts",
       "enclosingSymbol": "commitLifeTalkConversationTurn",
-      "line": 241,
+      "line": 244,
       "text": "You · {intentLabel}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -10913,7 +11089,7 @@
     {
       "sourcePath": "src/presentation/life-talk-conversation.ts",
       "enclosingSymbol": "commitLifeTalkConversationTurn",
-      "line": 243,
+      "line": 246,
       "text": "{personName(world.people[addressee]!)} replied.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12345,7 +12521,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1082,
+      "line": 1093,
       "text": "“I heard the request, and my condition hasn’t changed: {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} needs to find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12353,7 +12529,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1083,
+      "line": 1094,
       "text": "“Pressing me won’t replace the missing fact. Have {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12361,7 +12537,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1085,
+      "line": 1096,
       "text": "“All right. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))}, check the third county referral; if its proof-of-income form was missing too, I’ll back the staff checklist at the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12369,7 +12545,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1086,
+      "line": 1097,
       "text": "“All right. Put the three county referrals in front of me, and I’ll give you a clear answer on the document checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12377,7 +12553,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1088,
+      "line": 1099,
       "text": "{personName(speaker)} is holding a boundary until another case is verified.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12385,7 +12561,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1089,
+      "line": 1100,
       "text": "{personName(speaker)} agreed to a narrow next step before the briefing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12393,7 +12569,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1102,
+      "line": 1113,
       "text": "“All right. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} can check the third referral, and I’ll back a staff checklist focused on required documents at the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12401,7 +12577,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1103,
+      "line": 1114,
       "text": "“All right. Keep it tied to the missing proof-of-income forms, and I’ll back the pre-referral document checklist at the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12409,7 +12585,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1106,
+      "line": 1117,
       "text": "“I’ve got the third referral. I’ll check whether the county received it without the proof-of-income form and report back before the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12417,7 +12593,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1107,
+      "line": 1118,
       "text": "“Yes. I’ll call the neighborhood office and check whether the third county referral lacked the proof-of-income form before the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12425,7 +12601,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1109,
+      "line": 1120,
       "text": "“Not yet. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))}, find out whether the third county referral lacked the proof-of-income form too. Then I can answer on the staff checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12433,7 +12609,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1112,
+      "line": 1123,
       "text": "“Not yet. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} is checking the third county referral; once he reports whether its proof-of-income form was missing, I can decide on the staff checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12441,7 +12617,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1113,
+      "line": 1124,
       "text": "“Not yet. Have {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} check whether the third county referral lacked the proof-of-income form, and then I can answer on the staff checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12449,7 +12625,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1115,
+      "line": 1126,
       "text": "{personName(speaker)} agreed to a bounded commitment before the briefing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12457,7 +12633,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1116,
+      "line": 1127,
       "text": "{personName(speaker)} deferred a commitment pending one more verified case.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12465,7 +12641,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1128,
+      "line": 1139,
       "text": "“That helps. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))}, check the third referral; we’ll keep the staff checklist focused on the required document these cases establish.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12473,7 +12649,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1129,
+      "line": 1140,
       "text": "“That helps. Keep the staff checklist focused on the proof-of-income form these referrals establish.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12481,7 +12657,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1130,
+      "line": 1141,
       "text": "“Good. I’ll check whether the third county referral lacked the proof-of-income form and bring back that fact.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12489,7 +12665,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveNpcResponse",
-      "line": 1131,
+      "line": 1142,
       "text": "{personName(speaker)} welcomed a narrow, evidence-led approach.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12497,7 +12673,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "QUIET_ROOM_LINES",
-      "line": 1151,
+      "line": 1162,
       "text": "Nobody said anything, and the moment went past.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12505,7 +12681,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "QUIET_ROOM_LINES",
-      "line": 1152,
+      "line": 1163,
       "text": "It stayed unsaid, and after a while it stopped being a pause.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12513,7 +12689,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "QUIET_ROOM_LINES",
-      "line": 1153,
+      "line": 1164,
       "text": "Neither of them took it up, and the quiet did not seem to need explaining.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12521,7 +12697,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveLegislativeProvisionResponse",
-      "line": 1209,
+      "line": 1220,
       "text": "“My read is that Section 3 sets an {input.progress.subjectFacts.currentAmount} ceiling for this office draft,” {speaker.familyName} says. “Under the staff projection, the prepared {input.progress.subjectFacts.preparedAmount} version cuts the modeled maximum outlay in half for the same eligible-rider scope. That is a forecast comparison, not an appropriation or implementation.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12529,7 +12705,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolveLegislativeProvisionResponse",
-      "line": 1210,
+      "line": 1221,
       "text": "{personName(speaker)} distinguished the current working language from a qualified staff projection and from actual implementation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12537,7 +12713,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1323,
+      "line": 1334,
       "text": "The last exchange between the two of them is recorded as having gone badly.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12545,7 +12721,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1337,
+      "line": 1348,
       "text": "The two of them have a recorded exchange that went well.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12553,7 +12729,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1355,
+      "line": 1366,
       "text": "They are already recorded as carrying something with hours attached.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12561,7 +12737,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1376,
+      "line": 1387,
       "text": "They are on the same household record, and the week lands on both of them either way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12569,7 +12745,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1396,
+      "line": 1407,
       "text": "They were asked plainly, to their face.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12577,7 +12753,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1407,
+      "line": 1418,
       "text": "This has been raised between them more than once already.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12585,7 +12761,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluateSubjectResponseDecision",
-      "line": 1430,
+      "line": 1441,
       "text": "Say no to it",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12593,7 +12769,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1447,
+      "line": 1458,
       "text": "“I know,” {name} says. “I was going to bring it up and then I did not.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12601,7 +12777,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1448,
+      "line": 1459,
       "text": "“Yes,” {name} says, without any edge on it. “I have been not-saying it too.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12609,7 +12785,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1449,
+      "line": 1460,
       "text": "“Good,” {name} says. “One of us had to.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12617,7 +12793,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1451,
+      "line": 1462,
       "text": "{full} had been meaning to raise the same thing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12625,7 +12801,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1455,
+      "line": 1466,
       "text": "“I know,” {name} says. “I have been not-saying it too.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12633,7 +12809,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1456,
+      "line": 1467,
       "text": "“Right,” {name} says, and puts the cup down. “Go on, then.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12641,7 +12817,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1457,
+      "line": 1468,
       "text": "“It is the same week for me,” {name} says. “So. Yes.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12649,7 +12825,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1459,
+      "line": 1470,
       "text": "{full} had been avoiding the same conversation.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12657,7 +12833,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1463,
+      "line": 1474,
       "text": "“Here we go,” {name} says, not quite under their breath.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12665,7 +12841,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1464,
+      "line": 1475,
       "text": "“I wondered how long that would take,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12673,7 +12849,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1465,
+      "line": 1476,
       "text": "“We have had this one,” {name} says. “But go on.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12681,7 +12857,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_RAISE",
-      "line": 1468,
+      "line": 1479,
       "text": "{full} treated it as a conversation the two of them had already had.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12689,7 +12865,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1475,
+      "line": 1486,
       "text": "“Then I owe you one,” {name} says. “I mean that.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12697,7 +12873,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1476,
+      "line": 1487,
       "text": "“You are sure?” {name} says, and then, “thank you. Properly.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12705,7 +12881,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1477,
+      "line": 1488,
       "text": "“That is a help,” {name} says. “More than you think.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12713,7 +12889,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1479,
+      "line": 1490,
       "text": "{full} accepted the offer and said it counted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12721,7 +12897,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1483,
+      "line": 1494,
       "text": "“All right,” {name} says. “If you are offering.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12729,7 +12905,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1484,
+      "line": 1495,
       "text": "“Fine by me,” {name} says. “Say if it turns out to be too much.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12737,7 +12913,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1485,
+      "line": 1496,
       "text": "“Take it, then,” {name} says. “I will not argue.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12745,7 +12921,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1487,
+      "line": 1498,
       "text": "{full} accepted the offer without making much of it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12753,7 +12929,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1491,
+      "line": 1502,
       "text": "“Right,” {name} says. “Well. That is this week sorted.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12761,7 +12937,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1492,
+      "line": 1503,
       "text": "“If you want,” {name} says, already halfway out of the room.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12769,7 +12945,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1493,
+      "line": 1504,
       "text": "“You do not have to make a point of it,” {name} says, and takes it anyway.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12777,7 +12953,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_OFFER",
-      "line": 1495,
+      "line": 1506,
       "text": "{full} took the offer and did not treat it as a favour.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12785,7 +12961,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1502,
+      "line": 1513,
       "text": "“Half each works,” {name} says. “Tell me which half.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12793,7 +12969,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1503,
+      "line": 1514,
       "text": "“That is fair,” {name} says. “You pick, I will do the rest.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12801,7 +12977,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1504,
+      "line": 1515,
       "text": "“Good,” {name} says. “Write it down so neither of us forgets.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12809,7 +12985,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1506,
+      "line": 1517,
       "text": "{full} agreed to split {errands}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12817,7 +12993,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1510,
+      "line": 1521,
       "text": "“Half each, then,” {name} says. “Which half do you want?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12825,7 +13001,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1511,
+      "line": 1522,
       "text": "“That will do,” {name} says. “Say which bits are yours.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12833,7 +13009,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1512,
+      "line": 1523,
       "text": "“Split it,” {name} says. “Fine.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12841,7 +13017,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1514,
+      "line": 1525,
       "text": "{full} agreed to split {errands}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12849,7 +13025,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1518,
+      "line": 1529,
       "text": "“Half,” {name} says. “And we both actually do it this time.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12857,7 +13033,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1519,
+      "line": 1530,
       "text": "“All right,” {name} says. “But I am not doing yours as well.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12865,7 +13041,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1520,
+      "line": 1531,
       "text": "“Down the middle,” {name} says, “and I will hold you to it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12873,7 +13049,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_SHARE",
-      "line": 1523,
+      "line": 1534,
       "text": "{full} agreed to split {errands}, with the last time attached to it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12881,7 +13057,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1537,
+      "line": 1548,
       "text": "“Of course,” {name} says. “You have had a week of it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12889,7 +13065,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1538,
+      "line": 1549,
       "text": "“Leave it with me,” {name} says. “Go and sit down.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12897,7 +13073,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1539,
+      "line": 1550,
       "text": "“I will get it,” {name} says. “It is not a problem.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12905,7 +13081,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1541,
+      "line": 1552,
       "text": "{full} took {errands} on without making a condition of it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12913,7 +13089,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1545,
+      "line": 1556,
       "text": "“Fine. I will do it,” {name} says. “Not every week, though.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12921,7 +13097,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1546,
+      "line": 1557,
       "text": "“This week,” {name} says. “Not as a standing arrangement.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12929,7 +13105,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1547,
+      "line": 1558,
       "text": "“All right,” {name} says. “Once.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12937,7 +13113,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1549,
+      "line": 1560,
       "text": "{full} took {errands} on, and said so with a limit attached.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12945,7 +13121,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1553,
+      "line": 1564,
       "text": "“I will do it,” {name} says. “I am saying that with a face, though.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12953,7 +13129,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1554,
+      "line": 1565,
       "text": "“Since you are asking,” {name} says, in the voice that means it is noted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12961,7 +13137,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1555,
+      "line": 1566,
       "text": "“Right,” {name} says. “Add it to the list of things I am doing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12969,7 +13145,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_TAKEN",
-      "line": 1557,
+      "line": 1568,
       "text": "{full} took {errands} on and made sure it was noticed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12977,7 +13153,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1564,
+      "line": 1575,
       "text": "“I cannot this week,” {name} says, and looks like they mean it. “I am sorry.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12985,7 +13161,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1565,
+      "line": 1576,
       "text": "“Not this one,” {name} says. “Any other week, ask me again.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -12993,7 +13169,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1566,
+      "line": 1577,
       "text": "“I would if I could,” {name} says. “I genuinely cannot.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13001,7 +13177,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1568,
+      "line": 1579,
       "text": "{full} could not take {errands} on and said why.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13009,7 +13185,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1572,
+      "line": 1583,
       "text": "“No,” {name} says. “My week is the same as yours.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13017,7 +13193,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1573,
+      "line": 1584,
       "text": "“I have got nothing spare either,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13025,7 +13201,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1574,
+      "line": 1585,
       "text": "“Not this week,” {name} says. “It will have to be both of us or neither.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13033,7 +13209,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1576,
+      "line": 1587,
       "text": "{full} would not take {errands} on.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13041,7 +13217,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1580,
+      "line": 1591,
       "text": "“No,” {name} says. “Not again.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13049,7 +13225,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1581,
+      "line": 1592,
       "text": "“You always ask,” {name} says, “and I always say yes. Not this time.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13057,7 +13233,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1582,
+      "line": 1593,
       "text": "“I am not doing it,” {name} says. “That is not me being difficult.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13065,7 +13241,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "HOUSEHOLD_ASK_REFUSED",
-      "line": 1585,
+      "line": 1596,
       "text": "{full} refused {errands}, and made it about more than this week.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13073,7 +13249,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1666,
+      "line": 1677,
       "text": "Take the week's errands on this time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13081,7 +13257,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1670,
+      "line": 1681,
       "text": "Say the week will not stretch to it either.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13089,7 +13265,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1697,
+      "line": 1708,
       "text": "“I thought you were doing that bit,” {name} says, and then, “sorry. I did think that.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13097,7 +13273,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1698,
+      "line": 1709,
       "text": "“Oh,” {name} says. “I had that down as yours. That is on me.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13105,7 +13281,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1699,
+      "line": 1710,
       "text": "“Right,” {name} says. “Neither of us, then. Good to know now.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13113,7 +13289,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1701,
+      "line": 1712,
       "text": "{full} had assumed the unstarted part was somebody else's.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13121,7 +13297,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1705,
+      "line": 1716,
       "text": "“I thought you had it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13129,7 +13305,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1706,
+      "line": 1717,
       "text": "“Nobody has done it?” {name} says. “Great.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13137,7 +13313,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1707,
+      "line": 1718,
       "text": "“So that is still sitting there,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13145,7 +13321,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1709,
+      "line": 1720,
       "text": "{full} had assumed the unstarted part was somebody else's.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13153,7 +13329,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1713,
+      "line": 1724,
       "text": "“This again,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13161,7 +13337,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1714,
+      "line": 1725,
       "text": "“I am not doing all of it,” {name} says, before anything else is said.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13169,7 +13345,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1715,
+      "line": 1726,
       "text": "“Let me guess,” {name} says. “It is mine.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13177,7 +13353,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_RAISE",
-      "line": 1717,
+      "line": 1728,
       "text": "{full} answered as somebody expecting to be handed the work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13185,7 +13361,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1724,
+      "line": 1735,
       "text": "“You do not have to do that,” {name} says, already writing their name next to a different section.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13193,7 +13369,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1725,
+      "line": 1736,
       "text": "“Then I will do the rest of it properly,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13201,7 +13377,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1726,
+      "line": 1737,
       "text": "“That is decent of you,” {name} says. “I will get the other half done.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13209,7 +13385,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1728,
+      "line": 1739,
       "text": "{full} took a section rather than accept the whole offer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13217,7 +13393,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1732,
+      "line": 1743,
       "text": "“If you want it,” {name} says. “I will take the rest.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13225,7 +13401,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1733,
+      "line": 1744,
       "text": "“All right,” {name} says. “I have got the other part.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13233,7 +13409,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1734,
+      "line": 1745,
       "text": "“Suits me,” {name} says, and writes their name next to something else.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13241,7 +13417,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1736,
+      "line": 1747,
       "text": "{full} took a section rather than accept the whole offer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13249,7 +13425,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1740,
+      "line": 1751,
       "text": "“Fine,” {name} says. “You do that bit and I will do mine.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13257,7 +13433,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1741,
+      "line": 1752,
       "text": "“Whatever works,” {name} says, not looking up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13265,7 +13441,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1742,
+      "line": 1753,
       "text": "“Sure,” {name} says. “That is what I thought would happen.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13273,7 +13449,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_OFFER",
-      "line": 1744,
+      "line": 1755,
       "text": "{full} accepted the split without treating it as generous.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13281,7 +13457,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1751,
+      "line": 1762,
       "text": "“Down the middle, then,” {name} says. “You pick first, so you cannot complain.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13289,7 +13465,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1752,
+      "line": 1763,
       "text": "“Deal,” {name} says. “Which half do you want?”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13297,7 +13473,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1753,
+      "line": 1764,
       "text": "“Half each,” {name} says. “Say now which bit is yours.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13305,7 +13481,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1755,
+      "line": 1766,
       "text": "{full} agreed to divide the unstarted work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13313,7 +13489,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1759,
+      "line": 1770,
       "text": "“Half each,” {name} says. “Fine.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13321,7 +13497,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1760,
+      "line": 1771,
       "text": "“All right,” {name} says. “Write down who has what.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13329,7 +13505,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1761,
+      "line": 1772,
       "text": "“Split it,” {name} says. “I do not mind which.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13337,7 +13513,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1763,
+      "line": 1774,
       "text": "{full} agreed to divide the unstarted work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13345,7 +13521,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1767,
+      "line": 1778,
       "text": "“Half,” {name} says. “And it gets done this time.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13353,7 +13529,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1768,
+      "line": 1779,
       "text": "“All right,” {name} says, “but I am not covering yours again.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13361,7 +13537,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1769,
+      "line": 1780,
       "text": "“Down the middle,” {name} says. “Actually down the middle.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13369,7 +13545,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_AGREED",
-      "line": 1772,
+      "line": 1783,
       "text": "{full} agreed to divide the work, with the last time attached to it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13377,7 +13553,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1779,
+      "line": 1790,
       "text": "“I cannot take half of it,” {name} says. “Not this week. I am sorry.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13385,7 +13561,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1780,
+      "line": 1791,
       "text": "“Ask me next time,” {name} says. “This one I genuinely cannot.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13393,7 +13569,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1781,
+      "line": 1792,
       "text": "“I would,” {name} says, “but I have got two others due.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13401,7 +13577,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1783,
+      "line": 1794,
       "text": "{full} could not take half of the work and said why.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13409,7 +13585,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1787,
+      "line": 1798,
       "text": "“No,” {name} says. “I have not got the time for half of it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13417,7 +13593,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1788,
+      "line": 1799,
       "text": "“Not half,” {name} says. “I will do a bit, not half.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13425,7 +13601,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1789,
+      "line": 1800,
       "text": "“I cannot,” {name} says. “That is all.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13433,7 +13609,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1791,
+      "line": 1802,
       "text": "{full} would not take half of the work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13441,7 +13617,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1795,
+      "line": 1806,
       "text": "“No,” {name} says. “I did it last time.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13449,7 +13625,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1796,
+      "line": 1807,
       "text": "“That is not happening,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13457,7 +13633,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1797,
+      "line": 1808,
       "text": "“You keep asking,” {name} says. “The answer is still no.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13465,7 +13641,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "SCHOOL_SPLIT_REFUSED",
-      "line": 1800,
+      "line": 1811,
       "text": "{full} refused the split, and made it about more than this project.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13473,7 +13649,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1858,
+      "line": 1869,
       "text": "Take half of the unstarted work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13481,7 +13657,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1862,
+      "line": 1873,
       "text": "Say there is no room for half of it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13489,7 +13665,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1889,
+      "line": 1900,
       "text": "“I saw the notice,” {name} says. “I have not decided whether it is worth an evening.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13497,7 +13673,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1890,
+      "line": 1901,
       "text": "“You saw it too, then,” {name} says. “I keep meaning to think about it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13505,7 +13681,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1891,
+      "line": 1902,
       "text": "“It has been up a week,” {name} says. “Nobody has said anything about it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13513,7 +13689,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1893,
+      "line": 1904,
       "text": "{full} had seen the notice and not decided about it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13521,7 +13697,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1897,
+      "line": 1908,
       "text": "“I saw it,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13529,7 +13705,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1898,
+      "line": 1909,
       "text": "“The meeting,” {name} says. “Yes. I read it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13537,7 +13713,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1899,
+      "line": 1910,
       "text": "“It is still up,” {name} says. “That is about all I know.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13545,7 +13721,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1901,
+      "line": 1912,
       "text": "{full} had seen the notice and not decided about it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13553,7 +13729,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1905,
+      "line": 1916,
       "text": "“They put one up every year,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13561,7 +13737,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1906,
+      "line": 1917,
       "text": "“I have seen it,” {name} says. “I have seen a few of them.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13569,7 +13745,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1907,
+      "line": 1918,
       "text": "“Another meeting,” {name} says, without stopping.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13577,7 +13753,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_MENTION",
-      "line": 1910,
+      "line": 1921,
       "text": "{full} treated the notice as one of several that had come to nothing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13585,7 +13761,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1917,
+      "line": 1928,
       "text": "“Then tell me what they say,” {name} says. “I will take your word for it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13593,7 +13769,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1918,
+      "line": 1929,
       "text": "“Good,” {name} says. “Somebody from here should be in the room.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13601,7 +13777,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1919,
+      "line": 1930,
       "text": "“You go,” {name} says. “I will ask you after.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13609,7 +13785,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1921,
+      "line": 1932,
       "text": "{full} was content to hear about it secondhand.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13617,7 +13793,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1925,
+      "line": 1936,
       "text": "“Right,” {name} says. “Let me know.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13625,7 +13801,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1926,
+      "line": 1937,
       "text": "“Fair enough,” {name} says. “Tell me if anything comes of it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13633,7 +13809,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1927,
+      "line": 1938,
       "text": "“If you are going, you are going,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13641,7 +13817,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1929,
+      "line": 1940,
       "text": "{full} was content to hear about it secondhand.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13649,7 +13825,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1933,
+      "line": 1944,
       "text": "“You will be the only one,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13657,7 +13833,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1934,
+      "line": 1945,
       "text": "“Good luck,” {name} says, and does not mean it unkindly.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13665,7 +13841,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1935,
+      "line": 1946,
       "text": "“Somebody has to,” {name} says. “It is usually the same somebody.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13673,7 +13849,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_SAY_GOING",
-      "line": 1937,
+      "line": 1948,
       "text": "{full} expected the meeting to be attended by almost nobody.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13681,7 +13857,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1944,
+      "line": 1955,
       "text": "“All right,” {name} says. “I will go. You have talked me into it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13689,7 +13865,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1945,
+      "line": 1956,
       "text": "“Fine,” {name} says. “I will show my face.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13697,7 +13873,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1946,
+      "line": 1957,
       "text": "“If you are asking,” {name} says, “then yes.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13705,7 +13881,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1948,
+      "line": 1959,
       "text": "{full} agreed to go to the meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13713,7 +13889,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1952,
+      "line": 1963,
       "text": "“I can do that,” {name} says. “It is one evening.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13721,7 +13897,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1953,
+      "line": 1964,
       "text": "“All right,” {name} says. “I will be there.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13729,7 +13905,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1954,
+      "line": 1965,
       "text": "“Yes,” {name} says. “I have nothing on.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13737,7 +13913,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1956,
+      "line": 1967,
       "text": "{full} agreed to go to the meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13745,7 +13921,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1960,
+      "line": 1971,
       "text": "“I will go,” {name} says. “I am not staying for all of it.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13753,7 +13929,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1961,
+      "line": 1972,
       "text": "“Once,” {name} says. “I will go once.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13761,7 +13937,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1962,
+      "line": 1973,
       "text": "“Fine,” {name} says. “But you owe me an evening.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13769,7 +13945,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_GO",
-      "line": 1964,
+      "line": 1975,
       "text": "{full} agreed to go, and made the limits of it clear.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13777,7 +13953,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1971,
+      "line": 1982,
       "text": "“Maybe,” {name} says. “If it is still the route they are changing, maybe.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13785,7 +13961,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1972,
+      "line": 1983,
       "text": "“I cannot promise,” {name} says. “Ask me nearer the time.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13793,7 +13969,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1973,
+      "line": 1984,
       "text": "“I would like to,” {name} says, “but I would be lying if I said I would.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13801,7 +13977,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1976,
+      "line": 1987,
       "text": "{full} would go only if it turns out to be about their own street.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13809,7 +13985,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1980,
+      "line": 1991,
       "text": "“No,” {name} says. “Evenings are not mine to give away.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13817,7 +13993,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1981,
+      "line": 1992,
       "text": "“I will not be going,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13825,7 +14001,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1982,
+      "line": 1993,
       "text": "“Not this one,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13833,7 +14009,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1984,
+      "line": 1995,
       "text": "{full} said they would not be going.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13841,7 +14017,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1988,
+      "line": 1999,
       "text": "“No,” {name} says. “I went to the last one.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13849,7 +14025,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1989,
+      "line": 2000,
       "text": "“I have done my evening at that hall,” {name} says.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13857,7 +14033,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1990,
+      "line": 2001,
       "text": "“Not a chance,” {name} says. “Nothing came of the last three.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13865,7 +14041,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "NEIGHBORHOOD_WILL_NOT_GO",
-      "line": 1993,
+      "line": 2004,
       "text": "{full} refused, and said the earlier meetings had come to nothing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13873,7 +14049,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 2051,
+      "line": 2062,
       "text": "Give the evening and go to the meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13881,7 +14057,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "evaluation",
-      "line": 2055,
+      "line": 2066,
       "text": "Keep the evening and say so.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13889,7 +14065,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2097,
+      "line": 2108,
       "text": "“Here’s what I need,” {shortPersonName(world,conversationRole(input.room,\"briefing-lead\"))} says. “If the third county referral also lacked the proof-of-income form, I can back one document checklist for staff to use before future referrals. {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} is checking that missing fact.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13897,7 +14073,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2098,
+      "line": 2109,
       "text": "{personName(speaker)} made support for the checklist conditional on the last case.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13905,7 +14081,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2106,
+      "line": 2117,
       "text": "“I can make that call,” {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} says. “I’ll check whether the county received the third referral without the proof-of-income form and report back before the briefing.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13913,7 +14089,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2107,
+      "line": 2118,
       "text": "{personName(speaker)} promised to verify the remaining case before the briefing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13921,7 +14097,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2115,
+      "line": 2126,
       "text": "“Good,” {shortPersonName(world,conversationRole(input.room,\"briefing-lead\"))} says. “Once {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} reports on the third referral, put all three together and I’ll give you a final answer on the staff document checklist.”",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13929,7 +14105,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "resolvePendingConversationContribution",
-      "line": 2116,
+      "line": 2127,
       "text": "{personName(speaker)} kept a clear evidence condition while {shortPersonName(world,conversationRole(input.room,\"referral-verifier\"))} followed up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13937,7 +14113,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2283,
+      "line": 2294,
       "text": "Answer now",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13945,7 +14121,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2285,
+      "line": 2296,
       "text": "Give the requested answer before further verification.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13953,7 +14129,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2289,
+      "line": 2300,
       "text": "Hold the boundary",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13961,7 +14137,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2290,
+      "line": 2301,
       "text": "Require another verified case before answering.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13969,7 +14145,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2296,
+      "line": 2307,
       "text": "Make a bounded commitment",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13977,7 +14153,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2297,
+      "line": 2308,
       "text": "Agree to one concrete next step before the briefing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13985,7 +14161,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2301,
+      "line": 2312,
       "text": "Defer for evidence",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -13993,7 +14169,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "options",
-      "line": 2302,
+      "line": 2313,
       "text": "Ask for another verified case before committing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14001,7 +14177,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2346,
+      "line": 2357,
       "text": "The requested neighborhood follow-up is concrete and can begin now.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14009,7 +14185,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2356,
+      "line": 2367,
       "text": "The underlying case still needs verification.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14017,7 +14193,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2378,
+      "line": 2389,
       "text": "The actor's active goal favors understanding one more concrete local need.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14025,7 +14201,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2393,
+      "line": 2404,
       "text": "Visible concrete hardship supports taking a bounded step.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14033,7 +14209,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2408,
+      "line": 2419,
       "text": "The actor sees a possible benefit but remains uncertain.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14041,7 +14217,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationDecisionConsiderations",
-      "line": 2428,
+      "line": 2439,
       "text": "The recent working exchange supports taking the request seriously.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14049,7 +14225,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationEventSummary",
-      "line": 2698,
+      "line": 2709,
       "text": "{player} asked {speaker} about the selected {progress.subjectFacts.currentAmount} Transit Access Pilot working provision and its prepared {progress.subjectFacts.preparedAmount} version.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14057,7 +14233,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationEventSummary",
-      "line": 2702,
+      "line": 2713,
       "text": "{player} listened without speaking; the room settled without another claim.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14065,7 +14241,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationEventSummary",
-      "line": 2705,
+      "line": 2716,
       "text": "{player} listened while {speaker} continued the office discussion with a concrete next step.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14073,7 +14249,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "said",
-      "line": 2717,
+      "line": 2728,
       "text": "{player} spoke.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14081,7 +14257,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "conversationEventSummary",
-      "line": 2720,
+      "line": 2731,
       "text": "{said} {landed}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14089,7 +14265,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "joinNames",
-      "line": 2772,
+      "line": 2783,
       "text": "No one else",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14097,7 +14273,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "joinNames",
-      "line": 2774,
+      "line": 2785,
       "text": "{names[0]} and {names[1]}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -14105,7 +14281,7 @@
     {
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "enclosingSymbol": "joinNames",
-      "line": 2775,
+      "line": 2786,
       "text": "{names.slice(0,-1).join(\",\")}, and {names.at(-1)}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15163,6 +15339,14 @@
       "enclosingSymbol": "disposition",
       "line": 310,
       "text": "Development route only",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/scene-conversation.ts",
+      "enclosingSymbol": "conversationExchangeTurns",
+      "line": 85,
+      "text": "You {lowerFirst(event.context.choice)}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -51141,6 +51325,12 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 11
+    },
+    {
+      "sourcePath": "src/presentation/scene-conversation.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 9
     },
     {
       "sourcePath": "src/presentation/scene-consumers.ts",

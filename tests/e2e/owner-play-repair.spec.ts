@@ -308,6 +308,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
 
     // Campaign time does not leak into the ordinary conversation surface.
     await openElsewhere(page, "people");
+    await page.locator('[data-testid^="conversation-start-"]').first().click();
     const intent = page
       .getByTestId("conversation-intents")
       .first()

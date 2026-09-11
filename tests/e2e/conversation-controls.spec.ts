@@ -55,12 +55,24 @@ async function startLife(page: Page, age: number, childhood = false) {
   await openElsewhere(page, "people");
 }
 
+/**
+ * Opens one conversation from People, the way a player starts one.
+ *
+ * PT3: People lists the conversations this life can have as ways to start
+ * them; the conversation itself is the one box in the room.
+ */
+async function openConversation(page: Page, subject: string) {
+  await page.getByTestId(`conversation-start-${subject}`).click();
+  await expect(page.getByTestId(`conversation-${subject}`)).toBeVisible();
+}
+
 test.describe("A player can choose how loudly to speak, and to whom", () => {
   test("offers the three volumes at home, and says who hears it", async ({
     page,
   }) => {
     await freshBrowser(page);
     await startLife(page, 34);
+    await openConversation(page, "household-obligation");
 
     const conversation = page.getByTestId("conversation-household-obligation");
     await expect(conversation).toBeVisible();
@@ -90,6 +102,7 @@ test.describe("A player can choose how loudly to speak, and to whom", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, 15, true);
+    await openConversation(page, "school-project-share");
 
     const conversation = page.getByTestId("conversation-school-project-share");
     await expect(conversation).toBeVisible();
@@ -112,6 +125,7 @@ test.describe("A player can choose how loudly to speak, and to whom", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, 15, true);
+    await openConversation(page, "school-project-share");
 
     const conversation = page.getByTestId("conversation-school-project-share");
     await expect(conversation).toBeVisible();
@@ -127,6 +141,7 @@ test.describe("A player can choose how loudly to speak, and to whom", () => {
   test("lets the player pick which classmate to go to", async ({ page }) => {
     await freshBrowser(page);
     await startLife(page, 15, true);
+    await openConversation(page, "school-project-share");
 
     const conversation = page.getByTestId("conversation-school-project-share");
     const addressees = conversation.getByTestId("conversation-addressees");
@@ -157,10 +172,10 @@ test.describe("More than one conversation is reachable", () => {
     await startLife(page, 34);
 
     await expect(
-      page.getByTestId("conversation-household-obligation"),
+      page.getByTestId("conversation-start-household-obligation"),
     ).toBeVisible();
     await expect(
-      page.getByTestId("conversation-neighborhood-meeting-notice"),
+      page.getByTestId("conversation-start-neighborhood-meeting-notice"),
     ).toBeVisible();
   });
 
@@ -168,13 +183,14 @@ test.describe("More than one conversation is reachable", () => {
     await freshBrowser(page);
     await startLife(page, 15, true);
     await expect(
-      page.getByTestId("conversation-school-project-share"),
+      page.getByTestId("conversation-start-school-project-share"),
     ).toBeVisible();
   });
 
   test("says something back, and shows it", async ({ page }) => {
     await freshBrowser(page);
     await startLife(page, 34);
+    await openConversation(page, "household-obligation");
 
     const conversation = page.getByTestId("conversation-household-obligation");
     const before = await conversation
