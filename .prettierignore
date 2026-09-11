@@ -37,3 +37,9 @@ scripts/prose-corpus/computed-anchor-ledger.json
 src/simulation/municipal-governments.generated.ts
 src/simulation/municipal-capacity.generated.json
 src/simulation/municipal-rule-registry.generated.ts
+
+# Desktop shell derived output: the staged compiled client, packaged
+# artifacts, and the shell's own dependency tree are all generated.
+desktop/staged
+desktop/release-artifacts
+desktop/node_modules

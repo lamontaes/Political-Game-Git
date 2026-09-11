@@ -1,0 +1,129 @@
+name: Desktop packaging (read only)
+
+# Packages the desktop client on real macOS and Windows runners and uploads
+# the artifacts with checksums and exact source identity. This workflow is
+# read only: no signing secrets, no publication, no GitHub Release, no
+# update feed. Building here is not launch proof on that OS — a packaged
+# executable is untested until actually launched — but a Windows runner
+# build at least exercises NSIS on Windows itself.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "desktop/**"
+      - ".github/workflows/desktop-package.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            command: "node scripts/package.mjs --mac --arm64"
+            name: mac-arm64
+          - os: windows-latest
+            command: "node scripts/package.mjs --win --x64"
+            name: win-x64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - name: Check out the exact revision without write credentials
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install game dependencies
+        run: npm ci
+
+      - name: Build the game
+        env:
+          # scripts/dev-lab/run-config.ts requires in-checkout run artifacts
+          # to sit under the POSIX-shaped test-results/ prefix, which a
+          # Windows checkout path can never satisfy (path.relative emits
+          # backslashes). The guard explicitly supports an external artifact
+          # parent, so point run output outside the checkout instead of
+          # weakening the shared guard.
+          PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
+        run: npm run build
+
+      - name: Install desktop shell dependencies
+        run: npm ci --no-audit --no-fund
+        working-directory: desktop
+
+      - name: Prove the update contract deterministically
+        run: npm test
+        working-directory: desktop
+
+      - name: Stage compiled client with build identity
+        run: node scripts/stage.mjs
+        working-directory: desktop
+
+      - name: Package (unsigned)
+        env:
+          # Internal unsigned builds: never look for signing identities here.
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: ${{ matrix.command }}
+        working-directory: desktop
+
+      - name: Runtime smoke — install and launch the packaged client (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: desktop
+        # Installed-installer proof: run the actual NSIS installer silently,
+        # then drive the INSTALLED executable through launch → new life →
+        # keep → relaunch → continue on an isolated profile.
+        run: |
+          $setup = Get-ChildItem "release-artifacts" -Filter "*Setup*.exe" | Select-Object -First 1
+          if (-not $setup) { throw "No NSIS installer found" }
+          $dest = Join-Path $env:RUNNER_TEMP "ocd-install"
+          $proc = Start-Process -FilePath $setup.FullName -ArgumentList "/S","/D=$dest" -PassThru -Wait
+          if ($proc.ExitCode -ne 0) { throw "Installer exited $($proc.ExitCode)" }
+          $exe = Join-Path $dest "Our Civic Duty.exe"
+          if (-not (Test-Path $exe)) { throw "Installed executable missing at $exe" }
+          node scripts/smoke-test.mjs --app $exe --shell
+
+      - name: Runtime smoke — launch the packaged app (macOS)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        # Unpacked-.app proof on the runner (the DMG contains this same
+        # bundle); resize/fullscreen/minimize/quit included via --shell.
+        run: |
+          node scripts/smoke-test.mjs --app "release-artifacts/mac-arm64/Our Civic Duty.app/Contents/MacOS/Our Civic Duty" --shell
+
+      - name: Record checksums and source identity
+        shell: bash
+        working-directory: desktop
+        run: |
+          set -euo pipefail
+          cd release-artifacts
+          rm -rf mac-arm64 win-unpacked builder-debug.yml || true
+          {
+            # On a pull_request event GITHUB_SHA names the synthetic merge
+            # commit, not the tree this job checked out and built; ask the
+            # checkout itself, exactly as the staged build identity does.
+            echo "source revision: $(git rev-parse HEAD)"
+            echo "workflow run: $GITHUB_RUN_ID"
+            cat ../staged/build-identity.json
+            shasum -a 256 * 2>/dev/null || sha256sum *
+          } > SHA256SUMS-${{ matrix.name }}.txt
+          cat SHA256SUMS-${{ matrix.name }}.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: desktop-${{ matrix.name }}
+          path: |
+            desktop/release-artifacts/*
+          retention-days: 14
