@@ -5,7 +5,7 @@
  * not copied. Membership is never inferred from this file.
  */
 
-import generated from "./identities.generated.json";
+import generated from "./identities.generated.json" with { type: "json" };
 import type { DistrictIdentity } from "./types";
 import { DISTRICT_IDENTITY_VINTAGE } from "./types";
 
