@@ -51,7 +51,7 @@ import {
   readlinkSync,
   realpathSync,
 } from "node:fs";
-import { join, relative, resolve, isAbsolute, sep } from "node:path";
+import { dirname, join, relative, resolve, isAbsolute, sep } from "node:path";
 
 const SCHEMA_VERSION = 3;
 const SOURCE_IDENTITY_VERSION = "ocd-source-identity-v1";
@@ -144,6 +144,34 @@ function receiptExclusion(repoRoot, outDir, stage) {
 function artifactPaths(dir, stage) {
   const prefix = dir === "" ? "" : `${dir}/`;
   return [`${prefix}${stage}.json`, `${prefix}${stage}.log`];
+}
+
+/**
+ * The exact two paths a receipt found AT `receiptPath` may legitimately have
+ * excluded from its own source identity — derived from where that receipt
+ * file actually lives on disk, never from anything recorded inside the
+ * receipt's own (freely editable) JSON. A receipt cannot relocate itself by
+ * rewriting its content, so this is the one part of ownership validation a
+ * forged receipt cannot talk its way around.
+ *
+ * Mirrors receiptExclusion's own worktree/symlink handling so recording and
+ * verifying compute the same answer for the same real location, without
+ * repeating receiptExclusion's "must be a dedicated directory" enforcement —
+ * verify only needs to know what this receipt could have owned, not to
+ * police the directory's other contents.
+ */
+function expectedExcludePaths(repoRoot, receiptPath, stage) {
+  let rel;
+  try {
+    rel = relative(
+      realpathSync(repoRoot),
+      realpathSync(dirname(resolve(receiptPath))),
+    );
+  } catch {
+    return []; // the directory is gone; it can own nothing checkable either
+  }
+  if (rel.startsWith("..") || isAbsolute(rel)) return []; // outside the worktree
+  return artifactPaths(rel.split(sep).join("/"), stage);
 }
 
 /**
@@ -497,23 +525,36 @@ function runVerify({ receiptPath, expectBranch }) {
     );
   }
   if (receipt.schemaVersion === SCHEMA_VERSION) {
-    // A receipt may only ever have left out its own two artifacts. Recomputing
-    // with whatever list it carries would let a forged receipt name half the
-    // tree, so the list is checked before it is used.
+    // A receipt may only ever have left out its own two artifacts, at the
+    // exact repository-relative location where THIS receipt file actually
+    // lives — never a path that merely shares a basename with them. The
+    // expected list is derived from receiptPath itself (where --verify was
+    // told to look), which a forged receipt cannot rewrite, rather than from
+    // the receipt's own stage name matched loosely by basename: the earlier
+    // basename-only check let a receipt claim to exclude any same-named path
+    // anywhere in the tree (e.g. "src/check.json" for a "check" stage truly
+    // rooted at ".agent-receipts/"), which meant real tampering landed under
+    // a matching name could be laundered as an "owned" artifact and the
+    // fingerprint would recompute clean.
     const claimed = Array.isArray(receipt.sourceExcludePaths)
       ? receipt.sourceExcludePaths
       : null;
-    const ownArtifacts = new Set(artifactPaths("", receipt.stage || ""));
-    const foreign =
-      claimed &&
-      claimed.filter(
-        (path) =>
-          typeof path !== "string" ||
-          !ownArtifacts.has(path.split("/").pop() || ""),
-      );
-    if (!claimed || claimed.length > 2 || (foreign && foreign.length > 0)) {
+    const allStrings =
+      claimed !== null && claimed.every((p) => typeof p === "string");
+    const claimedSet = allStrings ? new Set(claimed) : null;
+    const repoRoot = git(["rev-parse", "--show-toplevel"]);
+    const expected = repoRoot
+      ? expectedExcludePaths(repoRoot, receiptPath, receipt.stage || "")
+      : null;
+    const matchesOwnLocation =
+      claimedSet !== null &&
+      expected !== null &&
+      claimedSet.size === claimed.length && // no duplicate entries
+      claimedSet.size === expected.length &&
+      expected.every((path) => claimedSet.has(path));
+    if (!matchesOwnLocation) {
       reasons.push(
-        `receipt claims to exclude paths it does not own (${JSON.stringify(claimed)}); only its own <stage>.json and <stage>.log may be left out of the source identity`,
+        `receipt claims to exclude paths it does not own (${JSON.stringify(claimed)}); this receipt, found at ${receiptPath}, may only exclude ${JSON.stringify(expected)}`,
       );
     } else {
       const currentSource = sourceIdentity(claimed);

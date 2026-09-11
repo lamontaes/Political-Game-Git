@@ -670,6 +670,77 @@ describe("agent-run-receipt: the output directory cannot hide source (EFF-R2)", 
     expect(result.stderr).toMatch(/claims to exclude paths it does not own/);
   });
 
+  it("refuses a same-basename exclusion claimed from a different directory (EFF157)", () => {
+    // The exclusion-ownership check must bind to this receipt's real,
+    // on-disk directory, not merely to a path that shares its stage's
+    // basename. Otherwise real tampering landed under a same-named path
+    // elsewhere in the tree could be "excluded" away by editing the
+    // receipt's own claimed sourceExcludePaths, and the fingerprint would
+    // recompute clean.
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "check", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "check").status).toBe(0);
+
+    // Real tampering: an untracked file lands elsewhere in the tree with
+    // the SAME basename as this stage's own receipt.
+    mkdirSync(join(dir, "src"), { recursive: true });
+    writeFileSync(join(dir, "src", "check.json"), '{"tampered":true}\n');
+
+    // Preserve the original control: unmodified, this is caught normally.
+    const caught = verify(dir, "check");
+    expect(caught.status).not.toBe(0);
+    expect(caught.stderr).toMatch(/source changed after the run/);
+
+    // Forge the exclusion list to name the tampered file by its matching
+    // basename, in a directory this receipt does not live in.
+    const receiptPath = join(dir, ".agent-receipts", "check.json");
+    const forged = {
+      ...readReceipt(dir, "check"),
+      sourceExcludePaths: ["src/check.json", ".agent-receipts/check.log"],
+    };
+    writeFileSync(receiptPath, JSON.stringify(forged));
+
+    const result = verify(dir, "check");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/claims to exclude paths it does not own/);
+    expect(result.stderr).toMatch(/may only exclude/);
+  });
+
+  it("refuses a receipt relocated to a different directory, even with an untouched fingerprint", () => {
+    // Binding exclusion ownership to receiptPath's real directory means a
+    // receipt that is copied or moved somewhere else stops matching its own
+    // claimed exclusions, even though nothing inside the JSON changed.
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "test").status).toBe(0);
+
+    // Copied under the already-gitignored receipts directory, so the copy
+    // itself is not new source and cannot be what fails this receipt.
+    mkdirSync(join(dir, ".agent-receipts", "elsewhere"), { recursive: true });
+    const original = readFileSync(
+      join(dir, ".agent-receipts", "test.json"),
+      "utf8",
+    );
+    writeFileSync(
+      join(dir, ".agent-receipts", "elsewhere", "test.json"),
+      original,
+    );
+
+    const relocated = runReceipt(dir, [
+      "--verify",
+      join(".agent-receipts", "elsewhere", "test.json"),
+    ]);
+    expect(relocated.status).not.toBe(0);
+    expect(relocated.stderr).toMatch(/claims to exclude paths it does not own/);
+
+    // The original, unmoved copy still verifies fine.
+    expect(verify(dir, "test").status).toBe(0);
+  });
+
   it("treats a non-receipt .json and an orphan .log in the output directory as source, not as its own artifacts", () => {
     const dir = makeFixtureRepo();
     cleanupDirs.push(dir);
