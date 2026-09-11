@@ -58,7 +58,11 @@ async function save(page: Page) {
 }
 
 async function continueSaved(page: Page) {
-  await page.reload();
+  /*
+   * The title screen, not this address again. A replay address rebuilds its
+   * world on load, so reloading one never offers Continue at all.
+   */
+  await page.goto("/");
   await page.getByTestId("continue").click();
   await enterOpening(page);
 }

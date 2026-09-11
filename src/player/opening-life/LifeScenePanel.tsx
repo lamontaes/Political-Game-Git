@@ -3,7 +3,7 @@ import {
   canJoinOrdinaryGroup,
   joinOrdinaryGroup,
 } from "../../presentation/ordinary-community";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { personName, describePersonContext } from "../../simulation";
 import type {
   EntityId,
@@ -45,6 +45,8 @@ export function LifeScenePanel({
   onWorldChange,
   onContinue,
   onTalkTo,
+  returnFocusTo = null,
+  onFocusReturned,
   transitionHandlers,
 }: {
   world: World;
@@ -53,10 +55,22 @@ export function LifeScenePanel({
   onContinue: () => void;
   /** Opens the shared conversation box with exactly this person. */
   onTalkTo: (personId: EntityId) => void;
+  /**
+   * Whose Talk-to control to focus, when the panel comes back from that
+   * person's conversation. Back with a keyboard has to land somewhere.
+   */
+  returnFocusTo?: EntityId | null;
+  onFocusReturned?: () => void;
   transitionHandlers?: FutureTransitionHandlerRegistry;
 }) {
   const [problem, setProblem] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
+  const talkToRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!returnFocusTo) return;
+    talkToRef.current?.focus();
+    onFocusReturned?.();
+  }, [returnFocusTo, onFocusReturned]);
   const identity = projectOpeningLife(world, playerPersonId);
   const scene = currentOpeningLifeScene(world, playerPersonId);
   const reflection = lifeReflectionOffer(world, playerPersonId);
@@ -204,6 +218,13 @@ export function LifeScenePanel({
                       type="button"
                       key={id}
                       data-testid={`life-talk-${id}`}
+                      ref={
+                        id === returnFocusTo
+                          ? (node) => {
+                              talkToRef.current = node;
+                            }
+                          : undefined
+                      }
                       onClick={() => onTalkTo(id)}
                     >
                       {personName(world.people[id]!)}

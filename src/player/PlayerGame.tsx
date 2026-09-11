@@ -1855,6 +1855,14 @@ function PlayingScreen({
     readonly subject: ConversationSubjectKey;
     readonly addressee: ConversationAddressee;
   } | null>(null);
+  /**
+   * Whose Talk-to control the room should focus when a conversation closes.
+   *
+   * Back with a keyboard used to leave focus on the page body. The scene
+   * panel does the focusing, because it owns the control and knows when it is
+   * on screen; this is the request, cleared as soon as it is honored.
+   */
+  const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
 
   const sceneId = useMemo(() => {
     const activity = completedActivityHere(session.world, session.personId);
@@ -2316,6 +2324,8 @@ function PlayingScreen({
                 <StoryView session={session} onWorldChange={onWorldChange} />
               }
               onTalkTo={(personId) => talkTo(personId)}
+              returnFocusTo={returnFocusTo}
+              onFocusReturned={() => setReturnFocusTo(null)}
               foreground={
                 conversation ? (
                   <SceneConversation
@@ -2329,19 +2339,9 @@ function PlayingScreen({
                     onBack={() => {
                       const facing = conversation.addressee;
                       setConversation(null);
-                      /*
-                       * Back returns focus to where the conversation was
-                       * started from in the room — the person's Talk-to
-                       * control, or the person themselves — so a keyboard
-                       * player is not dropped on the page body.
-                       */
-                      requestAnimationFrame(() => {
-                        document
-                          .querySelector<HTMLElement>(
-                            `[data-testid="life-talk-${facing}"], [data-testid="scene-person-${facing}"]`,
-                          )
-                          ?.focus();
-                      });
+                      // The room focuses the control this came from, so Back
+                      // with a keyboard lands on the person again.
+                      if (facing !== "everyone") setReturnFocusTo(facing);
                     }}
                     transitionHandlers={createCampaignElectionTransitionRegistry()}
                   />
