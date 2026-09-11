@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2334 |
+| INVENTORIED | 2353 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5641 |
-| DIAGNOSTIC_OR_TEST | 4641 |
-| **NEEDS_CLASSIFICATION** | **6090** |
+| DIAGNOSTIC_OR_TEST | 4656 |
+| **NEEDS_CLASSIFICATION** | **6087** |
 
-Scanned 550 files holding 70552 string
+Scanned 551 files holding 70681 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -241,7 +241,6 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/presentation/executive-work.ts` |
 | 4 | `src/presentation/setup-questionnaire-flow.ts` |
 | 4 | `src/presentation/social-invitation.ts` |
-| 4 | `src/simulation/life-personality.ts` |
 | 4 | `src/simulation/person-identity.ts` |
 | 4 | `src/simulation/portability-fixture.ts` |
 | 4 | `src/simulation/relationship-integration.ts` |
@@ -294,6 +293,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/people-directory.ts` |
 | 1 | `src/presentation/person-conversation-entry.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
+| 1 | `src/simulation/life-personality.ts` |
 | 1 | `src/simulation/national-counties.generated.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |
 | 1 | `src/simulation/setup-questionnaire.ts` |

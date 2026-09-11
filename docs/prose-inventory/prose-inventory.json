@@ -1,13 +1,13 @@
 {
-  "digest": "f27f9a37c243ade8",
+  "digest": "5571fad38aa29f61",
   "counts": {
-    "total": 2485,
+    "total": 2502,
     "byDomain": {
       "campaign": 23,
       "conversation": 197,
       "governing": 187,
       "legislative": 93,
-      "life": 1552,
+      "life": 1569,
       "narration": 75,
       "ordinary": 4,
       "setup": 354
@@ -17,12 +17,12 @@
       "artifact": 169,
       "callback": 41,
       "connective": 53,
-      "option-description": 401,
-      "option-label": 412,
-      "option-memory": 401,
+      "option-description": 406,
+      "option-label": 417,
+      "option-memory": 406,
       "option-witnessed": 54,
       "prompt": 74,
-      "scene-line": 202,
+      "scene-line": 204,
       "status": 335,
       "thread-recap": 32
     },
@@ -30,12 +30,12 @@
       "CURRENTLY_UNREACHABLE": 42,
       "DEV_FIXTURE_ONLY": 106,
       "LEGACY_OR_WITHDRAWN": 90,
-      "PLAYER_REACHABLE": 1810,
+      "PLAYER_REACHABLE": 1827,
       "UNKNOWN": 68,
       "WITHHELD_BY_GROUNDING": 369
     },
     "byRealization": {
-      "static": 2024,
+      "static": 2041,
       "templated": 461
     }
   },
@@ -48184,7 +48184,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/follow-through",
-      "text": "You spent some of your free time reading. You can keep going or put the book aside.",
+      "text": "You've been reading for the last fifteen minutes. You can read for five more, or stop here.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48213,7 +48213,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48221,7 +48221,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "29c2e20faf64",
+      "textRevision": "50278901a7b6",
       "contextRevision": "00af13abc24b"
     },
     {
@@ -48262,7 +48262,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48282,7 +48282,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/follow-through",
-      "text": "Mark your place and put the book aside",
+      "text": "Mark your place and stop",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48311,7 +48311,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48319,7 +48319,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "55228c968818",
+      "textRevision": "5910047bd457",
       "contextRevision": "00af13abc24b"
     },
     {
@@ -48331,7 +48331,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/follow-through",
-      "text": "You mark your place and put the book aside.",
+      "text": "You mark your place and put it aside.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48360,7 +48360,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48368,7 +48368,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "d57fdff59f60",
+      "textRevision": "344adbf2ebef",
       "contextRevision": "00af13abc24b"
     },
     {
@@ -48409,7 +48409,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48429,7 +48429,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/follow-through",
-      "text": "Read a little more before putting the book down",
+      "text": "Read five more minutes",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48458,7 +48458,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48466,7 +48466,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "c5f9d775b734",
+      "textRevision": "de5a3535c614",
       "contextRevision": "00af13abc24b"
     },
     {
@@ -48478,7 +48478,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/follow-through",
-      "text": "You spend a few more minutes reading.",
+      "text": "You read for another five minutes.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48507,7 +48507,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48515,7 +48515,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "861701769837",
+      "textRevision": "a6731851f0f2",
       "contextRevision": "00af13abc24b"
     },
     {
@@ -48527,7 +48527,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "You have a little free time at home. What would you like to do?",
+      "text": "You're at home with fifteen minutes free.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48551,7 +48551,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48559,7 +48559,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "a30e4ab74ffc",
+      "textRevision": "67608d7d3ff6",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48595,7 +48595,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48615,7 +48615,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "Spend time sketching",
+      "text": "Sketch",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48639,7 +48639,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48647,7 +48647,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "192b7f86ed5d",
+      "textRevision": "0f9b002dd25f",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48659,7 +48659,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "You spend a little time drawing.",
+      "text": "You spend the fifteen minutes sketching.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48683,7 +48683,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48691,7 +48691,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "1ba284f5a34b",
+      "textRevision": "e648c6255569",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48727,7 +48727,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48747,7 +48747,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "Read for a while",
+      "text": "Read",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48771,7 +48771,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48779,7 +48779,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "0631c424d46b",
+      "textRevision": "9b9a8d05a7ec",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48791,7 +48791,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "You spend a little time reading.",
+      "text": "You spend the fifteen minutes reading.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48815,7 +48815,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48823,7 +48823,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "7ee65853d9c2",
+      "textRevision": "258a0e3ed538",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48859,7 +48859,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48879,7 +48879,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "Rest for a few minutes",
+      "text": "Rest",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48903,7 +48903,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48911,7 +48911,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "6230fa38428d",
+      "textRevision": "05863ec2c378",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -48923,7 +48923,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.free-time/moment",
-      "text": "You take a quiet break.",
+      "text": "You rest for the fifteen minutes.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -48947,7 +48947,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -48955,7 +48955,790 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "6d1b877059ee",
+      "textRevision": "f4d4662a94a7",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "You've just made a plan to learn something, and there are five minutes open right now.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "a7407c78c9ec",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:later:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:later:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:later:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:later:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "Leave it for another time",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "c50a864ef2db",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:later:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:later:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "You set the plan aside for another time.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "d74a0e69425c",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:read:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:read:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:read:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:read:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "Start by reading now",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "e50eca42f035",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:read:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/follow-through",
+      "field": "option:read:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/follow-through",
+      "text": "You spend the five minutes reading.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        },
+        {
+          "key": "after-choice:moment:learning",
+          "description": "moment was answered learning.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "b2feb9f4fbdc",
+      "contextRevision": "f293784a44a9"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#line:0",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "line:0",
+      "surface": "scene-line",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "You're at home, thinking about what to make time for in the days ahead.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "7170840a5bca",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:connection:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:connection:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:connection:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:connection:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "Make time for people you know",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "153f9efd95f3",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:connection:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:connection:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "You decide to make time for people you know.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "cc239c30b1a4",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:learning:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:learning:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "Make time to learn something",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "dffc7f9c3522",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:learning:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "You decide to set aside some time to learn something.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "a2c18f0f6063",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:privacy:description",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:privacy:description",
+      "surface": "option-description",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "5 minutes",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "3170543ce47c",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:privacy:label",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:privacy:label",
+      "surface": "option-label",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "Make some time for yourself",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "0c1f9078b7e7",
+      "contextRevision": "5c295532ea72"
+    },
+    {
+      "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:privacy:memory",
+      "domain": "life",
+      "bank": "episode",
+      "stableKey": "opening.adult.home.plan-week/moment",
+      "field": "option:privacy:memory",
+      "surface": "option-memory",
+      "sourcePath": "src/simulation/episode-bank.ts",
+      "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.plan-week/moment",
+      "text": "You decide to make some time for yourself.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "PLAYER_REACHABLE",
+      "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
+      "grounding": [
+        {
+          "key": "age-at-least:18",
+          "description": "The character is at least 18.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "age-below:111",
+          "description": "The character is under 111.",
+          "kind": "age-gate"
+        },
+        {
+          "key": "home-recorded",
+          "description": "A current household is recorded.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "sourceDocument": "OPENING-LIFE1 / 92C",
+        "reference": "prose-review/pt3-first-session/adult-plan-week",
+        "family": "household",
+        "wave": "pre-92C"
+      },
+      "tags": [
+        "family:household",
+        "stakes:ordinary"
+      ],
+      "textRevision": "ec979747fd5e",
       "contextRevision": "5c295532ea72"
     },
     {
@@ -49003,7 +49786,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49057,7 +49840,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49111,7 +49894,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49165,7 +49948,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49219,7 +50002,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49273,7 +50056,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49329,7 +50112,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49349,10 +50132,10 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.shared-time/moment",
-      "text": "You and {role:household-companion} are both at home with time to talk.",
+      "text": "You're home, and so is {who:household-companion}.",
       "realization": "templated",
       "slots": [
-        "role:household-companion"
+        "who:household-companion"
       ],
       "reachability": "PLAYER_REACHABLE",
       "reachabilityReason": "The stage declares only ordinary requirements; play reaches it when they hold.",
@@ -49380,7 +50163,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49388,7 +50171,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "61f4c8741f93",
+      "textRevision": "dba39aa9c907",
       "contextRevision": "1e03f1b9e39e"
     },
     {
@@ -49429,7 +50212,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49449,7 +50232,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.shared-time/moment",
-      "text": "Ask how their day is going",
+      "text": "Ask about their day",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -49478,7 +50261,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49486,7 +50269,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "728449d93cca",
+      "textRevision": "74655e99c7df",
       "contextRevision": "1e03f1b9e39e"
     },
     {
@@ -49529,7 +50312,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49578,7 +50361,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49598,7 +50381,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.shared-time/moment",
-      "text": "Leave the topic to your housemate",
+      "text": "Let them pick the topic",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -49627,7 +50410,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49635,7 +50418,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "e03e29747cde",
+      "textRevision": "92afe6857036",
       "contextRevision": "1e03f1b9e39e"
     },
     {
@@ -49647,7 +50430,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.shared-time/moment",
-      "text": "You let {role:household-companion} choose a topic.",
+      "text": "You let {role:household-companion} choose what to talk about.",
       "realization": "templated",
       "slots": [
         "role:household-companion"
@@ -49678,7 +50461,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49686,7 +50469,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "167b992984eb",
+      "textRevision": "c2c0f48daced",
       "contextRevision": "1e03f1b9e39e"
     },
     {
@@ -49727,7 +50510,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49747,7 +50530,7 @@
       "surface": "option-label",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.adult.home.shared-time/moment",
-      "text": "Ask for some quiet time",
+      "text": "Ask for some quiet",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -49776,7 +50559,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -49784,7 +50567,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "be0e72f21b54",
+      "textRevision": "8a5bb636ab23",
       "contextRevision": "1e03f1b9e39e"
     },
     {
@@ -49827,7 +50610,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/adult-shared-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -54178,6 +54961,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54194,7 +54982,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c5de1763cb36",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:leave-on:description",
@@ -54227,6 +55015,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54243,7 +55036,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:leave-on:label",
@@ -54276,6 +55069,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54292,7 +55090,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "050f5aa92ac6",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:leave-on:memory",
@@ -54325,6 +55123,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54341,7 +55144,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b891c41f0e04",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:look:description",
@@ -54374,6 +55177,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54390,7 +55198,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:look:label",
@@ -54423,6 +55231,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54439,7 +55252,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "5323a483dcb1",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/follow-through#option:look:memory",
@@ -54472,6 +55285,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "after-choice:moment:lamp",
           "description": "moment was answered lamp.",
           "kind": "requirement"
@@ -54488,7 +55306,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "1e088bb6acf7",
-      "contextRevision": "9084c3f47b84"
+      "contextRevision": "be99cbdffd27"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#line:0",
@@ -54519,6 +55337,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54532,7 +55355,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "cadfb4e79bc4",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:covers:description",
@@ -54563,6 +55386,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54576,7 +55404,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:covers:label",
@@ -54607,6 +55435,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54620,7 +55453,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3bf2da52f55e",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:covers:memory",
@@ -54651,6 +55484,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54664,7 +55502,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a7db3e5aabb5",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:lamp:description",
@@ -54695,6 +55533,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54708,7 +55551,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:lamp:label",
@@ -54739,6 +55582,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54752,7 +55600,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "fa2d66340a9b",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:lamp:memory",
@@ -54783,6 +55631,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54796,7 +55649,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a6c613444f2f",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:look:description",
@@ -54827,6 +55680,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54840,7 +55698,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:look:label",
@@ -54871,6 +55729,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54884,7 +55747,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "bc0fdd6fd8ca",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.closet-fear/moment#option:look:memory",
@@ -54915,6 +55778,11 @@
           "key": "home-recorded",
           "description": "A current household is recorded.",
           "kind": "requirement"
+        },
+        {
+          "key": "local-time:1140:1440",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
         }
       ],
       "provenance": {
@@ -54928,7 +55796,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a64c1c991ae1",
-      "contextRevision": "4125b5c0d958"
+      "contextRevision": "f3106d95ca3d"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#line:0",
@@ -54961,6 +55829,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -54982,7 +55855,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "4b5460857ab3",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:another:description",
@@ -55015,6 +55888,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55036,7 +55914,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:another:label",
@@ -55069,6 +55947,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55090,7 +55973,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "63c593205897",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:another:memory",
@@ -55123,6 +56006,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55144,7 +56032,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "c782ef1457c2",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:enough:description",
@@ -55177,6 +56065,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55198,7 +56091,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:enough:label",
@@ -55231,6 +56124,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55252,7 +56150,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ab403607710d",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/follow-through#option:enough:memory",
@@ -55287,6 +56185,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55308,7 +56211,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a16754d2d721",
-      "contextRevision": "2d5c76ab7659"
+      "contextRevision": "937d4e234017"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#line:0",
@@ -55343,6 +56246,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55359,7 +56267,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "de99e0dcadf2",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:ask:description",
@@ -55392,6 +56300,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55408,7 +56321,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:ask:label",
@@ -55441,6 +56354,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55457,7 +56375,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "584cb72c9f2e",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:ask:memory",
@@ -55492,6 +56410,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55508,7 +56431,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "9529a003575e",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:no:description",
@@ -55541,6 +56464,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55557,7 +56485,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:no:label",
@@ -55590,6 +56518,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55606,7 +56539,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "ccc7e522e1ac",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:no:memory",
@@ -55641,6 +56574,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55657,7 +56595,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "e2c9418d981b",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:try:description",
@@ -55690,6 +56628,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55706,7 +56649,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b075b6e113fc",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:try:label",
@@ -55739,6 +56682,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55755,7 +56703,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "30051488829c",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.home.food-refusal/moment#option:try:memory",
@@ -55788,6 +56736,11 @@
           "kind": "requirement"
         },
         {
+          "key": "local-time:1020:1230",
+          "description": "The canonical moment is inside the declared local time window.",
+          "kind": "requirement"
+        },
+        {
           "key": "role:guardian",
           "description": "A canonical person fills the guardian role.",
           "kind": "role"
@@ -55804,7 +56757,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "00764224ac32",
-      "contextRevision": "3993b05f9cbb"
+      "contextRevision": "2e4336fa454f"
     },
     {
       "id": "prose:life:episode:opening.early.peer.dropped-treat/follow-through#line:0",
@@ -64642,7 +65595,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64691,7 +65644,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64740,7 +65693,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64789,7 +65742,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64838,7 +65791,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64887,7 +65840,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64936,7 +65889,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64956,7 +65909,7 @@
       "surface": "scene-line",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.young.home.choose-activity/moment",
-      "text": "You have a little free time at home. What would you like to do?",
+      "text": "You're at home, and the next fifteen minutes are yours.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -64980,7 +65933,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -64988,7 +65941,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "a30e4ab74ffc",
+      "textRevision": "f5ab92fa4560",
       "contextRevision": "3e6446445960"
     },
     {
@@ -65024,7 +65977,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65068,7 +66021,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65088,7 +66041,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.young.home.choose-activity/moment",
-      "text": "You spend a little time drawing.",
+      "text": "You draw for the fifteen minutes.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -65112,7 +66065,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65120,7 +66073,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "1ba284f5a34b",
+      "textRevision": "e542ef633c41",
       "contextRevision": "3e6446445960"
     },
     {
@@ -65156,7 +66109,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65200,7 +66153,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65220,7 +66173,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.young.home.choose-activity/moment",
-      "text": "You spend a little time reading.",
+      "text": "You read for the fifteen minutes.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -65244,7 +66197,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65252,7 +66205,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "7ee65853d9c2",
+      "textRevision": "2bf23e841d5b",
       "contextRevision": "3e6446445960"
     },
     {
@@ -65288,7 +66241,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65332,7 +66285,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65352,7 +66305,7 @@
       "surface": "option-memory",
       "sourcePath": "src/simulation/episode-bank.ts",
       "sourceSymbol": "EPISODE_FAMILIES/opening.young.home.choose-activity/moment",
-      "text": "You take a quiet break.",
+      "text": "You sit quietly until the fifteen minutes are up.",
       "realization": "static",
       "slots": [],
       "reachability": "PLAYER_REACHABLE",
@@ -65376,7 +66329,7 @@
       ],
       "provenance": {
         "sourceDocument": "OPENING-LIFE1 / 92C",
-        "reference": "https://docs.google.com/document/d/1a0yze5v9dmmpljkNyK24ObigE9NjShDzWkGWwq6UrOA/edit",
+        "reference": "prose-review/pt3-first-session/young-free-time",
         "family": "household",
         "wave": "pre-92C"
       },
@@ -65384,7 +66337,7 @@
         "family:household",
         "stakes:ordinary"
       ],
-      "textRevision": "6d1b877059ee",
+      "textRevision": "4e2faee9e563",
       "contextRevision": "3e6446445960"
     },
     {
