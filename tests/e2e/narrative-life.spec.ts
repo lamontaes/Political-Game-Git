@@ -203,43 +203,43 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     expect(await advanced.locator("summary").innerText()).toMatch(/advanced/i);
   });
 
-  test("offers no place until one is searched for", async ({ page }) => {
-    // THE DEFAULT-CARD REPAIR, now over the national corpus. Nothing is laid out
-    // unprompted; places are found, not offered. The search reaches the whole
-    // country (PR #77), so a specific town comes back rather than a short list
-    // of recommended states.
+  test("chooses a state before a hometown, with no hidden Kentucky", async ({
+    page,
+  }) => {
     await freshBrowser(page);
     await openCreator(page);
     await page.getByTestId("start-normal").click();
-    // Character comes before place now; step through it to reach the search.
     await expect(page.getByTestId("creator-stage-character")).toBeVisible();
     await page.getByTestId("creator-continue-character").click();
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
+    await expect(page.getByTestId("place-context")).toHaveCount(0);
     await expect(page.getByTestId("place-prompt")).toBeVisible();
 
-    // A specific town is found, named with its state.
-    await page.getByTestId("place-search").fill("Ann Arbor");
-    const annArbor = page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Ann Arbor, Michigan/i });
-    await expect(annArbor).toHaveCount(1);
+    await page.getByTestId("state-search").fill("Alabama");
+    await page.getByTestId("state-AL").click();
+    await expect(page.getByTestId("place-choices")).toBeVisible();
+    const alabama = await page.getByTestId("place-choices").innerText();
+    expect(alabama).not.toMatch(/Kentucky/i);
+    expect(alabama).not.toMatch(/Statewide/i);
 
-    // The authored Lexington is still findable, shown as a resident says it,
-    // and not duplicated by the corpus's "Lexington-Fayette" filing name.
-    await page.getByTestId("place-search").fill("Lexington");
-    const lexington = page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Lexington, Kentucky/i });
-    await expect(lexington.first()).toBeVisible();
+    await page.getByTestId("place-search").fill("lex");
+    const alabamaLex = await page.getByTestId("place-choices").innerText();
+    expect(alabamaLex).not.toMatch(/Kentucky/i);
+    expect(alabamaLex).toMatch(/Alabama/i);
+
+    await page.getByTestId("creator-change-state").click();
+    await page.getByTestId("state-search").fill("Kentucky");
+    await page.getByTestId("state-KY").click();
+    await page.getByTestId("place-search").fill("lex");
     await expect(
       page
         .getByTestId("place-choices")
-        .getByRole("button", { name: /Lexington-Fayette/i }),
-    ).toHaveCount(0);
-
-    await page.getByTestId("place-search").fill("zzzqqqx");
-    await expect(page.getByTestId("place-no-match")).toBeVisible();
+        .getByRole("button", { name: /Lexington, Kentucky/i }),
+    ).toBeVisible();
+    const kentucky = await page.getByTestId("place-choices").innerText();
+    expect(kentucky).not.toMatch(/Alabama/i);
+    expect(kentucky).not.toMatch(/Statewide/i);
   });
 });
 
