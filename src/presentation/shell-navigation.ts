@@ -60,6 +60,7 @@ export type ShellSurface =
   | "work"
   | "news"
   | "life-scenes"
+  | "places"
   | "municipal"
   | "journal"
   | "patch-notes"

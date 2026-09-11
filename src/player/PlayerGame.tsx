@@ -10,6 +10,7 @@ import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
+import { PlacesWorkspace } from "./PlacesWorkspace";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
 import { resolveActivityVenueScene } from "../presentation/scene-venues";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
@@ -1854,6 +1855,20 @@ function PlayingScreen({
       open: openSurface === "life-scenes",
     });
     entries.push({
+      /*
+       * Where this life can go, and what it can do when it gets there.
+       *
+       * A destination rather than a sub-page of the day: travelling, attending
+       * and going home are different actions from reading about today, and
+       * burying them under the moment panel is what made them undiscoverable.
+       */
+      surface: "places",
+      label: "Places",
+      hint: "Where you are, where you can go, and what is on there",
+      testid: "nav-places",
+      open: openSurface === "places",
+    });
+    entries.push({
       surface: "municipal",
       label: "Local government",
       hint: "Public meetings and your municipal work",
@@ -2609,6 +2624,27 @@ function renderWorkspace({
           playerPersonId={session.personId}
           onWorldChange={onWorldChange}
           onContinue={close}
+          transitionHandlers={createCampaignElectionTransitionRegistry()}
+        />,
+      );
+
+    case "places":
+      return frame(
+        "Places",
+        "places-workspace",
+        <PlacesWorkspace
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+          /*
+           * The same routes everything else uses. `openEntity` is what the
+           * dossier, the rail and the pin rail call, so a government or person
+           * opened from Places lands on the canonical record and Back behaves
+           * as it does everywhere — because it is one history, not a second
+           * navigation stack inside a workspace.
+           */
+          onOpenEntity={(ref) => openEntity(ref)}
+          onTogglePin={(ref) => togglePin(ref)}
           transitionHandlers={createCampaignElectionTransitionRegistry()}
         />,
       );
