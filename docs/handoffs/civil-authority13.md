@@ -207,6 +207,29 @@ Two findings belong to the UI owner and are not caused by this branch:
    answers, a party-only referral path, a decision-key collision and a
    forgeable lapse. All are fixed with regression tests. Every counterpart
    decision now happens on receipt.
+6. **Non-author check of the final consequential fixes.** A fourth
+   read-only pass ran probes against `6da3a5a6` and verified three areas:
+   - the per-employer offer key and the single-write answer: 0 of 30 seeds
+     changed their answer across positions or probation choices, and a save
+     with an unanswered offer is refused on load;
+   - the generated-TypeScript projection;
+   - the Custom Start: it is reachable only through `createNewGameWorld`; it
+     is refused for a non-Minnesota place, a normal start, age 24 and
+     formative depth; no step is available before 2026-09-06; it is
+     idempotent; and saves round-trip byte-identically.
+
+   It found no blocker and no major defect. Both minor findings are fixed. The
+   import guard now walks from every Node-loaded Playwright spec, the config
+   and the global setup, reading imports after TypeScript's type-only
+   elision; a negative control trips it. The vacancy step now names a
+   standing decline or an uncompiled state instead of "no candidate".
+
+   The pass also noted, without testing, that integrity does not tie an
+   authored-charter designation to the Custom Start event. A hand-forged save
+   could author an agency and charter outside the start. This predates the
+   entry. Integrity already restricts charters to authored `service:state-agency`
+   organizations, and it grants nothing over a real organization. It is left
+   for LAND as a hardening item.
 
 ## Verification
 

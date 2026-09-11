@@ -74,8 +74,8 @@ The supported transitions, the explicit state-agency Custom Start entry, the
 repair for the hosted browser-collection failure, focused and presentation
 tests, component and normal-route browser proofs (normal route in a disposable
 #144 composition), and the full repository gate are all complete. Adversarial
-reviews were independent, and the final consequential fixes are checked by a
-non-author.
+reviews were independent. A non-author checked the final consequential fixes
+and found no blocker or major defect, and both of its minor findings are fixed.
 
 Not delivered:
 

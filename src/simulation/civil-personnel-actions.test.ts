@@ -497,6 +497,18 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
       expect(again.ok).toBe(false);
       if (!again.ok) expect(again.reason).toContain("that answer stands");
     }
+    // The vacancy names the standing decline, not a missing candidate.
+    const vacancy = personnelMatters(
+      asPerson(offer.world, f.otherDirector),
+    ).find((m) => m.id === f.otherSpecialistPositionId);
+    expect(vacancy?.steps.find((s) => s.key === "reinstatement")).toMatchObject(
+      {
+        available: false,
+        reason: expect.stringContaining(
+          "declined reinstatement with this employer",
+        ),
+      },
+    );
   });
 
   it("gives the same answer whichever vacant position of the employer is offered", () => {

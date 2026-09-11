@@ -1445,6 +1445,26 @@ export type ReinstatementAssessment =
     }
   | { readonly available: false; readonly reason: string };
 
+const REINSTATEMENT_DECLINE_STANDS =
+  "They declined reinstatement with this employer, and that answer stands.";
+
+/** Refusals that depend on the position alone, before any candidate. */
+function reinstatementPositionBar(
+  world: World,
+  position: PersonnelPositionRecord,
+): string | null {
+  if (position.jurisdictionKey !== "US-MN")
+    return `No appointment procedure is compiled for ${position.jurisdictionKey}; selection, qualification and pay instruments are not acquired.`;
+  const applicability = procedureApplicability(
+    "mn-reinstatement",
+    world.currentDate,
+  );
+  if (applicability.state === "UNKNOWN") return applicability.reason;
+  if (position.civilClass !== "classified")
+    return "Direct reinstatement applies to classified job classes.";
+  return null;
+}
+
 /** Qualification is former class service within four years; kinship is irrelevant. */
 export function assessMinnesotaReinstatement(
   world: World,
@@ -1455,22 +1475,8 @@ export function assessMinnesotaReinstatement(
   const position = recordById(world, positionId, "position");
   if (!position)
     return { available: false, reason: "No authorized position is recorded." };
-  if (position.jurisdictionKey !== "US-MN")
-    return {
-      available: false,
-      reason: `No appointment procedure is compiled for ${position.jurisdictionKey}; selection, qualification and pay instruments are not acquired.`,
-    };
-  const applicability = procedureApplicability(
-    "mn-reinstatement",
-    world.currentDate,
-  );
-  if (applicability.state === "UNKNOWN")
-    return { available: false, reason: applicability.reason };
-  if (position.civilClass !== "classified")
-    return {
-      available: false,
-      reason: "Direct reinstatement applies to classified job classes.",
-    };
+  const barred = reinstatementPositionBar(world, position);
+  if (barred) return { available: false, reason: barred };
   const authority = personnelAuthority(
     world,
     actorPersonId,
@@ -1526,11 +1532,7 @@ export function assessMinnesotaReinstatement(
       responses.some((r) => r.offerId === o.id && r.response === "declined"),
     )
   )
-    return {
-      available: false,
-      reason:
-        "They declined reinstatement with this employer, and that answer stands.",
-    };
+    return { available: false, reason: REINSTATEMENT_DECLINE_STANDS };
   const formerPosition = recordById(world, former.positionId, "position")!;
   return {
     available: true,
@@ -2017,7 +2019,9 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
       assessMinnesotaReinstatement(world, actor, job.id, personId),
     );
     const eligible = assessments.some((a) => a.available);
-    const dated = procedureApplicability("mn-reinstatement", world.currentDate);
+    const declined = assessments.some(
+      (a) => !a.available && a.reason === REINSTATEMENT_DECLINE_STANDS,
+    );
     views.push({
       id: job.id,
       kind: "vacancy",
@@ -2039,9 +2043,10 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
           available: eligible,
           reason: eligible
             ? null
-            : dated.state === "UNKNOWN"
-              ? dated.reason
-              : "No former permanent or probationary employee of this job class, within four years of separation, can be offered it.",
+            : (reinstatementPositionBar(world, job) ??
+              (declined
+                ? "A former employee of this job class declined reinstatement with this employer, and that answer stands."
+                : "No former permanent or probationary employee of this job class, within four years of separation, can be offered it.")),
         },
       ],
     });
