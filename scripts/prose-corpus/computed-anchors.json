@@ -1427,46 +1427,6 @@
       "textRevision": "a56300e7ca19"
     },
     {
-      "anchor": "MunicipalWorkspace-0057",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "No recorded standing here",
-      "occurrence": 0,
-      "textRevision": "3a74ac0b2b07"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0058",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Pin {view.government.displayName}",
-      "occurrence": 0,
-      "textRevision": "1abd8754549c"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0059",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Unpin {view.government.displayName}",
-      "occurrence": 0,
-      "textRevision": "3c83191b1910"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0060",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "★ Pinned",
-      "occurrence": 0,
-      "textRevision": "4316a1e262ba"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0061",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "☆ Pin this government",
-      "occurrence": 0,
-      "textRevision": "c3868f824680"
-    },
-    {
       "anchor": "PHASE_SENTENCES-0001",
       "sourcePath": "src/presentation/legislation-projection.ts",
       "symbol": "PHASE_SENTENCES",

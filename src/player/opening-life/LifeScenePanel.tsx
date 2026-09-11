@@ -83,10 +83,7 @@ export function LifeScenePanel({
     }
   }
   return (
-    <section
-      className="life-moment"
-      data-testid="opening-life-scene"
-    >
+    <section className="life-moment" data-testid="opening-life-scene">
       <p data-testid="life-identity">
         {identity.name} · Age {identity.age} · {identity.date} ·{" "}
         {identity.place}

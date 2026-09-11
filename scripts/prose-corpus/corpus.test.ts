@@ -549,9 +549,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // RETURN11 disposition on PR #150) rather than either parent's own
     // smaller ledger. These are observed scanner counts, not pin arithmetic.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(65409);
-    expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(465);
+    expect(coverage.totalLiterals).toBe(67078);
+    expect(coverage.counts.INVENTORIED).toBe(2295);
+    expect(coverage.scannedFiles).toBe(488);
   });
 });
 

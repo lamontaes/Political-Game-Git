@@ -5,6 +5,7 @@ Exact combined proof base: UI `1119e890c471fbf83b4cd592aabe6b28c5f075b2`.
 Apply `source.patch` as a patch, not by replacing files or merging older donor ancestry.
 
 Four source paths:
+
 - src/presentation/new-game.ts
 - src/presentation/production-world.ts
 - src/presentation/life-scene-flow.ts

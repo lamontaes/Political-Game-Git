@@ -7,6 +7,7 @@ Owner workspace `/private/tmp/pg-opening-life1`, branch `codex/opening-life1`, i
 Reproduced all three requested failures on the UI checkpoint using the unchanged adaptive-life and dialogue-reachability tests (39 pass / 3 fail). Donor additionally had the obsolete empty-preference assertion; synchronized the UI owner's exact explicit initialized-preference comparison, retaining all calibration assertions.
 
 Repair:
+
 - Keep build/world/personality seeds unchanged. Select existing pre-calibration world identity seed for household topology; bounded guardian/sibling age shaping still uses the calibrated build seed.
 - Author answer-dependent follow-through for all 20 existing OPENING additions. Preserve catalog membership, option keys and recorded answers. Expose the eligible stage through the existing scene consumer, with distinct saved stage identity and legacy moment fallback.
 - Change only the six colliding labels to context-specific wording.
