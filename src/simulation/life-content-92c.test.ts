@@ -679,7 +679,7 @@ describe("every committed line has a fact packet and a grounding verdict behind 
   ].sort();
 
   it("stores a packet, an accepted output and a reviewer verdict for each scene", () => {
-    expect(stems.length).toBe(20);
+    expect(stems.length).toBe(23);
     for (const stem of stems) {
       expect(files, `${stem} has no output`).toContain(`${stem}.output.md`);
       expect(files, `${stem} has no review`).toContain(`${stem}.review.txt`);

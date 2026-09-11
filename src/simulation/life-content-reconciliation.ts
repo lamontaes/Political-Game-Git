@@ -1,4 +1,8 @@
-import { LIFE_CONTENT_92C_KERNELS } from "./life-content-92c";
+import { RETIRED_LIFE_CIRCUMSTANCE_KINDS } from "./life-circumstances";
+import {
+  LIFE_CONTENT_92C_KERNELS,
+  lifeContent92cStages,
+} from "./life-content-92c";
 import { OPENING_LIFE_SCENES } from "./opening-life-content";
 
 /**
@@ -84,7 +88,29 @@ export interface LifeContentKernelRow {
   readonly key: string;
   readonly status: LifeContentKernelStatus;
   readonly consumer?: string;
+  /**
+   * Present when the content is authored and registered but never offered,
+   * with the record it is waiting on. Registered is not the same as reachable.
+   */
+  readonly withheld?: string;
 }
+
+/** Why a registered 92C stage is never offered, read off its own requirements. */
+function withheldReasonFor(consumer: string): string | undefined {
+  const entry = lifeContent92cStages().find(
+    ({ episodeKey, stage }) => `${episodeKey}/${stage.key}` === consumer,
+  );
+  const requirement = entry?.stage.requires.find(
+    (candidate) => candidate.kind === "withheld",
+  );
+  return requirement?.kind === "withheld" ? requirement.reason : undefined;
+}
+
+/** Opening adaptations gated on a circumstance no writer produces any more. */
+const OPENING_WITHHELD: Readonly<Record<string, string | undefined>> = {
+  "early.family.packing-boxes":
+    RETIRED_LIFE_CIRCUMSTANCE_KINDS["household-move-preparation"],
+};
 
 /** Kernels that need facts the game does not yet model as ordinary records. */
 const PREMISE_BLOCKED: Readonly<Record<string, string>> = {
@@ -154,17 +180,21 @@ export function reconcileLifeContent62Kernels(): readonly LifeContentKernelRow[]
   return LIFE_CONTENT_62_KERNEL_KEYS.map((key) => {
     const registered = REGISTERED_92C.get(key);
     if (registered) {
+      const withheld = withheldReasonFor(registered);
       return {
         key,
         status: "registered-existing-content",
         consumer: registered,
+        ...(withheld ? { withheld } : {}),
       };
     }
     if (OPENING_ADAPTATIONS.has(key)) {
+      const withheld = OPENING_WITHHELD[key];
       return {
         key,
         status: "opening-adaptation",
         consumer: `opening.${key}/moment`,
+        ...(withheld ? { withheld } : {}),
       };
     }
     if (PREMISE_BLOCKED[key]) {

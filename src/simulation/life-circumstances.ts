@@ -1,26 +1,53 @@
-import { ageOnDate } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  compareSimulationMoments,
+  simulationMomentAtLocalTime,
+} from "./dates";
 import { playedEpisodeStages } from "./life-episodes";
 import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
 import { lifePathEntryReason } from "./life-paths2";
 import {
-  activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
   currentLifeCutoff,
-  householdMembershipsAt,
-  kinshipRelationshipsAt,
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
-import { createWorkItem } from "./time-work";
+import {
+  createScheduledActivity,
+  createWorkItem,
+  scheduledActivityState,
+} from "./time-work";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
 import type { ThreadAnchor } from "./narrative-threads";
-import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
+import type {
+  EntityId,
+  HistoricalCutoff,
+  IsoDate,
+  ScheduledActivityRecord,
+  ScheduledActivityStateRecord,
+  World,
+} from "./types";
 
 /** Recovered from Claude OPENING-LIFE1 5767496 plus stopped dirty checkpoint.
  * Ordinary requests use existing event/work-item history. Unsupported inferred
  * rota, transport, pooling, family-business and performed-work premises remain
  * withheld in the accepted bank. No reader creates its own premise.
+ *
+ * Three rules the LIFE-CONTENT13 repair (RETURN14 section D) added, each one a
+ * premise the first version of this file asserted without a record behind it:
+ *
+ * - Being employed and enrolled is not a commute and not a timetable clash.
+ *   The world models no transit mode, journey or timetable, so nothing here
+ *   writes one. A clash with a class is written only against a class session
+ *   actually booked on the calendar.
+ * - A supervisor is the person whose work relationship at the same employer
+ *   directs others while this person's is directed — read off both work
+ *   records. A colleague is not promoted to one by the wording of a scene.
+ * - Agreeing to cover a shift is not having covered it. The later request that
+ *   leans on the favour is written only after a scheduled covered shift has a
+ *   completed state on the calendar.
  */
 export const LIFE_CIRCUMSTANCE_KINDS = [
   "colleague-coverage-request",
@@ -40,7 +67,10 @@ export const LIFE_CIRCUMSTANCE_ANSWERING_STAGE: Readonly<
     "work.the-shift-you-were-asked-for/asked-by-a-colleague",
   "shared-assignment": "school.the-thing-you-got-blamed-for/carrying-the-group",
   "supervisor-extra-shift": "work.the-shift-you-were-asked-for/called-in",
-  "commute-schedule-conflict": "school.the-long-way-in/the-commute",
+  // The commute stage is hosted inside the accepted school family, so that is
+  // the family its play event is tagged with.
+  "commute-schedule-conflict":
+    "school.the-thing-you-got-blamed-for/the-commute",
   "class-work-schedule-conflict":
     "opening.adult.trans.drop-class-keep-job/moment",
   "own-shift-coverage-needed":
@@ -50,6 +80,39 @@ export const LIFE_CIRCUMSTANCE_ANSWERING_STAGE: Readonly<
 };
 
 export const LIFE_CIRCUMSTANCE_TAG_PREFIX = "life.circumstance:";
+
+/**
+ * Kinds no writer produces, with the record that is missing.
+ *
+ * Kept in the kind list so an event some earlier build wrote still reads as
+ * what it is, and never counted as open, because the premise it asserted has
+ * no record behind it. The events themselves are left exactly as written.
+ */
+export const RETIRED_LIFE_CIRCUMSTANCE_KINDS: Readonly<
+  Partial<Record<LifeCircumstanceKind, string>>
+> = {
+  "commute-schedule-conflict":
+    "No transit mode, journey or timetable is modeled; a job plus an enrollment is not a commute or a clash.",
+  "household-move-preparation":
+    "No pending household move is modeled; a household location cannot be recorded ahead of its date.",
+};
+
+/**
+ * Kinds whose first-version events asserted an unrecorded premise.
+ *
+ * `supervisor-extra-shift` named nobody, `class-work-schedule-conflict` cast
+ * the first colleague found as a supervisor and invented a lab timetable, and
+ * `own-shift-coverage-needed` treated an agreement as a shift worked. Events of
+ * these kinds count only when the current writer produced them.
+ */
+const VERSIONED_LIFE_CIRCUMSTANCE_KINDS: ReadonlySet<LifeCircumstanceKind> =
+  new Set([
+    "supervisor-extra-shift",
+    "class-work-schedule-conflict",
+    "own-shift-coverage-needed",
+  ]);
+
+const CIRCUMSTANCE_PROVENANCE_V2 = "provenance:authored-life-circumstance-v2";
 
 export function lifeCircumstanceTag(kind: LifeCircumstanceKind): string {
   return `${LIFE_CIRCUMSTANCE_TAG_PREFIX}${kind}`;
@@ -147,6 +210,9 @@ export function lifeCircumstancesFor(
         const kind = tag.slice(LIFE_CIRCUMSTANCE_TAG_PREFIX.length);
         if (
           isLifeCircumstanceKind(kind) &&
+          RETIRED_LIFE_CIRCUMSTANCE_KINDS[kind] === undefined &&
+          (!VERSIONED_LIFE_CIRCUMSTANCE_KINDS.has(kind) ||
+            event.tags.includes(CIRCUMSTANCE_PROVENANCE_V2)) &&
           event.participants.some(
             (participant) =>
               participant.personId === personId &&
@@ -179,7 +245,8 @@ export function lifeCircumstancesFor(
         event.participants.find(
           (participant) =>
             participant.personId !== personId &&
-            participant.role.startsWith("agency:"),
+            (participant.role.startsWith("agency:") ||
+              participant.role === "coordination:counterpart"),
         )?.personId ?? null,
       sequence: event.sequence,
     });
@@ -422,20 +489,28 @@ function tryWriteCircumstance(
     }
 
     case "supervisor-extra-shift": {
-      if (work.length === 0 || school.length === 0) return world;
+      // A new request, not an old clash: the supervisor asks for an evening,
+      // and what it competes with is the course the enrollment records, not a
+      // particular evening somebody had already set aside.
+      if (school.length === 0) return world;
+      const supervisor = recordedSupervisorsAt(world, personId, cutoff)[0];
+      if (!supervisor) return world;
       return writeAsk(world, {
         stableKey,
         kind,
         personId,
-        counterpartPersonId: null,
+        counterpartPersonId: supervisor.personId,
         jurisdictionId,
         type: "work.supervisor-shift-requested",
         summary:
-          "Your supervisor asked you to pick up a shift you were not scheduled for, on an evening you had set aside for coursework.",
-        relatedEntityIds: [],
+          "Your supervisor asked whether you could pick up an extra evening shift you were not scheduled for.",
+        relatedEntityIds: [
+          supervisor.relationshipId,
+          supervisor.supervisorRelationshipId,
+        ],
         occasion: {
           title: "Extra shift offered",
-          summary: "The evening shift your supervisor asked you to cover.",
+          summary: "The evening shift your supervisor asked you to pick up.",
           startHour: 16,
           endHour: 22,
           label: "Workplace",
@@ -443,41 +518,37 @@ function tryWriteCircumstance(
       });
     }
 
-    case "commute-schedule-conflict": {
-      if (work.length === 0 || school.length === 0) return world;
-      return writeAsk(world, {
-        stableKey,
-        kind,
-        personId,
-        counterpartPersonId: null,
-        jurisdictionId,
-        type: "school.commute-schedule-conflict",
-        summary:
-          "The bus that gets you to class on time leaves before your shift ends.",
-        relatedEntityIds: [],
-        occasion: null,
-      });
-    }
+    case "commute-schedule-conflict":
+    case "household-move-preparation":
+      // Retired: see RETIRED_LIFE_CIRCUMSTANCE_KINDS for the missing record.
+      return world;
 
     case "class-work-schedule-conflict": {
-      if (work.length === 0 || school.length === 0) return world;
-      const supervisorId = firstColleague(world, personId, cutoff);
-      if (supervisorId === null) return world;
+      const supervisor = recordedSupervisorsAt(world, personId, cutoff)[0];
+      if (!supervisor) return world;
+      // The clash is with a class session that is actually on the calendar,
+      // so the request is for that same stretch of time and nothing else.
+      const session = bookedClassSessions(world, personId, cutoff)[0];
+      if (!session) return world;
       return writeAsk(world, {
         stableKey,
         kind,
         personId,
-        counterpartPersonId: supervisorId,
+        counterpartPersonId: supervisor.personId,
         jurisdictionId,
         type: "work.class-schedule-conflict",
         summary:
-          "Your supervisor said team leads must open Thursday afternoon shifts next month. That is when your required lab meets.",
-        relatedEntityIds: [],
+          "Your supervisor asked you to work a shift at the same time as a class session you have booked.",
+        relatedEntityIds: [
+          supervisor.relationshipId,
+          supervisor.supervisorRelationshipId,
+          session.activity.id,
+        ],
         occasion: {
-          title: "Thursday afternoon shift change",
-          summary: "The shift pattern your supervisor announced.",
-          startHour: 13,
-          endHour: 17,
+          title: "Shift at the same time as a class",
+          summary: "The shift your supervisor asked you to work.",
+          startHour: Math.floor(session.state.start.minuteOfDay / 60),
+          endHour: Math.ceil(session.state.end.minuteOfDay / 60),
           label: "Workplace",
         },
       });
@@ -485,25 +556,27 @@ function tryWriteCircumstance(
 
     case "own-shift-coverage-needed": {
       if (work.length === 0) return world;
-      const covered = playedEpisodeStages(world, personId).some(
+      // The favour this leans on must have been worked, not only agreed to:
+      // a covered shift that reached a completed state on the calendar.
+      const worked = completedCoveredShifts(world, personId).find(
         (entry) =>
-          entry.episodeKey === "work.the-shift-you-were-asked-for" &&
-          entry.stageKey === "asked-by-a-colleague" &&
-          entry.optionKey === "cover-it",
+          entry.requesterPersonId !== null &&
+          sharesEmployer(world, personId, entry.requesterPersonId, cutoff),
       );
-      if (!covered) return world;
-      const colleagueId = firstColleague(world, personId, cutoff);
-      if (colleagueId === null) return world;
+      if (!worked || worked.requesterPersonId === null) return world;
       return writeAsk(world, {
         stableKey,
         kind,
         personId,
-        counterpartPersonId: colleagueId,
+        counterpartPersonId: worked.requesterPersonId,
         jurisdictionId,
         type: "work.own-shift-coverage-needed",
         summary:
-          "You need a shift covered, and somebody on your rota is scheduled that day.",
-        relatedEntityIds: [],
+          "You need somebody to cover one of your shifts. The colleague whose shift you worked earlier still works there.",
+        // The worked shift, whose own sources name the request it answered.
+        relatedEntityIds: [worked.activityId],
+        counterpartRole: "coordination:counterpart",
+        counterpartDetail: "The colleague whose shift you worked",
         occasion: {
           title: "Shift you need covered",
           summary: "The shift you need somebody to take.",
@@ -511,31 +584,6 @@ function tryWriteCircumstance(
           endHour: 22,
           label: "Workplace",
         },
-      });
-    }
-
-    case "household-move-preparation": {
-      const household = householdMembershipsAt(world, personId, cutoff);
-      if (household.length === 0) return world;
-      const guardianId = [...activeChildAuthoritiesAt(world, personId, cutoff)]
-        .map((entry) =>
-          entry.authority.holder.kind === "person"
-            ? entry.authority.holder.personId
-            : null,
-        )
-        .find((id) => id !== null);
-      if (guardianId === undefined) return world;
-      return writeAsk(world, {
-        stableKey,
-        kind,
-        personId,
-        counterpartPersonId: guardianId,
-        jurisdictionId,
-        type: "household.move-preparation",
-        summary:
-          "Cardboard boxes are stacked in the living room, and some of your things have been sorted into piles.",
-        relatedEntityIds: [],
-        occasion: null,
       });
     }
 
@@ -561,12 +609,13 @@ function tryWriteCircumstance(
         )
       )
         return world;
-      const relativeId = firstKin(world, personId, cutoff);
+      // Nobody asked. Two open paths are a position the record puts this
+      // person in, so the event names no asker.
       return writeAsk(world, {
         stableKey,
         kind,
         personId,
-        counterpartPersonId: relativeId,
+        counterpartPersonId: null,
         jurisdictionId,
         type: "life.education-work-crossroad",
         summary:
@@ -603,6 +652,9 @@ interface AskInput {
   readonly kind: LifeCircumstanceKind;
   readonly personId: EntityId;
   readonly counterpartPersonId: EntityId | null;
+  /** Defaults to the person who asked; a request this person makes names who it is for. */
+  readonly counterpartRole?: "agency:asked" | "coordination:counterpart";
+  readonly counterpartDetail?: string;
   readonly jurisdictionId: EntityId;
   readonly type: `${string}.${string}`;
   readonly summary: string;
@@ -648,8 +700,8 @@ function writeAsk(world: World, input: AskInput): World {
       : [
           {
             personId: input.counterpartPersonId,
-            role: "agency:asked" as const,
-            detail: "The person who asked",
+            role: input.counterpartRole ?? ("agency:asked" as const),
+            detail: input.counterpartDetail ?? "The person who asked",
           },
         ]),
   ];
@@ -676,7 +728,9 @@ function writeAsk(world: World, input: AskInput): World {
     visibility: "private",
     tags: [
       lifeCircumstanceTag(input.kind),
-      "provenance:authored-life-circumstance-v1",
+      VERSIONED_LIFE_CIRCUMSTANCE_KINDS.has(input.kind)
+        ? CIRCUMSTANCE_PROVENANCE_V2
+        : "provenance:authored-life-circumstance-v1",
       ...(input.occasion
         ? [
             `proposal:start-hour:${input.occasion.startHour}`,
@@ -783,26 +837,359 @@ function firstColleague(
   return null;
 }
 
-/** A living relative on the kinship record, in stable order. */
-function firstKin(
+function livingAdultAt(
   world: World,
   personId: EntityId,
   cutoff: HistoricalCutoff,
-): EntityId | null {
-  for (const kinship of kinshipRelationshipsAt(world, personId, cutoff)) {
-    for (const candidate of kinship.personIds) {
-      if (
-        candidate !== personId &&
-        world.people[candidate] &&
-        !world.history.personDeaths.some(
-          (death) =>
-            death.personId === candidate && death.diedAt <= cutoff.asOfDate,
-        )
-      )
-        return candidate;
+): boolean {
+  const person = world.people[personId];
+  return (
+    person !== undefined &&
+    ageOnDate(person.birthDate, cutoff.asOfDate) >= 18 &&
+    !world.history.personDeaths.some(
+      (death) => death.personId === personId && death.diedAt <= cutoff.asOfDate,
+    )
+  );
+}
+
+function sharesEmployer(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  cutoff: HistoricalCutoff,
+): boolean {
+  const employerIds = new Set(
+    activeWorkRelationshipsAt(world, personId, cutoff).flatMap((entry) =>
+      entry.relationship.organizationId === null
+        ? []
+        : [entry.relationship.organizationId],
+    ),
+  );
+  return activeWorkRelationshipsAt(world, otherId, cutoff).some(
+    (entry) =>
+      entry.relationship.organizationId !== null &&
+      employerIds.has(entry.relationship.organizationId),
+  );
+}
+
+export interface RecordedSupervisor {
+  readonly personId: EntityId;
+  readonly organizationId: EntityId;
+  /** This person's own directed work relationship at that employer. */
+  readonly relationshipId: EntityId;
+  /** The supervisor's work relationship there, whose authority directs others. */
+  readonly supervisorRelationshipId: EntityId;
+}
+
+/**
+ * Who this person's work records say directs their work.
+ *
+ * The narrowest supervisory relation the records can express: this person's
+ * active relationship at an employer is `directed`, and the other person's
+ * active relationship at the same employer `directs-others`. The world keeps
+ * no finer reporting line, so where it holds several such people they are all
+ * returned, in the world's stable order. A job title is never read.
+ */
+export function recordedSupervisorsAt(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly RecordedSupervisor[] {
+  const found: RecordedSupervisor[] = [];
+  for (const entry of activeWorkRelationshipsAt(world, personId, cutoff)) {
+    const organizationId = entry.relationship.organizationId;
+    if (organizationId === null || entry.relationship.authority !== "directed")
+      continue;
+    for (const candidate of [...world.personOrder].sort()) {
+      if (candidate === personId || !livingAdultAt(world, candidate, cutoff))
+        continue;
+      const directs = activeWorkRelationshipsAt(world, candidate, cutoff).find(
+        (other) =>
+          other.relationship.organizationId === organizationId &&
+          other.relationship.authority === "directs-others",
+      );
+      if (!directs || found.some((known) => known.personId === candidate))
+        continue;
+      found.push({
+        personId: candidate,
+        organizationId,
+        relationshipId: entry.relationship.id,
+        supervisorRelationshipId: directs.relationship.id,
+      });
     }
   }
-  return null;
+  return found;
+}
+
+/**
+ * Class sessions this person has booked that have not happened yet.
+ *
+ * A booked session is a scheduled activity this person carries out, sourced
+ * from one of their active enrollments, still in the `scheduled` state and
+ * starting after now. It is the only class timetable the world records.
+ */
+export function bookedClassSessions(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly {
+  readonly activity: ScheduledActivityRecord;
+  readonly state: ScheduledActivityStateRecord;
+}[] {
+  const enrollmentIds = new Set(
+    activeEducationEnrollmentsAt(world, personId, cutoff).map(
+      (entry) => entry.enrollment.id,
+    ),
+  );
+  if (enrollmentIds.size === 0) return [];
+  return world.history.scheduledActivities
+    .filter(
+      (activity) =>
+        activity.responsiblePersonId === personId &&
+        activity.sourceEntityIds.some((id) => enrollmentIds.has(id)),
+    )
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .filter(
+      ({ state }) =>
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, world.currentMoment) > 0,
+    )
+    .sort(
+      (left, right) =>
+        compareSimulationMoments(left.state.start, right.state.start) ||
+        left.activity.sequence - right.activity.sequence,
+    );
+}
+
+/** Where a covered shift is booked. Also the key a UI venue would declare. */
+export const COVERED_SHIFT_LOCATION_KEY = "life-circumstance:covered-shift";
+
+/** Days between working somebody's shift and needing one of your own covered. */
+export const COVERED_SHIFT_RETURN_DAYS = 120;
+
+function proposedHour(
+  tags: readonly string[],
+  which: "start" | "end",
+): number | null {
+  const tag = tags.find((entry) => entry.startsWith(`proposal:${which}-hour:`));
+  const hour = tag ? Number(tag.slice(`proposal:${which}-hour:`.length)) : NaN;
+  return Number.isInteger(hour) ? hour : null;
+}
+
+function requesterOf(
+  world: World,
+  eventId: EntityId,
+  personId: EntityId,
+): EntityId | null {
+  const event = world.history.events.find(
+    (candidate) => candidate.id === eventId,
+  );
+  return (
+    event?.participants.find(
+      (participant) =>
+        participant.personId !== personId &&
+        participant.role === "agency:asked",
+    )?.personId ?? null
+  );
+}
+
+/**
+ * Coverage requests this person said yes to, each with the event of the yes.
+ *
+ * The yes is the `cover-it` answer to the request's own stage, played after
+ * the request and with the requester in the cast. Nothing here says the shift
+ * was worked; that is {@link completedCoveredShifts}.
+ */
+function agreedCoverageRequests(
+  world: World,
+  personId: EntityId,
+): readonly {
+  readonly requestEventId: EntityId;
+  readonly agreementEventId: EntityId;
+  readonly requesterPersonId: EntityId;
+  readonly startHour: number;
+  readonly endHour: number;
+}[] {
+  const agreements = playedEpisodeStages(world, personId).filter(
+    (entry) =>
+      entry.episodeKey === "work.the-shift-you-were-asked-for" &&
+      entry.stageKey === "asked-by-a-colleague" &&
+      entry.optionKey === "cover-it",
+  );
+  const found = [];
+  for (const request of world.history.events) {
+    if (
+      !request.tags.includes(lifeCircumstanceTag("colleague-coverage-request"))
+    )
+      continue;
+    const requesterPersonId = requesterOf(world, request.id, personId);
+    if (
+      requesterPersonId === null ||
+      !request.participants.some(
+        (participant) =>
+          participant.personId === personId &&
+          participant.role === "focus:subject",
+      )
+    )
+      continue;
+    const agreement = agreements.find((entry) => {
+      const played = world.history.events.find(
+        (event) => event.id === entry.eventId,
+      );
+      return (
+        entry.sequence > request.sequence &&
+        played?.involvedEntityIds.includes(requesterPersonId) === true
+      );
+    });
+    const startHour = proposedHour(request.tags, "start");
+    const endHour = proposedHour(request.tags, "end");
+    if (!agreement || startHour === null || endHour === null) continue;
+    found.push({
+      requestEventId: request.id,
+      agreementEventId: agreement.eventId,
+      requesterPersonId,
+      startHour,
+      endHour,
+    });
+  }
+  return found;
+}
+
+/**
+ * Puts the shift this person agreed to cover on their calendar.
+ *
+ * Agreeing, booking and working are three records, not one. This writes the
+ * second: a fixed scheduled activity at the hours the colleague asked for, on
+ * the first day those hours are still ahead, sourced from the request and the
+ * yes. It refuses — returning the world unchanged — when there is no yes, when
+ * the shift is already booked, when the job or the colleague's job has ended,
+ * or when the calendar already holds something at that time. Working it is
+ * `performScheduledActivity`; nothing here marks it done.
+ *
+ * Not called by any reader. The ordinary-life surface must call it from the
+ * `cover-it` answer and offer the booked activity somewhere it can be carried
+ * out, because a fixed commitment nobody can perform holds the day's clock.
+ */
+export function scheduleAgreedCoverShift(
+  world: World,
+  personId: EntityId,
+): World {
+  const cutoff = currentLifeCutoff(world);
+  if (activeWorkRelationshipsAt(world, personId, cutoff).length === 0)
+    return world;
+  const pending = agreedCoverageRequests(world, personId).find(
+    (entry) =>
+      sharesEmployer(world, personId, entry.requesterPersonId, cutoff) &&
+      !world.history.scheduledActivities.some(
+        (activity) =>
+          activity.location.locationKey === COVERED_SHIFT_LOCATION_KEY &&
+          activity.sourceEntityIds.includes(entry.requestEventId),
+      ),
+  );
+  if (!pending || pending.endHour <= pending.startHour) return world;
+  const at = (date: IsoDate, hour: number) =>
+    simulationMomentAtLocalTime({
+      date,
+      minuteOfDay: hour * 60,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+  const date =
+    compareSimulationMoments(
+      at(world.currentDate, pending.startHour),
+      world.currentMoment,
+    ) > 0
+      ? world.currentDate
+      : addDays(world.currentDate, 1);
+  const person = world.people[personId]!;
+  try {
+    return createScheduledActivity(world, {
+      stableKey: `${COVERED_SHIFT_LOCATION_KEY}:${personId}:${pending.requestEventId}`,
+      title: "Shift you agreed to cover",
+      summary:
+        "The shift a colleague asked you to take, which you said yes to.",
+      kind: "confirmed",
+      start: at(date, pending.startHour),
+      end: at(date, pending.endHour),
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        locationKey: COVERED_SHIFT_LOCATION_KEY,
+        label: "Workplace",
+        jurisdictionId:
+          lifePlaceByJurisdictionId(person.homeJurisdictionId)?.context
+            .jurisdiction.id ?? person.homeJurisdictionId,
+      },
+      sourceEntityIds: [pending.requestEventId, pending.agreementEventId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("conflicts"))
+      return world;
+    throw error;
+  }
+}
+
+/**
+ * Covered shifts this person actually worked, oldest first.
+ *
+ * Worked means the booked activity's latest state is `completed` with an
+ * outcome event — the record `performScheduledActivity` writes — at least
+ * {@link COVERED_SHIFT_RETURN_DAYS} ago, and not already leaned on by an
+ * earlier request of this person's own.
+ */
+export function completedCoveredShifts(
+  world: World,
+  personId: EntityId,
+): readonly {
+  readonly activityId: EntityId;
+  readonly requestEventId: EntityId;
+  readonly requesterPersonId: EntityId | null;
+}[] {
+  const alreadyCited = new Set(
+    world.history.events
+      .filter((event) =>
+        event.tags.includes(lifeCircumstanceTag("own-shift-coverage-needed")),
+      )
+      .flatMap((event) => event.involvedEntityIds),
+  );
+  return world.history.scheduledActivities
+    .filter(
+      (activity) =>
+        activity.location.locationKey === COVERED_SHIFT_LOCATION_KEY &&
+        activity.responsiblePersonId === personId &&
+        !alreadyCited.has(activity.id),
+    )
+    .flatMap((activity) => {
+      const state = scheduledActivityState(world, activity.id);
+      const requestEventId = activity.sourceEntityIds.find((id) =>
+        world.history.events.some(
+          (event) =>
+            event.id === id &&
+            event.tags.includes(
+              lifeCircumstanceTag("colleague-coverage-request"),
+            ),
+        ),
+      );
+      if (
+        state.status !== "completed" ||
+        state.outcomeEventId === null ||
+        requestEventId === undefined ||
+        addDays(state.end.date, COVERED_SHIFT_RETURN_DAYS) > world.currentDate
+      )
+        return [];
+      return [
+        {
+          activityId: activity.id,
+          requestEventId,
+          requesterPersonId: requesterOf(world, requestEventId, personId),
+        },
+      ];
+    });
 }
 
 /** Somebody enrolled at the same school or programme. */

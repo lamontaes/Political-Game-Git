@@ -669,26 +669,27 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     [18, 23],
     "home",
     "housemate",
-    "Your supervisor wants Thursday afternoon shifts that collide with a required lab. {person} asks what you are going to do about it.",
+    "Your supervisor has asked you to work a shift at the same time as one of your booked class sessions. {person} asks what you are going to do.",
     [
       {
         key: "keep-lab",
-        label: "Keep the lab and accept fewer hours",
+        label: "Keep the class, turn down the shift",
         aftermath:
-          "You tell {person} you will keep the lab and accept fewer hours.",
+          "You tell {person} you will keep the class and turn down the shift.",
         approach: "direct",
       },
       {
         key: "change-shifts",
-        label: "Open the Thursday shifts",
+        label: "Take the shift, miss the class",
         aftermath:
-          "You tell {person} you will open the Thursday shifts and miss the lab.",
+          "You tell {person} you will take the shift and miss the class.",
         approach: "direct",
       },
       {
         key: "ask-supervisor",
-        label: "Ask your supervisor for another option",
-        aftermath: "You tell {person} you will ask your supervisor first.",
+        label: "Ask your supervisor for another shift",
+        aftermath:
+          "You tell {person} you will ask your supervisor for a different shift first.",
         approach: "ask",
       },
     ],
@@ -1117,17 +1118,17 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
   "adult.trans.drop-class-keep-job": {
     afterChoice: "keep-lab",
     premise:
-      "{person} asks whether your supervisor knows you are cutting hours.",
+      "You said you would keep the class. {person} asks whether you have told your supervisor yet.",
     choices: [
       {
         key: "tell-them",
-        label: "Say you will tell your supervisor",
-        aftermath: "You say you will tell your supervisor.",
+        label: "Say you will tell them today",
+        aftermath: "You tell {person} you will tell your supervisor today.",
       },
       {
         key: "not-yet",
-        label: "Say you have not decided yet",
-        aftermath: "You say you have not decided yet.",
+        label: "Say you have not told them yet",
+        aftermath: "You tell {person} you have not told your supervisor yet.",
       },
     ],
   },
