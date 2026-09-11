@@ -22,6 +22,8 @@ import {
   recordRelationshipInteraction,
 } from "./records";
 import { currentHistoricalCutoff } from "./queries";
+import { resolvePublicationSource } from "./public-information-integrity";
+import { workPendingEntriesFor } from "./time-work";
 import type {
   EntityId,
   HistoricalEvent,
@@ -85,6 +87,7 @@ export interface RecordPressRequestResponseInput {
   readonly requestEventId: EntityId;
   readonly reporterPersonId: EntityId;
   readonly accepted: boolean;
+  readonly deferred?: boolean;
   readonly statement: string;
 }
 
@@ -121,7 +124,7 @@ export interface ArrangeAcceptedPressInterviewInput {
   readonly stableKey: string;
   readonly requestEventId: EntityId;
   readonly reporterResponseEventId: EntityId;
-  readonly adviserResponseEventId: EntityId;
+  readonly adviserResponseEventId?: EntityId | null;
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
   readonly location: {
@@ -155,10 +158,22 @@ export function projectEligiblePressReporters(
   if (basisIds.length === 0) return [];
   return world.personOrder.flatMap((personId) => {
     if (personId === input.sourcePersonId) return [];
+    if (
+      personActionAvailabilityAt(
+        world,
+        personId,
+        currentHistoricalCutoff(world),
+      ).status === "blocked"
+    ) {
+      return [];
+    }
+    const canAsk = basisIds.every((eventId) =>
+      reporterCanBeAskedAbout(world, personId, eventId),
+    );
+    if (!canAsk) return [];
     const knownBasisEventIds = basisIds.filter((eventId) =>
       reporterKnowsEvent(world, personId, eventId),
     );
-    if (knownBasisEventIds.length !== basisIds.length) return [];
     return activeWorkRelationshipsAt(world, personId)
       .filter(
         ({ role }) =>
@@ -322,6 +337,29 @@ export function recordPressRequest(
     summary: "A source made a normal press request to a reporter.",
     tags: [REQUEST_TAG],
   });
+  for (const basisId of basisIds) {
+    if (reporterKnowsEvent(next, input.reporterPersonId, basisId)) continue;
+    const basis = next.history.events.find((event) => event.id === basisId);
+    if (!basis || resolvePublicationSource(next, basis) === null) {
+      throw new Error(
+        "A press request cannot convey a private, future or missing basis.",
+      );
+    }
+    next = recordEventKnowledge(next, {
+      stableKey: `${input.stableKey}:reporter-learns-basis:${basisId}`,
+      personId: input.reporterPersonId,
+      eventId: basisId,
+      learnedAt: next.currentDate,
+      believedSummary: `The source described this public development: ${basis.summary}`,
+      accuracy: "partial",
+      confidence: "medium",
+      source: {
+        kind: "told-by",
+        sourcePersonId,
+        claimId: null,
+      },
+    });
+  }
   return {
     world: next,
     requestEventId: request.id,
@@ -347,6 +385,14 @@ export function recordPressRequestResponse(
     throw new Error("Only the requested reporter may answer a press request.");
   }
   requireText(input.statement, "Reporter response");
+  if (input.deferred && input.accepted) {
+    throw new Error("A deferred press response cannot also be an acceptance.");
+  }
+  const disposition = input.accepted
+    ? "accepted"
+    : input.deferred
+      ? "deferred"
+      : "declined";
   let next = recordWorldEvent(world, {
     stableKey: `${input.stableKey}:event`,
     type: "press.interview-request-answered",
@@ -361,9 +407,12 @@ export function recordPressRequestResponse(
       {
         personId: reporterPersonId,
         role: "agency:reporter-response",
-        detail: input.accepted
-          ? "Accepted the proposed terms"
-          : "Declined the request",
+        detail:
+          disposition === "accepted"
+            ? "Accepted the proposed terms"
+            : disposition === "deferred"
+              ? "Deferred the request"
+              : "Declined the request",
       },
       {
         personId: requestSourceId(request),
@@ -375,16 +424,19 @@ export function recordPressRequestResponse(
     visibility: "limited",
     tags: [
       `${REQUEST_EVENT_PREFIX}${request.id}`,
-      `${RESPONSE_PREFIX}${input.accepted ? "accepted" : "declined"}`,
+      `${RESPONSE_PREFIX}${disposition}`,
     ],
-    summary: input.accepted
-      ? "The reporter accepted the proposed press request and terms."
-      : "The reporter declined the press request.",
+    summary:
+      disposition === "accepted"
+        ? "The reporter accepted the proposed press request and terms."
+        : disposition === "deferred"
+          ? "The reporter deferred the press request."
+          : "The reporter declined the press request.",
     context: {
       location: null,
       socialContext: input.statement.trim(),
       pressure: request.context.pressure,
-      choice: input.accepted ? "accepted" : "declined",
+      choice: disposition,
       motivation: null,
       immediateReaction: null,
     },
@@ -445,7 +497,12 @@ export function producePressRequestResponse(
     reporterPersonId,
     currentHistoricalCutoff(world),
   );
-  const cannotAccept = !stillEligible || availability.status === "blocked";
+  const pendingAssignment = workPendingEntriesFor(world, reporterPersonId).some(
+    (entry) =>
+      entry.state.assignedPersonIds.includes(reporterPersonId) &&
+      entry.state.status !== "completed" &&
+      entry.state.status !== "cancelled",
+  );
   const evaluation = evaluateDecision(world, {
     stableKey: `${input.stableKey}:decision`,
     decisionType: "press.reporter-request-response",
@@ -463,34 +520,67 @@ export function producePressRequestResponse(
         description: "Accept the saved channel, terms, question and basis.",
       },
       {
+        key: "defer",
+        label: "Defer the request",
+        description: "Record that current assigned work must finish first.",
+      },
+      {
         key: "decline",
         label: "Decline the request",
         description: "Do not create an interview arrangement.",
       },
     ],
-    constraints: cannotAccept
-      ? [
-          {
-            stableKey: "press:reporter-unavailable",
-            optionKey: "accept",
-            kind: "availability:reporter",
-            explanation: stillEligible
-              ? "The reporter cannot take this action at the current frontier."
-              : "The reporter no longer has the saved eligible role and knowledge basis.",
-            sourceRefs: [],
-          },
-        ]
-      : [],
+    constraints: [
+      ...(!stillEligible || availability.status === "blocked"
+        ? [
+            {
+              stableKey: "press:reporter-unavailable",
+              optionKey: "accept",
+              kind: "availability:reporter",
+              explanation: stillEligible
+                ? "The reporter cannot take this action at the current frontier."
+                : "The reporter no longer has the saved eligible role and knowledge basis.",
+              sourceRefs: [],
+            },
+            {
+              stableKey: "press:reporter-cannot-defer-ineligible",
+              optionKey: "defer",
+              kind: "availability:reporter",
+              explanation: stillEligible
+                ? "The reporter cannot take this action at the current frontier."
+                : "The reporter no longer has the saved eligible role and knowledge basis.",
+              sourceRefs: [],
+            },
+          ]
+        : pendingAssignment
+          ? [
+              {
+                stableKey: "press:reporter-assigned-work",
+                optionKey: "accept",
+                kind: "availability:reporter",
+                explanation:
+                  "The reporter already has unfinished assigned work.",
+                sourceRefs: [],
+              },
+            ]
+          : []),
+    ],
     considerations: [
       {
         stableKey: "press:eligible-request",
-        optionKey: "accept",
+        optionKey:
+          !stillEligible || availability.status === "blocked"
+            ? "decline"
+            : pendingAssignment
+              ? "defer"
+              : "accept",
         sourceType: "context:professional-request",
         direction: "supports",
         importance: "strong",
         confidence: "high",
-        explanation:
-          "The request matches the reporter's current role and existing knowledge.",
+        explanation: pendingAssignment
+          ? "Current assigned work has to be finished before a new exchange."
+          : "The request matches the reporter's current role and existing knowledge.",
         sourceRefs: [],
       },
     ],
@@ -500,6 +590,7 @@ export function producePressRequestResponse(
   });
   const next = recordDurableDecisionTrace(world, evaluation);
   const accepted = evaluation.selectedOptionKey === "accept";
+  const deferred = evaluation.selectedOptionKey === "defer";
   const channel = tagEnum(
     request,
     CHANNEL_PREFIX,
@@ -514,14 +605,17 @@ export function producePressRequestResponse(
   );
   const statement = accepted
     ? `I accept the ${channel} exchange under the proposed ${terms} terms.`
-    : stillEligible
-      ? "I cannot take this request at the current time."
-      : "I cannot accept a request that no longer matches my role or knowledge.";
+    : deferred
+      ? "I need to finish current assigned work before I can take this exchange."
+      : stillEligible
+        ? "I cannot take this request at the current time."
+        : "I cannot accept a request that no longer matches my role or knowledge.";
   return recordPressRequestResponse(next, {
     stableKey: `${input.stableKey}:response`,
     requestEventId: request.id,
     reporterPersonId,
     accepted,
+    deferred,
     statement,
   });
 }
@@ -713,14 +807,16 @@ export function arrangeAcceptedPressInterview(
     `${RESPONSE_PREFIX}accepted`,
     "Reporter consent is required before arranging an interview.",
   );
-  const adviserResponse = requireResponse(
-    world,
-    input.adviserResponseEventId,
-    request.id,
-    "press.adviser-assignment-answered",
-    `${ADVISER_RESPONSE_PREFIX}accepted`,
-    "An actual adviser's accepted assignment is required before arranging an interview.",
-  );
+  const adviserResponse = input.adviserResponseEventId
+    ? requireResponse(
+        world,
+        input.adviserResponseEventId,
+        request.id,
+        "press.adviser-assignment-answered",
+        `${ADVISER_RESPONSE_PREFIX}accepted`,
+        "An actual adviser's accepted assignment is required before arranging a prepared interview.",
+      )
+    : null;
   const sourcePersonId = requestSourceId(request);
   if (sourcePersonId !== controlledPersonId(world)) {
     throw new Error(
@@ -738,11 +834,16 @@ export function arrangeAcceptedPressInterview(
       "Reporter consent does not belong to the requested reporter.",
     );
   }
-  const adviser = adviserResponse.participants.find(
+  const adviser = adviserResponse?.participants.find(
     ({ role }) => role === "agency:adviser-response",
   );
-  if (!adviser)
+  if (adviserResponse && !adviser)
     throw new Error("Adviser consent is missing its actual adviser.");
+  if (!adviser && input.preparationMinutes !== 0) {
+    throw new Error(
+      "Preparation minutes require an accepted adviser assignment.",
+    );
+  }
   const pitchClaim = world.history.claims.find(
     (claim) =>
       claim.eventId === request.id && claim.speakerPersonId === sourcePersonId,
@@ -775,7 +876,7 @@ export function arrangeAcceptedPressInterview(
     pitchClaimId: pitchClaim.id,
     reporterPersonId,
     reporterWorkRoleId: roleId,
-    adviserPersonId: adviser.personId,
+    adviserPersonId: adviser?.personId ?? null,
     jurisdictionId: request.jurisdictionId,
     channel,
     terms,
@@ -994,6 +1095,19 @@ function reporterKnowsEvent(
         publication.publishedAt <= world.currentDate,
     )
   );
+}
+
+function reporterCanBeAskedAbout(
+  world: World,
+  reporterPersonId: EntityId,
+  eventId: EntityId,
+): boolean {
+  if (reporterKnowsEvent(world, reporterPersonId, eventId)) return true;
+  const event = world.history.events.find(
+    (candidate) => candidate.id === eventId,
+  );
+  if (!event || event.occurredAt > world.currentDate) return false;
+  return resolvePublicationSource(world, event) !== null;
 }
 
 function assertCurrentColleague(

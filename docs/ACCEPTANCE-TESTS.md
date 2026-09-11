@@ -1942,6 +1942,25 @@ confirmation → completion → existing publication writer → digest/typed per
 link → correction → actual-adviser feedback → save/reload. Condensed play carries
 no refusal or penalty, and the digest/correction identities survive unchanged.
 
+### PRESS-REACH-001 — Normal member worlds lack journalism roles until employed
+
+A legislative-office adult/member start has no `profession:journalism` role
+until `seekCivicPressContact` generates a new fictional reporter through the
+character-history population writer and employs that person at an authored civic
+news desk. The writer does not reassign an existing adult, grant consent or
+appoint an adviser. Family membership and ordinary workplace colleagues are not
+treated as reporting roles. Dead, unavailable and expired journalism roles are
+not reused as the next contact.
+
+### PRESS-REACH-002 — Public pitch, optional adviser, refusal boundaries
+
+A public civic occurrence involving the source is a request basis without a
+prior digest item. The pitch may convey that public basis as `told-by`
+knowledge. Private, future and unknown bases stay ineligible. Reporter
+decisions persist as accept, defer (unfinished assigned work) or decline.
+Arrangement may proceed without an adviser. Off-record exchanges still have no
+publication path. Save/reload preserves the unprepared interview records.
+
 ### NEWS-N1 — Unknown screen locality fails closed
 
 A room with unknown jurisdiction receives only an unlocated publication. It
