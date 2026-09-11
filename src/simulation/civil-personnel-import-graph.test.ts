@@ -5,15 +5,34 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Playwright loads specs and everything they import through Node's ESM
- * loader, which refuses a bare JSON import; one such import under world.ts
- * collected zero browser tests in hosted run 34639494520. Generated data
- * reaches the world as TypeScript modules instead.
+ * loader, which refuses a JSON import that lacks `with { type: "json" }`; one
+ * such bare import under world.ts collected zero browser tests in hosted run
+ * 34639494520. Generated data reaches the world as TypeScript modules instead.
  *
  * Imports are read from each file's transpiled output, so an import used only
  * as a type is erased here exactly as the loader's TypeScript transform
  * erases it, and is not an edge.
  */
-function loadedSpecifiers(file: string): string[] {
+interface LoadedImport {
+  readonly specifier: string;
+  readonly bareJson: boolean;
+}
+
+function importsIn(javascript: string): LoadedImport[] {
+  return [
+    ...javascript.matchAll(
+      /(?:^|[;\s])(?:import|export)\s(?:[^;"']*?\sfrom\s)?["'](\.[^"']+)["'](\s*(?:with|assert)\s*\{[^}]*\btype\s*:\s*["']json["'][^}]*\})?/gm,
+    ),
+    ...javascript.matchAll(
+      /\bimport\(\s*["'](\.[^"']+)["'](\s*,\s*\{\s*with\s*:\s*\{[^}]*\btype\s*:\s*["']json["'])?/g,
+    ),
+  ].map((match) => ({
+    specifier: match[1]!,
+    bareJson: match[1]!.endsWith(".json") && !match[2],
+  }));
+}
+
+function loadedImports(file: string): LoadedImport[] {
   const { outputText } = ts.transpileModule(readFileSync(file, "utf8"), {
     fileName: file,
     compilerOptions: {
@@ -23,25 +42,20 @@ function loadedSpecifiers(file: string): string[] {
       isolatedModules: true,
     },
   });
-  return [
-    ...outputText.matchAll(
-      /(?:^|[;\s])(?:import|export)\s(?:[^;"']*?\sfrom\s)?["'](\.[^"']+)["']/gm,
-    ),
-    ...outputText.matchAll(/\bimport\(\s*["'](\.[^"']+)["']\s*\)/g),
-  ].map((match) => match[1]!);
+  return importsIn(outputText);
 }
 
 function importGraph(
   entries: readonly string[],
-): Map<string, readonly string[]> {
-  const graph = new Map<string, readonly string[]>();
+): Map<string, readonly LoadedImport[]> {
+  const graph = new Map<string, readonly LoadedImport[]>();
   const pending = [...entries];
   while (pending.length) {
     const file = pending.pop()!;
     if (graph.has(file)) continue;
-    const specifiers = loadedSpecifiers(file);
-    graph.set(file, specifiers);
-    for (const specifier of specifiers) {
+    const imports = loadedImports(file);
+    graph.set(file, imports);
+    for (const { specifier } of imports) {
       if (specifier.endsWith(".json")) continue;
       const base = resolve(dirname(file), specifier.replace(/\.js$/, ""));
       const found = [
@@ -68,22 +82,47 @@ function browserSpecEntries(directory: string): string[] {
   });
 }
 
-function jsonImports(graph: Map<string, readonly string[]>): string[] {
-  return [...graph].flatMap(([file, specifiers]) =>
-    specifiers
-      .filter((specifier) => specifier.endsWith(".json"))
-      .map((specifier) => `${relative(process.cwd(), file)} -> ${specifier}`),
+function bareJsonImports(
+  graph: Map<string, readonly LoadedImport[]>,
+): string[] {
+  return [...graph].flatMap(([file, imports]) =>
+    imports
+      .filter((entry) => entry.bareJson)
+      .map((entry) => `${relative(process.cwd(), file)} -> ${entry.specifier}`),
   );
 }
 
 describe("browser-loaded import graph", () => {
-  it("imports no JSON module anywhere below world.ts", () => {
-    const graph = importGraph([resolve("src/simulation/world.ts")]);
-    expect(graph.size).toBeGreaterThan(20);
-    expect(jsonImports(graph)).toEqual([]);
+  it("tells a bare JSON import from one Node's loader accepts", () => {
+    const found = importsIn(
+      [
+        'import a from "./a.json";',
+        'import b from "./b.json" with { type: "json" };',
+        'export { c } from "./c.json";',
+        'import "./d.json";',
+        'const e = await import("./e.json");',
+        'const f = await import("./f.json", { with: { type: "json" } });',
+        'import { g } from "./g";',
+      ].join("\n"),
+    );
+    expect(found).toEqual([
+      { specifier: "./a.json", bareJson: true },
+      { specifier: "./b.json", bareJson: false },
+      { specifier: "./c.json", bareJson: true },
+      { specifier: "./d.json", bareJson: true },
+      { specifier: "./g", bareJson: false },
+      { specifier: "./e.json", bareJson: true },
+      { specifier: "./f.json", bareJson: false },
+    ]);
   });
 
-  it("imports no JSON module from any Playwright spec, its support or the config", () => {
+  it("imports no bare JSON module anywhere below world.ts", () => {
+    const graph = importGraph([resolve("src/simulation/world.ts")]);
+    expect(graph.size).toBeGreaterThan(20);
+    expect(bareJsonImports(graph)).toEqual([]);
+  });
+
+  it("imports no bare JSON module from any Playwright spec, its support or the config", () => {
     const graph = importGraph([
       resolve("playwright.config.ts"),
       resolve("scripts/dev-lab/verify-server.ts"),
@@ -91,6 +130,6 @@ describe("browser-loaded import graph", () => {
     ]);
     // Specs reach the simulation in Node, as the failing hosted run did.
     expect(graph.has(resolve("src/simulation/world.ts"))).toBe(true);
-    expect(jsonImports(graph)).toEqual([]);
+    expect(bareJsonImports(graph)).toEqual([]);
   });
 });

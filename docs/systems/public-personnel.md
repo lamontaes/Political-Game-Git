@@ -58,8 +58,9 @@ creates authority. The start date stays 2026-01-05, so procedures remain
 unavailable until ordinary play reaches 2026-09-06.
 
 The projection reaches the simulation as a generated TypeScript module, never
-a JSON import. `world.ts` is loaded by Node's ESM loader under Playwright, and a
-guard test forbids JSON imports anywhere below it.
+a JSON import. Node's ESM loader loads Playwright specs and `world.ts`, and it
+refuses a JSON import without `with { type: "json" }`. A guard test forbids
+such bare imports anywhere either one reaches.
 
 ## Civil and labor facts stay separate
 

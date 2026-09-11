@@ -92,9 +92,12 @@ Repair (`ae81516f`):
   by `scripts/compile-civil-personnel.ts --check` and by the source test.
 - The generated file is excluded from prose scanning, because it is cited
   evidence, with the reason stated in `SCAN_EXCLUSIONS`.
-- A guard test, `civil-personnel-import-graph.test.ts`, forbids any JSON import
-  below `world.ts`. A negative control (restoring the old import) makes it fail.
-- `playwright test --list` now reports 328 tests in 52 files, where it reported 0.
+- A guard test, `civil-personnel-import-graph.test.ts`, forbids any bare JSON
+  import, meaning one without `with { type: "json" }`. It walks from
+  `world.ts` and from every spec, config and global setup that Playwright loads
+  in Node. A negative control (restoring the old import) makes it fail.
+  #144's `municipal-capacity.ts` uses the attributed form, which passes.
+- `playwright test --list` now reports 329 tests in 52 files, where it reported 0.
 
 ## Normal-play entry: explicit state-agency Custom Start
 
@@ -220,8 +223,10 @@ Two findings belong to the UI owner and are not caused by this branch:
 
    It found no blocker and no major defect. Both minor findings are fixed. The
    import guard now walks from every Node-loaded Playwright spec, the config
-   and the global setup, reading imports after TypeScript's type-only
-   elision; a negative control trips it. The vacancy step now names a
+   and the global setup, and reads imports after TypeScript's type-only
+   elision. It refuses only bare JSON imports, so #144's attributed
+   `municipal-capacity` import passes in the composition. Negative and
+   positive controls behave as intended. The vacancy step now names a
    standing decline or an uncompiled state instead of "no candidate".
 
    The pass also noted, without testing, that integrity does not tie an
