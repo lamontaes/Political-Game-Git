@@ -118,6 +118,23 @@ Checks that passed on every seed:
 
 Screenshots: `gen14-{a,b,c}-{room,dossier,wardrobe}.png`.
 
+## Where to look at a whole person
+
+Two surfaces, one provider now behind both.
+
+**The review set** — `?view=character-proof&set=visual4`, five named people
+(Morgan Graham, Jeremiah Waller, Rachel Saunders, Levi Sharp, Xavier Tillman),
+each a full figure at reviewable size with Body / Face / Hairstyle and
+top / bottom / footwear selectors over it. `gallery.png`. This is the surface
+for an actual visual decision, and it is no longer a second source of truth: it
+composes from exactly the library the life path now uses.
+
+**The life path** — any life in `?art-preview=candidate`. The people are the
+same people, but see the two findings below: in the room the moment panel
+covers everything below the chest and the crown is clipped, and the dossier
+portrait is a ~40px thumbnail. So the life path proves the provider is wired
+and the review set is where the art is judged, until those two are addressed.
+
 ## Controls
 
 | Control                               | Result                                                                                                        |
