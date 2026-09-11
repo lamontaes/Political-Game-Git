@@ -1,5 +1,5 @@
 {
-  "digest": "1fc59de89823d401",
+  "digest": "9c7562224f6e25f7",
   "counts": {
     "total": 2458,
     "byDomain": {
@@ -9898,7 +9898,7 @@
       "surface": "status",
       "sourcePath": "src/simulation/municipal-government.ts",
       "sourceSymbol": "municipalRuleSourceRef",
-      "text": "Dated meeting reference; not operative legal authority.",
+      "text": "No field-specific source is resolved.",
       "realization": "static",
       "slots": [],
       "reachability": "UNKNOWN",
@@ -9923,7 +9923,7 @@
       "tags": [
         "computed"
       ],
-      "textRevision": "70ce4bbe0b04",
+      "textRevision": "79414a63ba5f",
       "contextRevision": "c1aff7d0ef16"
     },
     {
@@ -9931,43 +9931,6 @@
       "domain": "governing",
       "bank": "municipal-law-projection",
       "stableKey": "municipalRuleSourceRef-0002",
-      "field": "text",
-      "surface": "status",
-      "sourcePath": "src/simulation/municipal-government.ts",
-      "sourceSymbol": "municipalRuleSourceRef",
-      "text": "No field-specific source is resolved.",
-      "realization": "static",
-      "slots": [],
-      "reachability": "UNKNOWN",
-      "reachabilityReason": "These law-projection descriptions and missing-rule explanations are intended governing prose, but the current corpus establishes no complete operative municipal ordinance pack. Inventorying their text does not establish a reachable ordinance workflow or accept the defaults described by an unexecuted branch.",
-      "grounding": [
-        {
-          "key": "field-specific-municipal-evidence",
-          "description": "Each rule's exact field-specific cited instrument, evidence class and scoped applicability. A report or dated reference is not enacted authority, and a missing procedure must remain unknown.",
-          "kind": "requirement"
-        },
-        {
-          "key": "complete-procedure-gate",
-          "description": "A full pack requires all existing canonical procedure prerequisites. A named government, sourced structural fact or authored meeting does not itself satisfy that gate.",
-          "kind": "requirement"
-        }
-      ],
-      "provenance": {
-        "extraction": "syntax-tree",
-        "symbol": "municipalRuleSourceRef",
-        "anchor": "municipalRuleSourceRef-0002"
-      },
-      "tags": [
-        "computed"
-      ],
-      "textRevision": "79414a63ba5f",
-      "contextRevision": "c1aff7d0ef16"
-    },
-    {
-      "id": "prose:governing:municipal-law-projection:municipalRuleSourceRef-0003#text",
-      "domain": "governing",
-      "bank": "municipal-law-projection",
-      "stableKey": "municipalRuleSourceRef-0003",
       "field": "text",
       "surface": "status",
       "sourcePath": "src/simulation/municipal-government.ts",
@@ -9992,12 +9955,49 @@
       "provenance": {
         "extraction": "syntax-tree",
         "symbol": "municipalRuleSourceRef",
-        "anchor": "municipalRuleSourceRef-0003"
+        "anchor": "municipalRuleSourceRef-0002"
       },
       "tags": [
         "computed"
       ],
       "textRevision": "b7f731dbdee7",
+      "contextRevision": "c1aff7d0ef16"
+    },
+    {
+      "id": "prose:governing:municipal-law-projection:municipalRuleSourceRef-0003#text",
+      "domain": "governing",
+      "bank": "municipal-law-projection",
+      "stableKey": "municipalRuleSourceRef-0003",
+      "field": "text",
+      "surface": "status",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "sourceSymbol": "municipalRuleSourceRef",
+      "text": "Dated meeting reference; not operative legal authority.",
+      "realization": "static",
+      "slots": [],
+      "reachability": "UNKNOWN",
+      "reachabilityReason": "These law-projection descriptions and missing-rule explanations are intended governing prose, but the current corpus establishes no complete operative municipal ordinance pack. Inventorying their text does not establish a reachable ordinance workflow or accept the defaults described by an unexecuted branch.",
+      "grounding": [
+        {
+          "key": "field-specific-municipal-evidence",
+          "description": "Each rule's exact field-specific cited instrument, evidence class and scoped applicability. A report or dated reference is not enacted authority, and a missing procedure must remain unknown.",
+          "kind": "requirement"
+        },
+        {
+          "key": "complete-procedure-gate",
+          "description": "A full pack requires all existing canonical procedure prerequisites. A named government, sourced structural fact or authored meeting does not itself satisfy that gate.",
+          "kind": "requirement"
+        }
+      ],
+      "provenance": {
+        "extraction": "syntax-tree",
+        "symbol": "municipalRuleSourceRef",
+        "anchor": "municipalRuleSourceRef-0003"
+      },
+      "tags": [
+        "computed"
+      ],
+      "textRevision": "70ce4bbe0b04",
       "contextRevision": "c1aff7d0ef16"
     },
     {

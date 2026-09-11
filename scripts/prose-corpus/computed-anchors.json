@@ -3366,25 +3366,25 @@
       "anchor": "municipalRuleSourceRef-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "municipalRuleSourceRef",
-      "text": "Dated meeting reference; not operative legal authority.",
-      "occurrence": 0,
-      "textRevision": "70ce4bbe0b04"
-    },
-    {
-      "anchor": "municipalRuleSourceRef-0002",
-      "sourcePath": "src/simulation/municipal-government.ts",
-      "symbol": "municipalRuleSourceRef",
       "text": "No field-specific source is resolved.",
       "occurrence": 0,
       "textRevision": "79414a63ba5f"
     },
     {
-      "anchor": "municipalRuleSourceRef-0003",
+      "anchor": "municipalRuleSourceRef-0002",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "municipalRuleSourceRef",
       "text": "Research transcription; not independently verified operative law.",
       "occurrence": 0,
       "textRevision": "b7f731dbdee7"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0003",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "Dated meeting reference; not operative legal authority.",
+      "occurrence": 0,
+      "textRevision": "70ce4bbe0b04"
     },
     {
       "anchor": "obligationNoun-0001",
