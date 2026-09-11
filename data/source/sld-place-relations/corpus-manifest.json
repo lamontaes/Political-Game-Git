@@ -1,0 +1,30 @@
+{
+  "asOf": "2024-01-01",
+  "canonicalSha256": "28e0aa759c1837e2fb66b4be40289dcd6ce32b4d999d4d431423f075b8fc70f8",
+  "compiler": {
+    "name": "sld-place-relations",
+    "version": "1.0.0"
+  },
+  "corpusId": "sld-place-relations",
+  "coverage": {
+    "boundedSampleReason": null,
+    "isCompleteUniverse": true,
+    "universeDescription": "Every 2020 Census place that the U.S. Census Bureau 2024 SLDL and SLDU national relationship files intersect with a published state legislative district, classified as whole-place membership or a split, including Nebraska's upper chamber and excluding empty-district and residual-only rows as unpublished membership."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "census-rel-2024-sldl-place20-national",
+      "sha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a"
+    },
+    {
+      "artifactId": "census-rel-2024-sldu-place20-national",
+      "sha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db"
+    }
+  ],
+  "parser": {
+    "name": "census-sld-place-delimited",
+    "version": "1.0.0"
+  },
+  "recordCount": 63227
+}
