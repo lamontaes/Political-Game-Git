@@ -99,7 +99,7 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
   ]);
 });
 
-test("CIVIL-AUTHORITY13 reinstatement offer is not an appointment until the person accepts", async ({
+test("CIVIL-AUTHORITY13 reinstatement offer is answered on receipt and only acceptance appoints", async ({
   page,
 }) => {
   const matters = await mount(page, "otherDirector", "civil-authority13");
@@ -110,15 +110,13 @@ test("CIVIL-AUTHORITY13 reinstatement offer is not an appointment until the pers
   await vacancy.getByRole("checkbox", { name: "Require probation" }).check();
   await vacancy.getByRole("button", { name: "Offer reinstatement" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "It is not an appointment until accepted",
+    "Only an acceptance is an appointment",
   );
   const offer = matters.getByRole("article", {
     name: /^Reinstatement offer to /,
   });
-  await expect(offer).toContainText("Awaiting an answer.");
-  await offer.getByRole("button", { name: "Hear their answer" }).focus();
-  await page.keyboard.press("Enter");
-  await expect(offer).toContainText("Answer: accepted.");
+  // The former employee answered on receipt; nobody chose when.
+  await expect(offer).toContainText("Their answer on receiving it: accepted.");
   await expect(offer.getByRole("button")).toHaveCount(0);
   const snapshot = await page.evaluate(
     () =>

@@ -17,9 +17,7 @@ import {
   justCauseGrounds,
   offerMinnesotaReinstatement,
   personnelMatters,
-  produceReinstatementResponse,
   recordInformalResolutionAttempt,
-  referAppealToCommissioner,
   reinstatementOpportunities,
   type PersonnelMatterView,
   type PersonnelResult,
@@ -210,23 +208,6 @@ export function CivilPersonnelPanel({
                       }),
                       "The notice was filed with the commissioner.",
                     );
-                  case "refer-settlement": {
-                    const appealId = world.history.personnelRecords?.find(
-                      (r) => r.kind === "appeal" && r.actionId === matter.id,
-                    )?.id;
-                    if (!appealId) return setNotice("No appeal is on record.");
-                    return apply(
-                      referAppealToCommissioner(world, { appealId }),
-                      "The commissioner's settlement decision is on record.",
-                    );
-                  }
-                  case "hear-answer":
-                    return apply(
-                      produceReinstatementResponse(world, {
-                        offerId: matter.id,
-                      }),
-                      "Their answer is on record.",
-                    );
                   default:
                     return setNotice("That step is not available.");
                 }
@@ -245,7 +226,7 @@ export function CivilPersonnelPanel({
                     personId,
                     probation,
                   }),
-                  "The reinstatement offer was made. It is not an appointment until accepted.",
+                  "The offer was made and answered on receipt. Only an acceptance is an appointment.",
                 )
               }
             />
@@ -391,7 +372,10 @@ function ReinstatementForm({
         <select
           style={FIT}
           value={personId}
-          onChange={(event) => setPersonId(event.target.value as EntityId)}
+          onChange={(event) => {
+            setPersonId(event.target.value as EntityId);
+            setProbation(false);
+          }}
         >
           {candidates.map((c) => (
             <option key={c.personId} value={c.personId}>

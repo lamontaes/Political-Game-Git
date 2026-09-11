@@ -40,14 +40,15 @@ designated appointing authority:
    whether.
 5. The chapter 43A commissioner's decision whether the authority must settle,
    made once by the single NPC holder of that office when the appeal arrives.
-   If nobody held the office then, a party may refer the appeal later. The
-   settlement terms and the hearing remain unavailable.
+   If no holder able to decide existed then, the decision is shown as not
+   represented; no party can trigger it later. The settlement terms and the
+   hearing remain unavailable.
 6. A direct reinstatement offer to a former permanent or probationary employee
-   of the job class within four years. The person answers once per employer
-   through the NPC decision architecture; a decline stands, and an offer the
-   position can no longer honor lapses. Probation is available only for former
-   employees of a different appointing authority. Acceptance creates a real
-   LIFE employment and incumbency; pay is not invented.
+   of the job class within four years. The person answers on receipt through
+   the NPC decision architecture, and a decline stands for that employer.
+   Probation is available only for former employees of a different appointing
+   authority. Acceptance creates a real LIFE employment and incumbency; pay is
+   not invented.
 
 Seeds used by the tests exercise both sides of every NPC choice (appeal or
 not, settlement directed or not, reinstatement accepted or declined).
@@ -127,12 +128,14 @@ consistency; nothing else is required.
    architecture. They are made on receipt, not on the player's request, so the
    player cannot time or withhold them. The employee-reply writer was dropped:
    no single-perspective world could reach it.
-5. **An independent adversarial review** found three blockers before
-   publication. The director could time or withhold the appeal decision, a
-   re-offer could reroll consent, and integrity accepted tampered outcomes.
-   All three are fixed with regression tests. It also found a stranded open
-   offer, a stale form selection, unbound numeric terms and a former director
-   filing; all are fixed.
+5. **Independent adversarial review and re-review.** The first pass found
+   three blockers before publication: the director could time or withhold the
+   appeal decision, a re-offer could reroll consent, and integrity accepted
+   tampered outcomes. It also found four lesser defects. The re-review
+   confirmed those fixes and found the same timing flaw in reinstatement
+   answers, a party-only referral path, a decision-key collision and a
+   forgeable lapse. All are fixed with regression tests. Every counterpart
+   decision now happens on receipt.
 
 ## Verification
 

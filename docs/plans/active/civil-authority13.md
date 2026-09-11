@@ -46,11 +46,12 @@ keeps public personnel open work; this plan is its implementation owner.
   for an enumerated just cause (subd. 2) after an informal attempt. A written
   notice carries the 30-calendar-day Bureau of Mediation Services appeal
   statement (subd. 3(b)).
-- Employee reply, and commissioner filing within 10 calendar days (subd. 3(b)).
-- Employee appeal to the Bureau within 30 calendar days (subd. 3(b)); pending,
-  never favorable by default.
-- Commissioner of management and budget's settlement decision (subd. 3(b)) by a
-  canonical holder of that statutory office.
+- Commissioner filing within 10 calendar days (subd. 3(b)), by any current
+  appointing authority.
+- The employee's own appeal decision on receipt of the notice (subd. 3(b)),
+  through the NPC decision architecture; pending, never favorable by default.
+- The chapter 43A commissioner's settlement decision (subd. 3(b)) by the single
+  canonical holder of that statutory office, made when the appeal arrives.
 - Direct reinstatement by an appointing authority of a former permanent or
   probationary employee of the job class within four years (§ 43A.15 subd. 15),
   with the appointee's consent and optional probation (§ 43A.16 subd. 1).
@@ -69,5 +70,9 @@ jurisdictions (no compiled procedures).
 
 ## Acceptance
 
-In progress. Record the exact tested head, gates, save/reload proof and remaining
-normal-play reachability in the handoff. No self-merge.
+Implementation, focused tests, component browser proofs and the full repository
+gate are complete. An independent adversarial review and a narrow re-review
+checked the delta. Normal-play reachability is not delivered: it needs a
+producer of authored public employment, or the acquired selection instruments.
+The [handoff](../../handoffs/civil-authority13.md) records the reasons, and the
+plan stays active until LAND and the owner decide. No self-merge.

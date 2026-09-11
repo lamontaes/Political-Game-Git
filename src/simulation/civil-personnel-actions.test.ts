@@ -10,7 +10,6 @@ import {
   assessMinnesotaDiscipline,
   assessMinnesotaReinstatement,
   establishPersonnelDesignation,
-  establishPersonnelIncumbency,
   executiveOfficeStaffBoundary,
   fileNoticeWithCommissioner,
   issueMinnesotaDiscipline,
@@ -20,15 +19,13 @@ import {
   personnelMatters,
   personnelOfferResponses,
   personnelProcedures,
-  produceReinstatementResponse,
   recordInformalResolutionAttempt,
-  referAppealToCommissioner,
   reinstatementOpportunities,
   type PersonnelResult,
 } from "./civil-personnel-actions";
 import { workItemState } from "./time-work";
 import { personnelWorkItems } from "./civil-personnel";
-import { createOrganization, createWorkRelationship } from "./life";
+import { createOrganization, recordWorkStatus } from "./life";
 import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
@@ -175,9 +172,6 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
       actorPersonId: f.commissioner,
       decision: "settlement-not-directed",
     });
-    expect(referAppealToCommissioner(world, { appealId: appeal.id }).ok).toBe(
-      false,
-    );
     const view = personnelMatters(world).find((v) => v.id === action.id)!;
     expect(view.facts.join(" ")).toContain(
       "No one has decided it on the merits",
@@ -432,18 +426,8 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
         probation: "required",
       }),
     );
-    // An offer is not an appointment.
-    expect(
-      offer.world.history.workRelationships.filter(
-        (w) =>
-          w.personId === f.formerEmployee &&
-          w.organizationId === f.otherAgencyId,
-      ),
-    ).toHaveLength(0);
-    let world = reload(offer.world);
-    world = ok(
-      produceReinstatementResponse(world, { offerId: offer.id }),
-    ).world;
+    // The person answered on receipt through their own recorded decision.
+    const world = reload(offer.world);
     const response = personnelOfferResponses(world)[0]!;
     expect(response.response).toBe("accepted");
     expect(response.decisionTraceId).not.toBeNull();
@@ -469,9 +453,11 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
           flow.basisReference.workRelationshipId === work.id,
       ),
     ).toHaveLength(0);
-    expect(produceReinstatementResponse(world, { offerId: offer.id }).ok).toBe(
-      false,
-    );
+    expect(
+      world.history.decisionTraces.find(
+        (t) => t.id === response.decisionTraceId,
+      )!.context.actorPersonId,
+    ).toBe(f.formerEmployee);
     const restored = reload(world);
     expect(restored.history.personnelRecords).toEqual(
       world.history.personnelRecords,
@@ -483,7 +469,7 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
       "2026-09-14",
       "US-MN",
       "otherDirector",
-      "civil-authority13-d",
+      "civil-authority13-f",
     );
     const offer = ok(
       offerMinnesotaReinstatement(f.world, {
@@ -492,75 +478,54 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
         probation: "not-required",
       }),
     );
-    const world = ok(
-      produceReinstatementResponse(offer.world, { offerId: offer.id }),
-    ).world;
-    expect(personnelOfferResponses(world)[0]).toMatchObject({
+    expect(personnelOfferResponses(offer.world)[0]).toMatchObject({
       response: "declined",
       workRelationshipId: null,
     });
-    const again = offerMinnesotaReinstatement(world, {
-      positionId: f.otherSpecialistPositionId,
-      personId: f.formerEmployee,
-      probation: "required",
-    });
-    expect(again.ok).toBe(false);
-    if (!again.ok) expect(again.reason).toContain("that answer stands");
+    for (const world of [offer.world, advanceWorld(offer.world, 5, handlers)]) {
+      const again = offerMinnesotaReinstatement(world, {
+        positionId: f.otherSpecialistPositionId,
+        personId: f.formerEmployee,
+        probation: "required",
+      });
+      expect(again.ok).toBe(false);
+      if (!again.ok) expect(again.reason).toContain("that answer stands");
+    }
   });
 
-  it("lapses an offer the position can no longer honor instead of stranding it", () => {
+  it("gives a fresh answer to a new offer after an accepted reinstatement ends", () => {
     const f = civilAuthorityFixture("2026-09-14", "US-MN", "otherDirector");
-    const offer = ok(
+    const first = ok(
       offerMinnesotaReinstatement(f.world, {
         positionId: f.otherSpecialistPositionId,
         personId: f.formerEmployee,
         probation: "not-required",
       }),
-    );
-    // Fill the position by an authored incumbency before any answer.
-    const filled = createWorkRelationship(offer.world, {
-      stableKey: "lapse:filler",
-      personId: f.relative,
-      organizationId: f.otherAgencyId,
-      startedAt: offer.world.currentDate,
-      kind: "employment:civil-service",
-      compensation: "paid",
-      authority: "directed",
-      dependency: "dependent",
-      economicRisk: "organization-borne",
-      provenance: { kind: "authored", note: "Diagnostic filler." },
-      initialRole: {
-        title: "Records specialist",
-        occupationClassification: null,
-        locationJurisdictionId: offer.world.jurisdictionOrder[0]!,
-        timeDemand: {
-          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
-          attention: "high",
-          concurrency: "mostly-exclusive",
-          scheduleRigidity: "mixed",
-          interruptibility: "limited",
-          locationJurisdictionId: offer.world.jurisdictionOrder[0]!,
-        },
-      },
+    ).world;
+    const accepted = personnelOfferResponses(first)[0]!;
+    expect(accepted.response).toBe("accepted");
+    const work = accepted.workRelationshipId!;
+    const status = workStatusAt(first, work)!;
+    const resigned = recordWorkStatus(first, {
+      stableKey: "fresh:resigned",
+      workRelationshipId: work,
+      effectiveAt: first.currentDate,
+      status: "ended",
+      reason: "Resigned in good standing.",
+      provenance: { kind: "authored", note: "Diagnostic resignation." },
+      supersedesStatusId: status.id,
     });
-    const occupied = ok(
-      establishPersonnelIncumbency(filled, {
-        stableKey: "lapse:filler-incumbency",
+    // Tenure after an unprobated reinstatement is unknown, so this later
+    // separation does not qualify; the earlier 2025 service still does.
+    const again = ok(
+      offerMinnesotaReinstatement(resigned, {
         positionId: f.otherSpecialistPositionId,
-        workRelationshipId: filled.history.workRelationships.at(-1)!.id,
-        tenure: "permanent",
-        note: "Diagnostic filler.",
+        personId: f.formerEmployee,
+        probation: "not-required",
       }),
     ).world;
-    const answered = ok(
-      produceReinstatementResponse(occupied, { offerId: offer.id }),
-    ).world;
-    expect(personnelOfferResponses(answered)[0]).toMatchObject({
-      response: "lapsed",
-      decisionTraceId: null,
-      workRelationshipId: null,
-    });
-    expect(() => reload(answered)).not.toThrow();
+    expect(personnelOfferResponses(again)).toHaveLength(2);
+    expect(() => reload(again)).not.toThrow();
   });
 
   it("refuses relatives, lapsed service, occupied positions, self-appointment and unestablished probation", () => {

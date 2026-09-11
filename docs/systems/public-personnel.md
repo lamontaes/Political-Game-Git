@@ -65,15 +65,12 @@ player's to choose:
 - The discharged employee decides whether to appeal on receiving the notice.
   Deciding not to appeal is final.
 - When an appeal arrives, the single holder of the commissioner's office
-  decides on settlement. If nobody held the office then, a party may refer the
-  appeal once someone does. The outcome is keyed to the appeal, so the timing
-  of the referral cannot change it.
-- A former employee answers a reinstatement offer once per employer. A declined
-  answer stands, so asking again cannot reroll it. An offer the position can no
-  longer honor lapses instead of stranding: the reasons are a filled vacancy, a
-  closed window, a departed offering officer, or the person having died or
-  already working there. Any current appointing authority of the employer may
-  hear the answer.
+  decides on settlement. If no holder able to decide existed then, the decision
+  is shown as not represented. No party can later trigger or time it.
+- A former employee answers a reinstatement offer on receiving it, from their
+  own situation at that moment. A decline stands for that employer, so asking
+  again cannot reroll it. Offers are never left open, so they never lapse or
+  strand.
 
 None of these is a ruling on the merits.
 
@@ -87,6 +84,7 @@ None of these is a ruling on the merits.
 - the statutory deadlines and the `timely` flag;
 - the four-year window and the probation rule;
 - the vacancy of a filled position;
+- the tenure and civil and labor facts each paired event established;
 - each NPC's own decision trace and chosen option.
 
 A save that rewrites who acted or what an NPC chose fails to load. The snapshot

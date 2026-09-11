@@ -3318,10 +3318,10 @@ export interface PersonnelOfferResponseRecord extends PersonnelRecordBase {
   readonly kind: "offer-response";
   readonly offerId: EntityId;
   readonly personId: EntityId;
-  /** A lapsed offer closes without an answer: the position, window, person or offering authority is gone. */
-  readonly response: "accepted" | "declined" | "lapsed";
-  /** The person's durable decision trace; null only for a lapsed offer. */
-  readonly decisionTraceId: EntityId | null;
+  /** Given on receipt of the offer. */
+  readonly response: "accepted" | "declined";
+  /** The person's own durable decision trace. */
+  readonly decisionTraceId: EntityId;
   readonly workRelationshipId: EntityId | null;
 }
 

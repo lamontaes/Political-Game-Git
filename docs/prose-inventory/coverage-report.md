@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5538 |
-| DIAGNOSTIC_OR_TEST | 4455 |
-| **NEEDS_CLASSIFICATION** | **5770** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5541 |
+| DIAGNOSTIC_OR_TEST | 4454 |
+| **NEEDS_CLASSIFICATION** | **5753** |
 
-Scanned 478 files holding 66865 string
+Scanned 478 files holding 66822 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -38,7 +38,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 119 | `src/simulation/civil-personnel-actions.ts` |
+| 105 | `src/simulation/civil-personnel-actions.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
 | 72 | `src/simulation/life-paths2.ts` |
@@ -98,7 +98,6 @@ literals in total; the table counts only those that read like a sentence.
 | 24 | `src/ui/ContentBrowserView.tsx` |
 | 23 | `src/presentation/title-tableau.ts` |
 | 23 | `src/simulation/life-content-92c.ts` |
-| 21 | `src/player/CivilPersonnelPanel.tsx` |
 | 21 | `src/simulation/legislation-content-contracts.ts` |
 | 20 | `src/presentation/economic-context-browser.ts` |
 | 20 | `src/presentation/legislative-bargaining-actions.ts` |
@@ -112,6 +111,7 @@ literals in total; the table counts only those that read like a sentence.
 | 19 | `src/simulation/world.ts` |
 | 18 | `src/content/adapters/setup-questionnaire.ts` |
 | 18 | `src/player/CalendarWorkspace.tsx` |
+| 18 | `src/player/CivilPersonnelPanel.tsx` |
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |

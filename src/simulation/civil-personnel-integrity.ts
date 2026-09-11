@@ -218,6 +218,11 @@ export function assertPersonnelIntegrity(
       }
       case "position": {
         if (
+          event!.context.choice !==
+          `class ${record.classKey}; civil ${record.civilClass}; bargaining ${record.bargainingCoverage}; agreement ${record.agreementCoverage}`
+        )
+          fail(record, "disagrees with the position its event established.");
+        if (
           !charterable(world, record.organizationId) ||
           !record.basis.note.trim() ||
           !record.classKey.trim() ||
@@ -231,6 +236,15 @@ export function assertPersonnelIntegrity(
       }
       case "incumbency": {
         const position = earlier(record, record.positionId, "position");
+        if (
+          !event!.participants.some(
+            (p) =>
+              p.personId === record.personId &&
+              p.role === "focus:incumbent" &&
+              p.detail === record.tenure,
+          )
+        )
+          fail(record, "disagrees with the tenure its event established.");
         const work = world.history.workRelationships.find(
           (w) => w.id === record.workRelationshipId,
         );
@@ -512,17 +526,15 @@ export function assertPersonnelIntegrity(
           (record.workRelationshipId !== null)
         )
           fail(record, "does not match its employment outcome.");
-        const offeredPosition = earlier(record, offer.positionId, "position");
         if (
-          record.response === "lapsed"
-            ? record.decisionTraceId !== null
-            : !traceChose(
-                world,
-                record.decisionTraceId,
-                `civil-personnel:offer-decision:${offeredPosition.organizationId}:${record.personId}`,
-                record.personId,
-                record.response === "accepted" ? "accept" : "decline",
-              )
+          record.recordedAt !== offer.recordedAt ||
+          !traceChose(
+            world,
+            record.decisionTraceId,
+            `civil-personnel:offer-decision:${offer.id}`,
+            record.personId,
+            record.response === "accepted" ? "accept" : "decline",
+          )
         )
           fail(record, "lacks the person's own recorded answer.");
         only(record, `response:${offer.id}`);
