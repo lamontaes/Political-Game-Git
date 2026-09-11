@@ -7,6 +7,7 @@ import {
   expectNoDestination,
   goTo,
   openElsewhere,
+  openShellMenu,
   startLife,
 } from "./support/creator";
 
@@ -274,6 +275,7 @@ test.describe("the docket, from the ordinary route", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
 
+    await openShellMenu(page);
     await page.getByTestId("elsewhere-work").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("docket-list")).toBeVisible();

@@ -405,7 +405,7 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     const kicker = page
       .getByTestId("opening-life-panel")
       .locator(".life-exposition-kicker");
-    const identity = await kicker.innerText();
+    const identity = (await kicker.textContent()) ?? "";
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();

@@ -114,13 +114,13 @@ export async function chooseCreatorLocation(
       ? "Lexington"
       : null
     : requested;
+  // The town's own name, without the ", State" a caller may have added.
+  const town = locality?.split(",")[0]?.trim() ?? null;
   await page
     .getByTestId("place-search")
-    .fill(life.placeQuery ?? (locality ? locality.slice(0, 8) : "a"));
+    .fill(life.placeQuery ?? (town ? town.slice(0, 8) : "a"));
   const choices = page.getByTestId("place-choices").getByRole("button");
-  await (
-    locality ? choices.filter({ hasText: new RegExp(locality, "i") }) : choices
-  )
+  await (town ? choices.filter({ hasText: new RegExp(town, "i") }) : choices)
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
