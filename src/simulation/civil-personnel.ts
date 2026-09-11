@@ -1,4 +1,4 @@
-import sourceData from "./civil-personnel-sources.json";
+import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { makeIsoDate } from "./dates";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import {
@@ -22,10 +22,9 @@ import {
   type PersonnelAction,
   type PersonnelActionAssessment,
   type PersonnelProcedureKey,
-  type PersonnelSourceProjection,
 } from "./civil-personnel-contract";
 
-const sources = sourceData as unknown as PersonnelSourceProjection;
+const sources = CIVIL_PERSONNEL_SOURCE_PROJECTION;
 export const CIVIL_PERSONNEL_SOURCE_PIN = sources.corpusSha256;
 const prefix = "civil-personnel";
 

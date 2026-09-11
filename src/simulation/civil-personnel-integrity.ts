@@ -1,9 +1,8 @@
-import sourceData from "./civil-personnel-sources.json";
+import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { activeOrganizationParticipationsAt } from "./life-queries";
 import { PERSONNEL_PROCEDURE_KEYS } from "./civil-personnel-contract";
-import type { PersonnelSourceProjection } from "./civil-personnel-contract";
 import type {
   EntityId,
   IsoDate,
@@ -13,8 +12,7 @@ import type {
   World,
 } from "./types";
 
-const procedures = (sourceData as unknown as PersonnelSourceProjection)
-  .procedures;
+const procedures = CIVIL_PERSONNEL_SOURCE_PROJECTION.procedures;
 
 function term(key: string, name: string): number | readonly string[] {
   const value = procedures.find((p) => p.key === key)?.terms[name];

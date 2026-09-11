@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { ArtifactLock } from "../../src/source/core/index";
 import { compilePersonnelSourceProjection } from "../../src/source/adapters/civil-personnel";
+import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "../../src/simulation/civil-personnel-sources.generated";
 import {
   compilePersonnelProcedures,
   PERSONNEL_PROCEDURE_DECLARATIONS,
@@ -15,11 +16,7 @@ const lock = () =>
 describe("CIVIL-WORK7 source-to-consumer projection", () => {
   it("replays every declared profile and preserves all 29 known and 481 unknown fields", () => {
     const projection = compilePersonnelSourceProjection(lock());
-    expect(projection).toEqual(
-      JSON.parse(
-        readFileSync("src/simulation/civil-personnel-sources.json", "utf8"),
-      ),
-    );
+    expect(projection).toEqual(CIVIL_PERSONNEL_SOURCE_PROJECTION);
     expect(projection.profiles).toHaveLength(51);
     const fields = projection.profiles.flatMap((p) => Object.values(p.fields));
     expect(fields.filter((f) => f.state === "known")).toHaveLength(29);

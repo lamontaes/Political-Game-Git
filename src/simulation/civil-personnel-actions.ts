@@ -1,4 +1,4 @@
-import sourceData from "./civil-personnel-sources.json";
+import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import { addSimulationMinutes } from "./dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
@@ -33,7 +33,6 @@ import { personnelRecords } from "./civil-personnel-integrity";
 import type {
   PersonnelProcedure,
   PersonnelProcedureKey,
-  PersonnelSourceProjection,
 } from "./civil-personnel-contract";
 import type {
   EntityId,
@@ -56,7 +55,7 @@ import type {
   World,
 } from "./types";
 
-const sources = sourceData as unknown as PersonnelSourceProjection;
+const sources = CIVIL_PERSONNEL_SOURCE_PROJECTION;
 const PREFIX = "civil-personnel";
 
 export type PersonnelResult =

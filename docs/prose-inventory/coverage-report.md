@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2107 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5668 |
-| DIAGNOSTIC_OR_TEST | 4519 |
+| DIAGNOSTIC_OR_TEST | 4522 |
 | **NEEDS_CLASSIFICATION** | **5823** |
 
-Scanned 496 files holding 67793 string
+Scanned 497 files holding 67805 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -24,6 +24,7 @@ literals in total; the table counts only those that read like a sentence.
 - `src/devtools` — Developer diagnostics. Reachable only from the developer view, which ordinary play never opens.
 - `src/cli` — Headless command output for developers and CI.
 - `src/release` — Build identity: the accepted release version and the source revision the bundle came from. Its strings are a version number and a commit hash, not authored prose, and the only player-visible form of them is a quiet vX.Y.Z the UI composes.
+- `src/simulation/civil-personnel-sources.generated.ts` — Generated civil-service projection: statute excerpts, citations and byte hashes compiled from locked enacted text. It is cited evidence, not authored prose; the personnel panel and refusals that use it are scanned where they are written.
 - `src/simulation/national-places.generated.ts` — Generated place-name data compiled from the Census places corpus. Names of real localities are sourced facts, not authored prose.
 - `src/simulation/national-counties.generated.ts` — Generated county-name data compiled from the Census county corpus. Names of real localities are sourced facts, not authored prose.
 
