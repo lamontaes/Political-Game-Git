@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5458 |
-| DIAGNOSTIC_OR_TEST | 4379 |
-| **NEEDS_CLASSIFICATION** | **5584** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5475 |
+| DIAGNOSTIC_OR_TEST | 4395 |
+| **NEEDS_CLASSIFICATION** | **5614** |
 
-Scanned 465 files holding 65409 string
+Scanned 475 files holding 65762 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -124,6 +124,7 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/simulation/policy-semantics.ts` |
 | 16 | `src/ui/EventHistory.tsx` |
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
+| 15 | `src/education/study-provider.ts` |
 | 15 | `src/player/LifePathsPanel.tsx` |
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
@@ -161,6 +162,7 @@ literals in total; the table counts only those that read like a sentence.
 | 9 | `src/presentation/production-world.ts` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
+| 8 | `src/player/EducationOptionsPanel.tsx` |
 | 8 | `src/player/PinRail.tsx` |
 | 8 | `src/player/PlayerOffice.tsx` |
 | 8 | `src/presentation/legislative-bargaining-world.ts` |
@@ -202,6 +204,7 @@ literals in total; the table counts only those that read like a sentence.
 | 5 | `src/simulation/incident-response.fixture.ts` |
 | 5 | `src/simulation/municipal-election-rules.ts` |
 | 5 | `src/ui/ScenePresentationProofView.tsx` |
+| 4 | `src/education/catalog.ts` |
 | 4 | `src/persistence/sqlite-world-repository.ts` |
 | 4 | `src/player/ExecutiveWorkWorkspace.tsx` |
 | 4 | `src/player/TitleScreen.tsx` |
@@ -212,6 +215,7 @@ literals in total; the table counts only those that read like a sentence.
 | 4 | `src/simulation/relationship-integration.ts` |
 | 4 | `src/simulation/resource-pressure.ts` |
 | 4 | `src/simulation/vitality-catalog.ts` |
+| 3 | `src/education/compact.ts` |
 | 3 | `src/player/JudicialOfficeWork.tsx` |
 | 3 | `src/player/SceneBackdrop.tsx` |
 | 3 | `src/presentation/economic-context.ts` |
