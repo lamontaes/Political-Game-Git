@@ -1,0 +1,18 @@
+
+> political-life-rpg@0.2.0 dev:identified
+> node scripts/dev-identified.mjs --port 5326
+
+POLITICAL GAME DEV SERVER
+
+Workspace: /private/tmp/pg-env-all1-transfer
+Branch: codex/env-all1-transfer
+Commit: d9c709214f44f81acc713ae5c512df25ac5860ef
+Host: 127.0.0.1
+Requested Port: 5326
+Launcher PID: 18621
+
+Sites local sign-in: seedy@sites.test
+
+  VITE v8.2.2  ready in 161 ms
+
+  ➜  Local:   http://127.0.0.1:5326/

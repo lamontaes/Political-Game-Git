@@ -11,9 +11,11 @@ import {
   type SceneSurfaceSlot,
   type SceneUiSafeZoneSpec,
 } from "../environment/environment-scene-spec";
+import { CIVIC_COMMUNITY_MEETING_ROOM_SCENE } from "../environment/scenes/civic-community-meeting-room-production";
 import { CIVIC_COMMUNITY_MEETING_TITLE_SCENE } from "../environment/scenes/civic-community-meeting-title-production";
 import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
+import { COURTROOM_EMPTY_PRODUCTION_SCENE } from "../environment/scenes/courtroom-empty-production";
 import { LEGISLATIVE_CHAMBER_PRODUCTION_SCENE } from "../environment/scenes/legislative-chamber-production";
 import { OFFICE_COUNCIL_STAFF_FIXTURE_SCENE } from "../environment/scenes/office-council-staff-fixture";
 import {
@@ -70,6 +72,7 @@ export interface RegisteredSceneOccluder {
   readonly assetId: string | null;
   readonly zOrder: number;
   readonly regionPercent: PercentRect | null;
+  readonly plateClip?: Occluder["plate_clip"];
 }
 
 export interface RegisteredScene {
@@ -154,6 +157,7 @@ function projectOccluder(occluder: Occluder): RegisteredSceneOccluder {
     assetId: occluder.asset_id ?? null,
     zOrder: occluder.z_order ?? 0,
     regionPercent: occluder.region_percent ?? null,
+    plateClip: occluder.plate_clip,
   };
 }
 
@@ -294,11 +298,16 @@ export function requireSceneAnchor(
 /**
  * Every scene the runtime knows about.
  *
- * Five carry production plates and two are development fixtures. The fixtures
+ * Seven carry production plates and two are development fixtures. The fixtures
  * are kept deliberately: the council-staff office is frozen regression
  * evidence, and the committee room is the proof that a scene with no picture
  * at all still registers and still says so. Adding a room is adding a spec to
  * this list, not writing scene-specific React.
+ *
+ * Two of the seven arrived without any new art being made. The courtroom's
+ * master had been approved and banked for packets and was missing only a tier
+ * ladder and a spec; the public meeting ROOM is the title tableau's own plate,
+ * authored a second time for standing in rather than for a caption.
  */
 export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE,
@@ -307,6 +316,8 @@ export const SCENE_REGISTRY: SceneRegistry = createSceneRegistry([
   LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
   RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
+  CIVIC_COMMUNITY_MEETING_ROOM_SCENE,
+  COURTROOM_EMPTY_PRODUCTION_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
 ]);
@@ -321,6 +332,16 @@ export const COMMITTEE_FIXTURE_SCENE_ID = "committee-room-fixture";
 
 /** The neutral public room the title screen composes against. */
 export const TITLE_TABLEAU_SCENE_ID = "civic-community-meeting-title";
+/**
+ * The same room, framed for being in rather than for a caption. Distinct from
+ * the tableau above on purpose; see the scene's own comment.
+ */
+export const PUBLIC_MEETING_ROOM_SCENE_ID = "civic-community-meeting-room";
+/**
+ * The courtroom. Registered with production art and deliberately named by no
+ * legislative consumer: a court is not a committee and not a chamber.
+ */
+export const COURTROOM_SCENE_ID = "courtroom-empty-production";
 /** The production hearing room. Distinct from the committee fixture above. */
 export const HEARING_ROOM_SCENE_ID = "civic-hearing-room-production";
 /** The production chamber floor. Distinct from the hearing room and courtroom. */
