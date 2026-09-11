@@ -1,5 +1,5 @@
 {
-  "digest": "6eaf506595d01867",
+  "digest": "8229f0c4f1696d16",
   "counts": {
     "total": 2589,
     "byDomain": {
@@ -50434,11 +50434,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50455,7 +50450,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "21cd8f624c0b",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:certificate:description",
@@ -50493,11 +50488,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50514,7 +50504,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:certificate:label",
@@ -50552,11 +50542,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50573,7 +50558,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3e5b5a33acea",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:certificate:memory",
@@ -50611,11 +50596,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50632,7 +50612,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "5bcfe9440f1c",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:unsure-yet:description",
@@ -50670,11 +50650,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50691,7 +50666,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:unsure-yet:label",
@@ -50729,11 +50704,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50750,7 +50720,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "a0ffd2bee8db",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/follow-through#option:unsure-yet:memory",
@@ -50788,11 +50758,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:life.education-work-crossroad",
-          "description": "The record establishes life.education-work-crossroad.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:lean-study",
           "description": "moment was answered lean-study.",
           "kind": "requirement"
@@ -50809,7 +50774,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "36eecf1ac505",
-      "contextRevision": "b8a7f60bd739"
+      "contextRevision": "fc6af89015b4"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.college-vs-work/moment#line:0",
@@ -51397,11 +51362,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51418,7 +51378,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "b03b9cd06cb5",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:not-yet:description",
@@ -51456,11 +51416,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51477,7 +51432,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:not-yet:label",
@@ -51515,11 +51470,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51536,7 +51486,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "0b0f09101c6c",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:not-yet:memory",
@@ -51576,11 +51526,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51597,7 +51542,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "12a92ca29ac0",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:tell-them:description",
@@ -51635,11 +51580,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51656,7 +51596,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:tell-them:label",
@@ -51694,11 +51634,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51715,7 +51650,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "793a0e4b77a2",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/follow-through#option:tell-them:memory",
@@ -51755,11 +51690,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:work.class-schedule-conflict",
-          "description": "The record establishes work.class-schedule-conflict.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:keep-lab",
           "description": "moment was answered keep-lab.",
           "kind": "requirement"
@@ -51776,7 +51706,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "8b2b0ad38e43",
-      "contextRevision": "1ddfc03b80c4"
+      "contextRevision": "b915cab684df"
     },
     {
       "id": "prose:life:episode:opening.adult.trans.drop-class-keep-job/moment#line:0",
@@ -55776,11 +55706,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -55797,7 +55722,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3a4edfbaa5ce",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:keep-holding:description",
@@ -55835,11 +55760,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -55856,7 +55776,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:keep-holding:label",
@@ -55894,11 +55814,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -55915,7 +55830,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "02b0619d62c2",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:keep-holding:memory",
@@ -55953,11 +55868,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -55974,7 +55884,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "6826f89404d2",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:put-in-crate:description",
@@ -56012,11 +55922,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -56033,7 +55938,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "3170543ce47c",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:put-in-crate:label",
@@ -56071,11 +55976,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -56092,7 +55992,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "82ab2e018a11",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/follow-through#option:put-in-crate:memory",
@@ -56130,11 +56030,6 @@
           "kind": "role"
         },
         {
-          "key": "fact:household.move-preparation",
-          "description": "The record establishes household.move-preparation.",
-          "kind": "requirement"
-        },
-        {
           "key": "after-choice:moment:cling-old-toy",
           "description": "moment was answered cling-old-toy.",
           "kind": "requirement"
@@ -56151,7 +56046,7 @@
         "stakes:ordinary"
       ],
       "textRevision": "935a4885edfd",
-      "contextRevision": "413570c3e48e"
+      "contextRevision": "96bf33f1434d"
     },
     {
       "id": "prose:life:episode:opening.early.family.packing-boxes/moment#line:0",

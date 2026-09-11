@@ -2,7 +2,7 @@
   "counts": {
     "INVENTORIED": 2395,
     "INTENTIONALLY_NON_PLAYER_FACING": 5642,
-    "DIAGNOSTIC_OR_TEST": 4676,
+    "DIAGNOSTIC_OR_TEST": 4682,
     "NEEDS_CLASSIFICATION": 6162
   },
   "needsClassification": [
@@ -35513,7 +35513,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 446,
+      "line": 507,
       "text": "Somebody on the same rota asked you to take their shift, saying it was for a funeral.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35521,7 +35521,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 449,
+      "line": 510,
       "text": "Shift you were asked to cover",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35529,7 +35529,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 450,
+      "line": 511,
       "text": "The shift somebody on your rota asked you to take.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35537,7 +35537,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 472,
+      "line": 533,
       "text": "A shared piece of coursework is due and counts as one piece. The other half has not been handed in.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35545,7 +35545,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 476,
+      "line": 537,
       "text": "The shared piece of coursework",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35553,7 +35553,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 478,
+      "line": 539,
       "text": "It is due, it counts as one piece, and the other half is not done.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35561,7 +35561,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 506,
+      "line": 567,
       "text": "Your supervisor asked whether you could pick up an extra evening shift you were not scheduled for.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35569,7 +35569,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 512,
+      "line": 573,
       "text": "Extra shift offered",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35577,7 +35577,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 513,
+      "line": 574,
       "text": "The evening shift your supervisor asked you to pick up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35585,7 +35585,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 541,
+      "line": 609,
       "text": "Your supervisor asked you to work a shift at the same time as a class session you have booked.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35593,7 +35593,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 548,
+      "line": 616,
       "text": "Shift at the same time as a class",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35601,7 +35601,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 549,
+      "line": 617,
       "text": "The shift your supervisor asked you to work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35609,7 +35609,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 575,
+      "line": 643,
       "text": "You need somebody to cover one of your shifts. The colleague whose shift you worked earlier still works there.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35617,7 +35617,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 579,
+      "line": 647,
       "text": "The colleague whose shift you worked",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35625,7 +35625,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 581,
+      "line": 649,
       "text": "Shift you need covered",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35633,7 +35633,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 582,
+      "line": 650,
       "text": "The shift you need somebody to take.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35641,7 +35641,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "tryWriteCircumstance",
-      "line": 622,
+      "line": 690,
       "text": "You have a path into further study and a path into full-time work open at the same time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35649,7 +35649,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "participants",
-      "line": 696,
+      "line": 764,
       "text": "The person this is happening to",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35657,7 +35657,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "participants",
-      "line": 704,
+      "line": 772,
       "text": "The person who asked",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35665,7 +35665,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "next",
-      "line": 745,
+      "line": 813,
       "text": "Where it happened",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35673,7 +35673,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "scheduleAgreedCoverShift",
-      "line": 1111,
+      "line": 1201,
       "text": "Shift you agreed to cover",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -35681,7 +35681,7 @@
     {
       "sourcePath": "src/simulation/life-circumstances.ts",
       "enclosingSymbol": "scheduleAgreedCoverShift",
-      "line": 1113,
+      "line": 1203,
       "text": "The shift a colleague asked you to take, which you said yes to.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36233,7 +36233,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeFacts",
-      "line": 820,
+      "line": 824,
       "text": "Somebody else takes part in the same political organization.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36241,7 +36241,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeFacts",
-      "line": 834,
+      "line": 838,
       "text": "An open life commitment.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36249,7 +36249,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeFacts",
-      "line": 848,
+      "line": 852,
       "text": "An active incident in this world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36257,7 +36257,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeFacts",
-      "line": 860,
+      "line": 864,
       "text": "Somebody this life already has more than one record with.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36265,7 +36265,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeFacts",
-      "line": 870,
+      "line": 874,
       "text": "Something on an open thread has come due.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36273,7 +36273,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 882,
+      "line": 886,
       "text": "A colleague asked for shift coverage and stated a funeral reason.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36281,7 +36281,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 887,
+      "line": 891,
       "text": "A recorded shared assignment is due with the named person's contribution outstanding.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36289,7 +36289,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 892,
+      "line": 896,
       "text": "The recorded supervisor asked for an extra evening shift that was not scheduled.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36297,7 +36297,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 897,
+      "line": 901,
       "text": "Retired: no transit mode, journey or timetable is modeled, so this never holds.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36305,7 +36305,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 902,
+      "line": 906,
       "text": "The recorded supervisor asked for a shift at the same time as a booked class session.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36313,7 +36313,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 907,
+      "line": 911,
       "text": "This life needs a shift covered, and the colleague whose shift it worked months ago still works there.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36321,7 +36321,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 912,
+      "line": 916,
       "text": "Retired: no pending household move is modeled, so this never holds.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36329,7 +36329,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "circumstanceFacts",
-      "line": 917,
+      "line": 921,
       "text": "Further study and full-time work are both open paths at the same time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36337,7 +36337,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1024,
+      "line": 1028,
       "text": "Active enrollment in the same school.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36345,7 +36345,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1053,
+      "line": 1057,
       "text": "A {authority.kind} authority record over the player.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36353,7 +36353,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1085,
+      "line": 1089,
       "text": "Resident on the same household record, with no authority either way between them.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36361,7 +36361,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1102,
+      "line": 1106,
       "text": "Resident on the same household record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36369,7 +36369,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1120,
+      "line": 1124,
       "text": "An active partnership record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36377,7 +36377,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1131,
+      "line": 1135,
       "text": "An active partnership record.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36385,7 +36385,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1147,
+      "line": 1151,
       "text": "A kinship record of kind {kinship.kind}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36393,7 +36393,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1170,
+      "line": 1174,
       "text": "Active work at the same organization.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36401,7 +36401,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1195,
+      "line": 1199,
       "text": "Their work at the same organization directs others; the player's is directed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36409,7 +36409,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1205,
+      "line": 1209,
       "text": "The player's directed work relationship.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36417,7 +36417,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1206,
+      "line": 1210,
       "text": "Their work relationship, whose authority directs others.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36425,7 +36425,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1231,
+      "line": 1235,
       "text": "Active participation in the same organization.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36433,7 +36433,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "episodeRoleBindings",
-      "line": 1273,
+      "line": 1277,
       "text": "{moving.length} record(s) name the two of them, none of them family or household; the most recent is {thread.lastMovedAt}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36441,7 +36441,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "eligibleEpisodeBeats",
-      "line": 1461,
+      "line": 1465,
       "text": "Instance closed: {exit.reason}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36449,7 +36449,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "eligibleEpisodeBeats",
-      "line": 1518,
+      "line": 1522,
       "text": "No eligible person can fill the required {role} role for this stage.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36457,7 +36457,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "eligibleEpisodeBeats",
-      "line": 1539,
+      "line": 1543,
       "text": "The age-qualified {mismatchedCast.role} does not match the persistent instance person.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36465,7 +36465,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "transitions",
-      "line": 2141,
+      "line": 2145,
       "text": "Present for it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -36473,7 +36473,7 @@
     {
       "sourcePath": "src/simulation/life-episodes.ts",
       "enclosingSymbol": "transitions",
-      "line": 2158,
+      "line": 2162,
       "text": "Life context",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -40601,7 +40601,7 @@
     {
       "sourcePath": "src/simulation/opening-life-content.ts",
       "enclosingSymbol": "OPENING_LIFE_FAMILIES",
-      "line": 1228,
+      "line": 1217,
       "text": "{scene.minutes} minutes",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -50478,7 +50478,7 @@
       "sourcePath": "src/simulation/life-content13.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 35
+      "count": 41
     },
     {
       "sourcePath": "src/simulation/life-content-92c.ts",
