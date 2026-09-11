@@ -13,6 +13,7 @@ import {
   episodeRoleBindings,
   performScheduledActivity,
   playEpisodeOption,
+  recordWorkStatus,
   recordWorldEvent,
   scheduledActivityState,
   serializeWorld,
@@ -25,6 +26,7 @@ import { EPISODE_FAMILIES } from "./episode-bank";
 import {
   COVERED_SHIFT_LOCATION_KEY,
   COVERED_SHIFT_RETURN_DAYS,
+  OPEN_LIFE_CIRCUMSTANCE_LIMIT,
   LIFE_CIRCUMSTANCE_ANSWERING_STAGE,
   bookedClassSessions,
   lifeCircumstanceTag,
@@ -701,6 +703,130 @@ describe("a favour is leaned on only after the covered shift was worked", () => 
     expect(
       beat(loaded, agreed.playerId, SHIFT, "it-came-back-round")?.prose,
     ).toBe(followUp!.prose);
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* A circumstance stops being open when what it says stops being true          */
+/* -------------------------------------------------------------------------- */
+
+describe("an open circumstance keeps speaking only while its premise holds", () => {
+  it("closes the class clash when the session it names is cancelled", () => {
+    const fixture = life({
+      seed: "clash-cancelled",
+      startAge: 20,
+      enrolled: true,
+      otherAuthority: "directs-others",
+    });
+    const booked = bookClassSession(fixture.world, fixture.playerId);
+    const session = bookedClassSessions(booked, fixture.playerId)[0]!;
+    let world = refreshLifeCircumstances(booked, fixture.playerId);
+    for (
+      let day = 0;
+      day < 6 && !everWritten(world, "class-work-schedule-conflict");
+      day++
+    ) {
+      world = answerOthers(
+        world,
+        fixture.playerId,
+        "class-work-schedule-conflict",
+      );
+      world = refreshLifeCircumstances(
+        advanceWorld(world, 1),
+        fixture.playerId,
+      );
+    }
+    expect(
+      lifeCircumstancesFor(world, fixture.playerId).some(
+        (entry) => entry.kind === "class-work-schedule-conflict",
+      ),
+    ).toBe(true);
+    const cancelled = cancelScheduledActivity(world, session.activity.id);
+    // The event stays in history; the premise does not.
+    expect(everWritten(cancelled, "class-work-schedule-conflict")).toBe(true);
+    expect(
+      lifeCircumstancesFor(cancelled, fixture.playerId).some(
+        (entry) => entry.kind === "class-work-schedule-conflict",
+      ),
+    ).toBe(false);
+    expect(
+      episodeFacts(cancelled, fixture.playerId).get(
+        "work.class-schedule-conflict",
+      )?.holds ?? false,
+    ).toBe(false);
+  });
+
+  it("closes the supervisor's request when the supervisor's job ends", () => {
+    const fixture = life({
+      seed: "supervisor-left",
+      startAge: 20,
+      enrolled: true,
+      otherAuthority: "directs-others",
+    });
+    const world = refreshUntil(
+      fixture.world,
+      fixture.playerId,
+      "supervisor-extra-shift",
+      30,
+    );
+    expect(
+      lifeCircumstancesFor(world, fixture.playerId).some(
+        (entry) => entry.kind === "supervisor-extra-shift",
+      ),
+    ).toBe(true);
+    const relationship = world.history.workRelationships.find(
+      (entry) => entry.personId === fixture.otherId,
+    )!;
+    const left = recordWorkStatus(world, {
+      stableKey: "test:supervisor-left",
+      workRelationshipId: relationship.id,
+      effectiveAt: world.currentDate,
+      status: "ended",
+      reason: "Left the job.",
+      provenance,
+      supersedesStatusId:
+        world.history.workStatuses
+          .filter((entry) => entry.workRelationshipId === relationship.id)
+          .at(-1)?.id ?? null,
+    });
+    expect(recordedSupervisorsAt(left, fixture.playerId)).toHaveLength(0);
+    expect(
+      lifeCircumstancesFor(left, fixture.playerId).some(
+        (entry) => entry.kind === "supervisor-extra-shift",
+      ),
+    ).toBe(false);
+    expect(beat(left, fixture.playerId, SHIFT, "called-in")).toBeUndefined();
+    // And the freed slot can be used again.
+    expect(lifeCircumstancesFor(left, fixture.playerId).length).toBeLessThan(
+      OPEN_LIFE_CIRCUMSTANCE_LIMIT,
+    );
+  });
+
+  it("never re-issues a request this life has already answered", () => {
+    const agreed = agreeToCover("no-reissue");
+    const world = refreshDays(agreed.world, agreed.playerId, 20);
+    expect(
+      world.history.events.filter((event) =>
+        event.tags.includes(lifeCircumstanceTag("colleague-coverage-request")),
+      ),
+    ).toHaveLength(1);
+  });
+
+  it("books the covered shift again after a cancelled booking", () => {
+    const agreed = agreeToCover("rebook");
+    const booked = scheduleAgreedCoverShift(agreed.world, agreed.playerId);
+    const first = coveredShift(booked, agreed.playerId)!;
+    const cancelled = cancelScheduledActivity(booked, first.id);
+    const rebooked = scheduleAgreedCoverShift(cancelled, agreed.playerId);
+    expect(rebooked).not.toBe(cancelled);
+    const live = rebooked.history.scheduledActivities.filter(
+      (activity) =>
+        activity.location.locationKey === COVERED_SHIFT_LOCATION_KEY &&
+        scheduledActivityState(rebooked, activity.id).status === "scheduled",
+    );
+    expect(live).toHaveLength(1);
+    expect(live[0]!.id).not.toBe(first.id);
+    assertWorldIntegrity(rebooked);
   });
 });
 

@@ -784,6 +784,10 @@ export function episodeFacts(
   const politicalOrganizationIds = new Set(
     political.map((entry) => entry.participation.organizationId),
   );
+  // Deliberately the same liveness rule `bind` applies below, rather than a
+  // cutoff-aware one: this fact's counterpart has to agree with the binding a
+  // stage is composed around, and a rule that disagreed with it would withhold
+  // the scene without saying why.
   const coParticipant = [...world.personOrder].sort().flatMap((otherId) => {
     if (
       otherId === personId ||

@@ -1177,31 +1177,20 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
       ...(scene.setting === "school"
         ? [{ kind: "fact" as const, fact: "school.enrolled" as const }]
         : []),
-      ...(scene.key === "early.family.packing-boxes"
-        ? [
-            {
-              kind: "fact" as const,
-              fact: "household.move-preparation" as const,
-            },
-          ]
-        : []),
-      ...(scene.key === "adult.trans.college-vs-work"
-        ? [
-            {
-              kind: "fact" as const,
-              fact: "life.education-work-crossroad" as const,
-            },
-          ]
-        : []),
-      ...(scene.key === "adult.trans.drop-class-keep-job"
-        ? [
-            {
-              kind: "fact" as const,
-              fact: "work.class-schedule-conflict" as const,
-            },
-          ]
-        : []),
     ];
+    // The circumstance that makes the scene possible gates the moment only.
+    // Answering the moment closes the circumstance — that is what closing it
+    // means — so requiring the same fact again on the continuation would make
+    // the continuation unreachable. The continuation already requires the
+    // saved answer to the moment, which is the stronger claim anyway.
+    const circumstance: readonly EpisodeRequirement[] =
+      scene.key === "early.family.packing-boxes"
+        ? [{ kind: "fact", fact: "household.move-preparation" }]
+        : scene.key === "adult.trans.college-vs-work"
+          ? [{ kind: "fact", fact: "life.education-work-crossroad" }]
+          : scene.key === "adult.trans.drop-class-keep-job"
+            ? [{ kind: "fact", fact: "work.class-schedule-conflict" }]
+            : [];
     return {
       key: `opening.${scene.key}`,
       ...(scene.recurrence ? { recurrence: scene.recurrence } : {}),
@@ -1216,7 +1205,7 @@ export const OPENING_LIFE_FAMILIES: readonly EpisodeFamily[] =
       stages: [
         {
           key: "moment",
-          requires: requirements,
+          requires: [...requirements, ...circumstance],
           recordSceneContext: true,
           lines: [scene.premise.replaceAll("{person}", slot)],
           stakes: "ordinary",

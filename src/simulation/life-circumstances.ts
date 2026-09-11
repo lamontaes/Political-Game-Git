@@ -235,7 +235,8 @@ export function lifeCircumstancesFor(
   const open: LifeCircumstanceRecord[] = [];
   for (const { kind, event } of written) {
     const playedAt = playedAfter.get(LIFE_CIRCUMSTANCE_ANSWERING_STAGE[kind]);
-    if (playedAt !== undefined && playedAt > event.sequence) continue;
+    if (playedAt !== undefined) continue;
+    if (!premiseStillHolds(world, personId, kind, event, cutoff)) continue;
     open.push({
       kind,
       eventId: event.id,
@@ -252,6 +253,56 @@ export function lifeCircumstancesFor(
     });
   }
   return open.sort((left, right) => left.sequence - right.sequence);
+}
+
+/**
+ * Whether what the circumstance says is still true, at this cutoff.
+ *
+ * A request is a thing that happened, and the event stays in history either
+ * way. But a scene composed from it speaks in the present tense — "your
+ * supervisor asks", "a shift at the same time as a class you have booked" — so
+ * once the supervisor has left the job, the colleague has left, or the class
+ * session is cancelled or already past, the circumstance stops being open
+ * rather than holding a slot and a sentence that is no longer true.
+ */
+function premiseStillHolds(
+  world: World,
+  personId: EntityId,
+  kind: LifeCircumstanceKind,
+  event: (typeof world.history.events)[number],
+  cutoff: HistoricalCutoff,
+): boolean {
+  const counterpartId =
+    event.participants.find(
+      (participant) =>
+        participant.personId !== personId &&
+        (participant.role.startsWith("agency:") ||
+          participant.role === "coordination:counterpart"),
+    )?.personId ?? null;
+  const supervises = (candidateId: EntityId | null): boolean =>
+    candidateId !== null &&
+    recordedSupervisorsAt(world, personId, cutoff).some(
+      (entry) => entry.personId === candidateId,
+    );
+  switch (kind) {
+    case "supervisor-extra-shift":
+      return supervises(counterpartId);
+    case "class-work-schedule-conflict":
+      return (
+        supervises(counterpartId) &&
+        bookedClassSessions(world, personId, cutoff).some((session) =>
+          event.involvedEntityIds.includes(session.activity.id),
+        )
+      );
+    case "own-shift-coverage-needed":
+    case "colleague-coverage-request":
+      return (
+        counterpartId !== null &&
+        sharesEmployer(world, personId, counterpartId, cutoff)
+      );
+    default:
+      return true;
+  }
 }
 
 /**
@@ -337,9 +388,19 @@ export function refreshLifeCircumstances(
   // So the choice is made the way `life-opportunities.ts` makes it: the kind
   // this life has seen least recently wins, and the world's own seed breaks
   // ties, so two saves differ and one save replays identically.
+  // A stage is played once per instance, and an instance is keyed by the
+  // person the family binds, so a second request of a kind this life has
+  // already answered could never be answered again: it would sit in one of the
+  // two open slots for good.
+  const answered = new Set(
+    playedEpisodeStages(world, personId).map(
+      (entry) => `${entry.episodeKey}/${entry.stageKey}`,
+    ),
+  );
   for (const kind of preferredOrder(world, personId, openKinds)) {
     const [floor, ceiling] = CIRCUMSTANCE_AGE_BAND[kind];
     if (age < floor || age >= ceiling) continue;
+    if (answered.has(LIFE_CIRCUMSTANCE_ANSWERING_STAGE[kind])) continue;
     const next = tryWriteCircumstance(world, personId, kind, cutoff);
     if (next !== world) return next;
   }
@@ -528,7 +589,14 @@ function tryWriteCircumstance(
       if (!supervisor) return world;
       // The clash is with a class session that is actually on the calendar,
       // so the request is for that same stretch of time and nothing else.
-      const session = bookedClassSessions(world, personId, cutoff)[0];
+      // Whole hours are what the event can carry, so a session that would
+      // round to an empty or backwards interval is not written about.
+      const session = bookedClassSessions(world, personId, cutoff).find(
+        (candidate) =>
+          candidate.state.start.date === candidate.state.end.date &&
+          Math.ceil(candidate.state.end.minuteOfDay / 60) >
+            Math.floor(candidate.state.start.minuteOfDay / 60),
+      );
       if (!session) return world;
       return writeAsk(world, {
         stableKey,
@@ -918,7 +986,12 @@ export function recordedSupervisorsAt(
       });
     }
   }
-  return found;
+  // Sorted the way `episodeRoleBindings` sorts its bindings, so the person a
+  // writer names and the person a stage's copy is composed around are the same
+  // one where a workplace records more than one.
+  return [...found].sort((left, right) =>
+    left.personId.localeCompare(right.personId),
+  );
 }
 
 /**
@@ -1073,6 +1146,20 @@ function agreedCoverageRequests(
  * `cover-it` answer and offer the booked activity somewhere it can be carried
  * out, because a fixed commitment nobody can perform holds the day's clock.
  */
+/** Unique per attempt, so a cancelled booking can be replaced. */
+function coverShiftKey(
+  world: World,
+  personId: EntityId,
+  requestEventId: EntityId,
+): string {
+  const attempts = world.history.scheduledActivities.filter(
+    (activity) =>
+      activity.location.locationKey === COVERED_SHIFT_LOCATION_KEY &&
+      activity.sourceEntityIds.includes(requestEventId),
+  ).length;
+  return `${COVERED_SHIFT_LOCATION_KEY}:${personId}:${requestEventId}:${attempts}`;
+}
+
 export function scheduleAgreedCoverShift(
   world: World,
   personId: EntityId,
@@ -1083,10 +1170,13 @@ export function scheduleAgreedCoverShift(
   const pending = agreedCoverageRequests(world, personId).find(
     (entry) =>
       sharesEmployer(world, personId, entry.requesterPersonId, cutoff) &&
+      // A cancelled booking is not a booking: only a live or worked one stands
+      // in the way of putting the shift back on the calendar.
       !world.history.scheduledActivities.some(
         (activity) =>
           activity.location.locationKey === COVERED_SHIFT_LOCATION_KEY &&
-          activity.sourceEntityIds.includes(entry.requestEventId),
+          activity.sourceEntityIds.includes(entry.requestEventId) &&
+          scheduledActivityState(world, activity.id).status !== "cancelled",
       ),
   );
   if (!pending || pending.endHour <= pending.startHour) return world;
@@ -1107,7 +1197,7 @@ export function scheduleAgreedCoverShift(
   const person = world.people[personId]!;
   try {
     return createScheduledActivity(world, {
-      stableKey: `${COVERED_SHIFT_LOCATION_KEY}:${personId}:${pending.requestEventId}`,
+      stableKey: coverShiftKey(world, personId, pending.requestEventId),
       title: "Shift you agreed to cover",
       summary:
         "The shift a colleague asked you to take, which you said yes to.",
