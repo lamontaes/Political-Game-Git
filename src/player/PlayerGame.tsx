@@ -838,6 +838,17 @@ function SetupScreen({
 
   const problems = newGameSetupProblems(committed);
   const place = selectedCreatorPlace(location);
+  /*
+   * RETURN14 C: a chosen town hid the results, and typing a new search did not
+   * bring them back, so a second town in the same state could not be picked.
+   * The results now stay hidden only while the search still reads what it read
+   * when the town was chosen. Typing again shows them; the chosen town stays
+   * the committed choice until another is actually picked.
+   */
+  const [choiceQuery, setChoiceQuery] = useState<string | null>(
+    initialSetup?.placeKey ? "" : null,
+  );
+  const showPlaceResults = !place || placeQuery !== choiceQuery;
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -1155,7 +1166,7 @@ function SetupScreen({
                   </button>
                 </div>
               ) : null}
-              {place ? null : matchingPlaces.length > 0 ? (
+              {!showPlaceResults ? null : matchingPlaces.length > 0 ? (
                 <div className="game-choices" data-testid="place-choices">
                   {matchingPlaces.map((candidate) => (
                     <button
@@ -1170,6 +1181,7 @@ function SetupScreen({
                         setLocation((now) =>
                           selectCreatorPlace(now, candidate),
                         );
+                        setChoiceQuery(placeQuery);
                         setSetup((now) => ({
                           ...now,
                           placeKey: candidate.key,
