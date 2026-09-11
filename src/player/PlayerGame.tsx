@@ -964,7 +964,7 @@ function SetupScreen({
                   </button>
                 </div>
               ) : null}
-              {matchingPlaces.length > 0 ? (
+              {place ? null : matchingPlaces.length > 0 ? (
                 <div className="game-choices" data-testid="place-choices">
                   {matchingPlaces.map((candidate) => (
                     <button
