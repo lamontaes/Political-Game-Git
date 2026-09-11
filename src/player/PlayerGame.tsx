@@ -1377,14 +1377,16 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
-        <button
-          type="button"
-          data-testid="begin"
-          disabled={problems.length > 0 || !onReady}
-          onClick={() => onBegin(setup)}
-        >
-          Begin
-        </button>
+        {onReady ? (
+          <button
+            type="button"
+            data-testid="begin"
+            disabled={problems.length > 0}
+            onClick={() => onBegin(setup)}
+          >
+            Begin
+          </button>
+        ) : null}
       </div>
 
       {/*
