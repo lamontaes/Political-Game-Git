@@ -834,6 +834,14 @@ describe("Packet 76 approved runtime art", () => {
       // The chamber, added when Packet 71's master arrived and closed the one
       // environment request that had never had a candidate at all.
       "legislative-chamber",
+      // The courtroom (ENV-ALL1). Its master was approved and banked with no
+      // tier ladder and no spec; this family exists because the ladder and the
+      // spec now do. It joins `executive-private-office` as a family whose
+      // asset is deliberately UNRELEASED, for a different reason: the
+      // executive master is below the 4608px minimum, while the courtroom
+      // clears it outright and is held back because no canonical court
+      // proceeding exists for a life to attend.
+      "courtroom",
     ]);
   });
 

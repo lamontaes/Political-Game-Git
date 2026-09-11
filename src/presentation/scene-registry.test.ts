@@ -17,9 +17,11 @@ import {
   OFFICE_FIXTURE_SCENE_ID,
   DOMESTIC_CANONICAL_SCENE_ID,
   DOMESTIC_ORDINARY_SCENE_ID,
+  COURTROOM_SCENE_ID,
   HEARING_ROOM_SCENE_ID,
   LEGISLATIVE_CHAMBER_SCENE_ID,
   PRODUCTION_OFFICE_SCENE_ID,
+  PUBLIC_MEETING_ROOM_SCENE_ID,
   TITLE_TABLEAU_SCENE_ID,
   registerScene,
   requireScene,
@@ -27,6 +29,8 @@ import {
   SCENE_REGISTRY,
 } from "./scene-registry";
 import { OFFICE_VISUAL_SCENE } from "./visual-integration";
+import { CIVIC_COMMUNITY_MEETING_ROOM_SCENE } from "../environment/scenes/civic-community-meeting-room-production";
+import { COURTROOM_EMPTY_PRODUCTION_SCENE } from "../environment/scenes/courtroom-empty-production";
 
 describe("scene registry", () => {
   it("registers every shipped scene from a validated EnvironmentSceneSpec", () => {
@@ -37,6 +41,8 @@ describe("scene registry", () => {
       LEGISLATIVE_CHAMBER_PRODUCTION_SCENE,
       RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
       RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
+      CIVIC_COMMUNITY_MEETING_ROOM_SCENE,
+      COURTROOM_EMPTY_PRODUCTION_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
     ]) {
@@ -54,6 +60,8 @@ describe("scene registry", () => {
         DOMESTIC_CANONICAL_SCENE_ID,
         DOMESTIC_ORDINARY_SCENE_ID,
         PRODUCTION_OFFICE_SCENE_ID,
+        PUBLIC_MEETING_ROOM_SCENE_ID,
+        COURTROOM_SCENE_ID,
       ].sort(),
     );
   });
@@ -78,6 +86,8 @@ describe("scene registry", () => {
         LEGISLATIVE_CHAMBER_SCENE_ID,
         DOMESTIC_CANONICAL_SCENE_ID,
         DOMESTIC_ORDINARY_SCENE_ID,
+        PUBLIC_MEETING_ROOM_SCENE_ID,
+        COURTROOM_SCENE_ID,
       ].sort(),
     );
     for (const scene of production) {

@@ -1,0 +1,67 @@
+
+> political-life-rpg@0.2.0 validate
+> npm run format && npm run lint && npm run typecheck && npm run test && npm run source:validate && npm run source:replay && npm run build && npm run demo -- validation-seed && npm run validate:art
+
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> political-life-rpg@0.2.0 lint
+> eslint .
+
+
+> political-life-rpg@0.2.0 typecheck
+> tsc -b
+
+
+> political-life-rpg@0.2.0 test
+> vitest run
+
+
+ RUN  v4.1.1 /private/tmp/pg-env-all1-transfer
+
+(node:8219) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8307) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8354) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12649) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12749) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 1 failed) 4449ms
+     × reports counts that match a live measurement, not a stale run 935ms
+(node:15811) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > reports counts that match a live measurement, not a stale run
+AssertionError: expected 52450 to be 51732 // Object.is equality
+
+- Expected
++ Received
+
+- 51732
++ 52450
+
+ ❯ scripts/prose-corpus/corpus.test.ts:557:36
+    555|     // measures.
+    556|     // ENV recovery adds scene, activity, travel and review modules. C…
+    557|     // match the regenerated coverage report; template identities are …
+       |                                    ^
+    558|     const coverage = buildCoverageReport(inventory);
+    559|     expect(coverage.totalLiterals).toBe(52450);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 179 passed (180)
+      Tests  1 failed | 3240 passed | 2 skipped (3243)
+   Start at  22:50:58
+   Duration  337.20s (transform 6.07s, setup 0ms, import 30.95s, tests 279.87s, environment 11ms)
+

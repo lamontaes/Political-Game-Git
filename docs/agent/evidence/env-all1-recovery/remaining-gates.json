@@ -1,0 +1,42 @@
+[
+  {
+    "gate": "corpus-focused",
+    "exitCode": 0,
+    "seconds": 7.44
+  },
+  {
+    "gate": "source-validate",
+    "exitCode": 0,
+    "seconds": 2.59
+  },
+  {
+    "gate": "source-replay",
+    "exitCode": 0,
+    "seconds": 2.79
+  },
+  {
+    "gate": "build",
+    "exitCode": 0,
+    "seconds": 8.36
+  },
+  {
+    "gate": "demo",
+    "exitCode": 0,
+    "seconds": 0.6
+  },
+  {
+    "gate": "art-validate",
+    "exitCode": 0,
+    "seconds": 0.37
+  },
+  {
+    "gate": "art-inventory",
+    "exitCode": 0,
+    "seconds": 0.63
+  },
+  {
+    "gate": "art-qa",
+    "exitCode": 0,
+    "seconds": 21.48
+  }
+]
