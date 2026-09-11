@@ -2,8 +2,8 @@
   "counts": {
     "INVENTORIED": 2107,
     "INTENTIONALLY_NON_PLAYER_FACING": 5526,
-    "DIAGNOSTIC_OR_TEST": 4448,
-    "NEEDS_CLASSIFICATION": 5774
+    "DIAGNOSTIC_OR_TEST": 4450,
+    "NEEDS_CLASSIFICATION": 5777
   },
   "needsClassification": [
     {
@@ -15769,7 +15769,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "assessMinnesotaDiscipline",
-      "line": 645,
+      "line": 656,
       "text": "Alaska disciplinary measures are set by personnel rules under AS 39.25.150(15)-(16), which are not acquired.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15777,7 +15777,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "assessMinnesotaDiscipline",
-      "line": 646,
+      "line": 657,
       "text": "No disciplinary procedure is compiled for {position.jurisdictionKey}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15785,7 +15785,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "assessMinnesotaDiscipline",
-      "line": 672,
+      "line": 683,
       "text": "The position's civil-service class is not established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15793,7 +15793,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "assessMinnesotaDiscipline",
-      "line": 673,
+      "line": 684,
       "text": "Section 43A.33 protects classified employees; this position is {position.civilClass}, and its removal authority is not established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15801,7 +15801,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "recordInformalResolutionAttempt",
-      "line": 741,
+      "line": 742,
       "text": "Choose a living person to act.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15809,7 +15809,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "noteError",
-      "line": 749,
+      "line": 750,
       "text": "The meeting note",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15817,7 +15817,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "next",
-      "line": 763,
+      "line": 764,
       "text": "Informal resolution meeting",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15825,7 +15825,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "recordInformalResolutionAttempt",
-      "line": 786,
+      "line": 787,
       "text": "An earlier commitment must be handled before this meeting.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15833,7 +15833,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 808,
+      "line": 809,
       "text": "An informal attempt to resolve a workplace dispute did not settle it.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15841,7 +15841,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "issueMinnesotaDiscipline",
-      "line": 838,
+      "line": 839,
       "text": "Choose a living person to act.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15849,7 +15849,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "issueMinnesotaDiscipline",
-      "line": 849,
+      "line": 850,
       "text": "Suspension and demotion need class, pay and return terms that are not represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15857,7 +15857,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "issueMinnesotaDiscipline",
-      "line": 854,
+      "line": 855,
       "text": "Choose one of the just-cause grounds the statute names; other grounds are not established as just cause here.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15865,7 +15865,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "reasonError",
-      "line": 856,
+      "line": 857,
       "text": "The specific reasons",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15873,7 +15873,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "noticeText",
-      "line": 883,
+      "line": 884,
       "text": "{discharge?\"Discharge\":\"Reprimand\"} effective {effectiveOn} for {input.ground.replaceAll(\"-\",\"\")}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15881,7 +15881,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "noticeText",
-      "line": 884,
+      "line": 885,
       "text": "Reasons: {input.reasons.trim()}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15889,7 +15889,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "noticeText",
-      "line": 887,
+      "line": 888,
       "text": "You may elect to appeal this action to the Bureau of Mediation Services within 30 calendar days following the effective date, by {appealDeadline}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15897,7 +15897,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 911,
+      "line": 912,
       "text": "An appointing authority discharged an employee from the {position.title} position for just cause.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15905,7 +15905,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 912,
+      "line": 913,
       "text": "An appointing authority reprimanded an employee in the {position.title} position for just cause.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15913,7 +15913,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "issueMinnesotaDiscipline",
-      "line": 962,
+      "line": 963,
       "text": "File the discharge notice with the commissioner",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15921,7 +15921,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "issueMinnesotaDiscipline",
-      "line": 963,
+      "line": 964,
       "text": "File the notice and any reply with the commissioner by {filingDeadline}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15929,7 +15929,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "fileNoticeWithCommissioner",
-      "line": 1022,
+      "line": 1023,
       "text": "Only the appointing authority who acted files this notice.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15937,7 +15937,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "fileNoticeWithCommissioner",
-      "line": 1029,
+      "line": 1030,
       "text": "This notice is already filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15945,7 +15945,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1050,
+      "line": 1051,
       "text": "The discharge notice was filed with the commissioner.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15953,7 +15953,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1051,
+      "line": 1052,
       "text": "The discharge notice was filed with the commissioner after the ten-day deadline.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15961,7 +15961,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "appealRefusal",
-      "line": 1086,
+      "line": 1087,
       "text": "The 30-calendar-day appeal period ended on {found.action.appealDeadline}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15969,7 +15969,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "appealRefusal",
-      "line": 1088,
+      "line": 1089,
       "text": "The appeal is already filed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15977,7 +15977,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1119,
+      "line": 1120,
       "text": "A discharged employee appealed to the Bureau of Mediation Services; the appeal is pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15985,7 +15985,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1121,
+      "line": 1122,
       "text": "Bureau of Mediation Services",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -15993,7 +15993,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceDischargedEmployeeAppealChoice",
-      "line": 1173,
+      "line": 1174,
       "text": "Only the appointing authority who acted can check this.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16001,7 +16001,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceDischargedEmployeeAppealChoice",
-      "line": 1177,
+      "line": 1178,
       "text": "The controlled person decides for themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16009,7 +16009,15 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceDischargedEmployeeAppealChoice",
-      "line": 1179,
+      "line": 1180,
+      "text": "The employee can no longer make this decision.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/civil-personnel-actions.ts",
+      "enclosingSymbol": "produceDischargedEmployeeAppealChoice",
+      "line": 1182,
       "text": "The employee has already decided.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16017,7 +16025,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1196,
+      "line": 1199,
       "text": "Appeal the discharge",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16025,7 +16033,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1197,
+      "line": 1200,
       "text": "Elect to appeal to the Bureau of Mediation Services.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16033,7 +16041,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1201,
+      "line": 1204,
       "text": "Do not appeal",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16041,7 +16049,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1202,
+      "line": 1205,
       "text": "Let the appeal period pass.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16049,7 +16057,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceDischargedEmployeeAppealChoice",
-      "line": 1218,
+      "line": 1221,
       "text": "I elect to appeal this discharge to the Bureau of Mediation Services.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16057,7 +16065,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "settlementRefusal",
-      "line": 1251,
+      "line": 1254,
       "text": "The commissioner has already decided this.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16065,7 +16073,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "recordSettlement",
-      "line": 1271,
+      "line": 1274,
       "text": "A party to the dispute cannot decide its settlement.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16073,7 +16081,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1299,
+      "line": 1302,
       "text": "The commissioner directed the appointing authority to settle before a hearing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16081,7 +16089,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1300,
+      "line": 1303,
       "text": "The commissioner did not direct a settlement; the appeal remains pending.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16089,7 +16097,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1302,
+      "line": 1305,
       "text": "Commissioner's decision",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16097,7 +16105,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceCommissionerSettlementDecision",
-      "line": 1360,
+      "line": 1379,
       "text": "No filed appeal awaits this decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16105,7 +16113,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceCommissionerSettlementDecision",
-      "line": 1364,
+      "line": 1383,
       "text": "Only a party to the appeal can check for this decision.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16113,7 +16121,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceCommissionerSettlementDecision",
-      "line": 1376,
+      "line": 1395,
       "text": "No single holder of the commissioner's statutory office is established in this world.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16121,7 +16129,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceCommissionerSettlementDecision",
-      "line": 1379,
+      "line": 1398,
       "text": "The controlled commissioner decides for themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16129,7 +16137,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1404,
+      "line": 1423,
       "text": "Direct a settlement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16137,7 +16145,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1406,
+      "line": 1425,
       "text": "Require the appointing authority to settle before a hearing.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16145,7 +16153,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1410,
+      "line": 1429,
       "text": "Do not direct a settlement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16153,7 +16161,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1411,
+      "line": 1430,
       "text": "Leave the appeal to its hearing procedure.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16161,7 +16169,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceCommissionerSettlementDecision",
-      "line": 1430,
+      "line": 1449,
       "text": "The record states no further reasons.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16169,7 +16177,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "offerMinnesotaReinstatement",
-      "line": 1560,
+      "line": 1579,
       "text": "Choose a living person to act.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16177,7 +16185,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "offerMinnesotaReinstatement",
-      "line": 1571,
+      "line": 1590,
       "text": "Probation on reinstatement is established only for former employees of a different appointing authority.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16185,7 +16193,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1597,
+      "line": 1616,
       "text": "An appointing authority offered direct reinstatement to the {position.title} position.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16193,7 +16201,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1600,
+      "line": 1619,
       "text": "Probation required.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16201,7 +16209,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1601,
+      "line": 1620,
       "text": "No probation required.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16209,7 +16217,23 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "applyOfferResponse",
-      "line": 1654,
+      "line": 1671,
+      "text": "The person offered can no longer answer.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/civil-personnel-actions.ts",
+      "enclosingSymbol": "applyOfferResponse",
+      "line": 1684,
+      "text": "The four-year reinstatement window has closed.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/simulation/civil-personnel-actions.ts",
+      "enclosingSymbol": "applyOfferResponse",
+      "line": 1686,
       "text": "The position is no longer vacant.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16217,7 +16241,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "applyOfferResponse",
-      "line": 1667,
+      "line": 1699,
       "text": "The offering appointing authority no longer holds that role.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16225,7 +16249,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "applyOfferResponse",
-      "line": 1673,
+      "line": 1705,
       "text": "The person already works for this employer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16233,7 +16257,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1697,
+      "line": 1729,
       "text": "The offer of reinstatement to the {position.title} position was accepted.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16241,7 +16265,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "event",
-      "line": 1698,
+      "line": 1730,
       "text": "The offer of reinstatement to the {position.title} position was declined.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16249,7 +16273,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "seated",
-      "line": 1763,
+      "line": 1795,
       "text": "A reinstated employee holds the {position.title} position.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16257,7 +16281,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceReinstatementResponse",
-      "line": 1808,
+      "line": 1840,
       "text": "Only the offering appointing authority can hear this answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16265,7 +16289,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "produceReinstatementResponse",
-      "line": 1814,
+      "line": 1846,
       "text": "The controlled person answers for themselves.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16273,7 +16297,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1843,
+      "line": 1875,
       "text": "Accept reinstatement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16281,7 +16305,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1844,
+      "line": 1876,
       "text": "Return to the job class.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16289,7 +16313,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1848,
+      "line": 1880,
       "text": "Decline reinstatement",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16297,7 +16321,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1849,
+      "line": 1881,
       "text": "Stay in current circumstances.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16305,7 +16329,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1859,
+      "line": 1891,
       "text": "They have said they are not seeking work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16313,7 +16337,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1870,
+      "line": 1902,
       "text": "Their current work has a rigid schedule.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16321,7 +16345,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "evaluation",
-      "line": 1885,
+      "line": 1917,
       "text": "They are looking for work.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16329,7 +16353,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "nameOf",
-      "line": 1932,
+      "line": 1964,
       "text": "Unknown person",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16337,7 +16361,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "blockedArbitration",
-      "line": 1938,
+      "line": 1970,
       "text": "Arbitrator list, selection and hearing",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16345,7 +16369,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1983,
+      "line": 2015,
       "text": "Your {job.title} position",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16353,7 +16377,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1984,
+      "line": 2016,
       "text": "{nameOf(world,incumbency.personId)}, {job.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16361,7 +16385,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1986,
+      "line": 2018,
       "text": "Civil-service class: {job.civilClass}. Tenure: {incumbency.tenure}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16369,7 +16393,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1987,
+      "line": 2019,
       "text": "Bargaining coverage: {job.bargainingCoverage}. Agreement coverage: {job.agreementCoverage}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16377,7 +16401,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1988,
+      "line": 2020,
       "text": "Pay follows the applicable plan or agreement, which is not represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16385,7 +16409,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 1995,
+      "line": 2027,
       "text": "Hold an informal resolution meeting (30 minutes)",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16393,7 +16417,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2001,
+      "line": 2033,
       "text": "Issue a reprimand or discharge",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16401,7 +16425,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2026,
+      "line": 2058,
       "text": "File the notice with the commissioner",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16409,7 +16433,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2032,
+      "line": 2064,
       "text": "Check whether the employee appealed",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16417,7 +16441,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2036,
+      "line": 2068,
       "text": "The employee appealed.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16425,7 +16449,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2038,
+      "line": 2070,
       "text": "The employee decided not to appeal.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16433,7 +16457,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2051,
+      "line": 2083,
       "text": "Check for the commissioner's settlement decision",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16441,7 +16465,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2057,
+      "line": 2089,
       "text": "No single holder of the commissioner's office is established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16449,7 +16473,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2064,
+      "line": 2096,
       "text": "{discharge?\"Discharge\":\"Reprimand\"} of {nameOf(world,incumbency.personId)}, effective {action.effectiveOn}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16457,7 +16481,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2066,
+      "line": 2098,
       "text": "Ground: {action.ground.replaceAll(\"-\",\"\")}. Reasons: {action.reasons}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16465,7 +16489,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2069,
+      "line": 2101,
       "text": "Appeal deadline: {action.appealDeadline}. Commissioner filing deadline: {action.commissionerFilingDeadline}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16473,7 +16497,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2071,
+      "line": 2103,
       "text": "A reprimand carries no statutory appeal to the Bureau.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16481,7 +16505,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2075,
+      "line": 2107,
       "text": "Filed with the commissioner on time.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16489,7 +16513,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2076,
+      "line": 2108,
       "text": "Filed with the commissioner late.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16497,7 +16521,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2080,
+      "line": 2112,
       "text": "Appeal filed. No one has decided it on the merits.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16505,7 +16529,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2082,
+      "line": 2114,
       "text": "The employee decided not to appeal.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16513,7 +16537,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2087,
+      "line": 2119,
       "text": "The commissioner directed a settlement. Its terms are not represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16521,7 +16545,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2088,
+      "line": 2120,
       "text": "The commissioner did not direct a settlement.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16529,7 +16553,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2091,
+      "line": 2123,
       "text": "Plan-prescribed notice content and reply procedure are not represented ({personnelProcedure(\"mn-notice-plan-content\").citation.citation}).",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16537,7 +16561,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2105,
+      "line": 2137,
       "text": "Reinstatement offer to {nameOf(world,offer.personId)}, {job.title}",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16545,7 +16569,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2108,
+      "line": 2140,
       "text": "Probation required. The plan that sets its length is not acquired.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16553,7 +16577,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2109,
+      "line": 2141,
       "text": "No probation required. Permanent status after reinstatement is not established.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16561,7 +16585,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2110,
+      "line": 2142,
       "text": "Pay follows the applicable plan or agreement, which is not represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16569,7 +16593,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2111,
+      "line": 2143,
       "text": "Answer: {response.response}.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16577,7 +16601,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2111,
+      "line": 2143,
       "text": "Awaiting an answer.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16585,7 +16609,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "personnelMatters",
-      "line": 2119,
+      "line": 2151,
       "text": "Hear their answer",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16593,7 +16617,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "executiveOfficeStaffBoundary",
-      "line": 2223,
+      "line": 2255,
       "text": "Who may appoint, discipline or remove these staff is not in the acquired text.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -16601,7 +16625,7 @@
     {
       "sourcePath": "src/simulation/civil-personnel-actions.ts",
       "enclosingSymbol": "executiveOfficeStaffBoundary",
-      "line": 2224,
+      "line": 2256,
       "text": "Pay terms are set by instruments that are not represented.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -48088,7 +48112,7 @@
       "sourcePath": "src/simulation/civil-personnel-actions.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 52
+      "count": 54
     },
     {
       "sourcePath": "src/simulation/character-history.ts",
