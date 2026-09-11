@@ -228,8 +228,9 @@ export function extractEnactedText(
   artifactId: string,
   bytes: Uint8Array,
   scope: EnactedTextScope,
+  mediaType?: string,
 ): string {
-  const text = normalizeRetrievedText(bytes);
+  const text = normalizeRetrievedText(bytes, mediaType);
   const cut: string[] = [];
   let cursor = 0;
   for (const [index, region] of scope.regions.entries()) {
@@ -263,9 +264,10 @@ export function extractPinnedEnactedText(
   artifactId: string,
   bytes: Uint8Array,
   scope: EnactedTextScope,
+  mediaType?: string,
 ): Buffer {
   const extracted = Buffer.from(
-    extractEnactedText(artifactId, bytes, scope),
+    extractEnactedText(artifactId, bytes, scope, mediaType),
     "utf-8",
   );
   const digest = sha256Hex(extracted);
