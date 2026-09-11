@@ -2,6 +2,11 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
+import { districtIdentityCatalog } from "../../src/districts/catalog";
+import {
+  bindingFromIdentity,
+  districtIdentityByRecordId,
+} from "../../src/districts/query";
 import type { ArtifactLock } from "../../src/source/core/index";
 import { adaptFiscalAuthorityRecords } from "../../src/source/adapters/fiscal-authority";
 import {
@@ -78,6 +83,32 @@ function newAlaskaLife(seed: string) {
 function alaskaLifePastDateAndStateResidency(seed: string) {
   const life = newAlaskaLife(seed);
   return { ...life, world: passOrdinaryDays(life.world, 1200) };
+}
+
+function adakHouseThirtySeven() {
+  const identity = districtIdentityByRecordId(
+    districtIdentityCatalog(),
+    "state-lower:02037",
+  );
+  if (!identity) throw new Error("Missing Alaska House District 37 identity.");
+  return bindingFromIdentity(identity);
+}
+
+function adakLifePastResidency(seed: string) {
+  const built = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    startAge: 34,
+    placeKey: "0200065",
+    questionnaire: "skipped",
+  });
+  return {
+    world: passOrdinaryDays(
+      openOrdinaryLife(built.world, built.playerPersonId),
+      1200,
+    ),
+    personId: built.playerPersonId,
+  };
 }
 
 /**
@@ -295,30 +326,7 @@ describe("source to record to Work consumer", () => {
     );
   });
 
-  it("confirms the one remaining gate is district residence, not the two already-cleared ones", () => {
-    // Traced against the current schema before writing this test, not
-    // assumed: src/simulation/candidate-qualification.ts's Alaska rule set
-    // declares districtResidenceYears: known(1), but
-    // src/simulation/candidacy.ts always passes districtResidenceSince:
-    // null -- "the office carries no district identity, so state residence
-    // cannot be reused as proof of district residence" -- because no
-    // office anywhere in this simulation carries a district identity at
-    // all (grep confirms "district" appears only as an aggregate seat-count
-    // multiplier in legislature-rule-packs.ts, never as a per-seat entity).
-    // The real Census political-districts source domain
-    // (data/source/political-districts, 7283 records, validated by
-    // source:validate) has zero consumers anywhere in src/simulation or
-    // src/presentation -- nothing joins a person's residence to a numbered
-    // legislative district. Building that join is a real feature (district
-    // assignment + geography lookup + district-scoped residence tracking),
-    // not a bounded integration fix, and inventing a district start date to
-    // route around it is exactly the fabricated residence evidence the
-    // project's source-provenance rules forbid.
-    //
-    // This proves the gate that's actually live is that one, not a
-    // regression in either already-fixed gate: filing past both the
-    // observed-date and state-residency requirements still honestly
-    // refuses, and for the district-residence reason specifically.
+  it("confirms statewide Alaska still cannot file without proved district residence", () => {
     const { world, personId } = alaskaLifePastDateAndStateResidency(
       "fiscal-activate1-district-gate",
     );
@@ -327,40 +335,43 @@ describe("source to record to Work consumer", () => {
     );
   });
 
-  it("documents the blocked positive Work-consumer path, without fabricating it", () => {
-    // openLegislativeFiscalProposalAnalysis's actual positive path --
-    // opening real Work for a seated Alaska legislator, its notice text,
-    // summary content, and serialization round-trip -- cannot be honestly
-    // demonstrated while Alaska candidacy is blocked (previous test). A
-    // real seat is the only way to construct request.personId here, so
-    // there is no seat-shaped input that makes this open rather than
-    // refuse without fabricating a win this simulation cannot support.
-    //
-    // This proves the honest current behavior instead: with a real person
-    // who genuinely cannot be seated, the Work consumer refuses rather
-    // than opening. When district identity/residence exists, replace this
-    // test with the real positive proof (restore a wonAlaskaSeat()-style
-    // helper from this file's git history and assert result.kind ===
-    // "opened", the LEG/UI/MUNI-mounted item, notice text, and
-    // serialization round-trip).
-    const life = newAlaskaLife("fiscal-activate1-blocked-positive");
+  it("runs ordinary Adak filing, election, and fiscal Work without forcing a win", () => {
+    const { world, personId } = adakLifePastResidency(
+      "fiscal-activate1-adak-join",
+    );
+    let next = fileForOffice(world, personId, adakHouseThirtySeven());
+    next = spendAnAfternoon(next, personId, "fundraising");
+    for (
+      let day = 0;
+      day < 60 && projectCampaign(next, personId).phase === "active";
+      day += 1
+    ) {
+      next = passOrdinaryDays(next);
+    }
+    const phase = projectCampaign(next, personId).phase;
+    expect(["won", "lost"]).toContain(phase);
+    const seat = resolveActiveMemberSeat(next, personId);
     const result = openLegislativeFiscalProposalAnalysis(
-      life.world,
+      next,
       productionRecords(),
       {
-        personId: life.personId,
+        personId,
         stateUsps: "AK",
         level: "MUNICIPALITY",
         instrument: "GENERAL_SALES_TAX",
         asOfDate: "2026-09-09",
       },
     );
-    expect(result.kind).toBe("refused");
+    if (seat.kind === "seated") {
+      expect(result.kind).toBe("opened");
+      if (result.kind === "opened") {
+        expect(result.notice).toMatch(/proposed change/);
+        expect(serializeWorld(result.world)).not.toBe(serializeWorld(next));
+      }
+    } else {
+      expect(result.kind).toBe("refused");
+    }
 
-    // The decoder half of the same scenario ("allows proposal work without
-    // converting an unknown baseline into current power") is independent of
-    // any seat, and still holds: TRANSIENT_LODGING_TAX genuinely decodes to
-    // UNESTABLISHED, not a fabricated PERMITTED.
     const baseline = queryFiscalAuthority(productionRecords(), {
       stateUsps: "AK",
       level: "MUNICIPALITY",
@@ -368,5 +379,5 @@ describe("source to record to Work consumer", () => {
       asOfDate: "2026-09-09",
     });
     expect(baseline.state).toBe("UNESTABLISHED");
-  });
+  }, 180_000);
 });

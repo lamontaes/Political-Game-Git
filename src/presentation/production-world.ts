@@ -17,6 +17,7 @@ import {
   personName,
   recordWorldEvent,
   SeededRng,
+  syncDistrictMembershipFromCanonicalHome,
 } from "../simulation";
 import type {
   CharacterHistoryTransition,
@@ -184,6 +185,7 @@ export function buildProductionWorld(
   }
 
   world = { ...world, control: { kind: "person", personId: player.id } };
+  world = syncDistrictMembershipFromCanonicalHome(world, player.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }

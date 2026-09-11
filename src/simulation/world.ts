@@ -1464,6 +1464,7 @@ function validateHistoryIntegrity(world: World): void {
     ...futureTransitionHistoryRecords(world),
     ...publicInformationHistoryRecords(world),
     ...personnelHistoryRecords(world),
+    ...(history.districtResidenceIntervals ?? []),
     ...history.events,
     ...history.memories,
     ...history.knowledge,
@@ -1512,6 +1513,10 @@ function validateHistoryIntegrity(world: World): void {
   assertSequenceOrdered(history.decisionTraces, "decision trace");
   assertSequenceOrdered(history.publications ?? [], "publication");
   assertSequenceOrdered(history.electionContests ?? [], "election contest");
+  assertSequenceOrdered(
+    history.districtResidenceIntervals ?? [],
+    "district residence interval",
+  );
   assertSequenceOrdered(
     history.electionContestResults ?? [],
     "election contest result",
@@ -1577,6 +1582,29 @@ function validateHistoryIntegrity(world: World): void {
   assertDraftLineageIntegrity(world);
   assertFutureTransitionIntegrity(world, ids);
   assertPublicInformationIntegrity(world, ids);
+  for (const interval of history.districtResidenceIntervals ?? []) {
+    assertUniqueId(ids, interval.id);
+    if (!world.people[interval.personId]) {
+      throw new Error(
+        `District residence interval names a missing person: ${interval.id}`,
+      );
+    }
+    if (
+      interval.id !==
+      createStableId("district-residence", `${world.id}:${interval.stableKey}`)
+    ) {
+      throw new Error(
+        `District residence interval ID does not match its stable key: ${interval.id}`,
+      );
+    }
+  }
+  for (const intent of history.districtSeatIntents ?? []) {
+    if (!world.people[intent.personId]) {
+      throw new Error(
+        `District seat intent names a missing person: ${intent.personId}`,
+      );
+    }
+  }
   assertPersonnelIntegrity(world, ids);
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
@@ -1588,6 +1616,10 @@ function validateHistoryIntegrity(world: World): void {
   assertUniqueStableKeys(history.publicPositions, "public position");
   assertUniqueStableKeys(history.campaignCommitments, "campaign commitment");
   assertUniqueStableKeys(history.electionContests ?? [], "election contest");
+  assertUniqueStableKeys(
+    history.districtResidenceIntervals ?? [],
+    "district residence interval",
+  );
   assertUniqueStableKeys(
     history.electionContestResults ?? [],
     "election contest result",
