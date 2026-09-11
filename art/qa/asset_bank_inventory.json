@@ -56,6 +56,7 @@
       "civic-community-meeting",
       "civic-hearing-room",
       "council-staff-office",
+      "courtroom",
       "executive-private-office",
       "legislative-chamber",
       "shared-workroom-office"
@@ -343,8 +344,11 @@
       "priority": "P1",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "civic-community-meeting-room:stage-left-standing",
         "civic-community-meeting-title:stage-left-standing",
         "civic-hearing-room-production:hearing-floor-standing",
+        "courtroom-empty-production:gallery-aisle-standing",
+        "courtroom-empty-production:well-floor-standing",
         "residence-apartment-living-canonical-03:entry-side-standing",
         "residence-apartment-living-ordinary-02:entry-side-standing",
         "shared-workroom-office-production:near-table-standing"
@@ -359,8 +363,10 @@
       "priority": "P1",
       "blocks": "current-gameplay",
       "consumingAnchors": [
+        "civic-community-meeting-room:podium-speaker",
         "civic-community-meeting-title:podium-speaker",
         "civic-hearing-room-production:witness-lectern-standing",
+        "courtroom-empty-production:counsel-table-left-standing",
         "legislative-chamber-production:rostrum-lectern-standing"
       ],
       "missingBodyFamilies": ["dev-g2-broad", "dev-g2-slim"],

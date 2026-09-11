@@ -156,6 +156,53 @@
     {
       "artifacts": [
         {
+          "artifactId": "onet31-occupations",
+          "sha256": "13b2aa4c08e6c9a3708d5e5ac83e13da5cc184e3798313c8942a266d00593ace",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "onet31-tasks",
+          "sha256": "afb7ba3bb00f0355d7d5f07e0a446ce880d72d15d4f3f2087973aa8c0dd102d4",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "onet2019-soc2018-crosswalk",
+          "sha256": "bfc6722a92c2d607e5a99dee88b7826cf5aa91f7c0453182e0c8268e32a20a19",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-soc2018-structure",
+          "sha256": "ade08af40923266f3a854842e888ca3e93c15b26a147c20a2b12a61f4c4f4077",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-oews2025-national",
+          "sha256": "b5855a37f3e03e779f6fbf173d3bbc94aeeff33426aef32fa95ce6d025bab1af",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "National wage observations only. Occupation task coverage varies; sources establish neither employers nor credentials, vacancies, individual salary or past applicability.",
+      "canonicalSha256": "435d6b078363bd282811c19ccf8088ea9f335026c69d7642f5db3fa5d717259a",
+      "compiler": {
+        "name": "career-occupations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "435d6b078363bd282811c19ccf8088ea9f335026c69d7642f5db3fa5d717259a",
+      "corpusId": "career-occupations",
+      "domain": "career-occupations",
+      "isCompleteUniverse": false,
+      "recordCount": 1016,
+      "universeDescription": "Full 1016 O*NET-SOC 2019 identities and all task rows in O*NET 31.0; applicable May 2025 national cross-industry OEWS observations."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "uscode-title5-section2102",
           "sha256": "b8c26d4a76baaea9dd3a40e596f1fb51276a262eaa28962717b90aa7fe45040b",
           "sliceOfParent": null,
@@ -743,6 +790,35 @@
     {
       "artifacts": [
         {
+          "artifactId": "census-rel-2024-sldl-place20-national",
+          "sha256": "bb3a6e8c56fbd47c36f5f57a69f54a2cf124312e12ec6846c6c2c039aa84471a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "census-rel-2024-sldu-place20-national",
+          "sha256": "359f18be7d89150b82dfffbf3a2cce6e59903ef49c4c67e5077e36bd886317db",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-01-01",
+      "boundedSampleReason": null,
+      "canonicalSha256": "28e0aa759c1837e2fb66b4be40289dcd6ce32b4d999d4d431423f075b8fc70f8",
+      "compiler": {
+        "name": "sld-place-relations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "28e0aa759c1837e2fb66b4be40289dcd6ce32b4d999d4d431423f075b8fc70f8",
+      "corpusId": "sld-place-relations",
+      "domain": "sld-place-relations",
+      "isCompleteUniverse": true,
+      "recordCount": 63227,
+      "universeDescription": "Every 2020 Census place that the U.S. Census Bureau 2024 SLDL and SLDU national relationship files intersect with a published state legislative district, classified as whole-place membership or a split, including Nebraska's upper chamber and excluding empty-district and residual-only rows as unpublished membership."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "mn-statutes-10a-105",
           "sha256": "65913f12e96ec7bc8ed1a3bbeeced7f07f12ec85899292db26ddecb1fa7a6460",
           "sliceOfParent": null,
@@ -911,6 +987,53 @@
       "isCompleteUniverse": true,
       "recordCount": 50,
       "universeDescription": "The fifty United States, one identity record each. Facts inside a record are KNOWN only where a locked state instrument states them; a state whose authority could not be retrieved carries UNKNOWN values and a gap naming the obstacle."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "ak-ch-74-sla-1985-enrolled-session-law",
+          "sha256": "30dfaeab42ba7a22200897671249b7bfe10a57a41ce1edcb16b91ef1dd02225f",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "ak-ch-74-sla-1985-enrolled-session-law-selected-pages",
+          "sha256": "4c6cb6515114178c22b04bb13ac7f959f6bc8f73485631e9ba6660669c04f8a1",
+          "sliceOfParent": "ak-ch-74-sla-1985-enrolled-session-law",
+          "storage": "derived-qa-slice"
+        },
+        {
+          "artifactId": "ak-municipal-sales-use-tax-statutes",
+          "sha256": "17b394d4fcc7d934aa4bf965973c7144e5a8e43d378fe1075f151413a087eb1b",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-municipal-property-tax-statutes",
+          "sha256": "c93e7b0ff63c9aa94d9b9d5f0a2a63584d6a818a26d243facaa5dfc5a6101848",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "ak-municipal-general-obligation-bond-statutes",
+          "sha256": "02a1a00507ff1c2c6d1a89624a8f9cc34f772f1e160cdf33eca38efa59c4e621",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "First-party acquisition currently verifies Alaska borough and municipal sales-tax, property-tax, millage-cap, and general-obligation-bond-vote claims. Every other matrix candidate remains explicitly outside production rather than being promoted from secondary research.",
+      "canonicalSha256": "b7107a7608e62217a993db36102a2b7b085cc40e581ea2629e53c2ca8b1f950a",
+      "compiler": {
+        "name": "state-local-fiscal-authority",
+        "version": "2.1.0"
+      },
+      "corpusFileSha256": "b7107a7608e62217a993db36102a2b7b085cc40e581ea2629e53c2ca8b1f950a",
+      "corpusId": "state-local-fiscal-authority",
+      "domain": "state-local-fiscal-authority",
+      "isCompleteUniverse": false,
+      "recordCount": 12,
+      "universeDescription": "Fifty states, six government levels, eight tax instruments, and every declared fiscal-rule field. This production tranche emits only claims verified against acquired first-party legal text; the separate 92N disposition accounts for the rest."
     },
     {
       "artifacts": [
@@ -1090,10 +1213,6 @@
     {
       "domain": "government-units",
       "productionGate": "The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins."
-    },
-    {
-      "domain": "state-local-fiscal-authority",
-      "productionGate": "92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier."
     }
   ],
   "manifestVersion": "1"

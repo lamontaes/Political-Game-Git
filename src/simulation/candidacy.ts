@@ -16,7 +16,11 @@ import {
   officeFamilyForChamberKey,
 } from "./office-qualification-rules";
 import type { QualificationAssessment } from "./office-qualification-rules";
-import type { EntityId, World } from "./types";
+import type { DistrictSeatBinding, EntityId, World } from "./types";
+import {
+  bindOfficeToDistrict,
+  districtResidenceSince,
+} from "./district-residence";
 
 /**
  * Whether a particular character may stand, and where.
@@ -117,6 +121,7 @@ export type CandidacyBlockKind =
   | "sourced-minimum-age"
   | "sourced-state-residence"
   | "unproved-district-residence"
+  | "unusable-district-binding"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
   | "lives-elsewhere"
@@ -164,6 +169,12 @@ export interface CandidacyEligibilityInput {
   readonly officeKey: string;
   /** True when this person already holds an unfinished campaign. */
   readonly alreadyACandidate: boolean;
+  /**
+   * Explicit Gazetteer district identity for this filing. Required where a
+   * sourced district-residence rule exists. Never inferred from state
+   * residence, and never treated as proved home membership by itself.
+   */
+  readonly districtBinding?: DistrictSeatBinding | null;
 }
 
 /**
@@ -184,6 +195,25 @@ export function candidacyEligibility(
     pack?.offices.find(
       (candidate) => candidate.officeKey === input.officeKey,
     ) ?? null;
+  let boundOption = option;
+  if (option && input.districtBinding) {
+    const bound = bindOfficeToDistrict(
+      option,
+      input.districtBinding,
+      authority.stateJurisdictionKey
+        ? authority.stateJurisdictionKey.replace(/^US-/, "")
+        : null,
+    );
+    if (bound.kind === "refused") {
+      blocks.push({
+        kind: "unusable-district-binding",
+        reason: bound.reason,
+      });
+      boundOption = option;
+    } else {
+      boundOption = bound.option;
+    }
+  }
   if (!option) {
     // Two different absences, said as two different sentences. A state the
     // game has never read is not the same as a city whose council it has never
@@ -223,6 +253,16 @@ export function candidacyEligibility(
   const chamberKey = option?.officeKey.split(":").at(-1) ?? null;
   const officeFamily =
     chamberKey === null ? null : officeFamilyForChamberKey(chamberKey);
+  const boundDistrict = boundOption?.office.districtBinding ?? null;
+  const districtSince =
+    boundDistrict === null
+      ? null
+      : districtResidenceSince(
+          world,
+          input.personId,
+          boundDistrict,
+          world.currentDate,
+        );
   const qualificationAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
@@ -231,9 +271,7 @@ export function candidacyEligibility(
           stateJurisdictionKey: authority.stateJurisdictionKey,
           officeFamily,
           stateResidenceSince: activeStateResidence?.occurredAt ?? null,
-          // The office carries no district identity, so state residence cannot
-          // be reused as proof of district residence.
-          districtResidenceSince: null,
+          districtResidenceSince: districtSince,
           onDate: world.currentDate,
         });
   if (qualificationRules) {
@@ -241,9 +279,7 @@ export function candidacyEligibility(
       birthDate: person.birthDate,
       onDate: world.currentDate,
       stateResidenceSince: activeStateResidence?.occurredAt ?? null,
-      // The current office is deliberately an unnumbered seat. A state-level
-      // residence fact cannot prove residence in a district that has no ID.
-      districtResidenceSince: null,
+      districtResidenceSince: districtSince,
     });
     for (const refusal of assessment.refusals) {
       blocks.push({
@@ -300,7 +336,7 @@ export function candidacyEligibility(
     eligible: blocks.length === 0,
     personId: input.personId,
     pack,
-    office: option,
+    office: boundOption,
     qualificationAssessments,
     blocks,
   };

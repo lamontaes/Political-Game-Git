@@ -9,10 +9,15 @@ import {
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 import { createStableId } from "./ids";
+import { makeIsoDate } from "./dates";
 import {
   NATIONAL_PLACES_META,
   NATIONAL_PLACES_ROWS,
 } from "./national-places.generated";
+import {
+  NATIONAL_COUNTIES_META,
+  NATIONAL_COUNTIES_ROWS,
+} from "./national-counties.generated";
 import type { EntityId, Jurisdiction } from "./types";
 
 /**
@@ -62,7 +67,7 @@ export interface LifePlaceCapabilities {
  * mistaken for the other. `locality` is where somebody actually lives;
  * `state` is the whole state as its own entry.
  */
-export type LifePlaceScope = "state" | "locality";
+export type LifePlaceScope = "state" | "locality" | "county";
 
 export interface LifePlace {
   readonly key: string;
@@ -141,6 +146,12 @@ export interface LifePlaceCoverage {
   readonly playerNote: string;
   /** Where the searchable places come from, so a data view can cite it. */
   readonly provenance?: {
+    readonly asOf: string;
+    readonly source: string;
+    readonly recordCount: number;
+  };
+  /** Separate geography scopes; neither corpus establishes membership joins. */
+  readonly countyProvenance?: {
     readonly asOf: string;
     readonly source: string;
     readonly recordCount: number;
@@ -333,6 +344,19 @@ type NationwideRow = readonly [
 
 let parsedRows: readonly NationwideRow[] | null = null;
 let rowsByGeoid: ReadonlyMap<string, NationwideRow> | null = null;
+let countyRows: readonly NationwideRow[] | null = null;
+let countyPlaces: ReadonlyMap<string, LifePlace> | null = null;
+
+function nationwideCounties(): ReadonlyMap<string, LifePlace> {
+  countyRows ??= JSON.parse(NATIONAL_COUNTIES_ROWS) as readonly NationwideRow[];
+  countyPlaces ??= new Map(
+    countyRows.map((row) => {
+      const place = synthesizeNationwidePlace(row, "county");
+      return [place.key, place];
+    }),
+  );
+  return countyPlaces;
+}
 
 /** The corpus rows, parsed from the generated string exactly once. */
 function nationwideRows(): readonly NationwideRow[] {
@@ -408,26 +432,33 @@ function stateName(usps: string): string {
  * say which state it is in structurally rather than by reading its own label,
  * and a town in a state the game has a pack for can reach that state's offices.
  */
-function synthesizeNationwidePlace(row: NationwideRow): LifePlace {
+function synthesizeNationwidePlace(
+  row: NationwideRow,
+  scope: "locality" | "county" = "locality",
+): LifePlace {
   const [geoid, displayName, usps] = row;
   const state = STATES[usps];
   const named = `${displayName}, ${stateName(usps)}`;
-  const jurisdictionId = nationwideJurisdictionId(geoid);
+  const county = scope === "county";
+  const jurisdictionId = county
+    ? createStableId("jurisdiction", `national-county:${geoid}`)
+    : nationwideJurisdictionId(geoid);
+  const provenance = county ? NATIONAL_COUNTIES_META : NATIONAL_PLACES_META;
   return {
-    key: geoid,
+    key: county ? `county:${geoid}` : geoid,
     displayName: named,
     formalName: displayName === named ? null : displayName,
     withinName: stateName(usps),
     context: {
       jurisdiction: {
         id: jurisdictionId,
-        slug: `us-place-${geoid}`,
+        slug: county ? `us-county-${geoid}` : `us-place-${geoid}`,
         name: named,
-        kind: "census-place",
+        kind: county ? "census-county" : "census-place",
         parentName: stateName(usps),
         provenance: {
-          asOf: DEMO_START_DATE,
-          source: NATIONAL_PLACES_META.source,
+          asOf: county ? makeIsoDate(provenance.asOf) : DEMO_START_DATE,
+          source: provenance.source,
           jurisdiction: jurisdictionId,
           status: "approved",
         },
@@ -438,11 +469,13 @@ function synthesizeNationwidePlace(row: NationwideRow): LifePlace {
         timeZone: state?.timeZone ?? EASTERN.timeZone,
         utcOffsetMinutes: state?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
       },
-      creationSummary: `Seeded world in ${named}, from the 2025 Census Gazetteer place identity.`,
+      creationSummary: county
+        ? `Seeded world in ${named}, from the 2025 Census Gazetteer county identity; town unspecified.`
+        : `Seeded world in ${named}, from the 2025 Census Gazetteer place identity.`,
       goalScope: named,
-      householdLocationLabel: named,
+      householdLocationLabel: county ? `${named} (town unspecified)` : named,
     },
-    scope: "locality",
+    scope,
     stateJurisdictionKey: `US-${usps}`,
     // This town's OWN offices are unsourced, and stay null until a source for
     // this jurisdiction is accepted. Whether its state has offices is answered
@@ -567,6 +600,10 @@ export function searchLifePlaces(
     }
     results.push(synthesizeNationwidePlace(row));
   }
+  for (const place of nationwideCounties().values()) {
+    if (results.length >= limit) break;
+    if (placeMatches(place, needle)) results.push(place);
+  }
   return results.slice(0, limit);
 }
 
@@ -574,13 +611,16 @@ const OUTSTANDING_DEPENDENCY =
   "The national place identity is accepted (2025 Census Gazetteer, via PR #77), so a life can start in any place. What remains sourced for only a few states is the legislative rule pack; everywhere else plays as an ordinary life until a pack is accepted.";
 
 const PLAYER_NOTE =
-  "Search for any town, city or place in the country. A few states also have a legislature you can work in.";
+  "Search for a town, city, county or county equivalent. Choosing a county leaves your town unspecified.";
 
 export const acceptedLifePlaceProvider: LifePlaceProvider = {
   coverage() {
     return {
       kind: "national-place-corpus",
-      placeCount: allPlaces().length + NATIONAL_PLACES_META.recordCount,
+      placeCount:
+        allPlaces().length +
+        NATIONAL_PLACES_META.recordCount +
+        NATIONAL_COUNTIES_META.recordCount,
       supportsArbitrarySelection: true,
       outstandingDependency: OUTSTANDING_DEPENDENCY,
       playerNote: PLAYER_NOTE,
@@ -588,6 +628,11 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
         asOf: NATIONAL_PLACES_META.asOf,
         source: NATIONAL_PLACES_META.source,
         recordCount: NATIONAL_PLACES_META.recordCount,
+      },
+      countyProvenance: {
+        asOf: NATIONAL_COUNTIES_META.asOf,
+        source: NATIONAL_COUNTIES_META.source,
+        recordCount: NATIONAL_COUNTIES_META.recordCount,
       },
     };
   },
@@ -597,6 +642,7 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
   byKey(key) {
     const authored = allPlaces().find((place) => place.key === key);
     if (authored) return authored;
+    if (key.startsWith("county:")) return nationwideCounties().get(key) ?? null;
     const row = nationwideIndex().get(key);
     return row ? synthesizeNationwidePlace(row) : null;
   },
@@ -605,6 +651,10 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       (place) => place.context.jurisdiction.id === jurisdictionId,
     );
     if (authored) return authored;
+    const county = [...nationwideCounties().values()].find(
+      (place) => place.context.jurisdiction.id === jurisdictionId,
+    );
+    if (county) return county;
     // A life started anywhere in the corpus has to be able to find its own
     // place again. Without this, every one of the nationwide places resolved to
     // null the moment anything asked what it could do, so a character living in

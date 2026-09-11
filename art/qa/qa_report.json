@@ -90,6 +90,26 @@
     "meetsTransparencyReq": null
   },
   {
+    "file": "families/courtroom/env_courtroom_empty_runtime_2x_v1.png",
+    "metadata": {
+      "width": 2752,
+      "height": 1536,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
+    "file": "families/courtroom/env_courtroom_empty_v1.png",
+    "metadata": {
+      "width": 1376,
+      "height": 768,
+      "aspectRatio": "43:24",
+      "hasTransparency": "none"
+    },
+    "meetsTransparencyReq": null
+  },
+  {
     "file": "families/legislative-chamber/env_legislative_chamber_floor_runtime_2x_v1.png",
     "metadata": {
       "width": 2816,

@@ -6156,7 +6156,9 @@
  */
 .title-tableau--art .title-tableau-content {
   display: flex;
-  align-items: center;
+  /* Title and New Game share this upper-left slot. Centering a taller creator
+     panel made the same menu jump down the plate; both stay anchored here. */
+  align-items: flex-start;
   /* Controls belong on the left of the scene (Task C/R), so the room keeps the
      larger, open side of the frame. */
   justify-content: flex-start;
@@ -6217,46 +6219,21 @@
 }
 
 /*
- * The creator, standing in the same room — a restrained panel on the left, not
- * a form on a sheet.
+ * The creator uses the title's own panel. New Game removes the title menu and
+ * puts the first stage in that same upper-left card — same frost, radius,
+ * type, and buttons — rather than a second light form further down the plate.
  *
- * The third playtest reported the creator still reading as a website form on a
- * big opaque white card. Two things answer that. It is held to the LEFT rather
- * than centred, so the room keeps the open side of the frame. And it is one
- * frosted column, not a rounded card: the backing is light enough to read dark
- * text against a lit room but transparent enough that the environment is still
- * present behind it.
- *
- * It does not scroll. Only the active step and the collapsed one-line summaries
- * of the finished steps are on screen at once, so the panel stays short enough
- * to fit the viewport without the internal scroll the old accumulating form
- * needed.
+ * Place results still scroll inside their region so the panel cannot grow the
+ * page or hide Next/Back.
  */
-.title-tableau--art .title-tableau-content:has(.game-creator) {
-  justify-content: flex-start;
-}
-
+.title-tableau--art .game-title.game-creator,
 .title-tableau--art .game-creator {
-  width: min(30rem, 100%);
+  width: min(21rem, 100%);
   max-width: none;
   margin: 0;
-
-  /* The creator is bounded to the viewport (Task §3): it never grows the page
-     past the frame. A step's own content — the place search results — scrolls
-     internally instead, so Begin/Next are never pushed below the fold. */
-  max-height: 90dvh;
+  max-height: calc(100dvh - 4rem);
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 1.5rem clamp(1.1rem, 2.4vw, 1.7rem) 1.6rem;
-  background: linear-gradient(
-    100deg,
-    rgb(247 249 252 / 90%),
-    rgb(247 249 252 / 74%)
-  );
-  backdrop-filter: blur(4px);
-  border-left: 3px solid rgb(22 35 58 / 55%);
-  border-radius: 0 0.7rem 0.7rem 0;
-  box-shadow: 0 1rem 2.4rem rgb(16 28 48 / 16%);
 }
 
 /* The place results are a bounded, internally-scrolling list so a long search
@@ -6267,11 +6244,6 @@
   max-height: 32vh;
   overflow-y: auto;
   overscroll-behavior: contain;
-}
-
-.title-tableau--art .game-creator h1 {
-  font-size: 1.4rem;
-  margin: 0.25rem 0 1rem;
 }
 
 /* Sentence case, not the shouted all-caps the base setup screen uses: a person
@@ -6309,12 +6281,13 @@
   justify-content: space-between;
   gap: 0.75rem;
   width: 100%;
-  margin: 0.3rem 0 0;
-  padding: 0.45rem 0.7rem;
+  margin: 0.25rem 0 0;
+  padding: 0.35rem 0;
   text-align: left;
-  background: rgb(22 35 58 / 6%);
-  border: 1px solid rgb(22 35 58 / 12%);
-  border-radius: 0.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgb(22 35 58 / 12%);
+  border-radius: 0;
   color: #16233a;
   font: inherit;
   cursor: pointer;
@@ -6322,7 +6295,8 @@
 
 .creator-summary:hover,
 .creator-summary:focus-visible {
-  background: rgb(22 35 58 / 11%);
+  background: transparent;
+  color: #101c30;
 }
 
 .creator-summary-value {
@@ -6396,20 +6370,10 @@
   }
 }
 
-/*
- * On a phone there is no side to hold the panel to, so it spans the width and
- * sits at the bottom where a thumb is.
- */
 @media (width <= 52rem) {
-  .title-tableau--art .title-tableau-content:has(.game-creator) {
-    align-items: flex-end;
-    justify-content: center;
-  }
-
+  .title-tableau--art .game-title.game-creator,
   .title-tableau--art .game-creator {
     width: 100%;
-    border-left: none;
-    border-radius: 0.7rem;
   }
 }
 
