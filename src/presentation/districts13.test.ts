@@ -2,24 +2,22 @@ import { describe, expect, it } from "vitest";
 
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
+  DISTRICT_HOME_JOIN_UNKNOWN,
   bindingFromIdentity,
   districtIdentityByRecordId,
+  districtMembershipFromCanonicalHome,
 } from "../districts/query";
-import { openFiscalAuthorityWork } from "./fiscal-authority-work";
+import { fileForOffice } from "./campaign-projection";
 import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
-import {
+  currentDesiredDistrict,
   offeredDistricts,
-  recordPlayerDistrictResidence,
+  recordDesiredDistrict,
 } from "./district-selection";
-import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import {
   bindOfficeToDistrict,
+  candidacyEligibility,
   candidacyPackForJurisdiction,
   deserializeWorld,
   districtResidenceIntervals,
@@ -79,7 +77,7 @@ function establish(world: World, personId: EntityId, binding = akHouse()) {
     provenance: {
       method: "authored",
       sourceEventId: null,
-      note: "Explicit establishment event. Not inferred from birthplace or state residence.",
+      note: "Explicit World establishment. Not inferred from birthplace, state residence, or a picker.",
     },
   });
   if (result.kind === "refused") throw new Error(result.reason);
@@ -129,6 +127,15 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
     expect(
       districtResidenceSince(world, personId, akHouse(), world.currentDate),
     ).toBeNull();
+    expect(
+      districtMembershipFromCanonicalHome({
+        homeJurisdictionId: world.people[personId]!.homeJurisdictionId,
+        catalog: districtIdentityCatalog(),
+      }),
+    ).toEqual({
+      kind: "unknown",
+      reason: DISTRICT_HOME_JOIN_UNKNOWN,
+    });
   });
 
   it("keeps old-save district history UNKNOWN and does not resample", () => {
@@ -175,7 +182,7 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
     ).not.toBe(firstStart);
   });
 
-  it("permits a normal Alaska filing after real elapsed residence and carries an earned seat into fiscal Work", () => {
+  it("lets qualification read a World-established interval, not a picker", () => {
     const life = alaskaLife("districts13-file");
     let world = establish(life.world, life.personId, akHouse());
     world = passOrdinaryDays(world, 1200);
@@ -186,48 +193,56 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
     const contest = world.history.electionContests?.at(-1);
     expect(contest?.office.districtBinding?.recordId).toBe("state-lower:02001");
     expect(contest?.office.seatKey).toBeNull();
-    world = spendAnAfternoon(world, life.personId, "fundraising");
-    for (let index = 0; index < 3; index += 1) {
-      world = passOrdinaryDays(world);
-      world = spendAnAfternoon(world, life.personId, "outreach");
-    }
-    for (
-      let day = 0;
-      day < 60 && projectCampaign(world, life.personId).phase === "active";
-      day += 1
-    ) {
-      world = passOrdinaryDays(world);
-    }
-    expect(projectCampaign(world, life.personId).phase).toBe("won");
-    expect(resolveActiveMemberSeat(world, life.personId).kind).toBe("seated");
-    const opened = openFiscalAuthorityWork(world, [], {
-      personId: life.personId,
-      stateUsps: "AK",
-      level: "MUNICIPALITY",
-      instrument: "GENERAL_SALES_TAX",
-      asOfDate: world.currentDate,
-      action: "propose-authority-change",
-    });
-    expect(opened.kind).toBe("opened");
-    if (opened.kind !== "opened") return;
-    expect(opened.notice).toMatch(/does not levy a tax/);
-    expect(opened.authority.state).toBe("UNESTABLISHED");
-    const reloaded = deserializeWorld(serializeWorld(opened.world));
-    expect(
-      reloaded.history.workItems.some((item) =>
-        item.stableKey.startsWith("fiscal-authority:proposal-analysis:AK:"),
-      ),
-    ).toBe(true);
   }, 180_000);
 
-  it("records player-selected residence at the current date only", () => {
-    const { world, personId } = alaskaLife("districts13-player");
-    const next = recordPlayerDistrictResidence(world, personId, akHouse());
-    expect(districtResidenceIntervals(next)[0]?.startedOn).toBe(
-      world.currentDate,
+  it("does not treat selecting an unsupported same-state district as later geographic proof", () => {
+    const { world, personId } = alaskaLife("districts13-picker");
+    const chosen = recordDesiredDistrict(world, personId, akHouseTwo());
+    expect(districtResidenceIntervals(chosen)).toEqual([]);
+    expect(currentDesiredDistrict(chosen, personId)?.recordId).toBe(
+      "state-lower:02002",
     );
-    expect(districtResidenceIntervals(next)[0]?.provenance.method).toBe(
-      "player-selection",
-    );
-  });
+    expect(
+      districtResidenceSince(
+        chosen,
+        personId,
+        akHouseTwo(),
+        chosen.currentDate,
+      ),
+    ).toBeNull();
+    const later = passOrdinaryDays(chosen, 270);
+    expect(later.currentDate >= "2026-09-06").toBe(true);
+    expect(districtResidenceIntervals(later)).toEqual([]);
+    const option = candidacyPackForJurisdiction(
+      later.people[personId]!.homeJurisdictionId,
+    )?.offices[0];
+    if (!option) throw new Error("Missing Alaska house office.");
+    const eligibility = candidacyEligibility(later, {
+      personId,
+      jurisdictionId: later.people[personId]!.homeJurisdictionId,
+      officeKey: option.officeKey,
+      alreadyACandidate: false,
+      districtBinding: akHouseTwo(),
+    });
+    expect(
+      eligibility.blocks.some(
+        (block) =>
+          block.kind === "unproved-district-residence" &&
+          /no proved start date for that residence interval/.test(block.reason),
+      ),
+    ).toBe(true);
+    expect(() => fileForOffice(later, personId, akHouseTwo())).toThrow();
+    expect(
+      establishDistrictResidence(later, {
+        personId,
+        binding: akHouseTwo(),
+        startedOn: later.currentDate,
+        provenance: {
+          method: "canonical-home-join",
+          sourceEventId: null,
+          note: "Must not invent membership from the recorded Alaska home.",
+        },
+      }).kind,
+    ).toBe("refused");
+  }, 60_000);
 });

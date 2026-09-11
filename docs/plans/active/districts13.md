@@ -1,9 +1,17 @@
 # DISTRICTS13 — active
 
-Authority: RETURN13 section B, Google Doc `15_mNP6hPa404ngDDQwRvtu3C_FrINZ5enALPf2tXDTU`. Isolated branch `cursor/districts13-20b1` off current `main`. Task A owns root landings; this lane does not write LAND's fiscal branch or PlayerGame.
+Authority: RETURN14 section F continuing RETURN13 section B. Isolated branch
+`cursor/districts13-20b1`. Task A owns root landings; this lane does not write
+LAND's fiscal branch or PlayerGame.
 
-1. Connect existing `political-districts` Gazetteer identities to canonical offices and evidence-backed district-residence intervals.
-2. Keep chamber in keys. Refuse residual/unassigned codes and mismatched state/chamber/vintage.
-3. Do not infer membership from interior points, nearest centroids, city/county, or state residence. Do not backdate old saves.
-4. Feed qualification and filing from this representation. Prove refusals first, then real elapsed eligibility, then a supported earned-seat path into the pinned fiscal Work consumer.
-5. Deliver feature-local selection/read presentation and the exact small mount contract for A.
+1. Preserve Gazetteer identity catalog, chamber keys, residual refusals, dated
+   residence intervals, and UNKNOWN old saves.
+2. Keep a selected district separate from established home-membership evidence.
+   Picker intent is not a `player-established` residence row.
+3. Qualification reads only World-established membership intervals. Selecting
+   another same-state district, then waiting, does not make candidacy
+   geographically valid.
+4. Do not invent membership from interior points, city/county/state names, or
+   self-certification. Do not fabricate the missing positive home-join journey.
+5. Fiscal166 already owns the accepted fiscal query/refusal foundation; this
+   lane does not hold it for a picker-backed campaign win.

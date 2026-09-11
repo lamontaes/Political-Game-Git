@@ -1593,6 +1593,13 @@ function validateHistoryIntegrity(world: World): void {
       );
     }
   }
+  for (const intent of history.districtSeatIntents ?? []) {
+    if (!world.people[intent.personId]) {
+      throw new Error(
+        `District seat intent names a missing person: ${intent.personId}`,
+      );
+    }
+  }
   assertUniqueStableKeys(history.events, "event");
   assertUniqueStableKeys(history.memories, "memory");
   assertUniqueStableKeys(history.knowledge, "knowledge");

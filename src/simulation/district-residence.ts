@@ -1,9 +1,11 @@
 /**
- * District residence intervals and seat bindings.
+ * District residence intervals and seat intents.
  *
- * Gazetteer identities are looked up; membership is recorded only from an
- * explicit establishment, move, or player selection. World stepping does not
- * resample these records. Old saves without intervals stay UNKNOWN.
+ * Gazetteer identities are looked up. Membership is recorded only by a World
+ * establishment or move with supported provenance. A selected district is a
+ * desired seat identity, not proof that the canonical home lies there. World
+ * stepping does not resample these records. Old saves without intervals stay
+ * UNKNOWN.
  */
 
 import { districtIdentityCatalog } from "../districts/catalog";
@@ -17,12 +19,21 @@ import { createStableId } from "./ids";
 import type {
   DistrictResidenceInterval,
   DistrictResidenceProvenance,
+  DistrictResidenceProvenanceMethod,
   DistrictSeatBinding,
+  DistrictSeatIntent,
   EntityId,
   IsoDate,
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
+
+const MEMBERSHIP_PROVENANCE_METHODS =
+  new Set<DistrictResidenceProvenanceMethod>([
+    "authored",
+    "simulated-event",
+    "canonical-home-join",
+  ]);
 
 export interface EstablishDistrictResidenceInput {
   readonly personId: EntityId;
@@ -43,10 +54,49 @@ export type DistrictResidenceWriteResult =
       readonly world: World;
     };
 
+export type DistrictSeatIntentWriteResult =
+  | { readonly kind: "recorded"; readonly world: World }
+  | {
+      readonly kind: "refused";
+      readonly reason: string;
+      readonly world: World;
+    };
+
 export function districtResidenceIntervals(
   world: World,
 ): readonly DistrictResidenceInterval[] {
   return world.history.districtResidenceIntervals ?? [];
+}
+
+export function districtSeatIntents(
+  world: World,
+): readonly DistrictSeatIntent[] {
+  return world.history.districtSeatIntents ?? [];
+}
+
+export function desiredDistrictBinding(
+  world: World,
+  personId: EntityId,
+): DistrictSeatBinding | null {
+  return (
+    districtSeatIntents(world).find((intent) => intent.personId === personId)
+      ?.binding ?? null
+  );
+}
+
+export function isSupportedDistrictMembership(
+  interval: DistrictResidenceInterval,
+): boolean {
+  if (!MEMBERSHIP_PROVENANCE_METHODS.has(interval.provenance.method)) {
+    return false;
+  }
+  if (
+    interval.provenance.method === "simulated-event" &&
+    interval.provenance.sourceEventId === null
+  ) {
+    return false;
+  }
+  return true;
 }
 
 export function bindOfficeToDistrict(
@@ -84,6 +134,10 @@ export function bindOfficeToDistrict(
   };
 }
 
+/**
+ * Start of a proved, uninterrupted membership interval. Player seat intent,
+ * picker self-certification, and unknown provenance do not count.
+ */
 export function districtResidenceSince(
   world: World,
   personId: EntityId,
@@ -95,6 +149,7 @@ export function districtResidenceSince(
   const covering = districtResidenceIntervals(world)
     .filter(
       (interval) =>
+        isSupportedDistrictMembership(interval) &&
         interval.personId === personId &&
         interval.binding.recordId === resolved.binding.recordId &&
         interval.binding.vintage === resolved.binding.vintage &&
@@ -106,10 +161,52 @@ export function districtResidenceSince(
   return covering[0]?.startedOn ?? null;
 }
 
+export function selectDesiredDistrict(
+  world: World,
+  personId: EntityId,
+  binding: DistrictSeatBinding,
+): DistrictSeatIntentWriteResult {
+  const person = world.people[personId];
+  if (!person) {
+    return {
+      kind: "refused",
+      reason:
+        "A district cannot be selected for somebody who is not in the world.",
+      world,
+    };
+  }
+  const resolved = resolveDistrictBinding(districtIdentityCatalog(), binding);
+  if (resolved.kind === "refused") {
+    return { kind: "refused", reason: resolved.reason, world };
+  }
+  const intent: DistrictSeatIntent = {
+    personId,
+    binding: resolved.binding,
+    selectedOn: world.currentDate,
+  };
+  const nextIntents = [
+    ...districtSeatIntents(world).filter(
+      (existing) =>
+        existing.personId !== personId ||
+        existing.binding.chamber !== resolved.binding.chamber,
+    ),
+    intent,
+  ];
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      districtSeatIntents: nextIntents,
+    },
+  };
+  assertWorldIntegrity(next);
+  return { kind: "recorded", world: next };
+}
+
 /**
  * Record an explicit district-residence interval. The start date must be
- * supplied by the establishment/move/selection event. Birthplace, state
- * residence and interior points are not inputs.
+ * supplied by a World establishment or move. Birthplace, state residence,
+ * interior points, and picker selection are not membership inputs.
  */
 export function establishDistrictResidence(
   world: World,
@@ -121,6 +218,33 @@ export function establishDistrictResidence(
       kind: "refused",
       reason:
         "District residence cannot be recorded for somebody who is not in the world.",
+      world,
+    };
+  }
+  if (!MEMBERSHIP_PROVENANCE_METHODS.has(input.provenance.method)) {
+    return {
+      kind: "refused",
+      reason:
+        "Selecting a district does not establish that this character's home lies in it.",
+      world,
+    };
+  }
+  if (
+    input.provenance.method === "simulated-event" &&
+    input.provenance.sourceEventId === null
+  ) {
+    return {
+      kind: "refused",
+      reason:
+        "A simulated district-residence event needs the canonical event that established it.",
+      world,
+    };
+  }
+  if (input.provenance.method === "canonical-home-join") {
+    return {
+      kind: "refused",
+      reason:
+        "No supported home-to-district membership join is published. Unknown home location stays unknown.",
       world,
     };
   }

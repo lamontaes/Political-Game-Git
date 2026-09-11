@@ -2,12 +2,13 @@
  * Feature-local district selection and residence reads.
  *
  * A mounts this through the existing world/onWorldChange seam. It does not own
- * PlayerGame or global navigation.
+ * PlayerGame or global navigation. Selecting a district is not home membership.
  */
 
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   bindingFromIdentity,
+  districtMembershipFromCanonicalHome,
   districtMembershipFromInteriorPoint,
   gazetteerChamberForOfficeChamberKey,
   listDistrictIdentities,
@@ -15,12 +16,16 @@ import {
 import type { DistrictIdentity, DistrictSeatBinding } from "../districts/types";
 import { candidacyPackForJurisdiction } from "../simulation/candidacy";
 import {
+  desiredDistrictBinding,
   districtResidenceSince,
-  establishDistrictResidence,
+  selectDesiredDistrict,
 } from "../simulation/district-residence";
 import type { EntityId, World } from "../simulation/types";
 
-export { districtMembershipFromInteriorPoint };
+export {
+  districtMembershipFromCanonicalHome,
+  districtMembershipFromInteriorPoint,
+};
 
 export function offeredDistricts(
   world: World,
@@ -44,25 +49,23 @@ export function bindingForDistrict(
   return bindingFromIdentity(identity);
 }
 
-export function recordPlayerDistrictResidence(
+export function recordDesiredDistrict(
   world: World,
   personId: EntityId,
   binding: DistrictSeatBinding,
 ): World {
-  const result = establishDistrictResidence(world, {
-    personId,
-    binding,
-    startedOn: world.currentDate,
-    provenance: {
-      method: "player-selection",
-      sourceEventId: null,
-      note: "Player selected a published district identity. This is not a measured address and not a nearest-centroid assignment.",
-    },
-  });
+  const result = selectDesiredDistrict(world, personId, binding);
   if (result.kind === "refused") {
     throw new Error(result.reason);
   }
   return result.world;
+}
+
+export function currentDesiredDistrict(
+  world: World,
+  personId: EntityId,
+): DistrictSeatBinding | null {
+  return desiredDistrictBinding(world, personId);
 }
 
 export function currentDistrictResidenceStart(

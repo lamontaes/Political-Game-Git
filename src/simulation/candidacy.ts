@@ -170,8 +170,9 @@ export interface CandidacyEligibilityInput {
   /** True when this person already holds an unfinished campaign. */
   readonly alreadyACandidate: boolean;
   /**
-   * Explicit Gazetteer district for this filing. Required where a sourced
-   * district-residence rule exists. Never inferred from state residence.
+   * Explicit Gazetteer district identity for this filing. Required where a
+   * sourced district-residence rule exists. Never inferred from state
+   * residence, and never treated as proved home membership by itself.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
 }

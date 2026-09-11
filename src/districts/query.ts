@@ -8,6 +8,9 @@ import type {
 export const DISTRICT_MEMBERSHIP_REFUSAL =
   "Gazetteer interior points are not district boundaries or home membership. The game will not assign a district from a coordinate, a nearest centroid, a city, a county, or statewide residence.";
 
+export const DISTRICT_HOME_JOIN_UNKNOWN =
+  "A recorded home place or jurisdiction is not numbered-district membership. The game will not treat a city, county, or state name as proof that the home lies in a Gazetteer district.";
+
 export function gazetteerChamberForOfficeChamberKey(
   chamberKey: string,
 ): DistrictChamber | null {
@@ -74,6 +77,18 @@ export function districtMembershipFromInteriorPoint(input: {
 }): { readonly kind: "refused"; readonly reason: string } {
   void input;
   return { kind: "refused", reason: DISTRICT_MEMBERSHIP_REFUSAL };
+}
+
+/**
+ * Canonical home is a place/jurisdiction fact, not a point-in-polygon district
+ * join. Unknown stays unknown until a supported membership provider exists.
+ */
+export function districtMembershipFromCanonicalHome(input: {
+  readonly homeJurisdictionId: string;
+  readonly catalog: readonly DistrictIdentity[];
+}): { readonly kind: "unknown"; readonly reason: string } {
+  void input;
+  return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
 }
 
 export function resolveDistrictBinding(

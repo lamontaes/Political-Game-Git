@@ -2944,7 +2944,7 @@ export interface DistrictSeatBinding {
 }
 
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "player-selection" | "simulated-event";
+  "authored" | "simulated-event" | "canonical-home-join";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -2953,10 +2953,20 @@ export interface DistrictResidenceProvenance {
 }
 
 /**
+ * Player-chosen seat identity. This is not home-membership evidence and is
+ * not a proved district-residence interval.
+ */
+export interface DistrictSeatIntent {
+  readonly personId: EntityId;
+  readonly binding: DistrictSeatBinding;
+  readonly selectedOn: IsoDate;
+}
+
+/**
  * Evidence-backed interval of residence in one numbered district identity.
  *
  * Absent from old saves. Missing history is UNKNOWN, never backfilled from
- * birthplace, state residence, or Gazetteer interior points.
+ * birthplace, state residence, Gazetteer interior points, or a picker choice.
  */
 export interface DistrictResidenceInterval {
   readonly id: EntityId;
@@ -3282,6 +3292,11 @@ export interface HistoryStore {
   readonly workItemStates: readonly WorkItemStateRecord[];
   /** Optional so pre-DISTRICTS13 snapshots remain structurally readable. */
   readonly districtResidenceIntervals?: readonly DistrictResidenceInterval[];
+  /**
+   * Current desired seat identity per person. Optional on old saves. Not
+   * membership, not sequenced history, and never a substitute for intervals.
+   */
+  readonly districtSeatIntents?: readonly DistrictSeatIntent[];
   readonly electionContests?: readonly ElectionContestRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly campaigns?: readonly CampaignRecord[];

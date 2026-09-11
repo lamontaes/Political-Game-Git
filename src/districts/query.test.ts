@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { districtIdentityCatalog } from "./catalog";
 import {
+  DISTRICT_HOME_JOIN_UNKNOWN,
   DISTRICT_MEMBERSHIP_REFUSAL,
   bindingFromIdentity,
   districtIdentityByRecordId,
+  districtMembershipFromCanonicalHome,
   districtMembershipFromInteriorPoint,
   listDistrictIdentities,
   resolveDistrictBinding,
@@ -82,6 +84,18 @@ describe("district identity catalog", () => {
     expect(result).toEqual({
       kind: "refused",
       reason: DISTRICT_MEMBERSHIP_REFUSAL,
+    });
+  });
+
+  it("does not treat a recorded home jurisdiction as district membership", () => {
+    expect(
+      districtMembershipFromCanonicalHome({
+        homeJurisdictionId: "jurisdiction:US-AK",
+        catalog,
+      }),
+    ).toEqual({
+      kind: "unknown",
+      reason: DISTRICT_HOME_JOIN_UNKNOWN,
     });
   });
 });

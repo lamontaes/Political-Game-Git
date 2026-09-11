@@ -4,7 +4,7 @@ import { fileForOffice } from "../presentation/campaign-projection";
 import {
   bindingForDistrict,
   offeredDistricts,
-  recordPlayerDistrictResidence,
+  recordDesiredDistrict,
 } from "../presentation/district-selection";
 import type { EntityId, World } from "../simulation";
 
@@ -16,7 +16,8 @@ export interface DistrictResidencePanelProps {
 
 /**
  * Feature-local district identity selection. Interior points are not shown as
- * membership. A wires this beside the existing campaign workspace.
+ * membership. Choosing a district is not proving a home in that district. A
+ * wires this beside the existing campaign workspace.
  */
 export function DistrictResidencePanel({
   world,
@@ -53,9 +54,10 @@ export function DistrictResidencePanel({
 
   return (
     <section data-testid="district-residence-panel">
-      <h2>District residence</h2>
+      <h2>District seat</h2>
       <p>
-        Published Gazetteer identities only. An interior point is not a
+        Published Gazetteer identities only. Choosing a numbered district is not
+        proof that this character's home lies in it. An interior point is not a
         boundary, and living in this state is not living in a numbered district.
       </p>
       {districts.length === 0 ? (
@@ -81,12 +83,12 @@ export function DistrictResidencePanel({
           </label>
           <button
             type="button"
-            data-testid="district-residence-establish"
+            data-testid="district-residence-select-intent"
             disabled={!identity}
             onClick={() => {
               if (!identity) return;
               run(() =>
-                recordPlayerDistrictResidence(
+                recordDesiredDistrict(
                   world,
                   personId,
                   bindingForDistrict(identity),
@@ -94,7 +96,7 @@ export function DistrictResidencePanel({
               );
             }}
           >
-            Record residence here, from today
+            Choose this district as the seat to file for
           </button>
           <button
             type="button"
