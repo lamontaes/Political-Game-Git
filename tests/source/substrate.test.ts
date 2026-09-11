@@ -117,6 +117,18 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
     );
   });
 
+  // What this costs is a function of how much source the repository holds, not
+  // of anything it asserts: it reads, parses and canonically digests every
+  // non-gated domain's whole corpus. Composing the returned branches took that
+  // from fifteen domains and 85 MB to eighteen and 184 MB, and the run time
+  // with it, from about 0.7s to about 2.1s. Comfortable on its own, and past
+  // the five-second default when the suite runs it beside everything else.
+  //
+  // So the budget is stated rather than the work reduced. Every domain is
+  // still digested and still compared; a domain that stops matching its
+  // manifest fails exactly as it did before. Expect this to want raising again
+  // as more source lands — a real regression here surfaces as a digest
+  // mismatch, never as a slow test.
   it("declares a corpus digest that matches the file it describes", async () => {
     for (const domain of await loadDomains()) {
       if (domain.productionGate) continue;
@@ -131,7 +143,7 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
       expect(corpus.recordCount).toBe(records.length);
       expect(corpus.inputClass).toBe("production");
     }
-  });
+  }, 30_000);
 
   it("canonical JSON sorts keys, drops undefined and refuses what it cannot represent", () => {
     expect(toCanonicalJson({ b: 1, a: 2 })).toBe('{\n  "a": 2,\n  "b": 1\n}\n');

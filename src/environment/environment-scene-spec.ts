@@ -271,6 +271,12 @@ export interface Occluder {
   z_order?: number;
   /** The region this occluder covers, for debug overlays and footprint checks. */
   region_percent?: PercentRect;
+  /** Authored image-space silhouette cut from this scene's released plate. */
+  plate_clip?: {
+    points: PixelPoint[];
+    confidence: "visual-estimate";
+    method_note: string;
+  };
 }
 
 /**
@@ -1301,6 +1307,28 @@ function validateOccluderPresentation(
   }
   if (entry.region_percent !== undefined) {
     validatePercentRect(entry.region_percent, `${path}.region_percent`, errors);
+  }
+  if (entry.plate_clip !== undefined) {
+    const clip = entry.plate_clip;
+    if (
+      !isRecord(clip) ||
+      clip.confidence !== "visual-estimate" ||
+      !isNonEmptyString(clip.method_note) ||
+      !Array.isArray(clip.points) ||
+      clip.points.length < 3 ||
+      clip.points.some(
+        (point) =>
+          !isRecord(point) || !isPercent(point.x) || !isPercent(point.y),
+      )
+    ) {
+      errors.push(
+        `${path}.plate_clip requires at least three plate-percent points and an explicit visual-estimate method note.`,
+      );
+    }
+    if (entry.asset_id !== undefined)
+      errors.push(
+        `${path} cannot combine an alpha asset with a source-plate clip.`,
+      );
   }
 }
 

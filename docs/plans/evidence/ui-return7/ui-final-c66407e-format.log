@@ -1,0 +1,113 @@
+
+> political-life-rpg@0.2.0 format
+> prettier --check .
+
+Checking formatting...
+[warn] edu-path7-proof.html
+[warn] public/education/catalog-4a3b877ccf83cde414c3c09bc8bed1f336f33e4b7a87ddab97d4c670fb524d7d.json
+
+<--- Last few GCs --->
+
+[22115:0x7ad40c000]    79271 ms: Mark-Compact 4042.9 (4143.9) -> 4042.9 (4143.9) MB, pooled: 0 MB, 2978.00 / 0.00 ms  (average mu = 0.044, current mu = 0.001) background allocation failure; GC in old space requested
+[22115:0x7ad40c000]    83840 ms: Mark-Compact 4042.9 (4143.9) -> 4042.9 (4143.9) MB, pooled: 0 MB, 3094.62 / 0.00 ms  (average mu = 0.183, current mu = 0.323) background allocation failure; GC in old space requested
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x10420d81c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 2: 0x10377d960 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 3: 0x103917720 v8::internal::Heap::CallGCPrologueCallbacks(v8::GCType, v8::GCCallbackFlags, v8::internal::GCTracer::Scope::ScopeId) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 4: 0x103921bd4 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1::operator()() const [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 5: 0x103917a30 void heap::base::Stack::SetMarkerAndCallbackImpl<v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags)::$_1>(heap::base::Stack*, void*, void const*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 6: 0x1034bc028 PushAllRegistersAndIterateStack [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 7: 0x1039151c8 v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 8: 0x103929b3c v8::internal::Heap::CollectGarbageFromAnyThread(v8::internal::LocalHeap*, v8::internal::GarbageCollectionReason) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+ 9: 0x103934e7c v8::internal::LocalHeap::PerformCollectionAndAllocateAgain(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+10: 0x103933e38 v8::internal::Tagged<v8::internal::HeapObject> v8::internal::LocalHeap::AllocateRawWith<(v8::internal::LocalHeap::AllocationRetryMode)1>(int, v8::internal::AllocationType, v8::internal::AllocationOrigin, v8::internal::AllocationAlignment) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+11: 0x1038fd82c v8::internal::FactoryBase<v8::internal::LocalFactory>::NewByteArray(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+12: 0x103f52074 v8::internal::compiler::PipelineImpl::FinalizeCode(bool) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+13: 0x103f51560 v8::internal::compiler::PipelineCompilationJob::FinalizeJobImpl(v8::internal::Isolate*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+14: 0x10381ca84 v8::internal::OptimizedCompilationJob::FinalizeJob(v8::internal::Isolate*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+15: 0x10384e3dc v8::internal::OptimizingCompileDispatcher::InstallOptimizedFunctions() [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+16: 0x1038bdfc8 v8::internal::StackGuard::HandleInterrupts(v8::internal::StackGuard::InterruptLevel) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+17: 0x103df32a8 v8::internal::RegExpMacroAssemblerARM64::CheckStackGuardState(unsigned long*, unsigned long, unsigned long, int, unsigned char const**, unsigned char const**, unsigned long) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+18: 0x10339e248 Builtins_DirectCEntry [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+19: 0x103b7c2cc v8::internal::RegExpImpl::IrregexpExecRaw(v8::internal::Isolate*, v8::internal::Handle<v8::internal::JSRegExp>, v8::internal::Handle<v8::internal::String>, int, int*, int) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+20: 0x103b7bcf0 v8::internal::RegExp::Exec(v8::internal::Isolate*, v8::internal::Handle<v8::internal::JSRegExp>, v8::internal::Handle<v8::internal::String>, int, v8::internal::Handle<v8::internal::RegExpMatchInfo>, v8::internal::RegExp::ExecQuirks) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+21: 0x103b9c9fc v8::internal::Runtime_RegExpExec(int, unsigned long*, v8::internal::Isolate*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+22: 0x10339ddf4 Builtins_CEntry_Return1_ArgvOnStack_NoBuiltinExit [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+23: 0x1034252e0 Builtins_RegExpPrototypeTestFast [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+24: 0x10e2aa5f4 
+25: 0x10e2b0e18 
+26: 0x10dff8294 
+27: 0x10e0f4860 
+28: 0x10e14ae34 
+29: 0x10e2af588 
+30: 0x10e2b16e8 
+31: 0x10dff8294 
+32: 0x10e0f4860 
+33: 0x10e14ae34 
+34: 0x10e2af588 
+35: 0x10e2b16e8 
+36: 0x10dff8294 
+37: 0x10e0f4860 
+38: 0x10e14ae34 
+39: 0x10e2af588 
+40: 0x10e2b16e8 
+41: 0x10dff8294 
+42: 0x10e148874 
+43: 0x10dc086cc 
+44: 0x10de14734 
+45: 0x10de14174 
+46: 0x10e11f280 
+47: 0x10dff8294 
+48: 0x10e0f4860 
+49: 0x10db2a770 
+50: 0x10dc204f4 
+51: 0x10db70b10 
+52: 0x10ddd4b5c 
+53: 0x10e11f2cc 
+54: 0x10dff8294 
+55: 0x10e0f4860 
+56: 0x10db2a770 
+57: 0x10db318c8 
+58: 0x10e1b8d64 
+59: 0x10db53688 
+60: 0x10dc086cc 
+61: 0x10deefad8 
+62: 0x10dc346e0 
+63: 0x10e11f2d8 
+64: 0x10dff8294 
+65: 0x10e0f4860 
+66: 0x10db2a770 
+67: 0x10dc204f4 
+68: 0x10db70b10 
+69: 0x10db31a78 
+70: 0x10e11f340 
+71: 0x10dff8294 
+72: 0x10e0f4860 
+73: 0x10dc22ac8 
+74: 0x103345410 Builtins_AsyncFunctionAwaitResolveClosure [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+75: 0x103410f78 Builtins_PromiseFulfillReactionJob [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+76: 0x1033356f4 Builtins_RunMicrotasks [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+77: 0x103306af4 Builtins_JSRunMicrotasksEntry [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+78: 0x1038950a8 v8::internal::(anonymous namespace)::Invoke(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+79: 0x103895804 v8::internal::(anonymous namespace)::InvokeWithTryCatch(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+80: 0x1038bbf1c v8::internal::MicrotaskQueue::PerformCheckpointInternal(v8::Isolate*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+81: 0x1034c38ec node::InternalCallbackScope::Close() [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+82: 0x1034c3768 node::InternalCallbackScope::~InternalCallbackScope() [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+83: 0x103599060 node::fs::FileHandle::CloseReq::Resolve() [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+84: 0x103599a34 node::fs::FileHandle::ClosePromise()::$_0::__invoke(uv_fs_s*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+85: 0x103589a7c node::MakeLibuvRequestCallback<uv_fs_s, void (*)(uv_fs_s*)>::Wrapper(uv_fs_s*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+86: 0x100846e64 uv__work_done [/opt/homebrew/Cellar/libuv/1.52.1/lib/libuv.1.0.0.dylib]
+87: 0x10084a3cc uv__async_io [/opt/homebrew/Cellar/libuv/1.52.1/lib/libuv.1.0.0.dylib]
+88: 0x1008591b0 uv__io_poll [/opt/homebrew/Cellar/libuv/1.52.1/lib/libuv.1.0.0.dylib]
+89: 0x10084ab64 uv_run [/opt/homebrew/Cellar/libuv/1.52.1/lib/libuv.1.0.0.dylib]
+90: 0x1034c46cc node::SpinEventLoopInternal(node::Environment*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+91: 0x1035d7dd0 node::NodeMainInstance::Run(node::ExitCode*, node::Environment*) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+92: 0x1035d7b48 node::NodeMainInstance::Run() [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+93: 0x103554298 node::Start(int, char**) [/opt/homebrew/Cellar/node@22/22.23.2_1/lib/libnode.127.dylib]
+94: 0x18c243e00 start [/usr/lib/dyld]

@@ -1,0 +1,183 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /private/tmp/pg-ui-core-release-transfer
+
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 5 failed) 31837ms
+     × never lets a withheld stage appear in a played transcript 5157ms
+     × report what each seed actually demonstrated 4989ms
+     × does not claim the 92C pact callback without an actual trace 5252ms
+     × claims persistent cast across years only with a bound role and a span 6651ms
+     × reports counts that match a live measurement, not a stale run 6804ms
+ ❯ tests/source/municipal-delta5.test.ts (4 tests | 1 failed) 61172ms
+     × the CLI gate rejects a changed generated provenance hash 36359ms
+ ❯ tests/source/substrate.test.ts (19 tests | 1 failed) 63765ms
+     × declares a corpus digest that matches the file it describes 11949ms
+(node:16751) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/simulation/life-paths2.test.ts (15 tests | 1 failed) 75696ms
+   × completes the full supported college-associate program with its actual costs 66580ms
+ ❯ tests/dev-identified.test.ts (5 tests | 5 failed) 49ms
+     × prints banner and forwards custom arguments like --mode 31ms
+     × handles --host= and --port= syntax without duplicating arguments 13ms
+     × terminates cleanly and frees port on SIGTERM to wrapper 1ms
+     × terminates cleanly and frees port on SIGINT to wrapper 1ms
+     × fails with non-zero exit code if requested port is occupied (--strictPort) 1ms
+ ❯ src/presentation/people-visual4-review.test.ts (4 tests | 1 failed) 14266ms
+     × projects every complete exact-body wardrobe combination through the shared plan 8734ms
+ ❯ scripts/dev-lab/server-isolation.test.ts (1 test | 1 failed) 315ms
+   × two isolated checkouts identify distinct sources, reject mismatches and clean only their own server 311ms
+(node:17126) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17606) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17674) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+transforming...
+✓ 4 modules transformed.
+rendering chunks...
+computing gzip size...
+(node:19045) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19716) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 15 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > prints banner and forwards custom arguments like --mode
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > handles --host= and --port= syntax without duplicating arguments
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > terminates cleanly and frees port on SIGTERM to wrapper
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > terminates cleanly and frees port on SIGINT to wrapper
+ FAIL  tests/dev-identified.test.ts > dev:identified lifecycle and CLI forwarding > fails with non-zero exit code if requested port is occupied (--strictPort)
+ FAIL  scripts/dev-lab/server-isolation.test.ts > two isolated checkouts identify distinct sources, reject mismatches and clean only their own server
+Error: listen EPERM: operation not permitted 127.0.0.1
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/15]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > PR #119 withholding is preserved, never fabricated > never lets a withheld stage appear in a played transcript
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/prose-corpus/corpus.test.ts:198:3
+    196|   });
+    197|
+    198|   it("never lets a withheld stage appear in a played transcript", () =…
+       |   ^
+    199|     const withheldStages = new Set(
+    200|       withheld
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/15]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > transcripts > report what each seed actually demonstrated
+AssertionError: expected [ 'age-band:childhood', …(33) ] to include 'election-lost'
+ ❯ scripts/prose-corpus/corpus.test.ts:430:20
+    428|       "legislative-session-unavailable",
+    429|     ]) {
+    430|       expect(seen).toContain(claim);
+       |                    ^
+    431|     }
+    432|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/15]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > does not claim the 92C pact callback without an actual trace
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/prose-corpus/corpus.test.ts:506:3
+    504|   });
+    505|
+    506|   it("does not claim the 92C pact callback without an actual trace", (…
+       |   ^
+    507|     // Generic multi-year continuation is not evidence of the particul…
+    508|     // childhood-pact callback. The matrix may claim it only when the …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/15]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > claims persistent cast across years only with a bound role and a span
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/prose-corpus/corpus.test.ts:522:3
+    520|   });
+    521|
+    522|   it("claims persistent cast across years only with a bound role and a…
+       |   ^
+    523|     for (const family of SEED_FAMILIES) {
+    524|       const transcript = runSeedTranscript(family, inventory);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/15]⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > evidence reconciliation (P125-REPAIR-02 phase 3) > reports counts that match a live measurement, not a stale run
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ scripts/prose-corpus/corpus.test.ts:545:3
+    543|   });
+    544|
+    545|   it("reports counts that match a live measurement, not a stale run", …
+       |   ^
+    546|     // Compare the committed report to the live scanner, not a count p…
+    547|     // an older source tree. Adding a valid feature must regenerate th…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/15]⎯
+
+ FAIL  src/presentation/people-visual4-review.test.ts > corrected people pipeline > projects every complete exact-body wardrobe combination through the shared plan
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/presentation/people-visual4-review.test.ts:93:3
+     91|     }
+     92|   });
+     93|   it("projects every complete exact-body wardrobe combination through …
+       |   ^
+     94|     let world = createCharacterProofWorld(library, "visual4-combinatio…
+     95|     const id = world.personOrder[0]!;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/15]⎯
+
+ FAIL  src/simulation/life-paths2.test.ts > completes the full supported college-associate program with its actual costs
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/simulation/life-paths2.test.ts:523:3
+    521|   // that new long integration case a 60-second budget; retain every r…
+    522|   // session, fee, credential and reload assertion and all prior test …
+    523|   it(
+       |   ^
+    524|     `completes the full supported ${path} program with its actual cost…
+    525|     () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/15]⎯
+
+ FAIL  tests/source/municipal-delta5.test.ts > MUNI-DELTA5 exact evidence and generated consumer boundaries > the CLI gate rejects a changed generated provenance hash
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/source/municipal-delta5.test.ts:20:3
+     18|     ).toBe(renderMunicipalGovernments());
+     19|   }, 30000);
+     20|   it("the CLI gate rejects a changed generated provenance hash", () =>…
+       |   ^
+     21|     const dir = mkdtempSync(join(tmpdir(), "municipal-replay-control-"…
+     22|     try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/15]⎯
+
+ FAIL  tests/source/substrate.test.ts > A9 / A10 / A11 — deterministic replay > declares a corpus digest that matches the file it describes
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/source/substrate.test.ts:120:3
+    118|   });
+    119|
+    120|   it("declares a corpus digest that matches the file it describes", as…
+       |   ^
+    121|     for (const domain of await loadDomains()) {
+    122|       if (domain.productionGate) continue;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/15]⎯
+
+
+ Test Files  7 failed | 252 passed (259)
+      Tests  15 failed | 4085 passed | 2 skipped (4102)
+   Start at  14:27:44
+   Duration  282.97s (transform 35.49s, setup 0ms, import 219.99s, tests 1274.00s, environment 160ms)
+

@@ -1,6 +1,14 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  expectNoDestination,
+  goTo,
+  openElsewhere,
+  openShellMenu,
+  shellIdentity,
+  startLife,
+} from "./support/creator";
 import {
   candidacyPacks,
   searchLifePlaces,
@@ -267,8 +275,8 @@ test.describe("A life can stand for something", () => {
     const treasury = await page.getByTestId("campaign-treasury").textContent();
     const band = await page.getByTestId("campaign-band").textContent();
 
-    await page.getByTestId("keep-world").click();
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await goTo(page, "keep-world");
+    await expectNoDestination(page, "keep-world");
     await page.reload();
 
     await page.getByTestId("continue").click();
@@ -337,13 +345,15 @@ test.describe("P85D integration through ordinary player controls", () => {
     await expect(page.getByTestId("office-section")).toContainText(
       "Kentucky legislature",
     );
-    await page.getByTestId("keep-world").click();
-    await expect(page.getByTestId("keep-world")).toHaveCount(0);
+    await goTo(page, "keep-world");
+    await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await expect(page.getByTestId("life-hud")).toContainText("Lexington");
+    // Where and when live on the corner cluster now, in its own label.
+    expect(await shellIdentity(page)).toContain("Lexington");
+    await openShellMenu(page);
     await page.getByTestId("elsewhere-work").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("office-section")).toContainText(

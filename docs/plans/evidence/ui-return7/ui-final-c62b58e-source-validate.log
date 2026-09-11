@@ -1,0 +1,29 @@
+
+> political-life-rpg@0.2.0 source:validate
+> node --import tsx scripts/source/validate.ts
+
+  gate government-units: The official 2025 archive is now retrieved and locked. Its actual five-tab XLSX/PID6 format differs from the historical TSV/14-digit-GID fixture contract. The general-purpose publisher identity reader is available for MUNI; full legacy corpus production remains gated until all tabs, native identifiers, dormant-versus-inventory status and unavailable legacy GIDs are reconciled without dropping usable units or guessing joins.
+  gate state-local-fiscal-authority: 92N establishes state and local fiscal authority for all 50 states with first-party legal citations, but it is a research synthesis and this substrate compiles production corpora only from artifacts it retrieved and hashed itself. A record citing Cal. Const. Art. XIII A would assert that this repository read that article; it read a document reporting it. Lifting the gate requires either acquiring the cited constitutions and statutes as first-party artifacts through source:acquire, or an explicit architecture decision admitting a declared secondary-source evidence tier.
+  gate state-office-qualifications: 31F marks 118 of the 31A-31E research claims compiler-ready, but the substrate compiles production corpora only from artifacts it retrieved and hashed, and a research synthesis is a secondary source. Production compilation is gated on either acquiring the cited state authorities as first-party artifacts, or an explicit architecture decision to admit a declared secondary-source tier. See 31F section 8.
+  ok   acs-pums: 220 records, 0 errors
+  ok   bea-regional: 35496 records, 0 errors
+  ok   bls-laus: 13082 records, 0 errors
+        [warning] laus/incomplete-components: 78 area-periods have an unresolved component and were reported unreconcilable rather than reconciled against a substituted zero.
+  ok   career-occupations: 1016 records, 0 errors
+  ok   civil-service-labor: 51 records, 0 errors
+  ok   counties: 3222 records, 0 errors
+  ok   education: 132874 records, 0 errors
+  ok   fec: 39355 records, 0 errors
+        [warning] fec/linkage-not-closed-over-masters: 152 of 8619 linkage rows name a candidate absent from the 2024 candidate master, and 158 name an absent committee. The FEC's linkage file spans cycles the master files do not; these rows are preserved as published.
+  ok   federal-courts: 201 records, 0 errors
+  ok   fema-disasters: 721 records, 0 errors
+  ok   government-finances: 886 records, 0 errors
+        [warning] government-finances/no-missingness: Every amount in the corpus resolved to KNOWN. The source withholds and omits amounts for many governments, so a corpus with no unresolved value may have turned a missing cell into a number.
+  ok   hud-housing: 9528 records, 0 errors
+  ok   judicial-office-selection: 156 records, 0 errors
+  ok   municipal-governance: 4 records, 0 errors
+  ok   places: 32350 records, 0 errors
+  ok   political-districts: 7283 records, 0 errors
+  ok   public-employment: 298 records, 0 errors
+  ok   state-legislatures: 50 records, 0 errors
+source:validate: 18 domains, 184.28 MiB of tracked JSON

@@ -406,7 +406,11 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     sourcePath: "src/presentation/life-introduction.ts",
     domain: "life",
     bank: "introduction",
-    symbols: ["buildGrounding", "buildLifeIntroduction"],
+    symbols: [
+      "buildGrounding",
+      "buildLifeIntroduction",
+      "householdAbsenceLine",
+    ],
     surface: "connective",
     reachability: "PLAYER_REACHABLE",
     reachabilityReason:
@@ -416,6 +420,40 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "person-record",
         description:
           "The character's own canonical name, age, place and household.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/life-conversation.ts",
+    domain: "life",
+    bank: "opening-conversation-replies",
+    symbols: ["replyFor"],
+    surface: "answer",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "Feature-local LifeScenePanel is implemented; normal-root consumption belongs to UI-CORE and is not yet present in this donor tree.",
+    grounding: [
+      {
+        key: "saved-selected-person-turn",
+        description:
+          "The actual selected person, current scene presence, saved prior intent/answer, and authored ordinary values/goals license each reply.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/life-conversation.ts",
+    domain: "life",
+    bank: "opening-conversation-intents",
+    symbols: ["LIFE_TALK_INTENTS"],
+    surface: "option-label",
+    reachability: "CURRENTLY_UNREACHABLE",
+    reachabilityReason:
+      "Exposed by the feature-local panel; normal-root adapter is still a consumer handoff.",
+    grounding: [
+      {
+        key: "eligible-selected-person-intent",
+        description:
+          "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
       },
     ],
   },

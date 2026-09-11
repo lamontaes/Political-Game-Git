@@ -15,8 +15,12 @@ import { expect, type Page } from "@playwright/test";
 
 export interface CreatorLife {
   readonly age: number;
+  readonly givenName?: string;
+  readonly familyName?: string;
   /** Matched against the place buttons. Defaults to Kentucky. */
   readonly place?: string;
+  readonly placeQuery?: string;
+  readonly placeScope?: "state" | "county" | "locality";
   /** The explicit route. Defaults to the ordinary generated one. */
   readonly route?: "normal" | "custom";
   /**
@@ -69,17 +73,25 @@ export async function fillCreator(
 
   await expect(page.getByTestId("creator-stage-character")).toBeVisible();
   await page.getByTestId("start-age").fill(String(life.age));
+  if (life.givenName)
+    await page.getByLabel("First name", { exact: true }).fill(life.givenName);
+  if (life.familyName)
+    await page.getByLabel("Last name", { exact: true }).fill(life.familyName);
   if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
   await page.getByTestId("creator-continue-character").click();
 
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
   const place = life.place ?? "Kentucky";
-  await page.getByTestId("place-search").fill(place.slice(0, 5));
-  await page
+  await page.getByTestId("place-search").fill(life.placeQuery ?? place);
+  const choices = page
     .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(place, "i") })
-    .first()
-    .click();
+    .getByRole("button", { name: new RegExp(place, "i") });
+  const scoped = life.placeScope
+    ? choices.filter({
+        has: page.locator(`[data-place-scope="${life.placeScope}"]`),
+      })
+    : choices;
+  await scoped.first().click();
   await page.getByTestId("creator-continue-place").click();
 
   if (custom) {
@@ -98,7 +110,11 @@ export async function fillCreator(
   const calibration = life.calibration ?? "skipped";
   await page
     .getByTestId(
-      calibration === "skipped" ? "whoareyou-play" : "whoareyou-answer",
+      calibration === "skipped"
+        ? "whoareyou-play"
+        : calibration === "deep"
+          ? "whoareyou-deep"
+          : "whoareyou-answer",
     )
     .click();
   await expect(page.getByTestId("begin")).toBeEnabled();
@@ -118,24 +134,120 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  * shows no gate, so this is tolerant by design rather than by accident.
  */
 export async function enterLife(page: Page): Promise<void> {
+  await expect(page.getByTestId("play-screen")).toBeVisible();
+
+  /*
+   * Wait for the introduction to settle before deciding whether there is one.
+   *
+   * `isVisible()` answers immediately and does not wait, so on a slower render
+   * this walked straight past a panel that was about to appear, clicked
+   * nothing, and left the life sitting behind its own gate. Every later step
+   * then timed out somewhere else entirely — on `play-screen`, on `keep-world`,
+   * on `elsewhere-work` — which is why one race showed up as failures spread
+   * across a dozen specs that have nothing to do with each other.
+   *
+   * Racing to a decision is the bug, so this waits for the page to be in one of
+   * the two states it can actually be in: showing the introduction, or already
+   * past it. A life with no household on record has nothing to introduce and
+   * shows no gate, and that is still tolerated — by waiting for the alternative
+   * rather than by failing to notice the panel.
+   */
+  const opening = page.getByTestId("opening-life-panel");
+  const scene = page.getByTestId("opening-life-scene");
+  await expect
+    .poll(async () =>
+      (await opening.count()) > 0 || (await scene.count()) > 0 ? "ready" : "",
+    )
+    .toBe("ready");
+
+  if ((await opening.count()) > 0) {
+    // Two beats: the world, then the household. Both use the same control.
+    await opening.getByRole("button", { name: "Meet your household" }).click();
+    await opening.getByRole("button", { name: "Step inside" }).click();
+  }
+  if ((await scene.count()) > 0) {
+    await page
+      .getByRole("button", { name: "Continue your life", exact: true })
+      .first()
+      .click();
+  }
   const gate = page.getByTestId("introduction-continue");
   if ((await gate.count()) > 0) await gate.click();
+}
+
+/**
+ * Opens the corner cluster, which is where the game's destinations now live.
+ *
+ * The shell's navigation moved off the page and into a cluster that rests small
+ * and translucent until it is reached for, so every test that wants a
+ * destination opens the cluster first — the same two moves a player makes.
+ */
+export async function openShellMenu(page: Page): Promise<void> {
+  const flyout = page.getByTestId("shell-nav-flyout");
+  if (await flyout.isVisible()) return;
+  await page.getByTestId("shell-nav-cluster").click();
+  await expect(flyout).toBeVisible();
+}
+
+/** Opens the cluster and presses one of its destinations. */
+export async function goTo(page: Page, testid: string): Promise<void> {
+  await openShellMenu(page);
+  await page.getByTestId(testid).click();
+}
+
+/**
+ * Asserts a destination is not on offer, with the menu actually open.
+ *
+ * A control inside a closed menu is absent from the page for the wrong reason,
+ * so a withheld-capability check has to look where the control would be.
+ */
+export async function expectNoDestination(
+  page: Page,
+  testid: string,
+): Promise<void> {
+  await openShellMenu(page);
+  await expect(page.getByTestId(testid)).toHaveCount(0);
+  await page.keyboard.press("Escape");
+}
+
+/** What the corner cluster says: who you are, when, and where. */
+export async function shellIdentity(page: Page): Promise<string> {
+  return (
+    (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
+    ""
+  );
 }
 
 /**
  * Opens one of the play screen's secondary surfaces.
  *
  * Packet 77 moved the day, the people and the office out from under the
- * current moment and behind a row of controls, so a test that wants one of
- * them asks for it the way a player does.
+ * current moment; the shell then moved them into the corner cluster. A test
+ * that wants one of them still asks for it the way a player does.
  */
 export async function openElsewhere(
   page: Page,
   key: "day" | "people" | "work",
 ): Promise<void> {
+  await openShellMenu(page);
   const control = page.getByTestId(`elsewhere-${key}`);
   await expect(control).toBeVisible();
-  if ((await control.getAttribute("aria-pressed")) !== "true") {
-    await control.click();
+  if ((await control.getAttribute("aria-pressed")) === "true") {
+    /* Already open behind the flyout; close the flyout and leave it open. */
+    await page.keyboard.press("Escape");
+    return;
   }
+  await control.click();
+}
+
+/** Explicit initial retention versus an update of the existing save slot. */
+export async function saveLife(page: Page): Promise<void> {
+  await openShellMenu(page);
+  const keep = page.getByTestId("keep-world");
+  if (await keep.count()) await keep.click();
+  else await page.getByTestId("save-world").click();
+  await expect(page.getByText("Saved.", { exact: true })).toBeVisible();
+  await openShellMenu(page);
+  await expect(keep).toHaveCount(0);
+  await expect(page.getByTestId("save-world")).toBeEnabled();
 }

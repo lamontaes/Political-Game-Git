@@ -89,6 +89,8 @@ ordinary Work. UI alone applies this patch; this branch has not edited
 `PlayerGame`, `App`, navigation, LIFE or EXEC repair files. A normal-route test
 patch is delivered separately. Published application is recorded below;
 normal-route proof remains pending.
+patch is delivered separately. Patch application and normal-route proof remain
+unaccepted until the UI owner records them.
 
 `tests/e2e/civil-personnel.spec.ts` is explicitly an isolated component proof,
 with actual pointer/keyboard activation and canonical snapshot round-tripping.
@@ -131,6 +133,7 @@ discipline/removal, formal filing and review decisions through actually
 authorized people; genuine positive personnel journey; matching negative
 authority/class/date controls against an otherwise successful legal transition;
 normal-route browser verification and human visual acceptance. The existing tests prove
+normal-route integration and human visual acceptance. The existing tests prove
 preparation and conservative source boundaries only. A draft PR for this
 checkpoint must not be described as completed CIVIL-WORK7 gameplay.
 
@@ -141,6 +144,7 @@ World/calendar/history/Work; separate employment and resource truth; stable
 IDs; known versus unknown; no new score, registry, account or employment
 allocator; no fabricated biography, consent, outcome, source date or authority.
 Shared root integration was published by the named UI owner. Authority-bearing
+Shared root integration is deferred to the named UI owner. Authority-bearing
 actions remain dependent on the exact instruments/bindings above.
 
 Durable lesson encoded in the action-assessment tests: a descriptive legal

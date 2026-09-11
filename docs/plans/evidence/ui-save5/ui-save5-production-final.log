@@ -1,0 +1,39 @@
+[WebServer] (node:68481) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:68484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 20 tests using 1 worker
+
+(node:68683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/20] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+[2/20] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[3/20] [chromium] › tests/e2e/production-play.spec.ts:139:3 › Opening the game opens a game › starts a life from the title screen and shows that life
+[4/20] [chromium] › tests/e2e/production-play.spec.ts:155:3 › Opening the game opens a game › gives three cold boots three different people
+[5/20] [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address
+[6/20] [chromium] › tests/e2e/production-play.spec.ts:203:3 › A new life is not a renamed fixture › shows a child no adult work, office or developer vocabulary
+[7/20] [chromium] › tests/e2e/production-play.spec.ts:215:3 › A new life is not a renamed fixture › shows an ordinary adult no political surfaces, and no explanation of why
+[8/20] [chromium] › tests/e2e/production-play.spec.ts:238:3 › A new life is not a renamed fixture › gives a staffer the legislature they work in, and no other
+[9/20] [chromium] › tests/e2e/production-play.spec.ts:259:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one
+[10/20] [chromium] › tests/e2e/production-play.spec.ts:280:3 › A life is kept, and comes back › keeps two lives apart in the saved games list
+[11/20] [chromium] › tests/e2e/production-play.spec.ts:294:3 › A life is kept, and comes back › deletes a save and does not bring it back
+[12/20] [chromium] › tests/e2e/production-play.spec.ts:314:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one
+[13/20] [chromium] › tests/e2e/production-play.spec.ts:382:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week
+[14/20] [chromium] › tests/e2e/production-play.spec.ts:405:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting
+[15/20] [chromium] › tests/e2e/production-play.spec.ts:428:3 › What the world records, it keeps › remembers a formative choice through save and reload
+[16/20] [chromium] › tests/e2e/production-play.spec.ts:458:3 › What the world records, it keeps › keeps a household conversation settled after a reload
+[17/20] [chromium] › tests/e2e/production-play.spec.ts:496:3 › What the world records, it keeps › keeps a legislative step in the player's own save
+[18/20] [chromium] › tests/e2e/production-play.spec.ts:519:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface
+[19/20] [chromium] › tests/e2e/production-play.spec.ts:545:1 › initial Keep becomes repeatable Save on the same slot across changes and reload
+[20/20] [chromium] › tests/e2e/production-play.spec.ts:599:1 › two normal browser tabs refuse an older World without overwriting the newer save
+  20 passed (1.8m)

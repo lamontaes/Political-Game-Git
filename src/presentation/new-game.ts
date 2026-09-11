@@ -1,3 +1,4 @@
+import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
 import {
   defaultPronounsForGender,
   generationInputsFor,
@@ -42,7 +43,8 @@ export type NewGameDepth = "play-formative-years" | "summarize-earlier-life";
  * the office and legislation surfaces exist because the world says the person
  * works there, not because the game has nowhere else to put them.
  */
-export type NewGameStartingLife = "ordinary-life" | "legislative-office";
+export type NewGameStartingLife =
+  "ordinary-life" | "legislative-office" | "judicial-office-practice";
 
 /**
  * Whether anybody else is at home.
@@ -186,6 +188,18 @@ export function newGameSetupProblems(
       message: `Choose a starting age between ${MINIMUM_START_AGE} and ${MAXIMUM_START_AGE}.`,
     });
   }
+  if (
+    setup.startingLife === "judicial-office-practice" &&
+    (setup.startKind !== "custom" ||
+      setup.startAge < 25 ||
+      setup.depth !== "summarize-earlier-life")
+  ) {
+    problems.push({
+      field: "startingLife",
+      message:
+        "Judicial office practice requires Custom Start, age 25 or older, and beginning after the early years.",
+    });
+  }
   if (setup.startingLife === "legislative-office") {
     if (setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE) {
       problems.push({
@@ -276,6 +290,8 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
+    familyStructureSeed: worldSeedFor(setup),
+    personalitySeed: setup.seed,
     place,
     age: setup.startAge,
     givenName: setup.givenName,
@@ -296,7 +312,10 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     // answers. The starting role stays as the setup carries it: the normal
     // creator offers no office, so a normal start is already `ordinary-life`,
     // and a life reaches work through play rather than beginning in one.
-    startingLife: setup.startingLife,
+    startingLife:
+      setup.startingLife === "judicial-office-practice"
+        ? "ordinary-life"
+        : setup.startingLife,
     household: resolvedHousehold(setup),
     depth: resolvedDepth(setup),
     priors,
@@ -306,8 +325,16 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     generation:
       setup.startKind === "custom" ? null : generationInputsFor(priors),
   });
+  const office =
+    setup.startingLife === "judicial-office-practice"
+      ? initializeJudicialOfficePractice(built.world, {
+          mode: "custom",
+          jurisdictionId: place.context.jurisdiction.id,
+        })
+      : { ok: true as const, world: built.world };
+  if (!office.ok) throw new Error(office.reason);
   return {
-    world: built.world,
+    world: office.world,
     playerPersonId: built.playerPersonId,
     place,
     setup,

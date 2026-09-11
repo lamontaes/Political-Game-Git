@@ -76,8 +76,21 @@ export function resolvePersonPortrait(
       wardrobe: options?.wardrobe,
       snapshot: options?.snapshot,
     });
-  } catch {
-    return { kind: "placeholder", reason: "appearance-unresolvable" };
+  } catch (error) {
+    /*
+     * The planner's own message, kept.
+     *
+     * This was a bare `catch` returning the bare word `appearance-unresolvable`,
+     * and it made the one refusal that carries a real explanation the one
+     * refusal that explained nothing: a missing slot, an incompatible
+     * combination and an unknown body family all arrived on screen as the same
+     * two initials. The prefix is preserved so anything matching on the reason
+     * still matches, and what the compositor actually said follows it.
+     */
+    return {
+      kind: "placeholder",
+      reason: `appearance-unresolvable: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
   // Released procedural fixtures are regression art, not approved likenesses.
   if (

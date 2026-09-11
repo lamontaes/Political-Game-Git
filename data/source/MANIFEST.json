@@ -156,6 +156,53 @@
     {
       "artifacts": [
         {
+          "artifactId": "onet31-occupations",
+          "sha256": "13b2aa4c08e6c9a3708d5e5ac83e13da5cc184e3798313c8942a266d00593ace",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "onet31-tasks",
+          "sha256": "afb7ba3bb00f0355d7d5f07e0a446ce880d72d15d4f3f2087973aa8c0dd102d4",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "onet2019-soc2018-crosswalk",
+          "sha256": "bfc6722a92c2d607e5a99dee88b7826cf5aa91f7c0453182e0c8268e32a20a19",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-soc2018-structure",
+          "sha256": "ade08af40923266f3a854842e888ca3e93c15b26a147c20a2b12a61f4c4f4077",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "bls-oews2025-national",
+          "sha256": "b5855a37f3e03e779f6fbf173d3bbc94aeeff33426aef32fa95ce6d025bab1af",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2026-09-09",
+      "boundedSampleReason": "National wage observations only. Occupation task coverage varies; sources establish neither employers nor credentials, vacancies, individual salary or past applicability.",
+      "canonicalSha256": "435d6b078363bd282811c19ccf8088ea9f335026c69d7642f5db3fa5d717259a",
+      "compiler": {
+        "name": "career-occupations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "435d6b078363bd282811c19ccf8088ea9f335026c69d7642f5db3fa5d717259a",
+      "corpusId": "career-occupations",
+      "domain": "career-occupations",
+      "isCompleteUniverse": false,
+      "recordCount": 1016,
+      "universeDescription": "Full 1016 O*NET-SOC 2019 identities and all task rows in O*NET 31.0; applicable May 2025 national cross-industry OEWS observations."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "uscode-title5-section2102",
           "sha256": "b8c26d4a76baaea9dd3a40e596f1fb51276a262eaa28962717b90aa7fe45040b",
           "sliceOfParent": null,
@@ -282,6 +329,77 @@
       "isCompleteUniverse": true,
       "recordCount": 3222,
       "universeDescription": "Every county and county-equivalent in the U.S. Census Bureau 2025 Gazetteer counties national file: the 50 states, the District of Columbia and Puerto Rico."
+    },
+    {
+      "artifacts": [
+        {
+          "artifactId": "ccd-2024-25-preliminary",
+          "sha256": "960a1e788a32677cc16399b62fdc7061a830b6d8b8b90b05b875fd50fad27cd1",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "HD2024",
+          "sha256": "b03acd261382fc92fe793aecac084820eec7a0e543dc9541c271b55d712331d3",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2024",
+          "sha256": "6dffa230ee9d58322b33d694e28ef640200987e91a675109597c04cc3b1cd2e0",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "HD2024_Dict",
+          "sha256": "edf79545e900a987263f9e9a6a0420bcc55cb566a83754d87419ca0851cf521a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2024_Dict",
+          "sha256": "41474ff1efe01c5362529adf465e6c094c383467769cf725deb33bfd8187ca5e",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "HD2025",
+          "sha256": "aadad9277a2255c85813b6d206475ddbf8a7330d79cc0236c2ecae685b00f1bf",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2025",
+          "sha256": "0f946317717b227609fce0884c80456dc7a9483c1f5d004c4572ebf0d7df61e6",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "HD2025_Dict",
+          "sha256": "dc454aa6fbc246f3d47d773cd02ebe3b5efcedacbd2f71c54ff39f5844215343",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "IC2025_Dict",
+          "sha256": "7821cdc4b923dc8ff78ce4a79c115c6fd2bc003919d539f2e918005ee917a429",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2024-07-01",
+      "boundedSampleReason": "Publisher product scope: public K-12 and IPEDS reporting institutions only; Alaska preliminary submission limitations and all source-year limits remain. Not all real schools or historical years; no admissions, attendance, exact tuition or major-level offerings.",
+      "canonicalSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "compiler": {
+        "name": "education",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+      "corpusId": "education",
+      "domain": "education",
+      "isCompleteUniverse": false,
+      "recordCount": 132874,
+      "universeDescription": "All rows of the acquired CCD 2024-25 preliminary school/LEA directories and HD2024/HD2025, joined to every IC2024 revised and IC2025 provisional offerings row. No school-count ceiling."
     },
     {
       "artifacts": [

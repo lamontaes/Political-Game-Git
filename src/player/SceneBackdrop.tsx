@@ -12,6 +12,10 @@ import {
 } from "../presentation/surface-projection";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { PRODUCTION_VISUAL_LIBRARY } from "../presentation/visual-integration";
+import {
+  releasedSceneOccluders,
+  scenePlateClips,
+} from "../presentation/scene-occlusion";
 import { useRasterTier } from "./useRasterTier";
 import { useSceneCoverTransform } from "./useSceneTransform";
 
@@ -84,6 +88,8 @@ export function SceneBackdrop({
   );
 
   const painted = Boolean(tier.paintedUrl);
+  const occluders = releasedSceneOccluders(scene);
+  const plateClips = scenePlateClips(scene);
   const bindings = useMemo(
     () =>
       scene ? bindSceneSurfaces(scene, dynamicSurfacePayloads(surfaces)) : [],
@@ -158,19 +164,72 @@ export function SceneBackdrop({
               (person.heightPercent / 100) *
               plate.height *
               transform.uniformScale;
+            const depth = scene?.anchors.get(person.anchorId)?.zOrder ?? 0;
+            const masks = [
+              ...occluders
+                .filter((o) => o.zOrder > depth)
+                .map((o) => o.asset.url),
+              ...plateClips
+                .filter((o) => o.zOrder > depth)
+                .map((o) => o.maskUrl),
+            ];
+            const masking: CSSProperties = masks.length
+              ? {
+                  maskImage: [
+                    "linear-gradient(black, black)",
+                    ...masks.map((url) => `url("${url}")`),
+                  ].join(", "),
+                  maskMode: "alpha",
+                  maskComposite: ["subtract", ...masks.map(() => "add")].join(
+                    ", ",
+                  ),
+                  maskRepeat: "no-repeat",
+                  maskSize: [
+                    "100% 100%",
+                    ...masks.map(
+                      () =>
+                        `${plate.width * transform.uniformScale}px ${plate.height * transform.uniformScale}px`,
+                    ),
+                  ].join(", "),
+                  maskPosition: [
+                    "0 0",
+                    ...masks.map(
+                      () =>
+                        `${transform.xOffset - topLeft.x}px ${transform.yOffset - topLeft.y}px`,
+                    ),
+                  ].join(", "),
+                }
+              : {};
             return (
               <div
                 key={person.personId}
                 className="scene-person-token"
                 data-testid={`scene-person-${person.personId}`}
+                data-occlusion-count={masks.length}
                 data-has-art={person.hasArt ? "true" : "false"}
                 data-relationship={person.relationship ?? ""}
+                /*
+                 * The compositor's reason, carried to where it can be read.
+                 * A person who does not draw was previously indistinguishable
+                 * in the DOM from one the room simply had no art for, so
+                 * neither a developer nor a browser test could say which
+                 * refusal they were looking at. Empty when a picture drew.
+                 */
+                data-art-refusal={person.artRefusal ?? ""}
+                /*
+                 * And what is wrong with a person who DID draw. A figure
+                 * composed against an uncalibrated room or with a substituted
+                 * pose is not a clean success, and the DOM said it was.
+                 */
+                data-art-diagnostics={(person.artDiagnostics ?? []).join(" ")}
                 style={
                   {
                     left: `${topLeft.x}px`,
                     top: `${topLeft.y}px`,
                     width: `${width}px`,
                     height: `${height}px`,
+                    zIndex: depth,
+                    ...masking,
                   } satisfies CSSProperties
                 }
               >
@@ -197,15 +256,45 @@ export function SceneBackdrop({
                     aria-hidden="true"
                   />
                 )}
-                <span className="scene-person-plate">
-                  <strong>{person.name}</strong>
-                  {person.relationship ? (
-                    <small>{person.relationship}</small>
-                  ) : null}
-                </span>
               </div>
             );
           })}
+          {/* Names are interface labels, above the physical depth stack. */}
+          {people.map((person) => (
+            <div
+              key={`label:${person.personId}`}
+              style={{
+                position: "absolute",
+                left:
+                  transform.xOffset +
+                  ((person.leftPercent + person.widthPercent / 2) / 100) *
+                    plate.width *
+                    transform.uniformScale,
+                top:
+                  transform.yOffset +
+                  ((person.topPercent + person.heightPercent) / 100) *
+                    plate.height *
+                    transform.uniformScale,
+                transform: "translateX(-50%)",
+                zIndex:
+                  Math.max(
+                    0,
+                    ...occluders.map((o) => o.zOrder),
+                    ...plateClips.map((o) => o.zOrder),
+                    ...[...(scene?.anchors.values() ?? [])].map(
+                      (a) => a.zOrder,
+                    ),
+                  ) + 1,
+              }}
+            >
+              <span className="scene-person-plate">
+                <strong>{person.name}</strong>
+                {person.relationship ? (
+                  <small>{person.relationship}</small>
+                ) : null}
+              </span>
+            </div>
+          ))}
         </div>
       ) : null}
       <div className="scene-backdrop-content">{children}</div>

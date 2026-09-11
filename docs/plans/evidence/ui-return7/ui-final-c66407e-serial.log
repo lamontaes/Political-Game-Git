@@ -1,0 +1,30 @@
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /private/tmp/pg-ui-core-release-transfer
+
+ ❯ scripts/prose-corpus/corpus.test.ts (40 tests | 1 failed) 7552ms
+     × report what each seed actually demonstrated 1679ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/prose-corpus/corpus.test.ts > transcripts > report what each seed actually demonstrated
+AssertionError: expected [ 'age-band:childhood', …(33) ] to include 'election-lost'
+ ❯ scripts/prose-corpus/corpus.test.ts:430:20
+    428|       "legislative-session-unavailable",
+    429|     ]) {
+    430|       expect(seen).toContain(claim);
+       |                    ^
+    431|     }
+    432|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  1 failed | 87 passed (88)
+   Start at  14:33:11
+   Duration  77.62s (transform 4.81s, setup 0ms, import 8.64s, tests 68.04s, environment 2ms)
+

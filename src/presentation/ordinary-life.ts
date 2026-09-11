@@ -1,3 +1,4 @@
+import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
@@ -106,8 +107,11 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   if (!ordinaryLifeAvailableFor(world, personId)) return world;
-  return refreshLifeOpportunities(
-    openOrdinaryLifeRecords(world, personId),
+  return refreshLifeCircumstances(
+    refreshLifeOpportunities(
+      openOrdinaryLifeRecords(world, personId),
+      personId,
+    ),
     personId,
   );
 }

@@ -16,7 +16,10 @@ import {
   projectStoryMoment,
   type StoryMoment,
 } from "../../src/presentation/life-story";
-import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
+import {
+  openOrdinaryLife,
+  passOrdinaryDays,
+} from "../../src/presentation/ordinary-life";
 import { openLegislativeWork } from "../../src/presentation/legislation-world";
 import { projectMeasureBriefing } from "../../src/presentation/legislation-projection";
 import { resolvePlayerCapabilities } from "../../src/presentation/player-capabilities";
@@ -54,8 +57,14 @@ export interface SeedFamily {
   readonly steps: number;
   /** Option keys to prefer, in order, when they are on offer. */
   readonly prefer: readonly string[];
-  /** Run the campaign spine after the life beats. */
-  readonly campaign?: "file-and-run" | null;
+  /**
+   * Run the campaign spine after the life beats.
+   *
+   * `file-and-run` files and then works the campaign for the afternoons the
+   * clock will give it. `file-only` files and does nothing else, which is a
+   * thing a player can actually do and a thing the game has an answer to.
+   */
+  readonly campaign?: "file-and-run" | "file-only" | null;
 }
 
 function setup(overrides: Partial<NewGameSetup>): NewGameSetup {
@@ -66,6 +75,15 @@ function setup(overrides: Partial<NewGameSetup>): NewGameSetup {
     ...overrides,
   };
 }
+
+/**
+ * Afternoons a campaigning transcript will work, if the clock gives them.
+ *
+ * Six is the figure `runCampaign` has always named. It is a budget, not a
+ * guarantee: the loop stops early when election day arrives or when time
+ * refuses to move, and it reports how many it actually got.
+ */
+const CAMPAIGN_AFTERNOONS = 6;
 
 export const SEED_FAMILIES: readonly SeedFamily[] = [
   {
@@ -162,9 +180,18 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     // a point wide.
     //
     // With the candidate actually canvassing (see `runCampaign`), support moves
-    // for reasons, and the two original seeds now demonstrate one contest each:
-    // `p85c-owner-clock` loses and `corpus-campaign-b` wins. Neither outcome is
-    // written anywhere; both are read off the resolved contest.
+    // for reasons rather than by the swing alone.
+    //
+    // P-UI8 correction: the sentence that used to stand here said these two
+    // seeds demonstrate "one contest each", `p85c-owner-clock` losing and
+    // `corpus-campaign-b` winning. That was measured while the session loop was
+    // silently taking two afternoons instead of six, which put both contests
+    // within two points of the line — so the split was a property of the
+    // truncation, not of the two seeds. Both original controls are kept, and
+    // both now win by ten points or more once the campaign is actually worked.
+    // The loss is demonstrated where it can be attributed: by the lane below
+    // that files and does not campaign. No outcome is written anywhere; every
+    // one is read off the resolved contest.
     setup: setup({
       seed: "corpus-campaign-b",
       startAge: 41,
@@ -176,6 +203,41 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     steps: 6,
     prefer: ["take-it-on"],
     campaign: "file-and-run",
+  },
+  {
+    key: "campaign-without-the-work",
+    intent:
+      "A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.",
+    // Deliberately the SAME seed and setup as `campaign-and-office`.
+    //
+    // That is the point of the lane. Two lanes that campaign identically can
+    // only differ by the swing, and reading a defeat off that is reading it off
+    // luck — which is how this matrix lost its `election-lost` claim in the
+    // first place, when a legitimate change to the opening's time model moved
+    // the campaign to a different month of the cycle and both borderline
+    // contests landed on the other side of the line.
+    //
+    // Holding the seed, the person and the beats fixed and changing only
+    // whether the candidate did the work makes the outcome attributable to the
+    // work. Measured across accepted main ec437eda and this branch, a candidate
+    // who works no afternoon loses by between three and a half and seven and a
+    // half points, and the same candidate working six wins by ten or more. The
+    // defeat is still read off the resolved contest and is still free to stop
+    // happening — if it does, that is a finding about the game, which is what
+    // this matrix is for.
+    setup: setup({
+      seed: "p85c-owner-clock",
+      startAge: 34,
+      placeKey: "lexington-fayette",
+      depth: "summarize-earlier-life",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      gender: "male",
+      pronouns: "he-him",
+    }),
+    steps: 6,
+    prefer: ["take-it-on"],
+    campaign: "file-only",
   },
 ];
 
@@ -280,6 +342,7 @@ function linkRealization(
 function runCampaign(
   world: World,
   personId: EntityId,
+  afternoons: number,
 ): { world: World; transcript: CampaignTranscript } {
   const lines: string[] = [];
   let current = fileForOffice(openOrdinaryLife(world, personId), personId);
@@ -316,16 +379,43 @@ function runCampaign(
   // bounded keyed swing rather than by anything the candidate did. Preferring
   // outreach is not a thumb on the scale: it is the transcript playing the
   // game rather than taking the first button on the screen.
+  //
+  // P-UI8: the loop asked for six afternoons and silently took two.
+  //
+  // A day holds two campaign slots. When the third ask came back "The rest of
+  // today is already spoken for. Get on with the day and pick this up
+  // tomorrow.", the loop simply stopped, so every campaigning transcript ran a
+  // two-afternoon campaign while its comment described six. Two afternoons is
+  // exactly the crossover: measured on this matrix, each canvassed afternoon
+  // is worth roughly three points of final margin, a candidate who works one
+  // afternoon loses and one who works two wins by under two points. Both
+  // contests were therefore being decided inside the residual swing, on
+  // accepted main as much as here, and any legitimate shift of the campaign's
+  // position in the calendar could flip either of them.
+  //
+  // So the loop now does what the refusal tells a player to do: pass the day
+  // through `passOrdinaryDays` — the same seam the player's own control on the
+  // game screen calls — and canvass again tomorrow. Nothing is scaled and no
+  // outcome is written; the candidate just stops being cut off mid-campaign.
   const sessions: string[] = [];
-  for (let index = 0; index < 6; index += 1) {
+  for (let day = 0; sessions.length < afternoons && day <= afternoons;) {
+    if (electionContestResult(current, campaign.contestId)) break;
     const offers = (projectCampaign(current, personId)?.offers ?? []).filter(
       (candidate) => candidate.unavailable === null,
     );
     const offer =
       offers.find((candidate) => candidate.kind === "outreach") ?? offers[0];
-    if (!offer) break;
-    sessions.push(offer.label);
-    current = spendAnAfternoon(current, personId, offer.kind);
+    if (offer) {
+      sessions.push(offer.label);
+      current = spendAnAfternoon(current, personId, offer.kind);
+      continue;
+    }
+    // Today is spent. Tomorrow is a real day the campaign has to reach, not a
+    // free retry: if time refuses to move, the campaign is over.
+    const tomorrow = passOrdinaryDays(current);
+    if (tomorrow === current) break;
+    current = tomorrow;
+    day += 1;
   }
   // Let the clock reach the contest rather than writing a result.
   for (let index = 0; index < 60; index += 1) {
@@ -466,8 +556,12 @@ export function runSeedTranscript(
   }
 
   let campaign: CampaignTranscript | null = null;
-  if (family.campaign === "file-and-run") {
-    const outcome = runCampaign(world, personId);
+  if (family.campaign === "file-and-run" || family.campaign === "file-only") {
+    const outcome = runCampaign(
+      world,
+      personId,
+      family.campaign === "file-only" ? 0 : CAMPAIGN_AFTERNOONS,
+    );
     world = outcome.world;
     campaign = outcome.transcript;
   }

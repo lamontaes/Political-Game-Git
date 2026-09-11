@@ -1,6 +1,8 @@
 import {
   describePersonContext,
   educationEnrollmentHistoryForPerson,
+  educationEnrollmentStateAt,
+  lifePlaceByJurisdictionId,
   householdMembershipsAt,
   introducePerson,
   kinshipRelationshipsAt,
@@ -61,6 +63,7 @@ export interface LifeGroundingFact {
 export interface LifeIntroduction {
   readonly personName: string;
   readonly age: number;
+  readonly date: World["currentDate"];
   /** "Lexington, Kentucky" — from the household's location record. */
   readonly placeName: string | null;
   /** Everybody else on the household record, in record order. */
@@ -139,7 +142,12 @@ function buildGrounding(
       alreadyNamed.add(otherId);
       facts.push({
         kind: "family",
-        text: `You were raised by ${introducePerson(context)}.`,
+        text: world.history.personDeaths.some(
+          (death) =>
+            death.personId === otherId && death.diedAt <= world.currentDate,
+        )
+          ? `${introducePerson(context)} has died.`
+          : `${introducePerson(context)}.`,
         basis: kinship.id,
       });
     }
@@ -152,6 +160,8 @@ function buildGrounding(
     const name = organizationName(world, enrollment.organizationId);
     const label = PROGRAM_LABELS[enrollment.programKind];
     if (name === null || label === undefined) continue;
+    if (educationEnrollmentStateAt(world, enrollment.id)?.status === "expected")
+      continue;
     facts.push({
       kind: "education",
       text: `You started ${label} at ${name} in ${yearOf(enrollment.startedAt)}.`,
@@ -166,12 +176,15 @@ function buildGrounding(
     if (work.organizationId === null) continue;
     const name = organizationName(world, work.organizationId);
     if (name === null) continue;
-    const ended = workStatusAt(world, work.id)?.status === "ended";
+    const status = workStatusAt(world, work.id)?.status;
+    const ended = status === "ended";
     facts.push({
       kind: "work",
       text: ended
         ? `You worked at ${name} from ${yearOf(work.startedAt)}.`
-        : `You work at ${name}, and have since ${yearOf(work.startedAt)}.`,
+        : status === "active"
+          ? `You work at ${name}, and have since ${yearOf(work.startedAt)}.`
+          : `You started work at ${name} in ${yearOf(work.startedAt)}.`,
       basis: work.id,
     });
   }
@@ -196,10 +209,17 @@ export function buildLifeIntroduction(
   const primary =
     memberships.find((entry) => entry.state.residenceRole === "primary") ??
     memberships[0];
-  if (!primary) return null;
 
-  const others = peopleInHouseholdAt(world, primary.household.id)
-    .filter((id) => id !== personId)
+  const others = (
+    primary ? peopleInHouseholdAt(world, primary.household.id) : []
+  )
+    .filter(
+      (id) =>
+        id !== personId &&
+        !world.history.personDeaths.some(
+          (death) => death.personId === id && death.diedAt <= world.currentDate,
+        ),
+    )
     .flatMap((id) => {
       const context = describePersonContext(world, personId, id);
       if (!context) return [];
@@ -213,7 +233,10 @@ export function buildLifeIntroduction(
       ];
     });
 
-  const placeName = primary.location?.label ?? null;
+  const placeName =
+    primary?.location?.label ??
+    lifePlaceByJurisdictionId(player.homeJurisdictionId)?.displayName ??
+    null;
   const age = ageOn(player.birthDate, world.currentDate);
   const name = personName(player);
 
@@ -226,7 +249,7 @@ export function buildLifeIntroduction(
       : `You're ${age}.`,
   );
   if (others.length === 0) {
-    sentences.push("You live on your own.");
+    sentences.push(householdAbsenceLine(primary !== undefined));
   } else {
     // One line each rather than a joined list. An introduction already carries
     // a comma — "Dakota Romero, your mom" — so joining two of them with
@@ -238,9 +261,17 @@ export function buildLifeIntroduction(
   return {
     personName: name,
     age,
+    date: world.currentDate,
     placeName,
     household: others,
     sentences,
     grounding: buildGrounding(world, personId, others),
   };
+}
+
+/** Distinguishes a recorded household from missing household evidence. */
+function householdAbsenceLine(recorded: boolean): string {
+  return recorded
+    ? "No one else is recorded in your current household."
+    : "Your current household is not recorded.";
 }

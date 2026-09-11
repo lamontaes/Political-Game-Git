@@ -7,6 +7,7 @@ import type {
 } from "../presentation/public-information-adapters";
 import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
 import { filterPublishedNewsItems } from "./public-information-search";
+import "./public-information-panel.css";
 
 export interface PublicInformationPanelProps {
   readonly model: PublicInformationPanelModel;
@@ -123,26 +124,30 @@ export function PublicInformationPanel({
                 Clear search
               </button>
             </div>
-            <p
-              className="public-information-search-count"
-              data-testid="public-information-search-count"
-              aria-live="polite"
-            >
-              {hasActiveSearch
-                ? filteredItems.length === 0
-                  ? `No stories match "${trimmedQuery}".`
-                  : `Showing ${filteredItems.length} of ${model.items.length} published stories.`
-                : `${model.items.length} published ${
-                    model.items.length === 1 ? "story" : "stories"
-                  }.`}
-            </p>
+            {hasActiveSearch && filteredItems.length === 0 ? (
+              <p
+                className="public-information-no-match"
+                data-testid="public-information-no-match"
+                aria-live="polite"
+              >
+                No stories match &ldquo;{trimmedQuery}&rdquo;.
+              </p>
+            ) : (
+              <p
+                className="public-information-search-count"
+                data-testid="public-information-search-count"
+                aria-live="polite"
+              >
+                {hasActiveSearch
+                  ? `Showing ${filteredItems.length} of ${model.items.length} published stories.`
+                  : `${model.items.length} published ${
+                      model.items.length === 1 ? "story" : "stories"
+                    }.`}
+              </p>
+            )}
           </div>
 
-          {hasActiveSearch && filteredItems.length === 0 ? (
-            <p data-testid="public-information-no-match">
-              No stories match your search.
-            </p>
-          ) : (
+          {hasActiveSearch && filteredItems.length === 0 ? null : (
             <ol className="public-information-editions">
               {filteredItems.map((item) => (
                 <li key={item.publicationId}>

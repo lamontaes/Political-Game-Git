@@ -1,0 +1,86 @@
+[WebServer] (node:23322) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:23325) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 21 tests using 1 worker
+
+(node:23524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/21] [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving
+  1) [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('article').filter({ has: getByRole('heading', { name: 'Workforce Education — noncredit study', exact: true }) })
+    Expected substring: "2 attended sessions"
+    Received string:    "Workforce Education — noncredit studyactive. 1 attended sessions.Schedule next sessionInterruptLeave2026-01-14, 18:00 — 2 hours. Attending advances the clock to the end of this session.Attend Workforce Education — noncredit study"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('article').filter({ has: getByRole('heading', { name: 'Workforce Education — noncredit study', exact: true }) })
+        14 × locator resolved to <article>…</article>
+           - unexpected value "Workforce Education — noncredit studyactive. 1 attended sessions.Schedule next sessionInterruptLeave2026-01-14, 18:00 — 2 hours. Attending advances the clock to the end of this session.Attend Workforce Education — noncredit study"
+
+
+      140 |     })
+      141 |     .press("Enter");
+    > 142 |   await expect(study).toContainText("2 attended sessions");
+          |                       ^
+      143 |   await saveLife(page);
+      144 |   await page.reload();
+      145 |   await page.getByTestId("continue").click();
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/edu-path7-normal.spec.ts:142:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-pay-5501b74/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-pay-5501b74/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-pay-5501b74/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-pay-5501b74/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:23630) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/21] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+[3/21] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[4/21] [chromium] › tests/e2e/production-play.spec.ts:139:3 › Opening the game opens a game › starts a life from the title screen and shows that life
+[5/21] [chromium] › tests/e2e/production-play.spec.ts:155:3 › Opening the game opens a game › gives three cold boots three different people
+[6/21] [chromium] › tests/e2e/production-play.spec.ts:169:3 › Opening the game opens a game › rebuilds the exact world from a replay address
+[7/21] [chromium] › tests/e2e/production-play.spec.ts:203:3 › A new life is not a renamed fixture › shows a child no adult work, office or developer vocabulary
+[8/21] [chromium] › tests/e2e/production-play.spec.ts:215:3 › A new life is not a renamed fixture › shows an ordinary adult no political surfaces, and no explanation of why
+[9/21] [chromium] › tests/e2e/production-play.spec.ts:238:3 › A new life is not a renamed fixture › gives a staffer the legislature they work in, and no other
+[10/21] [chromium] › tests/e2e/production-play.spec.ts:259:3 › A life is kept, and comes back › keeps a life, reloads, and continues the same one
+[11/21] [chromium] › tests/e2e/production-play.spec.ts:280:3 › A life is kept, and comes back › keeps two lives apart in the saved games list
+[12/21] [chromium] › tests/e2e/production-play.spec.ts:294:3 › A life is kept, and comes back › deletes a save and does not bring it back
+[13/21] [chromium] › tests/e2e/production-play.spec.ts:314:3 › A life is kept, and comes back › keeps healthy saves visible beside a damaged one
+[14/21] [chromium] › tests/e2e/production-play.spec.ts:382:3 › What is written to disk is a player's world › carries no validation substrate and no child's adult week
+[15/21] [chromium] › tests/e2e/production-play.spec.ts:405:3 › What is written to disk is a player's world › keeps the newest revision when the player leaves straight after acting
+[16/21] [chromium] › tests/e2e/production-play.spec.ts:428:3 › What the world records, it keeps › remembers a formative choice through save and reload
+[17/21] [chromium] › tests/e2e/production-play.spec.ts:458:3 › What the world records, it keeps › keeps a household conversation settled after a reload
+[18/21] [chromium] › tests/e2e/production-play.spec.ts:496:3 › What the world records, it keeps › keeps a legislative step in the player's own save
+[19/21] [chromium] › tests/e2e/production-play.spec.ts:519:3 › Nothing on screen is developer vocabulary › keeps fixture language out of every production surface
+[20/21] [chromium] › tests/e2e/production-play.spec.ts:545:1 › initial Keep becomes repeatable Save on the same slot across changes and reload
+[21/21] [chromium] › tests/e2e/production-play.spec.ts:599:1 › two normal browser tabs refuse an older World without overwriting the newer save
+  1 failed
+    [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+  20 passed (2.5m)

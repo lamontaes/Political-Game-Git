@@ -223,7 +223,9 @@ function resolveGuardian(
     }
     const subject = world.people[subjectId]!;
     return {
-      relationship: parentWord(subject),
+      relationship: authority.kind.startsWith("parental:")
+        ? parentWord(subject)
+        : "your guardian",
       basis: `A ${authority.kind} authority record over the player, held by this person.`,
       anchors: [
         {
@@ -259,7 +261,9 @@ function resolveDependent(
       continue;
     }
     return {
-      relationship: childWord(world.people[subjectId]!),
+      relationship: authority.kind.startsWith("parental:")
+        ? childWord(world.people[subjectId]!)
+        : "in your care",
       basis: `A ${authority.kind} authority record over this person, held by the player.`,
       anchors: [
         {

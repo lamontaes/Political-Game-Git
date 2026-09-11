@@ -1309,6 +1309,8 @@ function niceMoneyStep(range: number): number {
 
 function stageLabel(bill: DocketBill): string {
   switch (bill.stage) {
+    case "drafting":
+      return "Being drafted, not yet filed";
     case "filed":
       return "Filed, awaiting referral";
     case "in-committee":

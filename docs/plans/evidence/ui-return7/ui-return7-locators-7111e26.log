@@ -1,0 +1,75 @@
+[WebServer] (node:14749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:14752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 10 tests using 1 worker
+
+(node:14953) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/10] [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving
+  1) [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('article').filter({ has: getByRole('heading', { name: 'Workforce Education — noncredit study', exact: true }) })
+    Expected substring: "1 attended sessions"
+    Received string:    "Workforce Education — noncredit studyactive. 0 attended sessions.Schedule next sessionInterruptLeave2026-01-06, 18:00 — 2 hours. Attending advances the clock to the end of this session.Attend Workforce Education — noncredit study"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('article').filter({ has: getByRole('heading', { name: 'Workforce Education — noncredit study', exact: true }) })
+        14 × locator resolved to <article>…</article>
+           - unexpected value "Workforce Education — noncredit studyactive. 0 attended sessions.Schedule next sessionInterruptLeave2026-01-06, 18:00 — 2 hours. Attending advances the clock to the end of this session.Attend Workforce Education — noncredit study"
+
+
+      86 |     })
+      87 |     .click();
+    > 88 |   await expect(study).toContainText("1 attended sessions");
+         |                       ^
+      89 |   await study
+      90 |     .getByRole("button", { name: "Interrupt", exact: true })
+      91 |     .press("Space");
+        at /private/tmp/pg-ui-core-release-transfer/tests/e2e/edu-path7-normal.spec.ts:88:23
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-locators-7111e26/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ui-core-transfer-recovery/browser/ui-return7-locators-7111e26/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ui-core-transfer-recovery/browser/ui-return7-locators-7111e26/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ui-core-transfer-recovery/browser/ui-return7-locators-7111e26/results/edu-path7-normal-normal-da-b41e7-ruption-and-repeated-saving-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:15071) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/10] [chromium] › tests/e2e/life-paths2.spec.ts:2:1 › LIFE-PATHS2 pointer, keyboard, session, interruption and reload proof
+[3/10] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:9:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar
+[4/10] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:55:1 › Custom judicial workplace uses the normal World, Work and save route
+[5/10] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:94:1 › mixed person, session and measure pins preserve identity and clear workspace controls
+[6/10] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:198:1 › normal activity completion replaces household presence without a second clock
+[7/10] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:263:1 › frozen docket uses the normal Work shell and keeps its selected document on reload
+[8/10] [chromium] › tests/e2e/ui-core-news.spec.ts:16:1 › normal completed legislative action publishes News with person Back and unchanged read/save history
+[9/10] [chromium] › tests/e2e/ui-core-news.spec.ts:86:1 › legislative staff can preview but cannot file or publish a member bill
+[10/10] [chromium] › tests/e2e/ui-core-news.spec.ts:108:1 › opening the normal press request form creates no request or consent
+  1 failed
+    [chromium] › tests/e2e/edu-path7-normal.spec.ts:9:1 › normal dated education offer, attendance, interruption and repeated saving 
+  9 passed (1.8m)

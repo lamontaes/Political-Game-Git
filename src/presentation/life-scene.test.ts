@@ -157,9 +157,11 @@ describe("What the game says about the family it wrote", () => {
     };
     const introduction = buildLifeIntroduction(emptied, game.playerPersonId)!;
     expect(introduction.household).toEqual([]);
-    // A household on record with nobody else in it: the honest thing to say is
-    // that you live alone, not to invent a family to fill the screen (Task §6).
-    expect(introduction.sentences.join(" ")).toMatch(/on your own/i);
+    // Missing co-resident records establish no other recorded person, not proof
+    // that the player lives alone. Preserve the explicit unknown.
+    expect(introduction.sentences).toContain(
+      "No one else is recorded in your current household.",
+    );
   });
 
   it("introduces nobody at all when there is no household", () => {
@@ -168,6 +170,13 @@ describe("What the game says about the family it wrote", () => {
       ...game.world,
       history: { ...game.world.history, householdMemberships: [] },
     };
-    expect(buildLifeIntroduction(emptied, game.playerPersonId)).toBeNull();
+    const introduction = buildLifeIntroduction(emptied, game.playerPersonId)!;
+    expect(introduction.household).toEqual([]);
+    expect(introduction.sentences).toContain(
+      "Your current household is not recorded.",
+    );
+    expect(introduction.personName).toBe(
+      buildLifeIntroduction(game.world, game.playerPersonId)!.personName,
+    );
   });
 });

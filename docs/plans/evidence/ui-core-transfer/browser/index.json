@@ -1,0 +1,32 @@
+[
+  {
+    "file": "title-1440.png",
+    "run": "ui-core-transfer-creator-09",
+    "sha256": "d1c719c23b626441a493d2310ecc0d977d2f0be70a1296531b5d1a71c995cf0d"
+  },
+  {
+    "file": "title-960.png",
+    "run": "ui-core-transfer-creator-09",
+    "sha256": "8c7c3c99e988ee0464c9cbc8874070975a6c1f6b7582a98f3363f02d49a8b467"
+  },
+  {
+    "file": "venue-aftermath-1440.png",
+    "run": "ui-core-transfer-env-06",
+    "sha256": "f3e246c04a444d3df216b82aad34cb837ddf12658d65f2328ed415124752c4af"
+  },
+  {
+    "file": "venue-aftermath-960.png",
+    "run": "ui-core-transfer-env-06",
+    "sha256": "f8d2b3d5538cac9a392973c7373f97c2d0231393b09fdb8b81d06927aaaa3d60"
+  },
+  {
+    "file": "mixed-pins-960.png",
+    "run": "ui-core-transfer-adapters-05",
+    "sha256": "7836cff7e0434aff011ecf155c19317430ca314cd1cf64dbe426c9544a74b10e"
+  },
+  {
+    "file": "normal-work-docket.png",
+    "run": "ui-core-transfer-leg-08",
+    "sha256": "2031f5b8dc252f03df040425242b664964b99d2650d896fd8ae06509ac8a6218"
+  }
+]

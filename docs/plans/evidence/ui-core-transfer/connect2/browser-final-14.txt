@@ -1,0 +1,51 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/ui-core.spec.ts tests/e2e/ui-core-feature-adapters.spec.ts tests/e2e/ui-core-creator-recovery.spec.ts tests/e2e/ui-core-news.spec.ts --retries=0
+
+[WebServer] (node:63775) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 31 tests using 1 worker
+
+(node:63970) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/31] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:4:1 › questionnaire Back retains creator identity and the next unanswered question
+[2/31] [chromium] › tests/e2e/ui-core-creator-recovery.spec.ts:48:1 › normal Begin crosses the presentation fade before the generated life
+[3/31] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:4:1 › normal Day exposes the frozen study/work adapter and scheduled sessions reach Calendar
+[4/31] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:50:1 › Custom judicial workplace uses the normal World, Work and save route
+[5/31] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:89:1 › mixed person, session and measure pins preserve identity and clear workspace controls
+[6/31] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:193:1 › normal activity completion replaces household presence without a second clock
+[7/31] [chromium] › tests/e2e/ui-core-feature-adapters.spec.ts:258:1 › frozen docket uses the normal Work shell and keeps its selected document on reload
+[8/31] [chromium] › tests/e2e/ui-core-news.spec.ts:32:1 › normal completed legislative action publishes News with person Back and unchanged read/save history
+[9/31] [chromium] › tests/e2e/ui-core.spec.ts:61:3 › the corner cluster › rests small, rises on approach, and rises on keyboard focus alone
+[10/31] [chromium] › tests/e2e/ui-core.spec.ts:91:3 › the corner cluster › holds its size when motion is reduced
+[11/31] [chromium] › tests/e2e/ui-core.spec.ts:102:3 › the corner cluster › opens one submenu level, and it is darker than its parent
+[12/31] [chromium] › tests/e2e/ui-core.spec.ts:122:3 › people, and who was chosen › A then B then A: the record always follows the selection
+[13/31] [chromium] › tests/e2e/ui-core.spec.ts:161:3 › people, and who was chosen › selecting somebody in the room opens a menu about them
+[14/31] [chromium] › tests/e2e/ui-core.spec.ts:188:3 › people, and who was chosen › Talk opens the real conversation with that person, or says why not
+[15/31] [chromium] › tests/e2e/ui-core.spec.ts:222:3 › people, and who was chosen › a dossier reveals nothing the record does not establish
+[16/31] [chromium] › tests/e2e/ui-core.spec.ts:247:3 › mixed pins › keep their identity, order and size across navigation and a reload
+[17/31] [chromium] › tests/e2e/ui-core.spec.ts:315:3 › mixed pins › dragging reorders, and an ordinary click still opens
+[18/31] [chromium] › tests/e2e/ui-core.spec.ts:359:3 › mixed pins › a pin says nothing about who is in the room
+[19/31] [chromium] › tests/e2e/ui-core.spec.ts:383:3 › the deliberate workspaces › the calendar reads the clock and never moves it
+[20/31] [chromium] › tests/e2e/ui-core.spec.ts:404:3 › the deliberate workspaces › Personal states the name and the age and keeps the money apart
+[21/31] [chromium] › tests/e2e/ui-core.spec.ts:434:3 › the deliberate workspaces › the journal links people by their id, not by their name in prose
+[22/31] [chromium] › tests/e2e/ui-core.spec.ts:457:3 › the deliberate workspaces › patch notes and the version come from this checkout
+[23/31] [chromium] › tests/e2e/ui-core.spec.ts:476:3 › the deliberate workspaces › Options only offers settings something reads
+[24/31] [chromium] › tests/e2e/ui-core.spec.ts:499:3 › the click, back and escape contract › Escape closes one layer at a time and never leaves the life
+[25/31] [chromium] › tests/e2e/ui-core.spec.ts:531:3 › the click, back and escape contract › pointer and keyboard reach the same person
+[26/31] [chromium] › tests/e2e/ui-core.spec.ts:547:3 › containment › the normal route does not know the prototype exists
+[27/31] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1920x1080 shows the shell without clipping
+[28/31] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1600x900 shows the shell without clipping
+[29/31] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1366x768 shows the shell without clipping
+[30/31] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1280x720 shows the shell without clipping
+[31/31] [chromium] › tests/e2e/ui-core.spec.ts:566:5 › the review widths › 1024x768 shows the shell without clipping
+  31 passed (2.5m)

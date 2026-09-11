@@ -2,10 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   advanceTierHysteresis,
-  commitDecodedTier,
   createTierHysteresisState,
-  createTierPaintState,
-  requestTierPaint,
   selectRasterTier,
   TIER_STEP_DOWN_DELAY_MS,
   type RasterTierLadder,
@@ -25,10 +22,10 @@ import {
 export interface RasterTierPaint {
   /** The tier the runtime wants, with its selection warnings. */
   readonly selection: RasterTierSelection | null;
-  /** The URL to paint right now, which may still be the previous tier. */
+  /** Decoded URL to paint, or null before the first successful decode. */
   readonly paintedUrl: string | null;
   readonly paintedWidth: number | null;
-  /** True while a larger or smaller raster is decoding behind the scenes. */
+  /** True while the initial or replacement requested raster is not ready. */
   readonly swapPending: boolean;
 }
 
@@ -53,7 +50,11 @@ export function useRasterTier(
   const initialWidth = desired?.tier.width ?? ladder?.tiers[0]?.width ?? 0;
   const hysteresis = useRef(createTierHysteresisState(initialWidth));
   const [committedWidth, setCommittedWidth] = useState(initialWidth);
-  const [paint, setPaint] = useState(() => createTierPaintState(initialWidth));
+  const [paint, setPaint] = useState<{
+    readonly width: number;
+    readonly url: string;
+  } | null>(null);
+  const requestedUrl = tierUrls?.get(committedWidth) ?? null;
 
   useEffect(() => {
     if (!desired) return;
@@ -77,32 +78,34 @@ export function useRasterTier(
 
   useEffect(() => {
     if (committedWidth <= 0) return;
-    setPaint((current) => requestTierPaint(current, committedWidth));
-
-    const url = tierUrls?.get(committedWidth);
-    if (!url) return;
+    const url = requestedUrl;
+    if (!url || (paint?.url === url && paint.width === committedWidth)) return;
     let cancelled = false;
     const image = new Image();
     const settle = () => {
-      if (cancelled) return;
-      setPaint((current) => commitDecodedTier(current, committedWidth));
+      if (cancelled || image.naturalWidth <= 0) return;
+      setPaint({ width: committedWidth, url });
     };
-    image.onload = settle;
+    const decode = () => {
+      if (image.naturalWidth <= 0) return;
+      void image.decode().then(settle, () => {});
+    };
+    image.onload = decode;
     // A failed decode must not blank the scene: keep painting what is up.
     image.onerror = () => {};
     image.src = url;
-    if (image.complete) settle();
+    if (image.complete) decode();
     return () => {
       cancelled = true;
     };
-  }, [committedWidth, tierUrls]);
-
-  const paintedUrl = tierUrls?.get(paint.paintedWidth) ?? null;
+  }, [committedWidth, requestedUrl, paint]);
 
   return {
     selection: desired,
-    paintedUrl,
-    paintedWidth: paintedUrl ? paint.paintedWidth : null,
-    swapPending: paint.paintedWidth !== paint.requestedWidth,
+    paintedUrl: paint?.url ?? null,
+    paintedWidth: paint?.width ?? null,
+    swapPending:
+      committedWidth > 0 &&
+      (paint?.url !== requestedUrl || paint?.width !== committedWidth),
   };
 }

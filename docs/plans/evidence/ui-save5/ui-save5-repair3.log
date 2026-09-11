@@ -1,0 +1,22 @@
+[WebServer] (node:38963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:38966) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+[WebServer]   - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:6:33). Add the file extension
+[WebServer]   - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+[WebServer] Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+
+Running 3 tests using 1 worker
+
+(node:39166) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/3] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:84:1 › only one of two tabs may call its own divergent world durable
+[2/3] [chromium] › tests/e2e/persistence-cross-tab.spec.ts:198:1 › a deletion in one tab is durable against every other tab
+[3/3] [chromium] › tests/e2e/production-play.spec.ts:503:1 › initial Keep becomes repeatable Save on the same slot across changes and reload
+  3 passed (13.3s)

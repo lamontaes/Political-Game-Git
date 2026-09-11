@@ -33,7 +33,7 @@ async function freshBrowser(page: Page) {
 }
 
 test.describe("A life is played in the room, not on a card", () => {
-  test("opens on the room with the household on a persistent rail", async ({
+  test("opens on the room with the people who are in it on a persistent rail", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -60,8 +60,11 @@ test.describe("A life is played in the room, not on a card", () => {
     expect(plateBox!.width).toBeGreaterThan(1440 * 0.9);
     expect(plateBox!.height).toBeGreaterThan(900 * 0.9);
 
-    // The generated household is on the rail — the family the fourth play never
-    // saw — each named with its relationship, not hidden behind a button.
+    // Whoever is actually in the room is on the rail, named with their
+    // relationship rather than hidden behind a button. UI9-03: the rail no
+    // longer carries the whole generated household — that is contact browsing
+    // and it belongs in People — but the people present in the scene are still
+    // here and still selectable by their real ids.
     const rail = page.getByTestId("people-rail");
     await expect(rail).toBeVisible();
     const people = rail.getByTestId(/^rail-person-/);
@@ -77,8 +80,15 @@ test.describe("A life is played in the room, not on a card", () => {
     expect(momentBox).not.toBeNull();
     expect(momentBox!.width).toBeLessThan(1440 * 0.62);
 
-    // The corner HUD carries where and when, and the way to everything else.
-    await expect(page.getByTestId("life-hud")).toBeVisible();
+    // The corner cluster carries who, where and when, and the way to
+    // everything else. At rest it is small and translucent, and it is still on
+    // the screen rather than hidden behind a control.
+    const cluster = page.getByTestId("shell-nav-cluster");
+    await expect(cluster).toBeVisible();
+    await expect(page.getByTestId("shell-nav")).toHaveAttribute(
+      "data-state",
+      "rest",
+    );
   });
 
   test("opens a person from the rail, and can be collapsed", async ({
@@ -92,17 +102,29 @@ test.describe("A life is played in the room, not on a card", () => {
     const rail = page.getByTestId("people-rail");
     await expect(rail).toBeVisible();
 
-    // Selecting somebody opens the conversation surface over the room.
+    /*
+     * Selecting somebody opens the anchored action menu beside them, carrying
+     * their id. This test used to assert that the click opened the people
+     * overlay and a conversation directly; it had been failing before UI9
+     * touched this file, because selecting a person has not gone straight to
+     * that surface since the anchored menu landed. Asserting the menu is what
+     * the game actually does, and it is the thing worth protecting: every entry
+     * on it is about the person who was clicked.
+     */
     await rail
       .getByTestId(/^rail-person-/)
       .first()
       .click();
-    await expect(page.getByTestId("people-overlay")).toBeVisible();
-    await expect(page.getByTestId("conversations")).toBeVisible();
+    const menu = page.getByTestId("person-action-menu");
+    await expect(menu).toBeVisible();
+    await expect(menu.getByTestId("action-inspect")).toBeVisible();
 
-    // Closing it (via its X) and collapsing the rail are both reachable.
-    await page.getByTestId("people-overlay-close").click();
-    await expect(page.getByTestId("conversations")).toHaveCount(0);
+    // Their full record is one step from here, and Back returns to the room.
+    await menu.getByTestId("action-record").click();
+    await expect(page.getByTestId("person-workspace")).toBeVisible();
+    await page.getByTestId("person-workspace-close").click();
+
+    // Collapsing the rail is reachable.
     await page.getByTestId("people-rail-toggle").click();
     await expect(rail.getByTestId(/^rail-person-/)).toHaveCount(0);
   });

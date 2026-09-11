@@ -76,7 +76,10 @@ export function questionnairePathCeiling(
 export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
   return setupLifeContext({
     startAge: setup.startAge,
-    startingLife: setup.startingLife,
+    startingLife:
+      setup.startingLife === "judicial-office-practice"
+        ? "ordinary-life"
+        : setup.startingLife,
     household: setup.household,
   });
 }

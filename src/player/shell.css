@@ -1,0 +1,1098 @@
+/*
+ * The shared shell: the corner cluster, the pin rail, the dossiers and the
+ * workspaces.
+ *
+ * Kept in its own file rather than added to `player.css`, which is already a
+ * hundred and fifty kilobytes of accepted scene and office styling. The colours
+ * are the ones the game already uses — the `--run-a-*` roles — so this is one
+ * visual language rather than a second palette living beside the first.
+ *
+ * The rules of the surface hierarchy are held here: the room is the frame, the
+ * chrome around it is quiet and dark, a submenu is DARKER slate than its parent
+ * and never near-white, and a workspace is a deliberate panel with a way out
+ * rather than a permanent dashboard.
+ */
+
+.life-shell {
+  --pg-ivory: var(--run-a-ink);
+  --pg-ivory-dim: var(--run-a-muted);
+  --pg-ivory-faint: rgba(200, 185, 151, 0.72);
+  --pg-navy: rgba(11, 19, 32, 0.92);
+  --pg-slate: rgba(28, 40, 58, 0.96);
+  --pg-brass: var(--run-a-gold);
+  --pg-brass-dim: rgba(194, 155, 72, 0.45);
+  --pg-hairline: rgba(244, 236, 224, 0.16);
+  --pg-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+  --pg-radius: 3px;
+}
+
+/*
+ * The chrome is anchored to the VIEWPORT, not to the play section.
+ *
+ * `.life-shell` is as tall as its content, which on a small window is taller
+ * than the window. Positioning the cluster against it put the cluster a few
+ * pixels below the fold at every review width — visible as a clipped corner
+ * rather than as an error, which is the kind of thing a passing suite hides.
+ */
+
+/* ------------------------------------------------------------------- nav */
+
+.pg-nav {
+  position: fixed;
+  left: 1.15rem;
+  bottom: 1.15rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+/*
+ * The recovered proximity behaviour, in the owner's own words: small and
+ * somewhat translucent at rest, larger and more solid as the cursor comes
+ * within a radius of it.
+ *
+ * Two properties make it safe rather than fidgety. The button's own box never
+ * changes size, so the click target is stable and the approach cannot move the
+ * thing being aimed at; and only the inner surface transforms, so nothing about
+ * the room, the backdrop or the layout reflows.
+ */
+.pg-nav-cluster {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem 0.45rem 0.5rem;
+  border-radius: var(--pg-radius);
+  border: 1px solid transparent;
+  background: rgba(11, 19, 32, 0.42);
+  color: var(--pg-ivory);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.pg-nav-cluster-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transform-origin: left center;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.pg-nav[data-state="rest"] .pg-nav-cluster-inner {
+  transform: scale(0.82);
+  opacity: 0.66;
+}
+
+.pg-nav[data-state="near"] .pg-nav-cluster,
+.pg-nav[data-state="open"] .pg-nav-cluster {
+  background: var(--pg-navy);
+  border-color: var(--pg-hairline);
+  box-shadow: var(--pg-shadow);
+}
+
+/*
+ * With motion reduced the cluster is held at full size and only opacity carries
+ * the change, so the behaviour is still legible without anything moving.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .pg-nav-cluster,
+  .pg-nav-cluster-inner {
+    transition: opacity 120ms linear;
+  }
+
+  .pg-nav[data-state="rest"] .pg-nav-cluster-inner {
+    transform: none;
+    opacity: 0.7;
+  }
+}
+
+.pg-nav-emblem {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2px;
+  border: 1px solid var(--pg-brass-dim);
+  color: var(--pg-brass);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.pg-nav-copy {
+  display: grid;
+  line-height: 1.24;
+}
+
+.pg-nav-identity {
+  font-size: 0.88rem;
+  color: var(--pg-ivory);
+}
+
+.pg-nav-date,
+.pg-nav-place {
+  font-size: 0.72rem;
+  color: var(--pg-ivory-dim);
+}
+
+/* The upward-opening primary stack. One submenu level, and no more. */
+.pg-nav-flyout {
+  min-width: 17rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.4rem;
+  border-radius: var(--pg-radius);
+  border: 1px solid var(--pg-hairline);
+  background: var(--pg-navy);
+  box-shadow: var(--pg-shadow);
+  color: var(--pg-ivory);
+}
+
+/*
+ * A subordinate menu level is DARKER SLATE, modestly lighter than its parent,
+ * with a clear brass edge and an offset. The historically rejected near-white
+ * submenu must not come back.
+ */
+.pg-nav-flyout[data-level="submenu"] {
+  background: var(--pg-slate);
+  border-left: 2px solid var(--pg-brass);
+  margin-left: 0.7rem;
+}
+
+.pg-nav-heading {
+  margin: 0.3rem 0.55rem 0.35rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-nav-flyout button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.42rem 0.55rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pg-nav-flyout button:hover,
+.pg-nav-flyout button:focus-visible {
+  background: rgba(194, 155, 72, 0.16);
+}
+
+.pg-nav-flyout button small {
+  color: var(--pg-ivory-faint);
+  font-size: 0.7rem;
+}
+
+.pg-nav-flyout button[aria-pressed="true"] {
+  color: var(--pg-brass);
+}
+
+/* -------------------------------------------------------------- pin rail */
+
+/*
+ * Floating pins with no shared backing panel and no "PINS" header. Each pin is
+ * its own small surface, which is what lets the rail grow dense without
+ * becoming a permanent slab down the side of the room.
+ */
+.pg-pin-rail {
+  position: fixed;
+  right: 1.15rem;
+  bottom: 1.15rem;
+  max-height: 60vh;
+  z-index: 39;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding-left: 0.5rem;
+  /*
+   * The rail is a tall column but mostly empty space. Without this it swallows
+   * clicks aimed at the workspace behind it, including that workspace's own
+   * close button.
+   */
+  pointer-events: none;
+}
+
+.pg-pin-slot {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  pointer-events: auto;
+}
+
+.pg-pin-slot[data-dragging="true"] {
+  opacity: 0.7;
+}
+
+.pg-pin-slot[data-drop-target="true"] {
+  box-shadow: 0 -2px 0 0 var(--pg-brass);
+}
+
+.pg-pin {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 2.9rem;
+  max-width: 18rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--pg-radius);
+  border: 1px solid var(--pg-hairline);
+  background: var(--pg-navy);
+  box-shadow: var(--pg-shadow);
+  color: var(--pg-ivory);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.pg-pin[data-size="tiny"] {
+  padding: 0.35rem 0.4rem;
+}
+
+.pg-pin[data-size="expanded"] {
+  min-width: 15rem;
+}
+
+.pg-pin-monogram {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 2px;
+  border: 1px solid var(--pg-brass-dim);
+  font-size: 0.68rem;
+  color: var(--pg-brass);
+}
+
+.pg-pin-copy {
+  display: grid;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.pg-pin-kind {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-pin-copy strong {
+  font-size: 0.85rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pg-pin-copy small {
+  font-size: 0.72rem;
+  color: var(--pg-ivory-dim);
+}
+
+/* Opening a reference and managing a pin are different operations, so they are
+   different controls. One button cannot honestly be both. */
+.pg-pin-manage {
+  flex: 0 0 auto;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.35rem;
+  border-radius: 2px;
+  border: 1px solid var(--pg-hairline);
+  background: var(--pg-navy);
+  color: var(--pg-ivory-dim);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.pg-pin-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.3rem);
+  z-index: 41;
+  min-width: 11rem;
+  padding: 0.3rem;
+  border-radius: var(--pg-radius);
+  border: 1px solid var(--pg-hairline);
+  background: var(--pg-slate);
+  box-shadow: var(--pg-shadow);
+}
+
+.pg-pin-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.34rem 0.5rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--pg-ivory);
+  font: inherit;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pg-pin-menu button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.pg-pin-menu button:hover:not(:disabled),
+.pg-pin-menu button:focus-visible {
+  background: rgba(194, 155, 72, 0.18);
+}
+
+.pg-pin-menu button[aria-current="true"]::after {
+  content: " ·";
+  color: var(--pg-brass);
+}
+
+.pg-pin-menu-unpin {
+  color: #e0876b;
+}
+
+/* -------------------------------------------------------- action menu */
+
+.pg-action-menu {
+  position: fixed;
+  right: 19rem;
+  bottom: 6rem;
+  z-index: 42;
+  min-width: 13rem;
+  padding: 0.35rem;
+  border-radius: var(--pg-radius);
+  box-shadow: var(--pg-shadow);
+}
+
+.pg-action-menu-name {
+  margin: 0.25rem 0.5rem 0.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-action-menu button {
+  display: grid;
+  width: 100%;
+  padding: 0.36rem 0.5rem;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: var(--run-a-ink);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pg-action-menu button small {
+  color: var(--pg-ivory-faint);
+  font-size: 0.7rem;
+}
+
+.pg-action-menu button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pg-action-menu button:hover:not(:disabled),
+.pg-action-menu button:focus-visible {
+  background: rgba(194, 155, 72, 0.18);
+}
+
+/* ----------------------------------------------------------- dossiers */
+
+.pg-quick-dossier {
+  position: fixed;
+  right: 19rem;
+  top: 4rem;
+  z-index: 41;
+  width: min(23rem, 34vw);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 0.9rem 1rem;
+  border-radius: var(--pg-radius);
+}
+
+.pg-quick-dossier-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pg-kicker {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-dossier-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0.4rem 0 0.6rem;
+}
+
+/*
+ * The portrait draws the initials; the heading beside it says the name. The
+ * portrait's own caption would say it a second time, so it is hidden here
+ * rather than removed from the component — the portrait is the seam a real
+ * likeness arrives through, and this layout should not be what decides that.
+ */
+.pg-dossier-identity .person-portrait figcaption {
+  display: none;
+}
+
+.pg-dossier-identity h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.pg-dossier-relation {
+  margin: 0.1rem 0 0;
+  color: var(--pg-ivory-dim);
+  font-size: 0.85rem;
+}
+
+/* Current activity, marked as current and kept out of the lasting details. */
+.pg-right-now {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-right-now-label {
+  margin-right: 0.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-dossier-section {
+  margin-top: 0.85rem;
+}
+
+.pg-dossier-section h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-dossier-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+
+.pg-facts,
+.pg-not-known {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pg-not-known {
+  margin-top: 0.5rem;
+  color: var(--pg-ivory-faint);
+  font-size: 0.82rem;
+}
+
+.pg-fact {
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+/*
+ * Ordinary knowledge carries no badge. Only a claim of a different kind — the
+ * public record, or somebody's account — is marked, and the mark is a word
+ * rather than a colour, so it survives being read without colour.
+ */
+.pg-fact-attribution {
+  margin-right: 0.45rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--pg-brass-dim);
+  border-radius: 2px;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-full-dossier {
+  display: grid;
+  gap: 0.4rem;
+}
+
+/* ---------------------------------------------------------- workspaces */
+
+/*
+ * A deliberate workspace, not a dashboard. It is opened on purpose, it says
+ * what it is, and it has a way out that is always in the same place.
+ */
+.pg-workspace {
+  position: fixed;
+  left: 50%;
+  top: 3vh;
+  transform: translateX(-50%);
+  z-index: 38;
+  width: min(58rem, 74vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--pg-radius);
+}
+
+.pg-workspace-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem 0.6rem;
+  border-bottom: 1px solid var(--pg-hairline);
+}
+
+.pg-workspace-head h2 {
+  margin: 0.1rem 0 0;
+  font-size: 1.25rem;
+}
+
+.pg-workspace-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pg-workspace-body {
+  padding: 0.9rem 1.1rem 1.2rem;
+  overflow-y: auto;
+}
+
+.pg-personal-section {
+  margin-top: 1rem;
+}
+
+.pg-personal-section h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-personal-identity h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.pg-tag {
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--pg-brass-dim);
+  border-radius: 2px;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--pg-brass);
+}
+
+.pg-inline-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--run-a-ink);
+  font: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pg-inline-link:hover,
+.pg-inline-link:focus-visible {
+  color: var(--pg-brass);
+}
+
+/* ---------------------------------------------------------------- people */
+
+.pg-people-controls {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.pg-field {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pg-ivory-faint);
+}
+
+.pg-field input {
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: rgba(11, 19, 32, 0.55);
+  color: var(--run-a-ink);
+  font: inherit;
+  font-size: 0.9rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.pg-people-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pg-people-list {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.pg-people-list[data-view="categories"] {
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.pg-person-row {
+  display: grid;
+  width: 100%;
+  gap: 0.1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: rgba(11, 19, 32, 0.4);
+  color: var(--run-a-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pg-person-row:hover,
+.pg-person-row:focus-visible {
+  border-color: var(--pg-brass-dim);
+}
+
+.pg-person-row small {
+  color: var(--pg-ivory-dim);
+  font-size: 0.75rem;
+}
+
+/* -------------------------------------------------------------- calendar */
+
+.pg-calendar-day {
+  margin-top: 1rem;
+}
+
+.pg-calendar-day h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pg-brass);
+}
+
+.pg-calendar-day ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pg-calendar-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pg-calendar-open {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: rgba(11, 19, 32, 0.4);
+  color: var(--run-a-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* The chamber's agenda is visibly not your appointment book. */
+.pg-calendar-entry[data-group="chamber"] .pg-calendar-open {
+  border-left: 2px solid var(--pg-brass-dim);
+  opacity: 0.86;
+}
+
+.pg-calendar-time {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  color: var(--pg-ivory-dim);
+}
+
+.pg-calendar-copy {
+  display: grid;
+}
+
+.pg-calendar-copy small {
+  color: var(--pg-ivory-dim);
+  font-size: 0.75rem;
+}
+
+/* ---------------------------------------------------------------- purses */
+
+.pg-purses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pg-purses li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: rgba(11, 19, 32, 0.4);
+}
+
+.pg-purses small {
+  color: var(--pg-ivory-dim);
+  font-size: 0.75rem;
+}
+
+/* --------------------------------------------------------------- version */
+
+.pg-version {
+  position: fixed;
+  right: 0.85rem;
+  bottom: 0.4rem;
+  z-index: 30;
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: rgba(200, 185, 151, 0.5);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------- narrow desktop sizes */
+
+/*
+ * The review widths run down to 1280x720, with 1024x768 required only not to
+ * clip catastrophically. Below the first of those the workspace takes more of
+ * the frame and the pin rail loses its expanded width rather than the type
+ * getting smaller: unreadable text to make everything fit is not a layout.
+ */
+@media (max-width: 1400px) {
+  .pg-workspace {
+    width: min(58rem, 86vw);
+  }
+
+  .pg-quick-dossier,
+  .pg-action-menu {
+    right: 16rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .pg-workspace {
+    width: 94vw;
+    top: 2vh;
+    max-height: 92vh;
+  }
+
+  .pg-quick-dossier {
+    right: 1rem;
+    width: min(21rem, 46vw);
+  }
+
+  .pg-action-menu {
+    right: 1rem;
+  }
+
+  .pg-pin[data-size="expanded"] {
+    min-width: 11rem;
+  }
+}
+
+/* -------------------------------------------------------------- notices */
+
+/*
+ * The HUD no longer carries navigation, so it stops competing with the corner
+ * cluster for the same corner. What is left is what it was always for: a save
+ * notice, a problem, and the announcement assistive technology reads. It sits
+ * at the top left, out of the way of both the cluster and the pin rail, and it
+ * is narrow enough that the room is still the thing on the screen.
+ */
+.life-shell .life-hud {
+  position: fixed;
+  left: 1.15rem;
+  top: 1.15rem;
+  bottom: auto;
+  width: min(22rem, 40vw);
+  z-index: 30;
+}
+
+.life-shell .life-hud-note {
+  margin: 0 0 0.35rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  background: var(--pg-navy);
+  color: var(--pg-ivory-dim);
+  font-size: 0.78rem;
+}
+
+.life-shell .life-hud-note--problem {
+  border-color: rgba(224, 135, 107, 0.6);
+  color: #f0b7a5;
+}
+
+/* One shared reservation keeps mixed pins clear of workspace controls (#133). */
+:root {
+  --pg-rail-lane: 17rem;
+  --pg-rail-inset: 1.15rem;
+}
+.pg-pin-rail {
+  right: var(--pg-rail-inset);
+  width: var(--pg-rail-lane);
+  overflow-x: hidden;
+}
+.pg-pin-slot {
+  width: 100%;
+  justify-content: flex-end;
+}
+.pg-pin {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.pg-pin[data-size="expanded"] {
+  min-width: min(15rem, calc(var(--pg-rail-lane) - 2.5rem));
+}
+.pg-workspace {
+  left: 1rem;
+  right: calc(var(--pg-rail-lane) + var(--pg-rail-inset) + 1rem);
+  width: auto;
+  max-width: 58rem;
+  margin-inline: auto;
+  transform: none;
+}
+@media (max-width: 1200px) {
+  :root {
+    --pg-rail-lane: 13rem;
+  }
+}
+@media (max-width: 1060px) {
+  :root {
+    --pg-rail-lane: 11rem;
+    --pg-rail-inset: 0.7rem;
+  }
+}
+
+/* Accepted R1 title grouping: transparent type at upper left, over released art. */
+.title-tableau--art .title-tableau-content:has(.game-title) {
+  align-items: flex-start;
+  padding: clamp(2rem, 6vh, 4rem) clamp(1.5rem, 4vw, 4rem);
+}
+.title-tableau--art .game-title {
+  width: min(24rem, 100%);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  box-shadow: none;
+  color: var(--pg-ivory);
+  text-shadow: 0 2px 8px #080d15;
+}
+.title-tableau--art .game-title h1 {
+  color: var(--pg-ivory);
+  font:
+    500 clamp(1.9rem, 2.7vw, 3rem)/1.05 Georgia,
+    serif;
+  margin: 0 0 1.2rem;
+}
+.title-tableau--art .game-title-actions {
+  gap: 0.15rem;
+}
+.title-tableau--art .game-title-actions button {
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--pg-ivory);
+  padding: 0.55rem 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 6px #080d15;
+}
+.title-tableau--art .game-title-actions button small {
+  text-transform: none;
+  letter-spacing: normal;
+  color: inherit;
+}
+.title-tableau--art
+  .game-title-actions
+  button:is(:hover, :focus-visible):not(:disabled) {
+  color: var(--pg-brass);
+  box-shadow: inset 2px 0 currentColor;
+  background: linear-gradient(90deg, #10162177, transparent);
+}
+.title-tableau--art .game-title-actions button:disabled {
+  opacity: 0.65;
+}
+
+/* Existing light-page hints need the shell’s dark-surface contrast token. */
+.pg-workspace .game-note,
+.pg-workspace .game-hint {
+  color: var(--pg-ivory-dim);
+}
+
+.pg-life-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #05080d;
+  color: var(--pg-ivory);
+  animation: pg-life-start var(--pg-start-fade) ease-out both;
+}
+@keyframes pg-life-start {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pg-life-transition {
+    animation: none;
+  }
+}
+
+/* Keep the scene's compact moment above the corner identity at narrow desktop widths. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .life-shell .scene-backdrop-content {
+    bottom: 7rem;
+  }
+}
+
+/* The global workspace owns placement; the NEWS adapter owns its contents. */
+.pg-workspace .public-information-panel {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  box-shadow: none;
+}
+
+/* Private writing uses the existing workspace, with labels above controls. */
+.pg-private-journal {
+  display: grid;
+  gap: 0.85rem;
+}
+.pg-private-journal label {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.pg-private-journal input,
+.pg-private-journal textarea,
+.pg-private-journal select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.3rem;
+  background: #111d2d;
+  color: var(--run-a-ink);
+  font: inherit;
+}
+.pg-private-journal textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+.pg-private-journal fieldset {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0.9rem;
+  border: 1px solid var(--run-a-line);
+}
+.pg-private-journal button {
+  justify-self: start;
+}
+.pg-workspace .game-band {
+  color: var(--run-a-ink-muted, #d4c6a8);
+}
+.pg-opening-flow {
+  display: block;
+}
+.pg-opening-flow .game-scene-panel {
+  color: inherit;
+}
+.pg-opening-flow .game-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/*
+ * The development art preview says so, in a band nobody can mistake for the
+ * game. It sits above the room rather than over it so it cannot be cropped out
+ * of a screenshot of the scene, which is the way an unreleased likeness would
+ * otherwise end up circulating as approved art.
+ */
+.art-preview-banner {
+  position: relative;
+  z-index: 6;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  background: #4a1d1d;
+  color: #ffd9d9;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
