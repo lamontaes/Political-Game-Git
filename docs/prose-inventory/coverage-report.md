@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2317 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5638 |
-| DIAGNOSTIC_OR_TEST | 4632 |
-| **NEEDS_CLASSIFICATION** | **6078** |
+| INVENTORIED | 2334 |
+| INTENTIONALLY_NON_PLAYER_FACING | 5641 |
+| DIAGNOSTIC_OR_TEST | 4641 |
+| **NEEDS_CLASSIFICATION** | **6087** |
 
-Scanned 548 files holding 70398 string
+Scanned 550 files holding 70544 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -132,11 +132,11 @@ literals in total; the table counts only those that read like a sentence.
 | 16 | `src/ui/SceneDebugOverlay.tsx` |
 | 15 | `src/education/study-provider.ts` |
 | 15 | `src/player/LifePathsPanel.tsx` |
+| 15 | `src/presentation/conversation-subjects.ts` |
 | 15 | `src/presentation/legislation-docket.ts` |
 | 15 | `src/presentation/personal-record.ts` |
 | 15 | `src/simulation/narrative-threads.ts` |
 | 14 | `src/player/EconomicContextPanel.tsx` |
-| 14 | `src/presentation/conversation-subjects.ts` |
 | 14 | `src/presentation/legislation-analysis.ts` |
 | 14 | `src/presentation/legislative-member-seat.ts` |
 | 14 | `src/presentation/pose-control-plate.ts` |
@@ -196,6 +196,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/ShellDossier.tsx` |
 | 7 | `src/player/ShellNav.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
+| 7 | `src/presentation/life-talk-conversation.ts` |
 | 7 | `src/presentation/player-calendar.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
 | 7 | `src/simulation/candidate-qualification.ts` |
@@ -291,6 +292,7 @@ literals in total; the table counts only those that read like a sentence.
 | 1 | `src/presentation/legislative-session-window.ts` |
 | 1 | `src/presentation/opening-life.ts` |
 | 1 | `src/presentation/people-directory.ts` |
+| 1 | `src/presentation/person-conversation-entry.ts` |
 | 1 | `src/simulation/commitment-seam.ts` |
 | 1 | `src/simulation/national-counties.generated.ts` |
 | 1 | `src/simulation/public-information-integrity.ts` |

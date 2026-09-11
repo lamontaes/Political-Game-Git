@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 270 review warnings.**
+**0 hard errors. 272 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,7 +13,7 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 172 |
+| vague-referent | 174 |
 | and-it-scaffold | 39 |
 | rather-than-scaffold | 28 |
 | slot-agreement | 12 |
@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 2468 templates, 2334 distinct texts.
+- 2485 templates, 2351 distinct texts.
 - 33 exact duplicate groups.
 - 39 normalized duplicate groups.
 - 19 near-duplicate clusters (Jaccard ≥ 0.72).
@@ -40,6 +40,7 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `it is not` | 16 | 3 |
 | `asked you to` | 15 | 4 |
 | `a long time` | 14 | 4 |
+| `the player asked` | 14 | 1 |
 | `and it is` | 13 | 5 |
 | `instrument read establishes` | 13 | 2 |
 | `out of the` | 13 | 5 |
@@ -52,7 +53,6 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `proof of income form` | 11 | 2 |
 | `the bill is` | 11 | 2 |
 | `the end of` | 10 | 4 |
-| `the player asked` | 10 | 1 |
 | `the two of you` | 10 | 3 |
 | `two of you` | 10 | 3 |
 | `you did not` | 10 | 4 |
@@ -65,9 +65,9 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | Opening | Count |
 | --- | --- |
 | `no instrument read` | 20 |
+| `the player asked` | 14 |
 | `there is a` | 12 |
 | `the bill is` | 10 |
-| `the player asked` | 10 |
 | `say you will` | 9 |
 | `you asked for` | 9 |
 | `you tell you` | 9 |

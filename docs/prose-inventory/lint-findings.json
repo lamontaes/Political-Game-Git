@@ -49,6 +49,20 @@
     "evidence": "and it"
   },
   {
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0092#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
+  },
+  {
+    "id": "prose:conversation:commit-contract:COMMIT_CONTRACTS-0094#text",
+    "severity": "REVIEW_WARNING",
+    "family": "vague-referent",
+    "message": "Uses \"somebody\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
+    "evidence": "somebody"
+  },
+  {
     "id": "prose:conversation:conversation-subject:availableIntents-0007#text",
     "severity": "REVIEW_WARNING",
     "family": "rather-than-scaffold",

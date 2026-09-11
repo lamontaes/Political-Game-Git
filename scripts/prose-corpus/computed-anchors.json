@@ -883,6 +883,126 @@
       "textRevision": "956c490a5f7b"
     },
     {
+      "anchor": "COMMIT_CONTRACTS-0092",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "A direct conversation with somebody present in the current opening-life scene.",
+      "occurrence": 0,
+      "textRevision": "d54f81ed6481"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0093",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "An ordinary moment",
+      "occurrence": 0,
+      "textRevision": "e5e2ab8a91f5"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0094",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "Speak to somebody who is here with you.",
+      "occurrence": 0,
+      "textRevision": "ee1be0763247"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0095",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} if they wanted to talk.",
+      "occurrence": 0,
+      "textRevision": "cb73aa0e7f07"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0096",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} if this should be a date.",
+      "occurrence": 0,
+      "textRevision": "ea0a92f084e9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0097",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} what they would like to do.",
+      "occurrence": 0,
+      "textRevision": "7a8555245664"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0098",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player asked {addresseeName} why.",
+      "occurrence": 0,
+      "textRevision": "a6a41fda2327"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0099",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player brought up an earlier conversation with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "c56be3ef452d"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0100",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player greeted {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "bafa9d11ca46"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0101",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player let {addresseeName} know they had been heard.",
+      "occurrence": 0,
+      "textRevision": "801ef452a120"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0102",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player said goodbye to {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "f646db25cf32"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0103",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player spent time with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "8ede7b3dd6b6"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0104",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player suggested playing a game with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "772d1d341b16"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0105",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "The player suggested sitting and talking with {addresseeName}.",
+      "occurrence": 0,
+      "textRevision": "ff3cee6810cb"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0106",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "life talk",
+      "occurrence": 0,
+      "textRevision": "1fb1b9594055"
+    },
+    {
       "anchor": "GENERIC_RETURN-0001",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "GENERIC_RETURN",
@@ -2803,6 +2923,14 @@
       "textRevision": "88c5f0b5664c"
     },
     {
+      "anchor": "describeBriefing-0008",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "describeBriefing",
+      "text": "You are somewhere ordinary, with people you know, and a moment to speak if you want it.",
+      "occurrence": 0,
+      "textRevision": "79c08f9fdb64"
+    },
+    {
       "anchor": "describeConversationHearing-0001",
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "symbol": "describeConversationHearing",
@@ -3641,6 +3769,14 @@
       "text": "“We are fine now,” {shortPersonName(world,speaker.personId)} says, and means it.",
       "occurrence": 0,
       "textRevision": "c14665a1f11e"
+    },
+    {
+      "anchor": "openingBeat-0013",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "openingBeat",
+      "text": "{shortPersonName(world,personId)} is here with you.",
+      "occurrence": 0,
+      "textRevision": "17a822545b36"
     },
     {
       "anchor": "openingFacts-0001",

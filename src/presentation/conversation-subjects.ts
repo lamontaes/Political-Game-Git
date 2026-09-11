@@ -620,14 +620,19 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
         addressee === "everyone"
           ? room.eligibleAddresseePersonIds[0]!
           : (addressee as EntityId);
-      const view = projectLifeConversation(world, room.playerPersonId, personId);
+      const view = projectLifeConversation(
+        world,
+        room.playerPersonId,
+        personId,
+      );
       const last = view?.transcript.at(-1);
       const speaker = world.people[personId]!;
       return {
         speakerPersonId: personId,
         speakerName: personName(speaker),
         dialogue:
-          last?.reply ?? `${shortPersonName(world, personId)} is here with you.`,
+          last?.reply ??
+          `${shortPersonName(world, personId)} is here with you.`,
       };
     },
   };
@@ -1478,12 +1483,10 @@ const COMMIT_CONTRACTS: Readonly<
     motivation: "Speak to somebody who is here with you.",
     pressure: () => null,
     choice: choiceWriter("life talk", {
-      greet: ({ addresseeName }) =>
-        `The player greeted ${addresseeName}.`,
+      greet: ({ addresseeName }) => `The player greeted ${addresseeName}.`,
       activity: ({ addresseeName }) =>
         `The player asked ${addresseeName} what they would like to do.`,
-      explain: ({ addresseeName }) =>
-        `The player asked ${addresseeName} why.`,
+      explain: ({ addresseeName }) => `The player asked ${addresseeName} why.`,
       suggestGame: ({ addresseeName }) =>
         `The player suggested playing a game with ${addresseeName}.`,
       suggestQuiet: ({ addresseeName }) =>

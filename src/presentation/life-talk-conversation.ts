@@ -48,7 +48,9 @@ export function lifeTalkConversationRoom(
   const companions = scene.presentPersonIds.filter((id) => id !== personId);
   if (companions.length === 0) return null;
 
-  const event = world.history.events.find((entry) => entry.id === scene.eventId);
+  const event = world.history.events.find(
+    (entry) => entry.id === scene.eventId,
+  );
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId =
     place?.context.jurisdiction.id ?? person.homeJurisdictionId;

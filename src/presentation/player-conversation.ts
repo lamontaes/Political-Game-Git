@@ -279,7 +279,7 @@ export function projectPlayerConversation(
       room,
       subject === "life-talk" && addressee !== "everyone"
         ? (lifeTalkSessionStart(world, personId, addressee as EntityId) ??
-          undefined)
+            undefined)
         : (openConversationSessionStart(world, personId, subject) ?? undefined),
     ),
     // Turn ordinals start at one and come from what the world recorded, not

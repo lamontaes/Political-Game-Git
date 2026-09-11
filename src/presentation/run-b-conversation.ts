@@ -492,11 +492,7 @@ export function commitConversationTurn(
   const currentProgress = input.progress ?? createRunBConversationProgress();
   assertWorldIntegrity(inputWorld);
   if (isLifeTalkConversationProgress(currentProgress)) {
-    return commitLifeTalkConversationTurn(
-      inputWorld,
-      input,
-      currentProgress,
-    );
+    return commitLifeTalkConversationTurn(inputWorld, input, currentProgress);
   }
   validateConversationRoom(inputWorld, input.room);
   validateConversationSession(inputWorld, input.room, input.session);

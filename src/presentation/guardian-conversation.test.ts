@@ -37,7 +37,10 @@ function childInScene(seed = "guardian12-child") {
   return { world, playerPersonId: game.playerPersonId };
 }
 
-function guardianId(world: ReturnType<typeof childInScene>["world"], playerPersonId: EntityId) {
+function guardianId(
+  world: ReturnType<typeof childInScene>["world"],
+  playerPersonId: EntityId,
+) {
   const authority = activeChildAuthoritiesAt(world, playerPersonId).find(
     (entry) => entry.authority.holder.kind === "person",
   );
@@ -51,9 +54,9 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     const { world, playerPersonId } = childInScene();
     const id = guardianId(world, playerPersonId)!;
     expect(id).toBeTruthy();
-    expect(currentOpeningLifeScene(world, playerPersonId)!.presentPersonIds).toContain(
-      id,
-    );
+    expect(
+      currentOpeningLifeScene(world, playerPersonId)!.presentPersonIds,
+    ).toContain(id);
 
     const entry = openConversationWith(world, playerPersonId, id!);
     expect(entry.kind).toBe("available");
@@ -163,7 +166,9 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     } as NewGameSetup);
     const world = openNextLifeScene(game.world, game.playerPersonId);
     const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-    const other = scene.presentPersonIds.find((id) => id !== game.playerPersonId)!;
+    const other = scene.presentPersonIds.find(
+      (id) => id !== game.playerPersonId,
+    )!;
     const entry = openConversationWith(world, game.playerPersonId, other);
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;

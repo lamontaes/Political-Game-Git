@@ -1,11 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
 import { expect, test } from "./fixtures";
+import { captureDirectory } from "./support/evidence-path";
+
+const TRACKED_EVIDENCE = "docs/agent/evidence/people-visual4";
+/**
+ * Resolved per test rather than at module load: an ordinary run writes into
+ * that test's own output directory, and only PG_CAPTURE_EVIDENCE=1 refreshes
+ * the tracked owner-review artifacts.
+ */
+const evidenceDir = () =>
+  captureDirectory(TRACKED_EVIDENCE) ?? test.info().outputPath();
 
 test("selected canonical candidate keeps identity across wardrobe, portrait, scene and keyboard reload", async ({
   page,
 }) => {
-  const dir = test.info().outputPath("people-visual4");
   await page.goto("/?view=character-proof&set=visual4");
   await expect(page.getByTestId("people-visual4-review")).toBeVisible();
   await expect(page.getByTestId("visual4-completeness")).toContainText(
@@ -94,6 +103,7 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
     expect(b!.x + b!.width).toBeLessThanOrEqual(box!.x + box!.width + 0.5);
     expect(b!.y + b!.height).toBeLessThanOrEqual(box!.y + box!.height + 0.5);
   }
+  const dir = evidenceDir();
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(
     path.join(dir, "saved-identity-wardrobe.json"),
@@ -141,7 +151,6 @@ test("selected canonical candidate keeps identity across wardrobe, portrait, sce
 test("every available body can be selected and framed without changing its geometry", async ({
   page,
 }) => {
-  const dir = test.info().outputPath("people-visual4");
   await page.goto("/?view=character-proof&set=visual4");
   const select = page.getByRole("combobox", {
     name: "Body",
@@ -191,6 +200,7 @@ test("every available body can be selected and framed without changing its geome
   await person.focus();
   await page.keyboard.press("ArrowDown");
   await page.keyboard.press("Enter");
+  const dir = evidenceDir();
   fs.mkdirSync(dir, { recursive: true });
   await page.screenshot({
     path: path.join(dir, "all-body-selection-final.png"),

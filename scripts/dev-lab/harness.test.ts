@@ -9,7 +9,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 import { describe, it, expect } from "vitest";
-import { sourceIdentity, assertIdentity } from "./identity";
+import {
+  sourceIdentity,
+  assertIdentity,
+  sourceIdentityInputs,
+} from "./identity";
 import { runConfig } from "./run-config";
 
 describe("Shared-machine harness", () => {
@@ -53,6 +57,32 @@ describe("Shared-machine harness", () => {
       expect(() => assertIdentity(untracked, sourceIdentity(root))).toThrow(
         "sourceDigest",
       );
+      expect(() => assertIdentity(untracked, sourceIdentity(root))).toThrow(
+        "Identity inputs (1 paths): new.txt",
+      );
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+  it("ignores gitignored run output and lists identity inputs on mismatch", () => {
+    const root = mkdtempSync(join(tmpdir(), "dev-lab-identity-"));
+    try {
+      const git = (...args: string[]) =>
+        execFileSync("git", args, { cwd: root, stdio: "pipe" });
+      git("init");
+      git("config", "user.name", "Harness test");
+      git("config", "user.email", "test@example.invalid");
+      writeFileSync(join(root, "source.txt"), "one");
+      writeFileSync(join(root, ".gitignore"), "ignored/\n");
+      git("add", ".");
+      git("commit", "-m", "fixture");
+      const clean = sourceIdentity(root);
+      mkdirSync(join(root, "ignored", "runs", "abc"), { recursive: true });
+      writeFileSync(join(root, "ignored", "runs", "abc", "proof.png"), "png");
+      expect(sourceIdentity(root).sourceDigest).toBe(clean.sourceDigest);
+      expect(sourceIdentityInputs(root)).toEqual([]);
+      writeFileSync(join(root, "source.txt"), "two");
+      expect(sourceIdentityInputs(root)).toEqual(["source.txt"]);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }

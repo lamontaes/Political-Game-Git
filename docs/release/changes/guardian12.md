@@ -1,8 +1,14 @@
-# guardian12
-
+---
+id: guardian12
 impact: patch
+section: Fixed
+title: Talking to somebody you live with actually opens a conversation
+---
 
-Grounded guardian and known-person conversation is wired through the existing
-person-conversation-entry and life-talk producer, so selecting a present
-household member opens the real opening-life dialogue instead of a silent
-refusal.
+Choosing a household member who is in the room with you and asking to talk now
+opens the real conversation, rather than refusing without one. The words come
+from the same producer the rest of the game already uses, so what is said is
+what this life actually knows.
+
+Where a conversation genuinely is not available yet, the room tells you why
+instead of leaving the action greyed out with nothing said.
