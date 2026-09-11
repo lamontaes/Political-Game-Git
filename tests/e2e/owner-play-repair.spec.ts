@@ -216,6 +216,9 @@ test.describe("the life the player asked for is the life they get", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    // The introduction opens on the world, then the household; the grounding
+    // is the household beat's, and it still comes before the first choice.
+    await page.getByTestId("introduction-continue").click();
 
     const grounding = page.getByTestId("life-grounding");
     await expect(grounding).toBeVisible();

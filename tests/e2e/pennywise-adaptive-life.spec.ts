@@ -81,7 +81,9 @@ async function openSetup(
     // needs a peer to talk to at home gets one; a normal start generates it.
     ...(household ? { household } : {}),
   });
-  await enterLife(page);
+  // A calibrated start opens on the questions, not the life; the callers that
+  // answer them step into the life afterwards (see `takeOneBeat`).
+  if (calibration === "skip") await enterLife(page);
 }
 
 /** Answers the whole calibration, taking the option at `index` each time. */
@@ -316,7 +318,9 @@ test.describe("Nothing on screen says how much a choice will matter", () => {
 
     const written = await page.evaluate(async () => {
       return new Promise<string>((resolve) => {
-        const open = indexedDB.open("political-life-worlds", 1);
+        // The current schema version, whatever it is; pinning version 1 made
+        // the open fail once the store moved on, and the test read "" here.
+        const open = indexedDB.open("political-life-worlds");
         open.onsuccess = () => {
           const transaction = open.result.transaction("worlds", "readonly");
           const request = transaction.objectStore("worlds").getAll();
@@ -355,6 +359,8 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
+    // A reload opens on the room's scene; the continuing life is one step in.
+    await enterLife(page);
 
     // Same record, and the same next situation — which is the claim that
     // matters, because the next situation is chosen from the calibration and
@@ -390,13 +396,19 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
 
     await page.getByTestId("begin").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const before = await page.getByTestId("play-screen").innerText();
+    /*
+     * Who the life is, read from the introduction itself. The first two lines
+     * of the whole play screen were whatever happened to render first — a
+     * housemate's name plate once the room's picture had decoded, the
+     * introduction before it had — so the same life could read differently.
+     */
+    const kicker = page
+      .getByTestId("opening-life-panel")
+      .locator(".life-exposition-kicker");
+    const identity = await kicker.innerText();
 
     await page.goto(replay);
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    const identity = before.split("\n").slice(0, 2).join("\n");
-    expect(await page.getByTestId("play-screen").innerText()).toContain(
-      identity,
-    );
+    await expect(kicker).toHaveText(identity);
   });
 });

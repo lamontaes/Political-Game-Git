@@ -79,7 +79,9 @@ export async function chooseCreatorLocation(
   custom: boolean,
 ): Promise<void> {
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  const requested = life.place ?? "Lexington";
+  // An office start needs a place with a staffed legislature on record, which
+  // is the state rather than a town; everything else starts in a town.
+  const requested = life.place ?? (life.office ? "Kentucky" : "Lexington");
   const stateName = life.state ?? inferredStateName(requested);
   const state = namedState(stateName);
   if (!state) throw new Error(`No canonical state named ${stateName}.`);
@@ -100,13 +102,25 @@ export async function chooseCreatorLocation(
     return;
   }
 
-  const locality = namedState(requested) ? "Lexington" : requested;
+  /*
+   * A state named as the place, on a normal start, means "a town there": the
+   * creator no longer takes a state as a hometown. Kentucky keeps Lexington,
+   * which every older spec meant by it; any other state takes the first town
+   * its own search lists, which is deterministic for a given corpus.
+   */
+  const stateOnly = Boolean(namedState(requested));
+  const locality = stateOnly
+    ? state.name === "Kentucky"
+      ? "Lexington"
+      : null
+    : requested;
   await page
     .getByTestId("place-search")
-    .fill(life.placeQuery ?? locality.slice(0, 8));
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(locality, "i") })
+    .fill(life.placeQuery ?? (locality ? locality.slice(0, 8) : "a"));
+  const choices = page.getByTestId("place-choices").getByRole("button");
+  await (
+    locality ? choices.filter({ hasText: new RegExp(locality, "i") }) : choices
+  )
     .first()
     .click();
   await page.getByTestId("creator-continue-place").click();
@@ -207,11 +221,22 @@ export async function enterLife(page: Page): Promise<void> {
    */
   const opening = page.getByTestId("opening-life-panel");
   const scene = page.getByTestId("opening-life-scene");
+  const story = page.getByTestId("story-section");
   await expect
     .poll(async () =>
-      (await opening.count()) > 0 || (await scene.count()) > 0 ? "ready" : "",
+      (await opening.count()) > 0 ||
+      (await scene.count()) > 0 ||
+      (await story.count()) > 0
+        ? "ready"
+        : "",
     )
     .toBe("ready");
+  /*
+   * Already in the continuing life: entering it again is a no-op rather than a
+   * wait for an introduction that is not coming. Several specs call this after
+   * a helper that already did, and that used to time out here.
+   */
+  if ((await story.count()) > 0 && (await opening.count()) === 0) return;
 
   if ((await opening.count()) > 0) {
     // Two beats: the world, then the household. Both use the same control.
