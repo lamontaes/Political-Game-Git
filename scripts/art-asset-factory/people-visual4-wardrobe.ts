@@ -23,61 +23,49 @@ import {
 } from "./wave-a-wardrobe";
 
 /**
- * What it would take to dress the Visual4 bodies from the masters we own.
+ * LEGACY SET ONLY: what the old pg-modular flat lays would need.
  *
- * ## The question this answers
+ * ## Read this before quoting a number out of this file
  *
- * Measured over two hundred seeded people, `khaki_shorts` is worn by a hundred
- * and sixty-five of them. Nothing weights it. It is the only bottom that
- * reaches more than one body: eleven of the twelve banked bottoms are authored
- * for `average-man` alone, and the Visual4 fit pipeline MEASURED them against
- * the other bodies and rejected them — male joggers miss an average woman's
- * silhouette by 20.2% of body span after the best affine derivable. Shorts pass
- * only because they stop above the knee, above where the leg silhouettes
- * diverge.
+ * This walks exactly one source set — the legacy design masters under
+ * `art/references/masters/pg-modular`, whose opaque crops are 108-192px. It
+ * does NOT walk the bank the game consumes, and its numbers say nothing about
+ * that bank.
  *
- * So the sameness is a pixel shortage. It cannot be fixed by editing
- * compatibility lists, and must not be fixed by re-weighting selection, which
- * would hide missing garments behind a distribution.
+ * An earlier version of this file did not say so, and its conclusion was read
+ * as a statement about the project's garment sources in general: that they are
+ * too small to dress a 960px body and would have to be recovered at higher
+ * resolution. That was wrong, and the correction matters more than the report.
  *
- * The obvious next move is the one the pipeline is built for: the project owns
- * body-independent flat-lay garment masters, and `deriveGarment` turns one
- * master into one garment per body by scaling it to that body's own measured
- * hip, shoulder and foot geometry. That is how `wave-a-wardrobe` dressed every
- * morphology it was pointed at.
+ * The current source authority is the p95 recent-drive-sweep bank. Its sheets
+ * are 3584x4800 and 4336x5804, verified by hash, already in the repository and
+ * already chopped; its garment crops export at 625x1220 (bottoms), 960x1038
+ * (male tops), 924x1000 (female tops) and 1425x1017 (front-facing footwear).
+ * `people-visual4.ts` already reads them through
+ * `people_visual4_top_attachments.json`, `people_visual4_bottom_attachments.json`
+ * and the front-facing-footwear directory. Thirty-five of the thirty-six
+ * wardrobe crops reach a component a body can wear. There is no resolution
+ * shortage there, and nobody should be asked to re-supply those files.
  *
- * It does not work here, and this module exists to say exactly why and exactly
- * what would fix it.
+ * `people-visual4-source-lineage.ts` holds that chain — Drive id and label,
+ * sheet hash and real dimensions, chop cell, crop bytes, attachment record,
+ * registry component, body and pose pairing — and its tests pin it so this
+ * mistake cannot be made silently again.
  *
- * ## Why it does not work, in numbers
+ * ## What this file is still good for
  *
- * The masters are small — the bottom flat lays crop to about 110x230 — and a
- * Visual4 body is authored on a 960px canvas. Deriving a bottom for one needs
- * roughly 155-243px of garment width where the master has 108-160, so the
- * derivation would have to ENLARGE the raster by up to 2.25x. The pipeline
- * refuses outright, and the refusal is correct: enlarging invents detail that
- * was never drawn.
+ * The legacy masters are a real set that a real pipeline path still reads, and
+ * knowing what they would need is worth recording. So this stays, scoped: for
+ * every (legacy master, Visual4 body, pose) it reports the size the master has
+ * and the size that body needs.
  *
- * `wave-a-wardrobe` produced its wardrobe on the `rt960` bodies through exactly
- * this path — and its own code keeps those outputs behind an `enlarges` branch
- * that verifies a retained hash instead of regenerating, noting they are
- * historical outputs, "evidence, not reproducible admissible tiers." So that
- * wardrobe is not a precedent to copy; it is the same wall, already hit once.
- *
- * ## What this module does, and deliberately does not
- *
- * It computes, for every (master, body, pose), the size the master HAS and the
- * size this body NEEDS. That turns "recover a sufficient native source" into a
- * number somebody can act on, per garment and per body.
- *
- * It writes no raster and admits nothing. An earlier draft derived the handful
- * of pairs small enough to escape the enlargement refusal and reported them as
- * rejected; every one came back `insufficient-coverage` — the measurement
+ * It derives nothing, writes no raster and admits nothing. An earlier draft
+ * derived the pairs small enough to escape the enlargement refusal and reported
+ * them rejected; every one came back `insufficient-coverage` — the measurement
  * declining to answer, for the banked reference pairing as much as for the
- * derivative — so those verdicts meant nothing and were withdrawn rather than
- * published. Admission for these bodies belongs to the Visual4 line's own
- * measurement, which already handles the per-foot and per-garment cases this
- * one does not.
+ * derivative — so those verdicts meant nothing and were withdrawn. Repairing
+ * that instrument is tracked separately; an unmeasured case is not an unusable
+ * source.
  */
 
 export const VISUAL4_WARDROBE_VERSION =

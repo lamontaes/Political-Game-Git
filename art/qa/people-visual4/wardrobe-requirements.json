@@ -1,7 +1,9 @@
 {
   "schema": "people-visual4-wardrobe-requirements-v1",
   "generator": "people-visual4-wardrobe-requirements-v1",
-  "note": "Sizes only. No raster is derived, nothing is admitted, and no art is approved. A master must be recovered at or above minimumNativeSize for the pipeline to derive it without enlargement.",
+  "scope": "LEGACY pg-modular design masters only.",
+  "doesNotCover": "The p95 recent-drive-sweep bank that people-visual4.ts actually consumes. Those sheets are 3584x4800 and 4336x5804 and their garment crops export at 625x1220 to 1425x1017; 35 of 36 wardrobe crops already reach a wearable component. Nothing in this report is evidence about them. See scripts/art-asset-factory/people-visual4-source-lineage.ts.",
+  "note": "Sizes only. No raster is derived, nothing is admitted, and no art is approved. Within this legacy set, a master would have to be recovered at or above minimumNativeSize for the pipeline to derive it without enlargement.",
   "pairsConsidered": 98,
   "derivableWithoutEnlargement": 29,
   "blockedByEnlargement": 69,
