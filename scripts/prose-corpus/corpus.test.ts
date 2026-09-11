@@ -550,9 +550,9 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // and occupation-work modules. The generator was re-run; these are the
     // numbers it reports.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(65409);
+    expect(coverage.totalLiterals).toBe(65595);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(465);
+    expect(coverage.scannedFiles).toBe(469);
   });
 });
 

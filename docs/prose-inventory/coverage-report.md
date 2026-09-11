@@ -8,11 +8,11 @@ needs a person's judgement is the honest state of the check.
 | Verdict | Count |
 | --- | --- |
 | INVENTORIED | 2107 |
-| INTENTIONALLY_NON_PLAYER_FACING | 5458 |
-| DIAGNOSTIC_OR_TEST | 4379 |
-| **NEEDS_CLASSIFICATION** | **5584** |
+| INTENTIONALLY_NON_PLAYER_FACING | 5462 |
+| DIAGNOSTIC_OR_TEST | 4387 |
+| **NEEDS_CLASSIFICATION** | **5615** |
 
-Scanned 465 files holding 65409 string
+Scanned 469 files holding 65595 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -88,6 +88,7 @@ literals in total; the table counts only those that read like a sentence.
 | 28 | `src/ui/MindProfile.tsx` |
 | 27 | `src/presentation/garment-fit.ts` |
 | 26 | `src/presentation/legislation-session.ts` |
+| 26 | `src/simulation/career-path7.ts` |
 | 25 | `src/presentation/economic-graphs.ts` |
 | 25 | `src/simulation/judicial-office-work.ts` |
 | 25 | `src/ui/DeveloperReviewHub.tsx` |
@@ -194,6 +195,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/simulation/vitality-integrity.ts` |
 | 6 | `src/ui/ProductionOfficeProofView.tsx` |
 | 5 | `src/player/CampaignWorkspace.tsx` |
+| 5 | `src/player/CareerPathsPanel.tsx` |
 | 5 | `src/player/CivilPersonnelPanel.tsx` |
 | 5 | `src/player/LegislationWorkspace.tsx` |
 | 5 | `src/player/TitleTableau.tsx` |
