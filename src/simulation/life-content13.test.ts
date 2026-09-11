@@ -784,10 +784,11 @@ describe("an open circumstance keeps speaking only while its premise holds", () 
       status: "ended",
       reason: "Left the job.",
       provenance,
-      supersedesStatusId:
-        world.history.workStatuses
-          .filter((entry) => entry.workRelationshipId === relationship.id)
-          .at(-1)?.id ?? null,
+      // The relationship was created with an opening status, so there is
+      // always one to supersede.
+      supersedesStatusId: world.history.workStatuses
+        .filter((entry) => entry.workRelationshipId === relationship.id)
+        .at(-1)!.id,
     });
     expect(recordedSupervisorsAt(left, fixture.playerId)).toHaveLength(0);
     expect(
