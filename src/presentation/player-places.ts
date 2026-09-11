@@ -75,9 +75,7 @@ export function projectPlacesWorkspace(
     setting: location?.setting ?? null,
     jurisdictionId: location?.jurisdictionId ?? null,
     sceneNote:
-      scene.sceneId === null && location?.setting
-        ? scene.reason
-        : null,
+      scene.sceneId === null && location?.setting ? scene.reason : null,
   };
 
   const offers: PlacesOfferView[] = [];
@@ -86,7 +84,15 @@ export function projectPlacesWorkspace(
   }
 
   for (const entry of venueActivities(world, personId)) {
-    offers.push(projectVenueOffer(world, personId, entry.activity, entry.refusal, entry.elapsedMinutes));
+    offers.push(
+      projectVenueOffer(
+        world,
+        personId,
+        entry.activity,
+        entry.refusal,
+        entry.elapsedMinutes,
+      ),
+    );
   }
 
   const municipal = municipalWorkspaceFor(world);

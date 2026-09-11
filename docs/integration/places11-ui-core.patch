@@ -1,5 +1,5 @@
 diff --git a/src/player/PlayerGame.tsx b/src/player/PlayerGame.tsx
-index 18ef904e..8c4da254 100644
+index 17e88842..6051c203 100644
 --- a/src/player/PlayerGame.tsx
 +++ b/src/player/PlayerGame.tsx
 @@ -15,6 +15,7 @@ import { resolveActivityVenueScene } from "../presentation/scene-venues";
@@ -10,7 +10,7 @@ index 18ef904e..8c4da254 100644
  import { LifeStartTransition } from "./LifeStartTransition";
  import { VenueActivityPanel } from "./VenueActivityPanel";
  import { completedActivityHere } from "../presentation/scene-venues";
-@@ -1831,6 +1832,13 @@ function PlayingScreen({
+@@ -1846,6 +1847,13 @@ function PlayingScreen({
        testid: "nav-personal-entry",
        open: openSurface === "personal",
      });
@@ -24,7 +24,7 @@ index 18ef904e..8c4da254 100644
      entries.push({
        surface: "life-scenes",
        label: "Life scenes",
-@@ -2605,6 +2613,25 @@ function renderWorkspace({
+@@ -2620,6 +2628,20 @@ function renderWorkspace({
          municipalSurface(),
        );
  
@@ -35,15 +35,10 @@ index 18ef904e..8c4da254 100644
 +        <PlacesWorkspace
 +          world={session.world}
 +          personId={session.personId}
++          onOpenEntity={openEntity}
++          onTogglePin={togglePin}
 +          onWorldChange={onWorldChange}
-+          onClose={back}
 +          transitionHandlers={createCampaignElectionTransitionRegistry()}
-+          onInspectGovernment={(governmentKey) =>
-+            dispatch({
-+              type: "open-entity",
-+              ref: { kind: "government", id: governmentKey },
-+            })
-+          }
 +        />,
 +      );
 +

@@ -1,10 +1,5 @@
 import { expect, test } from "./fixtures";
-import {
-  enterLife,
-  goTo,
-  saveLife,
-  startLife,
-} from "./support/creator";
+import { enterLife, goTo, saveLife, startLife } from "./support/creator";
 
 /**
  * UI9-05 / CURSOR-PLACES11: discoverable Places with inspect, travel, attend,
@@ -21,7 +16,9 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
 
   const workspace = page.getByTestId("places-panel");
   await expect(workspace).toBeVisible();
-  await expect(page.getByTestId("places-current-location")).toContainText("Home");
+  await expect(page.getByTestId("places-current-location")).toContainText(
+    "Home",
+  );
 
   const home = page.getByTestId("places-offer-walk-home");
   const nearby = page.getByTestId("places-offer-walk-neighborhood");
@@ -44,9 +41,7 @@ test("child sees already-home refusal, walks nearby, and reports arrival", async
   await expect(
     page.getByTestId("places-offer-walk-neighborhood-reason"),
   ).toHaveText("You are already out in your neighborhood.");
-  await expect(
-    page.getByTestId("places-offer-walk-home-action"),
-  ).toBeEnabled();
+  await expect(page.getByTestId("places-offer-walk-home-action")).toBeEnabled();
 });
 
 test("capture Places evidence screenshots", async ({ page }) => {
@@ -58,9 +53,7 @@ test("capture Places evidence screenshots", async ({ page }) => {
     path: "/opt/cursor/artifacts/places11-desktop-at-home.png",
     fullPage: true,
   });
-  await page
-    .getByTestId("places-offer-walk-neighborhood-action")
-    .click();
+  await page.getByTestId("places-offer-walk-neighborhood-action").click();
   await expect(page.getByTestId("places-outcome")).toBeVisible();
   await page.screenshot({
     path: "/opt/cursor/artifacts/places11-desktop-after-walk.png",
@@ -79,9 +72,7 @@ test("Places reads preserve World across save and reload", async ({ page }) => {
   await startLife(page, { age: 10, place: "Lexington" });
   await enterLife(page);
   await goTo(page, "nav-places");
-  await page
-    .getByTestId("places-offer-walk-neighborhood-action")
-    .click();
+  await page.getByTestId("places-offer-walk-neighborhood-action").click();
   await expect(page.getByTestId("places-outcome")).toContainText("→");
   const label = await page.getByTestId("places-current-location").innerText();
   await saveLife(page);

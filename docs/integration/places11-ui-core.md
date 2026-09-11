@@ -1,27 +1,34 @@
 # Places11 UI-core integration
 
-Leaf branch: `cursor/places11-9f91` (from `codex/ui-core-release-transfer` at `f92fb4f8`).
+Leaf branch: `cursor/places11-9f91` (base reference `f92fb4f8`; mount patch targets current UI144 `07b4d4cf`).
 
-Apply `docs/integration/places11-ui-core.patch` on UI144 (`codex/ui-core-release-transfer`) to mount the feature-local workspace.
+Apply `docs/integration/places11-ui-core.patch` on `codex/ui-core-release-transfer`. **A alone commits the mount**; this leaf keeps the patch as the integration request.
 
-## Mount contract
+Authoritative callback shape: `docs/integration/ui-people11-leaf-mount-contract.md` on UI144.
 
-`PlacesWorkspace` accepts:
+## Mount contract (`PlacesWorkspaceProps`)
 
-- `world`, `personId`, `onWorldChange` — canonical World ownership stays in PlayerGame
-- `onClose` — shell Back/Close
-- `transitionHandlers` — campaign-aware registry (same as MunicipalWorkspace)
-- `onInspectGovernment(governmentKey)` — opens `{ kind: "government", id }` via `open-entity`; inspection only, no travel
+Compatible with `LeafWorkspaceProps` in that document (`EntityRef` there = `PlacesEntityRef` here):
 
-Navigation adds surface `"places"` with test id `nav-places`.
+- `world`, `personId`
+- `onOpenEntity(ref)` — inspect opens `{ kind: "government", id }`; never travels or advances time
+- `onTogglePin(ref)` — accepted for shell parity; Places v1 does not render pin controls
+- `onWorldChange(world)` — sole World mutation path for travel/attend actions
+- `transitionHandlers?` — documented compatible addition for campaign-aware canonical writers
 
-## Proposed integration proof
+The shell frame supplies Back/Close; the leaf does not mount its own navigation.
 
-With the patch applied:
+Inner panel test id: `places-panel`. Frame test id: `places-workspace`.
+
+## Proposed composition proof (not production integration)
+
+Label any browser or screenshot evidence taken with the patch applied as **proposed composition**, not mounted UI144, until A merges and commits the mount.
+
+With the patch applied on a disposable checkout of UI144 + this leaf:
 
 ```bash
 npm run test -- src/presentation/player-places.test.ts
 npm run test:e2e -- tests/e2e/places11.spec.ts
 ```
 
-Screenshots for the leaf PR were captured on the patched composition at representative desktop and narrow viewports.
+Normal-player reachability is not claimed green on the unmounted leaf donor alone.

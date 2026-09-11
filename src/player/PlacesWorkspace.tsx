@@ -16,13 +16,21 @@ import {
 import { walkOpeningNeighborhood } from "../presentation/life-scene-flow";
 import { performVenueActivity } from "../presentation/venue-activity";
 
-/** Typed mount contract for UI-core root integration. */
+/** Entity references UI-core passes through `openEntity` / `togglePin`. */
+export type PlacesEntityRef =
+  | { readonly kind: "government"; readonly id: string }
+  | { readonly kind: "person"; readonly id: EntityId }
+  | { readonly kind: "commitment"; readonly id: EntityId }
+  | { readonly kind: "measure"; readonly id: EntityId };
+
+/** Typed mount contract aligned with ui-people11-leaf-mount-contract.md. */
 export interface PlacesWorkspaceProps {
   readonly world: World;
   readonly personId: EntityId;
+  readonly onOpenEntity: (ref: PlacesEntityRef) => void;
+  readonly onTogglePin: (ref: PlacesEntityRef) => void;
   readonly onWorldChange: (world: World) => void;
-  readonly onClose: () => void;
-  readonly onInspectGovernment?: (governmentKey: string) => void;
+  /** Campaign-aware handlers for canonical travel and attendance writers. */
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
@@ -43,9 +51,8 @@ function actionLabel(offer: PlacesOfferView): string {
 export function PlacesWorkspace({
   world,
   personId,
+  onOpenEntity,
   onWorldChange,
-  onClose,
-  onInspectGovernment,
   transitionHandlers = createCampaignElectionTransitionRegistry(),
 }: PlacesWorkspaceProps): ReactNode {
   const [problem, setProblem] = useState<string | null>(null);
@@ -95,12 +102,12 @@ export function PlacesWorkspace({
       return;
     }
     if (fresh.kind === "inspect") {
-      if (!fresh.inspectGovernmentKey || !onInspectGovernment) {
+      if (!fresh.inspectGovernmentKey) {
         setOutcome(null);
         setProblem("Inspection is not available from here.");
         return;
       }
-      onInspectGovernment(fresh.inspectGovernmentKey);
+      onOpenEntity({ kind: "government", id: fresh.inspectGovernmentKey });
       setProblem(null);
       setOutcome("Opened for inspection. No time passed.");
       return;
@@ -138,16 +145,7 @@ export function PlacesWorkspace({
   }
 
   return (
-    <div
-      className="places-workspace"
-      data-testid="places-panel"
-      onKeyDown={(event) => {
-        if (event.key !== "Escape") return;
-        event.preventDefault();
-        event.stopPropagation();
-        onClose();
-      }}
-    >
+    <div className="places-workspace" data-testid="places-panel">
       <header className="places-workspace-header">
         <div>
           <p className="places-workspace-kicker">Where you are</p>
@@ -164,7 +162,10 @@ export function PlacesWorkspace({
           ) : null}
         </p>
         {model.current.sceneNote ? (
-          <p className="places-scene-note" data-testid="places-current-scene-note">
+          <p
+            className="places-scene-note"
+            data-testid="places-current-scene-note"
+          >
             {model.current.sceneNote}
           </p>
         ) : null}
@@ -189,9 +190,13 @@ export function PlacesWorkspace({
       ) : null}
 
       <section aria-labelledby="places-offers-heading">
-        <h3 id="places-offers-heading">Supported destinations and activities</h3>
+        <h3 id="places-offers-heading">
+          Supported destinations and activities
+        </h3>
         {model.offers.length === 0 ? (
-          <p data-testid="places-empty">Nothing reachable is recorded from here.</p>
+          <p data-testid="places-empty">
+            Nothing reachable is recorded from here.
+          </p>
         ) : (
           <ul className="places-offer-list">
             {model.offers.map((offer) => (

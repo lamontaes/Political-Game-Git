@@ -1,20 +1,9 @@
 import { describe, expect, it } from "vitest";
-import {
-  deserializeWorld,
-  serializeWorld,
-} from "../simulation";
+import { deserializeWorld, serializeWorld } from "../simulation";
 import { createNewGameWorld } from "./new-game";
-import {
-  openNextLifeScene,
-  walkOpeningNeighborhood,
-} from "./life-scene-flow";
-import {
-  createAuthoredMunicipalPublicSession,
-} from "./municipal-workspace";
-import {
-  describePlacesOutcome,
-  projectPlacesWorkspace,
-} from "./player-places";
+import { openNextLifeScene, walkOpeningNeighborhood } from "./life-scene-flow";
+import { createAuthoredMunicipalPublicSession } from "./municipal-workspace";
+import { describePlacesOutcome, projectPlacesWorkspace } from "./player-places";
 import { openOrdinaryLife } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
 
@@ -43,7 +32,9 @@ describe("player-places projection", () => {
     expect(model.current.setting).toBe("home");
 
     const home = model.offers.find((offer) => offer.id === "walk-home")!;
-    const nearby = model.offers.find((offer) => offer.id === "walk-neighborhood")!;
+    const nearby = model.offers.find(
+      (offer) => offer.id === "walk-neighborhood",
+    )!;
     expect(home.kind).toBe("return-home");
     expect(home.unavailable).toBe("You are already home.");
     expect(nearby.unavailable).toBeNull();
@@ -52,17 +43,16 @@ describe("player-places projection", () => {
 
   it("swaps walk refusals after a recorded neighborhood arrival", () => {
     const { world, personId } = childAtHome("places11-walk-arrival");
-    const next = walkOpeningNeighborhood(
-      world,
-      personId,
-      "neighborhood",
-    );
+    const next = walkOpeningNeighborhood(world, personId, "neighborhood");
     expect(next.history.events.at(-1)?.type).toBe("life.scene.arrived");
     const model = projectPlacesWorkspace(next, personId)!;
     expect(model.current.label).toBe("In your neighborhood");
-    expect(model.offers.find((offer) => offer.id === "walk-home")!.unavailable).toBeNull();
     expect(
-      model.offers.find((offer) => offer.id === "walk-neighborhood")!.unavailable,
+      model.offers.find((offer) => offer.id === "walk-home")!.unavailable,
+    ).toBeNull();
+    expect(
+      model.offers.find((offer) => offer.id === "walk-neighborhood")!
+        .unavailable,
     ).toBe("You are already out in your neighborhood.");
     expect(describePlacesOutcome(world, next, personId)).toMatch(/→/);
     expect(describePlacesOutcome(world, next, personId)).toContain(
