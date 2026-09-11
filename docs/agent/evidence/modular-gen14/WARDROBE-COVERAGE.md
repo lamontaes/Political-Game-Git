@@ -1,7 +1,105 @@
-# Why one pair of shorts dresses four fifths of the cast
+# CORRECTED: wardrobe coverage, and the scope error in the first version
 
-Continues MODULAR-GEN14 from PR #179. This is the investigation that PR's
-evidence asked for, and its answer changes what the next step is.
+> **Correction, 2026-09-11.** The section this file originally carried, "The
+> obvious fix, and why it does not work", measured the LEGACY
+> `art/references/masters/pg-modular` flat lays and stated its conclusion as
+> though it were about the project's garment sources in general. That was a
+> scope error. The asset request it produced asked for re-captures that are not
+> needed, and it has been removed rather than left to be quoted.
+>
+> The bank the game actually consumes is the p95 recent-drive-sweep set: sheets
+> of 3584x4800 and 4336x5804, verified by SHA-256, already in the repository and
+> already chopped, whose garment crops export at **625x1220** (bottoms),
+> **960x1038** (male tops), **924x1000** (female tops) and **1425x1017**
+> (front-on footwear) — against the 108-230px legacy crops that report measured.
+> There is no resolution shortage there and **no source needs re-supplying**.
+> `people-visual4.ts` already reads all of it, and **35 of 36** wardrobe crops
+> reach a component a body can wear.
+>
+> What survives is the diagnosis of the khaki-shorts result below, measured by
+> the Visual4 line's own instrument: a silhouette mismatch, not a resolution one.
+
+## What the bank actually contains
+
+`scripts/art-asset-factory/people-visual4-source-lineage.ts` holds the chain and
+its tests pin it:
+
+```
+Drive id + label -> sheet path, SHA-256, real IHDR dimensions
+  -> chop cell -> exported crop + its own SHA-256
+    -> attachment authoring -> registry component
+      -> declared body and pose families -> runtime consumer
+```
+
+| sheet             | verified SHA-256 | actual size | crops           |
+| ----------------- | ---------------- | ----------- | --------------- |
+| front-on footwear | `8a7bf15e...`    | 4336x5804   | 12 at 1425x1017 |
+| female tops       | `24f08760...`    | 3584x4800   | 12 at 924x1000  |
+| male tops         | `f8404c6b...`    | 3584x4800   | 12 at 960x1038  |
+| male bottoms      | `9afbb75c...`    | 3584x4800   | 12 at 625x1220  |
+
+The **side/angled footwear** sheet (`fa1abe93...`, 3584x4800) is recorded with a
+null repository path: the original is confirmed, its lineage into this
+repository is not re-established. It is a different view with different uses.
+Neither footwear sheet replaces or retires the other, and a test asserts it.
+
+## The one garment that fits nobody
+
+`pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1` reaches the registry and
+is worn by no one. It is **not** a fit failure: against
+`average-woman-standing-neutral-front-a` it scores a worst edge error of **zero
+across all 285 compared rows**. `people-visual4.ts` blocks it by name, and the
+authoring manifest says why:
+
+> "Painted light-skin forearms are baked into this source below both short
+> sleeves and end at cut wrists. Exclude unmasked use as a complexion-independent
+> garment. Author arm masks or declare exact compatible body, complexion and pose
+> before using."
+
+The block is correct — unmasked, it paints one complexion's forearms onto
+anybody. This is layer separation, not silhouette.
+
+**The mask is built.** `npm run derive:visual4-arm-mask` writes an additive
+candidate beside the original. The separation is measured, not guessed: fabric
+at rgb(112,53,62), baked skin at rgb(223,179,155), nowhere near each other in
+any channel. Skin is classified by colour, grown 4px to take the outline and
+anti-aliased fringe, and cleared in RGB as well as alpha.
+
+```
+cleared 134,887px   opaque 687,672 -> 552,785
+painted bounds 964x992 -> 964x990
+```
+
+Bounds barely move because the sleeves are wider than the forearms, so the
+silhouette the fit measure reads is unchanged — and the test asserts the pairing
+still measures clean rather than assuming it.
+
+**The block stays.** Whether the mask looks right is a visual decision about a
+garment, and the sleeve hem is where the grown mask runs closest to fabric that
+must survive. Overlay: `polo-arm-mask-overlay.png` (cleared pixels render
+black). A test pins the block so removing it has to be deliberate.
+
+## The instrument, repaired and characterised
+
+The first version reported `insufficient-coverage` for every pair it measured —
+including the banked reference, the one case that must always measure — and I
+read those non-answers as rejections. They were not.
+
+The Visual4 instrument was never broken; my call was. Ease must be read once
+from the UNPERTURBED pairing, because it is the expectation the error is
+measured against. Computing it from the perturbed projection makes expectation
+equal observation by construction, which is why an earlier draft reported zero
+error for a garment scaled to 140% and shifted 8% down the body.
+
+| control                   | result                                                      |
+| ------------------------- | ----------------------------------------------------------- |
+| banked reference pairing  | `measured`, worst fraction 0, 201/201 rows                  |
+| shifted 2% down the body  | `measured`, worst fraction **0.199** - fails the 0.03 bound |
+| widened 5% / 20%          | 0.033 / 0.132 - proportional, not a step                    |
+| shifted 12%, off the body | `insufficient-coverage`, 1 row - declines rather than fails |
+
+That last row is the distinction the first version got wrong, now pinned:
+**`insufficient-coverage` is an unmeasured case, not a verdict about a source.**
 
 ## The finding
 
@@ -35,60 +133,6 @@ So this is a pixel shortage. It cannot be repaired by editing
 (garment, body) fit pairs are **already** declared, with zero undeclared. And
 it must not be repaired by re-weighting selection, which would hide missing
 garments behind a distribution.
-
-## The obvious fix, and why it does not work
-
-The project owns body-independent flat-lay garment masters, and the pipeline
-owns the operation that turns one master into one garment per body:
-`deriveGarment` scales a master to the target body's own measured hip, shoulder
-and foot geometry. That is how `wave-a-wardrobe` dressed six morphologies.
-
-I pointed the same accepted derivation at the Visual4 bodies. It refuses, and
-the refusal is correct.
-
-`npm run measure:visual4-wardrobe` (new, in this delta) reports why, per master:
-
-```
-98 pairs, 29 derivable without enlargement, 69 blocked
-
-bottoms/pg_master_bottom_01_straight_leg_jeans.png  have 108x230  need >= 243x315  (9 bodies)
-bottoms/pg_master_bottom_02_dress_trousers.png      have 112x231  need >= 243x306  (9 bodies)
-bottoms/pg_master_bottom_03_a_line_knee_skirt.png   have 160x225  need >= 243x206  (7 bodies)
-tops/pg_master_top_01_short_sleeve_crew_tee.png     have 187x199  need >= 331x265  (11 bodies)
-tops/pg_master_top_02_long_sleeve_button_shirt.png  have 188x228  need >= 331x302  (11 bodies)
-tops/pg_master_top_03_pullover_sweater.png          have 192x212  need >= 331x276  (11 bodies)
-tops/pg_master_top_04_structured_blazer.png         have 185x225  need >= 331x303  (11 bodies)
-```
-
-The masters are small and a Visual4 body is authored on a 960px canvas.
-Deriving a bottom needs up to **2.25× enlargement**, and the pipeline refuses to
-enlarge outright — enlarging invents detail nobody drew.
-
-`wave-a-wardrobe` hit this same wall and its own code records it: those outputs
-sit behind an `enlarges` branch that verifies a retained hash instead of
-regenerating, noting they are historical outputs, "evidence, not reproducible
-admissible tiers." So that wardrobe is not a precedent to copy.
-
-## The exact asset request
-
-Recover each master at or above its `minimumNativeSize` above, natively — not
-upscaled. Per master:
-
-- **Same design, same flat-lay framing, same neutral ground** the current
-  master uses; these are re-captures at sufficient resolution, not redesigns.
-- **Bodies served** and the exact pixel size each one needs are listed per
-  master in `art/qa/people-visual4/wardrobe-requirements.json` under
-  `requests[].bodies`.
-- **Pose**: `standing-neutral`. Seated bodies are excluded by
-  `kindsForPose` and remain a separate request.
-- **Admission**: `npm run measure:visual4-wardrobe` must report the master as
-  derivable without enlargement, and then the Visual4 line's own fit
-  measurement decides acceptance. Nothing here approves art.
-
-The A-line knee skirt is the cheapest win and the most valuable one: it is the
-only feminine bottom in the set, it blocks 7 bodies, and it needs only 243px of
-width against the 160px it has — its vertical scale is already **0.92**, a
-reduction. One re-capture at ~1.6× width unblocks the women's bodies.
 
 ## What this delta does NOT do
 
