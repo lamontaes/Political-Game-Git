@@ -133,6 +133,8 @@ test("the owner's age-22 conversation is one bounded box with paged history and 
   await page.keyboard.press("Enter");
   await expect(page.getByTestId("opening-life-scene")).toBeVisible();
   await expect(box).toHaveCount(0);
+  // Focus comes back to where the conversation was started from.
+  await expect(talkTo).toBeFocused();
 
   // Talking to them again from the room carries the conversation on rather
   // than greeting them as though nothing had been said.

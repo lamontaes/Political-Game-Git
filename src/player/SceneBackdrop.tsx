@@ -36,7 +36,7 @@ import {
  * The room each side must leave for the shell's fixed controls when the panel
  * docks there: the corner cluster lives bottom-left, the pin rail bottom-right.
  */
-const DOCK_LEFT_INSET = 232;
+const DOCK_LEFT_INSET = 272;
 const DOCK_RIGHT_INSET = 20;
 
 /**

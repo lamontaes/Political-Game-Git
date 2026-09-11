@@ -2326,7 +2326,23 @@ function PlayingScreen({
                     addressee={conversation.addressee}
                     onWorldChange={onWorldChange}
                     onChange={(next) => setConversation(next)}
-                    onBack={() => setConversation(null)}
+                    onBack={() => {
+                      const facing = conversation.addressee;
+                      setConversation(null);
+                      /*
+                       * Back returns focus to where the conversation was
+                       * started from in the room — the person's Talk-to
+                       * control, or the person themselves — so a keyboard
+                       * player is not dropped on the page body.
+                       */
+                      requestAnimationFrame(() => {
+                        document
+                          .querySelector<HTMLElement>(
+                            `[data-testid="life-talk-${facing}"], [data-testid="scene-person-${facing}"]`,
+                          )
+                          ?.focus();
+                      });
+                    }}
                     transitionHandlers={createCampaignElectionTransitionRegistry()}
                   />
                 ) : null

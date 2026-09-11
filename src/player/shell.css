@@ -127,6 +127,21 @@
 .pg-nav-copy {
   display: grid;
   line-height: 1.24;
+  /*
+   * The cluster is a quiet corner, not a banner. A long place line — a
+   * municipal member's "Private meeting preparation; no chamber presence is
+   * asserted." — made it wide enough to sit over the scene panel's own
+   * controls and take their presses. The full text stays in the button's
+   * accessible name; the visible lines are held to the corner.
+   */
+  max-width: 13rem;
+  min-width: 0;
+}
+
+.pg-nav-copy > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .pg-nav-identity {
