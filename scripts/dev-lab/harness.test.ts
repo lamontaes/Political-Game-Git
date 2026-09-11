@@ -9,7 +9,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 import { describe, it, expect } from "vitest";
-import { sourceIdentity, assertIdentity, sourceIdentityInputs } from "./identity";
+import {
+  sourceIdentity,
+  assertIdentity,
+  sourceIdentityInputs,
+} from "./identity";
 import { runConfig } from "./run-config";
 
 describe("Shared-machine harness", () => {
