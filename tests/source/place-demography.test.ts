@@ -111,17 +111,18 @@ function beaPopulation(args: {
   const template = LEXINGTON_MODEL.observations.find(
     (row) => row.kind === "bea",
   )!;
+  const evidence = [template.evidence] as const;
   const value =
     args.people === "unknown"
       ? {
           state: "UNKNOWN" as const,
           reason: "The Bureau withheld this headcount.",
-          investigated: template.evidence ? [template.evidence] : [],
+          investigated: evidence,
         }
       : {
           state: "KNOWN" as const,
           value: args.people,
-          evidence: [template.evidence],
+          evidence,
           release: "FINAL" as const,
           asOf: `${args.period ?? "2024"}-12-31`,
         };
