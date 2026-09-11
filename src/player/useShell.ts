@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
-import { BrowserShellStateStore } from "../presentation/browser-shell-state";
+import type { BrowserShellStateStore } from "../presentation/browser-shell-state";
 import { shellRefIsResolvable } from "../presentation/person-dossier";
 import {
   INITIAL_SHELL_STATE,
@@ -25,23 +25,47 @@ import type { EntityId, World } from "../simulation";
 export function useShell(
   world: World,
   saveId: EntityId | null,
+  /*
+   * The store, supplied rather than built here.
+   *
+   * This hook used to construct `new BrowserShellStateStore()` with no
+   * arguments, which meant the default database — and this hook is the writer
+   * that actually persists pins, preferences, the journal and wardrobe
+   * choices. So while the development art preview was carefully given its own
+   * database everywhere else, the one writer that matters kept writing
+   * candidate wardrobe choices into the ordinary player's save. Namespacing a
+   * different construction in `PlayerGame` did not reach this one, and store
+   * tests that instantiate their own correctly-named instances never ran this
+   * line at all.
+   *
+   * Taking it as a parameter is what makes that impossible to get wrong again:
+   * there is no default to fall back to, so every caller has to say which
+   * persistence it means.
+   */
+  store: BrowserShellStateStore,
 ): readonly [ShellState, (action: ShellAction) => void] {
   const [state, dispatch] = useReducer(shellReducer, INITIAL_SHELL_STATE);
-  const store = useMemo(() => new BrowserShellStateStore(), []);
   /*
-   * The slot this session has finished reading.
+   * The RECORD this session has finished reading — the slot AND the database.
    *
    * State rather than a ref on purpose: the write below must start once the
    * read has settled, and a ref changing does not re-run an effect. With a ref
    * here, a life pinned BEFORE its first save was read as "nothing stored",
    * kept correctly in memory, and then never written — so the pins were gone
    * on the next load. The browser proof caught exactly that.
+   *
+   * The slot id alone was not enough once a second database existed. Switching
+   * stores for the same slot left the previous certification standing, so the
+   * read was skipped and the write fired immediately — carrying whatever was
+   * in memory from the other database straight into this one. A record is
+   * identified by where it lives as well as by which slot it is.
    */
-  const [loadedSlot, setLoadedSlot] = useState<EntityId | null>(null);
+  const [loadedRecord, setLoadedRecord] = useState<string | null>(null);
+  const recordKey = saveId === null ? null : `${store.databaseName}::${saveId}`;
 
   useEffect(() => {
-    if (saveId === null) return;
-    if (loadedSlot === saveId) return;
+    if (saveId === null || recordKey === null) return;
+    if (loadedRecord === recordKey) return;
     let cancelled = false;
     void store.read(saveId).then((stored) => {
       if (cancelled) return;
@@ -60,12 +84,12 @@ export function useShell(
           preferences: stored.preferences,
         });
       }
-      setLoadedSlot(saveId);
+      setLoadedRecord(recordKey);
     });
     return () => {
       cancelled = true;
     };
-  }, [saveId, loadedSlot, store]);
+  }, [saveId, recordKey, loadedRecord, store]);
 
   /*
    * Written after every change rather than on a timer or on close: a player who
@@ -73,8 +97,8 @@ export function useShell(
    * is how that choice gets lost. The store queues its own writes.
    */
   useEffect(() => {
-    if (saveId === null) return;
-    if (loadedSlot !== saveId) return;
+    if (saveId === null || recordKey === null) return;
+    if (loadedRecord !== recordKey) return;
     void store.write(saveId, {
       journal: state.journal,
       personWardrobes: state.personWardrobes,
@@ -83,7 +107,8 @@ export function useShell(
     });
   }, [
     saveId,
-    loadedSlot,
+    recordKey,
+    loadedRecord,
     store,
     state.pins,
     state.preferences,

@@ -649,6 +649,7 @@ export function PlayerGame() {
 
   return (
     <PlayingScreen
+      shellStore={shellStore}
       session={session}
       notice={notice}
       problem={problem}
@@ -1650,6 +1651,7 @@ function PlayingScreen({
   onKeep,
   onLeave,
   savesUnavailable,
+  shellStore,
 }: {
   readonly session: Session;
   readonly notice: string | null;
@@ -1658,6 +1660,18 @@ function PlayingScreen({
   readonly onKeep: (shellState: StoredShellState) => void;
   readonly onLeave: () => void;
   readonly savesUnavailable: boolean;
+  /**
+   * The one shell-state store for this session.
+   *
+   * Threaded rather than rebuilt. `useShell` used to construct its own with no
+   * database name, so the writer that actually persists pins, preferences, the
+   * journal and wardrobe choices always wrote to the ordinary database — even
+   * in the development art preview, and even though a correctly namespaced
+   * store was sitting in `PlayerGame` being used for the explicit save. Two
+   * stores for one set of records is how half of them ended up in the wrong
+   * place; there is one now, and it comes from here.
+   */
+  readonly shellStore: BrowserShellStateStore;
 }) {
   const capabilities = useMemo(
     () => resolvePlayerCapabilities(session.world),
@@ -1684,7 +1698,7 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch] = useShell(session.world, session.saveId);
+  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,

@@ -230,6 +230,21 @@ export class BrowserShellStateStore {
     return this.#factory !== null;
   }
 
+  /**
+   * Which database this store is bound to.
+   *
+   * Readable because a consumer has to be able to tell one store from another.
+   * `useShell` remembers which slot it has finished reading so it does not
+   * write before it has read; that memory was the slot id alone, so switching
+   * to a differently-named store for the SAME slot left the old certification
+   * standing — the read was skipped and the write went straight out, copying
+   * one database's pins and wardrobe into the other. The slot is only half of
+   * what identifies a record.
+   */
+  get databaseName(): string {
+    return this.#databaseName;
+  }
+
   async #database(): Promise<IDBDatabase | null> {
     const factory = this.#factory;
     if (!factory) return null;

@@ -1,0 +1,21 @@
+--- 1. an ordinary life, arranged and saved ---
+  person        person_08c828f1023852be
+  wardrobe      (nothing offered)
+  journal typed true
+  saved         true
+  ordinary db   [{"saveId":"save_c707a8e886d0d414_756a6400398418263bd1d021b06e5f68","pins":[null],"ambition":"Ordinary ambition, written on production art.","notes":0,"wardrobes":{}}]
+  preview db    []
+
+--- 2. the SAME slot, in candidate mode, changed and saved ---
+  person        person_08c828f1023852be
+  wardrobe      pg-top-001
+  saved         true
+
+--- 3. back to the ordinary save ---
+  saved games   1
+  ordinary db   [{"saveId":"save_c707a8e886d0d414_756a6400398418263bd1d021b06e5f68","pins":[null],"ambition":"Ordinary ambition, written on production art.","notes":0,"wardrobes":{}}]
+  preview db    [{"saveId":"save_54636fe35651c6fb_8f8f973c30104b27db33171f415ea707","pins":[null],"ambition":"Candidate ambition, written in the art preview.","notes":0,"wardrobes":{"person_08c828f1023852be":"pg-top-001"}}]
+
+--- verdict ---
+  ordinary records unchanged by the preview: true
+  preview kept its own records:              true
