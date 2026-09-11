@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { openCreator } from "./support/creator";
+import { openCreator, chooseCreatorLocation } from "./support/creator";
 
 /**
  * The post-#87 creator, in a browser.
@@ -41,13 +41,8 @@ async function walkToWhoAreYou(page: Page) {
   await page.getByTestId("start-age").fill("10");
   await page.getByTestId("creator-continue-character").click();
   await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
+  await expect(page.getByTestId("place-context")).toHaveCount(0);
+  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
   await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
 }
 
@@ -61,6 +56,36 @@ async function verticalOverflow(page: Page): Promise<number> {
 }
 
 test.describe("The creator is a panel on the room, not a scrolling form", () => {
+  test("replaces the title menu in the same upper-left card", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await freshBrowser(page);
+
+    const title = page.getByTestId("title-screen");
+    await expect(title).toBeVisible();
+    const titleBox = await title.boundingBox();
+    expect(titleBox).not.toBeNull();
+
+    await page.getByTestId("new-game").click();
+    const creator = page.getByTestId("setup-screen");
+    await expect(creator).toBeVisible();
+    await expect(page.getByTestId("title-screen")).toHaveCount(0);
+    await expect(creator.getByRole("heading", { level: 1 })).toHaveText(
+      "Our Civic Duty",
+    );
+    await expect(page.getByTestId("creator-stage-route")).toBeVisible();
+
+    const creatorBox = await creator.boundingBox();
+    expect(creatorBox).not.toBeNull();
+    // Same upper-left slot: New Game did not drop the panel down the plate.
+    expect(Math.abs(creatorBox!.x - titleBox!.x)).toBeLessThanOrEqual(8);
+    expect(Math.abs(creatorBox!.y - titleBox!.y)).toBeLessThanOrEqual(8);
+    expect(creatorBox!.x + creatorBox!.width / 2).toBeLessThan(1440 / 2);
+    // Still the title's compact card, not a wide form.
+    expect(creatorBox!.width).toBeLessThanOrEqual(titleBox!.width + 24);
+  });
+
   for (const viewport of [
     { name: "desktop", width: 1440, height: 900 },
     { name: "small desktop", width: 1180, height: 760 },
@@ -80,12 +105,14 @@ test.describe("The creator is a panel on the room, not a scrolling form", () => 
       // scrolling to be reached, which is the clipping the third play hit.
       expect(await verticalOverflow(page)).toBeLessThanOrEqual(1);
 
-      // Begin, Next-equivalent and Back all sit inside the frame.
-      for (const control of ["begin", "whoareyou-answer", "whoareyou-play"]) {
+      // The applicable question controls and Back sit inside the frame.
+      // Begin appears only after the player chooses a questionnaire path.
+      for (const control of ["whoareyou-answer", "whoareyou-play"]) {
         const box = await page.getByTestId(control).boundingBox();
         expect(box).not.toBeNull();
         expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height);
       }
+      await expect(page.getByTestId("begin")).toHaveCount(0);
       await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
 
       // The creator sits on the LEFT of the room.

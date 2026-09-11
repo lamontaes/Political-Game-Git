@@ -55,27 +55,67 @@ anchor's declared contact line. Before the change the same figure's feet were
 at 100.5%, below the bottom of the room. Screenshots: `production.png`,
 `candidate.png`.
 
-## Registration
+## Correction: what this report was read as claiming, and does not
+
+An earlier version of this file presented "108 of 116 placements drew" as
+though it were coverage. It is not, and the corrected report now separates the
+classes that were being added together:
+
+```
+Production libraries   108 drew — ALL development-fixture — 0 complete recipes
+Candidate review        80 drew — 12 complete recipes
+```
+
+Zero. The production library composes no complete person at any anchor in any
+room, and every pixel it does draw is fixture art nobody ships. Counting those
+draws as people was the error.
+
+Four limits belong with any number taken from here, and are now printed in the
+report itself:
+
+- It composes plans directly from a library and does **not** go through the
+  ordinary runtime, so it never exercises the production fixture/calibration
+  refusals that decide what a player sees.
+- Four synthetic subjects are not a cast.
+- The registration check compares DECLARED origins to DECLARED anchors and
+  **excludes fitted layers**, so it says nothing about whether a fitted
+  garment's shoulder or neck geometry is right. Only looking answers that.
+- The zero contact residual is the reserved box's bottom edge, **not visible
+  sole pixels**.
+
+What stands unchanged is the contact-clamp repair below: that was a real defect
+found by measurement, fixed, and confirmed on screen at a known pixel position.
+
+## Registration, and its exact limit
 
 Zero unfitted components missed the body anchor they declare, across 116
-placements × 4 deterministic review people in both libraries. That is now
-asserted rather than observed: a component declares an origin and the anchor it
-attaches to, the projection makes them coincide, and any non-zero residual on
-an unfitted layer means the component metadata and the body's anchors disagree
-— a defect that is invisible by eye at this size and is exactly what "the hair
-sits wrong" turns out to be.
+placements × 4 deterministic review people in both libraries. That is asserted
+rather than observed: a component declares an origin and the anchor it attaches
+to, the projection makes them coincide, and any non-zero residual on an
+unfitted layer means the component metadata and the body's anchors disagree.
 
-A non-zero residual on a FITTED layer is the fit bank doing its job, and is
-reported separately rather than counted as a fault.
+This is declared-anchor arithmetic and nothing more. It excludes fitted layers
+by construction, so it cannot approve a fitted garment, a head-to-neck seam or
+hair alignment — the things a reviewer actually has to look at. A non-zero
+residual on a FITTED layer is the fit bank doing its job, and is reported
+separately rather than counted as a fault.
 
 ## What is still missing
 
 The report's "Exact remaining asset needs" section is taken from the
 compositor's own refusals, so it says what the pipeline will actually reject.
-In short: there is no body art for the seated poses (`seated-at-desk`,
-`seated-guest-neutral`), so every required slot fails at those anchors; and
-several seat anchors permit only `away` facings while the seated poses face
-`front`.
+In short: the libraries this report probes have no body art for the seated
+poses (`seated-at-desk`, `seated-guest-neutral`), so every required slot fails
+at those anchors; and several seat anchors permit only `away` facings while the
+seated poses face `front`.
+
+A later correction to that reading: the Visual4 bank DOES contain two seated
+bodies (`wave-a-average-woman-seated-front-neutral-v1-pv4` and
+`wave-a-skinny-woman-seated-front-neutral-v1-pv4`). They were absent from the
+library this report probed, not from the project. They carry no garments at all
+and so cannot dress a person yet — see
+`docs/agent/evidence/modular-gen14/README.md` for the measured per-body
+coverage and the exact request.
 
 Seven of ten paintable rooms declare no standard body width. That is a missing
 measurement. Nothing in this report may be copied into a scene's floor

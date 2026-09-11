@@ -216,6 +216,9 @@ test.describe("the life the player asked for is the life they get", () => {
   }) => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Kentucky", gender: "male" });
+    // The introduction opens on the world, then the household; the grounding
+    // is the household beat's, and it still comes before the first choice.
+    await page.getByTestId("introduction-continue").click();
 
     const grounding = page.getByTestId("life-grounding");
     await expect(grounding).toBeVisible();
@@ -306,7 +309,31 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     }
     await expect(page.getByTestId("pass-day")).toBeEnabled();
 
-    // Campaign time does not leak into the ordinary conversation surface.
+    /*
+     * Campaign time does not leak into the ordinary conversation surface.
+     *
+     * The sessions were held at the campaign office, and UI144's venues keep
+     * the life there until the day moves on — so this evening there is no
+     * kitchen conversation to have, and People offers none. Where a housemate
+     * cannot be talked to, their record says why in terms of where the life
+     * is, never that the day is spent.
+     */
+    await openElsewhere(page, "people");
+    await expect(
+      page.locator('[data-testid^="conversation-start-"]'),
+    ).toHaveCount(0);
+    await page.locator('[data-testid^="people-person-"]').first().click();
+    const refusal = page.getByTestId("dossier-talk-unavailable");
+    await expect(refusal).toBeVisible();
+    await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
+
+    await openElsewhere(page, "work");
+    await page.getByTestId("pass-day").focus();
+    await page.keyboard.press("Space");
+    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
+    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
+
+    // And the next morning, back at home, the conversation is there to have.
     await openElsewhere(page, "people");
     await page.locator('[data-testid^="conversation-start-"]').first().click();
     const intent = page
@@ -315,12 +342,6 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       .getByRole("button")
       .first();
     await expect(intent).toBeEnabled();
-
-    await openElsewhere(page, "work");
-    await page.getByTestId("pass-day").focus();
-    await page.keyboard.press("Space");
-    await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
-    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
   });
 
   test("lists a campaign opponent as relevant without silently pinning them", async ({

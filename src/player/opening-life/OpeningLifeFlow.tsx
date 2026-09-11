@@ -26,6 +26,9 @@ export interface OpeningLifeFlowProps {
   readonly foreground?: ReactNode;
   /** Opens the conversation box with exactly the person chosen in the scene. */
   readonly onTalkTo: (personId: EntityId) => void;
+  /** Whose Talk-to control to focus when a conversation hands the room back. */
+  readonly returnFocusTo?: EntityId | null;
+  readonly onFocusReturned?: () => void;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
@@ -84,6 +87,10 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
       onWorldChange={props.onWorldChange}
       onContinue={() => setContinuing(true)}
       onTalkTo={props.onTalkTo}
+      returnFocusTo={props.returnFocusTo ?? null}
+      {...(props.onFocusReturned
+        ? { onFocusReturned: props.onFocusReturned }
+        : {})}
       transitionHandlers={props.transitionHandlers}
     />
   );

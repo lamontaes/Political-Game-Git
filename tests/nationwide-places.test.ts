@@ -94,6 +94,28 @@ describe("A life can start anywhere in the country", () => {
     expect(lifePlaceSearch("   ", 10)).toEqual([]);
   });
 
+  it("filters an in-state search by canonical state identity", () => {
+    const alabama = searchLifePlaces("lex", 20, {
+      stateJurisdictionKey: "US-AL",
+      scope: "locality",
+    });
+    expect(alabama.length).toBeGreaterThan(0);
+    expect(
+      alabama.every((place) => place.stateJurisdictionKey === "US-AL"),
+    ).toBe(true);
+    expect(alabama.some((place) => place.key === "lexington-fayette")).toBe(
+      false,
+    );
+    expect(alabama.some((place) => place.scope === "state")).toBe(false);
+
+    const kentucky = searchLifePlaces("", 12, {
+      stateJurisdictionKey: "US-KY",
+      scope: "locality",
+    });
+    expect(kentucky.every((place) => place.scope === "locality")).toBe(true);
+    expect(kentucky.some((place) => place.key === "kentucky")).toBe(false);
+  });
+
   it("reaches the source only through the generated export, never src/source", () => {
     // The one-way seam, as a file check: the browser-safe modules that carry
     // national places must not IMPORT the Node-only substrate. Only import and

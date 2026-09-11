@@ -2,8 +2,11 @@ import { saveLife } from "./support/creator";
 import { readFileSync } from "node:fs";
 import type { Page } from "@playwright/test";
 import type { World } from "../../src/simulation";
+import { searchLifePlaces } from "../../src/simulation";
+import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
+import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 import { expect, test } from "./fixtures";
-import { fillCreator, goTo, startLife } from "./support/creator";
+import { goTo, startLife } from "./support/creator";
 
 /** Only visible opening controls; no fixture World or hidden state injection. */
 async function enterOpening(page: Page) {
@@ -55,7 +58,11 @@ async function save(page: Page) {
 }
 
 async function continueSaved(page: Page) {
-  await page.reload();
+  /*
+   * The title screen, not this address again. A replay address rebuilds its
+   * world on load, so reloading one never offers Continue at all.
+   */
+  await page.goto("/");
   await page.getByTestId("continue").click();
   await enterOpening(page);
 }
@@ -278,14 +285,28 @@ test("title Patch notes shows every canonical section and real package version w
 test("normal county selection preserves unspecified town and exact saved jurisdiction", async ({
   page,
 }, info) => {
-  await page.goto("/?seed=ui-converge4-county");
-  await fillCreator(page, {
-    age: 38,
-    place: "Fayette County, Kentucky",
-    placeScope: "county",
-    route: "normal",
-  });
-  await page.getByTestId("begin").press("Enter");
+  /*
+   * PT3-CREATOR B made a normal start a town: the creator no longer offers a
+   * county as a hometown. A county-scoped life is still a valid world — old
+   * saves and replay addresses carry one — so it is reached here through the
+   * replay address the game itself issues, and the claims about an
+   * unspecified town and an exact saved jurisdiction stay tested.
+   */
+  const county = searchLifePlaces("Fayette County", 20, {
+    stateJurisdictionKey: "US-KY",
+    scope: "county",
+  }).find((candidate) => /Fayette County/i.test(candidate.displayName));
+  expect(county).toBeDefined();
+  await page.goto(
+    replayDescriptorUrl("", "/", {
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "normal",
+      placeKey: county!.key,
+      startAge: 38,
+      depth: "summarize-earlier-life",
+      seed: "ui-converge4-county",
+    }),
+  );
   await enterOpening(page);
   await save(page);
   const initial = await savedWorld(page);

@@ -5,7 +5,6 @@ import {
   savedRenderSnapshots,
   SavedAppearanceControls,
 } from "./SavedAppearance";
-import { playerEconomicContextLines } from "../presentation/economic-context";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
@@ -60,6 +59,18 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
+  clearCreatorState,
+  creatorLocationFromPlaceKey,
+  creatorLocationIsReady,
+  creatorPlaceListOpen,
+  selectCreatorPlace,
+  selectCreatorState,
+  selectedCreatorPlace,
+  withCreatorLocation,
+  type CreatorLocationDraft,
+} from "../presentation/creator-location";
+import { placeStartFacts } from "../presentation/place-start-summary";
+import {
   openOrdinaryLife,
   passOrdinaryDays,
 } from "../presentation/ordinary-life";
@@ -98,16 +109,12 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
-  lifePlaceByKey,
   lifePlaceCoverage,
   lifePlaceSearch,
+  lifePlaceStateIdentities,
+  lifePlaces,
 } from "../simulation";
-import type {
-  EntityId,
-  LifePlace,
-  QuestionnairePhase,
-  World,
-} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -133,7 +140,6 @@ import {
   projectPersonDossier,
   type PersonDossier,
 } from "../presentation/person-dossier";
-import { CANONICAL_VERSION } from "../presentation/release-identity";
 import {
   activeView,
   canGoBack,
@@ -158,6 +164,7 @@ import {
   WorkWorkspace,
   WorkspaceFrame,
 } from "./ShellWorkspaces";
+import { PlayerVersion } from "./PlayerVersion";
 
 /**
  * The game.
@@ -734,29 +741,6 @@ const CUSTOM_CREATOR_STEPS = [
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-/** A short, plain place context, built only from what the sources actually hold. */
-function placeContextLines(place: LifePlace): readonly string[] {
-  const lines: string[] = [];
-  if (place.withinName) lines.push(place.withinName);
-  if (place.formalName && place.formalName !== place.displayName) {
-    lines.push(place.formalName);
-  }
-  // Capability-gated, never fabricated: the only civic fact the accepted data
-  // carries is whether the game models a legislature you could later enter.
-  lines.push(
-    place.capabilities.legislativeScenarioKey
-      ? "The game models this state's legislature, so political office is reachable here later."
-      : "The game does not model a legislature here yet, so this is an everyday life for now.",
-  );
-  lines.push(
-    ...playerEconomicContextLines(
-      place.key,
-      place.context.initialMoment.date,
-    ).map((item) => item.text),
-  );
-  return lines;
-}
-
 function SetupScreen({
   seed,
   seedOrigin,
@@ -773,23 +757,44 @@ function SetupScreen({
   readonly problem: string | null;
 }) {
   const coverage = lifePlaceCoverage();
+  const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
-  /**
-   * Nothing until somebody asks for something, and then the national corpus.
-   *
-   * With an empty query the list is empty, so nothing reads as a recommended
-   * default. Once the player types, the search runs over the accepted national
-   * place identity (PR #77) and returns a bounded page of matches — anywhere in
-   * the country, found rather than offered.
+  const [replacingPlace, setReplacingPlace] = useState(false);
+  /*
+   * An edit of an already-chosen setup reopens with that setup's place; a
+   * fresh start opens with none (PT3-CREATOR B).
    */
-  const matchingPlaces = useMemo(
-    () => lifePlaceSearch(placeQuery, 12),
-    [placeQuery],
+  const [location, setLocation] = useState<CreatorLocationDraft>(() =>
+    creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const matchingStates = useMemo(() => {
+    const needle = stateQuery.trim().toLowerCase();
+    const identities = lifePlaceStateIdentities();
+    if (needle.length === 0) return identities;
+    return identities.filter(
+      (state) =>
+        state.name.toLowerCase().includes(needle) ||
+        state.usps.toLowerCase() === needle,
+    );
+  }, [stateQuery]);
+  const matchingPlaces = useMemo(() => {
+    if (!location.stateJurisdictionKey) return [];
+    return lifePlaceSearch(placeQuery, 24, {
+      stateJurisdictionKey: location.stateJurisdictionKey,
+      scope: "locality",
+    });
+  }, [location.stateJurisdictionKey, placeQuery]);
+  const statewidePlace =
+    lifePlaces().find(
+      (candidate) =>
+        candidate.scope === "state" &&
+        candidate.stateJurisdictionKey === location.stateJurisdictionKey,
+    ) ?? null;
   const [setup, setSetup] = useState<NewGameSetup>(
     initialSetup ?? {
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
+      placeKey: "",
     },
   );
   /**
@@ -809,6 +814,7 @@ function SetupScreen({
    */
   const [ageText, setAgeText] = useState(String(setup.startAge));
   const custom = setup.startKind === "custom";
+  const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
     ? CUSTOM_CREATOR_STEPS
     : NORMAL_CREATOR_STEPS;
@@ -832,8 +838,9 @@ function SetupScreen({
     );
   const reopen = (step: CreatorStep) => setCurrent(step);
 
-  const problems = newGameSetupProblems(setup);
-  const place = lifePlaceByKey(setup.placeKey);
+  const problems = newGameSetupProblems(committed);
+  const place = selectedCreatorPlace(location);
+  const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -866,8 +873,11 @@ function SetupScreen({
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
-    <main className="game-setup game-creator" data-testid="setup-screen">
-      <h1>Your new life</h1>
+    <main
+      className="game-title game-setup game-creator"
+      data-testid="setup-screen"
+    >
+      <h1>Our Civic Duty</h1>
 
       {/*
             Finished steps, collapsed. Each is a one-line summary the player can
@@ -905,6 +915,12 @@ function SetupScreen({
               className={!custom ? "is-chosen" : undefined}
               onClick={() => {
                 setSetup((now) => ({ ...now, startKind: "normal" }));
+                setLocation((now) => {
+                  const selected = selectedCreatorPlace(now);
+                  return selected && selected.scope === "state"
+                    ? { ...now, placeKey: null }
+                    : now;
+                });
                 setCurrent("character");
               }}
             >
@@ -1046,93 +1062,209 @@ function SetupScreen({
       {isCurrent("place") ? (
         <section data-testid="creator-stage-place">
           <h2>Where you're from</h2>
-          <label className="game-search">
-            Search places
-            <input
-              type="search"
-              data-testid="place-search"
-              value={placeQuery}
-              placeholder="Type a state or a city"
-              onChange={(event) => setPlaceQuery(event.target.value)}
-            />
-          </label>
-          {matchingPlaces.length > 0 ? (
-            <div className="game-choices" data-testid="place-choices">
-              {matchingPlaces.map((candidate) => (
-                <button
-                  key={candidate.key}
-                  type="button"
-                  className={
-                    candidate.key === setup.placeKey ? "is-chosen" : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      placeKey: candidate.key,
-                      startingLife:
-                        candidate.capabilities.legislativeScenarioKey === null
-                          ? "ordinary-life"
-                          : now.startingLife,
-                    }))
-                  }
-                >
-                  {candidate.displayName}
-                  {/*
-                    A search for "Kentucky" returns the whole state AND cities
-                    inside it. The owner play picked one meaning to get the
-                    other, so the two are now labelled as the different kinds of
-                    thing they are instead of as two similar-looking rows.
-                  */}
-                  <small data-place-scope={candidate.scope}>
-                    {candidate.scope === "state"
-                      ? "Statewide — not a hometown"
-                      : candidate.scope === "county"
-                        ? "County or county equivalent"
-                        : (candidate.withinName ?? "")}
-                  </small>
-                </button>
-              ))}
-            </div>
-          ) : placeQuery.trim().length === 0 ? (
-            <p className="game-note" data-testid="place-prompt">
-              Type where you're from. {coverage.playerNote}
-            </p>
+          {location.stateJurisdictionKey ? (
+            <button
+              type="button"
+              className="creator-summary"
+              data-testid="creator-change-state"
+              onClick={() => {
+                setLocation(clearCreatorState());
+                setPlaceQuery("");
+                setReplacingPlace(false);
+                setSetup((now) => ({ ...now, placeKey: "" }));
+              }}
+            >
+              <span className="creator-summary-value">
+                {lifePlaceStateIdentities().find(
+                  (state) =>
+                    state.jurisdictionKey === location.stateJurisdictionKey,
+                )?.name ?? location.stateJurisdictionKey}
+              </span>
+              <span className="creator-summary-edit">Change</span>
+            </button>
           ) : (
-            <p className="game-note" data-testid="place-no-match">
-              Nothing here matches that yet. {coverage.playerNote}
+            <>
+              <label className="game-search">
+                Choose a state
+                <input
+                  type="search"
+                  data-testid="state-search"
+                  value={stateQuery}
+                  placeholder="Type a state"
+                  onChange={(event) => setStateQuery(event.target.value)}
+                />
+              </label>
+              {matchingStates.length > 0 ? (
+                <div className="game-choices" data-testid="state-choices">
+                  {matchingStates.map((state) => (
+                    <button
+                      key={state.jurisdictionKey}
+                      type="button"
+                      data-testid={`state-${state.usps}`}
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorState(now, state.jurisdictionKey),
+                        );
+                        setPlaceQuery("");
+                        setReplacingPlace(false);
+                        setSetup((now) => ({ ...now, placeKey: "" }));
+                      }}
+                    >
+                      {state.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="game-note" data-testid="state-no-match">
+                  Nothing here matches that yet.
+                </p>
+              )}
+            </>
+          )}
+          {location.stateJurisdictionKey ? (
+            <>
+              <label className="game-search">
+                Search places in this state
+                <input
+                  type="search"
+                  data-testid="place-search"
+                  value={placeQuery}
+                  placeholder="Type a city or town"
+                  onChange={(event) => {
+                    setPlaceQuery(event.target.value);
+                    if (location.placeKey) setReplacingPlace(true);
+                  }}
+                />
+              </label>
+              {custom && statewidePlace ? (
+                <div className="game-choices" data-testid="place-statewide">
+                  <button
+                    type="button"
+                    data-testid="place-statewide-choice"
+                    className={
+                      location.placeKey === statewidePlace.key
+                        ? "is-chosen"
+                        : undefined
+                    }
+                    onClick={() => {
+                      setLocation((now) =>
+                        selectCreatorPlace(now, statewidePlace),
+                      );
+                      setReplacingPlace(false);
+                      setSetup((now) => ({
+                        ...now,
+                        placeKey: statewidePlace.key,
+                      }));
+                    }}
+                  >
+                    {statewidePlace.displayName}
+                    <small data-place-scope="state">
+                      Statewide — not a hometown
+                    </small>
+                  </button>
+                </div>
+              ) : null}
+              {placeListOpen && matchingPlaces.length > 0 ? (
+                <div className="game-choices" data-testid="place-choices">
+                  {matchingPlaces.map((candidate) => (
+                    <button
+                      key={candidate.key}
+                      type="button"
+                      className={
+                        candidate.key === location.placeKey
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorPlace(now, candidate),
+                        );
+                        setReplacingPlace(false);
+                        setSetup((now) => ({
+                          ...now,
+                          placeKey: candidate.key,
+                          startingLife:
+                            candidate.capabilities.legislativeScenarioKey ===
+                            null
+                              ? "ordinary-life"
+                              : now.startingLife,
+                        }));
+                      }}
+                    >
+                      {candidate.displayName}
+                      <small data-place-scope={candidate.scope}>
+                        {candidate.withinName ?? ""}
+                      </small>
+                    </button>
+                  ))}
+                </div>
+              ) : placeListOpen && placeQuery.trim().length === 0 ? (
+                <p className="game-note" data-testid="place-prompt">
+                  Choose a town in this state. {coverage.playerNote}
+                </p>
+              ) : placeListOpen ? (
+                <p className="game-note" data-testid="place-no-match">
+                  Nothing here matches that yet. {coverage.playerNote}
+                </p>
+              ) : null}
+            </>
+          ) : (
+            <p className="game-note" data-testid="place-prompt">
+              Choose a state first. A fresh start has no home selected.
             </p>
           )}
-          {place ? (
+          {place &&
+          creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
             <div className="creator-place-context" data-testid="place-context">
-              {/*
-                The exact place that becomes canonical, said before Begin. The
-                owner play chose a state and was later told they lived in
-                Lexington; whatever the answer is, it is on screen first.
-              */}
-              <p className="creator-place-name" data-testid="place-canonical">
-                {place.displayName}
-              </p>
-              <p className="game-hint" data-testid="place-scope">
-                {place.scope === "state"
-                  ? "A whole state, chosen as the scope of this life."
-                  : place.scope === "county"
-                    ? "County or county equivalent. Your town is unspecified."
-                    : "This is the exact place this life will be lived in."}
-              </p>
-              {placeContextLines(place).map((line) => (
-                <p key={line} className="game-hint">
-                  {line}
-                </p>
-              ))}
               <button
                 type="button"
-                className="game-creator-next"
-                data-testid="creator-continue-place"
-                onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                className="creator-summary"
+                data-testid="creator-change-place"
+                onClick={() => setReplacingPlace((open) => !open)}
               >
-                Next
+                <span
+                  className="creator-place-name"
+                  data-testid="place-canonical"
+                >
+                  {place.displayName}
+                </span>
+                <span className="creator-summary-edit">
+                  {replacingPlace ? "Keep" : "Change"}
+                </span>
               </button>
+              {place.scope !== "locality" ? (
+                <p className="game-hint" data-testid="place-scope">
+                  {place.scope === "state"
+                    ? "Statewide start."
+                    : "County-wide start; a specific town is not selected."}
+                </p>
+              ) : null}
+              {placeStartFacts(place)
+                .filter((fact) => fact.kind !== "name")
+                .map((fact) => (
+                  <p key={`${fact.kind}:${fact.text}`} className="game-hint">
+                    {fact.kind === "county"
+                      ? fact.asOf
+                        ? `${fact.text} · ${fact.asOf.slice(0, 4)}`
+                        : fact.text
+                      : fact.text}
+                  </p>
+                ))}
+              {replacingPlace ? null : (
+                <button
+                  type="button"
+                  className="game-creator-next"
+                  data-testid="creator-continue-place"
+                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                >
+                  Next
+                </button>
+              )}
             </div>
+          ) : location.stateJurisdictionKey ? (
+            <p className="game-note" data-testid="place-need-locality">
+              Next waits until you choose a place in this state.
+            </p>
           ) : null}
         </section>
       ) : null}
@@ -1218,7 +1350,7 @@ function SetupScreen({
               Legislative staff
               <small>
                 {place?.capabilities.legislativeScenarioKey === null
-                  ? `${place.displayName} has no legislature you can work in yet.`
+                  ? "A legislative staff start is not available for this selected place yet."
                   : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
                     ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
                     : "Working for a state legislature."}
@@ -1377,14 +1509,16 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
-        <button
-          type="button"
-          data-testid="begin"
-          disabled={problems.length > 0 || !onReady}
-          onClick={() => onBegin(setup)}
-        >
-          Begin
-        </button>
+        {onReady ? (
+          <button
+            type="button"
+            data-testid="begin"
+            disabled={problems.length > 0}
+            onClick={() => onBegin(committed)}
+          >
+            Begin
+          </button>
+        ) : null}
       </div>
 
       {/*
@@ -1405,7 +1539,7 @@ function SetupScreen({
         </p>
         <p>
           <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", setup)}
+            {replayDescriptorUrl("", "/", committed)}
           </code>
         </p>
       </details>
@@ -1455,10 +1589,11 @@ function QuestionnaireScreenView({
   const note = questionnaireContentNote();
   return (
     <main
-      className="game-setup game-creator"
+      className="game-title game-setup game-creator"
       data-testid="questionnaire-screen"
     >
-      <h1>Who are you?</h1>
+      <h1>Our Civic Duty</h1>
+      <h2>Who are you?</h2>
       {/*
             What these questions actually are, said once and plainly: they are
             about the player, they orient what the game offers, and they decide
@@ -1720,6 +1855,14 @@ function PlayingScreen({
     readonly subject: ConversationSubjectKey;
     readonly addressee: ConversationAddressee;
   } | null>(null);
+  /**
+   * Whose Talk-to control the room should focus when a conversation closes.
+   *
+   * Back with a keyboard used to leave focus on the page body. The scene
+   * panel does the focusing, because it owns the control and knows when it is
+   * on screen; this is the request, cleared as soon as it is honored.
+   */
+  const [returnFocusTo, setReturnFocusTo] = useState<EntityId | null>(null);
 
   const sceneId = useMemo(() => {
     const activity = completedActivityHere(session.world, session.personId);
@@ -2181,6 +2324,8 @@ function PlayingScreen({
                 <StoryView session={session} onWorldChange={onWorldChange} />
               }
               onTalkTo={(personId) => talkTo(personId)}
+              returnFocusTo={returnFocusTo}
+              onFocusReturned={() => setReturnFocusTo(null)}
               foreground={
                 conversation ? (
                   <SceneConversation
@@ -2191,7 +2336,13 @@ function PlayingScreen({
                     addressee={conversation.addressee}
                     onWorldChange={onWorldChange}
                     onChange={(next) => setConversation(next)}
-                    onBack={() => setConversation(null)}
+                    onBack={() => {
+                      const facing = conversation.addressee;
+                      setConversation(null);
+                      // The room focuses the control this came from, so Back
+                      // with a keyboard lands on the person again.
+                      if (facing !== "everyone") setReturnFocusTo(facing);
+                    }}
                     transitionHandlers={createCampaignElectionTransitionRegistry()}
                   />
                 ) : null
@@ -2374,13 +2525,7 @@ function PlayingScreen({
             onOpen={openEntity}
           />
 
-          {/*
-        The build's own version, quiet in the corner and read from the checkout
-        rather than restated. Nothing on this route can change it.
-      */}
-          <p className="pg-version" data-testid="shell-version">
-            v{CANONICAL_VERSION}
-          </p>
+          <PlayerVersion />
 
           {floorSeat ? (
             <div
