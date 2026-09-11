@@ -24,6 +24,7 @@
     "export:life-places": "node --import tsx scripts/source/export-life-places.ts",
     "export:office-qualifications": "node --import tsx scripts/source/export-office-qualifications.ts",
     "export:campaign-compliance": "node --import tsx scripts/source/export-campaign-compliance.ts",
+    "export:district-identities": "node --import tsx scripts/source/export-district-identities.ts",
     "ledger:qualifications": "node --import tsx scripts/source/qualification-ledger.ts",
     "test": "vitest run",
     "test:run-a": "vitest run src/presentation/run-a.test.ts",
