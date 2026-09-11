@@ -7786,8 +7786,53 @@
   font-size: 0.82rem;
 }
 
+.public-information-search {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.public-information-search label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.public-information-search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.public-information-search input[type="search"] {
+  flex: 1 1 12rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.45rem;
+  background: rgb(255 255 255 / 4%);
+  color: inherit;
+}
+
+.public-information-search-clear {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.7rem;
+}
+
+.public-information-search-clear:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.public-information-search-count {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.82rem;
+}
+
 .public-information-panel button:focus-visible,
-.public-information-panel summary:focus-visible {
+.public-information-panel summary:focus-visible,
+.public-information-panel input:focus-visible {
   outline: 3px solid var(--run-a-focus);
   outline-offset: 2px;
 }
