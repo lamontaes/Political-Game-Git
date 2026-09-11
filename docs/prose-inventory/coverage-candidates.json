@@ -1,9 +1,9 @@
 {
   "counts": {
     "INVENTORIED": 2107,
-    "INTENTIONALLY_NON_PLAYER_FACING": 5628,
-    "DIAGNOSTIC_OR_TEST": 4479,
-    "NEEDS_CLASSIFICATION": 5685
+    "INTENTIONALLY_NON_PLAYER_FACING": 5636,
+    "DIAGNOSTIC_OR_TEST": 4483,
+    "NEEDS_CLASSIFICATION": 5687
   },
   "needsClassification": [
     {
@@ -1753,7 +1753,7 @@
     {
       "sourcePath": "src/districts/query.ts",
       "enclosingSymbol": "DISTRICT_MEMBERSHIP_REFUSAL",
-      "line": 9,
+      "line": 10,
       "text": "Gazetteer interior points are not district boundaries or home membership. The game will not assign a district from a coordinate, a nearest centroid, a city, a county, or statewide residence.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -1761,8 +1761,24 @@
     {
       "sourcePath": "src/districts/query.ts",
       "enclosingSymbol": "DISTRICT_HOME_JOIN_UNKNOWN",
-      "line": 12,
+      "line": 13,
       "text": "A recorded home place or jurisdiction is not numbered-district membership. The game will not treat a city, county, or state name as proof that the home lies in a Gazetteer district.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/districts/query.ts",
+      "enclosingSymbol": "DISTRICT_HOME_JOIN_SPLIT",
+      "line": 16,
+      "text": "The recorded home place is split across more than one district of this chamber. Whole-place membership is not known, and the game will not pick a district.",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/districts/query.ts",
+      "enclosingSymbol": "DISTRICT_HOME_JOIN_IDENTITY_MISSING",
+      "line": 19,
+      "text": "The relationship file names a district that is not in the accepted Gazetteer identity catalog, so membership stays unknown.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },
@@ -9841,7 +9857,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 214,
+      "line": 216,
       "text": "The character this life follows",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9849,7 +9865,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 220,
+      "line": 222,
       "text": "{name} is {age}, and lives in {place.displayName}. This is where their life is picked up.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9857,7 +9873,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 227,
+      "line": 229,
       "text": "The start of a working life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9865,7 +9881,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 228,
+      "line": 230,
       "text": "The start of a life",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9873,7 +9889,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 232,
+      "line": 234,
       "text": "A childhood already under way, in a household the character did not choose.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9881,7 +9897,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "recordCreation",
-      "line": 233,
+      "line": 235,
       "text": "An ordinary adult life already under way.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9889,7 +9905,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 277,
+      "line": 279,
       "text": "{player.familyName} household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9897,7 +9913,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "transitions",
-      "line": 278,
+      "line": 280,
       "text": "{personName(player)}'s household",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -9905,7 +9921,7 @@
     {
       "sourcePath": "src/presentation/production-world.ts",
       "enclosingSymbol": "employInLegislativeOffice",
-      "line": 654,
+      "line": 656,
       "text": "Legislative staff",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
@@ -45939,12 +45955,6 @@
       "count": 4
     },
     {
-      "sourcePath": "src/simulation/policy.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 13
-    },
-    {
       "sourcePath": "src/simulation/quantity.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -46057,6 +46067,12 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 14
+    },
+    {
+      "sourcePath": "src/simulation/policy.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 13
     },
     {
       "sourcePath": "src/simulation/policy.ts",
@@ -47292,7 +47308,7 @@
       "sourcePath": "src/simulation/district-residence.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 10
+      "count": 15
     },
     {
       "sourcePath": "src/simulation/demo.ts",
@@ -47527,12 +47543,6 @@
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 22
-    },
-    {
-      "sourcePath": "src/presentation/run-a-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
     },
     {
       "sourcePath": "src/simulation/campaign-compliance-rules.ts",
@@ -47789,6 +47799,12 @@
     {
       "sourcePath": "src/presentation/run-a-fixture.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A key, identifier, tag or citation field rather than something read.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/run-a-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 5
     },
@@ -48027,6 +48043,12 @@
       "count": 3
     },
     {
+      "sourcePath": "src/presentation/legislation-docket-selection.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/legislative-member-seat.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -48213,12 +48235,6 @@
       "count": 43
     },
     {
-      "sourcePath": "src/presentation/legislation-docket-selection.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/legislation-content-boundaries.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -48244,6 +48260,12 @@
     },
     {
       "sourcePath": "src/presentation/legislation-composition-bank.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 1
+    },
+    {
+      "sourcePath": "src/presentation/legislation-docket-selection.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 1
@@ -48297,12 +48319,6 @@
       "count": 2
     },
     {
-      "sourcePath": "src/presentation/legislation-analysis.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
-      "count": 2
-    },
-    {
       "sourcePath": "src/presentation/garment-fit.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A validation message composed in validateGarmentFitBounds. Play fails closed rather than showing it.",
@@ -48318,12 +48334,6 @@
       "sourcePath": "src/presentation/formative-play.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A key, identifier, tag or citation field rather than something read.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/legislation-docket-selection.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 1
     },
     {
@@ -48346,6 +48356,12 @@
     },
     {
       "sourcePath": "src/presentation/fiscal-authority-work.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
+      "sourcePath": "src/presentation/legislation-analysis.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
@@ -48381,16 +48397,16 @@
       "count": 3
     },
     {
-      "sourcePath": "src/presentation/economic-graphs.test.ts",
+      "sourcePath": "src/presentation/districts13.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 17
     },
     {
-      "sourcePath": "src/presentation/economic-context.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
+      "sourcePath": "src/presentation/economic-graphs.test.ts",
+      "verdict": "DIAGNOSTIC_OR_TEST",
+      "reason": "Declared in a test or fixture, which no player reaches.",
+      "count": 17
     },
     {
       "sourcePath": "src/presentation/economic-context.test.ts",
@@ -48411,6 +48427,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/presentation/economic-context.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/presentation/economic-context-browser.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
@@ -48423,18 +48445,6 @@
       "count": 9
     },
     {
-      "sourcePath": "src/presentation/districts13.test.ts",
-      "verdict": "DIAGNOSTIC_OR_TEST",
-      "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 14
-    },
-    {
-      "sourcePath": "src/environment/scenes/legislative-chamber-production.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 10
-    },
-    {
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -48445,6 +48455,18 @@
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
       "count": 23
+    },
+    {
+      "sourcePath": "src/environment/scenes/civic-hearing-room-production.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
+      "count": 11
+    },
+    {
+      "sourcePath": "src/environment/scenes/courtroom-empty-production.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
+      "count": 11
     },
     {
       "sourcePath": "src/presentation/component-masters.ts",
@@ -48471,6 +48493,12 @@
       "count": 1
     },
     {
+      "sourcePath": "src/presentation/conversation-consequences.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 1
+    },
+    {
       "sourcePath": "src/presentation/character-render-plan.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
@@ -48484,12 +48512,6 @@
     },
     {
       "sourcePath": "src/presentation/character-proof.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 1
-    },
-    {
-      "sourcePath": "src/presentation/conversation-consequences.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -48579,7 +48601,7 @@
       "count": 1
     },
     {
-      "sourcePath": "src/player/ConversationStrip.tsx",
+      "sourcePath": "src/player/PersonAppearanceControls.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -48597,7 +48619,7 @@
       "count": 1
     },
     {
-      "sourcePath": "src/player/PersonAppearanceControls.tsx",
+      "sourcePath": "src/player/ConversationStrip.tsx",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
       "count": 1
@@ -48633,25 +48655,13 @@
       "count": 15
     },
     {
-      "sourcePath": "src/environment/scenes/committee-room-fixture.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 7
-    },
-    {
-      "sourcePath": "src/environment/scenes/civic-hearing-room-production.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 11
-    },
-    {
-      "sourcePath": "src/environment/scenes/courtroom-empty-production.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
-      "count": 11
-    },
-    {
       "sourcePath": "src/environment/scenes/civic-community-meeting-title-production.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
+      "count": 10
+    },
+    {
+      "sourcePath": "src/environment/scenes/legislative-chamber-production.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
       "count": 10
@@ -48729,6 +48739,12 @@
       "count": 2
     },
     {
+      "sourcePath": "src/education/study-provider.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
+      "count": 2
+    },
+    {
       "sourcePath": "src/districts/query.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
@@ -48744,18 +48760,24 @@
       "sourcePath": "src/districts/query.test.ts",
       "verdict": "DIAGNOSTIC_OR_TEST",
       "reason": "Declared in a test or fixture, which no player reaches.",
-      "count": 6
+      "count": 7
+    },
+    {
+      "sourcePath": "src/environment/scenes/committee-room-fixture.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "Scene-authoring and environment-spec machinery. Its strings are validation messages and asset identifiers for the art pipeline, never scene prose — baked art carries no simulation-owned text.",
+      "count": 7
+    },
+    {
+      "sourcePath": "src/districts/place-membership.ts",
+      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
+      "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
+      "count": 3
     },
     {
       "sourcePath": "src/districts/catalog.ts",
       "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
       "reason": "The message of a thrown developer error. Play fails closed rather than showing it.",
-      "count": 2
-    },
-    {
-      "sourcePath": "src/education/study-provider.ts",
-      "verdict": "INTENTIONALLY_NON_PLAYER_FACING",
-      "reason": "A declared reason or note explaining a gate to a reviewer, not shown as scene prose.",
       "count": 2
     },
     {
