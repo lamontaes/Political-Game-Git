@@ -153,10 +153,24 @@ bytes (and executable bit or symlink target) of every path `git status`
 reports as differing from it: modified, staged, deleted, renamed, or
 untracked and not ignored. Paths and contents are hashed as bytes, never
 decoded as text, so two binary edits can't collapse to one identity. An edit
-that leaves the dirty-file count unchanged still changes the identity. The
-receipt's own directory is left out, and `--out` refuses the repository root
-or any directory that holds tracked files, so it can't be used to hide
-source.
+that leaves the dirty-file count unchanged still changes the identity.
+
+The only paths left out are the two artifacts the run writes itself,
+`<out>/<stage>.json` and `<out>/<stage>.log`, matched as whole paths. The rest
+of the output directory stays in the identity, so `--out` cannot be pointed at
+a directory to make source invisible — including source added to that
+directory after the run, and including a directory reached through a symlink.
+`--verify` also refuses a receipt whose recorded exclusion list is longer than
+two paths or names anything but its own `<stage>.json` and `<stage>.log`, so a
+hand-edited receipt cannot widen it. Independently, `--out` refuses the repository root and any
+directory that already holds repository source: tracked files, or untracked
+files git does not ignore that are not receipts this script wrote. Earlier
+stages' receipts and logs are exempt, so repeated stages share a directory; a
+`.json` that is not a receipt, and a `.log` with no receipt beside it, are
+not. One consequence: in an output directory git does not ignore, each receipt
+is itself an untracked file, so a later stage's artifacts change the identity
+and invalidate earlier receipts in that directory. The documented default
+`.agent-receipts/` is gitignored, where this does not arise.
 
 **`--writes` operation receipts.** Declare `--writes` for a rewriting command
 (`format:write`, `lint --fix`, codegen). Its receipt keeps the stage, exit
@@ -169,12 +183,13 @@ start/end comparison.
 **`--verify`** recomputes branch, HEAD and source identity and refuses the
 receipt if any of the following is true:
 
-- it predates source identity (schema 1);
+- it predates the current receipt schema;
 - it is an operation receipt;
 - the recorded run failed or did not certify;
 - HEAD has moved (stale revision);
 - the current source bytes differ from the certified ones, even without a new
   commit (source changed after the run);
+- it claims to have excluded a path it does not own;
 - with `--expect-branch`, the recorded or current branch doesn't match (wrong
   checkout).
 
@@ -228,6 +243,17 @@ EFF-R1 correction (source identity), added after the run above:
 - `--writes` operation receipts, both succeeding and failing;
 - schema-1 receipts;
 - receipt directories that would hide source.
+
+EFF-R2 correction (output directory), added after the review of `6d2db7e6`:
+the source identity left out the whole `--out` directory, so an output
+directory holding untracked non-ignored source — or one that gained source
+afterwards — dropped that source from the identity and a stale receipt still
+verified `VALID`. The identity now leaves out only `<out>/<stage>.json` and
+`<out>/<stage>.log` as whole paths (receipt schema 3), `--out` also refuses a
+directory that already holds untracked non-ignored source, and `--verify`
+refuses a receipt claiming any other exclusion. Controls for each, including
+symlinked and nested `--out` forms and source added after the run, are in
+`scripts/agent-run-receipt.test.ts`.
 
 It also gained one positive control: staging identical bytes must not
 invalidate a receipt. Against the pre-correction script, a same-count text

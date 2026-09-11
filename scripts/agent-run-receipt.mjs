@@ -28,6 +28,11 @@
  * verify. It is not continuous: an edit made and reverted while the command
  * runs is invisible. It is a net-difference check, not a watcher.
  *
+ * The only bytes the identity leaves out are the two artifacts this run
+ * writes itself (`<out>/<stage>.json` and `<out>/<stage>.log`). Nothing else
+ * under `--out` is invisible, so a chosen output directory cannot hide source
+ * — including source added to that directory after the run.
+ *
  * This script never edits, formats, lints, or tests anything itself — it only
  * wraps whatever command the caller names, so "format-check" vs
  * "format-write" (or lint vs typecheck vs test vs build) is whatever `--stage`
@@ -48,7 +53,7 @@ import {
 } from "node:fs";
 import { join, relative, resolve, isAbsolute, sep } from "node:path";
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 const SOURCE_IDENTITY_VERSION = "ocd-source-identity-v1";
 const DEFAULT_OUT_DIR = ".agent-receipts";
 
@@ -117,22 +122,40 @@ function splitNul(buffer) {
 }
 
 /**
- * The receipt directory, relative to the repository root, that the source
- * identity leaves out — otherwise writing the log would change the very source
- * identity it is recording. Refuses a directory that would hide real source:
- * the repository root itself, or any directory holding tracked files.
+ * The exact repository-relative paths this run writes, and the only paths the
+ * source identity leaves out — otherwise writing the log would change the very
+ * source identity it is recording. Excluding these two files rather than the
+ * whole output directory is what keeps `--out` from hiding source: everything
+ * else under it stays in the identity, including source added after the run.
+ *
+ * Returns an empty list when the output directory is outside the worktree,
+ * where nothing it writes is source in the first place.
  */
-function receiptExclusion(repoRoot, outDir) {
-  // Both sides resolved through symlinks (macOS /var -> /private/var), since
-  // git reports the repository root that way.
+function receiptExclusion(repoRoot, outDir, stage) {
+  // Both sides resolved through symlinks (macOS /var -> /private/var, and any
+  // symlinked --out), since git reports the repository root that way.
   const rel = relative(realpathSync(repoRoot), realpathSync(resolve(outDir)));
-  if (rel.startsWith("..") || isAbsolute(rel)) return null; // outside the worktree
-  return checkedExclusion(repoRoot, rel.split(sep).join("/"));
+  if (rel.startsWith("..") || isAbsolute(rel)) return []; // outside the worktree
+  const dir = checkedOutDir(repoRoot, rel.split(sep).join("/"));
+  return artifactPaths(dir, stage);
 }
 
-function checkedExclusion(repoRoot, rel) {
+/** The receipt and log this run owns, relative to the repository root. */
+function artifactPaths(dir, stage) {
+  const prefix = dir === "" ? "" : `${dir}/`;
+  return [`${prefix}${stage}.json`, `${prefix}${stage}.log`];
+}
+
+/**
+ * An output directory must be a dedicated one. The repository root is refused,
+ * and so is any directory already holding repository source — tracked files,
+ * or untracked files git does not ignore that are not receipts this script
+ * wrote. Earlier stages' own receipts and logs are not source, so repeated
+ * stages keep working in the same directory.
+ */
+function checkedOutDir(repoRoot, rel) {
   if (rel === "")
-    fail("--out must not be the repository root; receipts would hide source.");
+    fail("--out must not be the repository root; use a dedicated directory.");
   const tracked = gitBytes(
     ["--literal-pathspecs", "ls-files", "-z", "--", rel],
     repoRoot,
@@ -141,7 +164,54 @@ function checkedExclusion(repoRoot, rel) {
     fail(
       `receipt directory ${rel} contains tracked files; receipts must live in a dedicated directory.`,
     );
+  const untracked = splitNul(
+    gitBytes(
+      [
+        "--literal-pathspecs",
+        "ls-files",
+        "-z",
+        "--others",
+        "--exclude-standard",
+        "--",
+        rel,
+      ],
+      repoRoot,
+    ),
+  ).map((path) => path.toString());
+  const source = untracked.filter(
+    (path) => !isOwnArtifact(repoRoot, rel, path),
+  );
+  if (source.length > 0)
+    fail(
+      `receipt directory ${rel} contains untracked source git does not ignore (${source[0]}); use a dedicated directory.`,
+    );
   return rel;
+}
+
+/**
+ * Whether a path directly inside the output directory is a receipt this script
+ * wrote, or the log paired with one. Anything else — including a `.json` that
+ * is not a receipt, and a `.log` with no receipt beside it — is source.
+ */
+function isOwnArtifact(repoRoot, rel, path) {
+  const prefix = rel === "" ? "" : `${rel}/`;
+  if (!path.startsWith(prefix)) return false;
+  const name = path.slice(prefix.length);
+  if (name.includes("/")) return false; // nested: never a receipt of ours
+  const match = /^(.+)\.(json|log)$/.exec(name);
+  if (!match) return false;
+  try {
+    const beside = JSON.parse(
+      readFileSync(join(repoRoot, prefix + `${match[1]}.json`), "utf8"),
+    );
+    return (
+      beside !== null &&
+      typeof beside === "object" &&
+      beside.sourceIdentityVersion === SOURCE_IDENTITY_VERSION
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -155,8 +225,12 @@ function checkedExclusion(repoRoot, rel) {
  * Clean tracked files are covered by the HEAD tree, which relies on
  * `git status` to list any tracked path whose bytes differ (the same stat and
  * racy-timestamp handling git itself uses). Ignored files are not source.
+ *
+ * `excludePaths` is the exact, short list of repository-relative paths this
+ * run writes itself. It is matched byte-for-byte against whole paths, never as
+ * a directory prefix, so nothing else can ride along inside it.
  */
-function sourceIdentity(excludeRel) {
+function sourceIdentity(excludePaths) {
   const repoRoot = git(["rev-parse", "--show-toplevel"]);
   const headTree = git(["rev-parse", "HEAD^{tree}"]);
   if (!repoRoot || !headTree) return null;
@@ -185,16 +259,14 @@ function sourceIdentity(excludeRel) {
     }
   }
 
-  const excludePrefix = excludeRel ? Buffer.from(`${excludeRel}/`) : null;
+  const excluded = new Set(
+    (excludePaths || []).map((path) => Buffer.from(path).toString("hex")),
+  );
   const unique = new Map();
   for (const path of paths) {
-    if (
-      excludePrefix &&
-      path.length >= excludePrefix.length &&
-      path.subarray(0, excludePrefix.length).equals(excludePrefix)
-    )
-      continue;
-    unique.set(path.toString("hex"), path);
+    const key = path.toString("hex");
+    if (excluded.has(key)) continue;
+    unique.set(key, path);
   }
   const sorted = [...unique.values()].sort(Buffer.compare);
 
@@ -277,8 +349,8 @@ function runRecord({ stage, outDir, writes, command, commandArgs }) {
   // An empty directory is invisible to git, so creating it first cannot
   // change the source identity sampled below.
   mkdirSync(outDir, { recursive: true });
-  const sourceExclude = receiptExclusion(repoRoot, outDir);
-  const sourceBefore = sourceIdentity(sourceExclude);
+  const sourceExcludePaths = receiptExclusion(repoRoot, outDir, stage);
+  const sourceBefore = sourceIdentity(sourceExcludePaths);
 
   const logPath = join(outDir, `${stage}.log`);
   const receiptPath = join(outDir, `${stage}.json`);
@@ -313,7 +385,7 @@ function runRecord({ stage, outDir, writes, command, commandArgs }) {
   child.on("close", (exitCode, signal) => {
     const finishedAt = new Date().toISOString();
     const after = checkoutIdentity();
-    const sourceAfter = sourceIdentity(sourceExclude);
+    const sourceAfter = sourceIdentity(sourceExcludePaths);
     const commandSucceeded = exitCode === 0;
     const sourceChangedAcrossRun =
       sourceBefore.fingerprint !== sourceAfter.fingerprint;
@@ -357,7 +429,7 @@ function runRecord({ stage, outDir, writes, command, commandArgs }) {
       dirtyTrackedCountBefore: before.dirtyTrackedCount,
       dirtyTrackedCountAfter: after.dirtyTrackedCount,
       sourceIdentityVersion: SOURCE_IDENTITY_VERSION,
-      sourceExclude,
+      sourceExcludePaths,
       sourceFingerprintBefore: sourceBefore.fingerprint,
       sourceFingerprintAfter: sourceAfter.fingerprint,
       sourceChangedAcrossRun,
@@ -400,7 +472,7 @@ function runVerify({ receiptPath, expectBranch }) {
 
   if (receipt.schemaVersion !== SCHEMA_VERSION) {
     reasons.push(
-      `receipt schemaVersion ${receipt.schemaVersion} predates binary-safe source identity; re-run the command to certify current source`,
+      `receipt schemaVersion ${receipt.schemaVersion} predates binary-safe source identity as this script computes it (current schema ${SCHEMA_VERSION}); re-run the command to certify current source`,
     );
   }
   if (receipt.kind === "operation") {
@@ -425,18 +497,34 @@ function runVerify({ receiptPath, expectBranch }) {
     );
   }
   if (receipt.schemaVersion === SCHEMA_VERSION) {
-    const repoRoot = git(["rev-parse", "--show-toplevel"]);
-    const exclude = receipt.sourceExclude
-      ? checkedExclusion(repoRoot, receipt.sourceExclude)
+    // A receipt may only ever have left out its own two artifacts. Recomputing
+    // with whatever list it carries would let a forged receipt name half the
+    // tree, so the list is checked before it is used.
+    const claimed = Array.isArray(receipt.sourceExcludePaths)
+      ? receipt.sourceExcludePaths
       : null;
-    const currentSource = sourceIdentity(exclude);
-    if (
-      !currentSource ||
-      currentSource.fingerprint !== receipt.sourceFingerprintAfter
-    ) {
-      reasons.push(
-        `source changed after the run: receipt is for source ${short(receipt.sourceFingerprintAfter)}, current source is ${short(currentSource && currentSource.fingerprint)}`,
+    const ownArtifacts = new Set(artifactPaths("", receipt.stage || ""));
+    const foreign =
+      claimed &&
+      claimed.filter(
+        (path) =>
+          typeof path !== "string" ||
+          !ownArtifacts.has(path.split("/").pop() || ""),
       );
+    if (!claimed || claimed.length > 2 || (foreign && foreign.length > 0)) {
+      reasons.push(
+        `receipt claims to exclude paths it does not own (${JSON.stringify(claimed)}); only its own <stage>.json and <stage>.log may be left out of the source identity`,
+      );
+    } else {
+      const currentSource = sourceIdentity(claimed);
+      if (
+        !currentSource ||
+        currentSource.fingerprint !== receipt.sourceFingerprintAfter
+      ) {
+        reasons.push(
+          `source changed after the run: receipt is for source ${short(receipt.sourceFingerprintAfter)}, current source is ${short(currentSource && currentSource.fingerprint)}`,
+        );
+      }
     }
   }
   if (expectBranch && receipt.branch !== expectBranch) {

@@ -4,6 +4,7 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -27,6 +28,9 @@ function makeFixtureRepo() {
   run(["config", "user.email", "fixture@example.com"]);
   run(["config", "user.name", "Fixture"]);
   writeFileSync(join(dir, "file.txt"), "one\n");
+  // As in this repository: the receipt directory is gitignored, so receipts
+  // are never source in the first place.
+  writeFileSync(join(dir, ".gitignore"), ".agent-receipts/\n");
   run(["add", "."]);
   run(["commit", "--quiet", "-m", "initial"]);
   return dir;
@@ -490,5 +494,251 @@ describe("agent-run-receipt: source identity (EFF-R1)", () => {
     ]);
     expect(tracked.status).toBe(2);
     expect(tracked.stderr).toMatch(/contains tracked files/);
+  });
+});
+
+describe("agent-run-receipt: the output directory cannot hide source (EFF-R2)", () => {
+  it("refuses an output directory that already holds untracked non-ignored source", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    mkdirSync(join(dir, "hidey"));
+    writeFileSync(join(dir, "hidey", "source.ts"), "export const x = 1;\n");
+
+    const result = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "hidey",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+
+    expect(result.status).toBe(2);
+    expect(result.stderr).toMatch(
+      /contains untracked source git does not ignore/,
+    );
+  });
+
+  it("refuses such a directory nested under a tracked directory, where no tracked file sits in the output directory itself", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    mkdirSync(join(dir, "pkg"));
+    writeFileSync(join(dir, "pkg", "tracked.txt"), "kept\n");
+    execFileSync("git", ["add", "."], { cwd: dir });
+    execFileSync("git", ["commit", "--quiet", "-m", "pkg"], { cwd: dir });
+    mkdirSync(join(dir, "pkg", "receipts"));
+    writeFileSync(join(dir, "pkg", "receipts", "source.ts"), "export {};\n");
+
+    const result = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "pkg/receipts",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+
+    expect(result.status).toBe(2);
+    expect(result.stderr).toMatch(
+      /contains untracked source git does not ignore/,
+    );
+  });
+
+  it("keeps certifying across its own receipt and log in a non-ignored output directory, but refuses once source is added there afterwards", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    const recorded = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "receipts-dir",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(recorded.status).toBe(0);
+    const receipt = JSON.parse(
+      readFileSync(join(dir, "receipts-dir", "test.json"), "utf8"),
+    );
+    expect(receipt.certifiesSource).toBe(true);
+    expect(receipt.sourceExcludePaths).toEqual([
+      "receipts-dir/test.json",
+      "receipts-dir/test.log",
+    ]);
+
+    // The run's own two artifacts are the only thing left out, so a directory
+    // that is not gitignored still verifies.
+    const valid = runReceipt(dir, [
+      "--verify",
+      join("receipts-dir", "test.json"),
+    ]);
+    expect(valid.status).toBe(0);
+
+    // Source dropped into that same directory afterwards is still source.
+    writeFileSync(
+      join(dir, "receipts-dir", "added.ts"),
+      "export const y = 2;\n",
+    );
+    const refused = runReceipt(dir, [
+      "--verify",
+      join("receipts-dir", "test.json"),
+    ]);
+    expect(refused.status).not.toBe(0);
+    expect(refused.stderr).toMatch(/source changed after the run/);
+  });
+
+  it("resolves a symlinked output directory rather than letting the link bypass the rule", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    mkdirSync(join(dir, "real-out"));
+    symlinkSync("real-out", join(dir, "link-out"));
+
+    // Recorded through the link, the exclusion names the resolved path.
+    const recorded = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "link-out",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(recorded.status).toBe(0);
+    const receipt = JSON.parse(
+      readFileSync(join(dir, "real-out", "test.json"), "utf8"),
+    );
+    expect(receipt.sourceExcludePaths).toEqual([
+      "real-out/test.json",
+      "real-out/test.log",
+    ]);
+    expect(
+      runReceipt(dir, ["--verify", join("real-out", "test.json")]).status,
+    ).toBe(0);
+
+    // Source behind the link is still source.
+    writeFileSync(join(dir, "real-out", "source.ts"), "export const z = 3;\n");
+    const refused = runReceipt(dir, [
+      "--verify",
+      join("real-out", "test.json"),
+    ]);
+    expect(refused.status).not.toBe(0);
+    expect(refused.stderr).toMatch(/source changed after the run/);
+
+    // And the link cannot be used to reach a directory already holding source.
+    const blocked = runReceipt(dir, [
+      "--stage",
+      "second",
+      "--out",
+      "link-out",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(blocked.status).toBe(2);
+    expect(blocked.stderr).toMatch(
+      /contains untracked source git does not ignore/,
+    );
+  });
+
+  it("refuses a receipt that claims to have excluded a path it does not own", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "test", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "test").status).toBe(0);
+
+    const receiptPath = join(dir, ".agent-receipts", "test.json");
+    const forged = {
+      ...readReceipt(dir, "test"),
+      sourceExcludePaths: ["src", ".agent-receipts/test.log"],
+    };
+    writeFileSync(receiptPath, JSON.stringify(forged));
+
+    const result = verify(dir, "test");
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/claims to exclude paths it does not own/);
+  });
+
+  it("treats a non-receipt .json and an orphan .log in the output directory as source, not as its own artifacts", () => {
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    mkdirSync(join(dir, "out-a"));
+    writeFileSync(
+      join(dir, "out-a", "tsconfig.json"),
+      '{"compilerOptions":{}}',
+    );
+    const jsonResult = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "out-a",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(jsonResult.status).toBe(2);
+    expect(jsonResult.stderr).toMatch(/tsconfig\.json/);
+
+    mkdirSync(join(dir, "out-b"));
+    writeFileSync(join(dir, "out-b", "notes.log"), "not a receipt log\n");
+    const logResult = runReceipt(dir, [
+      "--stage",
+      "test",
+      "--out",
+      "out-b",
+      "--",
+      "node",
+      "-e",
+      "process.exit(0)",
+    ]);
+    expect(logResult.status).toBe(2);
+    expect(logResult.stderr).toMatch(/notes\.log/);
+  });
+
+  it("still runs repeated stages into an output directory, ignored or not, since earlier receipts are not source", () => {
+    const plain = makeFixtureRepo();
+    cleanupDirs.push(plain);
+
+    // Not gitignored: the earlier stage's own receipt and log must not be
+    // mistaken for source by the guard.
+    for (const stage of ["first", "second"]) {
+      const result = runReceipt(plain, [
+        "--stage",
+        stage,
+        "--out",
+        "receipts-dir",
+        "--",
+        "node",
+        "-e",
+        "process.exit(0)",
+      ]);
+      expect(result.status).toBe(0);
+    }
+    expect(
+      runReceipt(plain, ["--verify", join("receipts-dir", "second.json")])
+        .status,
+    ).toBe(0);
+
+    // And gitignored, the documented default.
+    const dir = makeFixtureRepo();
+    cleanupDirs.push(dir);
+
+    expect(record(dir, "first", "process.exit(0)").status).toBe(0);
+    expect(record(dir, "second", "process.exit(0)").status).toBe(0);
+    expect(verify(dir, "first").status).toBe(0);
+    expect(verify(dir, "second").status).toBe(0);
   });
 });
