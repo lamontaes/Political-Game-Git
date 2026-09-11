@@ -3278,6 +3278,8 @@ export interface PersonnelCommissionerFilingRecord extends PersonnelRecordBase {
   readonly kind: "commissioner-filing";
   readonly actionId: EntityId;
   readonly actorPersonId: EntityId;
+  /** The designation the filer held; any current appointing authority may file. */
+  readonly designationId: EntityId;
   readonly timely: boolean;
 }
 
@@ -3287,8 +3289,8 @@ export interface PersonnelAppealRecord extends PersonnelRecordBase {
   readonly personId: EntityId;
   readonly forum: "mn-bureau-of-mediation-services";
   readonly statement: string;
-  /** Durable NPC decision trace; null when the controlled person appealed. */
-  readonly decisionTraceId: EntityId | null;
+  /** The discharged employee's durable decision trace. */
+  readonly decisionTraceId: EntityId;
 }
 
 export interface PersonnelSettlementDecisionRecord extends PersonnelRecordBase {
@@ -3298,8 +3300,8 @@ export interface PersonnelSettlementDecisionRecord extends PersonnelRecordBase {
   readonly designationId: EntityId;
   readonly decision: "settlement-directed" | "settlement-not-directed";
   readonly reasons: string;
-  /** Durable NPC decision trace; null when the controlled commissioner decided. */
-  readonly decisionTraceId: EntityId | null;
+  /** The office holder's durable decision trace. */
+  readonly decisionTraceId: EntityId;
 }
 
 export interface PersonnelReinstatementOfferRecord extends PersonnelRecordBase {
@@ -3316,8 +3318,9 @@ export interface PersonnelOfferResponseRecord extends PersonnelRecordBase {
   readonly kind: "offer-response";
   readonly offerId: EntityId;
   readonly personId: EntityId;
-  readonly response: "accepted" | "declined";
-  /** Durable NPC decision trace; null when the controlled person answered. */
+  /** A lapsed offer closes without an answer: the position, window, person or offering authority is gone. */
+  readonly response: "accepted" | "declined" | "lapsed";
+  /** The person's durable decision trace; null only for a lapsed offer. */
   readonly decisionTraceId: EntityId | null;
   readonly workRelationshipId: EntityId | null;
 }

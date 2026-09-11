@@ -17,16 +17,18 @@ import {
   justCauseGrounds,
   offerMinnesotaReinstatement,
   personnelMatters,
-  produceCommissionerSettlementDecision,
-  produceDischargedEmployeeAppealChoice,
   produceReinstatementResponse,
   recordInformalResolutionAttempt,
+  referAppealToCommissioner,
   reinstatementOpportunities,
   type PersonnelMatterView,
   type PersonnelResult,
   type PersonnelStep,
 } from "../simulation/civil-personnel-actions";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+
+/** Feature-local containment only; the UI owner supplies visual style. */
+const FIT = { maxWidth: "100%", boxSizing: "border-box" } as const;
 
 const GROUND_LABELS: Record<PersonnelJustCauseGround, string> = {
   "consistent-failure-to-perform":
@@ -91,7 +93,10 @@ export function CivilPersonnelPanel({
   const handlers =
     transitionHandlers ?? createCampaignElectionTransitionRegistry();
   return (
-    <section aria-label="Public employment preparation">
+    <section
+      aria-label="Public employment preparation"
+      style={{ maxWidth: "100%", overflowWrap: "anywhere" }}
+    >
       <h2>Public employment questions</h2>
       <p>
         Prepare questions about recruitment or your employment. Hiring,
@@ -101,6 +106,7 @@ export function CivilPersonnelPanel({
       <label>
         Employer you know
         <select
+          style={FIT}
           value={employerId}
           onChange={(event) => setEmployerId(event.target.value as EntityId)}
         >
@@ -115,6 +121,7 @@ export function CivilPersonnelPanel({
       <label>
         Your employment
         <select
+          style={FIT}
           value={employmentId}
           onChange={(event) => setEmploymentId(event.target.value as EntityId)}
         >
@@ -132,6 +139,7 @@ export function CivilPersonnelPanel({
       <label>
         Questions to prepare
         <textarea
+          style={FIT}
           value={note}
           maxLength={4000}
           onChange={(event) => setNote(event.target.value)}
@@ -191,7 +199,9 @@ export function CivilPersonnelPanel({
                         ground: input.ground,
                         reasons: input.text,
                       }),
-                      "The written notice was issued and recorded.",
+                      input.action === "discharge"
+                        ? "The written notice was issued. The employee's own answer to it is on record."
+                        : "The written notice was issued and recorded.",
                     );
                   case "commissioner-filing":
                     return apply(
@@ -200,22 +210,13 @@ export function CivilPersonnelPanel({
                       }),
                       "The notice was filed with the commissioner.",
                     );
-                  case "check-appeal":
-                    return apply(
-                      produceDischargedEmployeeAppealChoice(world, {
-                        actionId: matter.id,
-                      }),
-                      "The employee's decision about an appeal is on record.",
-                    );
-                  case "check-settlement": {
+                  case "refer-settlement": {
                     const appealId = world.history.personnelRecords?.find(
                       (r) => r.kind === "appeal" && r.actionId === matter.id,
                     )?.id;
                     if (!appealId) return setNotice("No appeal is on record.");
                     return apply(
-                      produceCommissionerSettlementDecision(world, {
-                        appealId,
-                      }),
+                      referAppealToCommissioner(world, { appealId }),
                       "The commissioner's settlement decision is on record.",
                     );
                   }
@@ -293,6 +294,7 @@ function PersonnelMatter({
           <label>
             Action
             <select
+              style={FIT}
               value={action}
               onChange={(event) =>
                 setAction(event.target.value as "reprimand" | "discharge")
@@ -305,6 +307,7 @@ function PersonnelMatter({
           <label>
             Just cause
             <select
+              style={FIT}
               value={ground}
               onChange={(event) =>
                 setGround(event.target.value as PersonnelJustCauseGround)
@@ -323,6 +326,7 @@ function PersonnelMatter({
         <label>
           {discipline ? "Specific reasons" : "Meeting note"}
           <textarea
+            style={FIT}
             value={text}
             maxLength={4000}
             onChange={(event) => setText(event.target.value)}
@@ -369,9 +373,12 @@ function ReinstatementForm({
     probation: "required" | "not-required",
   ) => void;
 }) {
-  const [personId, setPersonId] = useState<EntityId>(candidates[0]!.personId);
+  const [chosen, setPersonId] = useState<EntityId>(candidates[0]!.personId);
   const [probation, setProbation] = useState(false);
-  const candidate = candidates.find((c) => c.personId === personId);
+  // The list can change after an offer; never submit someone no longer shown.
+  const candidate =
+    candidates.find((c) => c.personId === chosen) ?? candidates[0]!;
+  const personId = candidate.personId;
   return (
     <article aria-label={`Vacant ${title} position`}>
       <h4>Vacant {title} position</h4>
@@ -382,6 +389,7 @@ function ReinstatementForm({
       <label>
         Former employee
         <select
+          style={FIT}
           value={personId}
           onChange={(event) => setPersonId(event.target.value as EntityId)}
         >
@@ -395,13 +403,13 @@ function ReinstatementForm({
       <label>
         <input
           type="checkbox"
-          checked={probation && Boolean(candidate?.probationAllowed)}
-          disabled={!candidate?.probationAllowed}
+          checked={probation && candidate.probationAllowed}
+          disabled={!candidate.probationAllowed}
           onChange={(event) => setProbation(event.target.checked)}
         />
         Require probation
       </label>
-      {!candidate?.probationAllowed ? (
+      {!candidate.probationAllowed ? (
         <p>
           Probation on reinstatement is established only for former employees of
           a different appointing authority.
@@ -412,7 +420,7 @@ function ReinstatementForm({
         onClick={() =>
           offer(
             personId,
-            probation && candidate?.probationAllowed
+            probation && candidate.probationAllowed
               ? "required"
               : "not-required",
           )

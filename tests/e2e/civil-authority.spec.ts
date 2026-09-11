@@ -64,21 +64,17 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
     .getByRole("button", { name: "File the notice with the commissioner" })
     .click();
   await expect(action).toContainText("Filed with the commissioner on time.");
-  await action
-    .getByRole("button", { name: "Check whether the employee appealed" })
-    .focus();
-  await page.keyboard.press("Space");
+  // The employee answered on receipt and the commissioner decided on the
+  // appeal; the director is shown the outcome, not asked to trigger it.
   await expect(action).toContainText(
     "Appeal filed. No one has decided it on the merits.",
   );
-  await action
-    .getByRole("button", {
-      name: "Check for the commissioner's settlement decision",
-    })
-    .click();
   await expect(action).toContainText(
     "The commissioner did not direct a settlement.",
   );
+  await expect(
+    action.getByRole("button", { name: /Check whether|Refer the appeal/ }),
+  ).toHaveCount(0);
   await expect(
     action.getByRole("button", {
       name: "Arbitrator list, selection and hearing",
@@ -97,9 +93,9 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
   expect(kinds.slice(-5)).toEqual([
     "informal-resolution",
     "disciplinary-action",
-    "commissioner-filing",
     "appeal",
     "settlement-decision",
+    "commissioner-filing",
   ]);
 });
 

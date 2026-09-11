@@ -54,6 +54,23 @@ function heldRole(
   );
 }
 
+/** The durable NPC decision a record claims, made by that person, choosing that option. */
+function traceChose(
+  world: World,
+  traceId: EntityId | null,
+  stableKey: string,
+  personId: EntityId,
+  option: string,
+): boolean {
+  const trace = world.history.decisionTraces.find((t) => t.id === traceId);
+  return (
+    trace !== undefined &&
+    trace.context.stableKey === stableKey &&
+    trace.context.actorPersonId === personId &&
+    trace.selectedOptionKey === option
+  );
+}
+
 function endedOn(
   world: World,
   workRelationshipId: EntityId,
@@ -244,6 +261,14 @@ export function assertPersonnelIntegrity(
           )
             fail(record, "is not the accepted reinstatement it names.");
         }
+        const occupied = records.some(
+          (other) =>
+            other.kind === "incumbency" &&
+            other.sequence < record.sequence &&
+            other.positionId === record.positionId &&
+            endedOn(world, other.workRelationshipId, record) === null,
+        );
+        if (occupied) fail(record, "fills a position that is not vacant.");
         only(record, `incumbency:${record.workRelationshipId}`);
         break;
       }
@@ -361,11 +386,20 @@ export function assertPersonnelIntegrity(
       }
       case "commissioner-filing": {
         const action = earlier(record, record.actionId, "disciplinary-action");
+        const incumbency = earlier(record, action.incumbencyId, "incumbency");
+        const position = earlier(record, incumbency.positionId, "position");
+        const designation = earlier(
+          record,
+          record.designationId,
+          "authority-designation",
+        );
         if (
           action.action !== "discharge" ||
-          action.actorPersonId !== record.actorPersonId
+          designation.power !== "appointing-authority" ||
+          designation.organizationId !== position.organizationId ||
+          !heldRole(world, record.actorPersonId, designation, record)
         )
-          fail(record, "is not the acting appointing authority's filing.");
+          fail(record, "is not an appointing authority's filing.");
         if (
           record.timely !==
           daysBetween(action.effectiveOn, record.recordedAt) <=
@@ -388,6 +422,16 @@ export function assertPersonnelIntegrity(
           incumbency.personId !== record.personId
         )
           fail(record, "is not the discharged employee's appeal.");
+        if (
+          !traceChose(
+            world,
+            record.decisionTraceId,
+            `civil-personnel:appeal-decision:${action.id}`,
+            record.personId,
+            "appeal",
+          )
+        )
+          fail(record, "lacks the employee's own recorded decision.");
         only(record, `appeal:${action.id}`);
         break;
       }
@@ -409,6 +453,16 @@ export function assertPersonnelIntegrity(
           record.recordedAt < observedOn("mn-commissioner-settlement")
         )
           fail(record, "was not decided by the commissioner's office holder.");
+        if (
+          !traceChose(
+            world,
+            record.decisionTraceId,
+            `civil-personnel:settlement-decision:${appeal.id}`,
+            record.actorPersonId,
+            record.decision,
+          )
+        )
+          fail(record, "lacks the commissioner's own recorded decision.");
         only(record, `settlement:${record.appealId}`);
         break;
       }
@@ -458,6 +512,19 @@ export function assertPersonnelIntegrity(
           (record.workRelationshipId !== null)
         )
           fail(record, "does not match its employment outcome.");
+        const offeredPosition = earlier(record, offer.positionId, "position");
+        if (
+          record.response === "lapsed"
+            ? record.decisionTraceId !== null
+            : !traceChose(
+                world,
+                record.decisionTraceId,
+                `civil-personnel:offer-decision:${offeredPosition.organizationId}:${record.personId}`,
+                record.personId,
+                record.response === "accepted" ? "accept" : "decline",
+              )
+        )
+          fail(record, "lacks the person's own recorded answer.");
         only(record, `response:${offer.id}`);
         break;
       }

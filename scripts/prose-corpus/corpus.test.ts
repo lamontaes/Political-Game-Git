@@ -549,7 +549,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // main plus CIVIL-AUTHORITY13) is scanned and these values are updated
     // from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(66755);
+    expect(coverage.totalLiterals).toBe(66865);
     expect(coverage.counts.INVENTORIED).toBe(2107);
     expect(coverage.scannedFiles).toBe(478);
   });

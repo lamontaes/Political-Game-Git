@@ -31,19 +31,23 @@ designated appointing authority:
    agreement, and it produces written notice evidence the employee receives and
    knows about. A discharge ends the LIFE employment. The notice carries the
    30-calendar-day appeal statement.
-3. Filing the notice with the commissioner. A Work item tracks it, and a late
-   filing is recorded as late.
+3. Filing the notice with the commissioner, by any current appointing
+   authority of the employer. A Work item tracks it, and a late filing is
+   recorded as late.
 4. The employee's own decision to appeal to the Bureau of Mediation Services,
-   produced once by the NPC. It is either a pending appeal or a final
-   decision not to appeal; the window closes after 30 calendar days.
+   made once by the NPC on receiving the notice. It is either a pending appeal
+   or a final decision not to appeal; the director chooses neither when nor
+   whether.
 5. The chapter 43A commissioner's decision whether the authority must settle,
-   produced once by the single NPC holder of that statutory office. The
+   made once by the single NPC holder of that office when the appeal arrives.
+   If nobody held the office then, a party may refer the appeal later. The
    settlement terms and the hearing remain unavailable.
 6. A direct reinstatement offer to a former permanent or probationary employee
-   of the job class within four years, with the person's own answer produced
-   once by the NPC. Probation is available only for former employees of a
-   different appointing authority. Acceptance creates a real LIFE employment
-   and incumbency; pay is not invented.
+   of the job class within four years. The person answers once per employer
+   through the NPC decision architecture; a decline stands, and an offer the
+   position can no longer honor lapses. Probation is available only for former
+   employees of a different appointing authority. Acceptance creates a real
+   LIFE employment and incumbency; pay is not invented.
 
 Seeds used by the tests exercise both sides of every NPC choice (appeal or
 not, settlement directed or not, reinstatement accepted or declined).
@@ -120,8 +124,15 @@ consistency; nothing else is required.
    exact-date-only rule is replaced.
 4. **NPC counterparts, not control switching.** Work integrity makes control
    switching invalid, so counterpart choices go through the decision
-   architecture. The employee-reply writer was dropped: no single-perspective
-   world could reach it.
+   architecture. They are made on receipt, not on the player's request, so the
+   player cannot time or withhold them. The employee-reply writer was dropped:
+   no single-perspective world could reach it.
+5. **An independent adversarial review** found three blockers before
+   publication. The director could time or withhold the appeal decision, a
+   re-offer could reroll consent, and integrity accepted tampered outcomes.
+   All three are fixed with regression tests. It also found a stranded open
+   offer, a stale form selection, unbound numeric terms and a former director
+   filing; all are fixed.
 
 ## Verification
 

@@ -2,7 +2,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { ArtifactLock } from "../../src/source/core/index";
 import { compilePersonnelSourceProjection } from "../../src/source/adapters/civil-personnel";
-import { compilePersonnelProcedures } from "../../src/source/adapters/civil-personnel-procedures";
+import {
+  compilePersonnelProcedures,
+  PERSONNEL_PROCEDURE_DECLARATIONS,
+} from "../../src/source/adapters/civil-personnel-procedures";
 import { openCivilServiceLaborArtifacts } from "../../src/source/domains/civil-service-labor/index";
 
 const lock = () =>
@@ -97,6 +100,28 @@ describe("CIVIL-WORK7 source-to-consumer projection", () => {
     };
     expect(() => compilePersonnelProcedures(tampered, input)).toThrow(
       /no longer contains its declared excerpt/,
+    );
+  });
+  it("refuses a numeric term whose value its own evidence does not state", () => {
+    const input = lock();
+    const opened = openCivilServiceLaborArtifacts(input).artifacts;
+    const altered = PERSONNEL_PROCEDURE_DECLARATIONS.map((declaration) =>
+      declaration.key === "mn-discipline-notice"
+        ? {
+            ...declaration,
+            terms: {
+              ...declaration.terms,
+              appealWithinCalendarDays: {
+                value: 45,
+                evidence:
+                  "within 30 calendar days following the effective date of the disciplinary action",
+              },
+            },
+          }
+        : declaration,
+    );
+    expect(() => compilePersonnelProcedures(opened, input, altered)).toThrow(
+      /not fixed by its excerpts/,
     );
   });
 });

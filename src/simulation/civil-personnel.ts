@@ -516,7 +516,8 @@ export function personnelWorkItems(world: World) {
     .filter(
       (item) =>
         item.focus.kind === "other" &&
-        item.focus.targetKey.startsWith(`${prefix}:`) &&
+        // Preparation only; procedure obligations are shown with their matter.
+        item.focus.targetKey.startsWith(`${prefix}:prepare-`) &&
         canPersonAccess(item.access, actor),
     )
     .map((item) => ({ item, state: workItemState(world, item.id) }));

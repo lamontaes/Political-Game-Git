@@ -16,9 +16,10 @@ provider), and `src/player/CivilPersonnelPanel.tsx`.
 
 `src/source/adapters/civil-personnel-procedures.ts` declares reviewed
 procedure transcriptions over the locked civil-service artifacts. Each excerpt
-and each numeric term (30 calendar days, ten calendar days, four years, 15 days)
-must be found in the rights-scoped enacted text, or the projection and its
-replay test fail. The accepted source domain, its locks and its digest are
+must be found in the rights-scoped enacted text. A numeric term (30 calendar
+days, ten calendar days, four years, 15 days) must also appear, as digits or a
+word, in its own evidence phrase within those excerpts, and each named ground
+carries its own phrase. Otherwise the projection and its replay test fail. The accepted source domain, its locks and its digest are
 unchanged.
 
 Procedures are `CURRENT_OBSERVATION` on the 2026-09-06 retrieval date. As in
@@ -56,11 +57,41 @@ terms are not represented. Bargaining rights never imply tenure.
 
 World integrity requires every player-required Work state to belong to the
 controlled person, so a valid world keeps one controlled perspective. The
-playable perspective is the appointing authority. The employee's appeal choice,
-the commissioner's settlement decision and a former employee's answer to a
-reinstatement offer come from those NPCs through the general decision
-architecture. Each is recorded once as a durable trace, and checking again never
-rerolls it. None is a ruling on the merits.
+playable perspective is the appointing authority. Counterparts decide for
+themselves through the general decision architecture. Each decision is
+recorded once as a durable trace, and neither the timing nor the outcome is the
+player's to choose:
+
+- The discharged employee decides whether to appeal on receiving the notice.
+  Deciding not to appeal is final.
+- When an appeal arrives, the single holder of the commissioner's office
+  decides on settlement. If nobody held the office then, a party may refer the
+  appeal once someone does. The outcome is keyed to the appeal, so the timing
+  of the referral cannot change it.
+- A former employee answers a reinstatement offer once per employer. A declined
+  answer stands, so asking again cannot reroll it. An offer the position can no
+  longer honor lapses instead of stranding: the reasons are a filled vacancy, a
+  closed window, a departed offering officer, or the person having died or
+  already working there. Any current appointing authority of the employer may
+  hear the answer.
+
+None of these is a ruling on the merits.
+
+## Integrity
+
+`assertPersonnelIntegrity` re-derives what each writer checked. It confirms:
+
+- the actor held the designated role on the record's date;
+- the class, tenure and agreement preconditions;
+- the named just-cause ground;
+- the statutory deadlines and the `timely` flag;
+- the four-year window and the probation rule;
+- the vacancy of a filled position;
+- each NPC's own decision trace and chosen option.
+
+A save that rewrites who acted or what an NPC chose fails to load. The snapshot
+id is a content name, not a signature, so this is a consistency contract, not
+anti-tamper protection.
 
 ## Supported Minnesota transitions
 
@@ -68,7 +99,7 @@ rerolls it. None is a ruling on the merits.
 | ------------------------------------------ | ---------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Informal resolution meeting                | Designated appointing authority                            | § 43A.33, subd. 1                     | A 30-minute scheduled activity both attend; required before discipline                                                                                                             |
 | Reprimand or discharge                     | Designated appointing authority                            | § 43A.33, subds. 1-3(b)               | Named just-cause ground and specific reasons, written notice evidence the employee receives, discharge ends the LIFE employment; permanent, classified, not agreement-covered only |
-| File notice with the commissioner          | The acting appointing authority                            | § 43A.33, subd. 3(b)                  | Completes the Work item; a filing after ten calendar days is recorded as late                                                                                                      |
+| File notice with the commissioner          | Any current appointing authority of the employer           | § 43A.33, subd. 3(b)                  | Completes the Work item; a filing after ten calendar days is recorded as late                                                                                                      |
 | Appeal to the Bureau of Mediation Services | The discharged employee (NPC)                              | § 43A.33, subd. 3(b)                  | Pending appeal within 30 calendar days, or a final decision not to appeal                                                                                                          |
 | Settlement decision                        | Single holder of the chapter 43A commissioner office (NPC) | § 43A.33, subd. 3(b)                  | Settlement directed or not; terms are not represented                                                                                                                              |
 | Direct reinstatement offer and answer      | Designated appointing authority; the former employee (NPC) | § 43A.15, subd. 15; § 43A.16, subd. 1 | Vacant position in the same job class, former permanent or probationary service within four years, consent; probation only for a different former appointing authority             |

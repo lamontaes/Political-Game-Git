@@ -10,6 +10,7 @@ import {
   assessMinnesotaDiscipline,
   assessMinnesotaReinstatement,
   establishPersonnelDesignation,
+  establishPersonnelIncumbency,
   executiveOfficeStaffBoundary,
   fileNoticeWithCommissioner,
   issueMinnesotaDiscipline,
@@ -19,15 +20,17 @@ import {
   personnelMatters,
   personnelOfferResponses,
   personnelProcedures,
-  produceCommissionerSettlementDecision,
-  produceDischargedEmployeeAppealChoice,
   produceReinstatementResponse,
   recordInformalResolutionAttempt,
+  referAppealToCommissioner,
   reinstatementOpportunities,
   type PersonnelResult,
 } from "./civil-personnel-actions";
 import { workItemState } from "./time-work";
-import { createOrganization } from "./life";
+import { personnelWorkItems } from "./civil-personnel";
+import { createOrganization, createWorkRelationship } from "./life";
+import { canonicalJson } from "./canonical-json";
+import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
 import { workStatusAt } from "./life-queries";
 import type { EntityId, World } from "./types";
@@ -142,6 +145,8 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
       ),
     ).toBe(true);
     expect(workItemState(world, record.workItemId!).status).toBe("active");
+    // The filing obligation is not mislabeled as private preparation.
+    expect(personnelWorkItems(world)).toHaveLength(0);
 
     world = reload(world);
     const filed = ok(
@@ -153,31 +158,26 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
       false,
     );
 
-    world = ok(
-      produceDischargedEmployeeAppealChoice(world, { actionId: action.id }),
-    ).world;
+    // The employee answered the notice on receipt with their own recorded
+    // decision, and the commissioner then decided on the appeal. The director
+    // chose neither the timing nor the outcome.
     expect(appealDecisionFor(world, action.id)).toBe("appealed");
     const appeal = personnelAppealsFor(world)[0]!;
     expect(appeal.personId).toBe(f.employee);
-    expect(appeal.decisionTraceId).not.toBeNull();
-    // Checking again never rerolls the employee's decision.
     expect(
-      produceDischargedEmployeeAppealChoice(world, { actionId: action.id }).ok,
-    ).toBe(false);
-
-    world = reload(world);
-    world = ok(
-      produceCommissionerSettlementDecision(world, { appealId: appeal.id }),
-    ).world;
-    const decision = world.history.personnelRecords!.at(-1)!;
+      world.history.decisionTraces.find((t) => t.id === appeal.decisionTraceId)!
+        .context.actorPersonId,
+    ).toBe(f.employee);
+    const decision = world.history.personnelRecords!.find(
+      (r) => r.kind === "settlement-decision",
+    )!;
     expect(decision).toMatchObject({
-      kind: "settlement-decision",
       actorPersonId: f.commissioner,
       decision: "settlement-not-directed",
     });
-    expect(
-      produceCommissionerSettlementDecision(world, { appealId: appeal.id }).ok,
-    ).toBe(false);
+    expect(referAppealToCommissioner(world, { appealId: appeal.id }).ok).toBe(
+      false,
+    );
     const view = personnelMatters(world).find((v) => v.id === action.id)!;
     expect(view.facts.join(" ")).toContain(
       "No one has decided it on the merits",
@@ -197,24 +197,15 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
 
   it("keeps a declined appeal final and a directed settlement without invented terms", () => {
     const declined = discharged("civil-authority13-f");
-    const after = ok(
-      produceDischargedEmployeeAppealChoice(declined.world, {
-        actionId: declined.actionId,
-      }),
-    ).world;
-    expect(appealDecisionFor(after, declined.actionId)).toBe("declined");
-    expect(personnelAppealsFor(after)).toHaveLength(0);
+    expect(appealDecisionFor(declined.world, declined.actionId)).toBe(
+      "declined",
+    );
+    expect(personnelAppealsFor(declined.world)).toHaveLength(0);
+    const later = advanceWorld(declined.world, 5, handlers);
+    expect(appealDecisionFor(later, declined.actionId)).toBe("declined");
 
     const directed = discharged("civil-authority13-c");
-    let world = ok(
-      produceDischargedEmployeeAppealChoice(directed.world, {
-        actionId: directed.actionId,
-      }),
-    ).world;
-    const appeal = personnelAppealsFor(world)[0]!;
-    world = ok(
-      produceCommissionerSettlementDecision(world, { appealId: appeal.id }),
-    ).world;
+    const world = directed.world;
     const view = personnelMatters(world).find(
       (v) => v.id === directed.actionId,
     )!;
@@ -413,17 +404,15 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
     ).toBe(false);
   });
 
-  it("records a late filing as late and closes the NPC appeal window after 30 calendar days", () => {
-    const { world, actionId } = discharged();
+  it("records a late filing as late, and the filer must hold the role now", () => {
+    const { f, world, actionId } = discharged();
     const late = advanceWorld(world, 31, handlers);
     const filing = ok(fileNoticeWithCommissioner(late, { actionId })).world;
     expect(filing.history.personnelRecords!.at(-1)).toMatchObject({
       kind: "commissioner-filing",
       timely: false,
+      actorPersonId: f.director,
     });
-    const appeal = produceDischargedEmployeeAppealChoice(filing, { actionId });
-    expect(appeal.ok).toBe(false);
-    if (!appeal.ok) expect(appeal.reason).toContain("2026-10-14");
   });
 });
 
@@ -489,12 +478,12 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
     );
   });
 
-  it("persists a declined answer without employment", () => {
+  it("persists a declined answer without employment, and asking again cannot reroll it", () => {
     const f = civilAuthorityFixture(
       "2026-09-14",
       "US-MN",
       "otherDirector",
-      "civil-authority13-f",
+      "civil-authority13-d",
     );
     const offer = ok(
       offerMinnesotaReinstatement(f.world, {
@@ -510,6 +499,68 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
       response: "declined",
       workRelationshipId: null,
     });
+    const again = offerMinnesotaReinstatement(world, {
+      positionId: f.otherSpecialistPositionId,
+      personId: f.formerEmployee,
+      probation: "required",
+    });
+    expect(again.ok).toBe(false);
+    if (!again.ok) expect(again.reason).toContain("that answer stands");
+  });
+
+  it("lapses an offer the position can no longer honor instead of stranding it", () => {
+    const f = civilAuthorityFixture("2026-09-14", "US-MN", "otherDirector");
+    const offer = ok(
+      offerMinnesotaReinstatement(f.world, {
+        positionId: f.otherSpecialistPositionId,
+        personId: f.formerEmployee,
+        probation: "not-required",
+      }),
+    );
+    // Fill the position by an authored incumbency before any answer.
+    const filled = createWorkRelationship(offer.world, {
+      stableKey: "lapse:filler",
+      personId: f.relative,
+      organizationId: f.otherAgencyId,
+      startedAt: offer.world.currentDate,
+      kind: "employment:civil-service",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "Diagnostic filler." },
+      initialRole: {
+        title: "Records specialist",
+        occupationClassification: null,
+        locationJurisdictionId: offer.world.jurisdictionOrder[0]!,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 40, maximumHours: 40 },
+          attention: "high",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: offer.world.jurisdictionOrder[0]!,
+        },
+      },
+    });
+    const occupied = ok(
+      establishPersonnelIncumbency(filled, {
+        stableKey: "lapse:filler-incumbency",
+        positionId: f.otherSpecialistPositionId,
+        workRelationshipId: filled.history.workRelationships.at(-1)!.id,
+        tenure: "permanent",
+        note: "Diagnostic filler.",
+      }),
+    ).world;
+    const answered = ok(
+      produceReinstatementResponse(occupied, { offerId: offer.id }),
+    ).world;
+    expect(personnelOfferResponses(answered)[0]).toMatchObject({
+      response: "lapsed",
+      decisionTraceId: null,
+      workRelationshipId: null,
+    });
+    expect(() => reload(answered)).not.toThrow();
   });
 
   it("refuses relatives, lapsed service, occupied positions, self-appointment and unestablished probation", () => {
@@ -587,66 +638,69 @@ describe("CIVIL-AUTHORITY13 EXEC staffing boundary", () => {
 });
 
 describe("CIVIL-AUTHORITY13 persistence integrity", () => {
-  it("rejects tampered personnel history on load", () => {
-    const { world } = discharged();
-    const snapshot = JSON.parse(serializeWorld(world));
-    const records = snapshot.world.history.personnelRecords;
-    const action = records.find(
-      (r: { kind: string }) => r.kind === "disciplinary-action",
-    );
-    action.appealDeadline = null;
-    expect(() => deserializeWorld(JSON.stringify(snapshot))).toThrow();
-
-    const second = JSON.parse(serializeWorld(world));
-    const designation = second.world.history.personnelRecords.find(
-      (r: { kind: string; basis: { kind: string } }) =>
-        r.kind === "authority-designation" && r.basis.kind === "statute",
-    );
-    designation.basis = { kind: "statute", procedureKey: "mn-reinstatement" };
-    expect(() => deserializeWorld(JSON.stringify(second))).toThrow();
-  });
-
-  it("rejects saves that rewrite who acted, the class, the deadline math or a timeliness flag", () => {
+  it("rejects saves that rewrite who acted, the class, the deadline math, a timeliness flag or an NPC's own decision", () => {
     const { f, world, actionId } = discharged("civil-authority13-b");
-    let full = ok(fileNoticeWithCommissioner(world, { actionId })).world;
-    full = ok(produceDischargedEmployeeAppealChoice(full, { actionId })).world;
-    full = ok(
-      produceCommissionerSettlementDecision(full, {
-        appealId: personnelAppealsFor(full)[0]!.id,
-      }),
-    ).world;
+    const full = ok(fileNoticeWithCommissioner(world, { actionId })).world;
     expect(() => reload(full)).not.toThrow();
+    // The snapshot id is recomputed so only the personnel contract can refuse.
     const tamper = (edit: (records: Record<string, unknown>[]) => void) => {
       const snapshot = JSON.parse(serializeWorld(full));
       edit(snapshot.world.history.personnelRecords);
+      snapshot.snapshotId = createStableId(
+        "snapshot",
+        canonicalJson(snapshot.world),
+      );
       return () => deserializeWorld(JSON.stringify(snapshot));
     };
+    expect(tamper(() => undefined)).not.toThrow();
     const byKind = (records: Record<string, unknown>[], kind: string) =>
       records.find((r) => r.kind === kind)!;
     expect(
       tamper(
         (r) => (byKind(r, "disciplinary-action").actorPersonId = f.relative),
       ),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
     expect(
       tamper((r) => (byKind(r, "disciplinary-action").ground = "rudeness")),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
     expect(
       tamper(
         (r) => (byKind(r, "disciplinary-action").appealDeadline = "2026-12-31"),
       ),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
     expect(
       tamper((r) => (byKind(r, "commissioner-filing").timely = false)),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
     expect(
       tamper(
         (r) => (byKind(r, "settlement-decision").actorPersonId = f.employee),
       ),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
     expect(
       tamper((r) => (byKind(r, "incumbency").tenure = "probationary")),
-    ).toThrow();
+    ).toThrow(/Personnel record/);
+    expect(tamper((r) => (byKind(r, "appeal").decisionTraceId = null))).toThrow(
+      /Personnel record/,
+    );
+    expect(
+      tamper(
+        (r) =>
+          (byKind(r, "settlement-decision").decision = "settlement-directed"),
+      ),
+    ).toThrow(/Personnel record/);
+    expect(
+      tamper((r) => {
+        const designation = r.find(
+          (x) =>
+            x.kind === "authority-designation" &&
+            (x.basis as { kind: string }).kind === "statute",
+        )!;
+        designation.basis = {
+          kind: "statute",
+          procedureKey: "mn-reinstatement",
+        };
+      }),
+    ).toThrow(/Personnel record/);
   });
 
   it("control switching cannot stand in for another person's decision", () => {

@@ -996,7 +996,14 @@ export function issueMinnesotaDiscipline(
       endedWorkStatusId: endedStatusId,
       workItemId,
     });
-    return { ok: true, world: result.world, recordId: result.id };
+    // The employee answers the notice in their own time frame and nobody
+    // else's: the choice is made on receipt, not when someone checks.
+    const found = discharge ? dischargeFor(result.world, result.id) : null;
+    return {
+      ok: true,
+      world: found ? employeeAppealChoice(result.world, found) : result.world,
+      recordId: result.id,
+    };
   } catch (error) {
     return refuse(world, (error as Error).message);
   }
@@ -1010,18 +1017,29 @@ function dischargeFor(world: World, actionId: EntityId) {
   return { action, incumbency, position };
 }
 
-/** The appointing authority's filing; a late filing is recorded as late. */
+/**
+ * The notice filing. Any current holder of the employer's appointing-authority
+ * role may file it; a filing after ten calendar days is recorded as late.
+ */
 export function fileNoticeWithCommissioner(
   world: World,
   input: { readonly actionId: EntityId },
 ): PersonnelResult {
   const actor = controlledActor(world);
   const found = dischargeFor(world, input.actionId);
-  if (!actor || !found || found.action.actorPersonId !== actor)
-    return refuse(
-      world,
-      "Only the appointing authority who acted files this notice.",
-    );
+  if (!actor || !found)
+    return refuse(world, "No discharge notice awaits filing.");
+  const applicability = procedureApplicability(
+    "mn-discipline-notice",
+    world.currentDate,
+  );
+  if (applicability.state === "UNKNOWN")
+    return refuse(world, applicability.reason);
+  const authority = personnelAuthority(world, actor, "appointing-authority", {
+    organizationId: found.position.organizationId,
+    jurisdictionKey: found.position.jurisdictionKey,
+  });
+  if (!authority.ok) return refuse(world, authority.reason);
   if (
     recordsOf(world, "commissioner-filing").some(
       (f) => f.actionId === input.actionId,
@@ -1066,79 +1084,8 @@ export function fileNoticeWithCommissioner(
       jurisdictionKey: found.position.jurisdictionKey,
       actionId: input.actionId,
       actorPersonId: actor,
+      designationId: authority.designation.id,
       timely,
-    });
-    return { ok: true, world: result.world, recordId: result.id };
-  } catch (error) {
-    return refuse(world, (error as Error).message);
-  }
-}
-
-function appealRefusal(
-  world: World,
-  found: NonNullable<ReturnType<typeof dischargeFor>>,
-): string | null {
-  const applicability = procedureApplicability(
-    "mn-discipline-notice",
-    world.currentDate,
-  );
-  if (applicability.state === "UNKNOWN") return applicability.reason;
-  if (world.currentDate > found.action.appealDeadline!)
-    return `The 30-calendar-day appeal period ended on ${found.action.appealDeadline}.`;
-  if (recordsOf(world, "appeal").some((a) => a.actionId === found.action.id))
-    return "The appeal is already filed.";
-  return null;
-}
-
-function fileAppeal(
-  world: World,
-  found: NonNullable<ReturnType<typeof dischargeFor>>,
-  statement: string,
-  decisionTraceId: EntityId | null,
-): PersonnelResult {
-  const appellant = found.incumbency.personId;
-  const key = `${PREFIX}:appeal:${found.action.id}`;
-  try {
-    const event = personnelEvent(world, {
-      stableKey: key,
-      kind: "appeal",
-      jurisdictionId: organizationJurisdiction(
-        world,
-        found.position.organizationId,
-      ),
-      involved: [appellant, found.action.actorPersonId],
-      participants: [
-        { personId: appellant, role: "agency:appellant", detail: null },
-        {
-          personId: found.action.actorPersonId,
-          role: "focus:appointing-authority",
-          detail: null,
-        },
-      ],
-      visibility: "limited",
-      summary:
-        "A discharged employee appealed to the Bureau of Mediation Services; the appeal is pending.",
-      choice: statement,
-      setting: "Bureau of Mediation Services",
-    });
-    const next = recordEventKnowledge(event.world, {
-      stableKey: `${key}:known`,
-      personId: found.action.actorPersonId,
-      eventId: event.eventId,
-      learnedAt: event.world.currentDate,
-      believedSummary: event.world.history.events.at(-1)!.summary,
-      accuracy: "accurate",
-      confidence: "high",
-      source: { kind: "direct" },
-    });
-    const result = appendRecord(next, key, event.eventId, {
-      kind: "appeal",
-      jurisdictionKey: found.position.jurisdictionKey,
-      actionId: found.action.id,
-      personId: appellant,
-      forum: "mn-bureau-of-mediation-services",
-      statement,
-      decisionTraceId,
     });
     return { ok: true, world: result.world, recordId: result.id };
   } catch (error) {
@@ -1154,76 +1101,105 @@ function traceFor(world: World, stableKey: string) {
   );
 }
 
-const appealDecisionKey = (actionId: EntityId) =>
+export const appealDecisionKey = (actionId: EntityId) =>
   `${PREFIX}:appeal-decision:${actionId}`;
+export const settlementDecisionKey = (appealId: EntityId) =>
+  `${PREFIX}:settlement-decision:${appealId}`;
 
 /**
- * A discharged NPC decides once whether to appeal, through the general
- * decision architecture. Checking again never rerolls; a decision not to
- * appeal is final and files nothing.
+ * The discharged employee decides once, on receiving the notice, through the
+ * general decision architecture. Nobody else chooses when or whether; a
+ * decision not to appeal is final and files nothing.
  */
-export function produceDischargedEmployeeAppealChoice(
+function employeeAppealChoice(
   world: World,
-  input: { readonly actionId: EntityId },
-): PersonnelResult {
-  const actor = controlledActor(world);
-  const found = dischargeFor(world, input.actionId);
-  if (!actor || !found || found.action.actorPersonId !== actor)
-    return refuse(
-      world,
-      "Only the appointing authority who acted can check this.",
-    );
+  found: NonNullable<ReturnType<typeof dischargeFor>>,
+): World {
   const employee = found.incumbency.personId;
-  if (employee === actor)
-    return refuse(world, "The controlled person decides for themselves.");
-  if (!isPersonAliveAt(world, employee, currentLifeCutoff(world)))
-    return refuse(world, "The employee can no longer make this decision.");
-  if (traceFor(world, appealDecisionKey(found.action.id)))
-    return refuse(world, "The employee has already decided.");
-  const refusal = appealRefusal(world, found);
-  if (refusal) return refuse(world, refusal);
-  try {
-    const evaluation = evaluateDecision(world, {
-      stableKey: appealDecisionKey(found.action.id),
-      decisionType: "civil-personnel.discharge-appeal",
-      actorPersonId: employee,
-      cutoff: currentHistoricalCutoff(world),
-      subject: {
-        kind: "context:personnel-discharge",
-        key: found.action.stableKey,
-        entityId: null,
+  if (world.control.kind === "person" && world.control.personId === employee)
+    return world;
+  if (!isPersonAliveAt(world, employee, currentLifeCutoff(world))) return world;
+  if (traceFor(world, appealDecisionKey(found.action.id))) return world;
+  const evaluation = evaluateDecision(world, {
+    stableKey: appealDecisionKey(found.action.id),
+    decisionType: "civil-personnel.discharge-appeal",
+    actorPersonId: employee,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:personnel-discharge",
+      key: found.action.stableKey,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "appeal",
+        label: "Appeal the discharge",
+        description: "Elect to appeal to the Bureau of Mediation Services.",
       },
-      options: [
-        {
-          key: "appeal",
-          label: "Appeal the discharge",
-          description: "Elect to appeal to the Bureau of Mediation Services.",
-        },
-        {
-          key: "no-appeal",
-          label: "Do not appeal",
-          description: "Let the appeal period pass.",
-        },
-      ],
-      constraints: [],
-      considerations: [],
-      perceptionIds: [],
-      randomness: "close-choices",
-      retention: "durable",
-    });
-    const next = recordDurableDecisionTrace(world, evaluation);
-    const traceId = next.history.decisionTraces.at(-1)!.id;
-    if (evaluation.selectedOptionKey !== "appeal")
-      return { ok: true, world: next, recordId: traceId };
-    return fileAppeal(
+      {
+        key: "no-appeal",
+        label: "Do not appeal",
+        description: "Let the appeal period pass.",
+      },
+    ],
+    constraints: [],
+    considerations: [],
+    perceptionIds: [],
+    randomness: "close-choices",
+    retention: "durable",
+  });
+  let next = recordDurableDecisionTrace(world, evaluation);
+  if (evaluation.selectedOptionKey !== "appeal") return next;
+  const traceId = next.history.decisionTraces.at(-1)!.id;
+  const appellant = found.incumbency.personId;
+  const key = `${PREFIX}:appeal:${found.action.id}`;
+  const statement =
+    "I elect to appeal this discharge to the Bureau of Mediation Services.";
+  const event = personnelEvent(next, {
+    stableKey: key,
+    kind: "appeal",
+    jurisdictionId: organizationJurisdiction(
       next,
-      found,
-      "I elect to appeal this discharge to the Bureau of Mediation Services.",
-      traceId,
-    );
-  } catch (error) {
-    return refuse(world, (error as Error).message);
-  }
+      found.position.organizationId,
+    ),
+    involved: [appellant, found.action.actorPersonId],
+    participants: [
+      { personId: appellant, role: "agency:appellant", detail: null },
+      {
+        personId: found.action.actorPersonId,
+        role: "focus:appointing-authority",
+        detail: null,
+      },
+    ],
+    visibility: "limited",
+    summary:
+      "A discharged employee appealed to the Bureau of Mediation Services; the appeal is pending.",
+    choice: statement,
+    setting: "Bureau of Mediation Services",
+  });
+  next = recordEventKnowledge(event.world, {
+    stableKey: `${key}:known`,
+    personId: found.action.actorPersonId,
+    eventId: event.eventId,
+    learnedAt: event.world.currentDate,
+    believedSummary: event.world.history.events.at(-1)!.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+  const appeal = appendRecord(next, key, event.eventId, {
+    kind: "appeal",
+    jurisdictionKey: found.position.jurisdictionKey,
+    actionId: found.action.id,
+    personId: appellant,
+    forum: "mn-bureau-of-mediation-services",
+    statement,
+    decisionTraceId: traceId,
+  });
+  return commissionerDecision(
+    appeal.world,
+    recordById(appeal.world, appeal.id, "appeal")!,
+  );
 }
 
 export function appealDecisionFor(
@@ -1253,83 +1229,6 @@ function settlementRefusal(
   )
     return "The commissioner has already decided this.";
   return null;
-}
-
-function recordSettlement(
-  world: World,
-  appeal: PersonnelAppealRecord,
-  commissioner: EntityId,
-  designation: PersonnelAuthorityDesignationRecord,
-  decision: "settlement-directed" | "settlement-not-directed",
-  reasons: string,
-  decisionTraceId: EntityId | null,
-): PersonnelResult {
-  const found = dischargeFor(world, appeal.actionId)!;
-  if (
-    commissioner === found.action.actorPersonId ||
-    commissioner === appeal.personId
-  )
-    return refuse(
-      world,
-      "A party to the dispute cannot decide its settlement.",
-    );
-  const key = `${PREFIX}:settlement:${appeal.id}`;
-  try {
-    const event = personnelEvent(world, {
-      stableKey: key,
-      kind: "settlement-decision",
-      jurisdictionId: organizationJurisdiction(
-        world,
-        found.position.organizationId,
-      ),
-      involved: [commissioner, appeal.personId, found.action.actorPersonId],
-      participants: [
-        {
-          personId: commissioner,
-          role: "agency:commissioner",
-          detail: decision,
-        },
-        { personId: appeal.personId, role: "impact:appellant", detail: null },
-        {
-          personId: found.action.actorPersonId,
-          role: "impact:appointing-authority",
-          detail: null,
-        },
-      ],
-      visibility: "limited",
-      summary:
-        decision === "settlement-directed"
-          ? "The commissioner directed the appointing authority to settle before a hearing."
-          : "The commissioner did not direct a settlement; the appeal remains pending.",
-      choice: reasons,
-      setting: "Commissioner's decision",
-    });
-    let next = event.world;
-    for (const personId of [appeal.personId, found.action.actorPersonId])
-      next = recordEventKnowledge(next, {
-        stableKey: `${key}:known:${personId}`,
-        personId,
-        eventId: event.eventId,
-        learnedAt: next.currentDate,
-        believedSummary: event.world.history.events.at(-1)!.summary,
-        accuracy: "accurate",
-        confidence: "high",
-        source: { kind: "direct" },
-      });
-    const result = appendRecord(next, key, event.eventId, {
-      kind: "settlement-decision",
-      jurisdictionKey: appeal.jurisdictionKey,
-      appealId: appeal.id,
-      actorPersonId: commissioner,
-      designationId: designation.id,
-      decision,
-      reasons,
-      decisionTraceId,
-    });
-    return { ok: true, world: result.world, recordId: result.id };
-  } catch (error) {
-    return refuse(world, (error as Error).message);
-  }
 }
 
 /** The single living holder of the statutory office, if the world has one. */
@@ -1365,10 +1264,127 @@ export function statutoryOfficeHolder(
 }
 
 /**
- * An NPC commissioner decides once, through the general decision
- * architecture. Neither outcome is a ruling on the merits.
+ * The commissioner decides once, when an appeal reaches the office, through
+ * the general decision architecture. With no single living office holder, or
+ * with a holder who is a party, the step waits. Neither outcome is a ruling
+ * on the merits.
  */
-export function produceCommissionerSettlementDecision(
+function commissionerDecision(
+  world: World,
+  appeal: PersonnelAppealRecord,
+): World {
+  if (settlementRefusal(world, appeal)) return world;
+  const found = dischargeFor(world, appeal.actionId)!;
+  const commissioner = statutoryOfficeHolder(
+    world,
+    "commissioner-settlement",
+    appeal.jurisdictionKey,
+  );
+  if (
+    !commissioner ||
+    commissioner === found.action.actorPersonId ||
+    commissioner === appeal.personId ||
+    (world.control.kind === "person" && world.control.personId === commissioner)
+  )
+    return world;
+  const authority = personnelAuthority(
+    world,
+    commissioner,
+    "commissioner-settlement",
+    { organizationId: null, jurisdictionKey: appeal.jurisdictionKey },
+  );
+  if (!authority.ok) return world;
+  const evaluation = evaluateDecision(world, {
+    stableKey: settlementDecisionKey(appeal.id),
+    decisionType: "civil-personnel.commissioner-settlement",
+    actorPersonId: commissioner,
+    cutoff: currentHistoricalCutoff(world),
+    subject: {
+      kind: "context:personnel-appeal",
+      key: appeal.stableKey,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "settlement-directed",
+        label: "Direct a settlement",
+        description:
+          "Require the appointing authority to settle before a hearing.",
+      },
+      {
+        key: "settlement-not-directed",
+        label: "Do not direct a settlement",
+        description: "Leave the appeal to its hearing procedure.",
+      },
+    ],
+    constraints: [],
+    considerations: [],
+    perceptionIds: [],
+    randomness: "close-choices",
+    retention: "durable",
+  });
+  let next = recordDurableDecisionTrace(world, evaluation);
+  const traceId = next.history.decisionTraces.at(-1)!.id;
+  const decision =
+    evaluation.selectedOptionKey === "settlement-directed"
+      ? "settlement-directed"
+      : "settlement-not-directed";
+  const key = `${PREFIX}:settlement:${appeal.id}`;
+  const event = personnelEvent(next, {
+    stableKey: key,
+    kind: "settlement-decision",
+    jurisdictionId: organizationJurisdiction(
+      next,
+      found.position.organizationId,
+    ),
+    involved: [commissioner, appeal.personId, found.action.actorPersonId],
+    participants: [
+      { personId: commissioner, role: "agency:commissioner", detail: decision },
+      { personId: appeal.personId, role: "impact:appellant", detail: null },
+      {
+        personId: found.action.actorPersonId,
+        role: "impact:appointing-authority",
+        detail: null,
+      },
+    ],
+    visibility: "limited",
+    summary:
+      decision === "settlement-directed"
+        ? "The commissioner directed the appointing authority to settle before a hearing."
+        : "The commissioner did not direct a settlement; the appeal remains pending.",
+    choice: "The record states no further reasons.",
+    setting: "Commissioner's decision",
+  });
+  next = event.world;
+  for (const personId of [appeal.personId, found.action.actorPersonId])
+    next = recordEventKnowledge(next, {
+      stableKey: `${key}:known:${personId}`,
+      personId,
+      eventId: event.eventId,
+      learnedAt: next.currentDate,
+      believedSummary: event.world.history.events.at(-1)!.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  return appendRecord(next, key, event.eventId, {
+    kind: "settlement-decision",
+    jurisdictionKey: appeal.jurisdictionKey,
+    appealId: appeal.id,
+    actorPersonId: commissioner,
+    designationId: authority.designation.id,
+    decision,
+    reasons: "The record states no further reasons.",
+    decisionTraceId: traceId,
+  }).world;
+}
+
+/**
+ * When no office holder existed as the appeal arrived, a party may bring it to
+ * the commissioner once one does. The outcome is keyed to the appeal, so
+ * timing cannot change it.
+ */
+export function referAppealToCommissioner(
   world: World,
   input: { readonly appealId: EntityId },
 ): PersonnelResult {
@@ -1378,77 +1394,31 @@ export function produceCommissionerSettlementDecision(
   if (!actor || !appeal || !found)
     return refuse(world, "No filed appeal awaits this decision.");
   if (actor !== appeal.personId && actor !== found.action.actorPersonId)
-    return refuse(
-      world,
-      "Only a party to the appeal can check for this decision.",
-    );
+    return refuse(world, "Only a party to the appeal can refer it.");
   const refusal = settlementRefusal(world, appeal);
   if (refusal) return refuse(world, refusal);
-  const commissioner = statutoryOfficeHolder(
-    world,
-    "commissioner-settlement",
-    appeal.jurisdictionKey,
-  );
-  if (!commissioner)
+  if (
+    !statutoryOfficeHolder(
+      world,
+      "commissioner-settlement",
+      appeal.jurisdictionKey,
+    )
+  )
     return refuse(
       world,
       "No single holder of the commissioner's statutory office is established in this world.",
     );
-  if (commissioner === actor)
-    return refuse(world, "The controlled commissioner decides for themselves.");
-  const authority = personnelAuthority(
-    world,
-    commissioner,
-    "commissioner-settlement",
-    {
-      organizationId: null,
-      jurisdictionKey: appeal.jurisdictionKey,
-    },
-  );
-  if (!authority.ok) return refuse(world, authority.reason);
   try {
-    const evaluation = evaluateDecision(world, {
-      stableKey: `${PREFIX}:settlement-decision:${appeal.id}`,
-      decisionType: "civil-personnel.commissioner-settlement",
-      actorPersonId: commissioner,
-      cutoff: currentHistoricalCutoff(world),
-      subject: {
-        kind: "context:personnel-appeal",
-        key: appeal.stableKey,
-        entityId: null,
-      },
-      options: [
-        {
-          key: "settlement-directed",
-          label: "Direct a settlement",
-          description:
-            "Require the appointing authority to settle before a hearing.",
-        },
-        {
-          key: "settlement-not-directed",
-          label: "Do not direct a settlement",
-          description: "Leave the appeal to its hearing procedure.",
-        },
-      ],
-      constraints: [],
-      considerations: [],
-      perceptionIds: [],
-      randomness: "close-choices",
-      retention: "durable",
-    });
-    const next = recordDurableDecisionTrace(world, evaluation);
-    const traceId = next.history.decisionTraces.at(-1)!.id;
-    return recordSettlement(
-      next,
-      appeal,
-      commissioner,
-      authority.designation,
-      evaluation.selectedOptionKey === "settlement-directed"
-        ? "settlement-directed"
-        : "settlement-not-directed",
-      "The record states no further reasons.",
-      traceId,
+    const next = commissionerDecision(world, appeal);
+    const decision = recordsOf(next, "settlement-decision").find(
+      (d) => d.appealId === appeal.id,
     );
+    return decision
+      ? { ok: true, world: next, recordId: decision.id }
+      : refuse(
+          world,
+          "The commissioner cannot decide an appeal they are part of.",
+        );
   } catch (error) {
     return refuse(world, (error as Error).message);
   }
@@ -1543,17 +1513,28 @@ export function assessMinnesotaReinstatement(
       reason:
         "Only a former permanent or probationary employee of this job class, within four years of separation, may be directly reinstated.",
     };
+  const fromThisEmployer = recordsOf(world, "reinstatement-offer").filter(
+    (o) =>
+      o.personId === personId &&
+      recordById(world, o.positionId, "position")?.organizationId ===
+        position.organizationId,
+  );
+  const responses = recordsOf(world, "offer-response");
+  if (fromThisEmployer.some((o) => !responses.some((r) => r.offerId === o.id)))
+    return {
+      available: false,
+      reason: "An offer to this person is already awaiting an answer.",
+    };
+  // One answer per person and employer: asking again cannot reroll consent.
   if (
-    recordsOf(world, "reinstatement-offer").some(
-      (o) =>
-        o.positionId === position.id &&
-        o.personId === personId &&
-        !recordsOf(world, "offer-response").some((r) => r.offerId === o.id),
+    fromThisEmployer.some((o) =>
+      responses.some((r) => r.offerId === o.id && r.response === "declined"),
     )
   )
     return {
       available: false,
-      reason: "An offer to this person is already awaiting an answer.",
+      reason:
+        "They declined reinstatement with this employer, and that answer stands.",
     };
   const formerPosition = recordById(world, former.positionId, "position")!;
   return {
@@ -1647,6 +1628,11 @@ export function offerMinnesotaReinstatement(
   }
 }
 
+export const offerDecisionKey = (
+  organizationId: EntityId,
+  personId: EntityId,
+) => `${PREFIX}:offer-decision:${organizationId}:${personId}`;
+
 function openOffer(world: World, offerId: EntityId) {
   const offer = recordById(world, offerId, "reinstatement-offer");
   if (!offer) return null;
@@ -1658,8 +1644,9 @@ function openOffer(world: World, offerId: EntityId) {
 function applyOfferResponse(
   world: World,
   offer: PersonnelReinstatementOfferRecord,
-  response: "accepted" | "declined",
+  response: "accepted" | "declined" | "lapsed",
   decisionTraceId: EntityId | null,
+  lapseReason: string | null,
 ): PersonnelResult {
   const position = recordById(world, offer.positionId, "position")!;
   const former = recordById(world, offer.formerIncumbencyId, "incumbency")!;
@@ -1667,43 +1654,6 @@ function applyOfferResponse(
     world,
     position.organizationId,
   );
-  if (!isPersonAliveAt(world, offer.personId, currentLifeCutoff(world)))
-    return refuse(world, "The person offered can no longer answer.");
-  // Consent does not override a vacancy filled, authority lost or the
-  // four-year window closed meanwhile.
-  if (response === "accepted") {
-    const separated = separationDate(world, former);
-    if (
-      !separated ||
-      world.currentDate >
-        yearsAfter(
-          separated,
-          numberTerm("mn-reinstatement", "withinYearsOfSeparation"),
-        )
-    )
-      return refuse(world, "The four-year reinstatement window has closed.");
-    if (!positionIsVacant(world, position.id))
-      return refuse(world, "The position is no longer vacant.");
-    const authority = personnelAuthority(
-      world,
-      offer.actorPersonId,
-      "appointing-authority",
-      {
-        organizationId: position.organizationId,
-        jurisdictionKey: position.jurisdictionKey,
-      },
-    );
-    if (!authority.ok)
-      return refuse(
-        world,
-        "The offering appointing authority no longer holds that role.",
-      );
-    const busy = activeWorkRelationshipsAt(world, offer.personId).some(
-      (w) => w.relationship.organizationId === position.organizationId,
-    );
-    if (busy)
-      return refuse(world, "The person already works for this employer.");
-  }
   const key = `${PREFIX}:offer-response:${offer.id}`;
   try {
     const event = personnelEvent(world, {
@@ -1727,8 +1677,10 @@ function applyOfferResponse(
       summary:
         response === "accepted"
           ? `The offer of reinstatement to the ${position.title} position was accepted.`
-          : `The offer of reinstatement to the ${position.title} position was declined.`,
-      choice: response,
+          : response === "declined"
+            ? `The offer of reinstatement to the ${position.title} position was declined.`
+            : `The offer of reinstatement to the ${position.title} position lapsed.`,
+      choice: lapseReason ?? response,
       setting: position.title,
     });
     let next = recordEventKnowledge(event.world, {
@@ -1824,9 +1776,49 @@ function applyOfferResponse(
   }
 }
 
+/** Why an open offer can no longer become an appointment, if it cannot. */
+function offerLapse(
+  world: World,
+  offer: PersonnelReinstatementOfferRecord,
+): string | null {
+  const position = recordById(world, offer.positionId, "position")!;
+  const former = recordById(world, offer.formerIncumbencyId, "incumbency")!;
+  if (!isPersonAliveAt(world, offer.personId, currentLifeCutoff(world)))
+    return "The person offered can no longer answer.";
+  const separated = separationDate(world, former);
+  if (
+    !separated ||
+    world.currentDate >
+      yearsAfter(
+        separated,
+        numberTerm("mn-reinstatement", "withinYearsOfSeparation"),
+      )
+  )
+    return "The four-year reinstatement window has closed.";
+  if (!positionIsVacant(world, position.id))
+    return "The position is no longer vacant.";
+  if (
+    !personnelAuthority(world, offer.actorPersonId, "appointing-authority", {
+      organizationId: position.organizationId,
+      jurisdictionKey: position.jurisdictionKey,
+    }).ok
+  )
+    return "The appointing authority who made the offer no longer holds that role.";
+  if (
+    activeWorkRelationshipsAt(world, offer.personId).some(
+      (w) => w.relationship.organizationId === position.organizationId,
+    )
+  )
+    return "The person already works for this employer.";
+  return null;
+}
+
 /**
- * An NPC's answer, produced once through the general decision architecture and
- * persisted; reopening or reloading never rerolls it.
+ * The person's answer, produced once per person and employer through the
+ * general decision architecture and persisted, so asking again, reopening or
+ * reloading never rerolls it. An offer that can no longer become an
+ * appointment lapses instead of being answered. Any current appointing
+ * authority of the employer may hear it, so a departed officer cannot strand it.
  */
 export function produceReinstatementResponse(
   world: World,
@@ -1834,16 +1826,23 @@ export function produceReinstatementResponse(
 ): PersonnelResult {
   const actor = controlledActor(world);
   const offer = openOffer(world, input.offerId);
-  if (!actor || !offer || offer.actorPersonId !== actor)
+  if (!actor || !offer) return refuse(world, "No open offer awaits an answer.");
+  const position = recordById(world, offer.positionId, "position")!;
+  if (
+    actor !== offer.actorPersonId &&
+    !personnelAuthority(world, actor, "appointing-authority", {
+      organizationId: position.organizationId,
+      jurisdictionKey: position.jurisdictionKey,
+    }).ok
+  )
     return refuse(
       world,
-      "Only the offering appointing authority can hear this answer.",
+      "Only this employer's appointing authority can hear this answer.",
     );
-  if (
-    world.control.kind === "person" &&
-    world.control.personId === offer.personId
-  )
+  if (actor === offer.personId)
     return refuse(world, "The controlled person answers for themselves.");
+  const lapse = offerLapse(world, offer);
+  if (lapse) return applyOfferResponse(world, offer, "lapsed", null, lapse);
   const goals = new Map<string, (typeof world.history.goalStates)[number]>();
   for (const g of world.history.goalStates.filter(
     (g) => g.personId === offer.personId,
@@ -1860,7 +1859,7 @@ export function produceReinstatementResponse(
   );
   try {
     const evaluation = evaluateDecision(world, {
-      stableKey: `${PREFIX}:offer-decision:${offer.id}`,
+      stableKey: offerDecisionKey(position.organizationId, offer.personId),
       decisionType: "civil-personnel.reinstatement-response",
       actorPersonId: offer.personId,
       cutoff: currentHistoricalCutoff(world),
@@ -1930,6 +1929,7 @@ export function produceReinstatementResponse(
       offer,
       evaluation.selectedOptionKey === "accept" ? "accepted" : "declined",
       traceId,
+      null,
     );
   } catch (error) {
     return refuse(world, (error as Error).message);
@@ -2048,46 +2048,34 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
       ? decisions.find((d) => d.appealId === appeal.id)
       : undefined;
     const discharge = action.action === "discharge";
-    const found = discharge ? dischargeFor(world, action.id) : null;
-    const appealBlock = found ? appealRefusal(world, found) : null;
     const choice = appealDecisionFor(world, action.id);
     const steps: PersonnelStep[] = [];
-    if (discharge && authority) {
+    if (discharge && authority)
       steps.push({
         key: "commissioner-filing",
         label: "File the notice with the commissioner",
         available: !filing,
         reason: filing ? "Filed." : null,
       });
-      steps.push({
-        key: "check-appeal",
-        label: "Check whether the employee appealed",
-        available: choice === "undecided" && appealBlock === null,
-        reason:
-          choice === "appealed"
-            ? "The employee appealed."
-            : choice === "declined"
-              ? "The employee decided not to appeal."
-              : appealBlock,
-      });
-    }
     if (appeal) {
-      const settlementBlock = settlementRefusal(world, appeal);
-      const commissioner = statutoryOfficeHolder(
-        world,
-        "commissioner-settlement",
-        appeal.jurisdictionKey,
-      );
-      steps.push({
-        key: "check-settlement",
-        label: "Check for the commissioner's settlement decision",
-        available: settlementBlock === null && commissioner !== null,
-        reason:
-          settlementBlock ??
-          (commissioner
-            ? null
-            : "No single holder of the commissioner's office is established."),
-      });
+      if (!decision) {
+        const settlementBlock = settlementRefusal(world, appeal);
+        const commissioner = statutoryOfficeHolder(
+          world,
+          "commissioner-settlement",
+          appeal.jurisdictionKey,
+        );
+        steps.push({
+          key: "refer-settlement",
+          label: "Refer the appeal to the commissioner",
+          available: settlementBlock === null && commissioner !== null,
+          reason:
+            settlementBlock ??
+            (commissioner
+              ? null
+              : "No single holder of the commissioner's office is established."),
+        });
+      }
       steps.push(blockedArbitration());
     }
     views.push({
@@ -2126,7 +2114,16 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
     });
   }
   for (const offer of recordsOf(world, "reinstatement-offer")) {
-    if (offer.personId !== actor && offer.actorPersonId !== actor) continue;
+    const offeringEmployer = recordById(world, offer.positionId, "position")!;
+    if (
+      offer.personId !== actor &&
+      offer.actorPersonId !== actor &&
+      !personnelAuthority(world, actor, "appointing-authority", {
+        organizationId: offeringEmployer.organizationId,
+        jurisdictionKey: offeringEmployer.jurisdictionKey,
+      }).ok
+    )
+      continue;
     const response = recordsOf(world, "offer-response").find(
       (r) => r.offerId === offer.id,
     );
@@ -2143,7 +2140,12 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
         response ? `Answer: ${response.response}.` : "Awaiting an answer.",
       ],
       steps:
-        response || offer.actorPersonId !== actor
+        response ||
+        (offer.actorPersonId !== actor &&
+          !personnelAuthority(world, actor, "appointing-authority", {
+            organizationId: job.organizationId,
+            jurisdictionKey: job.jurisdictionKey,
+          }).ok)
           ? []
           : [
               {
