@@ -465,6 +465,8 @@ test.describe("What the world records, it keeps", () => {
     await openElsewhere(page, "people");
     // A day now offers more than one conversation, so everything below is
     // scoped to the kitchen one rather than to whichever the page drew first.
+    // PT3: People starts it; the conversation is the one box in the room.
+    await page.getByTestId("conversation-start-household-obligation").click();
     const kitchen = page.getByTestId("conversation-household-obligation");
     await expect(kitchen).toBeVisible();
 
@@ -484,6 +486,7 @@ test.describe("What the world records, it keeps", () => {
     await page.reload();
     await page.getByTestId("continue").click();
     await openElsewhere(page, "people");
+    await page.getByTestId("conversation-start-household-obligation").click();
     // The conversation picks up where it was left, rather than reopening at
     // turn one because the screen forgot what the world remembered.
     await expect(

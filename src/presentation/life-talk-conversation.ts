@@ -204,6 +204,9 @@ export function commitLifeTalkConversationTurn(
     personId: addressee,
     intent: input.intent as LifeTalkIntent,
     revision: view.revision,
+    ...(input.transitionHandlers
+      ? { transitionHandlers: input.transitionHandlers }
+      : {}),
   });
 
   const turnKey = `${input.session.sessionKey}:turn:${input.turnOrdinal}`;

@@ -53,7 +53,7 @@ const AUTHORED_SURFACES: readonly string[] = [
   "src/presentation/ordinary-life.ts",
   "src/presentation/player-conversation.ts",
   "src/player/PlayerGame.tsx",
-  "src/player/PlayerConversation.tsx",
+  "src/player/SceneConversation.tsx",
 ];
 
 /** What is wrong, and what to say instead. */

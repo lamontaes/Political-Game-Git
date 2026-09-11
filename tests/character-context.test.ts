@@ -478,7 +478,7 @@ const AUTHORED_SURFACES: readonly string[] = [
   "src/presentation/life-story.ts",
   "src/presentation/ordinary-life.ts",
   "src/player/PlayerGame.tsx",
-  "src/player/PlayerConversation.tsx",
+  "src/player/SceneConversation.tsx",
 ];
 
 function withoutComments(source: string): string {
@@ -679,7 +679,7 @@ describe("The player shell styles every class it names", () => {
     );
     const shells = [
       "src/player/PlayerGame.tsx",
-      "src/player/PlayerConversation.tsx",
+      "src/player/SceneConversation.tsx",
     ];
     const missing = new Set<string>();
     for (const relative of shells) {

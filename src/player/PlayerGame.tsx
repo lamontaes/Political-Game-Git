@@ -125,7 +125,8 @@ import {
 import { selectedDocketKey } from "../presentation/legislation-docket-selection";
 import { measureById } from "../simulation";
 import { measureGate } from "../simulation/legislation";
-import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
+import { ConversationStarters, SceneConversation } from "./SceneConversation";
+import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
 import {
@@ -1707,16 +1708,17 @@ function PlayingScreen({
   );
   const [floorNote, setFloorNote] = useState<string | null>(null);
   /**
-   * The conversation the player asked for, and who they asked to speak to.
+   * The conversation the player asked for, and who they are facing in it.
    *
    * Held beside the shell rather than inside it because it is not a place — it
-   * is a thing happening with a person whose record is already open. The
-   * addressee travels with it, which is the whole repair: the recorded defect
-   * was a selected person being dropped on the way to a generic surface.
+   * is a thing happening in the room. The addressee travels with it, which is
+   * the whole repair: the recorded defect was a selected person being dropped
+   * on the way to a generic surface. PT3: it is drawn in ONE place, the
+   * conversation box in the room, whichever control started it.
    */
   const [conversation, setConversation] = useState<{
-    readonly personId: EntityId;
     readonly subject: ConversationSubjectKey;
+    readonly addressee: ConversationAddressee;
   } | null>(null);
 
   const sceneId = useMemo(() => {
@@ -2074,18 +2076,29 @@ function PlayingScreen({
       )
     : null;
 
-  /** Starts the real conversation with exactly the person who was chosen. */
+  /**
+   * Starts the real conversation with exactly the person who was chosen, in
+   * the room.
+   *
+   * Whatever surface the choice was made on — the person in the scene, their
+   * record, the People list — the conversation itself happens in the one box
+   * over the scene, so the workspace closes and the room comes forward.
+   */
   const talkTo = useCallback(
-    (personId: EntityId) => {
+    (personId: EntityId, subject?: ConversationSubjectKey) => {
       const entry = openConversationWith(
         session.world,
         session.personId,
         personId,
       );
       if (entry.kind === "unavailable") return;
-      setConversation({ personId, subject: entry.subject });
+      setConversation({
+        subject: subject ?? entry.subject,
+        addressee: personId,
+      });
+      dispatch({ type: "go-to-scene" });
     },
-    [session.world, session.personId],
+    [session.world, session.personId, dispatch],
   );
 
   const workspace = renderWorkspace({
@@ -2096,7 +2109,6 @@ function PlayingScreen({
     capabilities,
     assignment,
     floorNote,
-    conversation,
     onWorldChange,
     openEntity,
     dossierFor,
@@ -2104,7 +2116,6 @@ function PlayingScreen({
     openTheBill,
     goToTheFloor,
     goToTheFloorFor,
-    setConversation,
     workHint,
   });
 
@@ -2169,6 +2180,22 @@ function PlayingScreen({
               continuingLife={
                 <StoryView session={session} onWorldChange={onWorldChange} />
               }
+              onTalkTo={(personId) => talkTo(personId)}
+              foreground={
+                conversation ? (
+                  <SceneConversation
+                    key={conversation.subject}
+                    world={session.world}
+                    playerPersonId={session.personId}
+                    subject={conversation.subject}
+                    addressee={conversation.addressee}
+                    onWorldChange={onWorldChange}
+                    onChange={(next) => setConversation(next)}
+                    onBack={() => setConversation(null)}
+                    transitionHandlers={createCampaignElectionTransitionRegistry()}
+                  />
+                ) : null
+              }
             />
           </SceneBackdrop>
 
@@ -2222,10 +2249,7 @@ function PlayingScreen({
                     ? "pg-action-talk-reason"
                     : undefined
                 }
-                onClick={() => {
-                  openEntity({ kind: "person", id: actionPerson.personId });
-                  talkTo(actionPerson.personId);
-                }}
+                onClick={() => talkTo(actionPerson.personId)}
               >
                 Talk
                 <small>Say something to them</small>
@@ -2402,7 +2426,6 @@ function renderWorkspace({
   capabilities,
   assignment,
   floorNote,
-  conversation,
   onWorldChange,
   openEntity,
   dossierFor,
@@ -2410,7 +2433,6 @@ function renderWorkspace({
   openTheBill,
   goToTheFloor,
   goToTheFloorFor,
-  setConversation,
   workHint,
 }: {
   readonly view: ReturnType<typeof activeView>;
@@ -2420,18 +2442,16 @@ function renderWorkspace({
   readonly capabilities: ReturnType<typeof resolvePlayerCapabilities>;
   readonly assignment: LegislativeAssignment | null;
   readonly floorNote: string | null;
-  readonly conversation: {
-    readonly personId: EntityId;
-    readonly subject: ConversationSubjectKey;
-  } | null;
   readonly onWorldChange: (world: World) => void;
   readonly openEntity: (ref: ShellRef) => void;
   readonly dossierFor: (personId: EntityId) => PersonDossier | null;
-  readonly talkTo: (personId: EntityId) => void;
+  readonly talkTo: (
+    personId: EntityId,
+    subject?: ConversationSubjectKey,
+  ) => void;
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
-  readonly setConversation: (value: null) => void;
   readonly workHint: string;
 }): ReactNode {
   if (view.surface === "scene") return null;
@@ -2555,31 +2575,6 @@ function renderWorkspace({
             talkUnavailable={entry.kind === "unavailable" ? entry.reason : null}
             onOpenLink={openEntity}
           />
-          {/*
-            The conversation opens against the person whose record this is, with
-            them already the addressee. Reading a dossier and speaking to
-            somebody stay different acts: this appears only once the player asks
-            for it.
-          */}
-          {conversation && conversation.personId === dossier.personId ? (
-            <div data-testid="dossier-conversation">
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                data-testid="dossier-conversation-close"
-                onClick={() => setConversation(null)}
-              >
-                Stop talking
-              </button>
-              <PlayerConversation
-                world={session.world}
-                personId={session.personId}
-                subject={conversation.subject}
-                initialAddressee={dossier.personId}
-                onWorldChange={onWorldChange}
-              />
-            </div>
-          ) : null}
         </>,
         "Record",
       );
@@ -2660,15 +2655,17 @@ function renderWorkspace({
             onOpenPerson={openPerson}
           />
           {/*
-            What this life can actually talk about, in the room it is in. Kept
-            here beside the directory because both answer "who is in this life",
-            and opening one person's record is a click away above.
+            What this life can actually talk about, in the room it is in — as
+            ways to START a conversation. They used to be every conversation
+            drawn in full, one under another; choosing one now opens it in the
+            conversation box in the room, the same box every other route
+            opens.
           */}
           {!completedActivityHere(session.world, session.personId) && (
-            <PlayerConversations
+            <ConversationStarters
               world={session.world}
               personId={session.personId}
-              onWorldChange={onWorldChange}
+              onStart={(personId, subject) => talkTo(personId, subject)}
             />
           )}
         </>,

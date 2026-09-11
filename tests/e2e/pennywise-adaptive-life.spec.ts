@@ -278,7 +278,7 @@ test.describe("An adult has something to do, and it follows from their life", ()
     // offers rather than the single hard-wired panel it used to be.
     await openElsewhere(page, "people");
     await expect(
-      page.getByTestId("conversation-household-obligation"),
+      page.getByTestId("conversation-start-household-obligation"),
     ).toBeVisible();
   });
 
