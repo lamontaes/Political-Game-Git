@@ -140,3 +140,48 @@ test("opening the normal press request form creates no request or consent", asyn
   await save(page);
   expect(await savedWorld(page)).toEqual(before);
 });
+
+test("the office names the bill being worked on and who has it next", async ({
+  page,
+}) => {
+  /*
+   * UI9-13, both halves, on the ordinary route.
+   *
+   * Naming the working measure said WHICH bill is yours and nothing about
+   * whether anything was waiting on you. The gate already knew — the bill
+   * workspace prints "who decides next" two clicks in, behind "Look at what is
+   * moving" — so a member standing in their own office had to open the
+   * document to learn that a committee has it and there is nothing for them to
+   * do today.
+   *
+   * Nothing here is injected. The seat is won through the campaign, because
+   * filing needs a member seat and an office job is not one; the drafting
+   * table says exactly that when you try, and it is right.
+   */
+  await page.goto("/?seed=ui-connect2-news");
+  await startLife(page, { age: 38, route: "normal" });
+  await enterLife(page);
+  await reachMemberOffice(page);
+
+  await page.getByTestId("open-drafting-table").click();
+  await page.locator('[data-testid^="drafting-option-"]').first().click();
+  await page.getByTestId("file-the-draft").press("Enter");
+  await expect(page.getByTestId("docket-bill")).toBeVisible();
+
+  const band = page.getByTestId("active-measure");
+  await expect(band).toBeVisible();
+  const measureId = await band.getAttribute("data-measure-id");
+  expect(measureId).toBeTruthy();
+
+  /*
+   * The actor is read from the measure's own gate, never mapped from a phase
+   * here, so this asserts that SOMETHING canonical is named rather than
+   * pinning the rule pack's wording into a browser test.
+   */
+  const actor = page.getByTestId("active-measure-actor");
+  await expect(actor).toBeVisible();
+  expect((await actor.innerText()).trim().length).toBeGreaterThan(0);
+  await expect(page.getByTestId("active-measure-next")).toContainText(
+    "has it next",
+  );
+});

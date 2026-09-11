@@ -125,6 +125,7 @@ import {
 } from "../presentation/legislation-docket";
 import { selectedDocketKey } from "../presentation/legislation-docket-selection";
 import { measureById } from "../simulation";
+import { measureGate } from "../simulation/legislation";
 import { PlayerConversation, PlayerConversations } from "./PlayerConversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
@@ -2849,6 +2850,25 @@ function renderWorkspace({
         ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
           null)
         : null;
+      /*
+       * UI9-13, second half: who has it now.
+       *
+       * Naming the working measure told the player WHICH bill is theirs and
+       * nothing about whether anything was waiting on them. The gate already
+       * knows — it is the canonical answer to what controls this measure's
+       * next step, and the bill workspace has been printing it as "who decides
+       * next" all along, two clicks in behind "Look at what is moving". A
+       * player standing in their office should not have to open the document
+       * to learn that the committee has it and there is nothing for them to do
+       * today.
+       *
+       * Read, never inferred: no phase is mapped to an actor here. What the
+       * chamber's own rule pack calls the referral authority, the committee or
+       * the leadership is what the office says.
+       */
+      const workingGate = workingBill
+        ? measureGate(session.world, workingBill.measureId)
+        : null;
       const assignmentName = assignment
         ? (measureById(session.world, assignment.measureId)?.shortTitle ?? null)
         : null;
@@ -2889,6 +2909,18 @@ function renderWorkspace({
             >
               Working on:{" "}
               {workingName ?? "a measure this world no longer holds"}
+            </p>
+          ) : null}
+          {workingGate ? (
+            <p className="game-note" data-testid="active-measure-next">
+              <span data-testid="active-measure-actor">
+                {workingGate.actorLabel}
+              </span>
+              {" has it next. "}
+              {workingGate.description}
+              {workingGate.thresholdLabel
+                ? ` It needs ${workingGate.thresholdLabel}.`
+                : ""}
             </p>
           ) : null}
           {assignmentIsOther ? (
