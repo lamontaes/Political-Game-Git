@@ -1,4 +1,7 @@
-import { lifeCircumstancesFor } from "./life-circumstances";
+import {
+  lifeCircumstancesFor,
+  type LifeCircumstanceKind,
+} from "./life-circumstances";
 import type { AdultAftermathKind, LifeStakesTier } from "./adult-situations";
 import {
   applyCharacterHistoryPlan,
@@ -112,7 +115,13 @@ export type EpisodeFactKey =
   | "person.recurring"
   | "thread.pressing"
   | "work.coverage-requested"
-  | "school.shared-assignment";
+  | "school.shared-assignment"
+  | "work.supervisor-shift-requested"
+  | "school.commute-schedule-conflict"
+  | "work.class-schedule-conflict"
+  | "work.own-shift-coverage-needed"
+  | "household.move-preparation"
+  | "life.education-work-crossroad";
 
 /**
  * What a character is actually in a position to do.
@@ -808,13 +817,58 @@ export function episodeFacts(
     "Something on an open thread has come due.",
   );
 
+  const circumstanceFacts: Readonly<
+    Record<
+      LifeCircumstanceKind,
+      { readonly key: EpisodeFactKey; readonly detail: string }
+    >
+  > = {
+    "colleague-coverage-request": {
+      key: "work.coverage-requested",
+      detail:
+        "A colleague asked for shift coverage and stated a funeral reason.",
+    },
+    "shared-assignment": {
+      key: "school.shared-assignment",
+      detail:
+        "A recorded shared assignment is due with the named person's contribution outstanding.",
+    },
+    "supervisor-extra-shift": {
+      key: "work.supervisor-shift-requested",
+      detail:
+        "A supervisor asked for an extra shift on an evening set aside for coursework.",
+    },
+    "commute-schedule-conflict": {
+      key: "school.commute-schedule-conflict",
+      detail:
+        "The bus that reaches class on time leaves before the current shift ends.",
+    },
+    "class-work-schedule-conflict": {
+      key: "work.class-schedule-conflict",
+      detail:
+        "A supervisor announced Thursday afternoon shifts that collide with a required lab.",
+    },
+    "own-shift-coverage-needed": {
+      key: "work.own-shift-coverage-needed",
+      detail:
+        "This life needs a shift covered and has a colleague on the rota that day.",
+    },
+    "household-move-preparation": {
+      key: "household.move-preparation",
+      detail:
+        "Boxes are packed in the living room and belongings have been sorted for a move.",
+    },
+    "education-work-crossroad": {
+      key: "life.education-work-crossroad",
+      detail:
+        "Further study and full-time work are both open paths at the same time.",
+    },
+  };
+
   for (const circumstance of lifeCircumstancesFor(world, personId, cutoff)) {
-    const key: EpisodeFactKey =
-      circumstance.kind === "colleague-coverage-request"
-        ? "work.coverage-requested"
-        : "school.shared-assignment";
-    facts.set(key, {
-      key,
+    const mapped = circumstanceFacts[circumstance.kind];
+    facts.set(mapped.key, {
+      key: mapped.key,
       holds: true,
       ...(circumstance.counterpartPersonId
         ? { counterpartPersonId: circumstance.counterpartPersonId }
@@ -830,10 +884,7 @@ export function episodeFacts(
           note: "The actual request and named counterpart.",
         },
       ],
-      detail:
-        circumstance.kind === "colleague-coverage-request"
-          ? "A colleague asked for shift coverage and stated a funeral reason."
-          : "A recorded shared assignment is due with the named person's contribution outstanding.",
+      detail: mapped.detail,
     });
   }
   return facts;

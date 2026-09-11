@@ -1,0 +1,149 @@
+{
+  "packet": "92C_ANTIGRAVITY_LIFE_CONTENT_AND_PACING_RESEARCH",
+  "version": "2026-09-05",
+  "executor": "Antigravity Research Lane (Google DeepMind)",
+  "canonical_authority": "Game Constitution, Q-LIFE-001, PR #92 Content Contracts",
+  "pacing_contract": {
+    "granularity_ladder": [
+      {
+        "band": "early_childhood",
+        "ages": [5, 7],
+        "default_pulse_days": 90,
+        "beats_per_year_target": [2, 4],
+        "compression_style": "seasonal_sensory"
+      },
+      {
+        "band": "middle_childhood",
+        "ages": [8, 12],
+        "default_pulse_days": 60,
+        "beats_per_year_target": [3, 5],
+        "compression_style": "semester_routine"
+      },
+      {
+        "band": "adolescence",
+        "ages": [13, 17],
+        "default_pulse_days": 30,
+        "beats_per_year_target": [4, 6],
+        "compression_style": "monthly_extracurricular"
+      },
+      {
+        "band": "routine_adult",
+        "ages": [18, 99],
+        "default_pulse_days": 30,
+        "beats_per_year_target": [4, 8],
+        "compression_style": "monthly_work_life"
+      },
+      {
+        "band": "campaign_or_legislative",
+        "ages": [18, 99],
+        "default_pulse_days": 7,
+        "beats_per_year_target": [12, 24],
+        "compression_style": "weekly_deliberation"
+      }
+    ],
+    "hard_interrupts": [
+      "structural_life_boundary",
+      "causal_incident_shock",
+      "direct_relational_demand",
+      "unmet_commitment_due_frontier"
+    ],
+    "steady_state_narration_rule": "suppress_unless_interval_exceeds_90_days_and_detail_is_concrete"
+  },
+  "agency_triad": {
+    "child_can_choose": [
+      "honesty_vs_silence_vs_blame_shift",
+      "sharing_personal_item_vs_withholding",
+      "joining_group_vs_perimeter_observation",
+      "comforting_crying_peer_vs_ignoring",
+      "reaction_to_losing_game_rematch_vs_protest",
+      "rule_fidelity_vs_simple_advantage",
+      "pocket_money_spend_vs_save",
+      "leisure_hobby_selection"
+    ],
+    "child_can_witness_react": [
+      "parental_economic_exhaustion",
+      "residential_move_packing",
+      "hospital_visit_ill_relative",
+      "sibling_birth_displacement",
+      "parental_separation_second_home",
+      "intergenerational_coresidence",
+      "severe_weather_event",
+      "playground_peer_exclusion"
+    ],
+    "adult_decision_forbidden_for_child": [
+      "healthcare_and_pediatric_treatment",
+      "housing_leases_mortgages_and_relocation",
+      "school_selection_and_district_enrollment",
+      "household_budget_and_debt_management",
+      "custody_and_divorce_litigation",
+      "adult_employment_and_labor_disputes",
+      "formal_sibling_punishment",
+      "institutional_religion_or_political_endorsement"
+    ]
+  },
+  "scenario_kernels_count": 62,
+  "scenario_kernel_keys": [
+    "early.school.cubby-space",
+    "early.school.crayon-sharing",
+    "early.school.playground-turn",
+    "early.school.recess-race",
+    "early.school.tattle-boundary",
+    "early.school.lunchbox-swap",
+    "early.school.spilled-paint",
+    "early.school.partner-pairing",
+    "early.home.bedtime-delay",
+    "early.home.chore-resistance",
+    "early.home.broken-mug",
+    "early.home.food-refusal",
+    "early.home.sibling-toy-snatch",
+    "early.home.parent-exhaustion",
+    "early.home.closet-fear",
+    "early.peer.sidewalk-game",
+    "early.peer.best-friend-pact",
+    "early.peer.secret-whisper",
+    "early.peer.toy-damage-accidental",
+    "early.peer.dropped-treat",
+    "early.peer.roughhouse-line",
+    "early.community.lost-pet-flyer",
+    "early.community.sidewalk-curb",
+    "early.community.curious-neighbor",
+    "early.community.library-quiet",
+    "early.family.packing-boxes",
+    "early.family.hospital-visit",
+    "early.family.new-baby-arrival",
+    "early.family.separate-apartments",
+    "early.family.grandparent-stay",
+    "adult.trans.college-vs-work",
+    "adult.trans.apprenticeship-sponsor",
+    "adult.trans.commuter-strain",
+    "adult.trans.drop-class-keep-job",
+    "adult.trans.financial-aid-verification",
+    "adult.trans.shift-call-in",
+    "adult.trans.tip-pooling-dispute",
+    "adult.trans.work-injury-reporting",
+    "adult.trans.family-business-obligation",
+    "adult.trans.coworker-cover-shift",
+    "adult.trans.parent-rent-demand",
+    "adult.trans.roommate-lease-signing",
+    "adult.trans.unpaid-utility-split",
+    "adult.trans.eviction-notice-landlord",
+    "adult.trans.couch-surfing-decision",
+    "adult.trans.broken-transmission",
+    "adult.trans.medical-debt-collections",
+    "adult.trans.overdraft-cascade",
+    "adult.trans.sibling-emergency-loan",
+    "adult.trans.payday-loan-temptation",
+    "rel.encounter.shift-breakroom",
+    "rel.encounter.bus-stop-regular",
+    "rel.encounter.study-group-freeloader",
+    "rel.encounter.rec-league-rival",
+    "rel.encounter.campaign-canvass-partner",
+    "rel.encounter.dormant-callback-reunion",
+    "civic.encounter.courthouse-rally",
+    "civic.encounter.school-board-rezoning",
+    "civic.encounter.flooding-sandbag-effort",
+    "civic.encounter.zoning-variance-hearing",
+    "civic.encounter.union-picket-line",
+    "civic.encounter.historical-centennial-parade"
+  ]
+}

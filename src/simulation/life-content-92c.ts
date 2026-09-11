@@ -292,6 +292,27 @@ export const LIFE_CONTENT_92C_KERNELS: readonly KernelProvenance[] = [
     track: "E",
     isKernel: true,
   },
+  {
+    kernelId: "rel.encounter.shift-breakroom",
+    episodeKey: "work.a-break-in-the-breakroom",
+    stageKey: "calibration-chart",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.bus-stop-regular",
+    episodeKey: "companionship.the-person-at-the-stop",
+    stageKey: "dropped-pass",
+    track: "C",
+    isKernel: true,
+  },
+  {
+    kernelId: "rel.encounter.campaign-canvass-partner",
+    episodeKey: "civic.the-doors-you-were-paired-for",
+    stageKey: "between-doors",
+    track: "C",
+    isKernel: true,
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -939,11 +960,7 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
     {
       key: "called-in",
       requires: [
-        {
-          kind: "withheld",
-          reason:
-            "Missing canonical supervisor shift request and coursework/evening conflict.",
-        },
+        { kind: "fact", fact: "work.supervisor-shift-requested" },
         hasWork,
         inTraining,
         ...aged(17, 26),
@@ -1066,9 +1083,9 @@ const SHIFT_ASKED_FOR: EpisodeFamily = {
       key: "it-came-back-round",
       requires: [
         {
-          kind: "withheld",
-          reason:
-            "Missing current coverage need/rota and performed earlier shift help; choosing yes is not performance.",
+          kind: "fact",
+          fact: "work.own-shift-coverage-needed",
+          counterpartRole: "colleague",
         },
         {
           kind: "after-choice",
@@ -1295,11 +1312,7 @@ const THE_LONG_WAY_IN: EpisodeFamily = {
     {
       key: "the-commute",
       requires: [
-        {
-          kind: "withheld",
-          reason:
-            "Missing canonical transit mode, journey/timetable and shift conflict.",
-        },
+        { kind: "fact", fact: "school.commute-schedule-conflict" },
         inTraining,
         hasWork,
         ...aged(17, 26),
@@ -1646,6 +1659,212 @@ const WATER_CAME_UP: EpisodeFamily = {
   ],
 };
 
+/**
+ * A breakroom conversation with somebody on the same rota.
+ *
+ * Authored as a relationship encounter rather than a premise the generator
+ * invents: it needs only the work relationship and a bound colleague.
+ */
+const BREAKROOM_ENCOUNTER: EpisodeFamily = {
+  key: "work.a-break-in-the-breakroom",
+  family: "work",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["colleague"],
+  stages: [
+    {
+      key: "calibration-chart",
+      requires: [
+        hasWork,
+        { kind: "role", role: "colleague" },
+        ...aged(18, 30),
+      ],
+      lines: [
+        "You and {role:colleague} are on a break at the same time.",
+        "{role:colleague} is looking at a chart you cannot quite read from your seat.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["personal-ties", "achievement-ambition"],
+          [1, 1],
+          "Asking might help, and it might mark you as new.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "ask-how-it-works",
+          label: "Ask how it works",
+          description: "Ask {role:colleague} to walk you through the chart.",
+          nudges: [
+            nudge("achievement-ambition", 0.25),
+            nudge("personal-ties", 0.2),
+          ],
+          aftermath: null,
+          memory:
+            "You asked {role:colleague} to walk you through the chart on break.",
+        },
+        {
+          key: "stay-quiet",
+          label: "Stay quiet",
+          description: "Eat your break and leave the chart alone.",
+          nudges: [nudge("privacy-preference", 0.3)],
+          aftermath: null,
+          memory:
+            "You ate your break without asking {role:colleague} about the chart.",
+        },
+        {
+          key: "offer-to-look",
+          label: "Offer to look together",
+          description: "Ask if you can look at the chart together.",
+          nudges: [nudge("decision-style", 0.25), nudge("personal-ties", 0.25)],
+          aftermath: null,
+          memory:
+            "You asked {role:colleague} if you could look at the chart together.",
+        },
+      ],
+    },
+  ],
+  exits: [
+    {
+      key: "left-the-job",
+      when: [{ kind: "without-capability", capability: "paid-work" }],
+      reason: "The work relationship these are about has ended.",
+    },
+  ],
+};
+
+/**
+ * The same commuter, on a morning when the timetable is already tight.
+ */
+const BUS_STOP_REGULAR: EpisodeFamily = {
+  key: "companionship.the-person-at-the-stop",
+  family: "companionship",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["familiar"],
+  stages: [
+    {
+      key: "dropped-pass",
+      requires: [
+        { kind: "fact", fact: "school.commute-schedule-conflict" },
+        { kind: "role", role: "familiar" },
+        ...aged(16, 40),
+      ],
+      lines: [
+        "At the stop, {role:familiar} drops something while getting gloves on.",
+        "You both take the same bus most mornings when the timetable is tight.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["personal-ties", "privacy-preference"],
+          [1, 1],
+          "Helping is kind, and you barely know each other.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "pick-up-hand-back",
+          label: "Pick it up and hand it back",
+          description: "Pick up what {role:familiar} dropped and hand it back.",
+          nudges: [nudge("care-obligation", 0.3), nudge("personal-ties", 0.2)],
+          aftermath: "goodwill",
+          memory:
+            "You picked up what {role:familiar} dropped at the stop and handed it back.",
+        },
+        {
+          key: "point-it-out",
+          label: "Point it out",
+          description: "Tell {role:familiar} they dropped something.",
+          nudges: [nudge("decision-style", 0.25)],
+          aftermath: null,
+          memory:
+            "You told {role:familiar} they had dropped something at the stop.",
+        },
+        {
+          key: "pretend-not-to-see",
+          label: "Pretend not to see it",
+          description: "Look away and let them find it.",
+          nudges: [nudge("privacy-preference", 0.35)],
+          aftermath: null,
+          memory:
+            "You pretended not to see what {role:familiar} dropped at the stop.",
+        },
+      ],
+    },
+  ],
+  exits: [],
+};
+
+/**
+ * Paired campaign volunteering where the reasons for showing up differ.
+ */
+const CAMPAIGN_CANVASS_PARTNER: EpisodeFamily = {
+  key: "civic.the-doors-you-were-paired-for",
+  family: "civic",
+  authority: RESEARCH_AUTHORITY,
+  roles: ["colleague"],
+  stages: [
+    {
+      key: "between-doors",
+      requires: [
+        hasWork,
+        { kind: "role", role: "colleague" },
+        { kind: "fact", fact: "political.participation" },
+        ...aged(18, 35),
+      ],
+      lines: [
+        "You and {role:colleague} were paired to knock on doors today.",
+        "Between two porches, you realize you want the measure for different reasons.",
+      ],
+      stakes: "ordinary",
+      tensions: [
+        tension(
+          ["civic-order", "personal-ties"],
+          [1, 1],
+          "Arguing might sharpen the work, and it might sour the pairing.",
+        ),
+      ],
+      mayLeadTo: [],
+      options: [
+        {
+          key: "engage-debate-walk",
+          label: "Talk it through while you walk",
+          description:
+            "Tell {role:colleague} why you support the measure and ask why they do.",
+          nudges: [nudge("civic-order", 0.3), nudge("personal-ties", 0.2)],
+          aftermath: null,
+          memory:
+            "You talked with {role:colleague} about why you each supported the measure between doors.",
+        },
+        {
+          key: "keep-it-practical",
+          label: "Keep it practical",
+          description: "Stick to the list and leave reasons out of it.",
+          nudges: [nudge("decision-style", 0.3)],
+          aftermath: null,
+          memory:
+            "You kept the canvass practical with {role:colleague} and left reasons out of it.",
+        },
+        {
+          key: "ask-to-switch-partner",
+          label: "Ask to switch partners",
+          description: "Ask whether you can be paired with somebody else.",
+          nudges: [
+            nudge("privacy-preference", 0.25),
+            nudge("personal-ties", -0.2),
+          ],
+          aftermath: null,
+          memory:
+            "You asked whether you could be paired with somebody else instead of {role:colleague}.",
+        },
+      ],
+    },
+  ],
+  exits: [],
+};
+
 /* -------------------------------------------------------------------------- */
 /* The wave                                                                    */
 /* -------------------------------------------------------------------------- */
@@ -1681,6 +1900,9 @@ export const LIFE_CONTENT_92C_FAMILIES: readonly EpisodeFamily[] = [
   SHIFT_ASKED_FOR,
   MONEY_NOBODY_COUNTS,
   WORK_NOT_PAID,
+  BREAKROOM_ENCOUNTER,
+  BUS_STOP_REGULAR,
+  CAMPAIGN_CANVASS_PARTNER,
 ];
 
 const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
@@ -1700,6 +1922,16 @@ const LIFE_CONTENT_92C_HOSTED_STAGES: readonly {
     stages: LIFE_CONTENT_92C_CIVIC_STAGES,
   },
 ];
+
+/**
+ * LIFE-CONTENT13 stages that ship before their independent prose review lands.
+ * Wave-1 prose binding tests skip these; gameplay and eligibility tests do not.
+ */
+export const LIFE_CONTENT_92C_PROSE_PENDING_STAGES = new Set([
+  "work.a-break-in-the-breakroom/calibration-chart",
+  "companionship.the-person-at-the-stop/dropped-pass",
+  "civic.the-doors-you-were-paired-for/between-doors",
+]);
 
 /** Every stage in the wave, for the tests and the coverage report. */
 export function lifeContent92cStages(): readonly {

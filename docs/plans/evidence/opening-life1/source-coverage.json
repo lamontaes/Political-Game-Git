@@ -1,0 +1,978 @@
+{
+  "sourceId": "12tHpjLWeOF5RVhVyTvFi38lPPC4i6F3u",
+  "kernelSourceId": "1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR",
+  "declaredCount": 62,
+  "scope": "Exact 62-kernel mapping only; not complete 90 research/86-lane coverage or player reachability proof.",
+  "rows": [
+    {
+      "key": "early.school.cubby-space",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "cubby-space",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "school.enrolled"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 5
+            },
+            {
+              "kind": "age-below",
+              "age": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.school.crayon-sharing",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.school.crayon-sharing",
+      "ages": [5, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.school.playground-turn",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.school.playground-turn",
+      "ages": [5, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.school.recess-race",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "recess-race",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "school.enrolled"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 6
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.school.tattle-boundary",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "tattle-boundary",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "school.enrolled"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 6
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        },
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "it-was-still-there",
+          "isKernel": false,
+          "requirements": [
+            {
+              "kind": "after-stage",
+              "stage": "tattle-boundary"
+            },
+            {
+              "kind": "days-since-stage",
+              "stage": "tattle-boundary",
+              "days": 180
+            },
+            {
+              "kind": "fact",
+              "fact": "school.enrolled"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-below",
+              "age": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.school.lunchbox-swap",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.school.lunchbox-swap",
+      "ages": [5, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 5,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.school.spilled-paint",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.school.spilled-paint",
+      "ages": [6, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.school.partner-pairing",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "partner-pairing",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "school.enrolled"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 7
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.home.bedtime-delay",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.home.bedtime-delay",
+      "ages": [5, 7],
+      "setting": "home",
+      "cast": "guardian",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.home.chore-resistance",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "home.someone-is-not-all-right",
+          "stageKey": "chore-resistance",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "household.shared"
+            },
+            {
+              "kind": "role",
+              "role": "guardian"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 5
+            },
+            {
+              "kind": "age-below",
+              "age": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.home.broken-mug",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.home.broken-mug",
+      "ages": [5, 7],
+      "setting": "home",
+      "cast": "guardian",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.home.food-refusal",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.home.food-refusal",
+      "ages": [5, 7],
+      "setting": "home",
+      "cast": "guardian",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.home.sibling-toy-snatch",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "home.someone-is-not-all-right",
+          "stageKey": "sibling-toy-snatch",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "household.shared"
+            },
+            {
+              "kind": "role-age-below",
+              "role": "household-peer",
+              "age": 5
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 5
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.home.parent-exhaustion",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "home.someone-is-not-all-right",
+          "stageKey": "parent-exhaustion",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "household.shared"
+            },
+            {
+              "kind": "role",
+              "role": "guardian"
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 6
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.home.closet-fear",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.home.closet-fear",
+      "ages": [5, 7],
+      "setting": "home",
+      "cast": "alone",
+      "minutes": 10,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.peer.sidewalk-game",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.peer.sidewalk-game",
+      "ages": [6, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 10,
+      "limits": "Schoolyard chalk game; neighbor/home location not claimed.",
+      "mappings": []
+    },
+    {
+      "key": "early.peer.best-friend-pact",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "companionship.the-friend-you-named",
+          "stageKey": "best-friend-pact",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "role",
+              "role": "familiar"
+            },
+            {
+              "kind": "role-age-at-least",
+              "role": "familiar",
+              "age": 5
+            },
+            {
+              "kind": "role-age-below",
+              "role": "familiar",
+              "age": 9
+            },
+            {
+              "kind": "without-capability",
+              "capability": "answers-for-themselves"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 6
+            },
+            {
+              "kind": "age-below",
+              "age": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "early.peer.secret-whisper",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.peer.secret-whisper",
+      "ages": [6, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 5,
+      "limits": "Unverified unkind story; no named target or asserted private medical fact.",
+      "mappings": []
+    },
+    {
+      "key": "early.peer.toy-damage-accidental",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.peer.toy-damage-accidental",
+      "ages": [6, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 10,
+      "limits": "School toy context; private basement/playdate entry not claimed.",
+      "mappings": []
+    },
+    {
+      "key": "early.peer.dropped-treat",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.peer.dropped-treat",
+      "ages": [5, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 5,
+      "limits": "School-break snack; community-pool location not claimed.",
+      "mappings": []
+    },
+    {
+      "key": "early.peer.roughhouse-line",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.peer.roughhouse-line",
+      "ages": [6, 7],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 5,
+      "limits": "Boundary after being knocked over; no modeled injury or clothing-damage claim.",
+      "mappings": []
+    },
+    {
+      "key": "early.community.lost-pet-flyer",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.community.lost-pet-flyer",
+      "ages": [6, 7],
+      "setting": "neighborhood",
+      "cast": "guardian",
+      "minutes": 5,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.community.sidewalk-curb",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.community.sidewalk-curb",
+      "ages": [5, 6],
+      "setting": "neighborhood",
+      "cast": "guardian",
+      "minutes": 5,
+      "limits": "Authored adaptation uses the existing episode/history engine; no empirical frequency asserted.",
+      "mappings": []
+    },
+    {
+      "key": "early.community.curious-neighbor",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "early.community.library-quiet",
+      "status": "opening-adaptation",
+      "episodeKey": "opening.early.community.library-quiet",
+      "ages": [5, 6],
+      "setting": "school",
+      "cast": "peer",
+      "minutes": 5,
+      "limits": "Quiet school reading; public-library entry remains unimplemented.",
+      "mappings": []
+    },
+    {
+      "key": "early.family.packing-boxes",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "early.family.hospital-visit",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "early.family.new-baby-arrival",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "early.family.separate-apartments",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "early.family.grandparent-stay",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.college-vs-work",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.apprenticeship-sponsor",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.commuter-strain",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "the-commute",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing canonical transit mode, journey/timetable and shift conflict."
+            },
+            {
+              "kind": "capability",
+              "capability": "in-school"
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            },
+            {
+              "kind": "age-below",
+              "age": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "adult.trans.drop-class-keep-job",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.financial-aid-verification",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.shift-call-in",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "work.the-shift-you-were-asked-for",
+          "stageKey": "called-in",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing canonical supervisor shift request and coursework/evening conflict."
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            },
+            {
+              "kind": "capability",
+              "capability": "in-school"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            },
+            {
+              "kind": "age-below",
+              "age": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "adult.trans.tip-pooling-dispute",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "work.the-money-nobody-counts",
+          "stageKey": "pooled-tips",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing tipped workplace/pooling arrangement, cash removal and direct witness evidence."
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            },
+            {
+              "kind": "role",
+              "role": "colleague"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            },
+            {
+              "kind": "age-below",
+              "age": 26
+            }
+          ]
+        },
+        {
+          "episodeKey": "work.the-money-nobody-counts",
+          "stageKey": "what-you-said-stuck",
+          "isKernel": false,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing continued workplace discussion and identified questioner knowledge linkage."
+            },
+            {
+              "kind": "after-choice",
+              "stage": "pooled-tips",
+              "option": "say-it-to-the-others"
+            },
+            {
+              "kind": "days-since-stage",
+              "stage": "pooled-tips",
+              "days": 120
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "adult.trans.work-injury-reporting",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.family-business-obligation",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "kin.the-work-that-is-not-paid",
+          "stageKey": "the-family-shop",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing canonical family business/work relationship and unpaid weekend request; kinship is insufficient."
+            },
+            {
+              "kind": "fact",
+              "fact": "kin.present"
+            },
+            {
+              "kind": "role",
+              "role": "relative"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            },
+            {
+              "kind": "age-below",
+              "age": 26
+            }
+          ]
+        },
+        {
+          "episodeKey": "kin.the-work-that-is-not-paid",
+          "stageKey": "the-third-weekend",
+          "isKernel": false,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing continuing specific family-work commitment, active business/work context and performed weekends; earlier yes and elapsed time are insufficient."
+            },
+            {
+              "kind": "after-choice",
+              "stage": "the-family-shop",
+              "option": "say-yes"
+            },
+            {
+              "kind": "days-since-stage",
+              "stage": "the-family-shop",
+              "days": 60
+            },
+            {
+              "kind": "role",
+              "role": "relative"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "adult.trans.coworker-cover-shift",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "work.the-shift-you-were-asked-for",
+          "stageKey": "asked-by-a-colleague",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "work.coverage-requested",
+              "counterpartRole": "colleague"
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            },
+            {
+              "kind": "role",
+              "role": "colleague"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            },
+            {
+              "kind": "age-below",
+              "age": 26
+            }
+          ]
+        },
+        {
+          "episodeKey": "work.the-shift-you-were-asked-for",
+          "stageKey": "it-came-back-round",
+          "isKernel": false,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing current coverage need/rota and performed earlier shift help; choosing yes is not performance."
+            },
+            {
+              "kind": "after-choice",
+              "stage": "asked-by-a-colleague",
+              "option": "cover-it"
+            },
+            {
+              "kind": "days-since-stage",
+              "stage": "asked-by-a-colleague",
+              "days": 120
+            },
+            {
+              "kind": "capability",
+              "capability": "paid-work"
+            },
+            {
+              "kind": "role",
+              "role": "colleague"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "adult.trans.parent-rent-demand",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.roommate-lease-signing",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.unpaid-utility-split",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.eviction-notice-landlord",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.couch-surfing-decision",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.broken-transmission",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.medical-debt-collections",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.overdraft-cascade",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.sibling-emergency-loan",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "adult.trans.payday-loan-temptation",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "rel.encounter.shift-breakroom",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "rel.encounter.bus-stop-regular",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "rel.encounter.study-group-freeloader",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "school.the-thing-you-got-blamed-for",
+          "stageKey": "carrying-the-group",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "fact",
+              "fact": "school.shared-assignment",
+              "counterpartRole": "familiar"
+            },
+            {
+              "kind": "capability",
+              "capability": "in-school"
+            },
+            {
+              "kind": "role",
+              "role": "familiar"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "rel.encounter.rec-league-rival",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "rel.encounter.campaign-canvass-partner",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "rel.encounter.dormant-callback-reunion",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "companionship.the-friend-you-named",
+          "stageKey": "across-the-checkout",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "after-choice",
+              "stage": "best-friend-pact",
+              "option": "say-yes"
+            },
+            {
+              "kind": "days-since-stage",
+              "stage": "best-friend-pact",
+              "days": 2920
+            },
+            {
+              "kind": "role",
+              "role": "familiar"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "civic.encounter.courthouse-rally",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "civic.encounter.school-board-rezoning",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "civic.encounter.flooding-sandbag-effort",
+      "status": "registered-existing-content",
+      "mappings": [
+        {
+          "episodeKey": "civic.the-thing-nobody-else-turned-up-for",
+          "stageKey": "sandbag-line",
+          "isKernel": true,
+          "requirements": [
+            {
+              "kind": "withheld",
+              "reason": "Missing relevant local flood/affected-place evidence and sandbag activity/participation context; an unrelated active incident is insufficient."
+            },
+            {
+              "kind": "fact",
+              "fact": "incident.active"
+            },
+            {
+              "kind": "age-at-least",
+              "age": 17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "civic.encounter.zoning-variance-hearing",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "civic.encounter.union-picket-line",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    },
+    {
+      "key": "civic.encounter.historical-centennial-parade",
+      "status": "no-exact-mapping-verified",
+      "mappings": [],
+      "remaining": "Source-to-consumer implementation audit remains required. This is not classified as a legal, art, or owner blocker."
+    }
+  ]
+}

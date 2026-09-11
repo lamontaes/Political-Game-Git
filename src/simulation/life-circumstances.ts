@@ -1,8 +1,14 @@
 import { ageOnDate } from "./dates";
+import { playedEpisodeStages } from "./life-episodes";
+import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
+import { lifePathEntryReason } from "./life-paths2";
 import {
+  activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
   currentLifeCutoff,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { createWorkItem } from "./time-work";
@@ -19,6 +25,12 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 export const LIFE_CIRCUMSTANCE_KINDS = [
   "colleague-coverage-request",
   "shared-assignment",
+  "supervisor-extra-shift",
+  "commute-schedule-conflict",
+  "class-work-schedule-conflict",
+  "own-shift-coverage-needed",
+  "household-move-preparation",
+  "education-work-crossroad",
 ] as const;
 export type LifeCircumstanceKind = (typeof LIFE_CIRCUMSTANCE_KINDS)[number];
 export const LIFE_CIRCUMSTANCE_ANSWERING_STAGE: Readonly<
@@ -27,6 +39,13 @@ export const LIFE_CIRCUMSTANCE_ANSWERING_STAGE: Readonly<
   "colleague-coverage-request":
     "work.the-shift-you-were-asked-for/asked-by-a-colleague",
   "shared-assignment": "school.the-thing-you-got-blamed-for/carrying-the-group",
+  "supervisor-extra-shift": "work.the-shift-you-were-asked-for/called-in",
+  "commute-schedule-conflict": "school.the-long-way-in/the-commute",
+  "class-work-schedule-conflict": "opening.adult.trans.drop-class-keep-job/moment",
+  "own-shift-coverage-needed":
+    "work.the-shift-you-were-asked-for/it-came-back-round",
+  "household-move-preparation": "opening.early.family.packing-boxes/moment",
+  "education-work-crossroad": "opening.adult.trans.college-vs-work/moment",
 };
 
 export const LIFE_CIRCUMSTANCE_TAG_PREFIX = "life.circumstance:";
@@ -58,6 +77,12 @@ const CIRCUMSTANCE_AGE_BAND: Readonly<
 > = {
   "colleague-coverage-request": [18, 26],
   "shared-assignment": [18, 99],
+  "supervisor-extra-shift": [17, 26],
+  "commute-schedule-conflict": [17, 26],
+  "class-work-schedule-conflict": [18, 26],
+  "own-shift-coverage-needed": [18, 30],
+  "household-move-preparation": [5, 8],
+  "education-work-crossroad": [17, 20],
 };
 
 /* -------------------------------------------------------------------------- */
@@ -394,6 +419,161 @@ function tryWriteCircumstance(
         },
       });
     }
+
+    case "supervisor-extra-shift": {
+      if (work.length === 0 || school.length === 0) return world;
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: null,
+        jurisdictionId,
+        type: "work.supervisor-shift-requested",
+        summary:
+          "Your supervisor asked you to pick up a shift you were not scheduled for, on an evening you had set aside for coursework.",
+        relatedEntityIds: [],
+        occasion: {
+          title: "Extra shift offered",
+          summary: "The evening shift your supervisor asked you to cover.",
+          startHour: 16,
+          endHour: 22,
+          label: "Workplace",
+        },
+      });
+    }
+
+    case "commute-schedule-conflict": {
+      if (work.length === 0 || school.length === 0) return world;
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: null,
+        jurisdictionId,
+        type: "school.commute-schedule-conflict",
+        summary:
+          "The bus that gets you to class on time leaves before your shift ends.",
+        relatedEntityIds: [],
+        occasion: null,
+      });
+    }
+
+    case "class-work-schedule-conflict": {
+      if (work.length === 0 || school.length === 0) return world;
+      const supervisorId = firstColleague(world, personId, cutoff);
+      if (supervisorId === null) return world;
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: supervisorId,
+        jurisdictionId,
+        type: "work.class-schedule-conflict",
+        summary:
+          "Your supervisor said team leads must open Thursday afternoon shifts next month. That is when your required lab meets.",
+        relatedEntityIds: [],
+        occasion: {
+          title: "Thursday afternoon shift change",
+          summary: "The shift pattern your supervisor announced.",
+          startHour: 13,
+          endHour: 17,
+          label: "Workplace",
+        },
+      });
+    }
+
+    case "own-shift-coverage-needed": {
+      if (work.length === 0) return world;
+      const covered = playedEpisodeStages(world, personId).some(
+        (entry) =>
+          entry.episodeKey === "work.the-shift-you-were-asked-for" &&
+          entry.stageKey === "asked-by-a-colleague" &&
+          entry.optionKey === "cover-it",
+      );
+      if (!covered) return world;
+      const colleagueId = firstColleague(world, personId, cutoff);
+      if (colleagueId === null) return world;
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: colleagueId,
+        jurisdictionId,
+        type: "work.own-shift-coverage-needed",
+        summary:
+          "You need a shift covered, and somebody on your rota is scheduled that day.",
+        relatedEntityIds: [],
+        occasion: {
+          title: "Shift you need covered",
+          summary: "The shift you need somebody to take.",
+          startHour: 16,
+          endHour: 22,
+          label: "Workplace",
+        },
+      });
+    }
+
+    case "household-move-preparation": {
+      const household = householdMembershipsAt(world, personId, cutoff);
+      if (household.length === 0) return world;
+      const guardianId = [...activeChildAuthoritiesAt(world, personId, cutoff)]
+        .map((entry) =>
+          entry.authority.holder.kind === "person"
+            ? entry.authority.holder.personId
+            : null,
+        )
+        .find((id) => id !== null);
+      if (guardianId === undefined) return world;
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: guardianId,
+        jurisdictionId,
+        type: "household.move-preparation",
+        summary:
+          "Cardboard boxes are stacked in the living room, and some of your things have been sorted into piles.",
+        relatedEntityIds: [],
+        occasion: null,
+      });
+    }
+
+    case "education-work-crossroad": {
+      const studyPaths = LIFE_PATHS2_CATALOG.filter(
+        (path) =>
+          path.kind === "study" &&
+          path.scope === "personal" &&
+          lifePathEntryReason(world, personId, path) === null,
+      );
+      const workPaths = LIFE_PATHS2_CATALOG.filter(
+        (path) =>
+          path.kind === "work" &&
+          path.scope === "personal" &&
+          lifePathEntryReason(world, personId, path) === null,
+      );
+      if (studyPaths.length === 0 || workPaths.length === 0) return world;
+      if (
+        activeEducationEnrollmentsAt(world, personId, cutoff).some(
+          (entry) =>
+            entry.enrollment.programKind.startsWith("postsecondary:") ||
+            entry.enrollment.programKind.startsWith("training:"),
+        )
+      )
+        return world;
+      const relativeId = firstKin(world, personId, cutoff);
+      return writeAsk(world, {
+        stableKey,
+        kind,
+        personId,
+        counterpartPersonId: relativeId,
+        jurisdictionId,
+        type: "life.education-work-crossroad",
+        summary:
+          "You have a path into further study and a path into full-time work open at the same time.",
+        relatedEntityIds: [],
+        occasion: null,
+      });
+    }
   }
 }
 
@@ -598,6 +778,28 @@ function firstColleague(
         employerIds.has(entry.relationship.organizationId),
     );
     if (shares) return candidate;
+  }
+  return null;
+}
+
+/** A living relative on the kinship record, in stable order. */
+function firstKin(
+  world: World,
+  personId: EntityId,
+  cutoff: HistoricalCutoff,
+): EntityId | null {
+  for (const kinship of kinshipRelationshipsAt(world, personId, cutoff)) {
+    for (const candidate of kinship.personIds) {
+      if (
+        candidate !== personId &&
+        world.people[candidate] &&
+        !world.history.personDeaths.some(
+          (death) =>
+            death.personId === candidate && death.diedAt <= cutoff.asOfDate,
+        )
+      )
+        return candidate;
+    }
   }
   return null;
 }
