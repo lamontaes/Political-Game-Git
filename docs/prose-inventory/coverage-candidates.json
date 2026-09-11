@@ -3,7 +3,7 @@
     "INVENTORIED": 2334,
     "INTENTIONALLY_NON_PLAYER_FACING": 5641,
     "DIAGNOSTIC_OR_TEST": 4641,
-    "NEEDS_CLASSIFICATION": 6087
+    "NEEDS_CLASSIFICATION": 6088
   },
   "needsClassification": [
     {
@@ -10657,8 +10657,16 @@
     {
       "sourcePath": "src/presentation/life-scene-people.ts",
       "enclosingSymbol": "placed",
-      "line": 578,
+      "line": 600,
       "text": "{person.name}, {person.relationship}",
+      "verdict": "NEEDS_CLASSIFICATION",
+      "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
+    },
+    {
+      "sourcePath": "src/presentation/life-scene-people.ts",
+      "enclosingSymbol": "placed",
+      "line": 610,
+      "text": "figure-taller-than-space-above-contact-line: {overflowPercent.toFixed(1)}% of the plate is above the top edge, so this figure is cropped at the head.",
       "verdict": "NEEDS_CLASSIFICATION",
       "reason": "Reads like a sentence, sits in a production module, and no adapter claims it. A person must decide whether a player sees it."
     },

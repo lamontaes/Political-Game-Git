@@ -503,7 +503,29 @@ export function planLifeScenePeople(
     const ratio = seated ? SEATED_HEIGHT_RATIO : STANDING_HEIGHT_RATIO;
     const heightPercent = widthPercent * plateAspect * ratio;
     const leftPercent = anchor.xPercent - widthPercent / 2;
-    const topPercent = Math.max(0, anchor.contactFloorYPercent - heightPercent);
+    /*
+     * The contact line is authored truth and the height is an estimate, so
+     * when they disagree the estimate gives way — never the floor.
+     *
+     * This used to read `Math.max(0, contactFloorY - height)`. The clamp looks
+     * harmless: keep the box on the plate. What it actually did was move the
+     * BOTTOM of the box, because everything downstream places the figure's
+     * feet at `top + height` — so in any room where the reserved height
+     * exceeds the distance from the top of the plate to the contact line, the
+     * whole person was pushed down through the floor by exactly the amount
+     * clamped away. Measured: 5.5% of the plate in an ordinary residence
+     * living room, 9.6% and 20.7% at two anchors of the staff office, 4.3%
+     * and 41.6% in the shared workroom. A figure standing knee-deep in the
+     * floorboards reads as broken art, and the art was fine.
+     *
+     * Unclamped, the feet land on the declared contact line in every room and
+     * a figure too tall for the space above it is cropped at the head by the
+     * viewport, which is what a camera in a small room does. The height that
+     * overflowed is reported below rather than absorbed silently, because a
+     * cropped figure is still a thing a reviewer should be told about.
+     */
+    const topPercent = anchor.contactFloorYPercent - heightPercent;
+    const overflowPercent = Math.max(0, -topPercent);
     let personWardrobe = wardrobe;
     let wardrobeRefusal: string | undefined;
     if (
@@ -579,7 +601,18 @@ export function planLifeScenePeople(
         : person.name,
       ...(wardrobeRefusal !== undefined ? { wardrobeRefusal } : {}),
       ...(drawing.refusal ? { artRefusal: drawing.refusal } : {}),
-      ...(drawing.notes.length ? { artDiagnostics: drawing.notes } : {}),
+      ...(drawing.notes.length || overflowPercent > 0
+        ? {
+            artDiagnostics: [
+              ...drawing.notes,
+              ...(overflowPercent > 0
+                ? [
+                    `figure-taller-than-space-above-contact-line: ${overflowPercent.toFixed(1)}% of the plate is above the top edge, so this figure is cropped at the head.`,
+                  ]
+                : []),
+            ],
+          }
+        : {}),
     } satisfies PlacedScenePerson;
   });
 

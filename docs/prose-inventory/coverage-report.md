@@ -10,9 +10,9 @@ needs a person's judgement is the honest state of the check.
 | INVENTORIED | 2334 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5641 |
 | DIAGNOSTIC_OR_TEST | 4641 |
-| **NEEDS_CLASSIFICATION** | **6087** |
+| **NEEDS_CLASSIFICATION** | **6088** |
 
-Scanned 550 files holding 70544 string
+Scanned 550 files holding 70545 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -196,6 +196,7 @@ literals in total; the table counts only those that read like a sentence.
 | 7 | `src/player/ShellDossier.tsx` |
 | 7 | `src/player/ShellNav.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
+| 7 | `src/presentation/life-scene-people.ts` |
 | 7 | `src/presentation/life-talk-conversation.ts` |
 | 7 | `src/presentation/player-calendar.ts` |
 | 7 | `src/presentation/player-conversation.ts` |
@@ -211,7 +212,6 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/legislative-bargaining-fixture.ts` |
-| 6 | `src/presentation/life-scene-people.ts` |
 | 6 | `src/presentation/ordinary-community.ts` |
 | 6 | `src/presentation/raster-tiers.ts` |
 | 6 | `src/presentation/run-b-fixture.ts` |
