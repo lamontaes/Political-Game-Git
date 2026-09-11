@@ -117,6 +117,10 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
     );
   });
 
+  // EDU-PATH7 adds a 132,874-record education domain to this loop; hashing
+  // every production domain's corpus now measures ~30-37s under load, past
+  // the 5s default. Same pattern as municipal-delta5.test.ts's full-projection
+  // replay: a real, honest cost of the data, not a defect.
   it("declares a corpus digest that matches the file it describes", async () => {
     for (const domain of await loadDomains()) {
       if (domain.productionGate) continue;
@@ -131,7 +135,7 @@ describe("A9 / A10 / A11 — deterministic replay", () => {
       expect(corpus.recordCount).toBe(records.length);
       expect(corpus.inputClass).toBe("production");
     }
-  });
+  }, 60000);
 
   it("canonical JSON sorts keys, drops undefined and refuses what it cannot represent", () => {
     expect(toCanonicalJson({ b: 1, a: 2 })).toBe('{\n  "a": 2,\n  "b": 1\n}\n');
