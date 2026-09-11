@@ -58,6 +58,12 @@ describe("environment production-authoring queue", () => {
         "civic-hearing-room",
         // The production chamber floor, added when Packet 71's master arrived.
         "legislative-chamber",
+        // The courtroom, added by ENV-ALL1 when the approved 5504x3072 master
+        // that had been banked without a tier ladder was finally carried
+        // through derivation, authoring and registration. The family describes
+        // what the art depicts; the asset itself remains UNRELEASED, because
+        // no canonical court proceeding exists for a life to attend.
+        "courtroom",
       ]),
     );
     for (const candidate of request.candidates) {

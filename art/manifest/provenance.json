@@ -1947,7 +1947,7 @@
       "generated_model_version": "not-recorded",
       "prompt_spec_manifest_id": "OCD source master OCD_SCENE_MASTER_COURTROOM_EMPTY_5504x3072_01.jpg",
       "generation_edit_date": "2026-09-03",
-      "edits_performed": "Master preserved byte-for-byte. Nothing was derived from it.",
+      "edits_performed": "Master preserved byte-for-byte. ENV-ALL1 (2026-09-08) derived two runtime tiers from it as deterministic Lanczos-3 DOWNSCALES via `npm run derive:scene-tiers`: 1376x768 sha256 482887a6dc4da8d3879f542c0f6eafa2e39f995ad6c14bcc050f0231bcc8cbc4 and 2752x1536 sha256 d731c5c1f281ce7c617e57079742eb59eefb8a7096ffbbc2d5eb1b2757317a7c. Nothing was enlarged and the master is unmodified.",
       "output_hash_version": "sha256",
       "approval_status": "approved"
     },
