@@ -18,6 +18,7 @@ import { resolvePersonPortrait } from "../src/presentation/person-visual";
 import { createNewGameWorld } from "../src/presentation/new-game";
 import { PRODUCTION_CHARACTER_LIBRARY } from "../src/presentation/visual-integration";
 import { wearableChoicesIn } from "../src/player/SavedAppearance";
+import { listPersonWardrobeFamilies } from "../src/presentation/person-visual-selection";
 import type { ScenePerson } from "../src/presentation/life-story";
 import type { EntityId, NewGameSetup, Person, World } from "../src/simulation";
 
@@ -434,6 +435,127 @@ describe("a previewed figure still reports what is wrong with it", () => {
     );
     // And a drawn person is still not a refusal.
     expect(drawn!.artRefusal ?? "").toBe("");
+  });
+});
+
+describe("the DEFAULT wardrobe resolver uses the catalog that draws", () => {
+  /*
+   * The regression the reviewer asked for, and the one the earlier U3 tests
+   * did not provide.
+   *
+   * Those tests passed a `resolveWardrobe` of their own, which is the very
+   * function under test — they observed what the caller was TOLD and never ran
+   * the code that acts on it. This goes through `planLifeScenePeople`'s default
+   * `resolveSavedWardrobe` with a real saved preference naming a real candidate
+   * garment, so the split being asserted against is the split that actually
+   * broke: the composition on the review catalog and the wardrobe resolution
+   * on the production one.
+   *
+   * Reintroducing that split fails here rather than passing quietly.
+   * `resolvePersonWardrobeContext` against the production catalog cannot find a
+   * candidate family, so it throws, `planLifeScenePeople` records a
+   * `wardrobeRefusal`, and the person is not drawn at all — which is exactly
+   * what these three assertions forbid.
+   */
+  const { world, playerPersonId } = aWorld(34, "u3-default-resolver");
+  const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+  const household = householdOf(world, playerPersonId);
+
+  /*
+   * A garment this person can actually wear, asked of the same adapter the
+   * wardrobe control asks — not picked out of the library by hand, so the test
+   * offers the person exactly what the game would offer them.
+   */
+  const target = household[0]!;
+  const targetRecord = world.people[target.personId as EntityId]!;
+  const candidateTop = listPersonWardrobeFamilies(targetRecord, {
+    library: PREVIEW.characters,
+    poseFamily: "standing-neutral",
+  }).top[0];
+
+  it("has a candidate garment to choose", () => {
+    expect(candidateTop).toBeTruthy();
+  });
+
+  it("cannot offer that garment from the production catalog", () => {
+    // The reason the split mattered: production does not carry it, so a
+    // wardrobe resolved there could only ever refuse it.
+    expect(() =>
+      listPersonWardrobeFamilies(targetRecord, {
+        library: PRODUCTION_CHARACTER_LIBRARY,
+        poseFamily: "standing-neutral",
+      }).top.includes(candidateTop!),
+    ).not.toThrow();
+    const production = listPersonWardrobeFamilies(targetRecord, {
+      library: PRODUCTION_CHARACTER_LIBRARY,
+      poseFamily: "standing-neutral",
+    }).top;
+    expect(production).not.toContain(candidateTop);
+  });
+
+  it("dresses the person in it, through the resolver the shell actually calls", () => {
+    const placed = planLifeScenePeople(world, household, sceneId, undefined, {
+      // No `resolveWardrobe` here, deliberately. The default one is the subject.
+      wardrobeByPersonId: {
+        [target.personId]: {
+          personId: target.personId,
+          families: { top: candidateTop! },
+        },
+      },
+      artPreview: PREVIEW,
+    });
+
+    const drawn = placed.find((person) => person.personId === target.personId);
+    expect(drawn).toBeDefined();
+    // 1. The saved choice resolved at all.
+    expect(drawn!.wardrobeRefusal ?? "").toBe("");
+    // 2. The person is still drawn.
+    expect(drawn!.hasArt).toBe(true);
+    // 3. And what drew is the garment that was chosen.
+    const wearing = drawn!.layers.some((layer) =>
+      layer.url.includes(candidateTop!.replace(/-/g, "_")),
+    );
+    expect(wearing).toBe(true);
+  });
+
+  it("still refuses a garment that is in no catalog at all", () => {
+    const placed = planLifeScenePeople(world, household, sceneId, undefined, {
+      wardrobeByPersonId: {
+        [target.personId]: {
+          personId: target.personId,
+          families: { top: "no-such-garment-anywhere" },
+        },
+      },
+      artPreview: PREVIEW,
+    });
+    const drawn = placed.find((person) => person.personId === target.personId);
+    // The preview widens which catalog is consulted. It does not stop the
+    // wardrobe resolver saying no to something that does not exist.
+    expect(drawn!.wardrobeRefusal ?? "").not.toBe("");
+    expect(drawn!.hasArt).toBe(false);
+  });
+});
+
+describe("a complete, drawn composition still carries its diagnostics", () => {
+  it("reports them on the person the room actually drew", () => {
+    const { world, playerPersonId } = aWorld(34, "u3-drawn-diagnostics");
+    const sceneId = resolveLifeScene(world, playerPersonId).sceneId;
+    const drawn = planLifeScenePeople(
+      world,
+      householdOf(world, playerPersonId),
+      sceneId,
+      undefined,
+      { wardrobeByPersonId: {}, artPreview: PREVIEW },
+    ).find((person) => person.hasArt);
+
+    expect(drawn).toBeDefined();
+    expect(drawn!.artRefusal ?? "").toBe("");
+    // Drawn is not the same as clean, and the earlier version dropped exactly
+    // this case: a figure composed against a room with no floor calibration
+    // came back looking like an unqualified success.
+    expect(drawn!.artDiagnostics ?? []).toContain(
+      "scene-declares-no-floor-calibration",
+    );
   });
 });
 

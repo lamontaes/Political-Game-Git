@@ -868,6 +868,15 @@
   bottom: auto;
   width: min(22rem, 40vw);
   z-index: 30;
+  /*
+   * The panel holds nothing but `role="status"` sentences, and it floats at
+   * z-index 30 over the room. Without this the container itself is the hit
+   * target wherever it sits — `elementFromPoint` at its centre returned
+   * `DIV.life-hud`, not the control underneath — so it takes presses meant for
+   * whatever is behind it. Declared on the container as well as the notes,
+   * because it was the container that was catching them.
+   */
+  pointer-events: none;
 }
 
 .life-shell .life-hud-note {
@@ -878,6 +887,41 @@
   background: var(--pg-navy);
   color: var(--pg-ivory-dim);
   font-size: 0.78rem;
+  /*
+   * These are `role="status"` sentences. Nothing in them is clickable, and a
+   * fixed overlay at z-index 30 that swallows presses is worse than useless —
+   * it takes the click meant for whatever it is sitting on top of. Declared
+   * here rather than only in the narrow rule below, because the overlay is
+   * over the room at every width.
+   */
+  pointer-events: none;
+}
+
+/*
+ * At phone width the notes must not sit on the primary action.
+ *
+ * The HUD is a fixed panel pinned under the top-left corner, which is also
+ * where the moment panel puts its heading — so at 390px "This life has not
+ * been saved yet." landed squarely across "Continue your life" and left the
+ * button reading "…ife". Measured, not guessed: the note occupied x 18–174,
+ * y 28–71 and the button x 20–212, y 17–56.
+ *
+ * Below this width the notes move to the foot of the screen instead, clear of
+ * the panel above them and of the identity cluster in the bottom-left corner,
+ * and they span the width rather than being squeezed into 40vw.
+ */
+@media (max-width: 480px) {
+  .life-shell .life-hud {
+    top: auto;
+    bottom: 5.5rem;
+    left: 1.15rem;
+    right: 1.15rem;
+    width: auto;
+  }
+
+  .life-shell .life-hud-note {
+    margin: 0.35rem 0 0;
+  }
 }
 
 .life-shell .life-hud-note--problem {
