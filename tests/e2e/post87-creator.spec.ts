@@ -80,12 +80,14 @@ test.describe("The creator is a panel on the room, not a scrolling form", () => 
       // scrolling to be reached, which is the clipping the third play hit.
       expect(await verticalOverflow(page)).toBeLessThanOrEqual(1);
 
-      // Begin, Next-equivalent and Back all sit inside the frame.
-      for (const control of ["begin", "whoareyou-answer", "whoareyou-play"]) {
+      // The applicable question controls and Back sit inside the frame.
+      // Begin appears only after the player chooses a questionnaire path.
+      for (const control of ["whoareyou-answer", "whoareyou-play"]) {
         const box = await page.getByTestId(control).boundingBox();
         expect(box).not.toBeNull();
         expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height);
       }
+      await expect(page.getByTestId("begin")).toHaveCount(0);
       await expect(page.getByRole("button", { name: "Back" })).toBeVisible();
 
       // The creator sits on the LEFT of the room.
