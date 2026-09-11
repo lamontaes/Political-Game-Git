@@ -2,7 +2,10 @@ import { createGeneratedWorld } from "../simulation/demo";
 import { personName } from "../simulation/people";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, Person, World } from "../simulation/types";
-import type { CharacterComponentLibrary } from "./character-components";
+import type {
+  CharacterComponentLibrary,
+  CharacterWardrobeContext,
+} from "./character-components";
 import {
   buildCharacterRenderPlan,
   type CharacterRenderPlan,
@@ -219,6 +222,7 @@ export function composeCharacterProof(
   library: CharacterComponentLibrary,
   visualLibrary: RuntimeVisualLibrary,
   scene: CharacterProofSceneConfiguration = CHARACTER_PROOF_SCENE,
+  wardrobe?: CharacterWardrobeContext,
 ): CharacterProofComposition {
   const stage = scene.stageAnchors.map((anchor, index) => {
     const person = requireProofPerson(world, index);
@@ -226,6 +230,7 @@ export function composeCharacterProof(
       person,
       name: personName(person),
       plan: buildCharacterRenderPlan({
+        wardrobe,
         personId: person.id,
         appearance: person.appearance!,
         anchor,
@@ -240,6 +245,7 @@ export function composeCharacterProof(
     person: sidePerson,
     name: personName(sidePerson),
     plan: buildCharacterRenderPlan({
+      wardrobe,
       personId: sidePerson.id,
       appearance: sidePerson.appearance!,
       anchor: scene.sideAnchor,

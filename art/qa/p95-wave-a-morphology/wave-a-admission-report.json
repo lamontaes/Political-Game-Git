@@ -1,0 +1,3251 @@
+{
+  "schema": "wave-a-candidate-admission-report-v1",
+  "generator": "wave-a-candidate-admission-v1",
+  "evidence_source": "art/qa/p95-recent-drive-sweep/candidate-component-review.json",
+  "observation_method": "Direct inspection of each decoded crop at review scale (about 280x620 px per figure) by the PEOPLE1 implementation agent, 2026-09-08. Posture, facing, baked prop and figure extent were read from the pixels; the sweep's apparentPoseCategory was not consulted while reading, and is compared afterwards. This is a reviewable candidate observation, not owner acceptance and not a production pose certification.",
+  "release_status": "CANDIDATE_REFERENCE_ONLY",
+  "summary": {
+    "measured": 51,
+    "admitted": 12,
+    "admittedFamilies": [
+      "wave-a-average-man",
+      "wave-a-average-woman",
+      "wave-a-fat-man",
+      "wave-a-older-woman",
+      "wave-a-skinny-man",
+      "wave-a-skinny-woman"
+    ],
+    "admittedPoseFamilies": ["seated-guest-neutral", "standing-neutral"],
+    "byDisposition": {
+      "admitted-candidate-body": 12,
+      "retained-ambiguous-observation": 2,
+      "retained-baked-prop": 17,
+      "retained-partial-figure": 1,
+      "retained-unregistered-facing": 19
+    },
+    "sourceBytesUnchanged": true,
+    "rowsDisagreeingWithPriorClaim": 12
+  },
+  "candidates": [
+    {
+      "assetId": "wave_a_fat_man_seated_conversational_open_hand_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "33f9a882da3fa1c7761103fea8ba64fe60fd498c50c94cc1ea7233afea9a3eab",
+      "observedOutputSha256": "33f9a882da3fa1c7761103fea8ba64fe60fd498c50c94cc1ea7233afea9a3eab",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 882,
+        "cropHeight": 1604,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 752, "height": 1475 },
+        "opaquePixels": 510561,
+        "rig": {
+          "centerXFraction": 0.504535,
+          "crownYFraction": 0.041771,
+          "neckYFraction": 0.165212,
+          "shoulderYFraction": 0.270574,
+          "waistYFraction": 0.493766,
+          "crotchYFraction": 0.493766,
+          "soleYFraction": 0.957606,
+          "headWidthFraction": 0.225624,
+          "shoulderWidthFraction": 0.451247,
+          "waistWidthFraction": 0.442177,
+          "feetSpanFraction": 0.368481
+        },
+        "mirrorSymmetryIou": 0.359229,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.414966],
+        "widestRowWidthFraction": 0.829932,
+        "widestRowYFraction": 0.372195
+      },
+      "rigPlausible": false,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_seated_front_chair_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_front_chair_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "8ffbf576e4b74465159734996adefb7146ec22d68b34709273933ec1fc5e2fdc",
+      "observedOutputSha256": "8ffbf576e4b74465159734996adefb7146ec22d68b34709273933ec1fc5e2fdc",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_chair_v1",
+        "bakedPropStatus": "CHAIR",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "chair",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 747,
+        "cropHeight": 1607,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 617, "height": 1477 },
+        "opaquePixels": 548756,
+        "rig": {
+          "centerXFraction": 0.499331,
+          "crownYFraction": 0.042315,
+          "neckYFraction": 0.183572,
+          "shoulderYFraction": 0.281269,
+          "waistYFraction": 0.500311,
+          "crotchYFraction": 0.64468,
+          "soleYFraction": 0.957685,
+          "headWidthFraction": 0.26506,
+          "shoulderWidthFraction": 0.68407,
+          "waistWidthFraction": 0.651941,
+          "feetSpanFraction": 0.374833
+        },
+        "mirrorSymmetryIou": 0.984249,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.289826, 0.709505],
+        "widestRowWidthFraction": 0.820616,
+        "widestRowYFraction": 0.413192
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_seated_interaction_surface_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R2C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "18564c0ed947e6a22f12d83754d0a9a6de94460c37c13ad7fc6b3a0105a081e7",
+      "observedOutputSha256": "18564c0ed947e6a22f12d83754d0a9a6de94460c37c13ad7fc6b3a0105a081e7",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 1148,
+        "cropHeight": 1596,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 922, "height": 1466 },
+        "opaquePixels": 521251,
+        "rig": {
+          "centerXFraction": 0.518293,
+          "crownYFraction": 0.042607,
+          "neckYFraction": 0.177945,
+          "shoulderYFraction": 0.285088,
+          "waistYFraction": 0.493734,
+          "crotchYFraction": 0.845238,
+          "soleYFraction": 0.957393,
+          "headWidthFraction": 0.173345,
+          "shoulderWidthFraction": 0.361498,
+          "waistWidthFraction": 0.360627,
+          "feetSpanFraction": 0.266551
+        },
+        "mirrorSymmetryIou": 0.30179,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.635017],
+        "widestRowWidthFraction": 0.663763,
+        "widestRowYFraction": 0.432331
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_standing_conversational_open_hand_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R1C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "9402d567e95852171bd21e4e5d40abf2016022c4798f392a5fec39d136000f42",
+      "observedOutputSha256": "9402d567e95852171bd21e4e5d40abf2016022c4798f392a5fec39d136000f42",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 861,
+        "cropHeight": 1742,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 731, "height": 1613 },
+        "opaquePixels": 494834,
+        "rig": {
+          "centerXFraction": 0.472706,
+          "crownYFraction": 0.038462,
+          "neckYFraction": 0.152698,
+          "shoulderYFraction": 0.292767,
+          "waistYFraction": 0.477038,
+          "crotchYFraction": 0.919633,
+          "soleYFraction": 0.960964,
+          "headWidthFraction": 0.217189,
+          "shoulderWidthFraction": 0.651568,
+          "waistWidthFraction": 0.39489,
+          "feetSpanFraction": 0.341463
+        },
+        "mirrorSymmetryIou": 0.389917,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.303717],
+        "widestRowWidthFraction": 0.779326,
+        "widestRowYFraction": 0.326062
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_standing_lectern_interaction_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_lectern_interaction_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "dd9f6deb637d57e63a644473f67385a25f623578ead8b138e107d49255ffa30a",
+      "observedOutputSha256": "dd9f6deb637d57e63a644473f67385a25f623578ead8b138e107d49255ffa30a",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_lectern_interaction_v1",
+        "bakedPropStatus": "LECTERN",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A glass slab is painted across the hands and hips."
+      },
+      "measurement": {
+        "cropWidth": 906,
+        "cropHeight": 1743,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 776, "height": 1613 },
+        "opaquePixels": 517911,
+        "rig": {
+          "centerXFraction": 0.452539,
+          "crownYFraction": 0.039013,
+          "neckYFraction": 0.157774,
+          "shoulderYFraction": 0.257028,
+          "waistYFraction": 0.487665,
+          "crotchYFraction": 0.672978,
+          "soleYFraction": 0.960413,
+          "headWidthFraction": 0.207506,
+          "shoulderWidthFraction": 0.47351,
+          "waistWidthFraction": 0.38521,
+          "feetSpanFraction": 0.325607
+        },
+        "mirrorSymmetryIou": 0.135117,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.726269],
+        "widestRowWidthFraction": 0.757174,
+        "widestRowYFraction": 0.424555
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [
+        "baked prop: the sweep recorded 'LECTERN', the reviewed pixels show 'desk'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_standing_neutral_back_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_back_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "df661f6c5fd25676e1b510dd7ffbde206123eccd193de0e598b864bcd09b4c9e",
+      "observedOutputSha256": "df661f6c5fd25676e1b510dd7ffbde206123eccd193de0e598b864bcd09b4c9e",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_back_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "back",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A clean back view; nothing is painted behind or beside the figure."
+      },
+      "measurement": {
+        "cropWidth": 671,
+        "cropHeight": 1743,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 542, "height": 1613 },
+        "opaquePixels": 526475,
+        "rig": {
+          "centerXFraction": 0.47839,
+          "crownYFraction": 0.038439,
+          "neckYFraction": 0.152037,
+          "shoulderYFraction": 0.246701,
+          "waistYFraction": 0.497992,
+          "crotchYFraction": 0.66724,
+          "soleYFraction": 0.960987,
+          "headWidthFraction": 0.320417,
+          "shoulderWidthFraction": 0.624441,
+          "waistWidthFraction": 0.57228,
+          "feetSpanFraction": 0.38003
+        },
+        "mirrorSymmetryIou": 0.746574,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.687034],
+        "widestRowWidthFraction": 0.737705,
+        "widestRowYFraction": 0.418818
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_back_v1' reads as frontal, the reviewed pixels show 'back'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_standing_neutral_front_a_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "465d9a7fa14d26cd3d2bdc3d7e22ba54b02fa7c7a031c56e2713fcb40ec661a3",
+      "observedOutputSha256": "465d9a7fa14d26cd3d2bdc3d7e22ba54b02fa7c7a031c56e2713fcb40ec661a3",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 725,
+        "cropHeight": 1739,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 596, "height": 1609 },
+        "opaquePixels": 556775,
+        "rig": {
+          "centerXFraction": 0.50069,
+          "crownYFraction": 0.038528,
+          "neckYFraction": 0.162162,
+          "shoulderYFraction": 0.257044,
+          "waistYFraction": 0.365152,
+          "crotchYFraction": 0.570443,
+          "soleYFraction": 0.960322,
+          "headWidthFraction": 0.262069,
+          "shoulderWidthFraction": 0.678621,
+          "waistWidthFraction": 0.475862,
+          "feetSpanFraction": 0.303448
+        },
+        "mirrorSymmetryIou": 0.989936,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.30069, 0.70069],
+        "widestRowWidthFraction": 0.795862,
+        "widestRowYFraction": 0.424957
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_fat_man_standing_neutral_profile_v1",
+      "family": "wave-a-fat-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_profile_v1.png",
+      "sourceSheet": {
+        "filename": "fat man.png",
+        "sha256": "eb550b512cee8a9dba78c0dbf63bebb887e94e206dfdf45ae3d67daf1a5dcd23",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "2fe412c17216ba81ac3658e94724504d69a993b485c9796131c50b780c59e379",
+      "observedOutputSha256": "2fe412c17216ba81ac3658e94724504d69a993b485c9796131c50b780c59e379",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_profile_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "profile",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 512,
+        "cropHeight": 1703,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 382, "height": 1574 },
+        "opaquePixels": 385550,
+        "rig": {
+          "centerXFraction": 0.490234,
+          "crownYFraction": 0.039342,
+          "neckYFraction": 0.192601,
+          "shoulderYFraction": 0.271286,
+          "waistYFraction": 0.500294,
+          "crotchYFraction": 0.913682,
+          "soleYFraction": 0.959483,
+          "headWidthFraction": 0.404297,
+          "shoulderWidthFraction": 0.583984,
+          "waistWidthFraction": 0.601563,
+          "feetSpanFraction": 0.570313
+        },
+        "mirrorSymmetryIou": 0.559649,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.574219],
+        "widestRowWidthFraction": 0.716797,
+        "widestRowYFraction": 0.428068
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_profile_v1' reads as frontal, the reviewed pixels show 'profile'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_seated_conversational_open_hand_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "50eea36105b9a6e5cc4c8c3c6adb2f269b0d34612d8dac1db829bdc677851bf8",
+      "observedOutputSha256": "50eea36105b9a6e5cc4c8c3c6adb2f269b0d34612d8dac1db829bdc677851bf8",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 866,
+        "cropHeight": 1632,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 737, "height": 1502 },
+        "opaquePixels": 474821,
+        "rig": {
+          "centerXFraction": 0.508083,
+          "crownYFraction": 0.041054,
+          "neckYFraction": 0.208333,
+          "shoulderYFraction": 0.347426,
+          "waistYFraction": 0.484681,
+          "crotchYFraction": 0.484681,
+          "soleYFraction": 0.958333,
+          "headWidthFraction": 0.232102,
+          "shoulderWidthFraction": 0.505774,
+          "waistWidthFraction": 0.342956,
+          "feetSpanFraction": 0.371824
+        },
+        "mirrorSymmetryIou": 0.305262,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.424365],
+        "widestRowWidthFraction": 0.819861,
+        "widestRowYFraction": 0.389706
+      },
+      "rigPlausible": false,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_seated_front_chair_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_front_chair_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "55071836e9ba9ceb5f2adfd92e7e5216fddc08ecf87ee8503eb4eef4cb92dcea",
+      "observedOutputSha256": "55071836e9ba9ceb5f2adfd92e7e5216fddc08ecf87ee8503eb4eef4cb92dcea",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_chair_v1",
+        "bakedPropStatus": "CHAIR",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "chair",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 697,
+        "cropHeight": 1658,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 567, "height": 1529 },
+        "opaquePixels": 520005,
+        "rig": {
+          "centerXFraction": 0.500717,
+          "crownYFraction": 0.041013,
+          "neckYFraction": 0.187575,
+          "shoulderYFraction": 0.279855,
+          "waistYFraction": 0.434861,
+          "crotchYFraction": 0.656815,
+          "soleYFraction": 0.958987,
+          "headWidthFraction": 0.295552,
+          "shoulderWidthFraction": 0.661406,
+          "waistWidthFraction": 0.416069,
+          "feetSpanFraction": 0.397418
+        },
+        "mirrorSymmetryIou": 0.984309,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.258967, 0.738164],
+        "widestRowWidthFraction": 0.751793,
+        "widestRowYFraction": 0.371532
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_seated_interaction_surface_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "2be018346e6637e395f99a65ac256fe280bb6f86df32e252d72b5fda7657c9c5",
+      "observedOutputSha256": "2be018346e6637e395f99a65ac256fe280bb6f86df32e252d72b5fda7657c9c5",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 1011,
+        "cropHeight": 1627,
+        "opaqueBounds": { "left": 77, "top": 65, "width": 854, "height": 1497 },
+        "opaquePixels": 489349,
+        "rig": {
+          "centerXFraction": 0.470821,
+          "crownYFraction": 0.04118,
+          "neckYFraction": 0.208974,
+          "shoulderYFraction": 0.312231,
+          "waistYFraction": 0.468347,
+          "crotchYFraction": 0.468961,
+          "soleYFraction": 0.957591,
+          "headWidthFraction": 0.199802,
+          "shoulderWidthFraction": 0.426311,
+          "waistWidthFraction": 0.049456,
+          "feetSpanFraction": 0.331355
+        },
+        "mirrorSymmetryIou": 0.263134,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.603363],
+        "widestRowWidthFraction": 0.72997,
+        "widestRowYFraction": 0.443147
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [
+        "baked prop: the sweep recorded 'NONE', the reviewed pixels show 'desk'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_standing_conversational_open_hand_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "e6d9e8f5f91caef96a8d8b73d636977681c14cf1d61d8a13e297b0090349c118",
+      "observedOutputSha256": "e6d9e8f5f91caef96a8d8b73d636977681c14cf1d61d8a13e297b0090349c118",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 841,
+        "cropHeight": 1761,
+        "opaqueBounds": { "left": 64, "top": 65, "width": 712, "height": 1631 },
+        "opaquePixels": 442428,
+        "rig": {
+          "centerXFraction": 0.464923,
+          "crownYFraction": 0.038047,
+          "neckYFraction": 0.18569,
+          "shoulderYFraction": 0.314594,
+          "waistYFraction": 0.416809,
+          "crotchYFraction": 0.9205,
+          "soleYFraction": 0.960818,
+          "headWidthFraction": 0.223543,
+          "shoulderWidthFraction": 0.680143,
+          "waistWidthFraction": 0.305589,
+          "feetSpanFraction": 0.342449
+        },
+        "mirrorSymmetryIou": 0.346536,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.299049],
+        "widestRowWidthFraction": 0.752675,
+        "widestRowYFraction": 0.338444
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_standing_lectern_interaction_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_lectern_interaction_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R1C5",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "1701a2f38bcf4b9977b41f3aaa444c337b09f7e2ea119cf640d788ff059c8fb5",
+      "observedOutputSha256": "1701a2f38bcf4b9977b41f3aaa444c337b09f7e2ea119cf640d788ff059c8fb5",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_lectern_interaction_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A glass slab is painted across the hands and hips. The sweep recorded NONE here."
+      },
+      "measurement": {
+        "cropWidth": 890,
+        "cropHeight": 1764,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 760, "height": 1634 },
+        "opaquePixels": 481311,
+        "rig": {
+          "centerXFraction": 0.45618,
+          "crownYFraction": 0.039116,
+          "neckYFraction": 0.184807,
+          "shoulderYFraction": 0.278912,
+          "waistYFraction": 0.404195,
+          "crotchYFraction": 0.407029,
+          "soleYFraction": 0.960884,
+          "headWidthFraction": 0.216854,
+          "shoulderWidthFraction": 0.460674,
+          "waistWidthFraction": 0.153933,
+          "feetSpanFraction": 0.331461
+        },
+        "mirrorSymmetryIou": 0.121926,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.738202],
+        "widestRowWidthFraction": 0.752809,
+        "widestRowYFraction": 0.426304
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [
+        "baked prop: the sweep recorded 'NONE', the reviewed pixels show 'desk'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_standing_neutral_back_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_back_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "b4f8b8e58582a0cd85664d3b9efd6e9f8c231ca68ef4f2b0cf9630806abc7706",
+      "observedOutputSha256": "b4f8b8e58582a0cd85664d3b9efd6e9f8c231ca68ef4f2b0cf9630806abc7706",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_back_v1",
+        "bakedPropStatus": "LECTERN",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "back",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A clean back view. The sweep recorded a LECTERN here; no prop is painted in this crop."
+      },
+      "measurement": {
+        "cropWidth": 619,
+        "cropHeight": 1738,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 489, "height": 1608 },
+        "opaquePixels": 460828,
+        "rig": {
+          "centerXFraction": 0.49273,
+          "crownYFraction": 0.03855,
+          "neckYFraction": 0.182969,
+          "shoulderYFraction": 0.247986,
+          "waistYFraction": 0.387227,
+          "crotchYFraction": 0.640391,
+          "soleYFraction": 0.960875,
+          "headWidthFraction": 0.331179,
+          "shoulderWidthFraction": 0.600969,
+          "waistWidthFraction": 0.521809,
+          "feetSpanFraction": 0.46042
+        },
+        "mirrorSymmetryIou": 0.756921,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.326333, 0.718901],
+        "widestRowWidthFraction": 0.696284,
+        "widestRowYFraction": 0.464327
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "baked prop: the sweep recorded 'LECTERN', the reviewed pixels show 'none'.",
+        "facing: the filename category 'standing_neutral_back_v1' reads as frontal, the reviewed pixels show 'back'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_standing_neutral_front_a_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "24ddae8f5a1f9e545fe0bd045e9b16b7ff8e25f04aa80517b19ebbbfefd5c189",
+      "observedOutputSha256": "24ddae8f5a1f9e545fe0bd045e9b16b7ff8e25f04aa80517b19ebbbfefd5c189",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 646,
+        "cropHeight": 1752,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 516, "height": 1623 },
+        "opaquePixels": 476188,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.037671,
+          "neckYFraction": 0.170662,
+          "shoulderYFraction": 0.247717,
+          "waistYFraction": 0.406393,
+          "crotchYFraction": 0.563927,
+          "soleYFraction": 0.960616,
+          "headWidthFraction": 0.295666,
+          "shoulderWidthFraction": 0.664087,
+          "waistWidthFraction": 0.424149,
+          "feetSpanFraction": 0.317337
+        },
+        "mirrorSymmetryIou": 0.983274,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.291022, 0.70743],
+        "widestRowWidthFraction": 0.741486,
+        "widestRowYFraction": 0.350457
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_man_standing_neutral_three_quarter_v1",
+      "family": "wave-a-skinny-man",
+      "outputPath": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_three_quarter_v1.png",
+      "sourceSheet": {
+        "filename": "skinny man.png",
+        "sha256": "c2493166d996fd26ffbf12707ce5ee0d683592ef4929e5e960e493857cffc90f",
+        "cell": "R2C5",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "e01b8ddc6b067330186af4739c1e45acdc0828edc3e7772f520cf613eb0333b3",
+      "observedOutputSha256": "e01b8ddc6b067330186af4739c1e45acdc0828edc3e7772f520cf613eb0333b3",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 580,
+        "cropHeight": 1702,
+        "opaqueBounds": { "left": 66, "top": 66, "width": 449, "height": 1571 },
+        "opaquePixels": 425210,
+        "rig": {
+          "centerXFraction": 0.513793,
+          "crownYFraction": 0.040541,
+          "neckYFraction": 0.187427,
+          "shoulderYFraction": 0.250881,
+          "waistYFraction": 0.364277,
+          "crotchYFraction": 0.661575,
+          "soleYFraction": 0.958872,
+          "headWidthFraction": 0.324138,
+          "shoulderWidthFraction": 0.6,
+          "waistWidthFraction": 0.494828,
+          "feetSpanFraction": 0.534483
+        },
+        "mirrorSymmetryIou": 0.720558,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.591379],
+        "widestRowWidthFraction": 0.687931,
+        "widestRowYFraction": 0.445358
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_three_quarter_v1' reads as frontal, the reviewed pixels show 'three-quarter'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_additional_fat_female_seated_interaction_surface_v1",
+      "family": "wave-a-additional-fat-female-pose",
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "additional fat female pose.png",
+        "sha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+        "cell": "R1C2",
+        "dimensions": { "width": 4352, "height": 3904 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "c02884caf39bea153fe2614235de0ea01ec3b7cadfd1509d8a5c88e1a7d5ba02",
+      "observedOutputSha256": "c02884caf39bea153fe2614235de0ea01ec3b7cadfd1509d8a5c88e1a7d5ba02",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A dark slab is painted across the lap and forearms."
+      },
+      "measurement": {
+        "cropWidth": 1200,
+        "cropHeight": 2979,
+        "opaqueBounds": {
+          "left": 65,
+          "top": 64,
+          "width": 1070,
+          "height": 2850
+        },
+        "opaquePixels": 1734806,
+        "rig": {
+          "centerXFraction": 0.499167,
+          "crownYFraction": 0.022491,
+          "neckYFraction": 0.162806,
+          "shoulderYFraction": 0.267875,
+          "waistYFraction": 0.435381,
+          "crotchYFraction": 0.436388,
+          "soleYFraction": 0.976838,
+          "headWidthFraction": 0.3025,
+          "shoulderWidthFraction": 0.741667,
+          "waistWidthFraction": 0.045833,
+          "feetSpanFraction": 0.359167
+        },
+        "mirrorSymmetryIou": 0.955953,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.388333, 0.5925],
+        "widestRowWidthFraction": 0.8875,
+        "widestRowYFraction": 0.390735
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_additional_fat_female_standing_conversational_hands_clasped_v1",
+      "family": "wave-a-additional-fat-female-pose",
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_conversational_hands_clasped_v1.png",
+      "sourceSheet": {
+        "filename": "additional fat female pose.png",
+        "sha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+        "cell": "R1C1",
+        "dimensions": { "width": 4352, "height": 3904 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "3af8331dbe4c26b20cf853731dd9f6c3b21a02cdc63f64f3fc91f57ff71a719d",
+      "observedOutputSha256": "3af8331dbe4c26b20cf853731dd9f6c3b21a02cdc63f64f3fc91f57ff71a719d",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_hands_clasped_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "ambiguous",
+        "note": "Shoulders are close to frontal but the hips and both feet are turned; read as three-quarter, and the reading is not confident."
+      },
+      "measurement": {
+        "cropWidth": 1107,
+        "cropHeight": 3460,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 977, "height": 3330 },
+        "opaquePixels": 2023474,
+        "rig": {
+          "centerXFraction": 0.500452,
+          "crownYFraction": 0.019653,
+          "neckYFraction": 0.159827,
+          "shoulderYFraction": 0.26185,
+          "waistYFraction": 0.402312,
+          "crotchYFraction": 0.685838,
+          "soleYFraction": 0.980058,
+          "headWidthFraction": 0.355917,
+          "shoulderWidthFraction": 0.767841,
+          "waistWidthFraction": 0.634146,
+          "feetSpanFraction": 0.539295
+        },
+        "mirrorSymmetryIou": 0.811537,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.436314],
+        "widestRowWidthFraction": 0.878049,
+        "widestRowYFraction": 0.349711
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-ambiguous-observation",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_additional_fat_female_standing_lectern_interaction_v1",
+      "family": "wave-a-additional-fat-female-pose",
+      "outputPath": "art/generated/candidates/wave-a-morphology/additional-fat-female-pose/wave_a_additional_fat_female_standing_lectern_interaction_v1.png",
+      "sourceSheet": {
+        "filename": "additional fat female pose.png",
+        "sha256": "0667551c8c73fe77ec9b01e0d69072f6525f6ab65623ba559d4ab6a68e1ba5c7",
+        "cell": "R1C3",
+        "dimensions": { "width": 4352, "height": 3904 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "83551a083092f8fd053483f7402a6a814cc6ebe301343054c4a72ced6e8a0eda",
+      "observedOutputSha256": "83551a083092f8fd053483f7402a6a814cc6ebe301343054c4a72ced6e8a0eda",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_lectern_interaction_v1",
+        "bakedPropStatus": "LECTERN",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "desk",
+        "extent": "partial-figure",
+        "confidence": "high",
+        "note": "Torso only: the figure is cut off above the hips and a table edge is painted at the hands. Not a body."
+      },
+      "measurement": {
+        "cropWidth": 1358,
+        "cropHeight": 1422,
+        "opaqueBounds": {
+          "left": 64,
+          "top": 65,
+          "width": 1216,
+          "height": 1292
+        },
+        "opaquePixels": 791705,
+        "rig": {
+          "centerXFraction": 0.516937,
+          "crownYFraction": 0.047117,
+          "neckYFraction": 0.106892,
+          "shoulderYFraction": 0.192686,
+          "waistYFraction": 0.337553,
+          "crotchYFraction": 0.892405,
+          "soleYFraction": 0.951477,
+          "headWidthFraction": 0.209867,
+          "shoulderWidthFraction": 0.247423,
+          "waistWidthFraction": 0.164212,
+          "feetSpanFraction": 0.818115
+        },
+        "mirrorSymmetryIou": 0.918717,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.051546],
+        "widestRowWidthFraction": 0.818115,
+        "widestRowYFraction": 0.891702
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-partial-figure",
+      "priorClaimDisagreements": [
+        "baked prop: the sweep recorded 'LECTERN', the reviewed pixels show 'desk'.",
+        "extent: the sweep treated this as a body; the reviewed pixels show a partial-figure."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_seated_conversational_open_hand_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "a8597768fc03ce7a3ccb97b5bd1162417c2d5a18a58ceb4f6b0398f1d9486fc3",
+      "observedOutputSha256": "a8597768fc03ce7a3ccb97b5bd1162417c2d5a18a58ceb4f6b0398f1d9486fc3",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 872,
+        "cropHeight": 1629,
+        "opaqueBounds": { "left": 64, "top": 64, "width": 743, "height": 1500 },
+        "opaquePixels": 495043,
+        "rig": {
+          "centerXFraction": 0.509174,
+          "crownYFraction": 0.040516,
+          "neckYFraction": 0.176182,
+          "shoulderYFraction": 0.267035,
+          "waistYFraction": 0.496624,
+          "crotchYFraction": 0.957643,
+          "soleYFraction": 0.958257,
+          "headWidthFraction": 0.230505,
+          "shoulderWidthFraction": 0.451835,
+          "waistWidthFraction": 0.380734,
+          "feetSpanFraction": 0.379587
+        },
+        "mirrorSymmetryIou": 0.340746,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.424312],
+        "widestRowWidthFraction": 0.824541,
+        "widestRowYFraction": 0.387968
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_seated_front_neutral_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_front_neutral_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "259e1d04238995df7129925fbb026b1408e01267ffb9722a8cc0c24cbc449f65",
+      "observedOutputSha256": "259e1d04238995df7129925fbb026b1408e01267ffb9722a8cc0c24cbc449f65",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_neutral_v1",
+        "bakedPropStatus": "CHAIR",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "chair",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A four-legged chair is painted behind and beneath the figure."
+      },
+      "measurement": {
+        "cropWidth": 710,
+        "cropHeight": 1653,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 580, "height": 1525 },
+        "opaquePixels": 542032,
+        "rig": {
+          "centerXFraction": 0.498592,
+          "crownYFraction": 0.039927,
+          "neckYFraction": 0.186933,
+          "shoulderYFraction": 0.277677,
+          "waistYFraction": 0.399274,
+          "crotchYFraction": 0.655777,
+          "soleYFraction": 0.959468,
+          "headWidthFraction": 0.291549,
+          "shoulderWidthFraction": 0.680282,
+          "waistWidthFraction": 0.466197,
+          "feetSpanFraction": 0.390141
+        },
+        "mirrorSymmetryIou": 0.976221,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.266901, 0.733803],
+        "widestRowWidthFraction": 0.794366,
+        "widestRowYFraction": 0.447671
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_seated_interaction_surface_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R2C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "93835171b500f161bf1824adbd29010d271ac20cd99fd8117e3a2590f322d7ef",
+      "observedOutputSha256": "93835171b500f161bf1824adbd29010d271ac20cd99fd8117e3a2590f322d7ef",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A thin horizontal surface line runs through the forearms."
+      },
+      "measurement": {
+        "cropWidth": 1170,
+        "cropHeight": 1625,
+        "opaqueBounds": {
+          "left": 64,
+          "top": 65,
+          "width": 1041,
+          "height": 1495
+        },
+        "opaquePixels": 514809,
+        "rig": {
+          "centerXFraction": 0.54359,
+          "crownYFraction": 0.040615,
+          "neckYFraction": 0.181538,
+          "shoulderYFraction": 0.285538,
+          "waistYFraction": 0.469538,
+          "crotchYFraction": 0.957538,
+          "soleYFraction": 0.958154,
+          "headWidthFraction": 0.171795,
+          "shoulderWidthFraction": 0.366667,
+          "waistWidthFraction": 0.005128,
+          "feetSpanFraction": 0.296581
+        },
+        "mirrorSymmetryIou": 0.248964,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.62735],
+        "widestRowWidthFraction": 0.668376,
+        "widestRowYFraction": 0.427692
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_standing_conversational_open_hand_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R1C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "97cd1b8e57273b83aeb678529957b74276b4f71ed8aebdb5e5c5cbe3fad20184",
+      "observedOutputSha256": "97cd1b8e57273b83aeb678529957b74276b4f71ed8aebdb5e5c5cbe3fad20184",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 852,
+        "cropHeight": 1743,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 723, "height": 1613 },
+        "opaquePixels": 462747,
+        "rig": {
+          "centerXFraction": 0.464789,
+          "crownYFraction": 0.037866,
+          "neckYFraction": 0.183018,
+          "shoulderYFraction": 0.305221,
+          "waistYFraction": 0.450947,
+          "crotchYFraction": 0.924842,
+          "soleYFraction": 0.960987,
+          "headWidthFraction": 0.220657,
+          "shoulderWidthFraction": 0.678404,
+          "waistWidthFraction": 0.347418,
+          "feetSpanFraction": 0.349765
+        },
+        "mirrorSymmetryIou": 0.352425,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.289906],
+        "widestRowWidthFraction": 0.757042,
+        "widestRowYFraction": 0.338497
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_standing_interaction_surface_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "c211d0cf928990cbe48f36ce6f1fa8d4a6eccec94d06ed196c15598eb21f33aa",
+      "observedOutputSha256": "c211d0cf928990cbe48f36ce6f1fa8d4a6eccec94d06ed196c15598eb21f33aa",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_interaction_surface_v1",
+        "bakedPropStatus": "LECTERN",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "lectern",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A wooden podium top is painted across the hips and hands."
+      },
+      "measurement": {
+        "cropWidth": 887,
+        "cropHeight": 1744,
+        "opaqueBounds": { "left": 64, "top": 64, "width": 759, "height": 1615 },
+        "opaquePixels": 493789,
+        "rig": {
+          "centerXFraction": 0.457723,
+          "crownYFraction": 0.037844,
+          "neckYFraction": 0.182339,
+          "shoulderYFraction": 0.272936,
+          "waistYFraction": 0.49656,
+          "crotchYFraction": 0.62844,
+          "soleYFraction": 0.961583,
+          "headWidthFraction": 0.209696,
+          "shoulderWidthFraction": 0.474634,
+          "waistWidthFraction": 0.370913,
+          "feetSpanFraction": 0.333709
+        },
+        "mirrorSymmetryIou": 0.132989,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.745772],
+        "widestRowWidthFraction": 0.75761,
+        "widestRowYFraction": 0.428326
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_standing_neutral_front_a_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "8cfb695665f68bd1306dc40b0bfc77dd8c13a91193f4a2caab5f962b460e0571",
+      "observedOutputSha256": "8cfb695665f68bd1306dc40b0bfc77dd8c13a91193f4a2caab5f962b460e0571",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 675,
+        "cropHeight": 1740,
+        "opaqueBounds": { "left": 64, "top": 64, "width": 546, "height": 1611 },
+        "opaquePixels": 503843,
+        "rig": {
+          "centerXFraction": 0.499259,
+          "crownYFraction": 0.037356,
+          "neckYFraction": 0.175862,
+          "shoulderYFraction": 0.252874,
+          "waistYFraction": 0.375862,
+          "crotchYFraction": 0.57931,
+          "soleYFraction": 0.96092,
+          "headWidthFraction": 0.287407,
+          "shoulderWidthFraction": 0.66963,
+          "waistWidthFraction": 0.448889,
+          "feetSpanFraction": 0.327407
+        },
+        "mirrorSymmetryIou": 0.990904,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.287407, 0.711852],
+        "widestRowWidthFraction": 0.76,
+        "widestRowYFraction": 0.550575
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_standing_neutral_front_b_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "71a99fb255bbbb0b2b063b11d9b206d5280c43e85902560e31e355bf1c154cff",
+      "observedOutputSha256": "71a99fb255bbbb0b2b063b11d9b206d5280c43e85902560e31e355bf1c154cff",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_b_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Frontal with a relaxed weight shift; distinct from front_a, not a duplicate."
+      },
+      "measurement": {
+        "cropWidth": 646,
+        "cropHeight": 1742,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 516, "height": 1612 },
+        "opaquePixels": 481456,
+        "rig": {
+          "centerXFraction": 0.521672,
+          "crownYFraction": 0.037887,
+          "neckYFraction": 0.181975,
+          "shoulderYFraction": 0.254879,
+          "waistYFraction": 0.494259,
+          "crotchYFraction": 0.631458,
+          "soleYFraction": 0.961538,
+          "headWidthFraction": 0.291022,
+          "shoulderWidthFraction": 0.623839,
+          "waistWidthFraction": 0.495356,
+          "feetSpanFraction": 0.452012
+        },
+        "mirrorSymmetryIou": 0.701775,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.386223],
+        "widestRowWidthFraction": 0.708978,
+        "widestRowYFraction": 0.552813
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_man_standing_neutral_three_quarter_v1",
+      "family": "wave-a-average-man",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_three_quarter_v1.png",
+      "sourceSheet": {
+        "filename": "average man.png",
+        "sha256": "4a1453f4f48ea00512b4d85dcf1e789c9a0a588cbc584f911d3c6d7b5d1c7f2f",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "20b0fe0ee13186194a40fae3ce9e6689d8d179a1c71282859c957b24b4591bb1",
+      "observedOutputSha256": "20b0fe0ee13186194a40fae3ce9e6689d8d179a1c71282859c957b24b4591bb1",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 581,
+        "cropHeight": 1693,
+        "opaqueBounds": { "left": 64, "top": 65, "width": 452, "height": 1563 },
+        "opaquePixels": 430899,
+        "rig": {
+          "centerXFraction": 0.521515,
+          "crownYFraction": 0.039575,
+          "neckYFraction": 0.184288,
+          "shoulderYFraction": 0.251034,
+          "waistYFraction": 0.379799,
+          "crotchYFraction": 0.689309,
+          "soleYFraction": 0.959835,
+          "headWidthFraction": 0.32358,
+          "shoulderWidthFraction": 0.621343,
+          "waistWidthFraction": 0.528399,
+          "feetSpanFraction": 0.537005
+        },
+        "mirrorSymmetryIou": 0.738116,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.582616],
+        "widestRowWidthFraction": 0.714286,
+        "widestRowYFraction": 0.415239
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_three_quarter_v1' reads as frontal, the reviewed pixels show 'three-quarter'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_seated_conversational_open_hand_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1",
+      "observedOutputSha256": "d93b36bfc7ec86cb7cf6e1fe4a7e9ad31a9bc87e22b1e29340d2c0cba515c9f1",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 832,
+        "cropHeight": 1629,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 702, "height": 1499 },
+        "opaquePixels": 500352,
+        "rig": {
+          "centerXFraction": 0.543269,
+          "crownYFraction": 0.04113,
+          "neckYFraction": 0.197667,
+          "shoulderYFraction": 0.294045,
+          "waistYFraction": 0.466544,
+          "crotchYFraction": 0.921424,
+          "soleYFraction": 0.957643,
+          "headWidthFraction": 0.240385,
+          "shoulderWidthFraction": 0.606971,
+          "waistWidthFraction": 0.420673,
+          "feetSpanFraction": 0.354567
+        },
+        "mirrorSymmetryIou": 0.394682,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.424279],
+        "widestRowWidthFraction": 0.695913,
+        "widestRowYFraction": 0.589319
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_seated_front_neutral_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "a0516d7c211e1f173190f787fc5496b7f2be474f0b113492db1776143513ba12",
+      "observedOutputSha256": "a0516d7c211e1f173190f787fc5496b7f2be474f0b113492db1776143513ba12",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_neutral_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Seated square to camera, hands on the knees, and nothing is painted under the figure: the seat is absent, which is what a modular seated body needs."
+      },
+      "measurement": {
+        "cropWidth": 663,
+        "cropHeight": 1664,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 533, "height": 1534 },
+        "opaquePixels": 476529,
+        "rig": {
+          "centerXFraction": 0.499246,
+          "crownYFraction": 0.040865,
+          "neckYFraction": 0.177885,
+          "shoulderYFraction": 0.278245,
+          "waistYFraction": 0.400841,
+          "crotchYFraction": 0.603365,
+          "soleYFraction": 0.958534,
+          "headWidthFraction": 0.294118,
+          "shoulderWidthFraction": 0.669683,
+          "waistWidthFraction": 0.422323,
+          "feetSpanFraction": 0.333333
+        },
+        "mirrorSymmetryIou": 0.983603,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.322021, 0.674208],
+        "widestRowWidthFraction": 0.785822,
+        "widestRowYFraction": 0.428486
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "seated-guest-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_seated_interaction_surface_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R2C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "e1249b5261ec1ec11dbbb2914ceb1dbc085243f1e397e4580583407b93a74b0b",
+      "observedOutputSha256": "e1249b5261ec1ec11dbbb2914ceb1dbc085243f1e397e4580583407b93a74b0b",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A keyboard and a desk edge are painted at the hands."
+      },
+      "measurement": {
+        "cropWidth": 928,
+        "cropHeight": 1632,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 799, "height": 1502 },
+        "opaquePixels": 488028,
+        "rig": {
+          "centerXFraction": 0.519397,
+          "crownYFraction": 0.041667,
+          "neckYFraction": 0.197304,
+          "shoulderYFraction": 0.268995,
+          "waistYFraction": 0.489583,
+          "crotchYFraction": 0.490196,
+          "soleYFraction": 0.957721,
+          "headWidthFraction": 0.230603,
+          "shoulderWidthFraction": 0.330819,
+          "waistWidthFraction": 0.185345,
+          "feetSpanFraction": 0.360991
+        },
+        "mirrorSymmetryIou": 0.244477,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.631466],
+        "widestRowWidthFraction": 0.81681,
+        "widestRowYFraction": 0.470588
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_standing_conversational_open_hand_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R1C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "68cc4eaa6c28ead532c2357738da9690cda47e05f1922385a63a8bdf6e10eaf8",
+      "observedOutputSha256": "68cc4eaa6c28ead532c2357738da9690cda47e05f1922385a63a8bdf6e10eaf8",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 835,
+        "cropHeight": 1738,
+        "opaqueBounds": { "left": 65, "top": 66, "width": 705, "height": 1608 },
+        "opaquePixels": 459769,
+        "rig": {
+          "centerXFraction": 0.465868,
+          "crownYFraction": 0.039125,
+          "neckYFraction": 0.176064,
+          "shoulderYFraction": 0.303222,
+          "waistYFraction": 0.398734,
+          "crotchYFraction": 0.797468,
+          "soleYFraction": 0.960875,
+          "headWidthFraction": 0.220359,
+          "shoulderWidthFraction": 0.671856,
+          "waistWidthFraction": 0.334132,
+          "feetSpanFraction": 0.356886
+        },
+        "mirrorSymmetryIou": 0.293402,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.34491],
+        "widestRowWidthFraction": 0.754491,
+        "widestRowYFraction": 0.329114
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_standing_interaction_surface_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "7efd8db41a6a28da8064af2359e626a60b2f721bece4c38397b32f665334c9f7",
+      "observedOutputSha256": "7efd8db41a6a28da8064af2359e626a60b2f721bece4c38397b32f665334c9f7",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 796,
+        "cropHeight": 1738,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 666, "height": 1608 },
+        "opaquePixels": 436690,
+        "rig": {
+          "centerXFraction": 0.44598,
+          "crownYFraction": 0.039125,
+          "neckYFraction": 0.17664,
+          "shoulderYFraction": 0.270426,
+          "waistYFraction": 0.43038,
+          "crotchYFraction": 0.679517,
+          "soleYFraction": 0.960875,
+          "headWidthFraction": 0.232412,
+          "shoulderWidthFraction": 0.479899,
+          "waistWidthFraction": 0.375628,
+          "feetSpanFraction": 0.356784
+        },
+        "mirrorSymmetryIou": 0.051055,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.702889],
+        "widestRowWidthFraction": 0.722362,
+        "widestRowYFraction": 0.410817
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_standing_neutral_front_a_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "ecb41ed2a3a71b4b7650a5c5e801813674bd11683c519736d5c9ac61196011f6",
+      "observedOutputSha256": "ecb41ed2a3a71b4b7650a5c5e801813674bd11683c519736d5c9ac61196011f6",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 786,
+        "cropHeight": 1739,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 656, "height": 1609 },
+        "opaquePixels": 483409,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.039103,
+          "neckYFraction": 0.163312,
+          "shoulderYFraction": 0.256469,
+          "waistYFraction": 0.372053,
+          "crotchYFraction": 0.53709,
+          "soleYFraction": 0.960322,
+          "headWidthFraction": 0.231552,
+          "shoulderWidthFraction": 0.541985,
+          "waistWidthFraction": 0.333333,
+          "feetSpanFraction": 0.251908
+        },
+        "mirrorSymmetryIou": 0.990902,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.351781, 0.648219],
+        "widestRowWidthFraction": 0.666667,
+        "widestRowYFraction": 0.53019
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_standing_neutral_front_b_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "7728b31198fcc09a3c40d6f580c34176bc991e08a8108f22a21d92fb98a76d54",
+      "observedOutputSha256": "7728b31198fcc09a3c40d6f580c34176bc991e08a8108f22a21d92fb98a76d54",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_b_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 751,
+        "cropHeight": 1738,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 622, "height": 1608 },
+        "opaquePixels": 489984,
+        "rig": {
+          "centerXFraction": 0.499334,
+          "crownYFraction": 0.037975,
+          "neckYFraction": 0.160529,
+          "shoulderYFraction": 0.246835,
+          "waistYFraction": 0.36939,
+          "crotchYFraction": 0.537399,
+          "soleYFraction": 0.960299,
+          "headWidthFraction": 0.243675,
+          "shoulderWidthFraction": 0.560586,
+          "waistWidthFraction": 0.355526,
+          "feetSpanFraction": 0.263648
+        },
+        "mirrorSymmetryIou": 0.989605,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.343542, 0.654461],
+        "widestRowWidthFraction": 0.707057,
+        "widestRowYFraction": 0.529919
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_average_woman_standing_neutral_three_quarter_v1",
+      "family": "wave-a-average-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_three_quarter_v1.png",
+      "sourceSheet": {
+        "filename": "average woman.png",
+        "sha256": "16275703afe9eb07e267f5521b6fff030150a3839ef7308e637805c72a077bf9",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "7ba02e629ccf4eee9f6b3d42a9bee0774ba2a7af97a28cfd981b0d35b502f998",
+      "observedOutputSha256": "7ba02e629ccf4eee9f6b3d42a9bee0774ba2a7af97a28cfd981b0d35b502f998",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "ambiguous",
+        "note": "Only slightly rotated; closer to frontal than the other three-quarter rows."
+      },
+      "measurement": {
+        "cropWidth": 605,
+        "cropHeight": 1664,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 475, "height": 1534 },
+        "opaquePixels": 409206,
+        "rig": {
+          "centerXFraction": 0.499174,
+          "crownYFraction": 0.040865,
+          "neckYFraction": 0.180288,
+          "shoulderYFraction": 0.267428,
+          "waistYFraction": 0.356971,
+          "crotchYFraction": 0.820313,
+          "soleYFraction": 0.958534,
+          "headWidthFraction": 0.302479,
+          "shoulderWidthFraction": 0.561983,
+          "waistWidthFraction": 0.446281,
+          "feetSpanFraction": 0.42314
+        },
+        "mirrorSymmetryIou": 0.702896,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.552893],
+        "widestRowWidthFraction": 0.742149,
+        "widestRowYFraction": 0.517428
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-ambiguous-observation",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_three_quarter_v1' reads as frontal, the reviewed pixels show 'three-quarter'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_seated_conversational_open_hand_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "43facda970a572eaed4d1ebba2ccfd1c923d01881b848627e29044294db86a25",
+      "observedOutputSha256": "43facda970a572eaed4d1ebba2ccfd1c923d01881b848627e29044294db86a25",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 848,
+        "cropHeight": 1628,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 718, "height": 1498 },
+        "opaquePixels": 505035,
+        "rig": {
+          "centerXFraction": 0.553066,
+          "crownYFraction": 0.041769,
+          "neckYFraction": 0.19656,
+          "shoulderYFraction": 0.292383,
+          "waistYFraction": 0.465602,
+          "crotchYFraction": 0.920147,
+          "soleYFraction": 0.957617,
+          "headWidthFraction": 0.231132,
+          "shoulderWidthFraction": 0.620283,
+          "waistWidthFraction": 0.424528,
+          "feetSpanFraction": 0.357311
+        },
+        "mirrorSymmetryIou": 0.398364,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.436321],
+        "widestRowWidthFraction": 0.682783,
+        "widestRowYFraction": 0.587838
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_seated_front_neutral_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_front_neutral_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "8cb36a8e40aeda29422f842a3195393897963f29980b719bb7c0c55f1626fd00",
+      "observedOutputSha256": "8cb36a8e40aeda29422f842a3195393897963f29980b719bb7c0c55f1626fd00",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_neutral_v1",
+        "bakedPropStatus": "CHAIR",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "chair",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A pale stool with four legs is painted under the figure."
+      },
+      "measurement": {
+        "cropWidth": 669,
+        "cropHeight": 1720,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 540, "height": 1590 },
+        "opaquePixels": 553455,
+        "rig": {
+          "centerXFraction": 0.499253,
+          "crownYFraction": 0.039535,
+          "neckYFraction": 0.177907,
+          "shoulderYFraction": 0.275,
+          "waistYFraction": 0.391279,
+          "crotchYFraction": 0.599419,
+          "soleYFraction": 0.959884,
+          "headWidthFraction": 0.304933,
+          "shoulderWidthFraction": 0.689088,
+          "waistWidthFraction": 0.463378,
+          "feetSpanFraction": 0.363229
+        },
+        "mirrorSymmetryIou": 0.987342,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.316891, 0.683109],
+        "widestRowWidthFraction": 0.796712,
+        "widestRowYFraction": 0.409302
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_seated_interaction_surface_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R2C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "076084c6e0d429b9c6126d767548391bf3f571a623849ca2d3bacb979e2a6dc8",
+      "observedOutputSha256": "076084c6e0d429b9c6126d767548391bf3f571a623849ca2d3bacb979e2a6dc8",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 1081,
+        "cropHeight": 1638,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 951, "height": 1508 },
+        "opaquePixels": 528913,
+        "rig": {
+          "centerXFraction": 0.507863,
+          "crownYFraction": 0.040904,
+          "neckYFraction": 0.19475,
+          "shoulderYFraction": 0.282662,
+          "waistYFraction": 0.469475,
+          "crotchYFraction": 0.808913,
+          "soleYFraction": 0.957875,
+          "headWidthFraction": 0.182239,
+          "shoulderWidthFraction": 0.371878,
+          "waistWidthFraction": 0.338575,
+          "feetSpanFraction": 0.313599
+        },
+        "mirrorSymmetryIou": 0.259347,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.63876],
+        "widestRowWidthFraction": 0.792784,
+        "widestRowYFraction": 0.483516
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_standing_conversational_open_hand_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R1C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "5053c4e0f84133f8175f040489912597d6e53c18c29a33d16faf89c2689c5c95",
+      "observedOutputSha256": "5053c4e0f84133f8175f040489912597d6e53c18c29a33d16faf89c2689c5c95",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 865,
+        "cropHeight": 1705,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 735, "height": 1575 },
+        "opaquePixels": 483302,
+        "rig": {
+          "centerXFraction": 0.46474,
+          "crownYFraction": 0.039296,
+          "neckYFraction": 0.181232,
+          "shoulderYFraction": 0.306745,
+          "waistYFraction": 0.405279,
+          "crotchYFraction": 0.818768,
+          "soleYFraction": 0.960117,
+          "headWidthFraction": 0.219653,
+          "shoulderWidthFraction": 0.679769,
+          "waistWidthFraction": 0.36763,
+          "feetSpanFraction": 0.326012
+        },
+        "mirrorSymmetryIou": 0.340136,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.327168, 0.636994],
+        "widestRowWidthFraction": 0.757225,
+        "widestRowYFraction": 0.334311
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_standing_interaction_surface_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "6691a2494ead7945435c538210d3e5d90b9d5b42b94ac1fa1028c828f7d50d0b",
+      "observedOutputSha256": "6691a2494ead7945435c538210d3e5d90b9d5b42b94ac1fa1028c828f7d50d0b",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_interaction_surface_v1",
+        "bakedPropStatus": "LECTERN",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "lectern",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "A black lectern on a stem and base is painted in front of the figure."
+      },
+      "measurement": {
+        "cropWidth": 840,
+        "cropHeight": 1729,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 710, "height": 1599 },
+        "opaquePixels": 517577,
+        "rig": {
+          "centerXFraction": 0.477381,
+          "crownYFraction": 0.038751,
+          "neckYFraction": 0.179873,
+          "shoulderYFraction": 0.255061,
+          "waistYFraction": 0.399653,
+          "crotchYFraction": 0.401966,
+          "soleYFraction": 0.960093,
+          "headWidthFraction": 0.228571,
+          "shoulderWidthFraction": 0.441667,
+          "waistWidthFraction": 0.225,
+          "feetSpanFraction": 0.452381
+        },
+        "mirrorSymmetryIou": 0.183573,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.416071, 0.71131],
+        "widestRowWidthFraction": 0.794048,
+        "widestRowYFraction": 0.427415
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_standing_neutral_front_a_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "a40a709eced52fe5ecd717346eb54d5cefd026c2fb4b0d679df52af01ecb204d",
+      "observedOutputSha256": "a40a709eced52fe5ecd717346eb54d5cefd026c2fb4b0d679df52af01ecb204d",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 880,
+        "cropHeight": 1702,
+        "opaqueBounds": { "left": 64, "top": 65, "width": 751, "height": 1573 },
+        "opaquePixels": 518855,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.039365,
+          "neckYFraction": 0.16745,
+          "shoulderYFraction": 0.273796,
+          "waistYFraction": 0.364865,
+          "crotchYFraction": 0.542891,
+          "soleYFraction": 0.959459,
+          "headWidthFraction": 0.207955,
+          "shoulderWidthFraction": 0.518182,
+          "waistWidthFraction": 0.344318,
+          "feetSpanFraction": 0.238636
+        },
+        "mirrorSymmetryIou": 0.961352,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.35625, 0.643182],
+        "widestRowWidthFraction": 0.647727,
+        "widestRowYFraction": 0.52879
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_standing_neutral_front_b_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "c09afb6f56efd5a8b869bd1c5a74e10573cd13f5431583b532145c48a4771bb1",
+      "observedOutputSha256": "c09afb6f56efd5a8b869bd1c5a74e10573cd13f5431583b532145c48a4771bb1",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_b_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 754,
+        "cropHeight": 1702,
+        "opaqueBounds": { "left": 65, "top": 66, "width": 624, "height": 1571 },
+        "opaquePixels": 515706,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.039953,
+          "neckYFraction": 0.166863,
+          "shoulderYFraction": 0.257932,
+          "waistYFraction": 0.37074,
+          "crotchYFraction": 0.610458,
+          "soleYFraction": 0.959459,
+          "headWidthFraction": 0.246684,
+          "shoulderWidthFraction": 0.579576,
+          "waistWidthFraction": 0.392573,
+          "feetSpanFraction": 0.289125
+        },
+        "mirrorSymmetryIou": 0.882736,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.330239, 0.657825],
+        "widestRowWidthFraction": 0.741379,
+        "widestRowYFraction": 0.543478
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_older_woman_standing_neutral_three_quarter_v1",
+      "family": "wave-a-older-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_three_quarter_v1.png",
+      "sourceSheet": {
+        "filename": "older woman.png",
+        "sha256": "002a0bd6b1913349fa811dba70ba7fe24295e2b3e4be4b9799c3dbe0397536bd",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "85fcb902dc95ac002dcdb3fd01104289704661dbdc9f497c38898c5483684286",
+      "observedOutputSha256": "85fcb902dc95ac002dcdb3fd01104289704661dbdc9f497c38898c5483684286",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 650,
+        "cropHeight": 1735,
+        "opaqueBounds": { "left": 64, "top": 64, "width": 522, "height": 1607 },
+        "opaquePixels": 484981,
+        "rig": {
+          "centerXFraction": 0.486154,
+          "crownYFraction": 0.038617,
+          "neckYFraction": 0.18098,
+          "shoulderYFraction": 0.263977,
+          "waistYFraction": 0.364841,
+          "crotchYFraction": 0.918156,
+          "soleYFraction": 0.960807,
+          "headWidthFraction": 0.293846,
+          "shoulderWidthFraction": 0.589231,
+          "waistWidthFraction": 0.504615,
+          "feetSpanFraction": 0.449231
+        },
+        "mirrorSymmetryIou": 0.61082,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.603077],
+        "widestRowWidthFraction": 0.733846,
+        "widestRowYFraction": 0.525072
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_three_quarter_v1' reads as frontal, the reviewed pixels show 'three-quarter'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_seated_conversational_open_hand_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R2C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b",
+      "observedOutputSha256": "44aa67878faa18121dbd486634db3a576372bc24eac693f479975617f7c1818b",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 851,
+        "cropHeight": 1623,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 721, "height": 1493 },
+        "opaquePixels": 438441,
+        "rig": {
+          "centerXFraction": 0.526439,
+          "crownYFraction": 0.041898,
+          "neckYFraction": 0.197782,
+          "shoulderYFraction": 0.300062,
+          "waistYFraction": 0.422674,
+          "crotchYFraction": 0.856439,
+          "soleYFraction": 0.957486,
+          "headWidthFraction": 0.229142,
+          "shoulderWidthFraction": 0.573443,
+          "waistWidthFraction": 0.26087,
+          "feetSpanFraction": 0.325499
+        },
+        "mirrorSymmetryIou": 0.283628,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.405993],
+        "widestRowWidthFraction": 0.649824,
+        "widestRowYFraction": 0.586568
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_seated_front_neutral_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R2C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "4f7c049d78dea3c30a90c50dc0a09229ad36882a535109989b94fb9bd98dcfd2",
+      "observedOutputSha256": "4f7c049d78dea3c30a90c50dc0a09229ad36882a535109989b94fb9bd98dcfd2",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_front_neutral_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high",
+        "note": "Seated square to camera with nothing painted underneath; the second of only two propless seated figures in the wave."
+      },
+      "measurement": {
+        "cropWidth": 635,
+        "cropHeight": 1642,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 505, "height": 1514 },
+        "opaquePixels": 431975,
+        "rig": {
+          "centerXFraction": 0.499213,
+          "crownYFraction": 0.040804,
+          "neckYFraction": 0.178441,
+          "shoulderYFraction": 0.266139,
+          "waistYFraction": 0.417174,
+          "crotchYFraction": 0.606577,
+          "soleYFraction": 0.958587,
+          "headWidthFraction": 0.303937,
+          "shoulderWidthFraction": 0.650394,
+          "waistWidthFraction": 0.387402,
+          "feetSpanFraction": 0.349606
+        },
+        "mirrorSymmetryIou": 0.993107,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.326772, 0.672441],
+        "widestRowWidthFraction": 0.738583,
+        "widestRowYFraction": 0.356273
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "seated-guest-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_seated_interaction_surface_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R2C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "f898dc224e8db9006eb6cc7bec563dc55d06c94c4000b84d1d3049b1a665ef03",
+      "observedOutputSha256": "f898dc224e8db9006eb6cc7bec563dc55d06c94c4000b84d1d3049b1a665ef03",
+      "priorClaim": {
+        "apparentPoseCategory": "seated_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "seated",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 861,
+        "cropHeight": 1635,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 730, "height": 1505 },
+        "opaquePixels": 423554,
+        "rig": {
+          "centerXFraction": 0.445993,
+          "crownYFraction": 0.040979,
+          "neckYFraction": 0.196942,
+          "shoulderYFraction": 0.281957,
+          "waistYFraction": 0.466055,
+          "crotchYFraction": 0.466667,
+          "soleYFraction": 0.957798,
+          "headWidthFraction": 0.227642,
+          "shoulderWidthFraction": 0.312427,
+          "waistWidthFraction": 0.055749,
+          "feetSpanFraction": 0.304297
+        },
+        "mirrorSymmetryIou": 0.21597,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.672474],
+        "widestRowWidthFraction": 0.723577,
+        "widestRowYFraction": 0.581651
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared.",
+        "seat plane: the seated pelvis is placed at the measured crotch row; the true seat plane needs a scene seat to calibrate against."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_standing_conversational_open_hand_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_conversational_open_hand_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R1C2",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "7a1ee82da47892b6a16543f12674bc96f2ec71e370ec8eb2a9df1afafe22f4b5",
+      "observedOutputSha256": "7a1ee82da47892b6a16543f12674bc96f2ec71e370ec8eb2a9df1afafe22f4b5",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_conversational_open_hand_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 787,
+        "cropHeight": 1713,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 657, "height": 1584 },
+        "opaquePixels": 393425,
+        "rig": {
+          "centerXFraction": 0.515883,
+          "crownYFraction": 0.038529,
+          "neckYFraction": 0.171629,
+          "shoulderYFraction": 0.272621,
+          "waistYFraction": 0.388792,
+          "crotchYFraction": 0.923526,
+          "soleYFraction": 0.960304,
+          "headWidthFraction": 0.218551,
+          "shoulderWidthFraction": 0.601017,
+          "waistWidthFraction": 0.271919,
+          "feetSpanFraction": 0.364676
+        },
+        "mirrorSymmetryIou": 0.195857,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.350699],
+        "widestRowWidthFraction": 0.626429,
+        "widestRowYFraction": 0.276124
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_standing_interaction_surface_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_interaction_surface_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R1C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "794c372fcd05fbc2185bf628cd0f8306ed0368be1c4704270f1f933f928c366c",
+      "observedOutputSha256": "794c372fcd05fbc2185bf628cd0f8306ed0368be1c4704270f1f933f928c366c",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_interaction_surface_v1",
+        "bakedPropStatus": "DESK",
+        "lifecycleDisposition": "REVISE_BAKED_PROP"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "desk",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 764,
+        "cropHeight": 1709,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 634, "height": 1579 },
+        "opaquePixels": 380395,
+        "rig": {
+          "centerXFraction": 0.443717,
+          "crownYFraction": 0.039789,
+          "neckYFraction": 0.17203,
+          "shoulderYFraction": 0.263897,
+          "waistYFraction": 0.429491,
+          "crotchYFraction": 0.705676,
+          "soleYFraction": 0.959626,
+          "headWidthFraction": 0.22644,
+          "shoulderWidthFraction": 0.429319,
+          "waistWidthFraction": 0.005236,
+          "feetSpanFraction": 0.312827
+        },
+        "mirrorSymmetryIou": 0.033957,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.696335],
+        "widestRowWidthFraction": 0.706806,
+        "widestRowYFraction": 0.411937
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-baked-prop",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_standing_neutral_front_a_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R1C1",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "793c1a757cf28e630ea3fec186a3cabf827108bc8b860b6a77909d0f83fb10d4",
+      "observedOutputSha256": "793c1a757cf28e630ea3fec186a3cabf827108bc8b860b6a77909d0f83fb10d4",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_a_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 676,
+        "cropHeight": 1703,
+        "opaqueBounds": { "left": 65, "top": 64, "width": 546, "height": 1574 },
+        "opaquePixels": 413978,
+        "rig": {
+          "centerXFraction": 0.498521,
+          "crownYFraction": 0.038755,
+          "neckYFraction": 0.157369,
+          "shoulderYFraction": 0.225484,
+          "waistYFraction": 0.37111,
+          "crotchYFraction": 0.523194,
+          "soleYFraction": 0.96007,
+          "headWidthFraction": 0.254438,
+          "shoulderWidthFraction": 0.528107,
+          "waistWidthFraction": 0.318047,
+          "feetSpanFraction": 0.281065
+        },
+        "mirrorSymmetryIou": 0.97254,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.357249, 0.643491],
+        "widestRowWidthFraction": 0.677515,
+        "widestRowYFraction": 0.519671
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_standing_neutral_front_b_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R1C3",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "545107870cd018cc5ceaabc44af73e0395229878430e809ca40180e55974b603",
+      "observedOutputSha256": "545107870cd018cc5ceaabc44af73e0395229878430e809ca40180e55974b603",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_front_b_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "front",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 614,
+        "cropHeight": 1706,
+        "opaqueBounds": { "left": 64, "top": 65, "width": 485, "height": 1576 },
+        "opaquePixels": 413771,
+        "rig": {
+          "centerXFraction": 0.5,
+          "crownYFraction": 0.039859,
+          "neckYFraction": 0.161196,
+          "shoulderYFraction": 0.224502,
+          "waistYFraction": 0.368699,
+          "crotchYFraction": 0.52286,
+          "soleYFraction": 0.960141,
+          "headWidthFraction": 0.28013,
+          "shoulderWidthFraction": 0.576547,
+          "waistWidthFraction": 0.350163,
+          "feetSpanFraction": 0.307818
+        },
+        "mirrorSymmetryIou": 0.981187,
+        "soleRunCount": 2,
+        "soleRunCentersFraction": [0.352606, 0.644951],
+        "widestRowWidthFraction": 0.737785,
+        "widestRowYFraction": 0.521102
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": "standing-neutral",
+      "disposition": "admitted-candidate-body",
+      "priorClaimDisagreements": [],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed."
+      ]
+    },
+    {
+      "assetId": "wave_a_skinny_woman_standing_neutral_three_quarter_v1",
+      "family": "wave-a-skinny-woman",
+      "outputPath": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_three_quarter_v1.png",
+      "sourceSheet": {
+        "filename": "skinny woman.png",
+        "sha256": "25e916f1dc0f334a12c23c0628b5a24cdcfabb6ee9e179d05dbd82702e6c18cd",
+        "cell": "R2C4",
+        "dimensions": { "width": 5056, "height": 3392 }
+      },
+      "sourceBytesUnchanged": true,
+      "recordedOutputSha256": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a",
+      "observedOutputSha256": "dd2e7fe5bdc314ab2b77c034c28e58dcd050138a3f759c072230dc1ec624221a",
+      "priorClaim": {
+        "apparentPoseCategory": "standing_neutral_three_quarter_v1",
+        "bakedPropStatus": "NONE",
+        "lifecycleDisposition": "MORPHOLOGY_REFERENCE_READY"
+      },
+      "observation": {
+        "posture": "standing",
+        "facing": "three-quarter",
+        "bakedProp": "none",
+        "extent": "complete-figure",
+        "confidence": "high"
+      },
+      "measurement": {
+        "cropWidth": 566,
+        "cropHeight": 1658,
+        "opaqueBounds": { "left": 65, "top": 65, "width": 437, "height": 1528 },
+        "opaquePixels": 375234,
+        "rig": {
+          "centerXFraction": 0.491166,
+          "crownYFraction": 0.041616,
+          "neckYFraction": 0.17491,
+          "shoulderYFraction": 0.237636,
+          "waistYFraction": 0.357057,
+          "crotchYFraction": 0.562726,
+          "soleYFraction": 0.958384,
+          "headWidthFraction": 0.300353,
+          "shoulderWidthFraction": 0.54417,
+          "waistWidthFraction": 0.424028,
+          "feetSpanFraction": 0.462898
+        },
+        "mirrorSymmetryIou": 0.666396,
+        "soleRunCount": 1,
+        "soleRunCentersFraction": [0.559187],
+        "widestRowWidthFraction": 0.738516,
+        "widestRowYFraction": 0.546441
+      },
+      "rigPlausible": true,
+      "registeredPoseFamily": null,
+      "disposition": "retained-unregistered-facing",
+      "priorClaimDisagreements": [
+        "facing: the filename category 'standing_neutral_three_quarter_v1' reads as frontal, the reviewed pixels show 'three-quarter'."
+      ],
+      "unresolved": [
+        "brow: no brow line exists in a blank-faced raster, so no hair attachment can be measured.",
+        "root: pelvis-hip-center is an interior joint centre and is not observable in a silhouette; the emitted root is the MEASURED waistband row, a measurement-derived visual estimate and non-authoritative (D-068).",
+        "complexion: the art complexion band is an art-direction assignment, not a measurement, and is left undeclared.",
+        "rights: the source sheets carry unknown external reuse rights.",
+        "owner style acceptance: unassessed.",
+        "contacts: the sole band resolves 1 opaque runs rather than two, so no floor line can be declared."
+      ]
+    }
+  ]
+}

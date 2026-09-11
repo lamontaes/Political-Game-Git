@@ -32,13 +32,11 @@ import {
  * of a government that does not exist, which is indistinguishable from a bug
  * in the simulation and much harder to notice.
  *
- * TODAY, EXACTLY ONE CLASS HAS AN OWNER. The world holds a date. It holds no
- * bill the player is looking at from a room, no seal for a jurisdiction, no
- * tally, no headline, no portrait. `worldSurfacePayloads` therefore binds
- * `calendar-date` and returns nothing for everything else, with the reason
- * attached — and that is a description of the simulation, not a limitation of
- * this module. When an owner appears, it is added there and every slot that
- * accepts the class lights up.
+ * Owners arrive through explicit presentation projections. The base world
+ * payloads own the calendar date, while NEWS-HELP2 can add a headline only
+ * when canonical publication history contains one. Other absent classes stay
+ * absent, with the reason attached. When another owner appears, it is added to
+ * the projection and every eligible slot can use the same binder.
  */
 
 export type SurfaceBindingState =

@@ -1,0 +1,652 @@
+{
+  "revision": "52cb34eb5a395543e95392641cff151d42a08070",
+  "personA": "person_0e9af7c31bff1267",
+  "identity": "app_20393356640f1fec@appearance-recipe-v1#g1:wave-a-average-man-standing-neutral-front-a-v1-pv4|pv4-ocd_head_adult_light_square_older_lined_v1|accessory=-,body=wave-a-average-man-standing-neutral-front-a-v1-pv4,bottom=pv4-wave-a-male-bottom-blue-straight-jeans-v1,eyewear=-,facial-hair=-,footwear=pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4,hair=pv4-hair-01-light-square-older-lined-v1-front,head=pv4-ocd_head_adult_light_square_older_lined_v1,top=pv4-wave-a-male-top-green-cable-sweater-v1",
+  "heldRequests": 2,
+  "a": [
+    {
+      "surface": "[data-testid='candidate-review-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='person-portrait-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='scene-people']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    }
+  ],
+  "b": [
+    {
+      "surface": "[data-testid='candidate-review-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+          "sourceHash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+          "assetId": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "width": 336,
+          "height": 385,
+          "actualPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca",
+          "expectedPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='person-portrait-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+          "sourceHash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+          "assetId": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "width": 336,
+          "height": 385,
+          "actualPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca",
+          "expectedPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='scene-people']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+          "sourceHash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+          "width": 336,
+          "height": 385,
+          "actualPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca",
+          "expectedPixels": "dc97c109dd48a1289c77310ffbd48099236c5a39c80f121b3b91b8956fb4a3ca"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    }
+  ],
+  "restoredA": [
+    {
+      "surface": "[data-testid='candidate-review-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='person-portrait-character']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    },
+    {
+      "surface": "[data-testid='scene-people']",
+      "layers": [
+        {
+          "expectedAssetId": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197",
+          "expectedPixels": "5b35ef5949921264f467a9d325f83196c929dda3b5b07f95bf9e49f208ccf197"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_bottom_black_joggers_v1",
+          "sourceHash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+          "width": 239,
+          "height": 502,
+          "actualPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e",
+          "expectedPixels": "da7372cff4efd31eaf389f60d67309747bda0432c63bbf9c8309ab338103d53e"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+          "sourceHash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+          "width": 355,
+          "height": 450,
+          "actualPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03",
+          "expectedPixels": "625b38efcf05bcb7bc0213447348b637a207f3383b63422171eec7ca73ecfc03"
+        },
+        {
+          "expectedAssetId": "pv4_ocd_head_adult_light_square_older_lined_v1",
+          "sourceHash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+          "width": 123,
+          "height": 176,
+          "actualPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391",
+          "expectedPixels": "972948a6d3b1227444fca6c834b9d73b6ab17a0df7b53ec536ad9f31c7260391"
+        },
+        {
+          "expectedAssetId": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+          "sourceHash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+          "width": 512,
+          "height": 960,
+          "actualPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3",
+          "expectedPixels": "3e61f9ed5848ef1f0e19c80fde8460229d726d72dec08fee10361c7bc1dc76b3"
+        },
+        {
+          "expectedAssetId": "pv4_hair_01_light_square_older_lined_v1_front",
+          "sourceHash": "5e072caa1d6502fa7b5a73bd3d06d0f2c6705edf1c9f615bb418e50dadb2ce02",
+          "assetId": null,
+          "src": "/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "currentSrc": "http://127.0.0.1:5294/art/generated/candidates/people-visual4-hair/pv4_hair_01_light_square_older_lined_v1_front.png",
+          "width": 168,
+          "height": 218,
+          "actualPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735",
+          "expectedPixels": "be98d6875d78c59556a949e49508b9332fbbdb88ecf91c137946ff12ff3de735"
+        }
+      ]
+    }
+  ],
+  "acceptance": "Engineering proof; candidate art remains unapproved."
+}

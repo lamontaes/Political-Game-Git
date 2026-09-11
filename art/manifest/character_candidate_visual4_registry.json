@@ -1,0 +1,3820 @@
+{
+  "schema": "people-visual4-candidate-registry-v1",
+  "release_status": "candidate-review-only",
+  "production_pixels_released": false,
+  "assets": [
+    {
+      "asset_id": "wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "5d233a75d8cacc5af9f20c02c9ed5e070d879d09eab71bd156a0e943575774a4",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498046875,
+          "y": 0.523
+        },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.498046875, "y": 0.169 },
+          { "id": "torso", "x": 0.498046875, "y": 0.169 },
+          { "id": "hips", "x": 0.498046875, "y": 0.523 },
+          { "id": "feet", "x": 0.498046875, "y": 0.998 },
+          { "id": "crown", "x": 0.498046875, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.332031201171875, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.666015673828125, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_seated_front_neutral_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_average_woman_seated_front_neutral_v1_pv4.png",
+      "hash": "70d7c1134c867dbb1ec6b47946df51343fef763b3188f9aec31068210f23d959",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman-seated-front-neutral-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "seated-guest-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.535 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.175 },
+          { "id": "torso", "x": 0.5, "y": 0.175 },
+          { "id": "hips", "x": 0.5, "y": 0.535 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.3544921171875, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.6416016484375, "y": 0.9989583333333333 },
+          "seatedPelvis": { "x": 0.5, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2acf60588d5b7c0508e4af0a86130a148f4a5624d4887d8c8db73c981b595203",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.49 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.168 },
+          { "id": "torso", "x": 0.5, "y": 0.168 },
+          { "id": "hips", "x": 0.5, "y": 0.49 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.36230478906249997, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.633789376953125, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "142c93fb3ed83a9153be1ead3865455634a84e64a8726b1607c26cd041b01e06",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498046875,
+          "y": 0.49
+        },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.498046875, "y": 0.168 },
+          { "id": "torso", "x": 0.498046875, "y": 0.168 },
+          { "id": "hips", "x": 0.498046875, "y": 0.49 },
+          { "id": "feet", "x": 0.498046875, "y": 0.998 },
+          { "id": "crown", "x": 0.498046875, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.361328091796875, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.6337891875, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "3f9850e269df78520a5ad7f6723a4cd9c338fee08da37c20bcd685433a97a764",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498046875,
+          "y": 0.526
+        },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.498046875, "y": 0.171 },
+          { "id": "torso", "x": 0.498046875, "y": 0.171 },
+          { "id": "hips", "x": 0.498046875, "y": 0.526 },
+          { "id": "feet", "x": 0.498046875, "y": 0.998 },
+          { "id": "crown", "x": 0.498046875, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.3291012265625, "y": 0.9979166666666667 },
+          "rightFoot": { "x": 0.6689456406250001, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "05af114d2da6ba49ebbfa93dc0b7b2154685b15e33d50aac1caf0d80eaee7864",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.51 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.174 },
+          { "id": "torso", "x": 0.5, "y": 0.174 },
+          { "id": "hips", "x": 0.5, "y": 0.51 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.3486327890625, "y": 0.9979166666666667 },
+          "rightFoot": { "x": 0.6503903828125, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "20ce24ae897e582a3cc7e56190ea23f0c5b9a4b03f6fd6a69ac2a97a88d0ad5e",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.51 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.174 },
+          { "id": "torso", "x": 0.5, "y": 0.174 },
+          { "id": "hips", "x": 0.5, "y": 0.51 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.34472662304687496, "y": 0.9916666666666667 },
+          "rightFoot": { "x": 0.63964815625, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "ee01d776579908190579dda806a89e3e35fafefde2d303cf7c28fc9fe163827d",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498046875,
+          "y": 0.535
+        },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.498046875, "y": 0.173 },
+          { "id": "torso", "x": 0.498046875, "y": 0.173 },
+          { "id": "hips", "x": 0.498046875, "y": 0.535 },
+          { "id": "feet", "x": 0.498046875, "y": 0.998 },
+          { "id": "crown", "x": 0.498046875, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.34179712890625, "y": 0.9979166666666667 },
+          "rightFoot": { "x": 0.65429703125, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_seated_front_neutral_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_skinny_woman_seated_front_neutral_v1_pv4.png",
+      "hash": "ca7b4e68199442541dee10c5fc0f1d92f2b4c39bdc95bace1660c2c205db24a6",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "seated-guest-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.55 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.185 },
+          { "id": "torso", "x": 0.5, "y": 0.185 },
+          { "id": "hips", "x": 0.5, "y": 0.55 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.36328125, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.6357425000000001, "y": 0.9989583333333333 },
+          "seatedPelvis": { "x": 0.5, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "e7dbfca82342dbc3fa79fc7ba496d582d1fb8954aab9c78c3e5250cbbf1c9d5e",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498046875,
+          "y": 0.52
+        },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.498046875, "y": 0.171 },
+          { "id": "torso", "x": 0.498046875, "y": 0.171 },
+          { "id": "hips", "x": 0.498046875, "y": 0.52 },
+          { "id": "feet", "x": 0.498046875, "y": 0.998 },
+          { "id": "crown", "x": 0.498046875, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.38281229101562503, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.6142576972656251, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "059a9a891c21900c2abbff2a2b2294084bf140f8f2dc8c125d92e40f0cfedae2",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 20,
+        "canvas": { "width": 512, "height": 960 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.52 },
+        "attachment_anchors": [
+          { "id": "head", "x": 0.5, "y": 0.171 },
+          { "id": "torso", "x": 0.5, "y": 0.171 },
+          { "id": "hips", "x": 0.5, "y": 0.52 },
+          { "id": "feet", "x": 0.5, "y": 0.998 },
+          { "id": "crown", "x": 0.5, "y": 0 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.391601376953125, "y": 0.9989583333333333 },
+          "rightFoot": { "x": 0.60546888671875, "y": 0.9989583333333333 }
+        }
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_light_long_older_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_long_older_v1.png",
+      "hash": "75542f9be224f18302bab5fff38ec3dfcb544f7f83d39837fe4cc94b846fb438",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_light_long_older_v1",
+        "layer": 40,
+        "canvas": { "width": 117, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_light_oval_young_fem_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_oval_young_fem_v1.png",
+      "hash": "47309ea8c342ed68166964f086365702493ea589c3bca6c25d2b064184457048",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_light_oval_young_fem_v1",
+        "layer": 40,
+        "canvas": { "width": 115, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_light_oval_young_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_oval_young_v1.png",
+      "hash": "38c160022eb618af63d62e4d3f094c0f84868d782dad8146649ddec1982109f8",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_light_oval_young_v1",
+        "layer": 40,
+        "canvas": { "width": 118, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_light_square_older_lined_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_lined_v1.png",
+      "hash": "538d800170f8183a0492fea5b2fe8e3e9b9375145578364ca89d1e941a1aeb4e",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_light_square_older_lined_v1",
+        "layer": 40,
+        "canvas": { "width": 123, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_light_square_older_masc_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_light_square_older_masc_v1.png",
+      "hash": "577d7f458a476a817b81067c06c05303beccece4b1b19522e0deae315e458f0b",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_light_square_older_masc_v1",
+        "layer": 40,
+        "canvas": { "width": 121, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_olive_oval_adult_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_olive_oval_adult_v1.png",
+      "hash": "f43bf03180e39582e2b9c0eb7d3705b04c5e0943ba5026ae523d38e3cf491988",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_olive_oval_adult_v1",
+        "layer": 40,
+        "canvas": { "width": 114, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_tan_oval_adult_fem_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_tan_oval_adult_fem_v1.png",
+      "hash": "9cd10bdd6180592ecca16367bae3cb0c0c6ea9045a7eab8d86b6c816857d30ef",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_tan_oval_adult_fem_v1",
+        "layer": 40,
+        "canvas": { "width": 120, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_tan_round_young_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_tan_round_young_v1.png",
+      "hash": "4232f8eb48689c576f1bdd0e07275063a15d21f36009b1260ff9656a7cf1f62e",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_tan_round_young_v1",
+        "layer": 40,
+        "canvas": { "width": 118, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_ocd_head_adult_tan_square_adult_masc_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_ocd_head_adult_tan_square_adult_masc_v1.png",
+      "hash": "79aeaf52acde6c02a8ea25b7329426ff83bb1fe5b29f4496ccfa0fda9c7a6281",
+      "candidate_component": {
+        "kind": "head",
+        "family": "pv4-ocd_head_adult_tan_square_adult_masc_v1",
+        "layer": 40,
+        "canvas": { "width": 117, "height": 176 },
+        "attaches_to": "head",
+        "origin": { "x": 0.5, "y": 0.94 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-seated-front-neutral-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-seated-front-neutral-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_head_orientations": ["front"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_brown_fur_hood_parka_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_brown_fur_hood_parka_v1.png",
+      "hash": "4dc0f94eb0645fb4347b97e17ca06fb9ebcee4dc8f4a6bb1e0991c3aac95b5d6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-brown-fur-hood-parka-v1",
+        "layer": 35,
+        "canvas": { "width": 355, "height": 450 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4988584474885845, "y": 0.1476147614761476 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_burgundy_long_sleeve_polo_v1.png",
+      "hash": "b051b3b47edc3b651d1f55a1d0dff0ffcb35ea62d52284a0668c88755d1ba789",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
+        "layer": 35,
+        "canvas": { "width": 336, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06334371754932502 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_charcoal_blazer_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_charcoal_blazer_v1.png",
+      "hash": "91038ac7a5db649baac47b0d71d5a9a0a227eaaa8fa1b6368dabb82944f3eacf",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-charcoal-blazer-v1",
+        "layer": 35,
+        "canvas": { "width": 322, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.05205205205205205 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_charcoal_puffer_vest_layered_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_charcoal_puffer_vest_layered_v1.png",
+      "hash": "293f2ab6ed6de6ffa0e5e0505eb5abb0960c1354db5ff27a2e348d4bae910ec4",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-charcoal-puffer-vest-layered-v1",
+        "layer": 35,
+        "canvas": { "width": 344, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.49941383352872215, "y": 0.10052356020942409 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_cream_cardigan_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_cream_cardigan_v1.png",
+      "hash": "55edceaaaaef092b7ef8ac8995319a84e0748258dccb6bc4ed4615292e322ce1",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-cream-cardigan-v1",
+        "layer": 35,
+        "canvas": { "width": 365, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.0671806167400881 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_gray_long_sleeve_tee_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_gray_long_sleeve_tee_v1.png",
+      "hash": "775299b1badd3af7c2d0442f0147408db8506a1671a9ca28d11bdcc6ef58e9f6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-gray-long-sleeve-tee-v1",
+        "layer": 35,
+        "canvas": { "width": 352, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.035164835164835165 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_green_cable_sweater_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_green_cable_sweater_v1.png",
+      "hash": "53afa284538dd724098c4374562af61b6450808c46cd9163f640f3f393b13c35",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-green-cable-sweater-v1",
+        "layer": 35,
+        "canvas": { "width": 347, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4994124559341951, "y": 0.041357370095440084 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_navy_zip_hoodie_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_navy_zip_hoodie_v1.png",
+      "hash": "57efd380f74e49f33d0ccacebe03a61a9ab7aca4c0df724d6b97bb512898cfd1",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-navy-zip-hoodie-v1",
+        "layer": 35,
+        "canvas": { "width": 347, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.49942726231386025, "y": 0.09184726522187822 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_olive_shell_jacket_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_olive_shell_jacket_v1.png",
+      "hash": "c0cbd3da01dc0377c0a67305f45a006125322a99cd8e3799bcc4fb89cf2a9695",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-olive-shell-jacket-v1",
+        "layer": 35,
+        "canvas": { "width": 343, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4982857142857143, "y": 0.09368635437881874 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_plaid_overshirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_plaid_overshirt_v1.png",
+      "hash": "cb2d669af13aa51fa60279f1d0ddb94098854f9cc5fb17007013e1e55cd98918",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-plaid-overshirt-v1",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.0595959595959596 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_tan_utility_shirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_tan_utility_shirt_v1.png",
+      "hash": "f2296bc965fa6348d7c4238d4d6629cac41d97418f7e51071c756a4477ffec71",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-tan-utility-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005740528128588, "y": 0.061691542288557215 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_top_white_button_up_shirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_top_white_button_up_shirt_v1.png",
+      "hash": "3c380e68550356e016a32a9663788dd4456795824c252dfe52ab002e37e52693",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-male-top-white-button-up-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 334, "height": 385 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5005767012687428, "y": 0.05911823647294589 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_brown_fur_hood_parka_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_brown_fur_hood_parka_v1.png",
+      "hash": "6ef0695108df24e47e84e1bf1423371ca6e024b92ffd64b8c7ffec665e5f24bf",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-brown-fur-hood-parka-v1",
+        "layer": 35,
+        "canvas": { "width": 383, "height": 450 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.49949238578680205, "y": 0.14013840830449828 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_burgundy_short_sleeve_polo_v1.png",
+      "hash": "b306109b6a8ed10965c091580537866394a111f640988057817036d8b46646f5",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-burgundy-short-sleeve-polo-v1",
+        "layer": 35,
+        "canvas": { "width": 355, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06653225806451613 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_charcoal_blazer_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_charcoal_blazer_v1.png",
+      "hash": "78fa55cacd1af5e46640eec2d12a28bc83a50677cd93b085b8f6a13bc7fdaed6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-charcoal-blazer-v1",
+        "layer": 35,
+        "canvas": { "width": 353, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.0636182902584493 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_cream_cardigan_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_cream_cardigan_v1.png",
+      "hash": "3a84ac913708437472d37c302fc852354796c2ca70005a5eff75c0e86b6e6734",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-cream-cardigan-v1",
+        "layer": 35,
+        "canvas": { "width": 362, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06218144750254842 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_gray_short_sleeve_tee_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_gray_short_sleeve_tee_v1.png",
+      "hash": "f11389ed46ef3343a0a395d95b63a2456a7c1674f8797db1a0d0cb2f321cbef6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-gray-short-sleeve-tee-v1",
+        "layer": 35,
+        "canvas": { "width": 333, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.05045871559633028 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_mustard_cable_sweater_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_mustard_cable_sweater_v1.png",
+      "hash": "9c2fed9f27e9ea35f779a117d74661773b0ebfa0433645a32705bc76ec15adf6",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-mustard-cable-sweater-v1",
+        "layer": 35,
+        "canvas": { "width": 371, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.05042016806722689 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_navy_zip_hoodie_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_navy_zip_hoodie_v1.png",
+      "hash": "1407723145dd488de8fae6b94a81e836e26134517d00bf5d40d2970726875158",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-navy-zip-hoodie-v1",
+        "layer": 35,
+        "canvas": { "width": 344, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.09910802775024777 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_olive_button_up_shirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_olive_button_up_shirt_v1.png",
+      "hash": "451f4b5cb35ac1227b45ebae207133a588c603279339e639674313e7c016b794",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-olive-button-up-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 352, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.49948186528497407, "y": 0.05888223552894212 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_olive_puffer_vest_layered_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_olive_puffer_vest_layered_v1.png",
+      "hash": "3ac1de14441c0888be1fabc4bb9e849671746dab9a4d84f777ae295f1ce40dd3",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-olive-puffer-vest-layered-v1",
+        "layer": 35,
+        "canvas": { "width": 350, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4994807892004154, "y": 0.08955223880597014 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_plaid_overshirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_plaid_overshirt_v1.png",
+      "hash": "8ebb781ce5cb5f9e3225c4fb1b588b0c0092e68156295c87af3281b4c239f291",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-plaid-overshirt-v1",
+        "layer": 35,
+        "canvas": { "width": 345, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.4994807892004154, "y": 0.06385068762278978 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_tan_utility_shirt_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_tan_utility_shirt_v1.png",
+      "hash": "f4921fc85a6b963ce9268bfc8a45d4e2623091871e3d9adbc4cf6c3309ef0934",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-tan-utility-shirt-v1",
+        "layer": 35,
+        "canvas": { "width": 346, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.49948186528497407, "y": 0.06686332350049164 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_female_top_teal_shell_jacket_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_female_top_teal_shell_jacket_v1.png",
+      "hash": "c12e4c1436d5eef5739fe1d8e6eab5bbd28fadd33e576c3c095c0ce6f9743f66",
+      "candidate_component": {
+        "kind": "top",
+        "family": "pv4-wave-a-female-top-teal-shell-jacket-v1",
+        "layer": 35,
+        "canvas": { "width": 348, "height": 365 },
+        "attaches_to": "torso",
+        "origin": { "x": 0.5, "y": 0.06692913385826772 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_black_joggers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_black_joggers_v1.png",
+      "hash": "f894073724de78da3eb879e82eee4c5f9872f38881f6a494330631e5780b0f5c",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-black-joggers-v1",
+        "layer": 30,
+        "canvas": { "width": 239, "height": 502 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.4980392156862745, "y": 0.1579632543588486 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_blue_straight_jeans_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_blue_straight_jeans_v1.png",
+      "hash": "a1e186ddcb3254983e19fbe789973e63e316323c7636fe161226f99ed6a23352",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-blue-straight-jeans-v1",
+        "layer": 30,
+        "canvas": { "width": 226, "height": 496 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.49798792756539234, "y": 0.1586748198038521 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_brown_corduroy_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_brown_corduroy_trousers_v1.png",
+      "hash": "8ef293e9047d49f81e4433aa9a18c19ba1fd3e74e98b11169f645fc9d385cc0e",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-brown-corduroy-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 226, "height": 477 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.499009900990099, "y": 0.16441541686824718 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_charcoal_dress_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_charcoal_dress_trousers_v1.png",
+      "hash": "b71674512eb86ad1c684b3c9d44b8a6b020a21629ecc4693e024a0e659a6a2bc",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-charcoal-dress-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 225, "height": 492 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.500998003992016, "y": 0.15955674351264068 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_dark_blue_slim_jeans_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_dark_blue_slim_jeans_v1.png",
+      "hash": "849c41da1eae76f26d8e834bf27e7aa282d387070dd9fd855500995bdac8b5d0",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-dark-blue-slim-jeans-v1",
+        "layer": 30,
+        "canvas": { "width": 231, "height": 500 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.49800399201596807, "y": 0.15791322283609588 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_khaki_chinos_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_khaki_chinos_v1.png",
+      "hash": "945ef32d58d5a37532e7d6bccaeea795828ed5e69e16a8f4be385afc0953bcdb",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-khaki-chinos-v1",
+        "layer": 30,
+        "canvas": { "width": 226, "height": 493 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.498, "y": 0.15937756217418994 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_khaki_shorts_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_khaki_shorts_v1.png",
+      "hash": "829d69af5cf47293498c7bd212549f9527c02f320e790def9d8dddf0c8eb216b",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-khaki-shorts-v1",
+        "layer": 30,
+        "canvas": { "width": 244, "height": 298 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.49722735674676527, "y": 0.2635442729982361 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_light_blue_dress_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_light_blue_dress_trousers_v1.png",
+      "hash": "334bda65ffdc0627a8eb32ba24d24f6aae46b7436781a57cb2eee84152c8ad4a",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-light-blue-dress-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 230, "height": 500 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.499, "y": 0.15780921946740137 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_light_gray_dress_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_light_gray_dress_trousers_v1.png",
+      "hash": "2088d102cd10e7ce85410a844b4563c698d0ae4f7b1ec3b159818850d7d3e48e",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-light-gray-dress-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 228, "height": 490 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.499001996007984, "y": 0.16075177978168018 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_navy_work_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_navy_work_trousers_v1.png",
+      "hash": "0783d303ad9b6662c6610391a26b4ec92dd6cfe17f3c4f0f03a913cd29492856",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-navy-work-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 245, "height": 485 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.48330241187384043, "y": 0.16230178069353332 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_olive_cargo_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_olive_cargo_trousers_v1.png",
+      "hash": "9baee2e7587e7db7f9d7b87aa8f81fb6b3445309dad98665ecb68659fe633e44",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-olive-cargo-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 246, "height": 493 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.4981481481481482, "y": 0.15972392816138783 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_male_bottom_tan_cargo_trousers_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_male_bottom_tan_cargo_trousers_v1.png",
+      "hash": "a0284d262593bc6322a776907a1d08851ba4761761e8184751bfa11755452c56",
+      "candidate_component": {
+        "kind": "bottom",
+        "family": "pv4-wave-a-male-bottom-tan-cargo-trousers-v1",
+        "layer": 30,
+        "canvas": { "width": 240, "height": 484 },
+        "attaches_to": "hips",
+        "origin": { "x": 0.4990583804143126, "y": 0.16241421086340876 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "286794806cc6ea01c1ce54f1bd227f1f6262dce7b1f5f84f4c75b6f2074f3eb6",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7d46903d923e0dde4ca468680f49b62428f52b28e706c32fa0309cecc8fd0c65",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "11ee5e54dcf17011e903a3d5a99b1c304fb7deafb62d7d0f11a3af1c945ff143",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "066f272e3db7f709e8926eafdf0b17302425754a142df8c15fdb640f5dcf1d98",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "c5c654b1d1b0bd266d9acc06e558f85c23bc00a5f1b2e5bb70b8c33bb3b3f23a",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "17cce4901d894c64a1b81b5c0c74e676d186a845485a537b0171c21edc77234c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "73493bd716cfea60f9cebde070f22ff91eeae125490ecf634667af89c8459f7c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "cf8c02cf4a0762037896424e244c727bea589ad044892446b8245cdd683fc75f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_athletic_sneaker_blue_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "a388f8551b816a9866c5f658a3b9190477d69a60a9ea861dc73360363f7ce45f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "ccebc394dda37f664391cd9f0db519305dd8deba3b9aeb9a1148539ae5fc7843",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "8c3a70828d0211c7baa72e559b8c43b27cbbc66995735e5d2c1e6855b02281e9",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "1486fb361b8a7239ee656850a298a02ebd232aa946c389c0a192b60e35ac4cf3",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "a9d9d677f324f43c3bb90ee063a5b010c4a26fd9126dfacc101613e615c38117",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "30f98574a9866cf36f59c06cf2ed900f7204f4f3c382d97e23628369c3c7118a",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "ba5080238b5c86d9fa9fbf8bcf0863d56ac02cc20f9fe341b1ab5b870f83319e",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "d6a60412a6f41ffafbf6c4d45189cbe303d7c8e73c4e219fc129530190205fc1",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2ef3e9ba97d02c1949bac27da01b1ddd5e1036ebee098f924161c92f68fa8d63",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_canvas_sneaker_navy_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "04f70069ad5031bf78371d8e098abc11dc5af71dfacf36ff1ed5da03bf1e685c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "9022544d465c999259a9ed6bb41ce256bdcbb2d96694ce860402758dc14dd97e",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "653f2749e2b8cc6bfb596fa291a9a1c8ada465727ec62b855362561544122d16",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "ff3d7bd869ab1ce043172554a62cf4205eebd02b3630a55273c8a4869cf78250",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "68ba3448bd2a659dcddb8eb074f90727b330cfba365420c1f4b5e874c2ddb570",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "b4cab653002ee5c4adb8785326fd2c3c8e9869a9b46a44a1f93a6aad06af78bb",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "907e5fc399002ffa59abc907205dc67bf6e46c57fce0e361508229c7ff0c4683",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "c4bf5d6cb66c830a02ea90a57e5bcc1794233f5d74360711f20f2bb44e12d75e",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "880be1d93804a31d2f6ab6b862236fe843bff5b7d31d438a0353e1175a80e303",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_chukka_taupe_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "5a901d740c313619497280fc79f694cda150105133a864a83f82c2ce7c72671d",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "095cbc1bbd82c82f2cceb59375f3a2bf96e45c7be61bc1ada7c757c68eaffb5c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "323a52bdb89e3b334c008715d6b5766339f339fc17bf4869f3291783300f9a51",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "2e391ed887e463bda40833b76d19cffb1329c44cd775095d71e0a8025ab8d212",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "6851a9fa9c88119e0ede5e4826774fc8cc5ef7c2ae7988ec1b82f44583ff6f27",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "75f36a8ee68ccaf12c5742f796734a2c320ec84a530b9f8756a6a14aba716b13",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "1ddd3f3a9d3c97b4045a7d85ac9e97f54a165cb5cbfc30b8b97928c49c32e6e1",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "e75720beaaed0963a840726c5232daaf068e3ccec5f005dc0f39b03078378b94",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "90517ee89cc78b1b03d1faee30efaa109aa3cb86fbfc5ad30cc79003aed0d8ac",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_combat_boot_olive_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "f46fe706854b97476b7876768449d4ffb8e6da9817b6b0222d0b48d1a7e5230e",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "60585744b559645540eb068c6a43f66bd2551c6421d38f1ecf443fb223e3eea3",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "24db7c7dc17484e4b12e1f8f735738b7e1760dee8799383c9227c101f29fae5d",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "24db7c7dc17484e4b12e1f8f735738b7e1760dee8799383c9227c101f29fae5d",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "4ac60bf7cc8eec1e9ec8a430aad981848425c9dcf614a203d4643b7b8efb1c98",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "69c8322114976c22f4bee0f91daba1658f0da299af39671baafd8f07df7d28f9",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "ec531a8061017b078c64358dca978d9961ac1dd816444fe112b4fdafd6fa2748",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "17c5e8123000c3b6b2ffcdbf6ceb54e51a2208b79124c100d7d8d2a91f84271f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "6ad0b55c7c234a155fdb3a2c1f7e434091f145cbb8d7abf3f5aecb2037729472",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_flat_green_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "dda475a1768c75356707ba474c89eddae0f408c41a5ab4c3996b3661d46b06f0",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "120e162877202b01faef5ea0019edd03ee22b725e4e18b4e726150503fa7b05c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "3b63314180bb7ce0b9d6de9368eb92ede7fb75d66356cc6d0d630c29ea6a7905",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "ef06700d33db8dbc5df772a97606bf53959cd9b13213117298053996d34adfe9",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "1f05639be5a39ce5bdc783b94860a7d63514a954622ff83458fb49147d23fdb3",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7de6ca91ccfb36fe1da8448841a03a3a442780ff1f0bdee4ad2897e36d7b8c48",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "63dc44a12d60b8d85b711bb0428a455b86cd0e72a2226afa01997390a5e39889",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "22ed1df64871a624446454622b7e8c915f163cc7124bd7b661a1c96243deb1db",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "9e2e4d2a0d1dcc6e15f21ff7d26f7548cd52b16150fce3c5c31b34fa4884a73a",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_loafer_brown_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "0748dfda5548b40744c886c635a5565bdccf756530e4cc7109afcf37b383f070",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "d6ff5ea8ac1912bf82d8f5331d28e713508fd5acd870e856ea301aabf371228b",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-average-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "f51d2eb820628b4a8fa8847831cecf04da6e8d1bcbfb28e76748cee5b440680e",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "17390c0229c0686b2fb901ca646146f8cb18987e394825926348913652fdefe4",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-average-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7068f5d4d3550c3002dcce887b9a511fd6ed6f4f73db2c9b183f7bbce383bbc2",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-fat-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7bf476a22a8efa869b13318d7cca10dfded6a1731a2ece55b5eab1bc72d79ed7",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-older-woman-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "2802389379d5dfaa4c95985984c9f15f27895031e971766d69f9ec3271f4dc6f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "b087abbc6324e19f4a5788c25f9c9fa41fd9d6798465b1b94bb21effbc58ec5c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-skinny-man-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "8edbf2e195110c7fa6133be7fc0836ecade52a97cc06a398a30d0e24f3d434d4",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_low_top_sneaker_gray_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "67972d6bdc38cb66982cef94dd9e5cc9be7332c5c6dff6f1f23f1869c6131a80",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [
+          "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4"
+        ],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "c26908b4b5d926e223af8860054f1ecb198b0536198df46ecfd1a168747ac235",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "431ceabbbbaab7e90ba18a6e3db615051c65d2f8dadd1dfba7d80be3aedaaef3",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "d1359c418a2afdcf35a24be50fb73b157b9b0f7bbc7a7b6267071b51a146c2f4",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "915bb1f58b009117f0a68795a262910a1d30162784f085ad2968e531700070b1",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "3d39486abcf02fd989ef9974f3dac332ca0fdb60a62c60cd99accf5613b6c7c7",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "a884e1dcc40d918f063ea3aca2b81b4f250775d3f0f61de06ed8e53f21e7d9b5",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "eddd30a2cedf10e09c74d82cbfe5cdd39c471bf404e624e6db5868740f89ee5c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2516bff6fe38062771c92c8deae5880a9822821ecafb2b94b0071f146df2c184",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_oxford_black_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "fb6d066e6d1511350e21a62c323dbcae65863d2ad35db8a6ea4cfc02383e519f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "67890b02f01ae623d6ef3dd51df0a06dd70e6a6fc1a26a3bec378b49aa0d09a8",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7c26bba65491cf71c4ae5b7b5796970180a02c202a18914b4e73330323587202",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "1924c05e9da7dc019abe9809da36fef09d4bc5c30d61b4a28324e41bf5e5a814",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "22cd154e99f9ff922458942b3405ded5dde8306a10d644f4692f5acbe0b9a08c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "4fc08e0e755e1bd9f6beabdc0d78508e06fc4742d92bf42fb553eb42903e8d94",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "5c0d78c152b98718ed1c9aadf3a8309faa0a70472fe8fd159becbdbd91f82f9a",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "bb1de53f74d095e385677f0ef87f05acf546152aec71e91b44e8333e10165dde",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "8be0a348d6f69a2c7f10f322f403196fce8954ff88f6f707a8a67410d926ce4a",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_burgundy_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "765eecf89cac4fdd7a9cebd01bce943251923616bdd2fdbc7fc45b9747cbf251",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2373f810266c99b430e5b6e00728a91583ca2801d9cba00f54fc52a907b0111c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "f5e822126a4f44313bdbbab77c684bd6baf51581b04e8848a7caf24c6fdc78ee",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "e7d1df31f2775e5281be68b2011003181f5d2e4e2d431b5cd83bd1b6734c17f7",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "cf0ce53d390fa46893d3b129cd885077bd971dcb5ce96d313cd2cc7ce0af02cc",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "53afece7cf56814c11a7ffc888ec659affe1f3e7574c375947b088e7918698be",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "a4872f2a24006c77f88c8a413cd7acea734dd2597231371b6ad4be3dd4c53adf",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "aae0464df35c109ac8a57b0496589039c7723004593599cc1b3e7ad6bafd7a6c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "d657c2cd69b2ea6a37630a177ad9b15e177858dc38dddf795bb2e12949b2b308",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_pump_gray_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "1c8b62c4162f47fdab0dc5dc3a5f6879342c8a74b61e3c7202529854359960dc",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "b5654dba6d898a03891952444cbc7a130eb9e49cda83b6e156a7928cc8ee756c",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "f7e713283514f4d3794e2a5e9c08618acca1d72dbf5f64599b1ce5a3f6b4cbcd",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "0bc76f3caa4b0de67ca7d5772c8702b4f15249e71f8c5cd70b44c02da46b96e9",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "18a05be5053f3b389a8ae5ae2759e53ddc8a694059283b9fcfb494193703928b",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "33db62dc0ed83e43b9e7f065bdec2411523e87ff78c8445c92214220f587d49f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "1962e4925ddba8c211fea2f58dc8805309b77041089b454c5300fb26b07f4891",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "8c301c8dc04d5374e8f9ca6d54709e9a28396b947b74d81535d9ea967d2674fc",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2cd6e7768886dbd2f931fbf37c481bfcf3f32923d611365d90002c5755817034",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_sandal_brown_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "91dcc655967cf643f5727a1a314d0f610734482f66ba17ba8fb3dbed62237620",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "aa3aec8e546b2b36797346915c502b771074322adb7b964d41ada58160c2eaab",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "fcca65b2fdff0c23540c17da456322df81d7597d8c8942f83b084674ee3ed8eb",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_average_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "0fd1d9839b88c159a8c7621e6b962e64e1e43ed1856cd6e1bc84ed4ec033e048",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_fat_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "2a37398ef1e92cae7234fee5caeab5df28b29e6ed753d3f4ff994d4f4a62ec04",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_older_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "a3c9057e43e9fee8bb72322466ec060b2fcb8be9c011a377a6adb3b9c5e3e625",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_older_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "0d5b6694bd7464f180b0518b692a16fdcdd7c93a053c28f8f37a34a57aaac2ec",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_man_standing_neutral_front_a_v1_pv4.png",
+      "hash": "7c11ba38d694ded2c0258637406a2249a1f91ca27218de26350477d293392d70",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_woman_standing_neutral_front_a_v1_pv4.png",
+      "hash": "d12591cd42136fcba19685a79fd2c732fc968f9b5e1e2729aefd94a81e0a8c9f",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.498046875, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    },
+    {
+      "asset_id": "pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "draft",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/people-visual4/pv4_wave_a_footwear_work_boot_tan_v1_wave_a_skinny_woman_standing_neutral_front_b_v1_pv4.png",
+      "hash": "9c7972bd22abd914908c10a38b9e935736f0236c4e6cbb383435bbb0272e5905",
+      "candidate_component": {
+        "kind": "footwear",
+        "family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+        "layer": 45,
+        "canvas": { "width": 512, "height": 960 },
+        "attaches_to": "feet",
+        "origin": { "x": 0.5, "y": 0.998 },
+        "compatible_body_families": [],
+        "compatible_pose_families": ["standing-neutral"]
+      }
+    }
+  ]
+}

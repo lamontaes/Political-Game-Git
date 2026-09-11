@@ -271,7 +271,12 @@ describe("the legislative rule-pack matrix", () => {
           (source.citation === "Ky. Const. Sec. 88" &&
             source.verification === "verified");
         expect(source.retrievedAt).toBe(
-          laterOperativeRead ? "2026-09-06" : "2026-09-02",
+          source.citation === "Ky. Const. Sec. 42" &&
+            source.verification === "verified"
+            ? "2026-09-09" // P12 operative outer-session boundary read.
+            : laterOperativeRead
+              ? "2026-09-06"
+              : "2026-09-02",
         );
       }
     }
