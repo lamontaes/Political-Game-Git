@@ -7,12 +7,12 @@ needs a person's judgement is the honest state of the check.
 
 | Verdict | Count |
 | --- | --- |
-| INVENTORIED | 2302 |
+| INVENTORIED | 2317 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5638 |
-| DIAGNOSTIC_OR_TEST | 4614 |
-| **NEEDS_CLASSIFICATION** | **6062** |
+| DIAGNOSTIC_OR_TEST | 4632 |
+| **NEEDS_CLASSIFICATION** | **6078** |
 
-Scanned 546 files holding 70163 string
+Scanned 548 files holding 70398 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -38,7 +38,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 104 | `src/player/PlayerGame.tsx` |
+| 101 | `src/player/PlayerGame.tsx` |
 | 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -114,6 +114,7 @@ literals in total; the table counts only those that read like a sentence.
 | 19 | `src/simulation/world.ts` |
 | 18 | `src/content/adapters/setup-questionnaire.ts` |
 | 18 | `src/player/CalendarWorkspace.tsx` |
+| 18 | `src/player/municipal-directory.ts` |
 | 18 | `src/simulation/records.ts` |
 | 17 | `src/content/adapters/conversation-subjects.ts` |
 | 17 | `src/player/ConversationStrip.tsx` |
@@ -277,6 +278,7 @@ literals in total; the table counts only those that read like a sentence.
 | 2 | `src/ui/LifePaths2Proof.tsx` |
 | 2 | `src/ui/PeopleList.tsx` |
 | 1 | `src/player/LifeStartTransition.tsx` |
+| 1 | `src/player/MunicipalWorkspace.tsx` |
 | 1 | `src/player/PersonPortrait.tsx` |
 | 1 | `src/player/PlayerConversation.tsx` |
 | 1 | `src/player/PrivateJournalEditor.tsx` |

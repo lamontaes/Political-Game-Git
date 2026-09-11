@@ -2424,6 +2424,14 @@ function renderWorkspace({
       onTogglePinGovernment={(key) =>
         togglePin({ kind: "government", id: key })
       }
+      /*
+       * An officeholder named here opens the same record they open anywhere
+       * else. `openEntity` is the shell's one route to a person — it pushes
+       * onto the shared history, so Back comes back HERE rather than to
+       * wherever the player last was, and the record is the canonical dossier
+       * rather than a second one built for this surface.
+       */
+      onOpenPerson={(personId) => openEntity({ kind: "person", id: personId })}
       world={session.world}
       onWorldChange={onWorldChange}
       transitionHandlers={createCampaignElectionTransitionRegistry()}
