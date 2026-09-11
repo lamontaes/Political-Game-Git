@@ -546,12 +546,12 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
 
   it("reports counts that match a live measurement, not a stale run", () => {
     // Neither side's pin is selected; the combined tree (current accepted
-    // main, including PEOPLE-VISUAL4, plus EDU-PATH7) is scanned and these
-    // values are updated from that measurement.
+    // main plus CIVIL-AUTHORITY13) is scanned and these values are updated
+    // from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(65762);
+    expect(coverage.totalLiterals).toBe(66744);
     expect(coverage.counts.INVENTORIED).toBe(2107);
-    expect(coverage.scannedFiles).toBe(475);
+    expect(coverage.scannedFiles).toBe(478);
   });
 });
 
