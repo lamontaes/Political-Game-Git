@@ -548,7 +548,7 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     // DISTRICTS13 added player-facing district copy; values are from the live
     // scan at this head, not a remembered EDU count.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(66110);
+    expect(coverage.totalLiterals).toBe(66111);
     expect(coverage.counts.INVENTORIED).toBe(2107);
     expect(coverage.scannedFiles).toBe(486);
   });
