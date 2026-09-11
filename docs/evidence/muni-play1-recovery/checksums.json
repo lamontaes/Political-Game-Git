@@ -1,0 +1,17 @@
+{
+  "art-inventory.txt": "c664422905761bc0b067d5f275555180cb6bef27e292ddd69e452731e79a240a",
+  "art-qa.txt": "c9651fb19fe5c9f2f3584a0474ee1b198bcffcb7e7f6930f1b90976ac6f6d71f",
+  "art-validation.txt": "34c81ae3e18ae3aa1902fdad29240ed3b94379accf5ba83f98564b751c178a3d",
+  "browser-final.txt": "8d86dce86e85009d447955c6eaea1d8274121c5cf3878f4dc7067cb8e3a90bdc",
+  "build.txt": "6b2614012a3793ca0a5cce93c6468c7dff87b5cbd009dd5a46cac01af112d24d",
+  "citizen-3209700.png": "274abb6623dceb680449f627ebf92fdca21a7f46e8386de82f02efca06a3bae2",
+  "citizen-5114968.png": "20ea65c396fe769e4cceac1543d0cd4e16f76caf0ec3c5c54d78cc5af0a0526c",
+  "demo.txt": "8c8554dbfb388ba8b38dc808387acf6305bbcfeb6fb63903e03742912f854c7e",
+  "focused-after-repair.txt": "0fcdcaf611f8df2e953e86b69ba36d770d67a2cb3296c8765714db54033053bc",
+  "format.txt": "a1e42754a9297f2279607d3638966865a531761374d8cdf443e22ae1af85904b",
+  "full-suite.txt": "d01e07ea832db46c0b86135206847536e809232269fbc0b2d7265e740dc46cdc",
+  "lint.txt": "4b20635aaa5f3cafad97e76ca9a19c5644c4c1441d14999845f8be60054581e2",
+  "projection-replay.txt": "4d919f637372c38902284217f6e96868345e0b43043390d14183728d7f39c444",
+  "source-replay.txt": "182cdde87df3c41c8752adeeb8825fb19e5d684fcd0e99fa6ea5d0208fc48fff",
+  "source-validation.txt": "f5d7f33934b97d05922f77cbeadea77e1eb21ffc078e1fc57e275938863ff4f2"
+}

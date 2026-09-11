@@ -65,6 +65,8 @@ The global history store uses one contiguous append sequence across:
 - exact jurisdiction/segment metric-state truth and explicit correction history;
 - separate source-series observation vintages with compatible uncertainty and explicit revisions; and
 - stable future due items with append-oriented scheduled/resolved/cancelled/blocked state and optional ordinary outcome-event links.
+- explicit public-information publications with canonical source events,
+  event/publication dates, accessible copy, and append-only correction links;
 - exact scheduled activity roots/states with interval, flexibility, travel, supersession, and ordinary completion-event links;
 - exact office work roots/states with assignees, player requirements, dependencies, authored effort, focus/provenance, supersession, and ordinary outcome-event links; and
 - stable causal processes with canonical sources/parents plus typed effect activations targeting metric/scope history.
@@ -112,3 +114,27 @@ refer back to the correct root/state transition, and precede no source they
 claim to use. See [Canonical Sub-Day Time, Scheduled Activity, and Office Work](time-work.md).
 
 Snapshot format 14 preserves the complete graph, current moment, scheduled activities, office work, catalogs, control state, Stage 5 life records, Stage 6 truth/observation/causal/policy/incident/vitality/evidence records, and future-due history in world schema 15. The Node-only persistence adapter validates record order, moment/date consistency, discriminators, exact quantities/units/money, chronology, provenance, lifecycle/supersession and correction/forecast-revision chains, schedule conflicts, work/activity references and outcomes, causal ancestry/effect timing, historical cutoffs, typed source availability, exact resource/housing integrity, due references/outcome events, stored load derivation, source snapshots, and references before saving or after loading. Automatic knowledge propagation and correction, autonomous character development, behavioral classification, branching, returning-player briefings, and player-facing archive filtering remain future work.
+
+NEWS-HELP2 adds the first bounded player-facing public archive without changing
+event truth or person knowledge. `PublicationRecord` is an optional compatible
+history family, so older snapshots project an empty digest while new
+publications and corrections round-trip with the rest of World. See
+[Canonical Public Information](public-information.md).
+
+NEWS-PRESS4 deliberately adds no history family. Its interview loop composes
+existing conversation claims, ordinary events, scheduled activities, staff
+work items, claims, publications and corrections. Negotiated channel/terms,
+selected intent, play mode and exact confirmed wording are stored on those
+canonical records. A draft is private; confirmation creates the source claim;
+completion uses the canonical clock; publication remains a separate explicit
+transition. Save/reload therefore preserves the full loop through the existing
+World snapshot and integrity paths.
+
+NEWS-PRODUCERS6 likewise adds no store. A normal request is an ordinary limited
+event, exact source claim, knowledge for the two participants and a relationship
+interaction. Reporter consent and adviser willingness are separate events and
+claims tied to that request. The arrangement writer accepts only affirmative
+records from the actual reporter and a current colleague. Preparation cites the
+assigned adviser's existing knowledge IDs; feedback cites new media knowledge
+of the actual saved publication. These records use the existing global sequence,
+stable IDs and save/reload validation, so screen projection remains read-only.

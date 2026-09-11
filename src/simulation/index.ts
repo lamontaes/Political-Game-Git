@@ -5,6 +5,10 @@ export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./campaign-queries";
+export * from "./campaign-compliance";
+export * from "./campaign-compliance-rules";
+export * from "./candidate-qualification";
+export * from "./office-qualification-rules";
 /**
  * Campaign operations are named one by one on purpose.
  *
@@ -94,6 +98,9 @@ export * from "./production-catalog";
 export * from "./policy-decision";
 export * from "./policy-semantics";
 export * from "./politics";
+export * from "./press-interviews";
+export * from "./press-interview-producers";
+export * from "./public-information";
 export * from "./political-belief-formation";
 export * from "./quantity";
 export * from "./queries";

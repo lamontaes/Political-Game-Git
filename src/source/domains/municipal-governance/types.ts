@@ -280,9 +280,13 @@ export interface LegislativeProcedure {
   readonly committeeReferral: Sourced<boolean>;
   readonly publicHearing: Sourced<string>;
   readonly quorum: Sourced<string>;
+  /** The same quorum, as arithmetic a consumer can apply. */
+  readonly quorumRule: Sourced<VoteThreshold>;
   readonly passageThreshold: Sourced<string>;
   readonly amendment: Sourced<string>;
   readonly mayoralAction: Sourced<string>;
+  /** How long the mayor has, and what silence does. */
+  readonly mayoralActionWindow: Sourced<MayoralActionWindow>;
   readonly override: Sourced<string>;
   readonly effectivePublication: Sourced<string>;
 }
@@ -307,6 +311,95 @@ export interface BudgetProcedure {
   readonly submissionDeadline: Sourced<BudgetDeadlineRule>;
   readonly adoptionDeadline: Sourced<BudgetDeadlineRule>;
   readonly balancedBudgetConstraint: Sourced<string>;
+}
+
+/**
+ * Exact vote arithmetic for a rule the prose fields state in words.
+ *
+ * `quorum` and `passageThreshold` below are the authority's own sentence, which
+ * is what a reader wants to see. A consumer that has to decide whether eight
+ * members present is a quorum cannot read a sentence, and parsing one at
+ * runtime would invent arithmetic nobody sourced. So the structured rule sits
+ * beside the prose, sourced separately, and stays UNKNOWN wherever only the
+ * words were established.
+ */
+export type MayoralInactionOutcome =
+  "BECOMES_LAW_WITHOUT_SIGNATURE" | "POCKET_VETO" | "RETURNED_TO_BODY";
+
+export interface MayoralActionWindow {
+  readonly daysToAct: number;
+  readonly dayBasis: "CALENDAR" | "BUSINESS";
+  readonly inactionOutcome: MayoralInactionOutcome;
+}
+
+/** What kind of sitting a recurring meeting series is. */
+export type MeetingSeriesKind =
+  | "REGULAR_MEETING"
+  | "SPECIAL_MEETING"
+  | "WORK_SESSION"
+  | "CAUCUS"
+  | "COMMITTEE"
+  | "PUBLIC_HEARING"
+  | "ANNUAL_TOWN_MEETING"
+  | "DELIBERATIVE_SESSION";
+
+export type MonthlyOrdinal = "FIRST" | "SECOND" | "THIRD" | "FOURTH" | "LAST";
+
+export type MeetingWeekday =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+
+/**
+ * When a series sits, in the publisher's own terms.
+ *
+ * `OTHER` exists because plenty of published cadences ("twice monthly", "as
+ * called") do not fit a weekday rule, and rounding one of those into a
+ * first-and-third-Tuesday would put a meeting on a day nobody scheduled.
+ */
+export interface MeetingCadenceRule {
+  readonly kind: "MONTHLY_ORDINAL_WEEKDAY" | "WEEKLY" | "ANNUAL" | "OTHER";
+  readonly ordinals: readonly MonthlyOrdinal[];
+  readonly weekday: MeetingWeekday | null;
+  /** Local start time as published, `HH:MM`, or null where none was stated. */
+  readonly startTime: string | null;
+  readonly note: string;
+}
+
+/**
+ * Whether the public may be in the room, and whether it may speak.
+ *
+ * The two are separate facts and a source often settles only the first: a
+ * charter that says the body's meetings are open has said nothing about a right
+ * to address it. `"UNKNOWN"` is therefore a value of the field rather than a
+ * missing field, so an open meeting whose comment rule nobody read cannot read
+ * as a meeting that refuses comment.
+ */
+export interface PublicAttendanceRule {
+  readonly openToPublic: boolean;
+  readonly publicCommentOffered: boolean | "UNKNOWN";
+  readonly note: string;
+}
+
+/**
+ * One recurring sitting of one legal body.
+ *
+ * The research is emphatic that a caucus, a work session and a formal meeting
+ * are different procedural states even when the same people use the same room,
+ * so each is its own series rather than a flag on one meeting.
+ */
+export interface MeetingSeries {
+  /** Stable within the record; the consumer's handle on this series. */
+  readonly seriesKey: string;
+  readonly kind: MeetingSeriesKind;
+  readonly bodyName: Sourced<string>;
+  readonly cadence: Sourced<MeetingCadenceRule>;
+  readonly venue: Sourced<string>;
+  readonly publicAttendance: Sourced<PublicAttendanceRule>;
 }
 
 export interface Consolidation {
@@ -378,6 +471,10 @@ export interface MunicipalGovernanceRecord {
   readonly budgetProcedure: BudgetProcedure;
   readonly consolidation: Consolidation;
   readonly meetingPlaces: readonly MeetingPlace[];
+  /** Recurring sittings, each its own procedural state. */
+  readonly meetingSeries: readonly MeetingSeries[];
+  /** KNOWN means the research report contains this text, not that it establishes current law. */
+  readonly researchObservations: readonly Sourced<string>[];
   readonly provenance: RecordProvenance;
 }
 

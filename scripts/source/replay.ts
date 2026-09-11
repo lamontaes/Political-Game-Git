@@ -2,9 +2,10 @@
  * `npm run source:replay` — compile into a temporary tree and diff.
  *
  * This is the check that makes determinism real rather than asserted. It
- * regenerates every corpus into a scratch directory and compares byte-for-byte
- * against what is tracked, so a wall clock, an unstable sort or a formatter
- * disagreement fails the build naming the file.
+ * regenerates every corpus and registered derived projection into scratch
+ * directories and compares byte-for-byte against what is tracked, so a wall
+ * clock, an unstable sort or a formatter disagreement fails the build naming
+ * the file.
  *
  * It deliberately does not consult git: the comparison is generated-tree
  * against working-tree, which is available at any checkout depth. 32A §9.3
@@ -17,6 +18,7 @@ import { resolve } from "node:path";
 import { toCanonicalJson, writeText } from "../../src/source/core/index";
 import { REPO_ROOT, domainDataDir, loadDomains } from "./registry";
 import { compileDomainInto } from "./compile";
+import { exportEconomicContext } from "./export-economic-context";
 import { buildManifest } from "./manifest";
 
 export interface ReplayDifference {
@@ -74,10 +76,47 @@ export async function replay(): Promise<readonly ReplayDifference[]> {
         });
       }
     }
+
+    differences.push(...replayEconomicContextArtifact());
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }
   return differences;
+}
+
+const ECONOMIC_CONTEXT_ARTIFACT =
+  "src/presentation/generated/economic-context-lexington.json";
+
+/** Regenerate the compact Lexington projection through its accepted producer. */
+export function replayEconomicContextArtifact(
+  trackedPath: string = resolve(REPO_ROOT, ECONOMIC_CONTEXT_ARTIFACT),
+): readonly ReplayDifference[] {
+  const scratch = mkdtempSync(resolve(tmpdir(), "economic-context-replay-"));
+  try {
+    const generatedPath = resolve(scratch, "economic-context-lexington.json");
+    exportEconomicContext(generatedPath);
+    if (!existsSync(trackedPath)) {
+      return [
+        {
+          path: ECONOMIC_CONTEXT_ARTIFACT,
+          reason: "is not tracked but was generated",
+        },
+      ];
+    }
+
+    const trackedText = readFileSync(trackedPath, "utf-8");
+    const generatedText = readFileSync(generatedPath, "utf-8");
+    return trackedText === generatedText
+      ? []
+      : [
+          {
+            path: ECONOMIC_CONTEXT_ARTIFACT,
+            reason: describeDifference(trackedText, generatedText),
+          },
+        ];
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
 }
 
 function describeDifference(tracked: string, generated: string): string {

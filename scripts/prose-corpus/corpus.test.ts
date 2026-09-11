@@ -424,7 +424,10 @@ describe("transcripts", () => {
       "campaign-sessions",
       "election-won",
       "election-lost",
-      "legislative-measure-briefing",
+      // P12: this inherited campaign fixture reaches its first introduction
+      // after the sourced session deadline. Preserve its actual refusal;
+      // valid-window briefing behavior remains covered by the LEG route tests.
+      "legislative-session-unavailable",
     ]) {
       expect(seen).toContain(claim);
     }
@@ -542,17 +545,13 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
   });
 
   it("reports counts that match a live measurement, not a stale run", () => {
-    // The PR body first reported 48,382 literals and 1,904 INVENTORIED. Both
-    // were carried over from a measurement taken before the template-span fix
-    // in scan.ts, and the independent audit's 48,066 / 1,902 were correct.
-    // This pins the reported numbers to what the scanner actually returns.
-    // Re-measured by corpus:prose on the actual LAND-READY6 combined tree.
-    // Neither side's pin is selected; the combined tree is scanned and these
+    // Neither side's pin is selected; the combined tree (current accepted
+    // main, including PEOPLE-VISUAL4, plus EDU-PATH7) is scanned and these
     // values are updated from that measurement.
     const coverage = buildCoverageReport(inventory);
-    expect(coverage.totalLiterals).toBe(55235);
-    expect(coverage.counts.INVENTORIED).toBe(1927);
-    expect(coverage.scannedFiles).toBe(375);
+    expect(coverage.totalLiterals).toBe(65409);
+    expect(coverage.counts.INVENTORIED).toBe(2107);
+    expect(coverage.scannedFiles).toBe(465);
   });
 });
 

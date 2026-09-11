@@ -21,12 +21,21 @@ import {
   lifePlaceByJurisdictionId,
   lifePlaces,
   makeCurrencyCode,
+  makeIsoDate,
   performCampaignAction,
   requireElectionContest,
   scheduleCampaignAction,
   serializeWorld,
   simulationMomentAtLocalTime,
   addDays,
+  assessKentuckyCampaignContribution,
+  campaignCompliancePackFor,
+  campaignObligations,
+  committeeCampaignComplianceDocuments,
+  publicCampaignComplianceDocuments,
+  recordCampaignComplianceDocument,
+  assessContribution,
+  assessSecondCommittee,
 } from "./index";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -36,6 +45,7 @@ import {
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+import { projectCampaignCompliance } from "../presentation/campaign-compliance-projection";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
@@ -75,10 +85,16 @@ interface Filed {
   readonly candidatePersonId: EntityId;
 }
 
-function fileKentuckyCampaign(seed: string, staffCount = 1): Filed {
-  const scenario = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+function fileKentuckyCampaign(
+  seed: string,
+  staffCount = 1,
+  advanceDays = 0,
+): Filed {
+  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 6,
   });
+  const scenario =
+    advanceDays > 0 ? advanceWorld(created, advanceDays) : created;
   const candidatePersonId = firstAdult(scenario);
   // Campaign work is work somebody does, and the activity engine will not let
   // an unheld person do it. The fixture takes control the way a player does.
@@ -175,7 +191,8 @@ function supportSnapshot(
 describe("candidacy coverage is stated, never assumed", () => {
   it("offers offices only where an accepted rule pack establishes them", () => {
     const coverage = candidacyCoverage();
-    expect(coverage.qualificationsAreSourced).toBe(false);
+    expect(coverage.qualificationsAreSourced).toBe(true);
+    expect(coverage.sourcedOfficeCount).toBe(10);
     expect(coverage.packCount).toBeGreaterThan(0);
 
     for (const place of lifePlaces()) {
@@ -187,7 +204,7 @@ describe("candidacy coverage is stated, never assumed", () => {
     }
   });
 
-  it("keeps every candidate qualification unknown rather than inventing one", () => {
+  it("keeps unsupported Kentucky qualifications unknown rather than borrowing another state's", () => {
     const pack = candidacyPackById(KENTUCKY_PACK)!;
     for (const office of pack.offices) {
       expect(office.qualification.minimumAge.kind).toBe("unknown");
@@ -325,6 +342,336 @@ describe("filing", () => {
         treasuryCurrency: makeCurrencyCode("USD"),
       }),
     ).toThrow(/already running/i);
+  });
+
+  it("applies Nebraska's organization and treasurer rule to an actual campaign record", () => {
+    const early = fileKentuckyCampaign("nebraska-committee-early");
+    expect(
+      campaignObligations("US-NE", early.world.currentDate)[0]
+        ?.temporalApplicability,
+    ).toMatchObject({ state: "UNKNOWN" });
+
+    const filed = fileKentuckyCampaign("nebraska-committee-rule", 1, 247);
+    const nebraska = lifePlaces().find(
+      (place) =>
+        place.scope === "state" && place.stateJurisdictionKey === "US-NE",
+    )!;
+    const earlyNebraskaCampaign = {
+      ...early.campaign,
+      jurisdictionId: nebraska.context.jurisdiction.id,
+      officeKey: "us-ne-legislature-v1:legislature",
+    };
+    const earlyNebraskaWorld: World = {
+      ...early.world,
+      history: {
+        ...early.world.history,
+        campaigns: early.world.history.campaigns?.map((campaign) =>
+          campaign.id === early.campaign.id ? earlyNebraskaCampaign : campaign,
+        ),
+      },
+    };
+    expect(
+      assessContribution(earlyNebraskaWorld, {
+        campaignId: earlyNebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 1,
+        statementOfOrganizationFiled: true,
+        treasurerPersonId: earlyNebraskaCampaign.candidatePersonId,
+        treasurerQualifiedElector: true,
+      }),
+    ).toMatchObject({ decision: "unresolved" });
+    const nebraskaCampaign = {
+      ...filed.campaign,
+      jurisdictionId: nebraska.context.jurisdiction.id,
+      officeKey: "us-ne-legislature-v1:legislature",
+    };
+    const nebraskaWorld: World = {
+      ...filed.world,
+      history: {
+        ...filed.world.history,
+        campaigns: filed.world.history.campaigns?.map((campaign) =>
+          campaign.id === filed.campaign.id ? nebraskaCampaign : campaign,
+        ),
+      },
+    };
+
+    expect(
+      campaignObligations("US-MN", nebraskaWorld.currentDate),
+    ).toHaveLength(2);
+    expect(
+      campaignObligations("US-NE", nebraskaWorld.currentDate),
+    ).toHaveLength(1);
+    expect(
+      assessContribution(nebraskaWorld, {
+        campaignId: nebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 100_000,
+        statementOfOrganizationFiled: true,
+        treasurerPersonId: nebraskaCampaign.candidatePersonId,
+        treasurerQualifiedElector: true,
+      }),
+    ).toMatchObject({ decision: "allowed", citation: expect.any(String) });
+    expect(
+      assessContribution(nebraskaWorld, {
+        campaignId: nebraskaCampaign.id,
+        sourcePersonId: null,
+        incomingMinorUnits: 1,
+        statementOfOrganizationFiled: null,
+        treasurerPersonId: null,
+        treasurerQualifiedElector: null,
+      }),
+    ).toMatchObject({
+      decision: "refused",
+      obligation: "organized-committee-with-treasurer-required",
+    });
+
+    // Minnesota's separate committee rule does not attach to a Nebraska race.
+    expect(
+      assessSecondCommittee(nebraskaWorld, {
+        personId: nebraskaCampaign.candidatePersonId,
+        stateJurisdictionKey: "US-MN",
+        officeKey: nebraskaCampaign.officeKey,
+      }).decision,
+    ).toBe("allowed");
+  });
+  it("records Kentucky compliance drafts, filings, and corrections without calling a filing approval", () => {
+    const filed = fileKentuckyCampaign("compliance-documents", 1, 200);
+    const election = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    expect(filed.campaign.compliancePackId).toBe(
+      "us-ky-candidate-campaign-compliance-v1",
+    );
+    expect(
+      campaignCompliancePackFor(filed.world, filed.campaign.id)
+        ?.contributionLimitMinorUnits.state,
+    ).toBe("UNKNOWN");
+    expect(
+      campaignCompliancePackFor(filed.world, filed.campaign.id)
+        ?.statementOfIntentWithinDays,
+    ).toMatchObject({
+      state: "KNOWN",
+      source: {
+        sourceArtifactId: "ky-krs-121-180-2026-pdf",
+        sourceArtifactSha256:
+          "b0d28181e22b0fb7126305d873ddb078867150621b6df159fba3d878986ec9e0",
+        sourceExcerpt: expect.stringContaining("within five (5) days"),
+        sourceVersionEffectiveOn: "2026-07-15",
+        claimEffectiveOn: null,
+        supportCoverageFrom: "2026-07-15",
+      },
+    });
+    const clockBefore = {
+      currentDate: filed.world.currentDate,
+      currentMoment: filed.world.currentMoment,
+      actionSequence: filed.world.actionSequence,
+    };
+
+    const withDraft = recordCampaignComplianceDocument(filed.world, {
+      stableKey: "report:draft:post-election",
+      campaignId: filed.campaign.id,
+      kind: "periodic-report",
+      schedule: "30-day-postelection",
+      periodStart: filed.campaign.filedAt,
+      periodEnd: election.electionDate,
+      dueOn: addDays(election.electionDate, 30),
+      status: "draft",
+      transport: null,
+      amendsDocumentId: null,
+      correctionReason: null,
+    });
+    expect(
+      publicCampaignComplianceDocuments(withDraft, filed.campaign.id),
+    ).toEqual([]);
+    expect(
+      committeeCampaignComplianceDocuments(
+        withDraft,
+        filed.campaign.organizationId,
+      ),
+    ).toHaveLength(1);
+    expect(() =>
+      recordCampaignComplianceDocument(withDraft, {
+        stableKey: "report:filed:without-calendar",
+        campaignId: filed.campaign.id,
+        kind: "periodic-report",
+        schedule: "30-day-postelection",
+        periodStart: filed.campaign.filedAt,
+        periodEnd: election.electionDate,
+        dueOn: addDays(election.electionDate, 30),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/business-day calendar/i);
+
+    const withStatement = recordCampaignComplianceDocument(withDraft, {
+      stableKey: "statement:filed",
+      campaignId: filed.campaign.id,
+      kind: "statement-of-spending-intent",
+      schedule: "initial",
+      periodStart: null,
+      periodEnd: null,
+      dueOn: addDays(filed.campaign.filedAt, 5),
+      status: "filed",
+      transport: "KEFMS",
+      amendsDocumentId: null,
+      correctionReason: null,
+    });
+    const original = publicCampaignComplianceDocuments(
+      withStatement,
+      filed.campaign.id,
+    )[0]!;
+    expect(original.status).toBe("filed");
+    expect(original).not.toHaveProperty("approvedAt");
+
+    const corrected = recordCampaignComplianceDocument(withStatement, {
+      stableKey: "statement:correction",
+      campaignId: filed.campaign.id,
+      kind: "amendment",
+      schedule: "correction",
+      periodStart: null,
+      periodEnd: null,
+      dueOn: filed.world.currentDate,
+      status: "filed",
+      transport: "KEFMS",
+      amendsDocumentId: original.id,
+      correctionReason: "Correct the named campaign depository.",
+    });
+    expect(
+      publicCampaignComplianceDocuments(corrected, filed.campaign.id),
+    ).toHaveLength(2);
+    const outsiderId = election.candidatePersonIds.find(
+      (personId) => personId !== filed.candidatePersonId,
+    )!;
+    expect(
+      projectCampaignCompliance(
+        corrected,
+        filed.campaign.id,
+        filed.candidatePersonId,
+      ),
+    ).toMatchObject({
+      audience: "committee-private",
+      documents: { length: 3 },
+    });
+    expect(
+      projectCampaignCompliance(corrected, filed.campaign.id, outsiderId),
+    ).toMatchObject({ audience: "public", documents: { length: 2 } });
+    expect({
+      currentDate: corrected.currentDate,
+      currentMoment: corrected.currentMoment,
+      actionSequence: corrected.actionSequence,
+    }).toStrictEqual(clockBefore);
+    expect(deserializeWorld(serializeWorld(corrected))).toStrictEqual(
+      corrected,
+    );
+  });
+
+  it("refuses wrong filing transport and dates as zero-write operations", () => {
+    const filed = fileKentuckyCampaign("compliance-refusal");
+    const before = serializeWorld(filed.world);
+    expect(() =>
+      recordCampaignComplianceDocument(filed.world, {
+        stableKey: "bad-statement",
+        campaignId: filed.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(filed.campaign.filedAt, 6),
+        status: "filed",
+        transport: null,
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/UNKNOWN|KEFMS|five days/i);
+    expect(serializeWorld(filed.world)).toBe(before);
+
+    const supported = fileKentuckyCampaign(
+      "compliance-refusal-current",
+      1,
+      200,
+    );
+    expect(() =>
+      recordCampaignComplianceDocument(supported.world, {
+        stableKey: "bad-current-statement",
+        campaignId: supported.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(supported.campaign.filedAt, 6),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/within 5 days/i);
+    const lateWorld = advanceWorld(supported.world, 6);
+    const lateBefore = serializeWorld(lateWorld);
+    expect(() =>
+      recordCampaignComplianceDocument(lateWorld, {
+        stableKey: "late-current-statement",
+        campaignId: supported.campaign.id,
+        kind: "statement-of-spending-intent",
+        schedule: "initial",
+        periodStart: null,
+        periodEnd: null,
+        dueOn: addDays(supported.campaign.filedAt, 5),
+        status: "filed",
+        transport: "KEFMS",
+        amendsDocumentId: null,
+        correctionReason: null,
+      }),
+    ).toThrow(/after its recorded .* deadline/i);
+    expect(serializeWorld(lateWorld)).toBe(lateBefore);
+  });
+
+  it("keeps candidate money in the committee contribution path and refuses unsupported donors", () => {
+    const candidateMoney = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-15"),
+      contributorKind: "candidate",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: "Candidate Example",
+      contributorAddress: "Recorded address",
+      employer: "Self-employed",
+      occupation: "Candidate",
+    });
+    expect(candidateMoney).toMatchObject({
+      acceptableForRecording: true,
+      classification: "candidate-contribution",
+      requiresItemization: true,
+    });
+    const unsupported = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-15"),
+      contributorKind: "unknown",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: null,
+      contributorAddress: null,
+      employer: null,
+      occupation: null,
+    });
+    expect(unsupported.acceptableForRecording).toBe(false);
+    expect(unsupported.refusals.join(" ")).toMatch(/cannot infer|itemization/i);
+
+    const historicalUnknown = assessKentuckyCampaignContribution({
+      onDate: makeIsoDate("2026-07-14"),
+      contributorKind: "individual",
+      amountMinorUnits: 25_000,
+      currency: makeCurrencyCode("USD"),
+      contributorName: "Contributor Example",
+      contributorAddress: "Recorded address",
+      employer: "Recorded employer",
+      occupation: "Recorded occupation",
+    });
+    expect(historicalUnknown).toMatchObject({
+      acceptableForRecording: false,
+      requiresItemization: null,
+    });
+    expect(historicalUnknown.refusals.join(" ")).toMatch(/later source/i);
   });
 });
 

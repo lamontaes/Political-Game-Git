@@ -85,6 +85,8 @@ import type { LegislativeBargainingSeat } from "../presentation/legislative-barg
 import { MeasureFloorSurface } from "./MeasureFloorSurface";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { LegislationWorkspace } from "./LegislationWorkspace";
+import { DocketWorkspace } from "./DocketWorkspace";
+import type { DocketBill } from "../presentation/legislation-docket";
 import { PlayerConversations } from "./PlayerConversation";
 import { PersonPortrait } from "./PersonPortrait";
 
@@ -1506,13 +1508,22 @@ function PlayingScreen({
     const scenarioKey = capabilities.legislativeScenarioKey;
     const jurisdictionId = capabilities.legislativeJurisdictionId;
     if (!scenarioKey || !jurisdictionId) return;
-    const opened = openLegislativeWork(session.world, {
-      scenarioKey,
-      playerPersonId: session.personId,
-      jurisdictionId,
-    });
-    setAssignment(opened.assignment);
-    if (opened.world !== session.world) onWorldChange(opened.world);
+    try {
+      const opened = openLegislativeWork(session.world, {
+        scenarioKey,
+        playerPersonId: session.personId,
+        jurisdictionId,
+      });
+      setAssignment(opened.assignment);
+      setFloorNote(null);
+      if (opened.world !== session.world) onWorldChange(opened.world);
+    } catch (error) {
+      setFloorNote(
+        error instanceof Error
+          ? error.message
+          : "This work is not available in the current world.",
+      );
+    }
   }
 
   /**
@@ -1527,6 +1538,29 @@ function PlayingScreen({
     if (!assignment) return;
     const entry = openLegislativeBargaining(session.world, {
       playerPersonId: session.personId,
+    });
+    if (entry.kind === "unavailable") {
+      setFloorNote(entry.reason);
+      return;
+    }
+    setFloorNote(null);
+    if (entry.world !== session.world) onWorldChange(entry.world);
+    setFloorSeat(entry.seat);
+    setOpen(null);
+  }
+
+  /**
+   * The members' room for one bill on the docket.
+   *
+   * The same adapter, asked about a named bill rather than about the office's
+   * single standing assignment. Every refusal it can give is still its own; a
+   * bill that is not on the floor, or not before this member's chamber, is
+   * refused here exactly as it is there.
+   */
+  function goToTheFloorFor(bill: DocketBill) {
+    const entry = openLegislativeBargaining(session.world, {
+      playerPersonId: session.personId,
+      docketKey: bill.docketKey,
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);
@@ -1689,6 +1723,22 @@ function PlayingScreen({
           >
             {assignment ? "Close the bill" : "Look at what is moving"}
           </button>
+          {floorNote && !assignment ? (
+            <p role="status" data-testid="work-unavailable">
+              {floorNote}
+            </p>
+          ) : null}
+          {capabilities.legislativeJurisdictionId ? (
+            <DocketWorkspace
+              world={session.world}
+              playerPersonId={session.personId}
+              scenarioKey={capabilities.legislativeScenarioKey}
+              jurisdictionId={capabilities.legislativeJurisdictionId}
+              onWorldChange={onWorldChange}
+              onGoToFloor={goToTheFloorFor}
+              floorNote={floorNote}
+            />
+          ) : null}
           {assignment ? (
             <>
               <button

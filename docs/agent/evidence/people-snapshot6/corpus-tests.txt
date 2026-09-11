@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.2.0 test
+> vitest run --maxWorkers=1 scripts/prose-corpus/corpus.test.ts
+
+
+ RUN  v4.1.1 /private/tmp/pg-people1-r1
+
+
+ Test Files  1 passed (1)
+      Tests  40 passed (40)
+   Start at  13:34:37
+   Duration  12.67s (transform 1.96s, setup 0ms, import 5.09s, tests 7.40s, environment 0ms)
+

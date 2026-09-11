@@ -1,3 +1,4 @@
+import { regularSessionActionRefusal } from "./legislative-session-window";
 import {
   applyCharacterHistoryPlan,
   chamberByKey,
@@ -37,6 +38,13 @@ import {
   createLegislativeBargainingProgress,
   withAnalysisSeen,
 } from "./legislative-bargaining";
+import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
+import {
+  docketBill,
+  recompileSavedBill,
+  type DocketBill,
+} from "./legislation-docket";
+import { formatMinorUnits } from "../simulation/legislation-program-families";
 import {
   resolvePlayerCapabilities,
   withheldReason,
@@ -80,6 +88,17 @@ export type LegislativeBargainingEntry =
 
 export interface OpenLegislativeBargainingInput {
   readonly playerPersonId: EntityId;
+  /**
+   * Which bill on the player's docket the sitting is about.
+   *
+   * Omitted, this opens the single authored sitting exactly as accepted — the
+   * legacy path below is unchanged, and the Kentucky transit brief still gates
+   * it. Supplied, the sitting is about that docket bill instead, and its
+   * content comes from the programme family the bill was compiled from rather
+   * than from the authored transit brief. Either way the authority checks, the
+   * fail-closed refusals and the write boundary are the same ones.
+   */
+  readonly docketKey?: string;
 }
 
 export function openLegislativeBargaining(
@@ -118,17 +137,41 @@ export function openLegislativeBargaining(
       reason: "The governing state has no accepted rule-pack surface.",
     };
   }
-  if (!bargainingBriefSupports(scenarioKey)) {
+  const docketKey = input.docketKey ?? null;
+  if (docketKey === null && !bargainingBriefSupports(scenarioKey)) {
     return {
       kind: "unavailable",
       reason: `No bargaining sitting is authored for the ${capabilities.workPlace?.displayName ?? scenarioKey} legislature yet.`,
     };
   }
   const blueprint = legislativeBlueprint(scenarioKey);
+  const sessionRefusal = regularSessionActionRefusal(
+    blueprint.pack,
+    world.currentDate,
+  );
+  if (sessionRefusal) return { kind: "unavailable", reason: sessionRefusal };
+
+  // A docket bill carries its own content, so the sitting is about whichever
+  // bill the player opened rather than about the one authored measure.
+  let docket: DocketBill | null = null;
+  if (docketKey !== null) {
+    docket = docketBill(world, {
+      scenarioKey,
+      playerPersonId: input.playerPersonId,
+      docketKey,
+    });
+    if (!docket) {
+      return {
+        kind: "unavailable",
+        reason: "That bill is not on this character's docket.",
+      };
+    }
+  }
   // The measure the ordinary Work route introduces into this world, found
   // where openLegislativeWork left it. No measure means the player has not
   // taken the bill up yet, and this route says so instead of introducing one.
-  const measureStableKey = `legislative-work:${scenarioKey}:measure`;
+  const measureStableKey =
+    docket?.measureStableKey ?? `legislative-work:${scenarioKey}:measure`;
   const measure = (world.history.legislativeMeasures ?? []).find(
     (record) => record.stableKey === measureStableKey,
   );
@@ -204,17 +247,27 @@ export function openLegislativeBargaining(
     `legislative-work:${scenarioKey}:analyst`,
   );
 
-  next = ensureFiledBillText(
-    next,
-    scenarioKey,
-    measureId,
-    measure.jurisdictionId,
-  );
+  if (docket === null) {
+    // The authored sitting seeds HB 214's text on first entry, as accepted. A
+    // docket bill filed its own clauses when it was filed, so there is nothing
+    // to seed and nothing here may write over them.
+    next = ensureFiledBillText(
+      next,
+      scenarioKey,
+      measureId,
+      measure.jurisdictionId,
+    );
+  }
   next = ensureFiscalNote(next, {
     scenarioKey,
     measureId,
     jurisdictionId: measure.jurisdictionId,
     analystPersonId,
+    stableKey: fiscalNoteStableKeyFor(scenarioKey, docket),
+    summary:
+      docket === null
+        ? FISCAL_NOTE_SUMMARY
+        : draftFiscalNoteSummary(next, docket),
   });
   const sponsorPersonId = characterHistoryContextPersonId(
     next,
@@ -227,18 +280,37 @@ export function openLegislativeBargaining(
     guardianPersonId,
   });
 
-  const facts = bargainingSubjectFacts({
-    measureId,
-    measureStableKey: measure.stableKey,
-    designation: blueprint.designation,
-    shortTitle: blueprint.shortTitle,
-    chamberName: chamber.name,
-    nextStepLabel: stage.label.toLowerCase(),
-    fiscalNoteEventStableKey: fiscalNoteStableKey(scenarioKey),
-    analystPersonId,
-    advocatePersonId,
-    guardianPersonId,
-  });
+  let facts;
+  if (docket === null) {
+    facts = bargainingSubjectFacts({
+      measureId,
+      measureStableKey: measure.stableKey,
+      designation: blueprint.designation,
+      shortTitle: blueprint.shortTitle,
+      chamberName: chamber.name,
+      nextStepLabel: stage.label.toLowerCase(),
+      fiscalNoteEventStableKey: fiscalNoteStableKey(scenarioKey),
+      analystPersonId,
+      advocatePersonId,
+      guardianPersonId,
+    });
+  } else {
+    const reread = recompileSavedBill(next, docket);
+    if ("unavailable" in reread) {
+      return { kind: "unavailable", reason: reread.unavailable };
+    }
+    facts = bargainingSubjectFactsForDraft({
+      draft: reread,
+      measureId,
+      measureStableKey: measure.stableKey,
+      chamberName: chamber.name,
+      nextStepLabel: stage.label.toLowerCase(),
+      fiscalNoteEventStableKey: fiscalNoteStableKeyFor(scenarioKey, docket),
+      analystPersonId,
+      advocatePersonId,
+      guardianPersonId,
+    });
+  }
   let progress = createLegislativeBargainingProgress(facts);
 
   const guardian = next.people[guardianPersonId]!;
@@ -309,6 +381,40 @@ export function openLegislativeBargaining(
 
 function fiscalNoteStableKey(scenarioKey: string): string {
   return `legislative-work:${scenarioKey}:fiscal-note`;
+}
+
+/** Each bill gets its own note; two bills do not share one staff analysis. */
+function fiscalNoteStableKeyFor(
+  scenarioKey: string,
+  docket: DocketBill | null,
+): string {
+  return docket === null
+    ? fiscalNoteStableKey(scenarioKey)
+    : `${docket.docketKey}:fiscal-note`;
+}
+
+/**
+ * What the staff note says about a bill the player configured.
+ *
+ * It states the ceiling the bill's own sections carry and the fact that the
+ * requested section would sit on top of that rather than inside it. It does
+ * not forecast anything: a cap is arithmetic on stated text, and an effect
+ * would need a baseline and a responsible institution this world does not
+ * have.
+ */
+function draftFiscalNoteSummary(world: World, docket: DocketBill): string {
+  const reread = recompileSavedBill(world, docket);
+  if ("unavailable" in reread) {
+    return `A fiscal note on ${docket.designation} as filed could not restate the bill's configuration, so it states no exposure.`;
+  }
+  const ceiling = reread.authorizedCeilingLabel;
+  const invited = formatMinorUnits(
+    reread.amendmentInvitation.requestedMinorUnits,
+    "USD",
+  );
+  return ceiling === null
+    ? `A fiscal note on ${docket.designation} as filed records that the Act appropriates nothing, and that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would be a new appropriation rather than a call on an existing one.`
+    : `A fiscal note on ${docket.designation} as filed put the stated exposure at ${ceiling}, with the caveat that the ${invited} requested under Section ${reread.amendmentInvitation.sectionNumber} would sit on top of that figure rather than inside it.`;
 }
 
 /** Whether these two people have any recorded history with each other. */
@@ -391,9 +497,11 @@ function ensureFiscalNote(
     readonly measureId: EntityId;
     readonly jurisdictionId: EntityId;
     readonly analystPersonId: EntityId;
+    readonly stableKey: string;
+    readonly summary: string;
   },
 ): World {
-  const stableKey = fiscalNoteStableKey(input.scenarioKey);
+  const stableKey = input.stableKey;
   if (world.history.events.some((record) => record.stableKey === stableKey)) {
     return world;
   }
@@ -418,7 +526,7 @@ function ensureFiscalNote(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["legislation", "legislation.fiscal-note"],
-    summary: FISCAL_NOTE_SUMMARY,
+    summary: input.summary,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,

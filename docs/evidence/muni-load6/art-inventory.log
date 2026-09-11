@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.2.0 inventory:art
+> node --import tsx scripts/art-asset-factory/cli-inventory.ts
+
+Inventory is up to date: 329 items.

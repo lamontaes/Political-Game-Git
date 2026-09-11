@@ -41,6 +41,12 @@ export type SourceLocator =
       readonly period: string;
     }
   | {
+      readonly kind: "document-section";
+      readonly artifactId: string;
+      readonly citation: string;
+      readonly pageOrSection: string;
+    }
+  | {
       readonly kind: "legal-section";
       readonly artifactId: string;
       readonly citation: string;

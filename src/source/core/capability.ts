@@ -56,12 +56,16 @@ export type ProductionContentScope = "whole-artifact" | "enacted-text-only";
  *
  * For an edict artifact `bytes` is the extracted enacted text, not the page.
  * There is no field carrying the rest, because a field carrying the rest would
- * be the boundary not existing.
+ * be the boundary not existing. `verifiedSourceLiterals` is a receipt for
+ * literals the caller declared before opening: the opener checks the verified
+ * source bytes and returns only the already-known literals, never the
+ * surrounding page.
  */
 export interface OpenedArtifact {
   readonly artifact: RawArtifact;
   readonly bytes: Buffer;
   readonly contentScope: ProductionContentScope;
+  readonly verifiedSourceLiterals: readonly string[];
 }
 
 /** The shape a domain receives: every artifact it asked for, by role name. */
@@ -132,6 +136,9 @@ export function openProductionArtifacts<T extends string>(
   domain: string,
   lock: ArtifactLock,
   artifactPathsByRole: Readonly<Record<T, string>>,
+  requiredSourceLiteralsByRole: Readonly<
+    Partial<Record<T, readonly string[]>>
+  > = {} as Readonly<Partial<Record<T, readonly string[]>>>,
 ): ProductionInput<OpenedArtifacts<T>> {
   if (lock.domain !== domain) {
     throw new SourceCapabilityError(
@@ -141,7 +148,7 @@ export function openProductionArtifacts<T extends string>(
 
   const opened: Record<string, OpenedArtifact> = {};
   for (const [role, artifactId] of Object.entries(artifactPathsByRole) as [
-    string,
+    T,
     string,
   ][]) {
     const artifact = requireArtifact(lock, artifactId);
@@ -171,10 +178,28 @@ export function openProductionArtifacts<T extends string>(
         `Artifact "${artifactId}" at "${artifact.localPath}" hashes to ${digest}, but the lock pins ${artifact.bytes.sha256}. These are not the publisher's bytes.`,
       );
     }
+    const readable = readableForProduction(artifactId, artifact, bytes);
+
+    const requiredSourceLiterals = [
+      ...new Set(requiredSourceLiteralsByRole[role] ?? []),
+    ];
+    for (const literal of requiredSourceLiterals) {
+      if (literal.length === 0) {
+        throw new SourceCapabilityError(
+          `Artifact "${artifactId}" declares an empty required source literal.`,
+        );
+      }
+      if (!bytes.includes(Buffer.from(literal, "utf-8"))) {
+        throw new SourceCapabilityError(
+          `Artifact "${artifactId}" does not contain required source literal ${JSON.stringify(literal)} in its verified publisher bytes.`,
+        );
+      }
+    }
 
     opened[role] = {
       artifact,
-      ...readableForProduction(artifactId, artifact, bytes),
+      ...readable,
+      verifiedSourceLiterals: requiredSourceLiterals,
     };
   }
 
@@ -254,6 +279,7 @@ export function openCachedProductionArtifacts<T extends string>(
     opened[role] = {
       artifact,
       ...readableForProduction(requested.artifactId, artifact, bytes),
+      verifiedSourceLiterals: [],
     };
   }
 

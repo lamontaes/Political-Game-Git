@@ -797,6 +797,72 @@ See D-050 and
 
 ---
 
+## NEWS-HELP2 Public Information and Inline Help
+
+- **Owns:** explicit publication and correction transitions over already
+  recorded public events; one digest read model; feature-local digest/help UI;
+  and the `headline` dynamic-surface owner.
+- **Stable IDs exposed:** root publication, correction edition, source event,
+  canonical source record, jurisdiction, and typed person IDs.
+- **Consumes:** ordinary public `HistoricalEvent`; canonical legislative
+  action/measure/vote records; existing World serialization; the disclosure
+  ladder; ENV surface slots; and stable civic concept IDs.
+- **Produces:** one append-oriented optional `PublicationRecord` family inside
+  `HistoryStore`, deterministic accessible copy, correction history, and one
+  shared digest used by newspaper and supported public screens.
+- **Refusal rule:** private, future, missing, setup/clock/discovery plumbing,
+  and publication-of-publication sources do not publish. A commitment is not a
+  vote, and no tally exists before `LegislativeVoteRecord` exists.
+- **Projection rule:** reading/opening/rendering does not mutate World, advance
+  time, append publication, reroll copy, or mark a concept learned. Person
+  references route by canonical ID and never enter the glossary.
+- **Persistence:** the optional family preserves older save shape and
+  round-trips through existing JSON, SQLite, and browser save payloads without
+  another database or snapshot format.
+- **Integration:** UI-core chooses final global placement through
+  `projectPublicInformationPanel`; ENV retains physical geometry and access
+  through the existing `projectDynamicSurfaces`/binder path.
+
+See [Canonical Public Information](systems/public-information.md).
+
+### NEWS-PRESS4 extension
+
+- **Consumes:** an existing source-to-reporter pitch claim, current journalism
+  and adviser work relationships, reporter event knowledge or actual
+  publications, scheduled activity/work writers, the canonical clock, and the
+  NEWS-HELP2 publication writer.
+- **Produces:** arranged/prepared/drafted/confirmed/completed/story/feedback
+  events over those existing record families plus one feature-local press
+  projection and component.
+- **Terms:** on-record can name the source; on-background uses only the exact
+  negotiated attribution; off-record has no direct publication transition.
+- **UI handoff:** UI-core PR #144 retains the sole root, global navigation and
+  final placement. It consumes the frozen press projection/component and keeps
+  its existing legislative publication connection; NEWS-PRESS4 adds no second
+  legislative publication caller.
+- **ENV handoff:** screen geometry, slot access, anchors and fallbacks stay in
+  ENV. Unknown jurisdiction remains a real `null` locality filter.
+
+### NEWS-PRODUCERS6 extension
+
+- **Consumes:** existing people, active work relationships, reporter/adviser
+  event knowledge, ordinary claims and relationship interactions, canonical
+  time/work, the accepted PRESS4 loop, and the single NEWS publication writer.
+- **Produces:** an explicit request; autonomous durable reporter/adviser
+  decision traces and response records;
+  pure reporter/adviser eligibility projections; an accepted-arrangement
+  adapter; knowledge-derived preparation; and publication-derived fallible
+  feedback. UI supplies no NPC acceptance flag or adviser/reporter prose.
+- **Consent boundary:** requesting is not agreement. A reporter refusal, missing
+  response, adviser refusal, or family/household relationship without current
+  shared work cannot create an arrangement or work item.
+- **UI boundary:** UI #144's existing `PressWorkspace` and
+  `PressInterviewPanel` remain the consumer and sole global placement path.
+  NEWS supplies action adapters only and adds no root, panel, headline generator
+  or publication writer.
+
+---
+
 ## Reserved Future Cross-System Contracts
 
 These contracts constrain later stages. Run C implements only the personal/household slice of the shared resource-flow vocabulary; campaign, organization, government, fiscal-law, and civic-data systems remain deferred.

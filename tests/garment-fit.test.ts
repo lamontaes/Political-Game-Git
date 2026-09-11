@@ -215,10 +215,10 @@ describe("one garment raster, three morphologies", () => {
     }
     expect(classified).toEqual({
       // A knit follows the torso, and the torso is where the builds differ.
-      // Lean is a near-uniform narrowing, so one scale reaches it. Heavy is
-      // not: the waist grows three times as much as the shoulder, and one
-      // scale cannot sit on both.
-      "fit-knit-olive->lean": "affine-reusable",
+      // The corrected maximum row percentage also rejects the lean affine:
+      // near-uniform narrowing still exceeds3% on a narrower row. Both knit
+      // directions require the harness-only bounded warp; bounds are unchanged.
+      "fit-knit-olive->lean": "bounded-warp-reusable",
       "fit-knit-olive->heavy": "bounded-warp-reusable",
       "fit-trousers-slate->lean": "affine-reusable",
       "fit-trousers-slate->heavy": "affine-reusable",
