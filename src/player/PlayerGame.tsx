@@ -102,11 +102,7 @@ import {
   lifePlaceCoverage,
   lifePlaceSearch,
 } from "../simulation";
-import type {
-  EntityId,
-  QuestionnairePhase,
-  World,
-} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
