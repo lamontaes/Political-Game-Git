@@ -1958,7 +1958,6 @@ decisions persist as accept, defer (unfinished assigned work) or decline.
 Arrangement may proceed without an adviser. Off-record exchanges still have no
 publication path. Save/reload preserves the unprepared interview records.
 
-
 ### NEWS-N1 — Unknown screen locality fails closed
 
 A room with unknown jurisdiction receives only an unlocated publication. It

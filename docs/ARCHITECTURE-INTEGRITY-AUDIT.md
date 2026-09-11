@@ -1147,12 +1147,11 @@ This audit covers the missing journalism-role and public-pitch path in front of
 the accepted PRESS4/PRODUCERS6 loop. It does not add a publisher, News search
 or second consent engine.
 
-| Concern | Disposition | Evidence and rationale |
-| --- | --- | --- |
-| Population | Canonical reuse | `seekCivicPressContact` employs an already generated adult through `createOrganization` / `createWorkRelationship`. No person is synthesized. Family status is not a reporting role. |
-| Knowledge | Fail-closed | Eligibility accepts a public, non-future civic basis. The request may convey that basis as `told-by` knowledge. Private, future and missing events stay ineligible. |
-| Consent | Fail-closed | Reporter decisions remain autonomous and durable: accept, defer for unfinished assigned work, or decline. Arrangement requires an accepted response. Adviser preparation stays optional. |
-| Time and work | Canonical reuse | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement. |
-| Publication | Single path | Off-record still has no story writer. On-record/background still call `publishPublicEvent`. |
-| UI/ENV ownership | Preserved | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers. |
-
+| Concern          | Disposition     | Evidence and rationale                                                                                                                                                                   |
+| ---------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Population       | Canonical reuse | `seekCivicPressContact` employs an already generated adult through `createOrganization` / `createWorkRelationship`. No person is synthesized. Family status is not a reporting role.     |
+| Knowledge        | Fail-closed     | Eligibility accepts a public, non-future civic basis. The request may convey that basis as `told-by` knowledge. Private, future and missing events stay ineligible.                      |
+| Consent          | Fail-closed     | Reporter decisions remain autonomous and durable: accept, defer for unfinished assigned work, or decline. Arrangement requires an accepted response. Adviser preparation stays optional. |
+| Time and work    | Canonical reuse | Prepared interviews still create the existing work item. Unprepared interviews skip it and allow drafting after arrangement.                                                             |
+| Publication      | Single path     | Off-record still has no story writer. On-record/background still call `publishPublicEvent`.                                                                                              |
+| UI/ENV ownership | Preserved       | `PlayerGame` is untouched. `PressWorkspace` and `PressInterviewPanel` remain the existing consumers.                                                                                     |

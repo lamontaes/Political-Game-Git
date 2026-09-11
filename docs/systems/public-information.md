@@ -137,7 +137,6 @@ it reuses an existing adult and an authored civic news desk. It does not create
 consent, private knowledge or an adviser. `projectPressReachSnapshot` is a
 read-only gap trace.
 
-
 Completion uses the existing scheduled-activity transition and clock. An
 on-record or on-background story becomes public only through an explicit
 `press.story-published` event followed by the existing `publishPublicEvent`
