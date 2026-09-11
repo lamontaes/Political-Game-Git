@@ -14,3 +14,6 @@ everything back.
 It searches the news this life has actually published. Nothing is hidden from
 you that you could see before, and nothing new is revealed: a story you have
 not been shown does not appear because you searched for it.
+
+The search box is available in ordinary play once published stories exist in
+your save, including after legislative proceedings appear in the newspaper.

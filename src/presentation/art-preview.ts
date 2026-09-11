@@ -158,14 +158,23 @@ export function previewArtRefusal(
 }
 
 /**
- * Which saved-game database this mode uses.
+ * Which database this mode uses, for ANY of the browser stores.
  *
  * A suffix, not a different store class: the preview exercises the real
  * persistence path, including the parts that would fail on a candidate
  * appearance, because a save/reload proof against a stub would prove nothing.
+ *
+ * The base name is a parameter because a life is not kept in one database.
+ * The world goes in one and the shell's own per-slot state — which is where a
+ * wardrobe CHOICE is recorded — goes in another, and isolating only the first
+ * left the second leaking: a candidate outfit picked in the preview was
+ * written into the ordinary shell store under the ordinary slot id, so an
+ * opt-in development preview was editing a production save after all. Every
+ * store the preview touches takes its name from here.
  */
-export function previewDatabaseName(mode: ArtPreviewMode): string {
-  return mode === "candidate-review"
-    ? `${DEFAULT_DATABASE_NAME}-art-preview`
-    : DEFAULT_DATABASE_NAME;
+export function previewDatabaseName(
+  mode: ArtPreviewMode,
+  base: string = DEFAULT_DATABASE_NAME,
+): string {
+  return mode === "candidate-review" ? `${base}-art-preview` : base;
 }
