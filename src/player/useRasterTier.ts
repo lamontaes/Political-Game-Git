@@ -25,10 +25,10 @@ import {
 export interface RasterTierPaint {
   /** The tier the runtime wants, with its selection warnings. */
   readonly selection: RasterTierSelection | null;
-  /** The URL to paint right now, which may still be the previous tier. */
+  /** Decoded URL to paint, or null before the first successful decode. */
   readonly paintedUrl: string | null;
   readonly paintedWidth: number | null;
-  /** True while a larger or smaller raster is decoding behind the scenes. */
+  /** True while the initial or replacement requested raster is not ready. */
   readonly swapPending: boolean;
 }
 
@@ -84,20 +84,27 @@ export function useRasterTier(
     let cancelled = false;
     const image = new Image();
     const settle = () => {
-      if (cancelled) return;
+      if (cancelled || image.naturalWidth <= 0) return;
       setPaint((current) => commitDecodedTier(current, committedWidth));
     };
-    image.onload = settle;
+    const decode = () => {
+      if (image.naturalWidth <= 0) return;
+      void image.decode().then(settle, () => {});
+    };
+    image.onload = decode;
     // A failed decode must not blank the scene: keep painting what is up.
     image.onerror = () => {};
     image.src = url;
-    if (image.complete) settle();
+    if (image.complete) decode();
     return () => {
       cancelled = true;
     };
   }, [committedWidth, tierUrls]);
 
-  const paintedUrl = tierUrls?.get(paint.paintedWidth) ?? null;
+  const paintedUrl =
+    paint.paintedWidth === null
+      ? null
+      : (tierUrls?.get(paint.paintedWidth) ?? null);
 
   return {
     selection: desired,

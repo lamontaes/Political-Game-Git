@@ -1,0 +1,114 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/raster-readiness.spec.ts tests/e2e/title-tableau.spec.ts tests/e2e/scene-presentation.spec.ts tests/e2e/scene-authoring.spec.ts --workers=1
+
+[WebServer] (node:84370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 36 tests using 1 worker
+
+(node:84373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/36] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 reduce
+[2/36] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 1440 no-preference
+[3/36] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 reduce
+[4/36] [chromium] › tests/e2e/raster-readiness.spec.ts:8:5 › initial raster waits for readiness 900 no-preference
+[5/36] [chromium] › tests/e2e/raster-readiness.spec.ts:75:1 › hook gates actual decode, retains A during resize, ignores stale completion and reuses same width
+[6/36] [chromium] › tests/e2e/raster-readiness.spec.ts:126:3 › initial error never claims paint and a later valid tier recovers
+[7/36] [chromium] › tests/e2e/raster-readiness.spec.ts:126:3 › initial decode-rejection never claims paint and a later valid tier recovers
+[8/36] [chromium] › tests/e2e/raster-readiness.spec.ts:126:3 › initial unavailable never claims paint and a later valid tier recovers
+[9/36] [chromium] › tests/e2e/raster-readiness.spec.ts:166:1 › non-title production office waits for its image response
+[10/36] [chromium] › tests/e2e/raster-readiness.spec.ts:199:1 › cold and warm title paint plus resize sweep never expose an undecoded claimed tier
+[11/36] [chromium] › tests/e2e/raster-readiness.spec.ts:339:1 › decoded title A stays visible while resized B response is held
+[12/36] [chromium] › tests/e2e/scene-authoring.spec.ts:39:3 › scene authoring overlay › reads a live plate coordinate under the pointer
+[13/36] [chromium] › tests/e2e/scene-authoring.spec.ts:53:3 › scene authoring overlay › names the current raster tier and what it would need
+[14/36] [chromium] › tests/e2e/scene-authoring.spec.ts:63:3 › scene authoring overlay › captures a clicked point with the chosen certainty
+[15/36] [chromium] › tests/e2e/scene-authoring.spec.ts:89:3 › scene authoring overlay › keeps an unsettled capture visibly unsettled
+[16/36] [chromium] › tests/e2e/scene-authoring.spec.ts:104:3 › scene authoring overlay › exports a block that refuses to promote an estimate
+[17/36] [chromium] › tests/e2e/scene-authoring.spec.ts:119:3 › scene authoring overlay › supports keyboard operation of every control
+[18/36] [chromium] › tests/e2e/scene-authoring.spec.ts:141:3 › scene authoring overlay › switches scenes, including a room that has no plate
+[19/36] [chromium] › tests/e2e/scene-authoring.spec.ts:157:3 › scene authoring overlay › toggles the geometry overlay off and on
+[20/36] [chromium] › tests/e2e/scene-authoring.spec.ts:167:3 › scene authoring overlay › does not appear on the player route
+[21/36] [chromium] › tests/e2e/scene-presentation.spec.ts:23:3 › scene and person presentation › places people in both scene purposes from one compositor
+[22/36] [chromium] › tests/e2e/scene-presentation.spec.ts:35:3 › scene and person presentation › shows the room with no plate honestly instead of borrowing a picture
+[23/36] [chromium] › tests/e2e/scene-presentation.spec.ts:53:3 › scene and person presentation › names the selected raster tier, the pixels required, and the coverage
+[24/36] [chromium] › tests/e2e/scene-presentation.spec.ts:83:3 › scene and person presentation › draws contacts where the metadata says they are
+[25/36] [chromium] › tests/e2e/scene-presentation.spec.ts:105:3 › scene and person presentation › shows the floor line and seat plane a person is placed against
+[26/36] [chromium] › tests/e2e/scene-presentation.spec.ts:128:3 › scene and person presentation › shows named occluders and surface slots with their own z-orders
+[27/36] [chromium] › tests/e2e/scene-presentation.spec.ts:160:3 › scene and person presentation › diagnoses an incomplete person from the view alone
+[28/36] [chromium] › tests/e2e/scene-presentation.spec.ts:187:3 › scene and person presentation › reports derived scale and floor line for every placed person
+[29/36] [chromium] › tests/e2e/scene-presentation.spec.ts:209:3 › scene and person presentation › hides the whole overlay when it is switched off
+[30/36] [chromium] › tests/e2e/scene-presentation.spec.ts:222:3 › scene and person presentation › keeps a raster painted while the viewport changes size
+[31/36] [chromium] › tests/e2e/scene-presentation.spec.ts:247:3 › scene and person presentation › never appears on the production route
+  1) [chromium] › tests/e2e/scene-presentation.spec.ts:247:3 › scene and person presentation › never appears on the production route 
+
+    Test timeout of 30000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/scene-presentation-scene-a-3072b-ars-on-the-production-route-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/scene-presentation-scene-a-3072b-ars-on-the-production-route-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/scene-presentation-scene-a-3072b-ars-on-the-production-route-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/scene-presentation-scene-a-3072b-ars-on-the-production-route-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:85439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[32/36] [chromium] › tests/e2e/title-tableau.spec.ts:69:3 › The title screen shows the game › renders production background art before any life exists
+[33/36] [chromium] › tests/e2e/title-tableau.spec.ts:97:3 › The title screen shows the game › keeps New game, Continue and Saved games working over the art
+[34/36] [chromium] › tests/e2e/title-tableau.spec.ts:120:3 › The title screen shows the game › gives a saved adult a room, and names them in it
+  2) [chromium] › tests/e2e/title-tableau.spec.ts:120:3 › The title screen shows the game › gives a saved adult a room, and names them in it 
+
+    Error: expect(received).not.toMatch(expected)
+
+    Expected pattern: not /tableau|asset|tier|registry|raster|fixture|anchor/i
+    Received string:      "ContinuePeter Gutierrez, 34 · Kentucky"
+
+      140 |     expect(name.length).toBeGreaterThan("Continue".length);
+      141 |     // And it says who without saying how it works.
+    > 142 |     expect(name).not.toMatch(
+          |                      ^
+      143 |       /tableau|asset|tier|registry|raster|fixture|anchor/i,
+      144 |     );
+      145 |   });
+        at /private/tmp/pg-s5-d2/tests/e2e/title-tableau.spec.ts:142:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/title-tableau-The-title-sc-69a4d-a-room-and-names-them-in-it-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/title-tableau-The-title-sc-69a4d-a-room-and-names-them-in-it-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/title-tableau-The-title-sc-69a4d-a-room-and-names-them-in-it-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/title-tableau-The-title-sc-69a4d-a-room-and-names-them-in-it-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:85672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[35/36] [chromium] › tests/e2e/title-tableau.spec.ts:152:3 › The title screen shows the game › shows a child a room rather than a miniature adult
+[36/36] [chromium] › tests/e2e/title-tableau.spec.ts:170:3 › The title screen shows the game › says the same thing on a phone as on a desktop
+  Slow test file: [chromium] › tests/e2e/scene-presentation.spec.ts (45.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  2 failed
+    [chromium] › tests/e2e/scene-presentation.spec.ts:247:3 › scene and person presentation › never appears on the production route 
+    [chromium] › tests/e2e/title-tableau.spec.ts:120:3 › The title screen shows the game › gives a saved adult a room, and names them in it 
+  34 passed (51.1m)

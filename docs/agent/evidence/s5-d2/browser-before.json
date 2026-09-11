@@ -1,0 +1,10 @@
+{
+  "base": "37c3cd056147a64fa2a7d76b1e52eccef7128742",
+  "state": {
+    "paintedTier": "1376",
+    "imagePresent": true,
+    "naturalWidth": 0,
+    "stageOpacity": "1"
+  },
+  "expectedFailure": "failed"
+}

@@ -363,12 +363,13 @@ export function advanceTierHysteresis(
  * resize never blanks the scene.
  */
 export interface TierPaintState {
-  readonly paintedWidth: number;
+  /** Null until the first raster is ready; requests are never paint evidence. */
+  readonly paintedWidth: number | null;
   readonly requestedWidth: number;
 }
 
 export function createTierPaintState(width: number): TierPaintState {
-  return { paintedWidth: width, requestedWidth: width };
+  return { paintedWidth: null, requestedWidth: width };
 }
 
 export function requestTierPaint(

@@ -29,6 +29,9 @@ There is no safety multiplier: the margin is already in the ladder.
 - **Decode before swap.** Keep painting the current raster until its
   replacement has decoded. The scene never blanks mid-resize, and a decode the
   runtime has already moved past is ignored rather than flashing backwards.
+  Before the first successful decode, painted width and URL are explicitly
+  absent. Loading, failed responses, unavailable URLs and rejected decodes
+  never establish paint readiness. Motion preferences do not alter this gate.
 - **Never synthesize a tier.** The pipeline does not enlarge anything. A raster
   that carries less real detail than its pixel width claims must declare
   `native_detail_width`, and the runtime reports the shortfall.

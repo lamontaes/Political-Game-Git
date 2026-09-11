@@ -1,0 +1,17 @@
+
+> political-life-rpg@0.2.0 test:e2e
+> playwright test tests/e2e/scene-presentation.spec.ts tests/e2e/title-tableau.spec.ts --grep never appears on the production route|gives a saved adult a room --workers=1
+
+[WebServer] (node:94200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:94203) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [chromium] › tests/e2e/scene-presentation.spec.ts:247:3 › scene and person presentation › never appears on the production route
+[2/2] [chromium] › tests/e2e/title-tableau.spec.ts:120:3 › The title screen shows the game › gives a saved adult a room, and names them in it
+  2 passed (5.6s)
