@@ -1,0 +1,630 @@
+[
+  {
+    "id": "41-2031.00",
+    "title": "Retail Salespersons",
+    "description": "Sell merchandise, such as furniture, motor vehicles, appliances, or apparel to consumers.",
+    "soc": "41-2031",
+    "hierarchy": [
+      {
+        "group": "major",
+        "code": "41-0000",
+        "title": "Sales and Related Occupations"
+      },
+      {
+        "group": "minor",
+        "code": "41-2000",
+        "title": "Retail Sales Workers"
+      },
+      {
+        "group": "broad",
+        "code": "41-2030",
+        "title": "Retail Salespersons"
+      },
+      {
+        "group": "detailed",
+        "code": "41-2031",
+        "title": "Retail Salespersons"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "694",
+        "text": "Greet customers and ascertain what each customer wants or needs.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12118
+      },
+      {
+        "id": "700",
+        "text": "Recommend, select, and help locate or obtain merchandise based on customer needs and desires.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12119
+      },
+      {
+        "id": "697",
+        "text": "Compute sales prices, total purchases, and receive and process cash or credit payment.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12120
+      },
+      {
+        "id": "712",
+        "text": "Prepare merchandise for purchase or rental.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12121
+      },
+      {
+        "id": "701",
+        "text": "Answer questions regarding the store and its merchandise.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12122
+      },
+      {
+        "id": "696",
+        "text": "Maintain knowledge of current sales and promotions, policies regarding payment and exchanges, and security practices.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12123
+      },
+      {
+        "id": "706",
+        "text": "Demonstrate use or operation of merchandise.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12124
+      },
+      {
+        "id": "702",
+        "text": "Describe merchandise and explain use, operation, and care of merchandise to customers.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12125
+      },
+      {
+        "id": "703",
+        "text": "Ticket, arrange, and display merchandise to promote sales.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12126
+      },
+      {
+        "id": "711",
+        "text": "Inventory stock and requisition new stock.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12127
+      },
+      {
+        "id": "708",
+        "text": "Exchange merchandise for customers and accept returns.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12128
+      },
+      {
+        "id": "699",
+        "text": "Watch for and recognize security risks and thefts and know how to prevent or handle these situations.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12129
+      },
+      {
+        "id": "705",
+        "text": "Place special orders or call other stores to find desired items.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12130
+      },
+      {
+        "id": "707",
+        "text": "Clean shelves, counters, and tables.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12131
+      },
+      {
+        "id": "698",
+        "text": "Maintain records related to sales.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12132
+      },
+      {
+        "id": "695",
+        "text": "Open and close cash registers, performing tasks such as counting money, separating charge slips, coupons, and vouchers, balancing cash drawers, and making deposits.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12133
+      },
+      {
+        "id": "704",
+        "text": "Prepare sales slips or sales contracts.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12134
+      },
+      {
+        "id": "714",
+        "text": "Estimate and quote trade-in allowances.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12135
+      },
+      {
+        "id": "709",
+        "text": "Bag or package purchases and wrap gifts.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12136
+      },
+      {
+        "id": "710",
+        "text": "Help customers try on or fit merchandise.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12137
+      },
+      {
+        "id": "713",
+        "text": "Sell or arrange for delivery, insurance, financing, or service contracts for merchandise.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12138
+      },
+      {
+        "id": "716",
+        "text": "Estimate quantity and cost of merchandise required, such as paint or floor covering.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12139
+      },
+      {
+        "id": "717",
+        "text": "Rent merchandise to customers.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12140
+      },
+      {
+        "id": "715",
+        "text": "Estimate cost of repair or alteration of merchandise.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 12141
+      }
+    ],
+    "wage": {
+      "geography": "US",
+      "period": "2025-05",
+      "releaseStatus": "published-estimate",
+      "hourlyMedian": "17.03",
+      "annualMedian": "35410",
+      "row": 804
+    },
+    "source": {
+      "onetVersion": "31.0",
+      "taxonomy": "O*NET-SOC 2019 / SOC 2018",
+      "license": "CC BY 4.0",
+      "attribution": "O*NET 31.0 Database, USDOL/ETA. Adapted under CC BY 4.0. No endorsement."
+    }
+  },
+  {
+    "id": "43-9061.00",
+    "title": "Office Clerks, General",
+    "description": "Perform duties too varied and diverse to be classified in any specific office clerical occupation, requiring knowledge of office systems and procedures. Clerical duties may be assigned in accordance with the office procedures of individual establishments and may include a combination of answering telephones, bookkeeping, typing or word processing, office machine operation, and filing.",
+    "soc": "43-9061",
+    "hierarchy": [
+      {
+        "group": "major",
+        "code": "43-0000",
+        "title": "Office and Administrative Support Occupations"
+      },
+      {
+        "group": "minor",
+        "code": "43-9000",
+        "title": "Other Office and Administrative Support Workers"
+      },
+      {
+        "group": "broad",
+        "code": "43-9060",
+        "title": "Office Clerks, General"
+      },
+      {
+        "group": "detailed",
+        "code": "43-9061",
+        "title": "Office Clerks, General"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "830",
+        "text": "Operate office machines, such as photocopiers and scanners, facsimile machines, voice mail systems, and personal computers.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13340
+      },
+      {
+        "id": "827",
+        "text": "Answer telephones, direct calls, and take messages.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13341
+      },
+      {
+        "id": "826",
+        "text": "Communicate with customers, employees, and other individuals to answer questions, disseminate or explain information, take orders, and address complaints.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13342
+      },
+      {
+        "id": "832",
+        "text": "Maintain and update filing, inventory, mailing, and database systems, either manually or using a computer.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13343
+      },
+      {
+        "id": "828",
+        "text": "Compile, copy, sort, and file records of office activities, business transactions, and other activities.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13344
+      },
+      {
+        "id": "834",
+        "text": "Review files, records, and other documents to obtain information to respond to requests.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13345
+      },
+      {
+        "id": "833",
+        "text": "Open, sort, and route incoming mail, answer correspondence, and prepare outgoing mail.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13346
+      },
+      {
+        "id": "831",
+        "text": "Compute, record, and proofread data and other information, such as records or reports.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13347
+      },
+      {
+        "id": "837",
+        "text": "Complete work schedules, manage calendars, and arrange appointments.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13348
+      },
+      {
+        "id": "840",
+        "text": "Type, format, proofread, and edit correspondence and other documents, from notes or dictating machines, using computers or typewriters.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13349
+      },
+      {
+        "id": "836",
+        "text": "Inventory and order materials, supplies, and services.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13350
+      },
+      {
+        "id": "835",
+        "text": "Deliver messages and run errands.",
+        "type": "Core",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13351
+      },
+      {
+        "id": "825",
+        "text": "Collect, count, and disburse money, do basic bookkeeping, and complete banking transactions.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13352
+      },
+      {
+        "id": "829",
+        "text": "Complete and mail bills, contracts, policies, invoices, or checks.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13353
+      },
+      {
+        "id": "838",
+        "text": "Process and prepare documents, such as business or government forms and expense reports.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13354
+      },
+      {
+        "id": "839",
+        "text": "Monitor and direct the work of lower-level clerks.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13355
+      },
+      {
+        "id": "843",
+        "text": "Prepare meeting agendas, attend meetings, and record and transcribe minutes.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13356
+      },
+      {
+        "id": "842",
+        "text": "Train other staff members to perform work activities, such as using computer applications.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13357
+      },
+      {
+        "id": "841",
+        "text": "Count, weigh, measure, or organize materials.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13358
+      },
+      {
+        "id": "844",
+        "text": "Troubleshoot problems involving office equipment, such as computer hardware and software.",
+        "type": "Supplemental",
+        "date": "08/2018",
+        "domainSource": "Incumbent",
+        "row": 13359
+      }
+    ],
+    "wage": {
+      "geography": "US",
+      "period": "2025-05",
+      "releaseStatus": "published-estimate",
+      "hourlyMedian": "21.64",
+      "annualMedian": "45010",
+      "row": 934
+    },
+    "source": {
+      "onetVersion": "31.0",
+      "taxonomy": "O*NET-SOC 2019 / SOC 2018",
+      "license": "CC BY 4.0",
+      "attribution": "O*NET 31.0 Database, USDOL/ETA. Adapted under CC BY 4.0. No endorsement."
+    }
+  },
+  {
+    "id": "49-9043.00",
+    "title": "Maintenance Workers, Machinery",
+    "description": "Lubricate machinery, change parts, or perform other routine machinery maintenance.",
+    "soc": "49-9043",
+    "hierarchy": [
+      {
+        "group": "major",
+        "code": "49-0000",
+        "title": "Installation, Maintenance, and Repair Occupations"
+      },
+      {
+        "group": "minor",
+        "code": "49-9000",
+        "title": "Other Installation, Maintenance, and Repair Occupations"
+      },
+      {
+        "group": "broad",
+        "code": "49-9040",
+        "title": "Industrial Machinery Installation, Repair, and Maintenance Workers"
+      },
+      {
+        "group": "detailed",
+        "code": "49-9043",
+        "title": "Maintenance Workers, Machinery"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "11833",
+        "text": "Dismantle machines and remove parts for repair, using hand tools, chain falls, jacks, cranes, or hoists.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15443
+      },
+      {
+        "id": "11828",
+        "text": "Reassemble machines after the completion of repair or maintenance work.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15444
+      },
+      {
+        "id": "11834",
+        "text": "Record production, repair, and machine maintenance information.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15445
+      },
+      {
+        "id": "11831",
+        "text": "Lubricate or apply adhesives or other materials to machines, machine parts, or other equipment according to specified procedures.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15446
+      },
+      {
+        "id": "11832",
+        "text": "Install, replace, or change machine parts and attachments, according to production specifications.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15447
+      },
+      {
+        "id": "11836",
+        "text": "Set up and operate machines, and adjust controls to regulate operations.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15448
+      },
+      {
+        "id": "11837",
+        "text": "Collaborate with other workers to repair or move machines, machine parts, or equipment.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15449
+      },
+      {
+        "id": "11835",
+        "text": "Read work orders and specifications to determine machines and equipment requiring repair or maintenance.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15450
+      },
+      {
+        "id": "11830",
+        "text": "Inspect or test damaged machine parts, and mark defective areas or advise supervisors of repair needs.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15451
+      },
+      {
+        "id": "11829",
+        "text": "Start machines and observe mechanical operation to determine efficiency and to detect problems.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15452
+      },
+      {
+        "id": "11839",
+        "text": "Transport machine parts, tools, equipment, and other material between work areas and storage, using cranes, hoists, or dollies.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15453
+      },
+      {
+        "id": "11840",
+        "text": "Collect and discard worn machine parts and other refuse to maintain machinery and work areas.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15454
+      },
+      {
+        "id": "11838",
+        "text": "Inventory and requisition machine parts, equipment, and other supplies so that stock can be maintained and replenished.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15455
+      },
+      {
+        "id": "11843",
+        "text": "Remove hardened material from machines or machine parts, using abrasives, power and hand tools, jackhammers, sledgehammers, or other equipment.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15456
+      },
+      {
+        "id": "11845",
+        "text": "Replace, empty, or replenish machine and equipment containers such as gas tanks or boxes.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15457
+      },
+      {
+        "id": "11841",
+        "text": "Clean machines and machine parts, using cleaning solvents, cloths, air guns, hoses, vacuums, or other equipment.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15458
+      },
+      {
+        "id": "11842",
+        "text": "Replace or repair metal, wood, leather, glass, or other lining in machines, or in equipment compartments or containers.",
+        "type": "Core",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15459
+      },
+      {
+        "id": "11844",
+        "text": "Measure, mix, prepare, and test chemical solutions used to clean or repair machinery and equipment.",
+        "type": "Supplemental",
+        "date": "08/2024",
+        "domainSource": "Incumbent",
+        "row": 15460
+      }
+    ],
+    "wage": {
+      "geography": "US",
+      "period": "2025-05",
+      "releaseStatus": "published-estimate",
+      "hourlyMedian": "29.25",
+      "annualMedian": "60850",
+      "row": 1120
+    },
+    "source": {
+      "onetVersion": "31.0",
+      "taxonomy": "O*NET-SOC 2019 / SOC 2018",
+      "license": "CC BY 4.0",
+      "attribution": "O*NET 31.0 Database, USDOL/ETA. Adapted under CC BY 4.0. No endorsement."
+    }
+  }
+]
