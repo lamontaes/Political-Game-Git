@@ -98,4 +98,35 @@ describe("district identity catalog", () => {
       reason: DISTRICT_HOME_JOIN_UNKNOWN,
     });
   });
+
+  it("joins a whole-place Census home and refuses a split city", () => {
+    const adak = districtMembershipFromCanonicalHome({
+      homeJurisdictionId: "adak",
+      catalog,
+      placeGeoid: "0200065",
+      chamber: "state-lower",
+    });
+    expect(adak.kind).toBe("known");
+    if (adak.kind === "known") {
+      expect(adak.binding.recordId).toBe("state-lower:02037");
+      expect(adak.binding.vintage).toBe("census-gazetteer-2025");
+      expect(adak.binding.chamber).toBe("state-lower");
+    }
+    expect(
+      districtMembershipFromCanonicalHome({
+        homeJurisdictionId: "lexington",
+        catalog,
+        placeGeoid: "2146027",
+        chamber: "state-lower",
+      }).kind,
+    ).toBe("conflicting");
+    expect(
+      districtMembershipFromCanonicalHome({
+        homeJurisdictionId: "adak",
+        catalog,
+        placeGeoid: "0200065",
+        chamber: "congressional",
+      }).kind,
+    ).toBe("unknown");
+  });
 });

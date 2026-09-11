@@ -2967,6 +2967,8 @@ export interface DistrictSeatIntent {
  *
  * Absent from old saves. Missing history is UNKNOWN, never backfilled from
  * birthplace, state residence, Gazetteer interior points, or a picker choice.
+ * A verified whole-place Census join may establish an interval on a new life;
+ * it does not rewrite older saves.
  */
 export interface DistrictResidenceInterval {
   readonly id: EntityId;

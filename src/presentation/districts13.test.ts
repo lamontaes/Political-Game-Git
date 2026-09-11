@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { districtIdentityCatalog } from "../districts/catalog";
@@ -7,7 +9,13 @@ import {
   districtIdentityByRecordId,
   districtMembershipFromCanonicalHome,
 } from "../districts/query";
-import { fileForOffice } from "./campaign-projection";
+import {
+  fileForOffice,
+  projectCampaign,
+  spendAnAfternoon,
+} from "./campaign-projection";
+import { openLegislativeFiscalProposalAnalysis } from "./legislative-fiscal-proposal";
+import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import {
   currentDesiredDistrict,
   offeredDistricts,
@@ -27,6 +35,9 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { adaptFiscalAuthorityRecords } from "../source/adapters/fiscal-authority";
+import type { ArtifactLock } from "../source/core/index";
+import { sourceDomain as fiscalAuthorityDomain } from "../source/domains/state-local-fiscal-authority";
 
 function alaskaLife(seed: string) {
   const built = createNewGameWorld({
@@ -82,6 +93,44 @@ function establish(world: World, personId: EntityId, binding = akHouse()) {
   });
   if (result.kind === "refused") throw new Error(result.reason);
   return result.world;
+}
+
+function akHouseThirtySeven() {
+  const identity = districtIdentityByRecordId(
+    districtIdentityCatalog(),
+    "state-lower:02037",
+  );
+  if (!identity) throw new Error("Missing Alaska House District 37 identity.");
+  return bindingFromIdentity(identity);
+}
+
+function adakLife(seed: string) {
+  const built = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed,
+    startAge: 34,
+    placeKey: "0200065",
+    questionnaire: "skipped",
+  });
+  return {
+    world: openOrdinaryLife(built.world, built.playerPersonId),
+    personId: built.playerPersonId,
+  };
+}
+
+function productionFiscalRecords() {
+  const lock = JSON.parse(
+    readFileSync(
+      resolve(
+        process.cwd(),
+        "data/source/state-local-fiscal-authority/artifact-lock.json",
+      ),
+      "utf-8",
+    ),
+  ) as ArtifactLock;
+  return adaptFiscalAuthorityRecords(
+    fiscalAuthorityDomain.compileProduction(lock).records,
+  );
 }
 
 describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
@@ -245,4 +294,92 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       }).kind,
     ).toBe("refused");
   }, 60_000);
+
+  it("does not invent membership for a split city or a statewide Alaska home", () => {
+    const ky = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "districts13-lexington-split",
+      startAge: 34,
+      placeKey: "lexington-fayette",
+      questionnaire: "skipped",
+    });
+    expect(districtResidenceIntervals(ky.world)).toEqual([]);
+    const { world, personId } = alaskaLife("districts13-state-home");
+    expect(districtResidenceIntervals(world)).toEqual([]);
+    expect(
+      districtMembershipFromCanonicalHome({
+        homeJurisdictionId: world.people[personId]!.homeJurisdictionId,
+        catalog: districtIdentityCatalog(),
+        chamber: "state-lower",
+      }),
+    ).toEqual({
+      kind: "unknown",
+      reason: DISTRICT_HOME_JOIN_UNKNOWN,
+    });
+  });
+
+  it("establishes whole-place Adak membership, then files and runs the ordinary campaign without forcing a win", () => {
+    const { world, personId } = adakLife("districts13-adak-join");
+    const house = akHouseThirtySeven();
+    const intervals = districtResidenceIntervals(world);
+    expect(
+      intervals.some(
+        (interval) =>
+          interval.personId === personId &&
+          interval.binding.recordId === "state-lower:02037" &&
+          interval.provenance.method === "canonical-home-join" &&
+          interval.provenance.sourceEventId !== null,
+      ),
+    ).toBe(true);
+    expect(
+      intervals.some(
+        (interval) => interval.binding.recordId === "state-upper:0200S",
+      ),
+    ).toBe(true);
+    const chosen = recordDesiredDistrict(world, personId, akHouseTwo());
+    expect(
+      districtResidenceSince(
+        chosen,
+        personId,
+        akHouseTwo(),
+        chosen.currentDate,
+      ),
+    ).toBeNull();
+    const waited = passOrdinaryDays(chosen, 1200);
+    expect(() => fileForOffice(waited, personId, akHouseTwo())).toThrow(
+      /district-residence/,
+    );
+    let next = fileForOffice(waited, personId, house);
+    expect(
+      next.history.electionContests?.at(-1)?.office.districtBinding?.recordId,
+    ).toBe("state-lower:02037");
+    next = spendAnAfternoon(next, personId, "fundraising");
+    for (
+      let day = 0;
+      day < 60 && projectCampaign(next, personId).phase === "active";
+      day += 1
+    ) {
+      next = passOrdinaryDays(next);
+    }
+    const phase = projectCampaign(next, personId).phase;
+    expect(["won", "lost", "active"]).toContain(phase);
+    expect(phase).not.toBe("active");
+    const seat = resolveActiveMemberSeat(next, personId);
+    const fiscal = openLegislativeFiscalProposalAnalysis(
+      next,
+      productionFiscalRecords(),
+      {
+        personId,
+        stateUsps: "AK",
+        level: "MUNICIPALITY",
+        instrument: "GENERAL_SALES_TAX",
+        asOfDate: "2026-09-09",
+      },
+    );
+    if (seat.kind === "seated") {
+      expect(fiscal.kind).toBe("opened");
+    } else {
+      expect(fiscal.kind).toBe("refused");
+    }
+  }, 180_000);
 });

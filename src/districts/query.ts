@@ -4,12 +4,19 @@ import type {
   DistrictIdentity,
   DistrictSeatBinding,
 } from "./types";
+import { placeDistrictJoin } from "./place-membership";
 
 export const DISTRICT_MEMBERSHIP_REFUSAL =
   "Gazetteer interior points are not district boundaries or home membership. The game will not assign a district from a coordinate, a nearest centroid, a city, a county, or statewide residence.";
 
 export const DISTRICT_HOME_JOIN_UNKNOWN =
   "A recorded home place or jurisdiction is not numbered-district membership. The game will not treat a city, county, or state name as proof that the home lies in a Gazetteer district.";
+
+export const DISTRICT_HOME_JOIN_SPLIT =
+  "The recorded home place is split across more than one district of this chamber. Whole-place membership is not known, and the game will not pick a district.";
+
+export const DISTRICT_HOME_JOIN_IDENTITY_MISSING =
+  "The relationship file names a district that is not in the accepted Gazetteer identity catalog, so membership stays unknown.";
 
 export function gazetteerChamberForOfficeChamberKey(
   chamberKey: string,
@@ -79,16 +86,59 @@ export function districtMembershipFromInteriorPoint(input: {
   return { kind: "refused", reason: DISTRICT_MEMBERSHIP_REFUSAL };
 }
 
+export type DistrictHomeMembership =
+  | {
+      readonly kind: "known";
+      readonly binding: DistrictSeatBinding;
+      readonly identity: DistrictIdentity;
+    }
+  | { readonly kind: "unknown"; readonly reason: string }
+  | { readonly kind: "conflicting"; readonly reason: string };
+
 /**
- * Canonical home is a place/jurisdiction fact, not a point-in-polygon district
- * join. Unknown stays unknown until a supported membership provider exists.
+ * Join a Census place GEOID to a numbered district of one chamber.
+ *
+ * The home jurisdiction id alone is never membership. Statewide and county
+ * homes stay unknown. A split place is conflicting, not a nearest-district
+ * guess. Congressional chambers have no published place relationship here.
  */
 export function districtMembershipFromCanonicalHome(input: {
   readonly homeJurisdictionId: string;
   readonly catalog: readonly DistrictIdentity[];
-}): { readonly kind: "unknown"; readonly reason: string } {
-  void input;
-  return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
+  readonly placeGeoid?: string | null;
+  readonly chamber?: DistrictChamber;
+}): DistrictHomeMembership {
+  void input.homeJurisdictionId;
+  if (!input.placeGeoid || !input.chamber) {
+    return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
+  }
+  const joined = placeDistrictJoin(input.placeGeoid, input.chamber);
+  if (joined.kind === "unknown") {
+    return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
+  }
+  if (joined.kind === "split") {
+    return { kind: "conflicting", reason: DISTRICT_HOME_JOIN_SPLIT };
+  }
+  const identity = districtIdentityByRecordId(
+    input.catalog,
+    districtRecordId(input.chamber, joined.districtGeoid),
+  );
+  if (!identity || identity.isUnassignedResidual) {
+    return { kind: "unknown", reason: DISTRICT_HOME_JOIN_IDENTITY_MISSING };
+  }
+  const resolved = resolveDistrictBinding(
+    input.catalog,
+    bindingFromIdentity(identity),
+    { chamber: input.chamber },
+  );
+  if (resolved.kind === "refused") {
+    return { kind: "unknown", reason: resolved.reason };
+  }
+  return {
+    kind: "known",
+    binding: resolved.binding,
+    identity: resolved.identity,
+  };
 }
 
 export function resolveDistrictBinding(
