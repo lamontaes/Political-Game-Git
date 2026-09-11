@@ -1,0 +1,171 @@
+{
+  "source": "/Users/lamontae/Documents/Political-Game-ENV-ALL1",
+  "head": "1eb0b0d09be40e3e10bedd2a1d9fa301eae47f4b",
+  "branch": "claude/env-all1-existing-environments",
+  "patchSha256": "b6c905c13d0e14da0e4375cf30a3de78759f1f3968865fa0c737a01e638f0b16",
+  "files": [
+    {
+      "path": ".claude/launch.json",
+      "bytes": 235,
+      "sha256": "1b46667cabd937dded4f8c15e332fd22df2b919b6a65b144f47de8071b0164c7",
+      "tracked": true
+    },
+    {
+      "path": "art/manifest/asset_manifest.json",
+      "bytes": 219837,
+      "sha256": "357cb56c8075a21d3bc60d5234d8da2f15017ba23e0af2fea910c2a7eed201e2",
+      "tracked": true
+    },
+    {
+      "path": "art/manifest/environment_families.json",
+      "bytes": 12108,
+      "sha256": "56fd830bc741333ac2bc55627a43db6740e7759ecbb4af2471e3822e03c33946",
+      "tracked": true
+    },
+    {
+      "path": "art/manifest/provenance.json",
+      "bytes": 145851,
+      "sha256": "594ef869d83e4c446a47f574843d4856dca58c3dd142a83d6079ba5d687e8593",
+      "tracked": true
+    },
+    {
+      "path": "art/qa/asset_bank_inventory.json",
+      "bytes": 15038,
+      "sha256": "da83fcbf707c98d7cb2b62fee68d779e9f92ac16f1b9de56eed468348cf5f5dc",
+      "tracked": true
+    },
+    {
+      "path": "art/qa/asset_bank_inventory.md",
+      "bytes": 11892,
+      "sha256": "d2c9c1ac9b94f001f52d4f5f32fdf41e657b7e01366a4be1c5586bc68c0db34b",
+      "tracked": true
+    },
+    {
+      "path": "src/presentation/life-scene.ts",
+      "bytes": 5290,
+      "sha256": "17118f5ed9c7edfddcc3739f39d73e8b45e7fa03eb447bbe2f9275e547e1e8fa",
+      "tracked": true
+    },
+    {
+      "path": "src/presentation/scene-consumers.ts",
+      "bytes": 17634,
+      "sha256": "789e3d27258f57005ae079ee87814e9badc3600f033fe809a51501b5d1d608bf",
+      "tracked": true
+    },
+    {
+      "path": "src/presentation/scene-registry.test.ts",
+      "bytes": 17105,
+      "sha256": "155c3e7c0625a9b9f5b42200fe89055a6fe0c9e566d632c1be735eb69a8ff0e1",
+      "tracked": true
+    },
+    {
+      "path": "src/presentation/scene-registry.ts",
+      "bytes": 12664,
+      "sha256": "cd0b18235da74e0f44bbc847959cb91af3332181fa23a3cd8232e5f1ff1f9afb",
+      "tracked": true
+    },
+    {
+      "path": "src/ui/SceneGalleryView.tsx",
+      "bytes": 28442,
+      "sha256": "3d6305896b15566f5ff054209818ee39df2d8741e8a1b88672fe21a6a3e039b7",
+      "tracked": true
+    },
+    {
+      "path": "tests/art-asset-factory.test.ts",
+      "bytes": 34500,
+      "sha256": "cd42328aa6a5403345c705c254845f79f24558cf9c2b58b9ddadf6e4cd67edd8",
+      "tracked": true
+    },
+    {
+      "path": "tests/environment-intake-queue.test.ts",
+      "bytes": 5889,
+      "sha256": "2eb3536c64ca745fcb5b439c145d0d351c2e4a679532368686c54649bbb319f6",
+      "tracked": true
+    },
+    {
+      "path": "art/families/courtroom/env_courtroom_empty_runtime_2x_v1.png",
+      "bytes": 6164975,
+      "sha256": "d731c5c1f281ce7c617e57079742eb59eefb8a7096ffbbc2d5eb1b2757317a7c",
+      "tracked": false
+    },
+    {
+      "path": "art/families/courtroom/env_courtroom_empty_v1.png",
+      "bytes": 1694949,
+      "sha256": "482887a6dc4da8d3879f542c0f6eafa2e39f995ad6c14bcc050f0231bcc8cbc4",
+      "tracked": false
+    },
+    {
+      "path": "art/intake/env-all1/asset-bank.json",
+      "bytes": 3160,
+      "sha256": "21de204ddd906405d6ee14b1fb838c660591f03d523d33d1f83f03e2b7175418",
+      "tracked": false
+    },
+    {
+      "path": "art/intake/env-all1/environment-intake-report.json",
+      "bytes": 5483,
+      "sha256": "c965758b6669d4590d803d8c07cc259cec9efd0c01414d04c5d2b1968ab674c9",
+      "tracked": false
+    },
+    {
+      "path": "art/intake/environment-batch-env-all1.request.json",
+      "bytes": 5329,
+      "sha256": "34766887b603c1fe2f45f57123302d5b04dd90b786589b690a0c27a495601b62",
+      "tracked": false
+    },
+    {
+      "path": "docs/plans/active/env-all1-integration-patch.md",
+      "bytes": 3824,
+      "sha256": "ff8853c4284127bfc77cea77ec452c56b74db1b15b17d762279330d43f76ccd1",
+      "tracked": false
+    },
+    {
+      "path": "docs/plans/active/env-all1-progress.md",
+      "bytes": 3935,
+      "sha256": "eb01c0d38ce29ae81c4a5df863b411017674157af68ecf35d11874575c899279",
+      "tracked": false
+    },
+    {
+      "path": "src/environment/environment-sources.test.ts",
+      "bytes": 6563,
+      "sha256": "4b9eba4f106fda55ab58f4f9bc3aa8f7b8be1e68c9d6bdb9a8a0ecef3dbcfbbe",
+      "tracked": false
+    },
+    {
+      "path": "src/environment/environment-sources.ts",
+      "bytes": 25625,
+      "sha256": "964a2f2bf485fdb1317a4da23c790befe29e8704423c8562cab9603f90bebd93",
+      "tracked": false
+    },
+    {
+      "path": "src/environment/scenes/civic-community-meeting-room-production.ts",
+      "bytes": 7401,
+      "sha256": "b9501ec658b68cbf6a036abd20ec902173faa8ad965b216641e62ac4c2c7b124",
+      "tracked": false
+    },
+    {
+      "path": "src/environment/scenes/courtroom-empty-production.ts",
+      "bytes": 12477,
+      "sha256": "4ab3969dbc035ffabb8301759ea6ccd0db48b8ca2f39b163bf89ffc9becf769a",
+      "tracked": false
+    },
+    {
+      "path": "src/presentation/scene-venues.test.ts",
+      "bytes": 10882,
+      "sha256": "291ece53b8b0ead64c709c7bbaf88125d2038b4c58dbb1c60fc24d505e10321b",
+      "tracked": false
+    },
+    {
+      "path": "src/presentation/scene-venues.ts",
+      "bytes": 14251,
+      "sha256": "82b68183945114bc59ea6b73b3593511a76053652e2755ab01226f458bfd075a",
+      "tracked": false
+    },
+    {
+      "path": "src/ui/scene-venue-exercise.ts",
+      "bytes": 8703,
+      "sha256": "db3e5949ba38d60fb432d5f3fbb3521fd1a1f8784530a0a61effdcd754bb01a5",
+      "tracked": false
+    }
+  ],
+  "excludedUntracked": []
+}

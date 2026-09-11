@@ -1,0 +1,149 @@
+{
+  "candidateCount": 4,
+  "productionCount": 4,
+  "records": [
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_civic_work_interior_5504x3072_01",
+      "byteLength": 3068039,
+      "contentHash": "c2829c934d7f3aa78dd8a2ed07be75c23189dd7dc6a614176403691edc43439c",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5205.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    },
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_executive_office_empty_5504x3072_01",
+      "byteLength": 3418160,
+      "contentHash": "a538616176e4340aa828fa56dbc61fe18b298552d7604e889233872bbb1179aa",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5189.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    },
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_field_office_5504x3072_01",
+      "byteLength": 3230845,
+      "contentHash": "42ae20cf5155126c5ecce708d724ca2b8ee9719ca2f42816312961256eeced88",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5207.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    },
+    {
+      "aspectRatio": 1.7917,
+      "assetId": "env_field_office_variant_5504x3072_01",
+      "byteLength": 3230845,
+      "contentHash": "19f08cd8248f37bd95a8a5348f9465e52b6b986e783917cd7e21e1d18caab8cd",
+      "derivationMethod": null,
+      "disposition": "production",
+      "familyId": null,
+      "findings": [
+        {
+          "code": "native-detail-unverified",
+          "message": "Nobody has vouched for the detail behind these pixels. The asset may be used, and every tier derived from it will report unverified detail rather than claiming its pixel width.",
+          "severity": "warning"
+        },
+        {
+          "code": "rights-status-unknown",
+          "message": "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
+          "severity": "warning"
+        }
+      ],
+      "format": "jpg",
+      "hasAlphaChannel": false,
+      "hasVaryingAlpha": false,
+      "height": 3072,
+      "lineageClass": "original-master",
+      "nativeDetailState": "unverified",
+      "nativeDetailWidth": null,
+      "path": "art/references/candidates/recent-drive-sweep/source-images/IMG_5190.JPG",
+      "rightsStatus": "unknown",
+      "sourceAssetId": null,
+      "sourceHeight": null,
+      "sourceWidth": null,
+      "targetClass": "environment-plate",
+      "width": 5504
+    }
+  ],
+  "referenceCount": 0,
+  "rejectCount": 0,
+  "tool": "environment-master-intake-v1"
+}

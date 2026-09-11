@@ -1,0 +1,18 @@
+{
+  "head": "14b81ed",
+  "url": "http://127.0.0.1:5362/?view=scene-gallery",
+  "results": [
+    {
+      "width": 1440,
+      "action": "pointer",
+      "count": 12,
+      "errors": []
+    },
+    {
+      "width": 960,
+      "action": "keyboard",
+      "count": 12,
+      "errors": []
+    }
+  ]
+}
