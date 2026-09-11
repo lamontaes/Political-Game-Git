@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "corpusSha256": "9d63e5a66a1e4dcc9e08311b62c167818f705737779432a25dc17fb67dfd5c1f",
   "compilerVersion": "1.0.0",
   "profiles": [
@@ -2992,6 +2992,393 @@
           "reason": "No operative official authority for this field was acquired and verified in the bounded 92P first wave."
         }
       }
+    }
+  ],
+  "procedures": [
+    {
+      "key": "mn-just-cause",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "A permanent classified employee may be reprimanded, discharged, suspended without pay or demoted only for just cause, after managers and employees attempt informal resolution.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 1",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "Managers and employees shall attempt to resolve disputes through informal means prior to the initiation of disciplinary action.",
+        "No permanent employee in the classified service shall be reprimanded, discharged, suspended without pay, or demoted, except for just cause."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-just-cause-grounds",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Just cause includes, without being limited to, the four named grounds; policy violations count only when the policies are applied uniformly and without discrimination.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 2",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "just cause includes, but is not limited to, consistent failure to perform assigned duties, substandard performance, insubordination, and serious violation of written policies and procedures, provided the policies and procedures are applied in a uniform, nondiscriminatory manner."
+      ],
+      "terms": {
+        "grounds": [
+          "consistent-failure-to-perform",
+          "substandard-performance",
+          "insubordination",
+          "serious-policy-violation"
+        ]
+      }
+    },
+    {
+      "key": "mn-agreement-procedures",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Discipline and discharge procedures for employees covered by a collective bargaining agreement are governed by that agreement.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(a)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "Procedures for discipline and discharge of employees covered by collective bargaining agreements shall be governed by the agreements."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-discipline-notice",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "For a discharge, suspension without pay or demotion of a permanent classified employee not covered by an agreement, the appointing authority gives written notice no later than the effective date. The notice states the right to appeal to the Bureau of Mediation Services within 30 calendar days, and the notice and any reply are filed with the commissioner within ten calendar days.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(b)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "For discharge, suspension without pay or demotion, no later than the effective date of such action, a permanent classified employee not covered by a collective bargaining agreement shall be given written notice by the appointing authority.",
+        "The notice shall also include a statement that the employee may elect to appeal the action to the Bureau of Mediation Services within 30 calendar days following the effective date of the disciplinary action.",
+        "A copy of the notice and the employee's reply, if any, shall be filed by the appointing authority with the commissioner no later than ten calendar days following the effective date of the disciplinary action."
+      ],
+      "terms": {
+        "appealWithinCalendarDays": 30,
+        "commissionerFilingWithinCalendarDays": 10
+      }
+    },
+    {
+      "key": "mn-notice-plan-content",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "The applicable plan's grievance procedure prescribes further notice content and the reply procedure; that plan is not acquired.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(b)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "The content of that notice as well as the employee's right to reply to the appointing authority shall be as prescribed in the grievance procedure contained in the applicable plan established pursuant to section 43A.18 ."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-commissioner-settlement",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "The commissioner decides whether the appointing authority must settle the dispute before the hearing.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(b)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "The commissioner shall have final authority to decide whether the appointing authority shall settle the dispute prior to the hearing provided under this subdivision."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-probationary-grievance",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Grievances over discipline during an initial probationary period follow the plan, which is not acquired.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(c)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "For discharge, suspension, or demotion of an employee serving an initial probationary period, and for noncertification in any subsequent probationary period, grievance procedures shall be as provided in the plan established pursuant to section 43A.18 ."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-arbitration",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "The Bureau's commissioner provides a list of potential arbitrators under Bureau rules. Selection follows the plan and the hearing follows Bureau rules; neither is acquired.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.33, subd. 3(d)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "Within ten days of receipt of the employee's written notice of appeal, the commissioner of the Bureau of Mediation Services shall provide both parties with a list of potential arbitrators according to the rules of the Bureau of Mediation Services to hear the appeal.",
+        "The process of selecting the arbitrator from the list shall be determined by the plan."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "mn-reinstatement",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "An appointing authority may directly reinstate a former permanent or probationary employee of the job class within four years of separation from the class.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.15, subd. 15",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "An appointing authority may directly reinstate a person who is a former permanent or probationary employee of the job class, within four years of separation from the class."
+      ],
+      "terms": { "withinYearsOfSeparation": 4 }
+    },
+    {
+      "key": "mn-probation",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "A classified probationary period lasts between 30 days and two years of full-time-equivalent service, as the agreement or plan sets. An appointing authority may require probation for reinstatements of former employees of a different appointing authority.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.16, subds. 1-2",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "All unlimited appointments to positions in the classified service except as provided in this subdivision shall be for a probationary period the duration of which shall be determined through collective bargaining agreements or plans established pursuant to section 43A.18 but which shall not be less than 30 days of full-time equivalent service nor more than two years of full-time equivalent service.",
+        "An appointing authority may require a probationary period for transfers, reinstatements, voluntary demotions, and appointments from layoff lists of former employees of a different appointing authority.",
+        "There is no presumption of continued employment during a probationary period."
+      ],
+      "terms": {
+        "minimumFullTimeEquivalentDays": 30,
+        "maximumFullTimeEquivalentYears": 2
+      }
+    },
+    {
+      "key": "mn-unclassified-offices",
+      "jurisdictionKey": "US-MN",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Employees in the offices of the governor and lieutenant governor, and the attorney general's attorneys, legal assistants and three confidential employees, hold unclassified positions.",
+      "citation": {
+        "artifactId": "mn-civil-service-statutes",
+        "sha256": "de3fde142b04ce7ef8788f088e6fb09f501c8b4a944c8886e6314974ff92f542",
+        "citation": "Minn. Stat. § 43A.08, subd. 1(6), (11)",
+        "url": "https://www.revisor.mn.gov/statutes/cite/43A/full"
+      },
+      "excerpts": [
+        "Unclassified positions are held by employees who are:",
+        "(6) employees in the offices of the governor and of the lieutenant governor",
+        "(11) attorneys, legal assistants, and three confidential employees appointed by the attorney general or employed with the attorney general's authorization"
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-hearing",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "A classified employee who is dismissed, demoted or suspended for more than 30 working days in 12 months gets written notice and a reason from the employer, and may request a public Personnel Board hearing within 15 days.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.170(a)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "An employee in the classified service who is dismissed, demoted, or suspended for more than 30 working days in a 12-month period shall be notified in writing by the employer of the action and the reason for it and may be heard publicly by the personnel board and may be represented by counsel at the hearing.",
+        "In order to be heard, the complainant shall request a hearing within 15 days of dismissal, demotion, or suspension."
+      ],
+      "terms": { "requestWithinDays": 15, "suspensionThresholdWorkingDays": 30 }
+    },
+    {
+      "key": "ak-board-remedy",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "The board reinstates without loss when it finds a political, racial or religious reason or a violation of the chapter or its rules; otherwise it reports findings and recommendations.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.170(b)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "If the board finds that the action complained of was taken for a political, racial, or religious reason, or in violation of this chapter or the rules adopted under this chapter, the officer or employee shall be reinstated to the position without loss of pay or leave benefit for the period of dismissal, demotion, or suspension.",
+        "In all other cases, the board shall report its findings and recommendations to both parties."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-partially-exempt",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "A partially exempt employee is not eligible for a Personnel Board hearing on dismissal, demotion or suspension.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.120(b)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "A person holding a position in the partially exempt service is not required to complete an assessment and is not eligible for a hearing by the personnel board in case of dismissal, demotion, or suspension."
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-exempt",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Exempt-service positions are outside chapter 39.25 and its rules, including its hearing right.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.110",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "positions in the state service constitute the exempt service and are exempt from the provisions of this chapter and the rules adopted under it"
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-governor-office-exempt",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Employees of the offices of the governor and lieutenant governor are in the exempt service.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.110(20)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "(20) employees of the Office of the Governor and the office of the lieutenant governor, including the staff of the governor's mansion;"
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-probation",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Personnel rules provide a probation of at most one year before an appointment becomes permanent, unless an agreement extends it.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.150(7)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "a period of probation not to exceed one year before an appointment to a position becomes permanent, unless the period of probation is extended as set out in a collective bargaining agreement under AS 23.40"
+      ],
+      "terms": { "maximumYears": 1 }
+    },
+    {
+      "key": "ak-discipline-rules",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "Disciplinary measures and the review of disputed personnel actions are set by personnel rules, which are not acquired.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.150(15)-(16)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "the establishment of disciplinary measures, which may include disciplinary suspension without pay;",
+        "the procedures for review of disputed personnel actions, for resolving employee and interagency grievances"
+      ],
+      "terms": {}
+    },
+    {
+      "key": "ak-merit",
+      "jurisdictionKey": "US-AK",
+      "validity": {
+        "state": "CURRENT_OBSERVATION",
+        "observedOn": "2026-09-06"
+      },
+      "statement": "An action affecting a classified employee's status may not be taken or withheld for a reason not related to merit.",
+      "citation": {
+        "artifactId": "ak-civil-service-statutes",
+        "sha256": "43e12497ea345b0c1609567bfa52d5c23b708e1ed76c6a6c574136e164eb8d2f",
+        "citation": "Alaska Stat. § 39.25.160(f)",
+        "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.25.110&secEnd=39.25.180"
+      },
+      "excerpts": [
+        "action affecting the employment status of an employee in the classified service, including appointment, promotion, demotion, suspension, or removal, may not be taken or withheld for a reason not related to merit."
+      ],
+      "terms": {}
     }
   ]
 }

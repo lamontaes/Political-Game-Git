@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { ArtifactLock } from "../../src/source/core/index";
 import { compilePersonnelSourceProjection } from "../../src/source/adapters/civil-personnel";
+import { compilePersonnelProcedures } from "../../src/source/adapters/civil-personnel-procedures";
+import { openCivilServiceLaborArtifacts } from "../../src/source/domains/civil-service-labor/index";
 
 const lock = () =>
   JSON.parse(
@@ -66,5 +68,35 @@ describe("CIVIL-WORK7 source-to-consumer projection", () => {
         ],
       }),
     ).toThrow();
+  });
+  it("binds every procedure excerpt and term to the rights-scoped enacted text", () => {
+    const input = lock();
+    const opened = openCivilServiceLaborArtifacts(input).artifacts;
+    const procedures = compilePersonnelProcedures(opened, input);
+    expect(procedures).toHaveLength(19);
+    for (const procedure of procedures) {
+      const locked = input.artifacts.find(
+        (a) => a.artifactId === procedure.citation.artifactId,
+      )!;
+      expect(procedure.citation.sha256).toBe(locked.bytes.sha256);
+    }
+    // The pinned Minnesota region starts at § 43A.07, so its definitions
+    // (appointing authority, permanent status) are not citable at all.
+    const text = opened["mn-civil-service-statutes"]!.bytes.toString("utf-8");
+    expect(text).not.toContain('"Appointing authority" means');
+    // A changed statute fails closed instead of keeping a stale procedure.
+    const tampered = {
+      ...opened,
+      "mn-civil-service-statutes": {
+        ...opened["mn-civil-service-statutes"]!,
+        bytes: Buffer.from(
+          text.replace("within 30 calendar days", "within 60 calendar days"),
+          "utf-8",
+        ),
+      },
+    };
+    expect(() => compilePersonnelProcedures(tampered, input)).toThrow(
+      /no longer contains its declared excerpt/,
+    );
   });
 });
