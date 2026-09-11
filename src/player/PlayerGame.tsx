@@ -5,7 +5,6 @@ import {
   savedRenderSnapshots,
   SavedAppearanceControls,
 } from "./SavedAppearance";
-import { playerEconomicContextLines } from "../presentation/economic-context";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
@@ -102,12 +101,7 @@ import {
   lifePlaceCoverage,
   lifePlaceSearch,
 } from "../simulation";
-import type {
-  EntityId,
-  LifePlace,
-  QuestionnairePhase,
-  World,
-} from "../simulation";
+import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -734,29 +728,6 @@ const CUSTOM_CREATOR_STEPS = [
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-/** A short, plain place context, built only from what the sources actually hold. */
-function placeContextLines(place: LifePlace): readonly string[] {
-  const lines: string[] = [];
-  if (place.withinName) lines.push(place.withinName);
-  if (place.formalName && place.formalName !== place.displayName) {
-    lines.push(place.formalName);
-  }
-  // Capability-gated, never fabricated: the only civic fact the accepted data
-  // carries is whether the game models a legislature you could later enter.
-  lines.push(
-    place.capabilities.legislativeScenarioKey
-      ? "The game models this state's legislature, so political office is reachable here later."
-      : "The game does not model a legislature here yet, so this is an everyday life for now.",
-  );
-  lines.push(
-    ...playerEconomicContextLines(
-      place.key,
-      place.context.initialMoment.date,
-    ).map((item) => item.text),
-  );
-  return lines;
-}
-
 function SetupScreen({
   seed,
   seedOrigin,
@@ -1115,18 +1086,13 @@ function SetupScreen({
               <p className="creator-place-name" data-testid="place-canonical">
                 {place.displayName}
               </p>
-              <p className="game-hint" data-testid="place-scope">
-                {place.scope === "state"
-                  ? "A whole state, chosen as the scope of this life."
-                  : place.scope === "county"
-                    ? "County or county equivalent. Your town is unspecified."
-                    : "This is the exact place this life will be lived in."}
-              </p>
-              {placeContextLines(place).map((line) => (
-                <p key={line} className="game-hint">
-                  {line}
+              {place.scope !== "locality" ? (
+                <p className="game-hint" data-testid="place-scope">
+                  {place.scope === "state"
+                    ? "Statewide start."
+                    : "County-wide start; a specific town is not selected."}
                 </p>
-              ))}
+              ) : null}
               <button
                 type="button"
                 className="game-creator-next"
@@ -1221,7 +1187,7 @@ function SetupScreen({
               Legislative staff
               <small>
                 {place?.capabilities.legislativeScenarioKey === null
-                  ? `${place.displayName} has no legislature you can work in yet.`
+                  ? "A legislative staff start is not available for this selected place yet."
                   : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
                     ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
                     : "Working for a state legislature."}
