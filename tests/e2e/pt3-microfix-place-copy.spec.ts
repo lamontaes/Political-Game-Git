@@ -49,7 +49,7 @@ test("keeps the canonical place without formal or capability clutter", async ({
   await expect(context).not.toContainText("This is the exact place");
   await expect(context).not.toContainText("Lexington-Fayette");
   await expect(context).not.toContainText("United States");
-  await expect(context).not.toMatch(/game models|no legislature|capability/i);
+  await expect(context).not.toContainText(/game models|no legislature|capability/i);
 });
 
 test("scopes the unavailable message to the legislative staff start", async ({

@@ -104,7 +104,6 @@ import {
 } from "../simulation";
 import type {
   EntityId,
-  LifePlace,
   QuestionnairePhase,
   World,
 } from "../simulation";
