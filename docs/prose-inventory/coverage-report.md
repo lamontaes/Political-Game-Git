@@ -9,10 +9,10 @@ needs a person's judgement is the honest state of the check.
 | --- | --- |
 | INVENTORIED | 2334 |
 | INTENTIONALLY_NON_PLAYER_FACING | 5641 |
-| DIAGNOSTIC_OR_TEST | 4641 |
-| **NEEDS_CLASSIFICATION** | **6090** |
+| DIAGNOSTIC_OR_TEST | 4647 |
+| **NEEDS_CLASSIFICATION** | **6109** |
 
-Scanned 550 files holding 70552 string
+Scanned 552 files holding 70695 string
 literals in total; the table counts only those that read like a sentence.
 
 ## Trees not scanned, and why
@@ -38,7 +38,7 @@ literals in total; the table counts only those that read like a sentence.
 | 214 | `src/simulation/executive-authority-rule-packs.ts` |
 | 199 | `src/simulation/legislation-service-families.ts` |
 | 126 | `src/simulation/legislation.ts` |
-| 103 | `src/player/PlayerGame.tsx` |
+| 114 | `src/player/PlayerGame.tsx` |
 | 97 | `src/simulation/opening-life-content.ts` |
 | 87 | `src/simulation/policy.ts` |
 | 76 | `src/presentation/legislative-bargaining.ts` |
@@ -171,6 +171,7 @@ literals in total; the table counts only those that read like a sentence.
 | 10 | `src/ui/CausalTraceView.tsx` |
 | 10 | `src/ui/PeopleVisual4Review.tsx` |
 | 9 | `src/player/PlacesWorkspace.tsx` |
+| 9 | `src/player/ShellNav.tsx` |
 | 9 | `src/player/opening-life/LifeScenePanel.tsx` |
 | 9 | `src/presentation/surface-binding.ts` |
 | 9 | `src/simulation/campaign-compliance.ts` |
@@ -194,7 +195,6 @@ literals in total; the table counts only those that read like a sentence.
 | 8 | `src/ui/PoseContactProof.tsx` |
 | 7 | `src/player/QuickDossier.tsx` |
 | 7 | `src/player/ShellDossier.tsx` |
-| 7 | `src/player/ShellNav.tsx` |
 | 7 | `src/presentation/candidate-review.ts` |
 | 7 | `src/presentation/life-scene-people.ts` |
 | 7 | `src/presentation/life-talk-conversation.ts` |
@@ -209,6 +209,7 @@ literals in total; the table counts only those that read like a sentence.
 | 6 | `src/player/VenueActivityPanel.tsx` |
 | 6 | `src/player/opening-life/OpeningLifePanel.tsx` |
 | 6 | `src/presentation/component-masters.ts` |
+| 6 | `src/presentation/day-overview.ts` |
 | 6 | `src/presentation/formative-context.ts` |
 | 6 | `src/presentation/formative-play.ts` |
 | 6 | `src/presentation/legislative-bargaining-fixture.ts` |
