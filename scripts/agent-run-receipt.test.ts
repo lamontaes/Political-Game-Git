@@ -741,6 +741,78 @@ describe("agent-run-receipt: the output directory cannot hide source (EFF-R2)", 
     expect(verify(dir, "test").status).toBe(0);
   });
 
+  it("refuses a forged stage that renames which artifacts this same file may exclude (RETURN11)", () => {
+    // Binding ownership to the receipt's real directory (above) leaves one
+    // move still open: leave the file exactly where it is, at check.json,
+    // and edit only its own `stage` field to "other" plus sourceExcludePaths
+    // to name out/other.json instead. expectedExcludePaths trusted
+    // receipt.stage to pick the artifact pair without checking it against
+    // the file's own actual name, so a same-directory file tampered with
+    // under that new name recomputed clean. A receipt found at
+    // "check.json" may only ever claim to be the "check" stage.
+    const dir = mkdtempSync(join(tmpdir(), "agent-run-receipt-"));
+    cleanupDirs.push(dir);
+    const run = (args: string[]) =>
+      execFileSync("git", args, { cwd: dir, encoding: "utf8" });
+    run(["init", "--quiet", "--initial-branch=fixture-main"]);
+    run(["config", "user.email", "fixture@example.com"]);
+    run(["config", "user.name", "Fixture"]);
+    writeFileSync(join(dir, "file.txt"), "one\n");
+    // Only the two exact stage artifacts are ignored here, not the whole
+    // `out/` directory -- deliberately a different fixture shape than
+    // makeFixtureRepo's, so the finding is shown independent of that.
+    writeFileSync(join(dir, ".gitignore"), "/out/check.json\n/out/check.log\n");
+    run(["add", "."]);
+    run(["commit", "--quiet", "-m", "initial"]);
+
+    expect(
+      runReceipt(dir, [
+        "--stage",
+        "check",
+        "--out",
+        "out",
+        "--",
+        "node",
+        "-e",
+        "process.exit(0)",
+      ]).status,
+    ).toBe(0);
+    const receiptPath = join(dir, "out", "check.json");
+    const genuine = JSON.parse(readFileSync(receiptPath, "utf8"));
+    expect(
+      runReceipt(dir, ["--verify", join("out", "check.json")]).status,
+    ).toBe(0);
+
+    // Real tampering: an untracked, non-ignored file lands beside it.
+    writeFileSync(join(dir, "out", "other.json"), '{"tampered":true}\n');
+    const caught = runReceipt(dir, ["--verify", join("out", "check.json")]);
+    expect(caught.status).not.toBe(0);
+    expect(caught.stderr).toMatch(/source changed after the run/);
+
+    // Forge ONLY the stage and its matching exclusion list. The file itself
+    // never moves; headSha, branch, fingerprint and every other field are
+    // untouched.
+    const forged = {
+      ...genuine,
+      stage: "other",
+      sourceExcludePaths: ["out/other.json", "out/other.log"],
+    };
+    writeFileSync(receiptPath, JSON.stringify(forged, null, 2) + "\n");
+    const result = runReceipt(dir, ["--verify", join("out", "check.json")]);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(
+      /cannot exclude a different stage's artifacts by editing its own stage field/,
+    );
+
+    // Tampering the file a second time changes nothing about that verdict.
+    writeFileSync(join(dir, "out", "other.json"), '{"tampered":"again"}\n');
+    const stillRefused = runReceipt(dir, [
+      "--verify",
+      join("out", "check.json"),
+    ]);
+    expect(stillRefused.status).not.toBe(0);
+  });
+
   it("treats a non-receipt .json and an orphan .log in the output directory as source, not as its own artifacts", () => {
     const dir = makeFixtureRepo();
     cleanupDirs.push(dir);

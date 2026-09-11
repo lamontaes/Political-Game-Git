@@ -51,7 +51,15 @@ import {
   readlinkSync,
   realpathSync,
 } from "node:fs";
-import { dirname, join, relative, resolve, isAbsolute, sep } from "node:path";
+import {
+  basename,
+  dirname,
+  join,
+  relative,
+  resolve,
+  isAbsolute,
+  sep,
+} from "node:path";
 
 const SCHEMA_VERSION = 3;
 const SOURCE_IDENTITY_VERSION = "ocd-source-identity-v1";
@@ -525,46 +533,64 @@ function runVerify({ receiptPath, expectBranch }) {
     );
   }
   if (receipt.schemaVersion === SCHEMA_VERSION) {
-    // A receipt may only ever have left out its own two artifacts, at the
-    // exact repository-relative location where THIS receipt file actually
-    // lives — never a path that merely shares a basename with them. The
-    // expected list is derived from receiptPath itself (where --verify was
-    // told to look), which a forged receipt cannot rewrite, rather than from
-    // the receipt's own stage name matched loosely by basename: the earlier
-    // basename-only check let a receipt claim to exclude any same-named path
-    // anywhere in the tree (e.g. "src/check.json" for a "check" stage truly
-    // rooted at ".agent-receipts/"), which meant real tampering landed under
-    // a matching name could be laundered as an "owned" artifact and the
-    // fingerprint would recompute clean.
-    const claimed = Array.isArray(receipt.sourceExcludePaths)
-      ? receipt.sourceExcludePaths
-      : null;
-    const allStrings =
-      claimed !== null && claimed.every((p) => typeof p === "string");
-    const claimedSet = allStrings ? new Set(claimed) : null;
-    const repoRoot = git(["rev-parse", "--show-toplevel"]);
-    const expected = repoRoot
-      ? expectedExcludePaths(repoRoot, receiptPath, receipt.stage || "")
-      : null;
-    const matchesOwnLocation =
-      claimedSet !== null &&
-      expected !== null &&
-      claimedSet.size === claimed.length && // no duplicate entries
-      claimedSet.size === expected.length &&
-      expected.every((path) => claimedSet.has(path));
-    if (!matchesOwnLocation) {
+    // Ownership binds to TWO facts a forged receipt cannot both control at
+    // once: the real directory receiptPath is found in (below), and now the
+    // real filename it is found under, checked against the stage the receipt
+    // claims for itself. Editing only receipt.stage — leaving the file where
+    // it is — used to be enough: expectedExcludePaths trusted that field to
+    // pick which pair of names this receipt could exclude, so renaming the
+    // claimed stage silently renamed which two files counted as "this run's
+    // own", and a same-directory file tampered with under THAT name recomputed
+    // clean. A receipt found at "check.json" may only ever claim to be the
+    // "check" stage.
+    const receiptBasename = basename(resolve(receiptPath));
+    const stageBasename = `${receipt.stage}.json`;
+    if (receiptBasename !== stageBasename) {
       reasons.push(
-        `receipt claims to exclude paths it does not own (${JSON.stringify(claimed)}); this receipt, found at ${receiptPath}, may only exclude ${JSON.stringify(expected)}`,
+        `receipt file ${receiptPath} is named ${JSON.stringify(receiptBasename)} but claims stage ${JSON.stringify(receipt.stage)} (expected filename ${JSON.stringify(stageBasename)}); a receipt cannot exclude a different stage's artifacts by editing its own stage field`,
       );
     } else {
-      const currentSource = sourceIdentity(claimed);
-      if (
-        !currentSource ||
-        currentSource.fingerprint !== receipt.sourceFingerprintAfter
-      ) {
+      // A receipt may only ever have left out its own two artifacts, at the
+      // exact repository-relative location where THIS receipt file actually
+      // lives — never a path that merely shares a basename with them. The
+      // expected list is derived from receiptPath itself (where --verify was
+      // told to look), which a forged receipt cannot rewrite, rather than
+      // from the receipt's own stage name matched loosely by basename: the
+      // earlier basename-only check let a receipt claim to exclude any
+      // same-named path anywhere in the tree (e.g. "src/check.json" for a
+      // "check" stage truly rooted at ".agent-receipts/"), which meant real
+      // tampering landed under a matching name could be laundered as an
+      // "owned" artifact and the fingerprint would recompute clean.
+      const claimed = Array.isArray(receipt.sourceExcludePaths)
+        ? receipt.sourceExcludePaths
+        : null;
+      const allStrings =
+        claimed !== null && claimed.every((p) => typeof p === "string");
+      const claimedSet = allStrings ? new Set(claimed) : null;
+      const repoRoot = git(["rev-parse", "--show-toplevel"]);
+      const expected = repoRoot
+        ? expectedExcludePaths(repoRoot, receiptPath, receipt.stage || "")
+        : null;
+      const matchesOwnLocation =
+        claimedSet !== null &&
+        expected !== null &&
+        claimedSet.size === claimed.length && // no duplicate entries
+        claimedSet.size === expected.length &&
+        expected.every((path) => claimedSet.has(path));
+      if (!matchesOwnLocation) {
         reasons.push(
-          `source changed after the run: receipt is for source ${short(receipt.sourceFingerprintAfter)}, current source is ${short(currentSource && currentSource.fingerprint)}`,
+          `receipt claims to exclude paths it does not own (${JSON.stringify(claimed)}); this receipt, found at ${receiptPath}, may only exclude ${JSON.stringify(expected)}`,
         );
+      } else {
+        const currentSource = sourceIdentity(claimed);
+        if (
+          !currentSource ||
+          currentSource.fingerprint !== receipt.sourceFingerprintAfter
+        ) {
+          reasons.push(
+            `source changed after the run: receipt is for source ${short(receipt.sourceFingerprintAfter)}, current source is ${short(currentSource && currentSource.fingerprint)}`,
+          );
+        }
       }
     }
   }
