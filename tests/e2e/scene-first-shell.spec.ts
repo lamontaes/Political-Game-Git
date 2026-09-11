@@ -60,18 +60,21 @@ test.describe("A life is played in the room, not on a card", () => {
     expect(plateBox!.width).toBeGreaterThan(1440 * 0.9);
     expect(plateBox!.height).toBeGreaterThan(900 * 0.9);
 
-    // Whoever is actually in the room is on the rail, named with their
-    // relationship rather than hidden behind a button. UI9-03: the rail no
-    // longer carries the whole generated household — that is contact browsing
-    // and it belongs in People — but the people present in the scene are still
-    // here and still selectable by their real ids.
-    const rail = page.getByTestId("people-rail");
-    await expect(rail).toBeVisible();
-    const people = rail.getByTestId(/^rail-person-/);
+    // Whoever is actually in the room is IN the room, named with their
+    // relationship rather than hidden behind a button. UI9-03 finished here:
+    // the rail above the room carried the people present and was the only way
+    // to choose one, which made it a roster the player never asked for. The
+    // same people stand in the scene now, named on their own plates, and each
+    // one is a real control with their id on it.
+    const room = page.getByTestId("scene-people");
+    await expect(room).toBeVisible();
+    const people = room.locator('[data-testid^="scene-person-"]');
     expect(await people.count()).toBeGreaterThan(0);
-    expect(await rail.innerText()).toMatch(
+    expect(await room.innerText()).toMatch(
       /your (mom|dad|parent|older|younger|brother|sister)/i,
     );
+    // And nothing populates a roster for the player any more.
+    await expect(page.getByTestId("people-rail")).toHaveCount(0);
 
     // The moment is a compact panel, not a page-sized card.
     const moment = page.getByTestId("story-section");
@@ -91,7 +94,7 @@ test.describe("A life is played in the room, not on a card", () => {
     );
   });
 
-  test("opens a person from the rail, and can be collapsed", async ({
+  test("opens a person from the room, by pointer and by keyboard", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -99,8 +102,9 @@ test.describe("A life is played in the room, not on a card", () => {
     await startLife(page, { age: 10 });
     await enterLife(page);
 
-    const rail = page.getByTestId("people-rail");
-    await expect(rail).toBeVisible();
+    const room = page.getByTestId("scene-people");
+    await expect(room).toBeVisible();
+    const person = room.locator('[data-testid^="scene-person-"]').first();
 
     /*
      * Selecting somebody opens the anchored action menu beside them, carrying
@@ -110,11 +114,13 @@ test.describe("A life is played in the room, not on a card", () => {
      * that surface since the anchored menu landed. Asserting the menu is what
      * the game actually does, and it is the thing worth protecting: every entry
      * on it is about the person who was clicked.
+     *
+     * Pointer AND keyboard, because the figures live in a click-through layer
+     * — the room behind them has to stay clickable — and the two routes really
+     * can come apart: a token can take keyboard focus perfectly while every
+     * click falls through it to the backdrop.
      */
-    await rail
-      .getByTestId(/^rail-person-/)
-      .first()
-      .click();
+    await person.click();
     const menu = page.getByTestId("person-action-menu");
     await expect(menu).toBeVisible();
     await expect(menu.getByTestId("action-inspect")).toBeVisible();
@@ -124,9 +130,11 @@ test.describe("A life is played in the room, not on a card", () => {
     await expect(page.getByTestId("person-workspace")).toBeVisible();
     await page.getByTestId("person-workspace-close").click();
 
-    // Collapsing the rail is reachable.
-    await page.getByTestId("people-rail-toggle").click();
-    await expect(rail.getByTestId(/^rail-person-/)).toHaveCount(0);
+    // The same person, reached with no pointer at all.
+    await person.focus();
+    await expect(person).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.getByTestId("person-action-menu")).toBeVisible();
   });
 
   test("advances the life from a choice on the moment panel", async ({

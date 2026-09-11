@@ -145,12 +145,12 @@ for (const lane of LANES) {
   /*
    * The dossier: the same canonical person, on a different surface.
    *
-   * The rail draws its own initials mark by design and never asks for a
-   * likeness, so the portrait to look at is the one the dossier opens. Getting
-   * there is the ordinary route a player takes — click the person, then Look
-   * at them.
+   * The figure in the room is composed from body art rather than a likeness,
+   * so the portrait to look at is the one the dossier opens. Getting there is
+   * the ordinary route a player takes — click the person standing there, then
+   * Look at them.
    */
-  const rail = page.locator("[data-testid^='rail-person-']").first();
+  const rail = page.locator("[data-testid^='scene-person-']").first();
   if (await rail.count()) {
     await rail.click().catch(() => {});
     await page.waitForTimeout(500);

@@ -20,7 +20,7 @@ test("current normal scene and saved-person dossier remain available for owner r
     path: info.outputPath("normal-scene.png"),
     fullPage: true,
   });
-  await page.locator('[data-testid^="rail-person-"]').first().click();
+  await page.locator('[data-testid^="scene-person-"]').first().click();
   await page.getByTestId("action-inspect").click();
   await page.getByTestId("quick-dossier-full").click();
   const controls = page.getByTestId("saved-appearance-controls");

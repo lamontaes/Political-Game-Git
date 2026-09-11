@@ -113,7 +113,7 @@ async function enterLife(page, url) {
  * asked.
  */
 async function openDossierFor(page, personId) {
-  await page.locator(`[data-testid="rail-person-${personId}"]`).click();
+  await page.locator(`[data-testid="scene-person-${personId}"]`).click();
   await page.waitForTimeout(400);
   await page
     .getByTestId("action-inspect")
@@ -145,12 +145,12 @@ for (const lane of LANES) {
   const page = await context.newPage();
   await enterLife(page, address(lane.age));
 
-  // Whoever the shell placed. Not chosen to make this pass.
+  // Whoever the shell placed in the room. Not chosen to make this pass.
   const railIds = await page
-    .locator("[data-testid^='rail-person-']")
+    .locator("[data-testid^='scene-person-']")
     .evaluateAll((nodes) =>
       nodes.map((n) =>
-        n.getAttribute("data-testid").replace("rail-person-", ""),
+        n.getAttribute("data-testid").replace("scene-person-", ""),
       ),
     );
   if (railIds.length === 0) {
@@ -210,7 +210,7 @@ for (const lane of LANES) {
    * had failed; the refusal and its reason are recorded instead, so an
    * unavailable conversation is distinguishable from a broken one.
    */
-  await page.locator(`[data-testid="rail-person-${personId}"]`).click();
+  await page.locator(`[data-testid="scene-person-${personId}"]`).click();
   await page.waitForTimeout(300);
   const talk = page.getByTestId("action-talk");
   let talkState = "no talk action offered";

@@ -47,14 +47,34 @@ async function beginOrdinaryLife(page: Page) {
   await enterLife(page);
 }
 
-/** The people the rail actually has in this generated life. */
-async function railPeople(page: Page): Promise<string[]> {
+/**
+ * The people this generated life can actually be asked about, in the room.
+ *
+ * This used to read a rail above the room that listed whoever was present.
+ * UI9-03 removed it: it was a roster the player never asked for, and it was
+ * the only way to choose anybody, so choosing moved onto the person standing
+ * in the scene. The people are the same people; only where you click changed.
+ */
+async function peopleInTheRoom(page: Page): Promise<string[]> {
   const ids = await page
-    .locator('[data-testid^="rail-person-"]')
+    .locator('[data-testid^="scene-person-"]')
     .evaluateAll((nodes) =>
       nodes.map((node) => node.getAttribute("data-testid") ?? ""),
     );
-  return ids.map((id) => id.replace("rail-person-", ""));
+  return ids.map((id) => id.replace("scene-person-", ""));
+}
+
+/** Choose somebody in the room, the way a player does. */
+async function choosePerson(page: Page, personId: string) {
+  await page.getByTestId(`scene-person-${personId}`).click();
+  await expect(page.getByTestId("person-action-menu")).toBeVisible();
+}
+
+/** Pin somebody who is in the room, from their own action menu. */
+async function pinFromTheRoom(page: Page, personId: string) {
+  await choosePerson(page, personId);
+  await page.getByTestId("action-pin").click();
+  await page.keyboard.press("Escape");
 }
 
 test.describe("the corner cluster", () => {
@@ -164,10 +184,10 @@ test.describe("people, and who was chosen", () => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const people = await railPeople(page);
+    const people = await peopleInTheRoom(page);
     expect(people.length).toBeGreaterThan(0);
 
-    await page.getByTestId(`rail-person-${people[0]}`).click();
+    await page.getByTestId(`scene-person-${people[0]}`).click();
     const menu = page.getByTestId("person-action-menu");
     await expect(menu).toHaveAttribute("data-person-id", people[0]!);
 
@@ -253,9 +273,9 @@ test.describe("mixed pins", () => {
    * act of pinning somebody now live. Both are ordinary player controls.
    */
   async function pinTwoPeople(page: Page): Promise<readonly [string, string]> {
-    const present = await railPeople(page);
+    const present = await peopleInTheRoom(page);
     const first = present[0]!;
-    await page.getByTestId(`rail-pin-${first}`).click();
+    await pinFromTheRoom(page, first);
 
     await goTo(page, "elsewhere-people");
     const ids = await page
@@ -394,27 +414,19 @@ test.describe("mixed pins", () => {
      * The old version quietly returned when it found no absent person, which
      * after this change would have made it a test that asserts nothing.
      */
-    const people = await railPeople(page);
+    const people = await peopleInTheRoom(page);
     const personId = people[0]!;
-    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
-      "data-present",
-      "true",
-    );
+    const inTheRoom = page.getByTestId(`scene-person-${personId}`);
+    await expect(inTheRoom).toBeVisible();
 
-    await page.getByTestId(`rail-pin-${personId}`).click();
+    await pinFromTheRoom(page, personId);
     await expect(page.getByTestId(`pin-person:${personId}`)).toBeVisible();
 
     /* Pinned, and no more or less in the room for it. */
-    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
-      "data-present",
-      "true",
-    );
-    await page.getByTestId(`rail-pin-${personId}`).click();
+    await expect(inTheRoom).toBeVisible();
+    await pinFromTheRoom(page, personId);
     await expect(page.getByTestId(`pin-person:${personId}`)).toHaveCount(0);
-    await expect(page.getByTestId(`rail-person-${personId}`)).toHaveAttribute(
-      "data-present",
-      "true",
-    );
+    await expect(inTheRoom).toBeVisible();
   });
 });
 
@@ -546,8 +558,8 @@ test.describe("the deliberate workspaces", () => {
     await page.getByTestId("options-workspace-close").click();
 
     /* The preference is real: a new pin arrives at the size it asks for. */
-    const people = await railPeople(page);
-    await page.getByTestId(`rail-pin-${people[0]}`).click();
+    const people = await peopleInTheRoom(page);
+    await pinFromTheRoom(page, people[0]!);
     await expect(page.getByTestId(`pin-person:${people[0]}`)).toHaveAttribute(
       "data-size",
       "tiny",
@@ -562,8 +574,8 @@ test.describe("the click, back and escape contract", () => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const people = await railPeople(page);
-    await page.getByTestId(`rail-pin-${people[0]}`).click();
+    const people = await peopleInTheRoom(page);
+    await pinFromTheRoom(page, people[0]!);
     await goTo(page, "elsewhere-people");
     await page.locator('[data-testid^="people-person-"]').first().click();
     await expect(page.getByTestId("full-dossier")).toBeVisible();
@@ -592,14 +604,28 @@ test.describe("the click, back and escape contract", () => {
     await freshBrowser(page);
     await beginOrdinaryLife(page);
 
-    const people = await railPeople(page);
-    const target = page.getByTestId(`rail-person-${people[0]}`);
+    const people = await peopleInTheRoom(page);
+    const target = page.getByTestId(`scene-person-${people[0]}`);
+    const menu = page.getByTestId("person-action-menu");
+
+    /*
+     * Both halves, and the pointer half is not decoration in this test.
+     *
+     * Choosing somebody moved onto the person standing in the room, and the
+     * layer those figures live in is click-through so that a full-viewport
+     * sheet of people does not swallow every click meant for the room behind
+     * it. That made the keyboard route perfect and the pointer route silently
+     * dead: focus and Enter opened the menu, and a click landed on the
+     * backdrop. A test that only pressed Enter said the surface was fine.
+     */
+    await target.click();
+    await expect(menu).toHaveAttribute("data-person-id", people[0]!);
+    await page.keyboard.press("Escape");
+    await expect(menu).toHaveCount(0);
+
     await target.focus();
     await page.keyboard.press("Enter");
-    await expect(page.getByTestId("person-action-menu")).toHaveAttribute(
-      "data-person-id",
-      people[0]!,
-    );
+    await expect(menu).toHaveAttribute("data-person-id", people[0]!);
   });
 });
 

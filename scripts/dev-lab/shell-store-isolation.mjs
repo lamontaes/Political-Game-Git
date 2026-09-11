@@ -138,18 +138,17 @@ async function saveThroughNavigation(page) {
   return false;
 }
 
-/** Pin whoever is in the rail, and dress them. Returns what was chosen. */
+/** Pin whoever is in the room, and dress them. Returns what was chosen. */
 async function arrange(page, { ambition }) {
-  const railPerson = page.locator("[data-testid^='rail-person-']").first();
+  const railPerson = page.locator("[data-testid^='scene-person-']").first();
   const personId = (await railPerson.getAttribute("data-testid")).replace(
-    "rail-person-",
+    "scene-person-",
     "",
   );
-  await page.getByTestId(`rail-pin-${personId}`).click();
-  await page.waitForTimeout(500);
-
   await railPerson.click();
   await page.waitForTimeout(400);
+  await page.getByTestId("action-pin").click({ timeout: 4000 });
+  await page.waitForTimeout(500);
   await page
     .getByTestId("action-inspect")
     .click({ timeout: 4000 })

@@ -117,7 +117,10 @@ test("mixed person, session and measure pins preserve identity and clear workspa
     household: "shares-a-home",
   });
   await enterLife(page);
-  await page.locator('[data-testid^="rail-pin-"]').first().click();
+  // Pinning is on the person in the room now, in their own action menu.
+  await page.locator('[data-testid^="scene-person-"]').first().click();
+  await page.getByTestId("action-pin").click();
+  await page.keyboard.press("Escape");
   // UI9-01: study and work live in Work; the day links into it. This life
   // holds an office, so Work frames them as the office rather than as the
   // personal work section — the panels are the same either way.
@@ -263,11 +266,11 @@ test("normal activity completion replaces household presence without a second cl
     });
   }
   /*
-   * UI9-03 makes this test's own claim visible: the rail carries the people in
-   * the room, so at the meeting room it carries nobody. Household presence is
-   * not merely "replaced" in the prose — there is no one here.
+   * UI9-03 makes this test's own claim visible: only the people in the room
+   * stand in the room, so at the meeting room nobody does. Household presence
+   * is not merely "replaced" in the prose — there is no one here.
    */
-  await expect(page.locator('[data-testid^="rail-person-"]')).toHaveCount(0);
+  await expect(page.locator('[data-testid^="scene-person-"]')).toHaveCount(0);
 
   // The household is still reachable, from where contact browsing lives, and
   // talking to somebody who is not here is still refused.

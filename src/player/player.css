@@ -7191,6 +7191,56 @@
   justify-content: flex-end;
 }
 
+/*
+ * A person in the room is the thing you click on.
+ *
+ * The rail above the room used to be the only way to choose somebody, and it
+ * filled itself from whoever was present — a second roster the player never
+ * asked for. Selection lives on the person now, so the token has to look and
+ * behave like a control: no button chrome over the art, a real focus ring for
+ * the keyboard, and a visible state while their menu is open.
+ *
+ * `pointer-events` is the line that matters and it is easy to lose. The layer
+ * above is click-through, because a full-viewport sheet of people would
+ * otherwise swallow every click aimed at the room and at the panel floating
+ * over it — true and necessary while nobody standing there could be chosen.
+ * The moment a token became a button that stopped being harmless: the keyboard
+ * reached it perfectly, focus ring and all, and the mouse went straight
+ * through it to the backdrop. Only the selectable tokens take the pointer
+ * back; the empty space between them stays click-through.
+ */
+.scene-person-token--selectable {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scene-person-token--selectable:focus-visible {
+  outline: 3px solid var(--run-a-focus, #f0c987);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.scene-person-token--chosen {
+  outline: 2px solid var(--run-a-focus, #f0c987);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* The refusal that belongs to a disabled action, said rather than implied. */
+.pg-action-menu-reason {
+  margin: 0.15rem 0.15rem 0.35rem;
+  max-width: 20rem;
+  color: var(--pg-ivory-dim, #cfd6e4);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 /* The fail-closed placeholder: a soft, floor-anchored presence, not a broken
    image and not somebody else's likeness. It is replaced by real layers the
    day a body master is released. */

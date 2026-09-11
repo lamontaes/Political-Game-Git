@@ -50,7 +50,6 @@ import {
   chooseStoryOption,
   letStoryTimePass,
   projectStoryMoment,
-  type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
 import {
@@ -2028,6 +2027,21 @@ function PlayingScreen({
     shell.actionMenuPersonId === null
       ? null
       : dossierFor(shell.actionMenuPersonId);
+  /*
+   * Asked once, and kept.
+   *
+   * The Talk control used to call this inline purely to decide whether to be
+   * disabled, discarding a specific, computed reason on the way. Holding it
+   * means the same answer drives the control AND the sentence beside it, so
+   * the two cannot disagree.
+   */
+  const talkEntry = actionPerson
+    ? openConversationWith(
+        session.world,
+        session.personId,
+        actionPerson.personId,
+      )
+    : null;
 
   /** Starts the real conversation with exactly the person who was chosen. */
   const talkTo = useCallback(
@@ -2098,6 +2112,20 @@ function PlayingScreen({
             sceneId={sceneId}
             people={scenePeople}
             surfaces={surfaceProjection}
+            /*
+             * UI9-03. The people in the room ARE the selection surface now.
+             * The rail that used to sit above them filled itself from whoever
+             * was present, which made it a second automatic roster nobody
+             * asked for; the one rail that persists is the pin rail, and it
+             * only ever holds what the player put there.
+             */
+            selectedPersonId={shell.actionMenuPersonId}
+            onSelectPerson={(personId) =>
+              dispatch({
+                type: "select-person",
+                personId: personId as EntityId,
+              })
+            }
           >
             <OpeningLifeFlow
               key={session.world.id}
@@ -2111,8 +2139,6 @@ function PlayingScreen({
               }
             />
           </SceneBackdrop>
-
-          <LifePeopleRail moment={moment} shell={shell} dispatch={dispatch} />
 
           {/*
         The anchored action menu. One click on somebody opens it, and every
@@ -2142,16 +2168,27 @@ function PlayingScreen({
                 Inspect
                 <small>What you make of them</small>
               </button>
+              {/*
+                Say why, rather than only refusing.
+
+                The entry was computed here purely to decide `disabled` and its
+                reason was thrown away, so a player met a greyed-out control
+                with nothing to read — and the reason exists, is specific, and
+                is the only thing that makes the refusal make sense. It is
+                rendered beside the control and bound to it with
+                `aria-describedby`, so somebody on a screen reader hears the
+                refusal when they reach the button rather than discovering an
+                unexplained dead end.
+              */}
               <button
                 type="button"
                 role="menuitem"
                 data-testid="action-talk"
-                disabled={
-                  openConversationWith(
-                    session.world,
-                    session.personId,
-                    actionPerson.personId,
-                  ).kind === "unavailable"
+                disabled={talkEntry?.kind === "unavailable"}
+                aria-describedby={
+                  talkEntry?.kind === "unavailable"
+                    ? "pg-action-talk-reason"
+                    : undefined
                 }
                 onClick={() => {
                   openEntity({ kind: "person", id: actionPerson.personId });
@@ -2161,6 +2198,15 @@ function PlayingScreen({
                 Talk
                 <small>Say something to them</small>
               </button>
+              {talkEntry?.kind === "unavailable" ? (
+                <p
+                  className="pg-action-menu-reason"
+                  id="pg-action-talk-reason"
+                  data-testid="action-talk-reason"
+                >
+                  {talkEntry.reason}
+                </p>
+              ) : null}
               <button
                 type="button"
                 role="menuitem"
@@ -2942,129 +2988,6 @@ function renderWorkspace({
  * defect this rail was at the centre of, and the pin beside them is the shell's
  * real saved reference rather than a star that only changes its own colour.
  */
-function LifePeopleRail({
-  moment,
-  shell,
-  dispatch,
-}: {
-  readonly moment: StoryMoment;
-  readonly shell: ShellState;
-  readonly dispatch: (action: ShellAction) => void;
-}) {
-  const [collapsed, setCollapsed] = useState(false);
-
-  type RailPerson = {
-    readonly personId: EntityId;
-    readonly name: string;
-    readonly relationship: string | null;
-    readonly present: boolean;
-  };
-  /*
-   * Only the people actually in the room.
-   *
-   * This used to be the whole standing cast: everyone present, then the entire
-   * generated household, then anyone the life kept returning to. That made a
-   * second, automatic, permanent roster sitting above the pin rail — two lists
-   * of people in two corners, one of which the player never asked for. The
-   * owner's note was that the pins and the people should not be separate, and
-   * that these people should not be there.
-   *
-   * So the rail is now what is true of the moment: who is here. Everyone the
-   * player knows is browsable in People, and anyone they want kept to hand goes
-   * on the pin rail deliberately, which is the one rail that persists. Present
-   * people stay selectable by their real ids, which is what the action menu,
-   * the dossier and the conversation routes all need.
-   */
-  const people: RailPerson[] = moment.scene.presentPeople.map((person) => ({
-    personId: person.personId,
-    name: person.name,
-    relationship: person.relationship,
-    present: true,
-  }));
-
-  if (people.length === 0) return null;
-
-  return (
-    <aside
-      className={`life-rail${collapsed ? " life-rail--collapsed" : ""}`}
-      data-testid="people-rail"
-      aria-label="People in the room"
-    >
-      <button
-        type="button"
-        className="life-rail-toggle"
-        data-testid="people-rail-toggle"
-        aria-expanded={!collapsed}
-        onClick={() => setCollapsed((value) => !value)}
-      >
-        <span className="life-rail-title">In the room</span>
-        <span aria-hidden="true">{collapsed ? "▸" : "▾"}</span>
-      </button>
-      {!collapsed ? (
-        <ul className="life-rail-list">
-          {people.map((person) => {
-            const ref: ShellRef = { kind: "person", id: person.personId };
-            const pinned = isPinned(shell, ref);
-            return (
-              <li key={person.personId} className="life-rail-item">
-                <button
-                  type="button"
-                  className="life-pin"
-                  data-testid={`rail-person-${person.personId}`}
-                  data-present={person.present ? "true" : "false"}
-                  aria-haspopup="menu"
-                  aria-expanded={shell.actionMenuPersonId === person.personId}
-                  onClick={() =>
-                    dispatch({
-                      type: "select-person",
-                      personId: person.personId,
-                    })
-                  }
-                >
-                  <span className="life-pin-mark" aria-hidden="true">
-                    {railInitials(person.name)}
-                  </span>
-                  <span className="life-pin-copy">
-                    <strong>{person.name}</strong>
-                    {person.relationship ? (
-                      <small>{person.relationship}</small>
-                    ) : person.present ? (
-                      <small>here now</small>
-                    ) : null}
-                  </span>
-                </button>
-                {/*
-                  A real pin, not a star that toggles its own colour. Pinning
-                  keeps the reference on the rail across every navigation and
-                  across a reload, and it says nothing about where they are.
-                */}
-                <button
-                  type="button"
-                  className="life-pin-hold"
-                  data-testid={`rail-pin-${person.personId}`}
-                  aria-pressed={pinned}
-                  aria-label={
-                    pinned ? `Unpin ${person.name}` : `Pin ${person.name}`
-                  }
-                  onClick={() => dispatch({ type: "toggle-pin", ref })}
-                >
-                  {pinned ? "★" : "☆"}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-    </aside>
-  );
-}
-
-function railInitials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  const first = parts[0]?.[0] ?? "";
-  const last = parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "";
-  return `${first}${last}`.toUpperCase() || "?";
-}
 
 /* -------------------------------------------------------------------------- */
 

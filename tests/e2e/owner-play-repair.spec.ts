@@ -343,15 +343,25 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     }
     await expect(page.getByTestId("campaign-result")).toBeVisible();
 
+    /*
+     * Where the relevant-people list lives now.
+     *
+     * The claim this test makes has not changed: meeting an opponent puts them
+     * in front of the player, and does NOT pin them. What changed under it is
+     * the surface — UI9-03 removed the automatic rail above the room, and
+     * People is where contact browsing and the deliberate act of pinning were
+     * already going.
+     */
+    await openElsewhere(page, "people");
     const opponent = page
-      .getByTestId("people-rail")
+      .getByTestId("people-list")
       .locator("li")
       .filter({ hasText: opponentName });
     await expect(opponent).toHaveCount(1);
-    // The rail is a relevant-people list. The empty star is the separate,
-    // deliberate hold state; discovery must not press it for the player.
-    const pin = opponent.locator("[data-testid^='rail-pin-']");
+    // The empty star is the separate, deliberate hold state; discovery must
+    // not press it for the player.
+    const pin = opponent.locator("[data-testid^='people-pin-']");
     await expect(pin).toHaveAttribute("aria-pressed", "false");
-    await expect(pin).toHaveAttribute("aria-label", "Pin");
+    await expect(pin).toHaveAttribute("aria-label", `Pin ${opponentName}`);
   });
 });

@@ -39,6 +39,8 @@ export function SceneBackdrop({
   sceneId,
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
+  onSelectPerson,
+  selectedPersonId = null,
   children,
 }: {
   readonly sceneId: string | null;
@@ -52,10 +54,28 @@ export function SceneBackdrop({
   /**
    * The generated people standing in this room, positioned by the registry's
    * own anchors. They paint in the plate's coordinate space, above the plate
-   * and behind the content, and are decorative: interaction is the People rail's
-   * job, so nothing here takes focus.
+   * and behind the content. Whether they can be chosen depends on
+   * `onSelectPerson` below, not on this list.
    */
   readonly people?: readonly PlacedScenePerson[];
+  /**
+   * Choosing somebody standing in the room.
+   *
+   * Absent, the people layer is decoration and is hidden from assistive
+   * technology, which is what it was for every caller until now. Present, each
+   * person becomes a real button: focusable, named, activated by pointer or
+   * keyboard alike.
+   *
+   * This is UI9-03 arriving properly. The rail above the room populated itself
+   * from whoever was present and was the only way to pick a person, which made
+   * it a second automatic roster the player never asked for — and the source
+   * comment that called selection "the People rail's job" was describing the
+   * arrangement being removed, not a requirement. Selection belongs on the
+   * person, in the scene.
+   */
+  readonly onSelectPerson?: (personId: string) => void;
+  /** The person whose action menu is open, so the button can say so. */
+  readonly selectedPersonId?: string | null;
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -144,7 +164,8 @@ export function SceneBackdrop({
         <div
           className="scene-backdrop-people"
           data-testid="scene-people"
-          aria-hidden="true"
+          // Decorative only while nobody can be chosen here.
+          aria-hidden={onSelectPerson ? undefined : "true"}
         >
           {people.map((person) => {
             const toScreen = (percentX: number, percentY: number) => ({
@@ -200,10 +221,28 @@ export function SceneBackdrop({
                   ].join(", "),
                 }
               : {};
+            const Token = onSelectPerson ? "button" : "div";
+            const chosen = selectedPersonId === person.personId;
             return (
-              <div
+              <Token
                 key={person.personId}
-                className="scene-person-token"
+                {...(onSelectPerson
+                  ? {
+                      type: "button" as const,
+                      onClick: () => onSelectPerson(person.personId),
+                      "aria-haspopup": "menu" as const,
+                      "aria-expanded": chosen,
+                      /*
+                       * The accessible name is the presence line the room
+                       * already computes — "Beth Mathis, who you live with" —
+                       * so somebody using a screen reader hears who they are
+                       * about to choose and how this life knows them, which is
+                       * exactly what the rail used to say.
+                       */
+                      "aria-label": person.presence,
+                    }
+                  : {})}
+                className={`scene-person-token${onSelectPerson ? " scene-person-token--selectable" : ""}${chosen ? " scene-person-token--chosen" : ""}`}
                 data-testid={`scene-person-${person.personId}`}
                 data-occlusion-count={masks.length}
                 data-has-art={person.hasArt ? "true" : "false"}
@@ -256,7 +295,7 @@ export function SceneBackdrop({
                     aria-hidden="true"
                   />
                 )}
-              </div>
+              </Token>
             );
           })}
           {/* Names are interface labels, above the physical depth stack. */}
