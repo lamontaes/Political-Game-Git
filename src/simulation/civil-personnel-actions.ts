@@ -53,7 +53,6 @@ import type {
   PersonnelPositionRecord,
   PersonnelPower,
   PersonnelRecord,
-  PersonnelReinstatementOfferRecord,
   World,
 } from "./types";
 
@@ -316,6 +315,42 @@ function appendRecord(
   };
   assertWorldIntegrity(next);
   return { world: next, id };
+}
+
+/** Several records in one integrity-checked write, for steps that must not be observed apart. */
+function appendRecords(
+  world: World,
+  entries: readonly {
+    readonly stableKey: string;
+    readonly eventId: EntityId;
+    readonly record: NewRecord;
+  }[],
+): World {
+  let sequence = world.history.nextSequence;
+  const records = entries.map(
+    (entry) =>
+      ({
+        ...entry.record,
+        id: createStableId(
+          "personnel-record",
+          `${world.id}:${entry.stableKey}`,
+        ),
+        stableKey: entry.stableKey,
+        sequence: sequence++,
+        recordedAt: world.currentDate,
+        eventId: entry.eventId,
+      }) as PersonnelRecord,
+  );
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence,
+      personnelRecords: [...personnelRecords(world), ...records],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
 }
 
 function personnelEvent(
@@ -1277,8 +1312,8 @@ export function statutoryOfficeHolder(
 /**
  * The commissioner decides once, when an appeal reaches the office, through
  * the general decision architecture. With no single living office holder, or
- * with a holder who is a party, the step waits. Neither outcome is a ruling
- * on the merits.
+ * with a holder who is a party, no decision is represented, and nothing
+ * triggers one later. Neither outcome is a ruling on the merits.
  */
 function commissionerDecision(
   world: World,
@@ -1532,15 +1567,29 @@ export function offerMinnesotaReinstatement(
       "Probation on reinstatement is established only for former employees of a different appointing authority.",
     );
   const { position, former, designation } = assessment;
+  const jurisdictionId = organizationJurisdiction(
+    world,
+    position.organizationId,
+  );
+  const earlier = recordsOf(world, "reinstatement-offer").filter(
+    (o) =>
+      o.personId === input.personId &&
+      recordById(world, o.positionId, "position")?.organizationId ===
+        position.organizationId,
+  ).length;
   const count = recordsOf(world, "reinstatement-offer").filter(
     (o) => o.positionId === position.id && o.personId === input.personId,
   ).length;
   const key = `${PREFIX}:reinstatement-offer:${position.id}:${input.personId}:${count + 1}`;
+  const responseKey = `${PREFIX}:offer-response:${key}`;
   try {
-    const event = personnelEvent(world, {
+    // Events, the decision and any employment come first; the offer, its
+    // answer and any incumbency are then recorded together, so no world ever
+    // holds an unanswered offer.
+    const offerEvent = personnelEvent(world, {
       stableKey: key,
       kind: "reinstatement-offer",
-      jurisdictionId: organizationJurisdiction(world, position.organizationId),
+      jurisdictionId,
       involved: [actor, input.personId, position.organizationId],
       participants: [
         {
@@ -1562,72 +1611,46 @@ export function offerMinnesotaReinstatement(
           : "No probation required.",
       setting: position.title,
     });
-    const next = recordEventKnowledge(event.world, {
+    let next = recordEventKnowledge(offerEvent.world, {
       stableKey: `${key}:known`,
       personId: input.personId,
-      eventId: event.eventId,
-      learnedAt: event.world.currentDate,
-      believedSummary: event.world.history.events.at(-1)!.summary,
+      eventId: offerEvent.eventId,
+      learnedAt: offerEvent.world.currentDate,
+      believedSummary: offerEvent.world.history.events.at(-1)!.summary,
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "direct" },
     });
-    const result = appendRecord(next, key, event.eventId, {
-      kind: "reinstatement-offer",
-      jurisdictionKey: position.jurisdictionKey,
-      positionId: position.id,
-      personId: input.personId,
-      actorPersonId: actor,
-      designationId: designation.id,
-      formerIncumbencyId: former.id,
-      probation: input.probation,
-    });
     // The person answers on receiving the offer, from their own situation at
-    // that moment. Nobody chooses when they answer, and an answer never waits
-    // to be heard.
-    return {
-      ok: true,
-      world: answerOffer(
-        result.world,
-        recordById(result.world, result.id, "reinstatement-offer")!,
-      ),
-      recordId: result.id,
-    };
-  } catch (error) {
-    return refuse(world, (error as Error).message);
-  }
-}
-
-export const offerDecisionKey = (offerId: EntityId) =>
-  `${PREFIX}:offer-decision:${offerId}`;
-
-function applyOfferResponse(
-  world: World,
-  offer: PersonnelReinstatementOfferRecord,
-  response: "accepted" | "declined",
-  decisionTraceId: EntityId,
-): World {
-  const position = recordById(world, offer.positionId, "position")!;
-  const former = recordById(world, offer.formerIncumbencyId, "incumbency")!;
-  const jurisdictionId = organizationJurisdiction(
-    world,
-    position.organizationId,
-  );
-  const key = `${PREFIX}:offer-response:${offer.id}`;
-  {
-    const event = personnelEvent(world, {
-      stableKey: key,
+    // that moment. Nobody chooses when they answer, and which position is
+    // offered does not change the draw.
+    const evaluation = evaluateDecision(
+      next,
+      offerDecisionContext(next, input.personId, key, {
+        stableKey: offerDecisionKey(
+          position.organizationId,
+          input.personId,
+          earlier,
+        ),
+      }),
+    );
+    next = recordDurableDecisionTrace(next, evaluation);
+    const traceId = next.history.decisionTraces.at(-1)!.id;
+    const response =
+      evaluation.selectedOptionKey === "accept" ? "accepted" : "declined";
+    const responseEvent = personnelEvent(next, {
+      stableKey: responseKey,
       kind: "offer-response",
       jurisdictionId,
-      involved: [offer.personId, offer.actorPersonId, position.organizationId],
+      involved: [input.personId, actor, position.organizationId],
       participants: [
         {
-          personId: offer.personId,
+          personId: input.personId,
           role: "agency:appointee",
           detail: response,
         },
         {
-          personId: offer.actorPersonId,
+          personId: actor,
           role: "observation:appointing-authority",
           detail: null,
         },
@@ -1640,25 +1663,28 @@ function applyOfferResponse(
       choice: response,
       setting: position.title,
     });
-    let next = recordEventKnowledge(event.world, {
-      stableKey: `${key}:known`,
-      personId: offer.actorPersonId,
-      eventId: event.eventId,
-      learnedAt: event.world.currentDate,
-      believedSummary: event.world.history.events.at(-1)!.summary,
+    next = recordEventKnowledge(responseEvent.world, {
+      stableKey: `${responseKey}:known`,
+      personId: actor,
+      eventId: responseEvent.eventId,
+      learnedAt: responseEvent.world.currentDate,
+      believedSummary: responseEvent.world.history.events.at(-1)!.summary,
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "direct" },
     });
+    const tenure: PersonnelIncumbencyRecord["tenure"] =
+      input.probation === "required" ? "probationary" : "unknown";
     let workRelationshipId: EntityId | null = null;
+    let seatedEventId: EntityId | null = null;
     if (response === "accepted") {
       const formerRole = workRoleAt(next, former.workRelationshipId, {
         asOfDate: separationDate(next, former) ?? next.currentDate,
         historySequenceExclusive: next.history.nextSequence,
       });
       next = createWorkRelationship(next, {
-        stableKey: `${key}:employment`,
-        personId: offer.personId,
+        stableKey: `${responseKey}:employment`,
+        personId: input.personId,
         organizationId: position.organizationId,
         startedAt: next.currentDate,
         kind: "employment:civil-service",
@@ -1666,7 +1692,7 @@ function applyOfferResponse(
         authority: "directed",
         dependency: "dependent",
         economicRisk: "organization-borne",
-        provenance: { kind: "simulated-event", eventId: event.eventId },
+        provenance: { kind: "simulated-event", eventId: responseEvent.eventId },
         initialRole: {
           title: position.title,
           occupationClassification: null,
@@ -1676,73 +1702,109 @@ function applyOfferResponse(
         },
       });
       workRelationshipId = next.history.workRelationships.at(-1)!.id;
-    }
-    const responseRecord = appendRecord(next, key, event.eventId, {
-      kind: "offer-response",
-      jurisdictionKey: position.jurisdictionKey,
-      offerId: offer.id,
-      personId: offer.personId,
-      response,
-      decisionTraceId,
-      workRelationshipId,
-    });
-    next = responseRecord.world;
-    if (workRelationshipId) {
       const seated = personnelEvent(next, {
-        stableKey: `${key}:incumbency`,
+        stableKey: `${responseKey}:incumbency`,
         kind: "incumbency",
         jurisdictionId,
-        involved: [offer.personId, workRelationshipId, position.organizationId],
+        involved: [input.personId, workRelationshipId, position.organizationId],
         participants: [
-          {
-            personId: offer.personId,
-            role: "focus:incumbent",
-            detail: offer.probation === "required" ? "probationary" : "unknown",
-          },
+          // The tenure is anchored in the paired event.
+          { personId: input.personId, role: "focus:incumbent", detail: tenure },
         ],
         visibility: "limited",
         summary: `A reinstated employee holds the ${position.title} position.`,
         choice: null,
         setting: position.title,
       });
-      const incumbency = appendRecord(
-        seated.world,
-        `${key}:incumbency`,
-        seated.eventId,
-        {
-          kind: "incumbency",
+      next = seated.world;
+      seatedEventId = seated.eventId;
+    }
+    const offerId = createStableId("personnel-record", `${world.id}:${key}`);
+    const responseId = createStableId(
+      "personnel-record",
+      `${world.id}:${responseKey}`,
+    );
+    next = appendRecords(next, [
+      {
+        stableKey: key,
+        eventId: offerEvent.eventId,
+        record: {
+          kind: "reinstatement-offer",
           jurisdictionKey: position.jurisdictionKey,
           positionId: position.id,
-          workRelationshipId,
-          personId: offer.personId,
-          // Probation length is plan-defined; permanence after an unprobated
-          // reinstatement is not established by the acquired text.
-          tenure: offer.probation === "required" ? "probationary" : "unknown",
-          basis: {
-            kind: "reinstatement",
-            offerId: offer.id,
-            responseId: responseRecord.id,
-          },
+          personId: input.personId,
+          actorPersonId: actor,
+          designationId: designation.id,
+          formerIncumbencyId: former.id,
+          probation: input.probation,
         },
-      );
-      next = incumbency.world;
-    }
-    return next;
+      },
+      {
+        stableKey: responseKey,
+        eventId: responseEvent.eventId,
+        record: {
+          kind: "offer-response",
+          jurisdictionKey: position.jurisdictionKey,
+          offerId,
+          personId: input.personId,
+          response,
+          decisionTraceId: traceId,
+          workRelationshipId,
+        },
+      },
+      ...(workRelationshipId && seatedEventId
+        ? [
+            {
+              stableKey: `${responseKey}:incumbency`,
+              eventId: seatedEventId,
+              record: {
+                kind: "incumbency" as const,
+                jurisdictionKey: position.jurisdictionKey,
+                positionId: position.id,
+                workRelationshipId,
+                personId: input.personId,
+                // Probation length is plan-defined; permanence after an
+                // unprobated reinstatement is not established by the text.
+                tenure,
+                basis: {
+                  kind: "reinstatement" as const,
+                  offerId,
+                  responseId,
+                },
+              },
+            },
+          ]
+        : []),
+    ]);
+    return { ok: true, world: next, recordId: offerId };
+  } catch (error) {
+    return refuse(world, (error as Error).message);
   }
 }
 
 /**
- * The person's answer, produced once on receiving the offer through the
- * general decision architecture and persisted. A decline stands for that
- * employer, so asking again cannot reroll it; reopening or reloading never does.
+ * One answer per person and employer at a time: which position is offered
+ * cannot change the draw. The count of earlier offers from the same employer
+ * keeps a later, genuinely new offer (after an accepted reinstatement ended)
+ * distinct.
  */
-function answerOffer(
+export function offerDecisionKey(
+  organizationId: EntityId,
+  personId: EntityId,
+  earlierOffersFromEmployer: number,
+): string {
+  return `${PREFIX}:offer-decision:${organizationId}:${personId}:${earlierOffersFromEmployer}`;
+}
+
+function offerDecisionContext(
   world: World,
-  offer: PersonnelReinstatementOfferRecord,
-): World {
+  personId: EntityId,
+  offerKey: string,
+  input: { readonly stableKey: string },
+): Parameters<typeof evaluateDecision>[1] {
   const goals = new Map<string, (typeof world.history.goalStates)[number]>();
   for (const g of world.history.goalStates.filter(
-    (g) => g.personId === offer.personId,
+    (g) => g.personId === personId,
   ))
     goals.set(g.goalKey, g);
   const unwilling = [...goals.values()].some(
@@ -1751,19 +1813,15 @@ function answerOffer(
   const seeking = [...goals.values()].some(
     (g) => g.status === "active" && g.goalKey === "life-paths2:seek-work",
   );
-  const rigid = activeWorkRelationshipsAt(world, offer.personId).some(
+  const rigid = activeWorkRelationshipsAt(world, personId).some(
     (w) => w.role.timeDemand.scheduleRigidity === "rigid",
   );
-  const evaluation = evaluateDecision(world, {
-    stableKey: offerDecisionKey(offer.id),
+  return {
+    stableKey: input.stableKey,
     decisionType: "civil-personnel.reinstatement-response",
-    actorPersonId: offer.personId,
+    actorPersonId: personId,
     cutoff: currentHistoricalCutoff(world),
-    subject: {
-      kind: "context:personnel-offer",
-      key: offer.stableKey,
-      entityId: null,
-    },
+    subject: { kind: "context:personnel-offer", key: offerKey, entityId: null },
     options: [
       {
         key: "accept",
@@ -1817,14 +1875,7 @@ function answerOffer(
     perceptionIds: [],
     randomness: "close-choices",
     retention: "durable",
-  });
-  const next = recordDurableDecisionTrace(world, evaluation);
-  return applyOfferResponse(
-    next,
-    offer,
-    evaluation.selectedOptionKey === "accept" ? "accepted" : "declined",
-    next.history.decisionTraces.at(-1)!.id,
-  );
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1955,6 +2006,7 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
           label: "Commissioner's settlement decision",
           available: false,
           reason:
+            settlementRefusal(world, appeal) ??
             "No holder of the commissioner's office able to decide existed when the appeal arrived, so the decision is not represented.",
         });
       steps.push(blockedArbitration());

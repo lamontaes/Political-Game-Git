@@ -16,6 +16,7 @@ import {
   offerMinnesotaReinstatement,
   personnelAppealsFor,
   personnelAuthority,
+  positionIsVacant,
   personnelMatters,
   personnelOfferResponses,
   personnelProcedures,
@@ -412,7 +413,12 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
 
 describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
   it("reinstates a former class employee with consent, probation where established, and reload", () => {
-    const f = civilAuthorityFixture("2026-09-14", "US-MN", "otherDirector");
+    const f = civilAuthorityFixture(
+      "2026-09-14",
+      "US-MN",
+      "otherDirector",
+      "civil-authority13-c",
+    );
     const opportunities = reinstatementOpportunities(f.world);
     const open = opportunities.find(
       (o) => o.position.id === f.otherSpecialistPositionId,
@@ -493,8 +499,41 @@ describe("CIVIL-AUTHORITY13 Minnesota direct reinstatement", () => {
     }
   });
 
+  it("gives the same answer whichever vacant position of the employer is offered", () => {
+    for (const seed of ["civil-authority13-c", "civil-authority13-f"]) {
+      const f = civilAuthorityFixture("2026-09-14", "US-MN", "director", seed);
+      const vacated = discharged(seed).world;
+      const answers = [
+        f.specialistPositionId,
+        vacated.history
+          .personnelRecords!.filter(
+            (r) => r.kind === "position" && r.organizationId === f.agencyId,
+          )
+          .map((r) => r.id)
+          .find(
+            (id) =>
+              id !== f.specialistPositionId && positionIsVacant(vacated, id),
+          )!,
+      ].map((positionId) => {
+        const offered = offerMinnesotaReinstatement(vacated, {
+          positionId,
+          personId: f.formerEmployee,
+          probation: "not-required",
+        });
+        if (!offered.ok) throw new Error(offered.reason);
+        return personnelOfferResponses(offered.world).at(-1)!.response;
+      });
+      expect(answers[0]).toBe(answers[1]);
+    }
+  });
+
   it("gives a fresh answer to a new offer after an accepted reinstatement ends", () => {
-    const f = civilAuthorityFixture("2026-09-14", "US-MN", "otherDirector");
+    const f = civilAuthorityFixture(
+      "2026-09-14",
+      "US-MN",
+      "otherDirector",
+      "civil-authority13-c",
+    );
     const first = ok(
       offerMinnesotaReinstatement(f.world, {
         positionId: f.otherSpecialistPositionId,

@@ -68,9 +68,10 @@ player's to choose:
   decides on settlement. If no holder able to decide existed then, the decision
   is shown as not represented. No party can later trigger or time it.
 - A former employee answers a reinstatement offer on receiving it, from their
-  own situation at that moment. A decline stands for that employer, so asking
-  again cannot reroll it. Offers are never left open, so they never lapse or
-  strand.
+  own situation at that moment. The draw is keyed to the person and employer,
+  not to the position offered, and a decline stands for that employer, so
+  asking again cannot reroll it. The offer, its answer and any new incumbency
+  are recorded in one write, and integrity refuses any offer left unanswered.
 
 None of these is a ruling on the merits.
 

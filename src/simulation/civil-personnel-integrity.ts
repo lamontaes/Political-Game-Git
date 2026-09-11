@@ -526,12 +526,23 @@ export function assertPersonnelIntegrity(
           (record.workRelationshipId !== null)
         )
           fail(record, "does not match its employment outcome.");
+        const offeredPosition = earlier(record, offer.positionId, "position");
         if (
           record.recordedAt !== offer.recordedAt ||
           !traceChose(
             world,
             record.decisionTraceId,
-            `civil-personnel:offer-decision:${offer.id}`,
+            `civil-personnel:offer-decision:${offeredPosition.organizationId}:${record.personId}:${
+              records.filter(
+                (o) =>
+                  o.kind === "reinstatement-offer" &&
+                  o.sequence < offer.sequence &&
+                  o.personId === offer.personId &&
+                  byId.get(o.positionId)?.kind === "position" &&
+                  (byId.get(o.positionId) as RecordOf<"position">)
+                    .organizationId === offeredPosition.organizationId,
+              ).length
+            }`,
             record.personId,
             record.response === "accepted" ? "accept" : "decline",
           )
@@ -542,5 +553,14 @@ export function assertPersonnelIntegrity(
       }
     }
     byId.set(record.id, record);
+  }
+  // Offers are answered on receipt; none may be left open.
+  for (const record of records) {
+    if (record.kind !== "reinstatement-offer") continue;
+    const answers = records.filter(
+      (r) => r.kind === "offer-response" && r.offerId === record.id,
+    );
+    if (answers.length !== 1 || answers[0]!.recordedAt !== record.recordedAt)
+      fail(record, "is not answered on receipt.");
   }
 }

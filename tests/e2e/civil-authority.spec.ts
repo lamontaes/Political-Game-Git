@@ -102,7 +102,7 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
 test("CIVIL-AUTHORITY13 reinstatement offer is answered on receipt and only acceptance appoints", async ({
   page,
 }) => {
-  const matters = await mount(page, "otherDirector", "civil-authority13");
+  const matters = await mount(page, "otherDirector", "civil-authority13-c");
   const vacancy = matters.getByRole("article", {
     name: "Vacant Records specialist position",
   });
