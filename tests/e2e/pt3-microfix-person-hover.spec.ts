@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, startLife } from "./support/creator";
+import { startLife } from "./support/creator";
 
 async function freshBrowser(page: Page) {
   await page.goto("/");
@@ -33,7 +33,6 @@ test("person hover stays transparent while pointer and keyboard activation work"
     place: "Kentucky",
     household: "shares-a-home",
   });
-  await enterLife(page);
 
   const person = page.locator('[data-testid^="scene-person-"]').first();
   await expect(person).toBeVisible();
