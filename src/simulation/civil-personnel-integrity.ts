@@ -139,7 +139,10 @@ export function assertPersonnelIntegrity(
           !record.classKey.trim() ||
           !record.title.trim()
         )
-          fail(record, "must be an authored position of an authored state agency.");
+          fail(
+            record,
+            "must be an authored position of an authored state agency.",
+          );
         break;
       }
       case "incumbency": {

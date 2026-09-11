@@ -7,6 +7,7 @@ import { advanceWorld, deserializeWorld, serializeWorld } from "./index";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {
   appealDecisionFor,
+  assessMinnesotaDiscipline,
   assessMinnesotaReinstatement,
   establishPersonnelDesignation,
   executiveOfficeStaffBoundary,
@@ -243,6 +244,26 @@ describe("CIVIL-AUTHORITY13 Minnesota discipline by the actually designated auth
     expect(result.ok).toBe(false);
     if (!result.ok)
       expect(result.reason).toContain("appointing-authority role");
+  });
+
+  it("tells someone without authority nothing about the employee's class or coverage", () => {
+    const f = civilAuthorityFixture();
+    for (const incumbencyId of [
+      f.coveredIncumbencyId,
+      f.probationIncumbencyId,
+    ]) {
+      const assessment = assessMinnesotaDiscipline(
+        f.world,
+        f.relative,
+        incumbencyId,
+        "discipline",
+      );
+      expect(assessment.available).toBe(false);
+      if (!assessment.available) {
+        expect(assessment.reason).toContain("appointing-authority role");
+        expect(assessment.reason).not.toContain("43A.33");
+      }
+    }
   });
 
   it("refuses a charter for a real (non-authored) organization and a statute that names no such power", () => {

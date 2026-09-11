@@ -3194,11 +3194,7 @@ export type PersonnelAuthorityBasis =
   | { readonly kind: "authored-charter"; readonly note: string };
 
 export type PersonnelCivilClass =
-  | "classified"
-  | "unclassified"
-  | "exempt"
-  | "partially-exempt"
-  | "unknown";
+  "classified" | "unclassified" | "exempt" | "partially-exempt" | "unknown";
 
 export type PersonnelJustCauseGround =
   | "consistent-failure-to-perform"

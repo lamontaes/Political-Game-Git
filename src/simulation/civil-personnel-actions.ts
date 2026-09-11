@@ -637,6 +637,17 @@ export function assessMinnesotaDiscipline(
       available: false,
       reason: "This employment has no civil-service position record.",
     };
+  // Authority first: someone without it learns nothing about the employee.
+  const authority = personnelAuthority(
+    world,
+    actorPersonId,
+    "appointing-authority",
+    {
+      organizationId: position.organizationId,
+      jurisdictionKey: position.jurisdictionKey,
+    },
+  );
+  if (!authority.ok) return { available: false, reason: authority.reason };
   if (position.jurisdictionKey !== "US-MN")
     return {
       available: false,
@@ -693,16 +704,6 @@ export function assessMinnesotaDiscipline(
       reason:
         "Whether a collective bargaining agreement covers this employee is not established.",
     };
-  const authority = personnelAuthority(
-    world,
-    actorPersonId,
-    "appointing-authority",
-    {
-      organizationId: position.organizationId,
-      jurisdictionKey: position.jurisdictionKey,
-    },
-  );
-  if (!authority.ok) return { available: false, reason: authority.reason };
   if (step === "discipline" && !unusedInformalAttempt(world, incumbency.id))
     return {
       available: false,
@@ -1175,6 +1176,8 @@ export function produceDischargedEmployeeAppealChoice(
   const employee = found.incumbency.personId;
   if (employee === actor)
     return refuse(world, "The controlled person decides for themselves.");
+  if (!isPersonAliveAt(world, employee, currentLifeCutoff(world)))
+    return refuse(world, "The employee can no longer make this decision.");
   if (traceFor(world, appealDecisionKey(found.action.id)))
     return refuse(world, "The employee has already decided.");
   const refusal = appealRefusal(world, found);
@@ -1335,7 +1338,23 @@ export function statutoryOfficeHolder(
   power: PersonnelPower,
   jurisdictionKey: string,
 ): EntityId | null {
-  const holders = world.personOrder.filter(
+  const offices = new Set(
+    recordsOf(world, "authority-designation")
+      .filter(
+        (d) =>
+          d.power === power &&
+          d.scope === "jurisdiction" &&
+          d.jurisdictionKey === jurisdictionKey,
+      )
+      .map((d) => d.organizationId),
+  );
+  const holders = [
+    ...new Set(
+      world.history.organizationParticipations
+        .filter((p) => offices.has(p.organizationId))
+        .map((p) => p.personId),
+    ),
+  ].filter(
     (personId) =>
       personnelAuthority(world, personId, power, {
         organizationId: null,
@@ -1648,8 +1667,21 @@ function applyOfferResponse(
     world,
     position.organizationId,
   );
-  // Consent does not override a vacancy filled or authority lost meanwhile.
+  if (!isPersonAliveAt(world, offer.personId, currentLifeCutoff(world)))
+    return refuse(world, "The person offered can no longer answer.");
+  // Consent does not override a vacancy filled, authority lost or the
+  // four-year window closed meanwhile.
   if (response === "accepted") {
+    const separated = separationDate(world, former);
+    if (
+      !separated ||
+      world.currentDate >
+        yearsAfter(
+          separated,
+          numberTerm("mn-reinstatement", "withinYearsOfSeparation"),
+        )
+    )
+      return refuse(world, "The four-year reinstatement window has closed.");
     if (!positionIsVacant(world, position.id))
       return refuse(world, "The position is no longer vacant.");
     const authority = personnelAuthority(
