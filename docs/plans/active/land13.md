@@ -17,14 +17,14 @@ UI144 frozen publication: `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` (draft/open
 
 ## Landings
 
-| Order | PR           | Input head                                 | Main result                                                                                                                                                 |
-| ----- | ------------ | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1     | #153 EDU     | `d92d3049d4a1387c297337ccacbb273b1f758000` | Already merged as `95e34ed5779ac76f20acd3da5e537d716931e669`. Hosted run 34618133427 SUCCESS. #161 closed by ancestry.                                      |
-| 2     | #142 ENV     | `ca32eef8b35383d3a4b3f51cfe895c183bf25d04` | Composed on `cursor/land13-env-7cb6` (`8d8edc84`); PR #164. Awaiting exact-head CI before main merge.                                                        |
-| 3     | #151 FISCAL  | `dee56eb22bf1bf201b55ec8c6d70d8e45d12a61b` | Composed on `cursor/land13-fiscal-7cb6`. Honest district-residence refusal retained; positive Alaska Work path tracked for DISTRICTS13.                      |
-| 4     | #152 CAREER  | `b274eef8ef106c467b757453c325b025b1c8d022` | Pending; Work root belongs to UI144                                                                                                                         |
-| 5     | #150 OPENING | `8845d61a423d2e764e515c4727a468c7c69bbc30` | Pending; use current UI solution where applicable                                                                                                           |
-| 6     | #144 UI      | `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` | Freeze then compose last                                                                                                                                    |
+| Order | PR           | Input head                                 | Main result                                                                                                                             |
+| ----- | ------------ | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | #153 EDU     | `d92d3049d4a1387c297337ccacbb273b1f758000` | Already merged as `95e34ed5779ac76f20acd3da5e537d716931e669`. Hosted run 34618133427 SUCCESS. #161 closed by ancestry.                  |
+| 2     | #142 ENV     | `ca32eef8b35383d3a4b3f51cfe895c183bf25d04` | Composed on `cursor/land13-env-7cb6` (`8d8edc84`); PR #164. Awaiting exact-head CI before main merge.                                   |
+| 3     | #151 FISCAL  | `dee56eb22bf1bf201b55ec8c6d70d8e45d12a61b` | Composed on `cursor/land13-fiscal-7cb6`. Honest district-residence refusal retained; positive Alaska Work path tracked for DISTRICTS13. |
+| 4     | #152 CAREER  | `b274eef8ef106c467b757453c325b025b1c8d022` | Pending; Work root belongs to UI144                                                                                                     |
+| 5     | #150 OPENING | `8845d61a423d2e764e515c4727a468c7c69bbc30` | Pending; use current UI solution where applicable                                                                                       |
+| 6     | #144 UI      | `302e1f0cb3fb6c7d5823c41cf9b5bf87d2bfcac2` | Freeze then compose last                                                                                                                |
 
 ## Assigned follow-ups (not merge blockers)
 
