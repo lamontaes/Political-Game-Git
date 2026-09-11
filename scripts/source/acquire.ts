@@ -84,7 +84,7 @@ async function acquireOne(
         `QA slice "${request.artifactId}" needs parent "${request.sliceOf.parentArtifactId}" acquired first.`,
       );
     }
-    const bytes = request.sliceOf.cut(
+    const bytes = await request.sliceOf.cut(
       parent.bytes,
       new Map([...alreadyAcquired].map(([id, entry]) => [id, entry.bytes])),
     );
