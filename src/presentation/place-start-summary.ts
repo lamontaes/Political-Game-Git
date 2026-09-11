@@ -8,6 +8,10 @@ import type { LifePlace } from "../simulation";
  * government-unit listing when that listing is bound to this place's GEOID —
  * they are county-area labels, not city population. Population, demographics
  * and voter breakdown stay absent until a sourced place-level series exists.
+ *
+ * The copy cleanup that removed `placeContextLines` (capability and
+ * "exact place" commentary) must not delete this helper. Name and county are
+ * the useful summary; they are not that commentary.
  */
 export interface PlaceStartFact {
   readonly kind: "name" | "county";

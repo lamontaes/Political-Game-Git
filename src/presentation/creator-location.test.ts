@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   creatorLocationFromPlaceKey,
   creatorLocationIsReady,
+  creatorPlaceListOpen,
   emptyCreatorLocation,
   selectCreatorPlace,
   selectCreatorState,
@@ -87,6 +88,21 @@ describe("Creator location is chosen, not inherited", () => {
     expect(
       identities.find((state) => state.usps === "KY")?.jurisdictionKey,
     ).toBe("US-KY");
+  });
+
+  it("keeps a committed town until a deliberate replacement, and opens the list only then", () => {
+    expect(creatorPlaceListOpen(null, false)).toBe(true);
+    expect(creatorPlaceListOpen("lexington-fayette", false)).toBe(false);
+    expect(creatorPlaceListOpen("lexington-fayette", true)).toBe(true);
+
+    const lexington = creatorLocationFromPlaceKey("lexington-fayette");
+    const bowlingGreen = searchLifePlaces("Bowling", 8, {
+      stateJurisdictionKey: "US-KY",
+      scope: "locality",
+    }).find((place) => /^Bowling Green,/i.test(place.displayName))!;
+    const replaced = selectCreatorPlace(lexington, bowlingGreen);
+    expect(replaced.placeKey).toBe(bowlingGreen.key);
+    expect(replaced.stateJurisdictionKey).toBe("US-KY");
   });
 
   it("clears an incompatible town when the state changes, and keeps a compatible one", () => {
