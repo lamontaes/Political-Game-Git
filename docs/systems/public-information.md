@@ -133,9 +133,11 @@ This confirmation governs what the source said; it never grants the outlet
 prepublication review or approval of a later story.
 
 `seekCivicPressContact` is the employment writer for a missing journalism role:
-it reuses an existing adult and an authored civic news desk. It does not create
-consent, private knowledge or an adviser. `projectPressReachSnapshot` is a
-read-only gap trace.
+it prefers a living, available person who already holds `profession:journalism`,
+otherwise it generates a new fictional reporter through the character-history
+population writer and employs that person at an authored civic news desk. It
+does not reassign an existing adult, create consent, private knowledge or an
+adviser. `projectPressReachSnapshot` is a read-only gap trace.
 
 Completion uses the existing scheduled-activity transition and clock. An
 on-record or on-background story becomes public only through an explicit

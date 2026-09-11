@@ -1,15 +1,21 @@
-import { ageOnDate } from "./dates";
-import { createOrganization, createWorkRelationship } from "./life";
 import {
-  activeWorkRelationshipsAt,
-  householdMembershipsAt,
-  peopleInHouseholdAt,
-} from "./life-queries";
-import { personName } from "./people";
+  characterHistoryContextPersonId,
+  createCharacterHistoryContextPerson,
+} from "./character-history";
+import { isoDateFromParts } from "./dates";
+import { createOrganization, createWorkRelationship } from "./life";
+import { activeWorkRelationshipsAt } from "./life-queries";
+import { drawCanonicalNameForGender, personName } from "./people";
+import { generatePersonIdentity } from "./person-identity";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "./press-interviews";
 import { projectEligiblePressAdvisers } from "./press-interview-producers";
 import { resolvePublicationSource } from "./public-information-integrity";
-import type { EntityId, World } from "./types";
+import { SeededRng } from "./rng";
+import type { EntityId, IsoDate, World } from "./types";
+import {
+  isPersonAliveAt,
+  personActionAvailabilityAt,
+} from "./vitality-integrity";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 
 const AUTHORED = {
@@ -18,6 +24,7 @@ const AUTHORED = {
 } as const;
 
 const NEWSROOM_KEY_PREFIX = "press.civic-newsroom:";
+const REPORTER_KEY_PREFIX = "press.civic-reporter:";
 export const CIVIC_NEWSROOM_ORGANIZATION_NAME =
   "Civic Desk Cooperative (fictional)";
 
@@ -112,7 +119,7 @@ export function projectPressReachSnapshot(
       code: "no-journalist-role",
       blocking: true,
       detail:
-        "No current profession:journalism work role exists among people already in this world.",
+        "No current reachable profession:journalism work role exists among living, available people in this world.",
     });
   }
   if (sourcePersonId && pitchable.length === 0) {
@@ -152,9 +159,10 @@ export function projectPressReachSnapshot(
 }
 
 /**
- * Reuses an existing journalist when one exists. Otherwise employs an already
- * generated adult through the ordinary organization and work writers. Does not
- * create a person, grant interview consent or appoint an adviser.
+ * Reuses a living, available journalist when one already holds a current
+ * journalism role. Otherwise generates a new fictional reporter through the
+ * character-history population writer and employs that person only. Does not
+ * reassign an existing adult, grant interview consent or appoint an adviser.
  */
 export function seekCivicPressContact(world: World): CivicPressContactResult {
   assertWorldIntegrity(world);
@@ -174,18 +182,23 @@ export function seekCivicPressContact(world: World): CivicPressContactResult {
     };
   }
 
-  const reporterPersonId = pickCivicReporterCandidate(world, sourcePersonId);
-  if (!reporterPersonId) {
-    throw new Error(
-      "No existing adult is available to hold a civic reporting role.",
-    );
-  }
-  const jurisdictionId =
-    activeWorkRelationshipsAt(world, sourcePersonId).find(
-      ({ role }) => role.locationJurisdictionId !== null,
-    )?.role.locationJurisdictionId ?? null;
-  const orgKey = `${NEWSROOM_KEY_PREFIX}${jurisdictionId ?? "unlocated"}`;
-  let next = world;
+  const jurisdictionId = civicReporterHomeJurisdiction(world, sourcePersonId);
+  const reporterKey = nextCivicReporterStableKey(world, jurisdictionId);
+  const rng = new SeededRng(world.seed).fork(
+    `press.civic-reporter:${reporterKey}`,
+  );
+  const identity = generatePersonIdentity(rng);
+  const name = drawCanonicalNameForGender(rng, identity.gender);
+  let next = createCharacterHistoryContextPerson(world, {
+    stableKey: reporterKey,
+    givenName: name.givenName,
+    familyName: name.familyName,
+    birthDate: birthDateForAge(world.currentDate, rng.integer(32, 66)),
+    homeJurisdictionId: jurisdictionId,
+    identity,
+  });
+  const reporterPersonId = characterHistoryContextPersonId(next, reporterKey);
+  const orgKey = `${NEWSROOM_KEY_PREFIX}${jurisdictionId}`;
   let organization = next.history.organizations.find(
     (candidate) => candidate.stableKey === orgKey,
   );
@@ -211,28 +224,26 @@ export function seekCivicPressContact(world: World): CivicPressContactResult {
     involvedEntityIds: canonicalIds([
       reporterPersonId,
       organization.id,
-      ...(jurisdictionId ? [jurisdictionId] : []),
+      jurisdictionId,
     ]),
     participants: [
       {
         personId: reporterPersonId,
         role: "agency:reporter",
-        detail: "Took an authored civic reporting assignment",
+        detail: "Began an authored civic reporting assignment",
       },
     ],
     personFactConstraints: [],
     visibility: "limited",
     tags: ["press.civic-newsroom", `press.reporter:${reporterPersonId}`],
     summary:
-      "An existing person accepted an authored civic reporting assignment.",
+      "A newly generated person began an authored civic reporting assignment.",
     context: {
-      location: jurisdictionId
-        ? {
-            jurisdictionId,
-            label: CIVIC_NEWSROOM_ORGANIZATION_NAME,
-            setting: "Civic news desk",
-          }
-        : null,
+      location: {
+        jurisdictionId,
+        label: CIVIC_NEWSROOM_ORGANIZATION_NAME,
+        setting: "Civic news desk",
+      },
       socialContext: personName(next.people[reporterPersonId]!),
       pressure: null,
       choice: "employment:news-reporting",
@@ -284,6 +295,7 @@ export function currentJournalists(
 }[] {
   return world.personOrder.flatMap((personId) => {
     if (personId === excludedPersonId) return [];
+    if (!journalistIsReachable(world, personId)) return [];
     return activeWorkRelationshipsAt(world, personId)
       .filter(
         ({ role }) =>
@@ -294,23 +306,63 @@ export function currentJournalists(
   });
 }
 
-function pickCivicReporterCandidate(
+function journalistIsReachable(world: World, personId: EntityId): boolean {
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  if (!isPersonAliveAt(world, personId, cutoff)) return false;
+  return (
+    personActionAvailabilityAt(world, personId, cutoff).status !== "blocked"
+  );
+}
+
+function nextCivicReporterStableKey(
+  world: World,
+  jurisdictionId: EntityId,
+): string {
+  for (let index = 0; index < 32; index += 1) {
+    const stableKey = `${REPORTER_KEY_PREFIX}${jurisdictionId}:${index}`;
+    const personId = characterHistoryContextPersonId(world, stableKey);
+    if (!world.people[personId]) return stableKey;
+  }
+  throw new Error(
+    "No unused civic-reporter population slot is available in this jurisdiction.",
+  );
+}
+
+function civicReporterHomeJurisdiction(
   world: World,
   sourcePersonId: EntityId,
-): EntityId | null {
-  const householdIds = new Set(
-    householdMembershipsAt(world, sourcePersonId).flatMap((entry) =>
-      peopleInHouseholdAt(world, entry.household.id),
-    ),
+): EntityId {
+  const source = world.people[sourcePersonId];
+  if (source && world.jurisdictions[source.homeJurisdictionId]) {
+    return source.homeJurisdictionId;
+  }
+  const fromWork = activeWorkRelationshipsAt(world, sourcePersonId).find(
+    ({ role }) =>
+      role.locationJurisdictionId !== null &&
+      world.jurisdictions[role.locationJurisdictionId],
+  )?.role.locationJurisdictionId;
+  if (fromWork) return fromWork;
+  const first = world.jurisdictionOrder.find(
+    (jurisdictionId) => world.jurisdictions[jurisdictionId],
   );
-  const adults = world.personOrder.filter((personId) => {
-    if (personId === sourcePersonId) return false;
-    const person = world.people[personId];
-    return !!person && ageOnDate(person.birthDate, world.currentDate) >= 18;
-  });
-  const outsideHome = adults.filter((personId) => !householdIds.has(personId));
-  const pool = outsideHome.length > 0 ? outsideHome : adults;
-  return [...pool].sort((left, right) => left.localeCompare(right))[0] ?? null;
+  if (!first) {
+    throw new Error("A civic reporter requires an existing home jurisdiction.");
+  }
+  return first;
+}
+
+/**
+ * A birth date that makes somebody exactly this old today. The day of the month
+ * is clamped to the 28th so a leap day never lands in a year that has none.
+ */
+function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
+  const year = Number(onDate.slice(0, 4)) - age;
+  const month = Number(onDate.slice(5, 7));
+  const day = Math.min(Number(onDate.slice(8, 10)), 28);
+  return isoDateFromParts(year, month, day);
 }
 
 function controlledPersonId(world: World): EntityId {

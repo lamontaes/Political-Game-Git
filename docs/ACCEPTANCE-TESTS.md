@@ -1945,9 +1945,12 @@ no refusal or penalty, and the digest/correction identities survive unchanged.
 ### PRESS-REACH-001 — Normal member worlds lack journalism roles until employed
 
 A legislative-office adult/member start has no `profession:journalism` role
-until `seekCivicPressContact` employs an already generated adult at an authored
-civic news desk. The writer does not create a person, grant consent or appoint
-an adviser. Family membership is not treated as a reporting role.
+until `seekCivicPressContact` generates a new fictional reporter through the
+character-history population writer and employs that person at an authored civic
+news desk. The writer does not reassign an existing adult, grant consent or
+appoint an adviser. Family membership and ordinary workplace colleagues are not
+treated as reporting roles. Dead, unavailable and expired journalism roles are
+not reused as the next contact.
 
 ### PRESS-REACH-002 — Public pitch, optional adviser, refusal boundaries
 

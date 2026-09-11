@@ -1,29 +1,33 @@
 # PRESS-REACH13 — Normal reporter/adviser reachability
 
 Status: implemented on `cursor/press-reach13-7714` from UI `302e1f0c`.
+RETURN14 section E repaired the producer/casting path on the same branch.
 
-Owner: Cursor PRESS-REACH13 (task D).
-Authority: RETURN13 section D / BUILD-OUT7 I.
+Owner: Cursor PRESS-REACH13 (task D, continued as E).
+Authority: RETURN13 section D / BUILD-OUT7 I, then RETURN14 section E.
 
 ## Trace
 
 A legislative-office adult/member start already has public civic occurrences
 the source is in. It does not create a `profession:journalism` work role, so
-`projectEligiblePressReporters` is empty until an existing adult is employed
-through `seekCivicPressContact`. Adviser colleagues are optional; their
-absence is not a blocking gap.
+`projectEligiblePressReporters` is empty until `seekCivicPressContact` generates
+a new fictional reporter through the character-history population writer and
+employs that person only. Adviser colleagues are optional; their absence is not
+a blocking gap.
 
 ## Delivered
 
 - `src/simulation/press-reach.ts` — snapshot, pitchable public bases, authored
-  civic news-desk employment of an already generated adult.
+  civic news-desk employment of a newly generated reporter when no living,
+  available journalist already holds the role. Existing adults, including
+  family and colleagues, are not reassigned.
 - Request pitches may convey a public basis through `told-by` knowledge; private
   and future bases remain closed.
 - Reporter decisions accept, defer (unfinished assigned work) or decline.
 - Arrangement no longer requires an adviser. Preparation and feedback still
   require an accepted colleague when one is used.
 - `PressWorkspace` asks from public developments, not only published digest
-  items, and offers the civic reporting assignment when no journalist exists.
+  items, and establishes a new authored civic reporter when none exists.
 - No `PlayerGame` edit. Integration note: `docs/integration/press-reach13.md`.
 
 ## Tests run
@@ -38,5 +42,5 @@ Browser/human visual acceptance was not run. Full `npm run validate` was not run
 ## Remainder
 
 National newsroom sampling, real journalist identities and empirical response
-rates stay unavailable. Ordinary play still needs the authored assignment when
-the generated population has no journalism role.
+rates stay unavailable. Ordinary play still needs the authored civic-reporter
+generation when the generated population has no reachable journalism role.

@@ -115,7 +115,7 @@ export function PressWorkspace({
                 type="button"
                 onClick={() => change(() => seekCivicPressContact(world).world)}
               >
-                Offer the authored civic reporting assignment
+                Establish an authored civic reporter
               </button>
             </p>
           ) : null}

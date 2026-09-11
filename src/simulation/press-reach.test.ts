@@ -3,25 +3,37 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "../presentation/new-game";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import {
+  activeWorkRelationshipsAt,
   addSimulationMinutes,
   completePressInterview,
   confirmPressResponse,
   createWorkItem,
+  currentJournalists,
   deserializeWorld,
   draftPressResponse,
+  kinshipRelationshipsAt,
   projectEligiblePressReporters,
   projectPitchablePressBases,
   projectPressInterview,
   projectPressReachSnapshot,
   producePressRequestResponse,
   publishPressInterview,
+  recordPersonDeath,
+  recordPersonFunctionalCapacity,
   recordPressRequest,
+  recordWorkStatus,
   seekCivicPressContact,
   serializeWorld,
 } from "./index";
+import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "./press-interviews";
 import { arrangeAcceptedPressInterview } from "./press-interview-producers";
 import type { EntityId, World } from "./types";
 import { recordWorldEvent } from "./world";
+
+const VITALITY = {
+  kind: "authored" as const,
+  note: "PRESS-REACH13 refusal fixture.",
+} as const;
 
 function memberWorld(seed: string) {
   return createNewGameWorld({
@@ -97,14 +109,56 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     expect(serializeWorld(created.world)).toBe(before);
   });
 
-  it("employs an existing adult as a civic reporter without injecting a person or granting consent", () => {
+  it("generates a new civic reporter instead of re-employing an existing adult, and grants no consent", () => {
     const created = memberWorld("press-reach13-employ");
-    const beforePeople = [...created.world.personOrder].sort();
+    const beforePeople = new Set(created.world.personOrder);
+    const sourceKin = kinshipRelationshipsAt(
+      created.world,
+      created.playerPersonId,
+    );
+    const sourceWorkplaceIds = new Set(
+      activeWorkRelationshipsAt(created.world, created.playerPersonId)
+        .map(({ relationship }) => relationship.organizationId)
+        .filter(
+          (organizationId): organizationId is EntityId =>
+            organizationId !== null,
+        ),
+    );
+    expect(sourceKin.length).toBeGreaterThan(0);
     const contact = seekCivicPressContact(created.world);
     expect(contact.established).toBe(true);
     expect(contact.reporterPersonId).not.toBe(created.playerPersonId);
-    expect(created.world.people[contact.reporterPersonId]).toBeDefined();
-    expect([...contact.world.personOrder].sort()).toEqual(beforePeople);
+    expect(beforePeople.has(contact.reporterPersonId)).toBe(false);
+    expect(created.world.people[contact.reporterPersonId]).toBeUndefined();
+    expect(contact.world.people[contact.reporterPersonId]).toBeDefined();
+    expect(
+      kinshipRelationshipsAt(contact.world, contact.reporterPersonId),
+    ).toEqual([]);
+    expect(
+      sourceKin.some((relationship) =>
+        relationship.personIds.includes(contact.reporterPersonId),
+      ),
+    ).toBe(false);
+    const reporterOrgs = activeWorkRelationshipsAt(
+      contact.world,
+      contact.reporterPersonId,
+    ).map(({ relationship }) => relationship.organizationId);
+    expect(reporterOrgs).toEqual([contact.organizationId]);
+    expect(
+      reporterOrgs.some(
+        (organizationId) =>
+          organizationId !== null && sourceWorkplaceIds.has(organizationId),
+      ),
+    ).toBe(false);
+    for (const personId of beforePeople) {
+      expect(
+        activeWorkRelationshipsAt(contact.world, personId).some(
+          ({ role }) =>
+            role.occupationClassification ===
+            JOURNALISM_OCCUPATION_CLASSIFICATION,
+        ),
+      ).toBe(false);
+    }
     expect(
       contact.world.history.events.some(
         (event) => event.type === "press.interview-request-answered",
@@ -113,6 +167,84 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     const reused = seekCivicPressContact(contact.world);
     expect(reused.established).toBe(false);
     expect(reused.reporterPersonId).toBe(contact.reporterPersonId);
+    expect(reused.world.personOrder).toEqual(contact.world.personOrder);
+  });
+
+  it("does not substitute a dead, incapacitated or expired journalist", () => {
+    const created = memberWorld("press-reach13-refuse-substitution");
+    const first = seekCivicPressContact(created.world);
+    const deceased = recordPersonDeath(first.world, {
+      stableKey: "press-reach13-refuse-substitution:death",
+      personId: first.reporterPersonId,
+      diedAt: first.world.currentDate,
+      causeKey: "cause:external-fixture",
+      sourceEntityIds: [first.world.id],
+      summary: "The civic reporter died before a later contact.",
+      provenance: VITALITY,
+    });
+    expect(currentJournalists(deceased, created.playerPersonId)).toEqual([]);
+    const afterDeath = seekCivicPressContact(deceased);
+    expect(afterDeath.established).toBe(true);
+    expect(afterDeath.reporterPersonId).not.toBe(first.reporterPersonId);
+    expect(
+      currentJournalists(afterDeath.world, created.playerPersonId).map(
+        (journalist) => journalist.personId,
+      ),
+    ).toEqual([afterDeath.reporterPersonId]);
+
+    const incapacitated = recordPersonFunctionalCapacity(afterDeath.world, {
+      stableKey: "press-reach13-refuse-substitution:capacity",
+      personId: afterDeath.reporterPersonId,
+      effectiveAt: afterDeath.world.currentDate,
+      status: "incapacitated",
+      reasonKey: "capacity:test-incapacitated",
+      sourceEntityIds: [],
+      summary: "The civic reporter became unavailable for reporting work.",
+      provenance: VITALITY,
+    });
+    expect(currentJournalists(incapacitated, created.playerPersonId)).toEqual(
+      [],
+    );
+    const afterIncapacity = seekCivicPressContact(incapacitated);
+    expect(afterIncapacity.reporterPersonId).not.toBe(
+      afterDeath.reporterPersonId,
+    );
+
+    const reporterWork = activeWorkRelationshipsAt(
+      afterIncapacity.world,
+      afterIncapacity.reporterPersonId,
+    ).find(
+      ({ role }) =>
+        role.occupationClassification === JOURNALISM_OCCUPATION_CLASSIFICATION,
+    )!;
+    const expired = recordWorkStatus(afterIncapacity.world, {
+      stableKey: "press-reach13-refuse-substitution:ended",
+      workRelationshipId: reporterWork.relationship.id,
+      effectiveAt: afterIncapacity.world.currentDate,
+      status: "ended",
+      reason: "The authored civic reporting assignment ended.",
+      provenance: {
+        kind: "authored",
+        note: "PRESS-REACH13 expired-role fixture.",
+      },
+      supersedesStatusId: reporterWork.status.id,
+    });
+    expect(currentJournalists(expired, created.playerPersonId)).toEqual([]);
+    const replacement = seekCivicPressContact(expired);
+    expect(replacement.established).toBe(true);
+    expect(replacement.reporterPersonId).not.toBe(
+      afterIncapacity.reporterPersonId,
+    );
+    expect(
+      activeWorkRelationshipsAt(
+        replacement.world,
+        afterIncapacity.reporterPersonId,
+      ).some(
+        ({ role }) =>
+          role.occupationClassification ===
+          JOURNALISM_OCCUPATION_CLASSIFICATION,
+      ),
+    ).toBe(false);
   });
 
   it("runs request → saved response → unprepared arrangement → interview → publication → save/reload", () => {
