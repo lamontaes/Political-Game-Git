@@ -247,6 +247,117 @@ describe("PRESS-REACH13 normal-world reporter prerequisites", () => {
     ).toBe(false);
   });
 
+  it("uses a generated public basis and a new reporter without an adviser, then survives reload", () => {
+    const created = memberWorld("press-reach13-ordinary");
+    const beforePeople = new Set(created.world.personOrder);
+    const snapshot = projectPressReachSnapshot(created.world);
+    expect(snapshot.journalistCount).toBe(0);
+    const bases = projectPitchablePressBases(
+      created.world,
+      created.playerPersonId,
+    );
+    expect(bases.length).toBeGreaterThan(0);
+    const basis = bases[0]!;
+    const contact = seekCivicPressContact(created.world);
+    expect(contact.established).toBe(true);
+    expect(beforePeople.has(contact.reporterPersonId)).toBe(false);
+    expect(projectPressReachSnapshot(contact.world).colleagueAdviserCount).toBe(
+      0,
+    );
+    expect(
+      projectEligiblePressReporters(contact.world, {
+        sourcePersonId: created.playerPersonId,
+        questionBasisEventIds: [basis.eventId],
+      }).some((reporter) => reporter.personId === contact.reporterPersonId),
+    ).toBe(true);
+
+    const request = recordPressRequest(contact.world, {
+      stableKey: "press-reach13-ordinary:request",
+      reporterPersonId: contact.reporterPersonId,
+      reporterWorkRoleId: contact.reporterWorkRoleId,
+      jurisdictionId: basis.jurisdictionId,
+      channel: "written",
+      terms: "on-record",
+      backgroundAttribution: null,
+      pitch: "Ask about this already recorded public development.",
+      primaryQuestion: "What public record exists from this development?",
+      questionBasisEventIds: [basis.eventId],
+    });
+    expect(
+      request.world.history.knowledge.some(
+        (record) =>
+          record.personId === contact.reporterPersonId &&
+          record.eventId === basis.eventId &&
+          record.source.kind === "told-by",
+      ),
+    ).toBe(true);
+
+    const reporterResponse = producePressRequestResponse(request.world, {
+      stableKey: "press-reach13-ordinary:reporter-response",
+      requestEventId: request.requestEventId,
+    });
+    expect(
+      reporterResponse.world.history.events.find(
+        (event) => event.id === reporterResponse.responseEventId,
+      )?.context.choice,
+    ).toBe("accepted");
+
+    const start = addSimulationMinutes(
+      reporterResponse.world.currentMoment,
+      30,
+    );
+    const arranged = arrangeAcceptedPressInterview(reporterResponse.world, {
+      stableKey: "press-reach13-ordinary:arrangement",
+      requestEventId: request.requestEventId,
+      reporterResponseEventId: reporterResponse.responseEventId,
+      start,
+      end: addSimulationMinutes(start, 20),
+      location: {
+        locationKey: "office-press-room",
+        label: "Office press room",
+      },
+      preparationMinutes: 0,
+    });
+    expect(arranged.preparationWorkItemId).toBeNull();
+
+    let world = draftPressResponse(arranged.world, {
+      stableKey: "press-reach13-ordinary:draft",
+      activityId: arranged.activityId,
+      mode: "condensed",
+      intent: "answer-directly",
+      followUpQuestion: "What remains on the public record?",
+      proposedWording:
+        "The recorded public development is already part of this civic life.",
+    });
+    world = confirmPressResponse(world, {
+      stableKey: "press-reach13-ordinary:confirm",
+      activityId: arranged.activityId,
+      confirmedWording:
+        "The recorded public development is already part of this civic life.",
+    });
+    world = completePressInterview(world, arranged.activityId);
+    world = publishPressInterview(world, {
+      stableKey: "press-reach13-ordinary:story",
+      activityId: arranged.activityId,
+    });
+    const interview = projectPressInterview(world, arranged.activityId);
+    expect(interview).toMatchObject({
+      completed: true,
+      adviserPersonId: null,
+    });
+    expect(interview.publicationId).not.toBeNull();
+    expect(projectPublicInformationPanel(world).items.length).toBeGreaterThan(
+      0,
+    );
+    const loaded = deserializeWorld(serializeWorld(world));
+    expect(projectPressInterview(loaded, arranged.activityId)).toEqual(
+      interview,
+    );
+    const duplicate = seekCivicPressContact(loaded);
+    expect(duplicate.established).toBe(false);
+    expect(duplicate.reporterPersonId).toBe(contact.reporterPersonId);
+  });
+
   it("runs request → saved response → unprepared arrangement → interview → publication → save/reload", () => {
     const created = memberWorld("press-reach13-loop");
     const contact = seekCivicPressContact(created.world);

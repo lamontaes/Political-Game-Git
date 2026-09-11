@@ -158,6 +158,15 @@ export function projectEligiblePressReporters(
   if (basisIds.length === 0) return [];
   return world.personOrder.flatMap((personId) => {
     if (personId === input.sourcePersonId) return [];
+    if (
+      personActionAvailabilityAt(
+        world,
+        personId,
+        currentHistoricalCutoff(world),
+      ).status === "blocked"
+    ) {
+      return [];
+    }
     const canAsk = basisIds.every((eventId) =>
       reporterCanBeAskedAbout(world, personId, eventId),
     );

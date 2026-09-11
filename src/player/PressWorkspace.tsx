@@ -113,6 +113,7 @@ export function PressWorkspace({
               No current journalism role is recorded in this life.
               <button
                 type="button"
+                data-testid="press-establish-reporter"
                 onClick={() => change(() => seekCivicPressContact(world).world)}
               >
                 Establish an authored civic reporter
@@ -147,6 +148,7 @@ export function PressWorkspace({
             <label>
               Public development
               <select
+                data-testid="press-basis-select"
                 value={basisId}
                 onChange={(event) => {
                   setBasisId(event.target.value);
@@ -164,6 +166,7 @@ export function PressWorkspace({
             <label>
               Reporter
               <select
+                data-testid="press-reporter-select"
                 value={reporterRoleId}
                 onChange={(event) => setReporterRoleId(event.target.value)}
               >
@@ -413,6 +416,7 @@ function PressRequestActions({
       ) : (
         <button
           type="button"
+          data-testid="press-ask-reporter"
           onClick={() =>
             onChange(
               () =>
@@ -513,6 +517,7 @@ function PressRequestActions({
           </p>
           <button
             type="button"
+            data-testid="press-arrange-exchange"
             disabled={
               !place.trim() ||
               ![delay, duration].every(Number.isSafeInteger) ||

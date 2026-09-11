@@ -37,7 +37,10 @@ a blocking gap.
 `npx eslint` on changed TS/TSX — passed.
 `npm run release:check` — passed.
 
-Browser/human visual acceptance was not run. Full `npm run validate` was not run.
+Browser/human visual acceptance was not run as a separate named review. Focused
+Playwright ordinary News route passed on this checkout (`PG_RUN_ID=press-reach13-ordinary-proof2`).
+Full hosted `test:e2e` remains the UI-core 45-minute timeout, not a press-spec
+failure.
 
 ## Remainder
 
