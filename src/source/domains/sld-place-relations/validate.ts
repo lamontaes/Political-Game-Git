@@ -187,6 +187,7 @@ export function validateSldPlaceRelationCorpus(
 
   return {
     domain: "sld-place-relations",
+    checked: records.length,
     findings,
   };
 }
