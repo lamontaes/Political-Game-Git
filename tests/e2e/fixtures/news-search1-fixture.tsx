@@ -8,8 +8,12 @@ import {
   correctPublication,
   publishPublicEvent,
   recordWorldEvent,
-  serializeWorld,
 } from "../../../src/simulation";
+import {
+  attachNewsSearch1Harness,
+  snapshotNewsSearch1State,
+  type NewsSearch1TestHarness,
+} from "./news-search1-harness";
 
 const game = createNewGameWorld({
   seed: "news-search1-browser-proof",
@@ -82,14 +86,14 @@ game.world = correctPublication(game.world, {
   correctionNote: "Typo in chamber name.",
 });
 
-const canonicalWorld = serializeWorld(game.world);
-const model = projectPublicInformationPanel(game.world, jurisdictionId);
+let currentModel = projectPublicInformationPanel(game.world, jurisdictionId);
+const baseline = snapshotNewsSearch1State(game.world, currentModel);
 const root = createRoot(document.getElementById("root")!);
 
 function render(): void {
   root.render(
     <PublicInformationPanel
-      model={model}
+      model={currentModel}
       onClose={() => {
         document.body.dataset.panelClosed = "true";
       }}
@@ -104,6 +108,39 @@ function render(): void {
   );
 }
 
+const harness: NewsSearch1TestHarness = {
+  baseline,
+  snapshot() {
+    return snapshotNewsSearch1State(game.world, currentModel);
+  },
+  mutateWorldForNegativeControl() {
+    game.world = recordWorldEvent(game.world, {
+      stableKey: "news-search1:negative-control",
+      type: "politics.private-vote-intention",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId,
+      involvedEntityIds: [game.playerPersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["private"],
+      summary: "NEWS-SEARCH1 negative-control mutation",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  },
+  replaceModel(nextModel) {
+    currentModel = nextModel;
+    render();
+  },
+};
+
 render();
-document.body.dataset.worldBefore = canonicalWorld;
-document.body.dataset.worldAfter = serializeWorld(game.world);
+attachNewsSearch1Harness(harness);

@@ -116,7 +116,7 @@ export function PublicInformationPanel({
                 type="button"
                 className="public-information-search-clear"
                 aria-label="Clear search"
-                disabled={!hasActiveSearch}
+                disabled={searchQuery.length === 0}
                 data-testid="public-information-search-clear"
                 onClick={clearSearch}
               >
