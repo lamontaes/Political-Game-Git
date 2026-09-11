@@ -600,8 +600,15 @@ export function searchLifePlaces(
     }
     results.push(synthesizeNationwidePlace(row));
   }
+  /*
+   * Counties answer to the same filters as everything above. UI144's county
+   * rows arrived after the state filter was written, and composed together a
+   * town search inside Alabama listed Kentucky's counties.
+   */
   for (const place of nationwideCounties().values()) {
     if (results.length >= limit) break;
+    if (options?.scope && place.scope !== options.scope) continue;
+    if (stateKey && place.stateJurisdictionKey !== stateKey) continue;
     if (placeMatches(place, needle)) results.push(place);
   }
   return results.slice(0, limit);
