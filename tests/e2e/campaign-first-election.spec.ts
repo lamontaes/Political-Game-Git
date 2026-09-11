@@ -61,7 +61,7 @@ async function beginAdultLifeIn(page: Page, place: string) {
   await startLife(page, { age: 34, place });
   await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
-  await openDay(page);
+  await openCampaign(page);
 }
 
 function unsupportedLocality(): LifePlace {
@@ -78,10 +78,31 @@ function unsupportedLocality(): LifePlace {
   return place;
 }
 
-/** Opens the day overlay, where the ordinary day and the campaign both live. */
+/** Opens Today: what is happening, what is next, and the day's time. */
 async function openDay(page: Page) {
   await openElsewhere(page, "day");
   await expect(page.getByTestId("ordinary-section")).toBeVisible();
+}
+
+/**
+ * Opens Work, where running for office lives.
+ *
+ * PT3 moved the campaign out of the day: the day says what is happening and
+ * offers the time, Work holds everything the character works at. The day's
+ * one waiting control — getting on with the day — is on Work too, so a
+ * campaign's act-then-sleep loop does not bounce between two screens.
+ */
+async function openCampaign(page: Page) {
+  await openElsewhere(page, "work");
+  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
+}
+
+/** Closes Work, whichever office-holder's frame it is drawn in. */
+async function closeWork(page: Page) {
+  await page
+    .getByRole("region", { name: "Work", exact: true })
+    .getByRole("button", { name: "Close", exact: true })
+    .click();
 }
 
 function watchForErrors(page: Page): string[] {
@@ -148,6 +169,7 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-offer")).toHaveCount(0);
 
     // The ordinary life is untouched by the refusal: the day still moves.
+    await openDay(page);
     const before = await page.getByTestId("day-date").innerText();
     await page.getByTestId("pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
@@ -241,7 +263,7 @@ test.describe("A life can stand for something", () => {
 
     // Whichever way it went, this is still a game with a day in it.
     const afterword = await page.getByTestId("campaign-afterword").innerText();
-    await expect(page.getByTestId("ordinary-section")).toBeVisible();
+    await openDay(page);
     const before = await page.getByTestId("day-date").innerText();
     await page.getByTestId("pass-day").click();
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
@@ -281,9 +303,9 @@ test.describe("A life can stand for something", () => {
 
     await page.getByTestId("continue").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
-    // A reload starts the shell closed; the campaign is under the day again.
+    // A reload starts the shell closed; the campaign is in Work again.
     await enterLife(page);
-    await openDay(page);
+    await openCampaign(page);
     await expect(page.getByTestId("campaign-treasury")).toHaveText(
       treasury ?? "",
     );
@@ -303,10 +325,10 @@ test.describe("P85D integration through ordinary player controls", () => {
       await page.goto("/?seed=p85c-owner-clock");
       await startLife(page, { age: 34, place: "Lexington", gender: "male" });
       await enterLife(page);
-      await openDay(page);
+      await openCampaign(page);
       await page.getByTestId("file-candidacy").click();
       const before = await page.getByTestId("day-date").innerText();
-      await page.getByTestId("day-overlay-close").click();
+      await closeWork(page);
       if (route === "quiet") {
         await page.getByTestId("story-let-time-pass").focus();
         await page.keyboard.press("Enter");
@@ -317,7 +339,7 @@ test.describe("P85D integration through ordinary player controls", () => {
           .first()
           .click();
       }
-      await openDay(page);
+      await openCampaign(page);
       await expect(page.getByTestId("campaign-result")).toBeVisible();
       await expect(page.getByTestId("day-date")).not.toHaveText(before);
       expect(errors).toEqual([]);
@@ -332,7 +354,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     await page.goto("/?seed=p85c-owner-0");
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openDay(page);
+    await openCampaign(page);
     await page.getByTestId("file-candidacy").click();
     await page.getByTestId("campaign-fundraising").click();
     for (let day = 0; day < 3; day += 1) {

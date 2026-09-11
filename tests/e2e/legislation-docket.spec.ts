@@ -68,9 +68,10 @@ async function freshBrowser(page: Page) {
   });
 }
 
-async function openDay(page: Page) {
-  await openElsewhere(page, "day");
-  await expect(page.getByTestId("ordinary-section")).toBeVisible();
+/** Running for office lives in Work (PT3), beside the day's time control. */
+async function openCampaign(page: Page) {
+  await openElsewhere(page, "work");
+  await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 }
 
 async function liveUntilDecided(page: Page, maxDays = 45) {
@@ -87,7 +88,7 @@ async function wonSeatWithWorkOpen(page: Page) {
   await page.goto("/?seed=p85c-owner-0");
   await startLife(page, { age: 34, place: "Lexington", gender: "male" });
   await enterLife(page);
-  await openDay(page);
+  await openCampaign(page);
   await page.getByTestId("file-candidacy").click();
   await page.getByTestId("campaign-fundraising").click();
   for (let day = 0; day < 3; day += 1) {

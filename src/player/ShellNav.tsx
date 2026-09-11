@@ -84,7 +84,34 @@ export interface ShellDestination {
   readonly testid: string;
   /** True when this destination is the surface currently open. */
   readonly open: boolean;
+  /** Which heading it sits under in the open menu. */
+  readonly group: ShellDestinationGroup;
 }
+
+/**
+ * The menu's headings, in the order they are read.
+ *
+ * Twelve destinations in one column made "the day", "the room" and "life
+ * scenes" read as three names for one place and hid the real ones among them.
+ * Grouped, the column says what kind of thing each entry is before the player
+ * reads its name: what to do with the time, the people and places of the
+ * world, the character's own record, and the game itself.
+ */
+export type ShellDestinationGroup = "now" | "world" | "you" | "game";
+
+const GROUP_HEADINGS: Readonly<Record<ShellDestinationGroup, string>> = {
+  now: "Your time",
+  world: "People and places",
+  you: "You",
+  game: "Game",
+};
+
+const GROUP_ORDER: readonly ShellDestinationGroup[] = [
+  "now",
+  "world",
+  "you",
+  "game",
+];
 
 /**
  * The quiet corner cluster and its upward-opening stack.
@@ -205,10 +232,9 @@ export function ShellNav({
         >
           {state.navigation === "primary" ? (
             <>
-              <p className="pg-nav-heading">Go to</p>
               {/*
                 No "The room" entry.
-                
+
                 Every workspace frame already carries Back and Close, and Close
                 dispatches exactly this. A menu entry that repeats the control
                 sitting at the top of the surface the player is looking at is
@@ -216,37 +242,60 @@ export function ShellNav({
                 from the room itself it did nothing at all. The owner's word for
                 it was "a useless button". Returning to the room is unchanged.
               */}
-              {primary.map((entry) => (
-                <button
-                  key={entry.surface}
-                  type="button"
-                  role="menuitem"
-                  data-testid={entry.testid}
-                  aria-pressed={entry.open}
-                  onClick={() =>
-                    dispatch({
-                      type: "go-to-surface",
-                      surface: entry.surface,
-                    })
-                  }
-                >
-                  {entry.label}
-                  <small>{entry.hint}</small>
-                </button>
-              ))}
-              {personalAvailable ? (
-                <button
-                  type="button"
-                  role="menuitem"
-                  data-testid="nav-personal-group"
-                  onClick={() =>
-                    dispatch({ type: "open-nav-submenu", submenu: "personal" })
-                  }
-                >
-                  Personal
-                  <small>You, the household, money ••</small>
-                </button>
-              ) : null}
+              {GROUP_ORDER.map((group) => {
+                const entries = primary.filter(
+                  (entry) => entry.group === group,
+                );
+                const withPersonal = group === "you" && personalAvailable;
+                if (entries.length === 0 && !withPersonal) return null;
+                return (
+                  <div
+                    key={group}
+                    role="group"
+                    aria-label={GROUP_HEADINGS[group]}
+                    className="pg-nav-group"
+                    data-testid={`nav-group-${group}`}
+                  >
+                    <p className="pg-nav-heading" aria-hidden="true">
+                      {GROUP_HEADINGS[group]}
+                    </p>
+                    {entries.map((entry) => (
+                      <button
+                        key={entry.surface}
+                        type="button"
+                        role="menuitem"
+                        data-testid={entry.testid}
+                        aria-pressed={entry.open}
+                        onClick={() =>
+                          dispatch({
+                            type: "go-to-surface",
+                            surface: entry.surface,
+                          })
+                        }
+                      >
+                        {entry.label}
+                        <small>{entry.hint}</small>
+                      </button>
+                    ))}
+                    {withPersonal ? (
+                      <button
+                        type="button"
+                        role="menuitem"
+                        data-testid="nav-personal-group"
+                        onClick={() =>
+                          dispatch({
+                            type: "open-nav-submenu",
+                            submenu: "personal",
+                          })
+                        }
+                      >
+                        Personal
+                        <small>You, the household, money ••</small>
+                      </button>
+                    ) : null}
+                  </div>
+                );
+              })}
               {canSave ? (
                 <button
                   type="button"

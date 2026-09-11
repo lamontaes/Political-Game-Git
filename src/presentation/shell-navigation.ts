@@ -59,7 +59,6 @@ export type ShellSurface =
   | "personal"
   | "work"
   | "news"
-  | "life-scenes"
   | "places"
   | "municipal"
   | "journal"

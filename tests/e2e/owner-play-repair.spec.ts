@@ -249,8 +249,9 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
-    await openElsewhere(page, "day");
-    await expect(page.getByTestId("ordinary-section")).toBeVisible();
+    // PT3: running for office is in Work, not stacked under the day.
+    await openElsewhere(page, "work");
+    await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 
     // The owner saw the refusal here. There must now be something to file for,
     // and no message claiming nobody has written the offices down.
@@ -264,7 +265,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
 
     await page.getByTestId("file-candidacy").click();
     await page.getByTestId("campaign-fundraising").click();
@@ -288,7 +289,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
     await page.getByTestId("file-candidacy").click();
 
     // Three sessions fit before the already-posted evening meeting. A fourth
@@ -314,7 +315,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       .first();
     await expect(intent).toBeEnabled();
 
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
     await page.getByTestId("pass-day").focus();
     await page.keyboard.press("Space");
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
@@ -328,7 +329,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await freshBrowser(page);
     await startLife(page, { age: 34, place: "Lexington", gender: "male" });
     await enterLife(page);
-    await openElsewhere(page, "day");
+    await openElsewhere(page, "work");
     await page.getByTestId("file-candidacy").click();
     const opponentLine = (
       await page.getByTestId("campaign-opponents").innerText()

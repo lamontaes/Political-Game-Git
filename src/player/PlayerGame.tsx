@@ -6,7 +6,6 @@ import {
   SavedAppearanceControls,
 } from "./SavedAppearance";
 import { playerEconomicContextLines } from "../presentation/economic-context";
-import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { MunicipalWorkspace } from "./MunicipalWorkspace";
@@ -63,7 +62,6 @@ import {
 import {
   openOrdinaryLife,
   passOrdinaryDays,
-  projectOrdinaryDay,
 } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
@@ -72,6 +70,7 @@ import {
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
+import { projectToday, projectWorkRole } from "../presentation/day-overview";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { resolveLifeScene } from "../presentation/life-scene";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
@@ -1822,23 +1821,48 @@ function PlayingScreen({
     return () => cancelAnimationFrame(frame);
   }, [openSurface]);
 
+  /*
+   * What Work holds for THIS life, said on the way in.
+   *
+   * "Offices / Work — Education, work and your current role" was the same line
+   * for a ten-year-old, a shop assistant, a candidate and a member, so the menu
+   * could not tell anybody whether what they were hunting for was behind it.
+   * The hint is now built from what the Work surface will actually mount.
+   */
+  const workHint = capabilities.formativeYears
+    ? "School, and anything waiting on you"
+    : [
+        judicialOfficeContexts(session.world).length > 0 ||
+        resolveExecutiveOffice(session.world) ||
+        capabilities.legislation
+          ? "your office"
+          : null,
+        capabilities.campaign ? "running for office" : null,
+        "jobs and study",
+      ]
+        .filter((part): part is string => part !== null)
+        .join(", ")
+        .replace(/^./, (first) => first.toUpperCase());
+
   const destinations = useMemo<readonly ShellDestination[]>(() => {
     const entries: ShellDestination[] = [];
     if (!capabilities.formativeYears) {
       entries.push({
         surface: "day",
-        label: "The day",
-        hint: "What is in front of you today",
+        label: "Today",
+        hint: "What is happening, what is next, and your time",
         testid: "elsewhere-day",
         open: openSurface === "day",
+        group: "now",
       });
     }
     entries.push({
-      surface: "people",
-      label: "People / Friends",
-      hint: "Family, friends, work, politics",
-      testid: "elsewhere-people",
-      open: openSurface === "people",
+      surface: "work",
+      label: "Work",
+      hint: workHint,
+      testid: "elsewhere-work",
+      open: openSurface === "work",
+      group: "now",
     });
     entries.push({
       surface: "calendar",
@@ -1846,13 +1870,15 @@ function PlayingScreen({
       hint: "Your commitments, and the chamber's",
       testid: "nav-calendar",
       open: openSurface === "calendar",
+      group: "now",
     });
     entries.push({
-      surface: "work",
-      label: "Offices / Work",
-      hint: "Education, work and your current role",
-      testid: "elsewhere-work",
-      open: openSurface === "work",
+      surface: "people",
+      label: "People / Friends",
+      hint: "Family, friends, work, politics",
+      testid: "elsewhere-people",
+      open: openSurface === "people",
+      group: "world",
     });
     entries.push({
       surface: "personal",
@@ -1860,14 +1886,18 @@ function PlayingScreen({
       hint: "You, the household, money",
       testid: "nav-personal-entry",
       open: openSurface === "personal",
+      group: "you",
     });
-    entries.push({
-      surface: "life-scenes",
-      label: "Life scenes",
-      hint: "Return to your current scene and conversations",
-      testid: "nav-life-scenes",
-      open: openSurface === "life-scenes",
-    });
+    /*
+     * No "Life scenes" entry.
+     *
+     * It opened a second copy of the panel that is already standing in the
+     * room — the same scene, the same choices, the same people — under a name
+     * that did not say so. The owner's reaction was "it's the same thing. Not
+     * sure what that even means." The scene is the room; closing any
+     * workspace returns to it, and the panel there carries its own way back
+     * from the rest of the life.
+     */
     entries.push({
       /*
        * Where this life can go, and what it can do when it gets there.
@@ -1881,6 +1911,7 @@ function PlayingScreen({
       hint: "Where you are, where you can go, and what is on there",
       testid: "nav-places",
       open: openSurface === "places",
+      group: "world",
     });
     entries.push({
       surface: "municipal",
@@ -1888,6 +1919,7 @@ function PlayingScreen({
       hint: "Public meetings and your municipal work",
       testid: "nav-municipal",
       open: openSurface === "municipal",
+      group: "world",
     });
     entries.push({
       surface: "news",
@@ -1895,6 +1927,7 @@ function PlayingScreen({
       hint: "Published public records",
       testid: "nav-news",
       open: openSurface === "news",
+      group: "world",
     });
     entries.push({
       surface: "journal",
@@ -1902,6 +1935,7 @@ function PlayingScreen({
       hint: "Chapters, and what is still open",
       testid: "nav-journal-entry",
       open: openSurface === "journal",
+      group: "you",
     });
     entries.push({
       surface: "options",
@@ -1909,6 +1943,7 @@ function PlayingScreen({
       hint: "Settings this game actually reads",
       testid: "nav-options",
       open: openSurface === "options",
+      group: "game",
     });
     entries.push({
       surface: "patch-notes",
@@ -1916,15 +1951,10 @@ function PlayingScreen({
       hint: "What has changed, read from this build",
       testid: "nav-patch-notes",
       open: openSurface === "patch-notes",
+      group: "game",
     });
     return entries;
-  }, [
-    session.world,
-    capabilities.formativeYears,
-    capabilities.legislation,
-    capabilities.legislativeScenarioKey,
-    openSurface,
-  ]);
+  }, [capabilities.formativeYears, workHint, openSurface]);
 
   const openEntity = useCallback(
     (ref: ShellRef) => {
@@ -2075,6 +2105,7 @@ function PlayingScreen({
     goToTheFloor,
     goToTheFloorFor,
     setConversation,
+    workHint,
   });
 
   return (
@@ -2380,6 +2411,7 @@ function renderWorkspace({
   goToTheFloor,
   goToTheFloorFor,
   setConversation,
+  workHint,
 }: {
   readonly view: ReturnType<typeof activeView>;
   readonly session: Session;
@@ -2400,6 +2432,7 @@ function renderWorkspace({
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
   readonly setConversation: (value: null) => void;
+  readonly workHint: string;
 }): ReactNode {
   if (view.surface === "scene") return null;
 
@@ -2589,47 +2622,29 @@ function renderWorkspace({
 
   switch (view.surface) {
     case "day":
+      /*
+       * UI9-01 / PT3. Today answers four questions and links everywhere else.
+       *
+       * It used to mount the campaign in full below the ordinary day, after an
+       * earlier pass had already moved study and jobs out to Work — so a
+       * candidate's day was still most of a campaign office, and a player
+       * looking for "Work" found half of it here. Every one of those controls
+       * now lives in Work, once; the day says what is happening, what is
+       * next, what is waiting, and offers the two things that actually spend
+       * the day's time: attending what is planned and moving on to tomorrow.
+       */
       return frame(
-        "The day",
+        "Today",
         "day-overlay",
-        <>
-          <OrdinaryDayView session={session} onWorldChange={onWorldChange} />
-          {/*
-            UI9-01. The day used to mount the education-and-work stack and the
-            private personnel panel in full, and Work mounted the same two
-            again. Inspecting the same panels under a second name is not a
-            second thing to do, and it is most of why these menus read as
-            overlapping. Work owns study and jobs; the day links into that same
-            workspace rather than carrying a copy of it. Nothing is removed —
-            every one of those controls is still there, in one place.
-          */}
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="day-open-work"
-            onClick={() => dispatch({ type: "go-to-surface", surface: "work" })}
-          >
-            Education and work
-            <small>Study, jobs and anything waiting on you</small>
-          </button>
-          {/*
-            Politics is a thing an ordinary life can turn into, so this sits
-            below the ordinary day rather than replacing it.
-          */}
-          {capabilities.campaign ? (
-            <CampaignWorkspace
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-          ) : capabilities.formativeYears ? null : (
-            <p className="game-note" data-testid="no-campaign">
-              {capabilities.withheld.find(
-                (entry) => entry.surface === "campaign",
-              )?.reason ?? ""}
-            </p>
-          )}
-        </>,
+        <TodayView
+          session={session}
+          onWorldChange={onWorldChange}
+          workHint={workHint}
+          onOpenCommitment={(activityId) =>
+            openEntity({ kind: "commitment", id: activityId })
+          }
+          onGoTo={(surface) => dispatch({ type: "go-to-surface", surface })}
+        />,
       );
 
     case "people":
@@ -2681,19 +2696,6 @@ function renderWorkspace({
           personId={session.personId}
           {...(view.section ? { section: view.section } : {})}
           onOpenPerson={openPerson}
-        />,
-      );
-
-    case "life-scenes":
-      return frame(
-        "Life scenes",
-        "life-scenes-workspace",
-        <LifeScenePanel
-          world={session.world}
-          playerPersonId={session.personId}
-          onWorldChange={onWorldChange}
-          onContinue={close}
-          transitionHandlers={createCampaignElectionTransitionRegistry()}
         />,
       );
 
@@ -2773,242 +2775,324 @@ function renderWorkspace({
       );
 
     case "work": {
+      /*
+       * Work, for every life, in one predictable order.
+       *
+       * This used to be four different screens depending on who the character
+       * was — a judge got only the court, an executive only the inbox, a
+       * member the office with study and jobs folded in, everybody else study
+       * and jobs alone — while the campaign lived under the day for all of
+       * them. A player could not know where anything was without knowing which
+       * of those lives the game thought they were in. Now it says who they
+       * are at work first, then the same sections in the same order: their
+       * office when they hold one, running for office, jobs and study, and
+       * hiring. Each section is the one canonical panel it always was; none of
+       * them is mounted anywhere else.
+       */
       const offices = judicialOfficeContexts(session.world);
-      if (offices.length > 0)
-        return frame(
-          "Office work",
-          "judicial-office-section",
+      const executive = resolveExecutiveOffice(session.world);
+      const legislative =
+        offices.length === 0 &&
+        !executive &&
+        capabilities.legislation &&
+        capabilities.legislativeScenarioKey !== null;
+      /*
+       * The member's office, exactly as it was: the working measure named, who
+       * has it next, the docket, and the older assignment kept distinct.
+       */
+      const legislativeOffice = (legislativeScenarioKey: string): ReactNode => {
+        const docketKey = selectedDocketKey(
+          session.world,
+          legislativeScenarioKey,
+          session.personId,
+        );
+        const workingBill = docketKey
+          ? docketBill(session.world, {
+              scenarioKey: legislativeScenarioKey,
+              playerPersonId: session.personId,
+              docketKey,
+            })
+          : null;
+        /*
+         * UI9-13: one working measure, said out loud.
+         *
+         * Two selections could sit on this surface at once — the docket
+         * selection the player made, and whatever the older "look at what is
+         * moving" assignment had opened — each with its own pin control, both
+         * presented as equals. The owner's report from that state was "This is
+         * not my bill." Neither selection is removed and nothing is relabelled
+         * as theirs: the docket selection is named as the one being worked on,
+         * and an assignment pointing at a DIFFERENT measure is named separately
+         * as the other document it is, so the two can never be read as one.
+         */
+        const workingName = workingBill
+          ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
+            null)
+          : null;
+        /*
+         * UI9-13, second half: who has it now.
+         *
+         * Naming the working measure told the player WHICH bill is theirs and
+         * nothing about whether anything was waiting on them. The gate already
+         * knows — it is the canonical answer to what controls this measure's
+         * next step, and the bill workspace has been printing it as "who decides
+         * next" all along, two clicks in behind "Look at what is moving". A
+         * player standing in their office should not have to open the document
+         * to learn that the committee has it and there is nothing for them to do
+         * today.
+         *
+         * Read, never inferred: no phase is mapped to an actor here. What the
+         * chamber's own rule pack calls the referral authority, the committee or
+         * the leadership is what the office says.
+         */
+        const workingGate = workingBill
+          ? measureGate(session.world, workingBill.measureId)
+          : null;
+        const assignmentName = assignment
+          ? (measureById(session.world, assignment.measureId)?.shortTitle ??
+            null)
+          : null;
+        const assignmentIsOther =
+          assignment !== null &&
+          workingBill !== null &&
+          assignment.measureId !== workingBill.measureId;
+        return (
           <>
-            {offices.map((office) => (
-              <JudicialOfficeWork
-                key={office.workRelationshipId}
+            <p>
+              {capabilities.person.givenName} works for the{" "}
+              {capabilities.workPlace?.displayName} legislature, so what is in
+              front of the chamber is in front of them too.
+            </p>
+            {workingBill ? (
+              <p
+                className="game-band"
+                data-testid="active-measure"
+                data-measure-id={workingBill.measureId}
+              >
+                Working on:{" "}
+                {workingName ?? "a measure this world no longer holds"}
+              </p>
+            ) : null}
+            {workingGate ? (
+              <p className="game-note" data-testid="active-measure-next">
+                <span data-testid="active-measure-actor">
+                  {workingGate.actorLabel}
+                </span>
+                {" has it next. "}
+                {workingGate.description}
+                {workingGate.thresholdLabel
+                  ? ` It needs ${workingGate.thresholdLabel}.`
+                  : ""}
+              </p>
+            ) : null}
+            {assignmentIsOther ? (
+              <p className="game-note" data-testid="other-measure-open">
+                Also open, and not the one you are working on:{" "}
+                {assignmentName ?? "another measure"}.
+              </p>
+            ) : null}
+            <button
+              type="button"
+              className="ui-action"
+              data-testid="open-legislation"
+              onClick={openTheBill}
+            >
+              {assignment ? "Close the bill" : "Look at what is moving"}
+            </button>
+            {floorNote && !assignment ? (
+              <p role="status" data-testid="work-unavailable">
+                {floorNote}
+              </p>
+            ) : null}
+            {capabilities.legislativeJurisdictionId ? (
+              <DocketWorkspace
                 world={session.world}
-                courtOrganizationId={office.courtOrganizationId}
-                onWorldChange={onWorldChange}
-                onPerson={openPerson}
-                transitionHandlers={createCampaignElectionTransitionRegistry()}
+                playerPersonId={session.personId}
+                scenarioKey={legislativeScenarioKey}
+                jurisdictionId={capabilities.legislativeJurisdictionId}
+                onWorldChange={onLegislativeChange}
+                onGoToFloor={goToTheFloorFor}
+                floorNote={floorNote}
               />
-            ))}
-          </>,
+            ) : null}
+            {workingBill && (
+              <button
+                type="button"
+                className="ui-action"
+                data-testid="pin-docket-measure"
+                data-measure-id={workingBill.measureId}
+                aria-pressed={pinnedRef({
+                  kind: "measure",
+                  id: workingBill.measureId,
+                })}
+                onClick={() =>
+                  togglePin({ kind: "measure", id: workingBill.measureId })
+                }
+              >
+                {pinnedRef({ kind: "measure", id: workingBill.measureId })
+                  ? `Unpin ${workingName ?? "the measure you are working on"}`
+                  : `Pin ${workingName ?? "the measure you are working on"}`}
+              </button>
+            )}
+            {assignment ? (
+              <>
+                <button
+                  type="button"
+                  className="ui-action"
+                  data-testid="open-floor"
+                  onClick={goToTheFloor}
+                >
+                  Go to the members&rsquo; room
+                </button>
+                <button
+                  type="button"
+                  className="ui-action ui-action--rail"
+                  aria-pressed={pinnedRef({
+                    kind: "measure",
+                    id: assignment.measureId,
+                  })}
+                  data-testid="pin-measure"
+                  onClick={() =>
+                    togglePin({ kind: "measure", id: assignment.measureId })
+                  }
+                >
+                  {pinnedRef({ kind: "measure", id: assignment.measureId })
+                    ? `Unpin ${assignmentName ?? "this bill"}`
+                    : `Pin ${assignmentName ?? "this bill"}`}
+                </button>
+                {floorNote ? (
+                  <p data-testid="floor-withheld">{floorNote}</p>
+                ) : null}
+                <LegislationWorkspace
+                  world={session.world}
+                  assignment={assignment}
+                  onWorldChange={onLegislativeChange}
+                />
+              </>
+            ) : null}
+          </>
         );
-      if (resolveExecutiveOffice(session.world))
-        return frame(
-          "Executive work",
-          "executive-office-section",
-          <ExecutiveWorkWorkspace
-            world={session.world}
-            onWorldChange={(next) =>
-              onWorldChange(synchronizeExecutiveInbox(next))
-            }
-            onClose={close}
-            handlers={createCampaignElectionTransitionRegistry()}
-          />,
-        );
-      if (!capabilities.legislation || !capabilities.legislativeScenarioKey) {
-        return frame(
-          "Education and work",
-          "personal-work-section",
-          <>
-            <LifePathsPanel
+      };
+      const role = projectWorkRole(session.world, session.personId);
+      const sections: WorkSection[] = [];
+      if (offices.length > 0) {
+        sections.push({
+          key: "office",
+          title: "Your court",
+          body: (
+            <>
+              {offices.map((office) => (
+                <JudicialOfficeWork
+                  key={office.workRelationshipId}
+                  world={session.world}
+                  courtOrganizationId={office.courtOrganizationId}
+                  onWorldChange={onWorldChange}
+                  onPerson={openPerson}
+                  transitionHandlers={createCampaignElectionTransitionRegistry()}
+                />
+              ))}
+            </>
+          ),
+        });
+      } else if (executive) {
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <ExecutiveWorkWorkspace
               world={session.world}
-              onWorldChange={onWorldChange}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              headed={false}
+              onWorldChange={(next) =>
+                onWorldChange(synchronizeExecutiveInbox(next))
+              }
+              onClose={close}
+              handlers={createCampaignElectionTransitionRegistry()}
             />
-            <CivilPersonnelPanel
-              world={session.world}
-              onWorldChange={onWorldChange}
-            />
-          </>,
-        );
+          ),
+        });
+      } else if (legislative && capabilities.legislativeScenarioKey) {
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: legislativeOffice(capabilities.legislativeScenarioKey),
+        });
       }
-      const docketKey = selectedDocketKey(
-        session.world,
-        capabilities.legislativeScenarioKey,
-        session.personId,
-      );
-      const workingBill = docketKey
-        ? docketBill(session.world, {
-            scenarioKey: capabilities.legislativeScenarioKey,
-            playerPersonId: session.personId,
-            docketKey,
-          })
-        : null;
-      /*
-       * UI9-13: one working measure, said out loud.
-       *
-       * Two selections could sit on this surface at once — the docket
-       * selection the player made, and whatever the older "look at what is
-       * moving" assignment had opened — each with its own pin control, both
-       * presented as equals. The owner's report from that state was "This is
-       * not my bill." Neither selection is removed and nothing is relabelled
-       * as theirs: the docket selection is named as the one being worked on,
-       * and an assignment pointing at a DIFFERENT measure is named separately
-       * as the other document it is, so the two can never be read as one.
-       */
-      const workingName = workingBill
-        ? (measureById(session.world, workingBill.measureId)?.shortTitle ??
-          null)
-        : null;
-      /*
-       * UI9-13, second half: who has it now.
-       *
-       * Naming the working measure told the player WHICH bill is theirs and
-       * nothing about whether anything was waiting on them. The gate already
-       * knows — it is the canonical answer to what controls this measure's
-       * next step, and the bill workspace has been printing it as "who decides
-       * next" all along, two clicks in behind "Look at what is moving". A
-       * player standing in their office should not have to open the document
-       * to learn that the committee has it and there is nothing for them to do
-       * today.
-       *
-       * Read, never inferred: no phase is mapped to an actor here. What the
-       * chamber's own rule pack calls the referral authority, the committee or
-       * the leadership is what the office says.
-       */
-      const workingGate = workingBill
-        ? measureGate(session.world, workingBill.measureId)
-        : null;
-      const assignmentName = assignment
-        ? (measureById(session.world, assignment.measureId)?.shortTitle ?? null)
-        : null;
-      const assignmentIsOther =
-        assignment !== null &&
-        workingBill !== null &&
-        assignment.measureId !== workingBill.measureId;
-      return frame(
-        "The office",
-        "office-section",
-        <WorkWorkspace world={session.world} personId={session.personId}>
-          <p>
-            {capabilities.person.givenName} works for the{" "}
-            {capabilities.workPlace?.displayName} legislature, so what is in
-            front of the chamber is in front of them too.
-          </p>
-          {/*
-            Study and jobs belong to Work for EVERY life, not only the ones
-            without an office. When the day stopped carrying its own copy of
-            these panels, an office-holding character lost the only route to
-            them — holding a seat is not a reason to stop being able to take a
-            course or a shift. Work owning them means Work owning them.
-          */}
+      if (!capabilities.formativeYears) {
+        sections.push({
+          key: "campaign",
+          title: "Running for office",
+          body: capabilities.campaign ? (
+            <CampaignWorkspace
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : (
+            <p className="game-note" data-testid="no-campaign">
+              {capabilities.withheld.find(
+                (entry) => entry.surface === "campaign",
+              )?.reason ?? ""}
+            </p>
+          ),
+        });
+      }
+      sections.push({
+        key: "paths",
+        title: capabilities.formativeYears ? "School" : "Jobs and study",
+        body: (
           <LifePathsPanel
             world={session.world}
             onWorldChange={onWorldChange}
             transitionHandlers={createCampaignElectionTransitionRegistry()}
+            headed={false}
           />
+        ),
+      });
+      sections.push({
+        key: "personnel",
+        title: "Hiring",
+        body: (
           <CivilPersonnelPanel
             world={session.world}
             onWorldChange={onWorldChange}
           />
-          {workingBill ? (
-            <p
-              className="game-band"
-              data-testid="active-measure"
-              data-measure-id={workingBill.measureId}
-            >
-              Working on:{" "}
-              {workingName ?? "a measure this world no longer holds"}
-            </p>
-          ) : null}
-          {workingGate ? (
-            <p className="game-note" data-testid="active-measure-next">
-              <span data-testid="active-measure-actor">
-                {workingGate.actorLabel}
-              </span>
-              {" has it next. "}
-              {workingGate.description}
-              {workingGate.thresholdLabel
-                ? ` It needs ${workingGate.thresholdLabel}.`
-                : ""}
-            </p>
-          ) : null}
-          {assignmentIsOther ? (
-            <p className="game-note" data-testid="other-measure-open">
-              Also open, and not the one you are working on:{" "}
-              {assignmentName ?? "another measure"}.
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="open-legislation"
-            onClick={openTheBill}
-          >
-            {assignment ? "Close the bill" : "Look at what is moving"}
-          </button>
-          {floorNote && !assignment ? (
-            <p role="status" data-testid="work-unavailable">
-              {floorNote}
-            </p>
-          ) : null}
-          {capabilities.legislativeJurisdictionId ? (
-            <DocketWorkspace
-              world={session.world}
-              playerPersonId={session.personId}
-              scenarioKey={capabilities.legislativeScenarioKey}
-              jurisdictionId={capabilities.legislativeJurisdictionId}
-              onWorldChange={onLegislativeChange}
-              onGoToFloor={goToTheFloorFor}
-              floorNote={floorNote}
-            />
-          ) : null}
-          {workingBill && (
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="pin-docket-measure"
-              data-measure-id={workingBill.measureId}
-              aria-pressed={pinnedRef({
-                kind: "measure",
-                id: workingBill.measureId,
-              })}
-              onClick={() =>
-                togglePin({ kind: "measure", id: workingBill.measureId })
-              }
-            >
-              {pinnedRef({ kind: "measure", id: workingBill.measureId })
-                ? `Unpin ${workingName ?? "the measure you are working on"}`
-                : `Pin ${workingName ?? "the measure you are working on"}`}
-            </button>
-          )}
-          {assignment ? (
-            <>
-              <button
-                type="button"
-                className="ui-action"
-                data-testid="open-floor"
-                onClick={goToTheFloor}
-              >
-                Go to the members&rsquo; room
-              </button>
-              <button
-                type="button"
-                className="ui-action ui-action--rail"
-                aria-pressed={pinnedRef({
-                  kind: "measure",
-                  id: assignment.measureId,
-                })}
-                data-testid="pin-measure"
-                onClick={() =>
-                  togglePin({ kind: "measure", id: assignment.measureId })
-                }
-              >
-                {pinnedRef({ kind: "measure", id: assignment.measureId })
-                  ? `Unpin ${assignmentName ?? "this bill"}`
-                  : `Pin ${assignmentName ?? "this bill"}`}
-              </button>
-              {floorNote ? (
-                <p data-testid="floor-withheld">{floorNote}</p>
-              ) : null}
-              <LegislationWorkspace
-                world={session.world}
-                assignment={assignment}
-                onWorldChange={onLegislativeChange}
+        ),
+      });
+      return frame(
+        "Work",
+        offices.length > 0
+          ? "judicial-office-section"
+          : executive
+            ? "executive-office-section"
+            : legislative
+              ? "office-section"
+              : "personal-work-section",
+        <WorkLayout
+          roleSentence={role.sentence}
+          pending={
+            <WorkWorkspace world={session.world} personId={session.personId}>
+              {null}
+            </WorkWorkspace>
+          }
+          sections={sections}
+          timeControl={
+            capabilities.formativeYears ? null : (
+              <PassDayControl
+                session={session}
+                onWorldChange={onWorldChange}
+                withClock
               />
-            </>
-          ) : null}
-        </WorkWorkspace>,
+            )
+          }
+        />,
+        offices.length > 0
+          ? "Judicial office"
+          : executive
+            ? "Executive office"
+            : legislative
+              ? "Legislative office"
+              : capabilities.formativeYears
+                ? "Growing up"
+                : undefined,
       );
     }
 
@@ -3308,50 +3392,238 @@ function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
   );
 }
 
-function OrdinaryDayView({
+/**
+ * Today: what is happening, what is next, what is waiting, and the time.
+ *
+ * Reading this is free. The only controls on it that spend time are the ones
+ * that say how much: carrying out what is planned (the activity's own
+ * duration) and getting on with the day. Everything else is a link to the
+ * destination that owns it — inspecting a commitment opens the calendar's
+ * record of it, and work opens Work.
+ */
+function TodayView({
   session,
   onWorldChange,
+  workHint,
+  onOpenCommitment,
+  onGoTo,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
+  readonly workHint: string;
+  readonly onOpenCommitment: (activityId: EntityId) => void;
+  readonly onGoTo: (surface: "work" | "calendar" | "places") => void;
 }) {
-  const day = useMemo(
-    () => projectOrdinaryDay(session.world, session.personId),
+  const today = useMemo(
+    () => projectToday(session.world, session.personId),
     [session.world, session.personId],
   );
 
   return (
-    <section className="game-day" data-testid="ordinary-section">
+    <section className="game-day pg-today" data-testid="ordinary-section">
       <p className="game-band" data-testid="day-date">
-        {day.dateLabel} · {day.timeLabel}
+        {today.dateLabel} · {today.timeLabel}
+        {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
-      {!completedActivityHere(session.world, session.personId) && (
-        <p className="game-scene" data-testid="day-opening">
-          {day.opening}
+
+      <section className="pg-today-block" aria-labelledby="pg-today-now">
+        <h3 id="pg-today-now">Now</h3>
+        <p
+          className="game-scene"
+          data-testid={
+            today.nowKind === "activity" ? "day-now-activity" : "day-opening"
+          }
+        >
+          {today.now}
         </p>
-      )}
-      {day.pending.length > 0 ? (
-        <ul className="game-pending" data-testid="day-pending">
-          {day.pending.map((thing) => (
-            <li key={thing.key}>{thing.sentence}</li>
-          ))}
-        </ul>
+        {today.nowKind === "scene" ? (
+          <p className="game-note" data-testid="day-now-scene">
+            It is waiting in the room. Close this to go back to it.
+          </p>
+        ) : null}
+      </section>
+
+      <section className="pg-today-block" aria-labelledby="pg-today-next">
+        <h3 id="pg-today-next">Next</h3>
+        {today.next ? (
+          <button
+            type="button"
+            className="ui-action ui-action--subtle pg-today-link"
+            data-testid="day-next"
+            data-activity-id={today.next.activityId}
+            onClick={() => onOpenCommitment(today.next!.activityId)}
+          >
+            {today.next.when} · {today.next.title}
+            <small>{today.next.locationLabel} · Read it in the calendar</small>
+          </button>
+        ) : (
+          <p className="game-note" data-testid="day-next-none">
+            Nothing else of yours is on the calendar.
+          </p>
+        )}
+      </section>
+
+      {today.waiting.length > 0 ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-waiting">
+          <h3 id="pg-today-waiting">Waiting on you</h3>
+          <ul className="game-pending" data-testid="day-pending">
+            {today.waiting.map((thing) => (
+              <li key={thing.key}>{thing.sentence}</li>
+            ))}
+          </ul>
+        </section>
       ) : null}
-      <VenueActivityPanel
-        world={session.world}
-        personId={session.personId}
-        onWorldChange={onWorldChange}
-      />
-      <div className="game-choices">
+
+      <section className="pg-today-block" aria-labelledby="pg-today-time">
+        <h3 id="pg-today-time">Use your time</h3>
+        <VenueActivityPanel
+          world={session.world}
+          personId={session.personId}
+          onWorldChange={onWorldChange}
+        />
+        <PassDayControl session={session} onWorldChange={onWorldChange} />
+      </section>
+
+      <nav className="pg-today-links" aria-label="From today">
         <button
           type="button"
-          data-testid="pass-day"
-          onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-work"
+          onClick={() => onGoTo("work")}
         >
-          Get on with the day
-          <small>Move to tomorrow.</small>
+          Work
+          <small>{workHint}</small>
         </button>
-      </div>
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-calendar"
+          onClick={() => onGoTo("calendar")}
+        >
+          Calendar
+          <small>Everything that is scheduled</small>
+        </button>
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid="day-open-places"
+          onClick={() => onGoTo("places")}
+        >
+          Places
+          <small>Where you can go from here</small>
+        </button>
+      </nav>
     </section>
+  );
+}
+
+/**
+ * Moving on to tomorrow. The one control that waits, wherever it appears.
+ *
+ * It is on Today, and it is on Work, because the loop of a campaign or a job
+ * is "act, then let the day end": sending somebody from the work they are
+ * doing to another screen to end the day was the hunting the owner described.
+ * It is the same canonical writer and the same words in both places.
+ */
+function PassDayControl({
+  session,
+  onWorldChange,
+  withClock = false,
+}: {
+  readonly session: Session;
+  readonly onWorldChange: (world: World) => void;
+  /** Say what time it is beside the control, where nothing else on the page does. */
+  readonly withClock?: boolean;
+}) {
+  const today = useMemo(
+    () => (withClock ? projectToday(session.world, session.personId) : null),
+    [withClock, session.world, session.personId],
+  );
+  return (
+    <div className="game-choices pg-pass-day">
+      {today ? (
+        <p className="game-band" data-testid="day-date">
+          {today.dateLabel} · {today.timeLabel}
+        </p>
+      ) : null}
+      <button
+        type="button"
+        data-testid="pass-day"
+        onClick={() => onWorldChange(passOrdinaryDays(session.world))}
+      >
+        Get on with the day
+        <small>Move to tomorrow.</small>
+      </button>
+    </div>
+  );
+}
+
+interface WorkSection {
+  readonly key: "office" | "campaign" | "paths" | "personnel";
+  readonly title: string;
+  readonly body: ReactNode;
+}
+
+/**
+ * Work's one layout: who you are at work, where each section is, the sections.
+ *
+ * The jump list at the top is there because Work holds several long panels and
+ * the thing a player wants is often the third one down. It moves focus to the
+ * section's heading, so it works from the keyboard exactly as from a pointer,
+ * and it reads nothing and changes nothing.
+ */
+function WorkLayout({
+  roleSentence,
+  pending,
+  sections,
+  timeControl,
+}: {
+  readonly roleSentence: string;
+  /** What is waiting on the character, said right after who they are. */
+  readonly pending: ReactNode;
+  readonly sections: readonly WorkSection[];
+  readonly timeControl: ReactNode;
+}) {
+  const jumpTo = (key: WorkSection["key"]) => {
+    const heading = document.getElementById(`pg-work-${key}`);
+    heading?.scrollIntoView({ block: "start" });
+    heading?.focus();
+  };
+  return (
+    <div className="pg-work" data-testid="work-layout">
+      <p className="game-scene" data-testid="work-role">
+        {roleSentence}
+      </p>
+      {pending}
+      {sections.length > 1 ? (
+        <nav className="pg-work-jump" aria-label="On this page">
+          {sections.map((section) => (
+            <button
+              key={section.key}
+              type="button"
+              className="game-choice-chip"
+              data-testid={`work-jump-${section.key}`}
+              onClick={() => jumpTo(section.key)}
+            >
+              {section.title}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+      {timeControl}
+      {sections.map((section) => (
+        <section
+          key={section.key}
+          className="pg-work-section"
+          aria-labelledby={`pg-work-${section.key}`}
+          data-testid={`work-section-${section.key}`}
+        >
+          <h3 id={`pg-work-${section.key}`} tabIndex={-1}>
+            {section.title}
+          </h3>
+          {section.body}
+        </section>
+      ))}
+    </div>
   );
 }
