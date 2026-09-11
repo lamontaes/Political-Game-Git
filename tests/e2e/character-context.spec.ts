@@ -5,6 +5,7 @@ import {
   goTo,
   openCreator,
   startLife as walkCreator,
+  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -55,16 +56,9 @@ async function openSetup(page: Page, age: number) {
   await page.getByTestId("start-age").fill(String(age));
 }
 
-/** Picks Kentucky on the place step and advances past it. */
+/** Picks Kentucky, then Lexington, and advances past the place step. */
 async function chooseKentucky(page: Page) {
-  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
+  await chooseCreatorLocation(page, { age: 10, place: "Lexington" }, false);
 }
 
 test.describe("A player chooses who the character is", () => {

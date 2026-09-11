@@ -59,6 +59,16 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import {
+  clearCreatorState,
+  creatorLocationFromPlaceKey,
+  creatorLocationIsReady,
+  selectCreatorPlace,
+  selectCreatorState,
+  selectedCreatorPlace,
+  withCreatorLocation,
+  type CreatorLocationDraft,
+} from "../presentation/creator-location";
+import {
   openOrdinaryLife,
   passOrdinaryDays,
 } from "../presentation/ordinary-life";
@@ -97,9 +107,10 @@ import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
   GENDER_IDENTITY_LABELS,
-  lifePlaceByKey,
   lifePlaceCoverage,
   lifePlaceSearch,
+  lifePlaceStateIdentities,
+  lifePlaces,
 } from "../simulation";
 import type { EntityId, QuestionnairePhase, World } from "../simulation";
 import {
@@ -744,23 +755,43 @@ function SetupScreen({
   readonly problem: string | null;
 }) {
   const coverage = lifePlaceCoverage();
+  const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
-  /**
-   * Nothing until somebody asks for something, and then the national corpus.
-   *
-   * With an empty query the list is empty, so nothing reads as a recommended
-   * default. Once the player types, the search runs over the accepted national
-   * place identity (PR #77) and returns a bounded page of matches — anywhere in
-   * the country, found rather than offered.
+  /*
+   * An edit of an already-chosen setup reopens with that setup's place; a
+   * fresh start opens with none (PT3-CREATOR B).
    */
-  const matchingPlaces = useMemo(
-    () => lifePlaceSearch(placeQuery, 12),
-    [placeQuery],
+  const [location, setLocation] = useState<CreatorLocationDraft>(() =>
+    creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const matchingStates = useMemo(() => {
+    const needle = stateQuery.trim().toLowerCase();
+    const identities = lifePlaceStateIdentities();
+    if (needle.length === 0) return identities;
+    return identities.filter(
+      (state) =>
+        state.name.toLowerCase().includes(needle) ||
+        state.usps.toLowerCase() === needle,
+    );
+  }, [stateQuery]);
+  const matchingPlaces = useMemo(() => {
+    if (!location.stateJurisdictionKey) return [];
+    return lifePlaceSearch(placeQuery, 24, {
+      stateJurisdictionKey: location.stateJurisdictionKey,
+      scope: "locality",
+    });
+  }, [location.stateJurisdictionKey, placeQuery]);
+  const statewidePlace =
+    lifePlaces().find(
+      (candidate) =>
+        candidate.scope === "state" &&
+        candidate.stateJurisdictionKey === location.stateJurisdictionKey,
+    ) ?? null;
   const [setup, setSetup] = useState<NewGameSetup>(
     initialSetup ?? {
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
+      placeKey: "",
     },
   );
   /**
@@ -780,6 +811,7 @@ function SetupScreen({
    */
   const [ageText, setAgeText] = useState(String(setup.startAge));
   const custom = setup.startKind === "custom";
+  const committed = withCreatorLocation(setup, location);
   const steps: readonly CreatorStep[] = custom
     ? CUSTOM_CREATOR_STEPS
     : NORMAL_CREATOR_STEPS;
@@ -803,8 +835,8 @@ function SetupScreen({
     );
   const reopen = (step: CreatorStep) => setCurrent(step);
 
-  const problems = newGameSetupProblems(setup);
-  const place = lifePlaceByKey(setup.placeKey);
+  const problems = newGameSetupProblems(committed);
+  const place = selectedCreatorPlace(location);
   const officeAvailable =
     place?.capabilities.legislativeScenarioKey !== null &&
     setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
@@ -879,6 +911,12 @@ function SetupScreen({
               className={!custom ? "is-chosen" : undefined}
               onClick={() => {
                 setSetup((now) => ({ ...now, startKind: "normal" }));
+                setLocation((now) => {
+                  const selected = selectedCreatorPlace(now);
+                  return selected && selected.scope === "state"
+                    ? { ...now, placeKey: null }
+                    : now;
+                });
                 setCurrent("character");
               }}
             >
@@ -1020,69 +1058,153 @@ function SetupScreen({
       {isCurrent("place") ? (
         <section data-testid="creator-stage-place">
           <h2>Where you're from</h2>
-          <label className="game-search">
-            Search places
-            <input
-              type="search"
-              data-testid="place-search"
-              value={placeQuery}
-              placeholder="Type a state or a city"
-              onChange={(event) => setPlaceQuery(event.target.value)}
-            />
-          </label>
-          {matchingPlaces.length > 0 ? (
-            <div className="game-choices" data-testid="place-choices">
-              {matchingPlaces.map((candidate) => (
-                <button
-                  key={candidate.key}
-                  type="button"
-                  className={
-                    candidate.key === setup.placeKey ? "is-chosen" : undefined
-                  }
-                  onClick={() =>
-                    setSetup((now) => ({
-                      ...now,
-                      placeKey: candidate.key,
-                      startingLife:
-                        candidate.capabilities.legislativeScenarioKey === null
-                          ? "ordinary-life"
-                          : now.startingLife,
-                    }))
-                  }
-                >
-                  {candidate.displayName}
-                  {/*
-                    A search for "Kentucky" returns the whole state AND cities
-                    inside it. The owner play picked one meaning to get the
-                    other, so the two are now labelled as the different kinds of
-                    thing they are instead of as two similar-looking rows.
-                  */}
-                  <small data-place-scope={candidate.scope}>
-                    {candidate.scope === "state"
-                      ? "Statewide — not a hometown"
-                      : candidate.scope === "county"
-                        ? "County or county equivalent"
-                        : (candidate.withinName ?? "")}
-                  </small>
-                </button>
-              ))}
-            </div>
-          ) : placeQuery.trim().length === 0 ? (
-            <p className="game-note" data-testid="place-prompt">
-              Type where you're from. {coverage.playerNote}
-            </p>
+          {location.stateJurisdictionKey ? (
+            <button
+              type="button"
+              className="creator-summary"
+              data-testid="creator-change-state"
+              onClick={() => {
+                setLocation(clearCreatorState());
+                setPlaceQuery("");
+                setSetup((now) => ({ ...now, placeKey: "" }));
+              }}
+            >
+              <span className="creator-summary-value">
+                {lifePlaceStateIdentities().find(
+                  (state) =>
+                    state.jurisdictionKey === location.stateJurisdictionKey,
+                )?.name ?? location.stateJurisdictionKey}
+              </span>
+              <span className="creator-summary-edit">Change</span>
+            </button>
           ) : (
-            <p className="game-note" data-testid="place-no-match">
-              Nothing here matches that yet. {coverage.playerNote}
+            <>
+              <label className="game-search">
+                Choose a state
+                <input
+                  type="search"
+                  data-testid="state-search"
+                  value={stateQuery}
+                  placeholder="Type a state"
+                  onChange={(event) => setStateQuery(event.target.value)}
+                />
+              </label>
+              {matchingStates.length > 0 ? (
+                <div className="game-choices" data-testid="state-choices">
+                  {matchingStates.map((state) => (
+                    <button
+                      key={state.jurisdictionKey}
+                      type="button"
+                      data-testid={`state-${state.usps}`}
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorState(now, state.jurisdictionKey),
+                        );
+                        setPlaceQuery("");
+                        setSetup((now) => ({ ...now, placeKey: "" }));
+                      }}
+                    >
+                      {state.name}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="game-note" data-testid="state-no-match">
+                  Nothing here matches that yet.
+                </p>
+              )}
+            </>
+          )}
+          {location.stateJurisdictionKey ? (
+            <>
+              <label className="game-search">
+                Search places in this state
+                <input
+                  type="search"
+                  data-testid="place-search"
+                  value={placeQuery}
+                  placeholder="Type a city or town"
+                  onChange={(event) => setPlaceQuery(event.target.value)}
+                />
+              </label>
+              {custom && statewidePlace ? (
+                <div className="game-choices" data-testid="place-statewide">
+                  <button
+                    type="button"
+                    data-testid="place-statewide-choice"
+                    className={
+                      location.placeKey === statewidePlace.key
+                        ? "is-chosen"
+                        : undefined
+                    }
+                    onClick={() => {
+                      setLocation((now) =>
+                        selectCreatorPlace(now, statewidePlace),
+                      );
+                      setSetup((now) => ({
+                        ...now,
+                        placeKey: statewidePlace.key,
+                      }));
+                    }}
+                  >
+                    {statewidePlace.displayName}
+                    <small data-place-scope="state">
+                      Statewide — not a hometown
+                    </small>
+                  </button>
+                </div>
+              ) : null}
+              {matchingPlaces.length > 0 ? (
+                <div className="game-choices" data-testid="place-choices">
+                  {matchingPlaces.map((candidate) => (
+                    <button
+                      key={candidate.key}
+                      type="button"
+                      className={
+                        candidate.key === location.placeKey
+                          ? "is-chosen"
+                          : undefined
+                      }
+                      onClick={() => {
+                        setLocation((now) =>
+                          selectCreatorPlace(now, candidate),
+                        );
+                        setSetup((now) => ({
+                          ...now,
+                          placeKey: candidate.key,
+                          startingLife:
+                            candidate.capabilities.legislativeScenarioKey ===
+                            null
+                              ? "ordinary-life"
+                              : now.startingLife,
+                        }));
+                      }}
+                    >
+                      {candidate.displayName}
+                      <small data-place-scope={candidate.scope}>
+                        {candidate.withinName ?? ""}
+                      </small>
+                    </button>
+                  ))}
+                </div>
+              ) : placeQuery.trim().length === 0 ? (
+                <p className="game-note" data-testid="place-prompt">
+                  Choose a town in this state. {coverage.playerNote}
+                </p>
+              ) : (
+                <p className="game-note" data-testid="place-no-match">
+                  Nothing here matches that yet. {coverage.playerNote}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="game-note" data-testid="place-prompt">
+              Choose a state first. A fresh start has no home selected.
             </p>
           )}
-          {place ? (
+          {place &&
+          creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
             <div className="creator-place-context" data-testid="place-context">
-              {/*
-                The exact place that becomes canonical, said before Begin. The
-                owner play chose a state and was later told they lived in
-                Lexington; whatever the answer is, it is on screen first.
-              */}
               <p className="creator-place-name" data-testid="place-canonical">
                 {place.displayName}
               </p>
@@ -1102,6 +1224,10 @@ function SetupScreen({
                 Next
               </button>
             </div>
+          ) : location.stateJurisdictionKey ? (
+            <p className="game-note" data-testid="place-need-locality">
+              Next waits until you choose a place in this state.
+            </p>
           ) : null}
         </section>
       ) : null}
@@ -1351,7 +1477,7 @@ function SetupScreen({
             type="button"
             data-testid="begin"
             disabled={problems.length > 0}
-            onClick={() => onBegin(setup)}
+            onClick={() => onBegin(committed)}
           >
             Begin
           </button>
@@ -1376,7 +1502,7 @@ function SetupScreen({
         </p>
         <p>
           <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", setup)}
+            {replayDescriptorUrl("", "/", committed)}
           </code>
         </p>
       </details>

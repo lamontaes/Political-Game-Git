@@ -492,29 +492,113 @@ function placeMatches(place: LifePlace, needle: string): boolean {
     .includes(needle);
 }
 
+/** Local name only — never the parent state — so in-state search cannot match every town. */
+function localityLabelMatches(label: string, needle: string): boolean {
+  if (needle.length === 0) return true;
+  return label.toLowerCase().includes(needle);
+}
+
+function uspsFromStateJurisdictionKey(key: string): string | null {
+  const match = /^US-([A-Z]{2})$/.exec(key);
+  return match?.[1] ?? null;
+}
+
+let rowsByUsps: ReadonlyMap<string, readonly NationwideRow[]> | null = null;
+
+function nationwideRowsByUsps(): ReadonlyMap<string, readonly NationwideRow[]> {
+  if (rowsByUsps === null) {
+    const grouped = new Map<string, NationwideRow[]>();
+    for (const row of nationwideRows()) {
+      const list = grouped.get(row[2]);
+      if (list) list.push(row);
+      else grouped.set(row[2], [row]);
+    }
+    rowsByUsps = grouped;
+  }
+  return rowsByUsps;
+}
+
+export interface LifePlaceStateIdentity {
+  readonly usps: string;
+  readonly jurisdictionKey: string;
+  readonly name: string;
+}
+
+/** Canonical USPS / `US-KY` identities, not names recovered from place labels. */
+export function lifePlaceStateIdentities(): readonly LifePlaceStateIdentity[] {
+  return Object.entries(STATES)
+    .map(([usps, state]) => ({
+      usps,
+      jurisdictionKey: `US-${usps}`,
+      name: state.name,
+    }))
+    .sort((left, right) => left.name.localeCompare(right.name));
+}
+
+export interface LifePlaceSearchOptions {
+  /**
+   * Restrict results to this canonical state key (`US-AL`). Matching uses the
+   * USPS code on the row / `stateJurisdictionKey` on an authored place, never
+   * a state-name substring.
+   */
+  readonly stateJurisdictionKey?: string;
+  /** When set, only that scope is returned. Locality search omits statewide rows. */
+  readonly scope?: LifePlaceScope;
+}
+
 /**
  * Places matching a search, authored ones first and then the national corpus.
  *
  * The corpus scan is linear and bounded by `limit`, so a keystroke reads at
  * most a few results out of the thirty thousand rather than materializing them
  * all. This is the search the setup screen runs.
+ *
+ * A state filter is identity-based. An empty query with a state selected lists
+ * that state's localities rather than recommending a default hometown.
  */
 export function searchLifePlaces(
   query: string,
   limit = 20,
+  options?: LifePlaceSearchOptions,
 ): readonly LifePlace[] {
   const needle = query.trim().toLowerCase();
-  if (needle.length === 0) return [];
-  const authored = allPlaces().filter((place) => placeMatches(place, needle));
-  const results: LifePlace[] = [...authored];
+  const stateKey = options?.stateJurisdictionKey;
+  const usps = stateKey ? uspsFromStateJurisdictionKey(stateKey) : null;
+  if (stateKey && !usps) return [];
+  if (!stateKey && needle.length === 0) return [];
+
   const authoredGeoids = authoredSourceGeoidSet();
-  for (const row of nationwideRows()) {
+  const authored = allPlaces().filter((place) => {
+    if (stateKey && place.stateJurisdictionKey !== stateKey) return false;
+    if (options?.scope && place.scope !== options.scope) return false;
+    if (!stateKey) return placeMatches(place, needle);
+    const localName = place.withinName
+      ? place.displayName.replace(
+          new RegExp(`,\\s*${place.withinName}$`, "i"),
+          "",
+        )
+      : place.displayName;
+    return (
+      localityLabelMatches(localName, needle) ||
+      localityLabelMatches(place.formalName ?? "", needle)
+    );
+  });
+  const results: LifePlace[] = [...authored];
+  if (options?.scope === "state") return results.slice(0, limit);
+
+  const rows = usps
+    ? (nationwideRowsByUsps().get(usps) ?? [])
+    : nationwideRows();
+  for (const row of rows) {
     if (results.length >= limit) break;
     if (authoredGeoids.has(row[0])) continue;
-    const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
-    if (haystack.includes(needle)) {
-      results.push(synthesizeNationwidePlace(row));
+    if (usps) {
+      if (!localityLabelMatches(row[1], needle)) continue;
+    } else {
+      const haystack = `${row[1]} ${stateName(row[2])} ${row[2]}`.toLowerCase();
+      if (!haystack.includes(needle)) continue;
     }
+    results.push(synthesizeNationwidePlace(row));
   }
   for (const place of nationwideCounties().values()) {
     if (results.length >= limit) break;
@@ -586,8 +670,9 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
 export function lifePlaceSearch(
   query: string,
   limit?: number,
+  options?: LifePlaceSearchOptions,
 ): readonly LifePlace[] {
-  return searchLifePlaces(query, limit);
+  return searchLifePlaces(query, limit, options);
 }
 
 export function lifePlaces(): readonly LifePlace[] {

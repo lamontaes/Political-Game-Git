@@ -6249,6 +6249,7 @@
 /* The place results are a bounded, internally-scrolling list so a long search
    (a common town name across many states) never moves the panel or the room,
    and the selected place's context and Next stay in view. */
+.title-tableau--art .game-creator [data-testid="state-choices"],
 .title-tableau--art .game-creator [data-testid="place-choices"] {
   max-height: 32vh;
   overflow-y: auto;

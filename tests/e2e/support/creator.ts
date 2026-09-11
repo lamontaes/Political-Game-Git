@@ -1,5 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 
+import { lifePlaceStateIdentities } from "../../../src/simulation";
+
 /**
  * Walking the character creator the way a player does.
  *
@@ -17,10 +19,19 @@ export interface CreatorLife {
   readonly age: number;
   readonly givenName?: string;
   readonly familyName?: string;
-  /** Matched against the place buttons. Defaults to Kentucky. */
+  /** Matched against the locality buttons. Defaults to Lexington. */
   readonly place?: string;
+  /** What to type into the town search, when it differs from `place`. */
   readonly placeQuery?: string;
+  /**
+   * `state` takes the custom-only statewide choice. A normal start is always a
+   * town now (PT3-CREATOR B), and no creator route offers a county.
+   */
   readonly placeScope?: "state" | "county" | "locality";
+  /** Canonical state name. Inferred from `place` when omitted. */
+  readonly state?: string;
+  /** Custom-only: choose the authored statewide place rather than a hometown. */
+  readonly statewide?: boolean;
   /** The explicit route. Defaults to the ordinary generated one. */
   readonly route?: "normal" | "custom";
   /**
@@ -45,6 +56,60 @@ export interface CreatorLife {
 export async function openCreator(page: Page): Promise<void> {
   await page.getByTestId("new-game").click();
   await expect(page.getByTestId("setup-screen")).toBeVisible();
+}
+
+function namedState(name: string) {
+  return lifePlaceStateIdentities().find(
+    (state) => state.name.toLowerCase() === name.trim().toLowerCase(),
+  );
+}
+
+function inferredStateName(place: string): string {
+  const direct = namedState(place);
+  if (direct) return direct.name;
+  const afterComma = place.split(",")[1]?.trim();
+  if (afterComma && namedState(afterComma)) return namedState(afterComma)!.name;
+  return "Kentucky";
+}
+
+/** State, then a town in that state. Statewide is a custom-only control. */
+export async function chooseCreatorLocation(
+  page: Page,
+  life: CreatorLife,
+  custom: boolean,
+): Promise<void> {
+  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
+  const requested = life.place ?? "Lexington";
+  const stateName = life.state ?? inferredStateName(requested);
+  const state = namedState(stateName);
+  if (!state) throw new Error(`No canonical state named ${stateName}.`);
+
+  await page.getByTestId("state-search").fill(state.name);
+  await page.getByTestId(`state-${state.usps}`).click();
+  await expect(page.getByTestId("creator-change-state")).toBeVisible();
+
+  if (life.placeScope === "county")
+    throw new Error("The creator offers no county start; choose a town.");
+  const statewide =
+    life.statewide === true ||
+    life.placeScope === "state" ||
+    (Boolean(namedState(requested)) && (custom || life.office === true));
+  if (statewide) {
+    await page.getByTestId("place-statewide-choice").click();
+    await page.getByTestId("creator-continue-place").click();
+    return;
+  }
+
+  const locality = namedState(requested) ? "Lexington" : requested;
+  await page
+    .getByTestId("place-search")
+    .fill(life.placeQuery ?? locality.slice(0, 8));
+  await page
+    .getByTestId("place-choices")
+    .getByRole("button", { name: new RegExp(locality, "i") })
+    .first()
+    .click();
+  await page.getByTestId("creator-continue-place").click();
 }
 
 /**
@@ -80,19 +145,7 @@ export async function fillCreator(
   if (life.gender) await page.getByTestId(`gender-${life.gender}`).click();
   await page.getByTestId("creator-continue-character").click();
 
-  await expect(page.getByTestId("creator-stage-place")).toBeVisible();
-  const place = life.place ?? "Kentucky";
-  await page.getByTestId("place-search").fill(life.placeQuery ?? place);
-  const choices = page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: new RegExp(place, "i") });
-  const scoped = life.placeScope
-    ? choices.filter({
-        has: page.locator(`[data-place-scope="${life.placeScope}"]`),
-      })
-    : choices;
-  await scoped.first().click();
-  await page.getByTestId("creator-continue-place").click();
+  await chooseCreatorLocation(page, life, custom);
 
   if (custom) {
     await expect(page.getByTestId("creator-stage-background")).toBeVisible();

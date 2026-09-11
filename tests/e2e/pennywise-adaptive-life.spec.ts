@@ -8,6 +8,7 @@ import {
   openCreator,
   openElsewhere,
   startLife as walkCreator,
+  chooseCreatorLocation,
 } from "./support/creator";
 
 /**
@@ -216,13 +217,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
     await page.getByTestId("start-normal").click();
     await page.getByTestId("start-age").fill("31");
     await page.getByTestId("creator-continue-character").click();
-    await page.getByTestId("place-search").fill("Kentu");
-    await page
-      .getByTestId("place-choices")
-      .getByRole("button", { name: /Kentucky/i })
-      .first()
-      .click();
-    await page.getByTestId("creator-continue-place").click();
+    await chooseCreatorLocation(page, { age: 31, place: "Lexington" }, false);
 
     await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
     const answer = await page.getByTestId("whoareyou-answer").innerText();
