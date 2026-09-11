@@ -53,6 +53,159 @@ export interface ComputedSurface {
 
 export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
   {
+    sourcePath: "src/player/MunicipalWorkspace.tsx",
+    domain: "governing",
+    bank: "municipal-workspace",
+    symbols: ["MunicipalWorkspace", "directory", "act"],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
+    grounding: [
+      {
+        key: "municipal-source-reading",
+        description:
+          "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
+      },
+      {
+        key: "canonical-municipal-records",
+        description:
+          "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/presentation/municipal-workspace.ts",
+    domain: "governing",
+    bank: "municipal-work-and-session",
+    symbols: [
+      "prepareMunicipalMeetingNotes",
+      "createAuthoredMunicipalPublicSession",
+    ],
+    surface: "status",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The Municipal panel displays preparation refusals and writes these Work descriptions or authored-session disclosures after explicit player activation.",
+    grounding: [
+      {
+        key: "municipal-role-and-work",
+        description:
+          "An exact current role in this government and the canonical meeting/work-item identity; neither public attendance nor library inspection supplies a role.",
+      },
+      {
+        key: "authored-public-session",
+        description:
+          "A source-supported public series permits an explicitly game-authored occurrence. Its authored timing and duration do not establish a real published notice or agenda.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/simulation/municipal-public-work.ts",
+    domain: "governing",
+    bank: "municipal-attendance-and-work",
+    symbols: [
+      "scheduleMunicipalMeeting",
+      "humanSeries",
+      "recordMunicipalAttendance",
+      "attendMunicipalPublicMeeting",
+      "performMunicipalMeetingNotes",
+      "planned",
+      "recorded",
+    ],
+    surface: "artifact",
+    reachability: "PLAYER_REACHABLE",
+    reachabilityReason:
+      "The Municipal panel and existing calendar/Work surfaces show meeting descriptions, attendance history, work-session descriptions and refusals. Event-context literals in these same symbols are retained as supporting record context, not asserted to be separately rendered dialogue.",
+    grounding: [
+      {
+        key: "meeting-reference-scope",
+        description:
+          "The selected government's exact public series, evidence class and snapshot date. Source venue statements and unknown venues remain distinct from scene geometry and authored occurrence timing.",
+      },
+      {
+        key: "performed-canonical-activity",
+        description:
+          "The controlled person's actual canonical calendar activity, conflict checks, completion state and attendance event. Attendance grants no office power.",
+      },
+      {
+        key: "performed-private-member-work",
+        description:
+          "The exact government's current role, assigned unblocked Work, elapsed authored effort and completion history. Preparing private notes asserts neither chamber presence nor a published agenda or legislative action.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/simulation/municipal-public-work.ts",
+    domain: "governing",
+    bank: "municipal-authority-refusals",
+    symbols: ["municipalActionAuthority", "mayorTitle"],
+    surface: "status",
+    reachability: "UNKNOWN",
+    reachabilityReason:
+      "Attendance can surface this function's refusal through the player panel. The same symbol also authors inspection, speech, appointment and ordinance-action explanations whose independent player controls are not all mounted. A symbol-level inventory cannot truthfully mark every branch player-reachable.",
+    grounding: [
+      {
+        key: "action-specific-authority",
+        description:
+          "The requested action, exact government participation and scoped source evidence. A missing rule remains unknown; attributed research does not establish operative ordinance procedure or office power.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/simulation/municipal-government.ts",
+    domain: "governing",
+    bank: "municipal-law-projection",
+    symbols: [
+      "municipalRuleSourceRef",
+      "municipalRulePackFor",
+      "passageSource",
+      "passage",
+      "quorum",
+      "executiveSource",
+      "override",
+      "pack",
+      "buildFloorStages",
+    ],
+    surface: "status",
+    reachability: "UNKNOWN",
+    reachabilityReason:
+      "These law-projection descriptions and missing-rule explanations are intended governing prose, but the current corpus establishes no complete operative municipal ordinance pack. Inventorying their text does not establish a reachable ordinance workflow or accept the defaults described by an unexecuted branch.",
+    grounding: [
+      {
+        key: "field-specific-municipal-evidence",
+        description:
+          "Each rule's exact field-specific cited instrument, evidence class and scoped applicability. A report or dated reference is not enacted authority, and a missing procedure must remain unknown.",
+      },
+      {
+        key: "complete-procedure-gate",
+        description:
+          "A full pack requires all existing canonical procedure prerequisites. A named government, sourced structural fact or authored meeting does not itself satisfy that gate.",
+      },
+    ],
+  },
+  {
+    sourcePath: "src/simulation/municipal-public-work.ts",
+    domain: "governing",
+    bank: "municipal-institution-record",
+    symbols: ["installMunicipalGovernment", "seatMunicipalMember"],
+    surface: "artifact",
+    reachability: "UNKNOWN",
+    reachabilityReason:
+      "These descriptions belong to canonical government recognition and seat records. Explicit public-session creation can install the government, while member seating requires its own authorized transition or declared fixture; a distinct normal-player rendering of every record label is not established.",
+    grounding: [
+      {
+        key: "recognized-government",
+        description:
+          "The exact compiled government identity and individually attributed source reading. Recognition records preserve source scope and do not turn attributed research into enacted law.",
+      },
+      {
+        key: "canonical-seat-participation",
+        description:
+          "The specific government's organization and actually recorded seat participation. A seat label is not proof of an election, qualification, or office power.",
+      },
+    ],
+  },
+  {
     sourcePath: "src/presentation/life-narration.ts",
     domain: "narration",
     bank: "connective",

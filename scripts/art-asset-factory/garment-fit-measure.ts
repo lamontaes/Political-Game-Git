@@ -321,7 +321,9 @@ export interface EdgeError {
   readonly undercoveragePx: number;
   readonly undercoverageAtRow: number;
   /**
-   * The worst error the mode counts, and its share of the body's span there.
+   * The largest pixel error the mode counts. Its row can differ from the row
+   * with the largest proportional error below: a smaller pixel displacement on
+   * a narrower body region can violate the bound first.
    *
    * For `edge-match` this is the per-side PLACEMENT residual against the
    * garment's own ease (see the file header): each edge held to where it would
@@ -335,6 +337,7 @@ export interface EdgeError {
    */
   readonly worstPx: number;
   readonly worstAtRow: number;
+  /** Largest counted error / body span over all comparable rows, independently of worstPx. */
   readonly worstFractionOfBodySpan: number;
   readonly rowsCompared: number;
   readonly rowsInWindow: number;
@@ -500,6 +503,80 @@ export interface SourceEase {
  */
 export type SourceProportion = ReadonlyMap<number, SourceEase>;
 
+/**
+ * Explicit correspondence between authored rows of two differently framed
+ * bodies in the same pose. This changes only where source ease is read, never
+ * the projected garment or the target pixels being judged. Coordinates are
+ * fractions of their respective body canvases, in ascending anatomical order.
+ * The caller owns the evidence for the named rows; this does not infer anchors.
+ */
+export interface FitRowCorrespondence {
+  readonly sourcePoseFamily: string;
+  readonly targetPoseFamily: string;
+  readonly points: readonly {
+    readonly anchor: string;
+    readonly sourceY: number;
+    readonly targetY: number;
+  }[];
+}
+
+function rowCorrespondenceError(mapping: FitRowCorrespondence): string | null {
+  if (
+    !mapping.sourcePoseFamily?.trim() ||
+    mapping.sourcePoseFamily !== mapping.targetPoseFamily
+  ) {
+    return "Row correspondence requires the same declared source and target pose; it cannot supply another viewpoint.";
+  }
+  if (mapping.points.length < 2) {
+    return "Row correspondence requires at least two named source and target rows.";
+  }
+  const names = new Set<string>();
+  for (let i = 0; i < mapping.points.length; i += 1) {
+    const point = mapping.points[i]!;
+    if (!point.anchor.trim() || names.has(point.anchor)) {
+      return "Row correspondence requires distinct nonempty anchor names.";
+    }
+    names.add(point.anchor);
+    if (
+      !Number.isFinite(point.sourceY) ||
+      !Number.isFinite(point.targetY) ||
+      point.sourceY < 0 ||
+      point.sourceY > 1 ||
+      point.targetY < 0 ||
+      point.targetY > 1
+    ) {
+      return "Row correspondence coordinates must be finite fractions inside each body canvas.";
+    }
+    const previous = mapping.points[i - 1];
+    if (
+      previous &&
+      (point.sourceY <= previous.sourceY || point.targetY <= previous.targetY)
+    ) {
+      return "Row correspondence must increase strictly in both source and target frames.";
+    }
+  }
+  return null;
+}
+
+function sourceRowFor(
+  mapping: FitRowCorrespondence,
+  targetY: number,
+): number | null {
+  const first = mapping.points[0]!;
+  const last = mapping.points[mapping.points.length - 1]!;
+  // Outside the authored interval there is no correspondence, not a held-flat
+  // endpoint or an extrapolated anatomical measurement.
+  if (targetY < first.targetY || targetY > last.targetY) return null;
+  for (let i = 1; i < mapping.points.length; i += 1) {
+    const end = mapping.points[i]!;
+    if (targetY > end.targetY) continue;
+    const start = mapping.points[i - 1]!;
+    const fraction = (targetY - start.targetY) / (end.targetY - start.targetY);
+    return start.sourceY + fraction * (end.sourceY - start.sourceY);
+  }
+  return null;
+}
+
 export function measureSourceProportion(
   layerOnSource: ProjectedCharacterLayer,
   garment: RasterSpans,
@@ -550,6 +627,7 @@ export function measureEdgeError(
   bodyCanvas: { width: number; height: number },
   metric: FitMetric,
   sourceProportion: SourceProportion | null,
+  rowCorrespondence?: FitRowCorrespondence,
 ): EdgeError {
   let overhang = 0;
   let overhangAt = -1;
@@ -562,6 +640,18 @@ export function measureEdgeError(
   const from = Math.max(0, metric.fromRow);
   const to = Math.min(bodyCanvas.height - 1, metric.toRow);
   const rowsInWindow = Math.max(0, to - from + 1);
+  if (rowCorrespondence) {
+    const reason = rowCorrespondenceError(rowCorrespondence);
+    if (reason) {
+      return emptyEdgeError(
+        metric,
+        "invalid-geometry",
+        reason,
+        0,
+        rowsInWindow,
+      );
+    }
+  }
   if (rowsInWindow === 0) {
     return emptyEdgeError(
       metric,
@@ -612,9 +702,13 @@ export function measureEdgeError(
       // Nothing proportional about a shoe. It must contain the foot.
       counted = below;
     } else {
-      const ease = sourceProportion
-        ? proportionAt(sourceProportion, y / bodyCanvas.height)
-        : null;
+      const sourceY = rowCorrespondence
+        ? sourceRowFor(rowCorrespondence, y / bodyCanvas.height)
+        : y / bodyCanvas.height;
+      const ease =
+        sourceProportion && sourceY !== null
+          ? proportionAt(sourceProportion, sourceY)
+          : null;
       if (ease === null) continue;
       // Each edge is held to where it would sit carrying the source ease on
       // THIS body. Width alone is not enough: a garment of the right width in
@@ -630,8 +724,8 @@ export function measureEdgeError(
     if (counted > worst) {
       worst = counted;
       worstAt = y;
-      worstFraction = counted / bodySpan;
     }
+    worstFraction = Math.max(worstFraction, counted / bodySpan);
   }
   if (
     rowsCompared < MINIMUM_COMPARABLE_ROWS ||
@@ -703,7 +797,16 @@ export interface FitCaseResult {
   readonly reason: string;
 }
 
-function projectOne(
+/**
+ * Projects one garment onto one body through the REAL compositor and returns
+ * the layer it produced.
+ *
+ * Exported because a second measurement caller — the candidate wardrobe
+ * derivation — needs the same projection to compare a derivative against the
+ * ease the original carries on the body it was drawn for. A second projection
+ * written for that caller would measure the second projection.
+ */
+export function projectForMeasurement(
   body: FitSubject,
   garment: FitSubject,
   poseFamily: string,
@@ -772,6 +875,22 @@ export interface MeasureCaseRequest {
   /** The garment's own extent in body-canvas normalized units. */
   readonly extent: { readonly topY: number; readonly bottomY: number };
   readonly maxEdgeErrorFraction?: number;
+  /**
+   * Reference rows to read each body at, as canvas fractions.
+   *
+   * Omitted, each body is read at `referenceRowsFor(poseFamily)` — the declared
+   * per-pose table, which is the right answer for the dev fixtures it was
+   * calibrated on because they share a canvas and a framing.
+   *
+   * A body measured from a source crop does NOT share that framing: a Wave A
+   * crop puts its shoulder line at 0.225 of its canvas where the generation-2
+   * rig puts it at 0.162, so reading one at the other's fractions measures the
+   * neck and calls it a shoulder. Passing rows measured from THAT body's own
+   * silhouette is the only way the comparison is between two bodies rather
+   * than between two framings.
+   */
+  readonly sourceRows?: Readonly<Record<string, number>>;
+  readonly targetRows?: Readonly<Record<string, number>>;
 }
 
 /**
@@ -791,6 +910,8 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     poseFamily,
     extent,
     maxEdgeErrorFraction = GARMENT_FIT_DEFAULT_BOUNDS.maxEdgeErrorFraction,
+    sourceRows,
+    targetRows,
   } = request;
   const kind = garment.definition.kind;
   if (!isGarmentFitGoverned(kind)) {
@@ -806,11 +927,13 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
     sourceBody.file,
     sourceBody.definition.family,
     poseFamily,
+    sourceRows ?? referenceRowsFor(poseFamily),
   );
   const target = measureBodyFitReference(
     targetBody.file,
     targetBody.definition.family,
     poseFamily,
+    targetRows ?? referenceRowsFor(poseFamily),
   );
   const metric = metricFor(kind, target, extent, bodyCanvas.height);
 
@@ -818,14 +941,14 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
   // definition: a garment always fits its own morphology, and that pairing is
   // the yardstick every fitted pairing below is held against.
   const sourceProportion = measureSourceProportion(
-    projectOne(sourceBody, garment, poseFamily, null),
+    projectForMeasurement(sourceBody, garment, poseFamily, null),
     garmentSpans,
     sourceBodySpans,
     sourceCanvas,
   );
 
   const unfitted = measureEdgeError(
-    projectOne(targetBody, garment, poseFamily, null),
+    projectForMeasurement(targetBody, garment, poseFamily, null),
     garmentSpans,
     bodySpans,
     bodyCanvas,
@@ -850,7 +973,7 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
       extent,
     );
     const result = measureEdgeError(
-      projectOne(targetBody, garment, poseFamily, derived.transform),
+      projectForMeasurement(targetBody, garment, poseFamily, derived.transform),
       garmentSpans,
       bodySpans,
       bodyCanvas,
@@ -878,7 +1001,7 @@ export function measureFitCase(request: MeasureCaseRequest): FitCaseResult {
       extent,
     );
     const result = measureEdgeError(
-      projectOne(targetBody, garment, poseFamily, derived.transform),
+      projectForMeasurement(targetBody, garment, poseFamily, derived.transform),
       garmentSpans,
       bodySpans,
       bodyCanvas,

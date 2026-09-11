@@ -373,3 +373,25 @@ not read, so those packs assert no committee the sources did not establish.
 Missouri is worth a second look here — its constitution requires that every bill
 be referred to _a_ committee without naming one, so the pack carries the referral
 requirement and still declares no committee.
+
+## P12 regular-session boundary reconciliation — 2026-09-09
+
+Read the operative [Kentucky Constitution §42](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46)
+and [§80](https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=88)
+on 2026-09-09. Section 42 supplies the March 30 odd-year and April 15 even-year
+outer regular-session boundaries. Section 80 requires an extraordinary-session
+proclamation identifying its subjects. These reads do not establish a 2037
+proclamation, a particular session's convening, legislative days used, or the fate
+of pending bills.
+
+The pack now carries the outer deadline as separately sourced typed data. The
+production filing/procedure/member adapters consult that data at action time,
+including the requested future hearing date. They do not parse explanatory text
+or manufacture an exceptional session. The lower-level historical writers and
+existing developer scenario controls remain available for their declared purposes.
+A date within the outer limit is not a claim that a session is open.
+
+The P12 control at `b62df683` allowed a referral on 2037-03-31 and moved the bill
+to committee. The corrected production adapter refuses the same action without
+changing the input World or expiring the bill. The exact control reproduction and
+new boundary tests are recorded with the LEG-FINISH4 checkpoint.

@@ -56,7 +56,7 @@ export function assertLegislativePoliticsIntegrity(
 
   const provisionById = new Map<EntityId, (typeof provisions)[number]>();
   const supersededBy = new Map<EntityId, EntityId>();
-  const amendmentCarriedBy = new Map<EntityId, EntityId>();
+  const amendmentCarriedBy = new Map<string, EntityId>();
 
   for (const provision of provisions) {
     assertIdentity(ids, provision, RECORD_KINDS.provision);
@@ -107,6 +107,13 @@ export function assertLegislativePoliticsIntegrity(
       throw new Error(
         `Legislative provision states an exposure in only one of its two forms: ${provision.id}`,
       );
+    }
+    if (
+      provision.fiscalPeriod !== undefined &&
+      (provision.fiscalPeriod !== "annual" ||
+        provision.fiscalExposureMinorUnits === null)
+    ) {
+      throw new Error("An annual fiscal period requires a stated amount.");
     }
     if (
       provision.fiscalExposureMinorUnits !== null &&
@@ -175,12 +182,13 @@ export function assertLegislativePoliticsIntegrity(
           `A rejected amendment cannot be carrying text in the bill: ${provision.id}`,
         );
       }
-      if (amendmentCarriedBy.has(amendment.id)) {
+      const amendmentSection = `${amendment.id}:${provision.provisionKey}`;
+      if (amendmentCarriedBy.has(amendmentSection)) {
         throw new Error(
-          `One amendment is carrying two sections into the bill: ${provision.id}`,
+          `One amendment carries the same section more than once: ${provision.id}`,
         );
       }
-      amendmentCarriedBy.set(amendment.id, provision.id);
+      amendmentCarriedBy.set(amendmentSection, provision.id);
     }
   }
 

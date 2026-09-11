@@ -14,6 +14,8 @@ import type { ConversationRoomContext } from "./run-b-conversation";
 import type { RunBScenePersonContext } from "./run-b-fixture";
 import type { LegislativeBargainingIntent } from "./legislative-bargaining";
 import type { PriorWorkEvidence } from "./prior-work-evidence";
+import type { CompiledBillDraft } from "../simulation/legislation-drafting";
+import { formatMinorUnits } from "../simulation/legislation-program-families";
 
 /**
  * The authored substance of the one bargaining sitting the game can hold.
@@ -35,6 +37,19 @@ export const BARGAINING_BRIEF_SCENARIO_KEY = "kentucky";
 
 export const PROGRAM_PROVISION_KEY = "pilot-support-limit";
 export const REQUESTED_PROVISION_KEY = "local-project-match";
+
+/**
+ * The suffix the authored Kentucky sitting's adopted provision has always used.
+ *
+ * It is not `local-project-match`, and it is deliberately not being made to
+ * match. This string is a persisted identity: worlds saved before the content
+ * bank existed hold their adopted provision under a stable key ending in it,
+ * and changing the string would orphan those records rather than rename them.
+ * A migration would be the alternative, and a migration is a much larger
+ * promise than keeping four characters.
+ */
+export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
+
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
   "transit.ashland-boyd-local-match";
 
@@ -87,10 +102,10 @@ export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
     provisionKey: "eligibility",
     sectionNumber: 2,
     heading: "Eligible riders",
-    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance programme administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
+    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance program administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
     beneficiary: {
       kind: "general-application",
-      appliesToLabel: "every rider enrolled in a state assistance programme",
+      appliesToLabel: "every rider enrolled in a state assistance program",
     },
   },
   {
@@ -199,10 +214,19 @@ export function bargainingSubjectFacts(input: {
     programSectionLabel: "Section 3",
     programHeading: "Pilot support limit",
     programReach:
-      "language reaching every rider enrolled in a state assistance programme",
+      "language reaching every rider enrolled in a state assistance program",
     billAmountLabel: "$8,000,000",
 
     requestedProvisionKey: REQUESTED_PROVISION_KEY,
+    // Pinned, not derived. This sitting has written its adopted provision
+    // under `...:section-4` since the sitting existed, and a saved world holds
+    // it under that key.
+    requestedProvisionStableKeySuffix: LEGACY_ADOPTED_PROVISION_SUFFIX,
+    // The accepted #79 phrasing, held exactly. These three reach persisted
+    // records, so they are identity-adjacent even though they read as prose.
+    requestedExposurePhrase: "local match",
+    requestedQuestionSubject: "local match amendment",
+    requestedDescriptionSubject: "Section 4, a local project match",
     requestedSectionNumber: 4,
     requestedSectionLabel: "Section 4",
     requestedHeading: "Local project match",
@@ -392,4 +416,108 @@ export function playerHasReadFiscalNoteFor(
         record.eventId === event.id && record.personId === seat.playerPersonId,
     )
   );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Bargaining over a bill the player configured                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The same sitting, about whichever bill is actually on the floor.
+ *
+ * `bargainingSubjectFacts` above is the authored Kentucky transit sitting, and
+ * it stays exactly as accepted. This builds the same shape from a compiled
+ * draft instead, so a broadband bill is bargained over its cooperative-award
+ * preference and a water bill over assistance for the smallest systems, rather
+ * than over a transit local match with the labels changed.
+ *
+ * Nothing about the negotiation machinery changes. The facts contract was
+ * already parameterised; only its producer was hard-wired to one programme.
+ * The advocate still wants a narrower section, the guardian still counts what
+ * the bill commits, and the amendment still has to be adopted by the chamber
+ * before it touches the text.
+ */
+export function bargainingSubjectFactsForDraft(input: {
+  readonly draft: CompiledBillDraft;
+  readonly measureId: EntityId;
+  readonly measureStableKey: string;
+  readonly chamberName: string;
+  readonly nextStepLabel: string;
+  readonly fiscalNoteEventStableKey: string;
+  readonly analystPersonId: EntityId;
+  readonly advocatePersonId: EntityId;
+  readonly guardianPersonId: EntityId;
+}): LegislativeBargainingSubjectFacts {
+  const draft = input.draft;
+  const invitation = draft.amendmentInvitation;
+
+  // The section the advocate is arguing against is the bill's own operative
+  // clause, chosen by what the configuration actually carries rather than
+  // assumed to be a funding section: an unfunded mandate has no funding
+  // section, and its politics are about the duty instead.
+  const programClause =
+    draft.clauses.find((clause) => clause.dimension === "funding-cap") ??
+    draft.clauses.find((clause) => clause.dimension === "oversight") ??
+    draft.clauses[draft.clauses.length - 1]!;
+
+  const requestedAmountLabel = formatMinorUnits(
+    invitation.requestedMinorUnits,
+    "USD",
+  );
+  const cappedAmountLabel = formatMinorUnits(
+    invitation.cappedMinorUnits,
+    "USD",
+  );
+
+  return {
+    measureId: input.measureId,
+    measureStableKey: input.measureStableKey,
+    designation: draft.designation,
+    shortTitle: draft.shortTitle,
+    chamberName: input.chamberName,
+    nextStepLabel: input.nextStepLabel,
+
+    programProvisionKey: programClause.provisionKey,
+    programSectionLabel: `Section ${programClause.sectionNumber}`,
+    programHeading: programClause.heading,
+    programReach: `language reaching ${
+      programClause.beneficiary.kind === "general-application"
+        ? programClause.beneficiary.appliesToLabel
+        : programClause.beneficiary.beneficiaryLabel
+    }`,
+    // What the bill commits as it reads. Null means it commits nothing, which
+    // is a real answer for a mandate and is said rather than shown as zero.
+    billAmountLabel:
+      draft.authorizedCeilingLabel ?? "nothing; this Act appropriates no money",
+
+    requestedProvisionKey: invitation.provisionKey,
+    // New content has no history to preserve, so its record key is its own
+    // provision key and two families cannot collide.
+    requestedProvisionStableKeySuffix: invitation.provisionKey,
+    requestedExposurePhrase: `under Section ${invitation.sectionNumber}`,
+    requestedQuestionSubject: `Section ${invitation.sectionNumber} amendment for ${invitation.beneficiaryLabel}`,
+    requestedDescriptionSubject: `Section ${invitation.sectionNumber}, ${invitation.heading}`,
+    requestedSectionNumber: invitation.sectionNumber,
+    requestedSectionLabel: `Section ${invitation.sectionNumber}`,
+    requestedHeading: invitation.heading,
+    requestedText: invitation.render(requestedAmountLabel),
+    requestedBeneficiaryLabel: invitation.beneficiaryLabel,
+    requestedPlaceLabel: invitation.placeLabel,
+    requestedStatedGround: invitation.statedGround,
+    requestedAmountLabel,
+    requestedAmountMinorUnits: invitation.requestedMinorUnits,
+    requestedSegmentKey: invitation.segmentKey,
+
+    cappedText: invitation.render(cappedAmountLabel),
+    cappedAmountLabel,
+    cappedAmountMinorUnits: invitation.cappedMinorUnits,
+
+    fiscalNoteEventStableKey: input.fiscalNoteEventStableKey,
+    analystPersonId: input.analystPersonId,
+
+    advocatePersonId: input.advocatePersonId,
+    guardianPersonId: input.guardianPersonId,
+    advocateVoice: "district-advocate",
+    guardianVoice: "fiscal-guardian",
+  };
 }

@@ -1,0 +1,49 @@
+{
+  "donorSource": "caed97597add62abca74162ddb7d58bc675f6017",
+  "main": "a73cf3860be9f04bee6981b72c97c2c72ec94133",
+  "mainMerge": "83f76b351cc4943472620bc2203e40cb7f910f91",
+  "normalUiSource": "1119e890c471fbf83b4cd592aabe6b28c5f075b2",
+  "municipalSourceEqualAcrossDonorAndUi": {
+    "src/simulation/municipal-public-work.ts": "933b74505c3d1dfe8ff44b128e2325e354052fa4c48689bf9c2eef17758725f3",
+    "src/simulation/municipal-government.ts": "ef937c5e43b1c706f608f52baec37666e6b28011986e875bd3043c65705002fc",
+    "src/simulation/municipal-governments.generated.ts": "4fe3e91884793d23e00a782fbd0b00433c8e8d489734f129f16384ebf0de2b8a",
+    "src/simulation/municipal-capacity.generated.json": "11e2e16c589bf729780479005ff61227e0c4268bf137976652ab3dbe4df578fc",
+    "src/presentation/municipal-workspace.ts": "2f89e638d0af247b8bc27b79b1a7efb231583c628486668a0e2a37d4e7a750c2",
+    "src/presentation/municipal-venue.ts": "b4267b574a7ae48098261d29b532ab7410dbbaea9acfda453741da20bb68d4a8",
+    "src/presentation/municipal-venue-bindings.json": "29bda8783b771c350819c225ec06df7fd0372d98faef09cbf71ce0c59a653d81",
+    "src/player/MunicipalWorkspace.tsx": "02a1767c5def7207da4ca82fb90d63ef6e0d853e395984f1d1036ddc5bdbd688",
+    "src/player/MunicipalWorkspace.css": "aaf5f6adf0a4c1f8a9b491f2d2728f54b296edb1b39a54f0a6bc1f251af20b5d"
+  },
+  "validation": {
+    "passed": true,
+    "files": 201,
+    "testsPassed": 3637,
+    "testsSkipped": 2,
+    "unitDurationSeconds": 395.79
+  },
+  "focused": {
+    "sourceAndRuntime": 22,
+    "consumer": 24
+  },
+  "donorBrowser": {
+    "passed": 15,
+    "seconds": 48.2
+  },
+  "normalBrowser": {
+    "passed": 2,
+    "seconds": 23.9,
+    "initialAttempt": "Loader startup error; zero cases run. Corrected command restores UI owner confirmed NODE_OPTIONS=--import=tsx."
+  },
+  "gitCleanAfterChecks": true,
+  "serversStopped": [5397, 5398],
+  "inventoryGovernments": 144,
+  "operativeOrdinancePacks": 0,
+  "capacityOverlaps": 0,
+  "acceptance": {
+    "implemented": true,
+    "tested": true,
+    "independentlyAccepted": false,
+    "humanApproved": false,
+    "merged": false
+  }
+}

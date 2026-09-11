@@ -1,0 +1,9 @@
+
+ RUN  v4.1.1 /private/tmp/pg-incident-response7-news-proof
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  13:59:56
+   Duration  9.35s (transform 6.98s, setup 0ms, import 7.86s, tests 1.01s, environment 0ms)
+

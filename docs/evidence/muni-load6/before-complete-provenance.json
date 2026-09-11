@@ -1,0 +1,45 @@
+{
+  "expectedIdentity": {
+    "workspace": "/private/tmp/pg-muni-load6-before",
+    "head": "cac655efe147bb3bfecfce4796288206b97237f9",
+    "branch": "",
+    "dirty": false,
+    "sourceDigest": "dc690c45999162a96ba8795e63918c06a4e6fec2789009eeb11655b984984f6a"
+  },
+  "served": {
+    "workspace": "/private/tmp/pg-muni-load6-before",
+    "head": "cac655efe147bb3bfecfce4796288206b97237f9",
+    "branch": "",
+    "dirty": false,
+    "sourceDigest": "dc690c45999162a96ba8795e63918c06a4e6fec2789009eeb11655b984984f6a",
+    "pid": 48112,
+    "runId": "muni-load6-before-complete"
+  },
+  "baseURL": "http://127.0.0.1:5399",
+  "projects": [
+    {
+      "name": "chromium",
+      "use": {
+        "baseURL": "http://127.0.0.1:5399",
+        "trace": "retain-on-failure",
+        "screenshot": "only-on-failure",
+        "video": "off",
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+        "screen": {
+          "width": 1920,
+          "height": 1080
+        },
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false,
+        "defaultBrowserType": "chromium",
+        "channel": "chrome"
+      }
+    }
+  ],
+  "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+}

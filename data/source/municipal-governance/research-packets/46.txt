@@ -1,0 +1,477 @@
+﻿# Part 2 — 50-State Municipal Completeness Matrix — 2026-08-25
+
+
+## Purpose
+This is the control artifact for national municipal-environment research. It prevents opportunistic city research from being mistaken for nationwide coverage.
+
+
+The matrix distinguishes:
+- `RESEARCHED`: current official institutional/location material exists in the Part 2 library.
+- `ROOM VERIFIED`: a current formal meeting room/location has been verified.
+- `PARTIAL`: at least one useful municipal family is researched, but the state's major/medium/distinctive coverage is incomplete.
+- `COVERAGE STRONG`: three or more complementary municipal families are researched well enough for the reference-library stage, although photo packs may still be incomplete.
+- `GAP`: no adequate municipal family yet.
+- `ART READY`: requires several usable real visual references plus stable current-location/era understanding; this matrix does NOT imply art readiness unless explicitly stated.
+
+
+## Important selection caveat
+The `major / medium / distinctive` entries below are research-control candidates based on the work already done. They are NOT yet the final algorithmic selection from the 2025 Census Government Units Listing + current population data. The later GUS/population crosswalk may replace a candidate. Hawaii and some New England/local-government systems require topology-aware selection rather than blindly choosing three incorporated cities.
+
+
+## 50-state matrix
+
+
+### Alabama — COVERAGE STRONG
+- Major candidate: Birmingham — RESEARCHED.
+- Medium/capital candidate: Montgomery — RESEARCHED.
+- Distinctive/secondary candidate: Mobile — RESEARCHED.
+- Additional small-city family: Jackson, AL City Hall contains Mayor/Clerk and City Council Chamber; meetings 2nd/4th Tuesdays. Useful small-city contrast.
+- Exact-room/photo status: visual pack work still required across candidates.
+- Next: systematic GUS/pop check + photo packs.
+
+
+### Alaska — PARTIAL
+- Major candidate: Anchorage — RESEARCHED; consolidated municipality model matters.
+- Medium candidate: TBD through GUS/pop crosswalk.
+- Distinctive candidate: Juneau or another borough/city-borough government; selection must reflect Alaska local-government topology rather than a lower-48 template.
+- Next: current local chamber/assembly rooms for Anchorage + Juneau/borough comparison + medium candidate.
+
+
+### Arizona — PARTIAL
+- Major candidate: Phoenix — RESEARCHED.
+- Medium candidate: Tucson — RESEARCHED.
+- Distinctive candidate: TBD.
+- Next: select/verify third family; then visual packs.
+
+
+### Arkansas — PARTIAL
+- Major candidate: Little Rock — RESEARCHED.
+- Medium candidate: Fayetteville — RESEARCHED.
+- Distinctive candidate: TBD.
+- Next: third-family selection using GUS/pop + governance form diversity.
+
+
+### California — PARTIAL / HIGH VISUAL DIVERSITY
+- Major candidate: Los Angeles — RESEARCHED; monumental semicircular Council Chamber family.
+- Medium candidate: systematic selection pending; Sacramento/Fresno/Long Beach type candidate to be chosen by GUS/pop rather than assumption.
+- Distinctive candidate: San Francisco — RESEARCHED; exceptionally ornate Board of Supervisors chamber.
+- Additional state-specific context: contemporary state-government swing-space condition at 1021 O Street must remain separate from municipal assets.
+- Next: choose representative medium city and complete multiple visual packs.
+
+
+### Colorado — PARTIAL
+- Major candidate: Denver — RESEARCHED.
+- Medium candidate: TBD through GUS/pop.
+- Distinctive candidate: TBD.
+- Next: Colorado Springs/other candidate evaluation + historic/modern civic-family contrast.
+
+
+### Connecticut — COVERAGE STRONG / ONE CURRENT-ROOM GAP
+- Major candidate: Bridgeport — ROOM VERIFIED: City Council Chambers, City Hall, 45 Lyon Terrace (2026).
+- Medium/distinctive candidate: New Haven — ROOM VERIFIED: Bartholomew Guida Board of Alders Chamber, 165 Church Street, 2nd floor; preserve `Board of Alders` vocabulary.
+- Capital/distinctive candidate: Hartford — Court of Common Council and City Hall at 550 Main verified; exact 2026 chamber/current-use detail still FOLLOW-UP.
+- Governance note: authentic local legislative labels differ even within the state.
+- Next: close Hartford room + visual packs.
+
+
+### Delaware — PARTIAL
+- Major candidate: Wilmington — RESEARCHED candidate.
+- Medium/capital candidate: Dover — RESEARCHED candidate.
+- Distinctive candidate: TBD; small-state topology may justify a town/city family rather than forcing three large-city archetypes.
+- Next: exact rooms + third selection.
+
+
+### Florida — COVERAGE STRONG
+- Major families researched: Miami, Jacksonville, Orlando.
+- Capital/medium family: Tallahassee — RESEARCHED.
+- Distinctive/secondary: Pensacola — RESEARCHED.
+- Selection note: final 3 should be chosen to maximize governance/visual contrast, not merely population rank.
+- Next: prioritize visual packs and exact-room validation where incomplete.
+
+
+### Georgia — COVERAGE STRONG
+- Major: Atlanta — RESEARCHED.
+- Medium: Augusta — RESEARCHED.
+- Distinctive/historic: Savannah — RESEARCHED.
+- Next: GUS/pop confirmation and photo packs.
+
+
+### Hawaii — TOPOLOGY-SPECIAL / PARTIAL
+- Honolulu / City and County of Honolulu — RESEARCHED major family.
+- Do NOT invent a normal three-incorporated-city ladder. Hawaii county/city-county government structure requires the municipal matrix to use the actual government-unit topology.
+- Candidate complements: Hawaiʻi County / Maui County civic-government environments after GUS/official-government verification.
+- Next: build Hawaii-specific county/city-county local-government pack.
+
+
+### Idaho — PARTIAL
+- Major: Boise — current City Hall family verified; Maryanne Jordan City Council Chambers, 3rd floor, 150 N. Capitol Blvd is an official named chamber family; 2026 budget hearing occurred in City Council chambers.
+- Medium: TBD.
+- Distinctive: TBD.
+- Next: select two complements using GUS/pop and governance/architecture diversity.
+
+
+### Illinois — COVERAGE STRONG / REFERENCE STATE
+- Major: Chicago — RESEARCHED.
+- Medium: Peoria — ROOM/STYLE STRONG; historic chamber with curved dark-wood dais/mural family.
+- Distinctive/capital: Springfield — state-capitol and municipal-government environments separately researched; do not conflate them.
+- Next: photo-pack refinement rather than more city discovery.
+
+
+### Indiana — PARTIAL
+- Major: Indianapolis — RESEARCHED.
+- Medium: TBD.
+- Distinctive: TBD.
+- Next: select 2 additional official local-government families.
+
+
+### Iowa — PARTIAL
+- Major: Des Moines — ROOM VERIFIED: City Hall Council Chambers, 1200 Locust.
+- Medium/distinctive: Dubuque — ROOM VERIFIED: Council Chambers, 2nd floor of Historic Federal Building, 350 W. 6th; strong repurposed-federal-building family.
+- Additional candidate: Cedar Rapids — current exact room remains FOLLOW-UP.
+- Next: close Cedar Rapids or replace via systematic crosswalk; visual packs.
+
+
+### Kansas — PARTIAL / CURRENT TOPEKA ROOM ADDED
+- Major: Wichita — RESEARCHED.
+- Capital/medium: Topeka — ROOM VERIFIED from 2026 Governing Body agendas: City Council Chambers, 214 SE 8th Street, 2nd floor; hybrid Zoom/in-person public comment.
+- Distinctive: TBD.
+- Next: select third family + image pack.
+
+
+### Kentucky — PARTIAL / HIGH PRIORITY
+- Major: Louisville — RESEARCHED.
+- Medium: Lexington — RESEARCHED and important game test jurisdiction.
+- Distinctive: TBD through GUS/pop/governance diversity (do not pick merely for visual novelty).
+- Next: third family and deeper Lexington/Louisville visual packs.
+
+
+### Louisiana — COVERAGE STRONG
+- Major/distinctive: New Orleans — RESEARCHED; unique governmental/civic visual context.
+- Capital/medium: Baton Rouge — RESEARCHED.
+- Secondary: Shreveport — RESEARCHED.
+- Next: visual packs + exact-room chronology.
+
+
+### Maine — PARTIAL / NEW ENGLAND-SPECIAL
+- Major: Portland — candidate retained, but exact current 2026 Council room still FOLLOW-UP.
+- Medium: Bangor — ROOM VERIFIED: Council Chambers, City Hall, 73 Harlow Street, first floor; other bodies share it; separate Paul Bunyan Meeting Room in same building.
+- Medium/secondary: Lewiston — ROOM VERIFIED: City Hall, 27 Pine Street, first-floor Council Chambers; workshop + formal meeting can occur sequentially in same room.
+- Distinctive topology: town-meeting municipalities must be sampled separately; venue may be school/gym/auditorium rather than city-hall chamber.
+- Next: close Portland + choose explicit town-meeting reference.
+
+
+### Maryland — PARTIAL
+- Major: Baltimore — RESEARCHED.
+- Medium/capital: Annapolis candidate requires dedicated municipal verification.
+- Distinctive: TBD.
+- Next: two additional local-government environment families.
+
+
+### Massachusetts — PARTIAL / NEW ENGLAND-SPECIAL
+- Major: Boston — RESEARCHED; Brutalist chamber family is a strong anti-template reference.
+- Medium: Worcester — RESEARCHED.
+- Distinctive: explicit town-meeting municipality still needed.
+- Next: town-meeting reference + visual packs.
+
+
+### Michigan — PARTIAL
+- Major: Detroit — RESEARCHED.
+- Medium: Grand Rapids — RESEARCHED.
+- Distinctive/capital: Lansing or other candidate TBD through systematic crosswalk.
+- Additional verified small-medium family: Jackson, MI City Council meets in 2nd Floor City Council Chambers, City Hall, 161 W. Michigan Ave; in-person citizen comment rules and 2026 meeting calendar verified.
+- Next: choose final third family.
+
+
+### Minnesota — PARTIAL
+- Major: Minneapolis — RESEARCHED.
+- Capital/major: Saint Paul — RESEARCHED.
+- Medium/distinctive: TBD (e.g. Duluth-type candidate only after official selection/verification).
+- Next: third family + visual packs.
+
+
+### Mississippi — PARTIAL / NEW CURRENT MAJOR ROOT
+- Major: Jackson — GOVERNANCE + ROOM VERIFIED. Mayor-council form: mayor at-large + seven ward councilmembers. Current 2026 agendas identify Council Chamber as the primary central location while permitting tele/video member participation; City Hall is 219 S. President Street.
+- Medium: TBD.
+- Distinctive: TBD.
+- Next: two additional candidates from GUS/pop + exact visual pack for Jackson.
+
+
+### Missouri — PARTIAL / STRONG MAJOR-CITY ADDITIONS
+- Major: Kansas City — current Council body and Council Chambers verified; 2026 records identify 26th Floor Council Chambers and occasional alternate meeting locations.
+- Distinctive major: St. Louis — ROOM VERIFIED: full Board of Aldermen in City Hall, Room 230; committee activity can occur separately in rooms such as Kennedy Room 208. Preserve `Board of Aldermen`, full-board/committee spatial distinction and session calendar.
+- Medium: TBD through GUS/pop.
+- Next: representative medium Missouri city + visual packs.
+
+
+### Montana — COVERAGE STRONG
+- Major: Billings — RESEARCHED.
+- Medium: Missoula — RESEARCHED.
+- Capital/distinctive: Helena — ROOM VERIFIED: City-County Building Commission Chambers Room 330; consequential vacancy interviews used Conference Room 326.
+- Next: visual packs.
+
+
+### Nebraska — PARTIAL / OMAHA PROCEDURAL SPLIT ADDED
+- Major: Omaha — current regular Council uses Legislative Chambers, Omaha/Douglas Civic Center; pre-Council business uses Jesse Lowe Conference Room. Strong `briefing room -> formal chamber` separation.
+- Capital/medium: Lincoln — RESEARCHED.
+- Distinctive: TBD.
+- Next: third family + official visual packs for Omaha rooms.
+
+
+### Nevada — COVERAGE STRONG
+- Major: Las Vegas — current City Hall Council Chambers family verified.
+- Medium: Reno — Council Chambers + smaller Caucus Room; integrated transcription/translation and rotating local-art context recorded.
+- Capital/distinctive: Carson City — consolidated-municipality Board of Supervisors; Robert 'Bob' Crowell Board Room known, but exact 2026 default remains final-confirmation item.
+- Next: close Carson current-use + visuals.
+
+
+### New Hampshire — PARTIAL / STRONG ALDERMANIC PAIR
+- Major: Manchester — ROOM VERIFIED: Aldermanic Chambers, 3rd floor City Hall; Board of Mayor and Aldermen = mayor + 14 aldermen (12 wards + 2 at-large); 2026-27 rules and meeting cadence current.
+- Medium: Nashua — ROOM VERIFIED: Aldermanic Chambers, 2nd floor City Hall, 229 Main Street; current 2026 meeting schedule.
+- Distinctive: town-meeting municipality required to represent New Hampshire local-government variation.
+- Next: choose and document a real town-meeting venue/procedure.
+
+
+### New Jersey — COVERAGE STRONG / ONE ROOM GAP
+- Major candidate: Newark — governance root current; exact formal Municipal Council chamber detail still FOLLOW-UP.
+- Major/secondary: Jersey City — ROOM VERIFIED: Anna Cucci Memorial Council Chambers, City Hall, 280 Grove Street, 2nd floor; caucus/formal distinction.
+- Capital/medium: Trenton — ROOM VERIFIED: City Hall Council Chambers, 319 E. State Street, 2nd floor; chamber reused by other legal bodies/performance reviews.
+- Next: close Newark + visual packs.
+
+
+### New Mexico — PARTIAL / STRONG ALBUQUERQUE FAMILY
+- Major: Albuquerque — ROOM VERIFIED: Vincent E. Griego Council Chambers, basement level, City of Albuquerque Government Center, 1 Civic Plaza NW. Multiple Council committees also use Griego Chambers; other committee/study-session work uses separate 9th-floor Council Committee rooms.
+- Medium/distinctive: Santa Fe candidate requires dedicated municipal verification.
+- Third: TBD.
+- Next: Santa Fe + one complementary municipal family.
+
+
+### New York — PARTIAL / HIGH DISTINCTIVENESS
+- Major: New York City — RESEARCHED; historic City Hall council chamber family.
+- Medium: Buffalo — RESEARCHED.
+- Capital/third: Albany municipal candidate not yet sufficiently verified in this matrix.
+- Next: third family + photo packs.
+
+
+### North Carolina — PARTIAL
+- Major: Charlotte — RESEARCHED.
+- Capital/medium: Raleigh — RESEARCHED.
+- Distinctive: TBD.
+- Next: third municipal family.
+
+
+### North Dakota — COVERAGE STRONG
+- Major: Fargo — ROOM/PROCESS VERIFIED: public City Commission Chambers + separate Red River Room for executive session.
+- Capital/medium: Bismarck — ROOM VERIFIED: Tom Baker Meeting Room in shared City/County Office Building.
+- Secondary: Grand Forks — ROOM VERIFIED: City Hall Council Chambers, 255 N. Fourth Street; physical + electronic participation.
+- Next: visual packs.
+
+
+### Ohio — COVERAGE STRONG
+- Major/capital: Columbus — RESEARCHED.
+- Major/secondary: Cincinnati — RESEARCHED.
+- Major/secondary: Cleveland — RESEARCHED.
+- Next: select final three by contrast and build visual packs.
+
+
+### Oklahoma — PARTIAL
+- Major: Oklahoma City — RESEARCHED.
+- Major/secondary: Tulsa — RESEARCHED.
+- Medium/distinctive: TBD.
+- Next: third family.
+
+
+### Oregon — PARTIAL
+- Major: Portland — RESEARCHED.
+- Capital/medium: Salem candidate needs dedicated municipal verification.
+- Medium/distinctive: Eugene/other candidate pending crosswalk.
+- Next: 2 complementary cities; keep state Capitol-construction overlay separate from municipal environments.
+
+
+### Pennsylvania — PARTIAL
+- Major/distinctive: Philadelphia — RESEARCHED; exceptional historic City Council chamber.
+- Major/secondary: Pittsburgh — RESEARCHED.
+- Medium: TBD.
+- Next: third family.
+
+
+### Rhode Island — PARTIAL
+- Major/capital: Providence — RESEARCHED.
+- Medium/distinctive: TBD; Newport-type historic civic family should not be assumed without verification.
+- Third/topology: TBD.
+- Next: two complements.
+
+
+### South Carolina — PARTIAL
+- Major/distinctive: Charleston — RESEARCHED.
+- Capital/medium: Columbia — RESEARCHED.
+- Third: TBD (Greenville/other only after official selection).
+- Next: third family.
+
+
+### South Dakota — PARTIAL
+- Major: Sioux Falls — ROOM VERIFIED: Carnegie Town Hall; strong historic civic-forum family reused by several bodies and election-canvass functions.
+- Medium: Aberdeen — ROOM VERIFIED: City Council Chambers, Municipal Building, 123 S. Lincoln Street.
+- Distinctive/third: Rapid City or other candidate pending exact-room verification.
+- Next: third family + visual packs.
+
+
+### Tennessee — PARTIAL / NEW MEMPHIS ROOM
+- Major: Nashville — RESEARCHED.
+- Major/secondary: Memphis — ROOM VERIFIED from 2026 agenda: Council Chambers, Lobby Floor, City Hall, 125 North Main Street.
+- Medium/third: Knoxville/other candidate pending systematic selection.
+- Next: third family + visual packs.
+
+
+### Texas — COVERAGE STRONG / MULTIPLE CURRENT ROOMS
+- Major: Houston — ROOM VERIFIED: City Hall Council Chamber, 901 Bagby Street, 2nd floor; full Council and some committees use it; two-day Council meeting rhythm can recess/reconvene next morning.
+- Major: Dallas — ROOM VERIFIED: Dallas City Hall 6th-floor Council Chambers (6EN); Room 6ES serves briefings/committees/quasi-judicial bodies. Preserve 6EN vs 6ES role distinction.
+- Capital/major: Austin — RESEARCHED.
+- Next: visual packs and final candidate-selection logic; Texas may warrant >3 municipal reference families because of scale.
+
+
+### Utah — PARTIAL / SALT LAKE ROOM VERIFIED
+- Major/capital: Salt Lake City — current hybrid Council meetings use City & County Building, 451 S. State; Room 326 is an active Council work-session/public-hearing location.
+- Medium: TBD.
+- Distinctive: TBD.
+- Next: two complementary cities.
+
+
+### Vermont — PARTIAL / TOPOLOGY-SPECIAL
+- Major: Burlington — ROOM VERIFIED: City Council regularly meets in Contois Auditorium, City Hall, 149 Church Street; Board of Finance uses Conference Room 12 and other bodies use distinct facilities.
+- Distinctive: explicit town-meeting municipality/venue required.
+- Third: TBD.
+- Next: build Vermont town-meeting family rather than treating Burlington as representative of the state.
+
+
+### Virginia — PARTIAL / VIRGINIA BEACH PROCESS FAMILY ADDED
+- Capital/major: Richmond — RESEARCHED.
+- Major: Virginia Beach — ROOM/PROCESS VERIFIED: City Council Chamber, Building 1, 2401 Courthouse Drive for public formal sessions; Conference Room 2034 for informal sessions and appointment-related closed/formal work. 2026 special sessions document actual closed-to-open room transitions.
+- Third: Norfolk/other candidate pending.
+- Next: third family + visual packs.
+
+
+### Washington — PARTIAL
+- Major: Seattle — RESEARCHED.
+- Medium: Spokane — RESEARCHED.
+- Third/distinctive: Tacoma/Olympia/other pending systematic selection.
+- Next: third family + photo packs.
+
+
+### West Virginia — COVERAGE STRONG
+- Capital/major: Charleston — City Hall Council Chambers; recent capital budget includes chamber upgrades, so room technology/finish is time-versioned.
+- Medium: Huntington — City Hall Council Chambers; committee meetings can precede formal Council.
+- Secondary: Morgantown — ROOM VERIFIED: City Hall Council Chambers, 389 Spruce Street, 2nd floor; public seating bounded behind wooden railing; workshop/special/emergency/electronic rules documented.
+- Next: visual packs/post-upgrade Charleston state.
+
+
+### Wisconsin — PARTIAL
+- Major: Milwaukee — RESEARCHED.
+- Capital/medium: Madison — RESEARCHED.
+- Third: TBD.
+- Important topology: Wisconsin has many cities/towns/villages with local institutional forms; final medium/distinctive selection should use GUS + government type, not population only.
+- Next: third family.
+
+
+### Wyoming — COVERAGE STRONG
+- Capital: Cheyenne — Council Chambers at 2101 O'Neil Avenue verified; visual pack pending.
+- Medium: Casper — City Hall Council Chambers + current public-comment/decorum rules.
+- Secondary/distinctive: Laramie — City Hall Council Chambers, 406 Ivinson Avenue; current 2026 pre-council/work-session/formal/public-hearing/alternate-location rules documented.
+- Next: visual packs.
+
+
+## District of Columbia — FEDERAL-DISTRICT SPECIAL (outside 50-state count)
+- DC Council municipal-equivalent environment is already researched separately.
+- Treat DC as a first-class home-rule/federal-district variant, not as a normal state municipality.
+
+
+# Matrix summary
+
+
+## Coverage-strong states at this checkpoint
+Alabama, Florida, Georgia, Illinois, Louisiana, Montana, Nevada, New Jersey, North Dakota, Ohio, Texas, West Virginia, Wyoming.
+
+
+Connecticut, Maine, South Dakota and several others are close but retain one explicit room/topology gap.
+
+
+## Highest-priority municipal gaps
+- Hawaii county/city-county local-government pack.
+- New England town-meeting reference packs: NH, VT, MA, ME.
+- States with only one or two researched families: AK, AZ, AR, CO, ID, IN, MD, MI, MN, MS, MO, NM, NY, NC, OK, OR, PA, RI, SC, TN, UT, VA, WA, WI.
+- Exact-current room gaps: Portland ME, Hartford CT, Cedar Rapids IA, Newark NJ, Carson City NV; plus candidate cities not yet selected.
+
+
+## High-value procedural discoveries added in this matrix
+1. Manchester/Nashua: `Board of Mayor and Aldermen` / `Board of Aldermen` with true Aldermanic Chambers.
+2. Burlington: Council in Contois Auditorium, showing that a legislative room need not be called a chamber.
+3. St. Louis: full legislative body in Room 230 while committees use other named rooms.
+4. Omaha: pre-Council conference room and formal Legislative Chambers are separate scene states.
+5. Albuquerque: formal chamber and multiple dedicated committee rooms inside same Government Center.
+6. Dallas: 6EN Council Chambers vs 6ES briefing/committee room.
+7. Virginia Beach: informal/closed-session conference room vs public formal chamber.
+8. Fargo: public chamber -> separate executive-session room.
+9. Helena: formal commission chamber vs smaller vacancy-interview conference room.
+10. Houston: a single formal Council meeting can recess overnight and reconvene the next day in the same chamber.
+
+
+# Next municipal research phase
+1. Close the explicit exact-room gaps above.
+2. Use Census Government Units + current population/government-type data to replace candidate selection with a reproducible `major / representative medium / distinctive governance-form` selection method.
+3. For each state, ensure at least one candidate captures governance-form diversity where population rank would miss it (town meeting, consolidated city-county, city/borough, council-manager vs strong mayor where visually/procedurally relevant, etc.).
+4. After the matrix is structurally complete, stop text-only city discovery and collect multi-angle visual packs: room geometry, dais/table arrangement, public seating, entries, galleries/railings, clerk/staff positions, AV equipment, adjoining caucus/conference rooms and circulation.
+5. No scene generation until the selected jurisdiction's visual pack is adequate.
+
+
+# Exact-room + topology gap closure checkpoint — 2026-08-25
+
+
+## CLOSED since initial matrix
+- Portland, Maine — ROOM VERIFIED: current 2026 City Council in Council Chambers, 2nd floor City Hall. Maine still needed a town-meeting family; Blue Hill now supplies it.
+- Cedar Rapids, Iowa — ROOM VERIFIED: Council Chambers, 3rd Floor, City Hall, 101 First Street SE.
+- Newark, New Jersey — ROOM VERIFIED: current 2026 Municipal Council meets in Council Chamber, City Hall; municipal rules identify formal chamber on second floor and a third-floor Council Conference Room for some pre-meeting conferences.
+- Carson City, Nevada — ROOM VERIFIED from official current Board page: Robert "Bob" Crowell Board Room, Community Center, 851 East William Street; administrative City Hall remains a separate location.
+
+
+## STILL OPEN
+- Hartford, Connecticut — Court of Common Council + City Hall 550 Main Street current; exact 2026 formal chamber room/floor still not sufficiently sourced.
+
+
+## NEW ENGLAND topology gap materially closed
+### New Hampshire
+- Manchester/Nashua remain aldermanic city-government examples.
+- New London adds traditional Town Meeting in a sports center.
+- Canterbury/Bradford add ballot/election session in one venue and legislative floor business in a school venue.
+- Enfield adds current SB2 form: deliberative session + later official-ballot final voting.
+Status: GOVERNANCE-FORM COVERAGE STRONG; visual packs pending.
+
+
+### Vermont
+- Burlington remains city-council/auditorium example.
+- Danville adds a true floor Town Meeting in the Danville School gym with direct resident legislative participation and separate Australian-ballot components.
+Status: GOVERNANCE-FORM COVERAGE STRONGER; one additional contrasting Vermont variant may still improve coverage, but the town-meeting gap is no longer empty.
+
+
+### Massachusetts
+- Boston/Worcester remain city-government examples.
+- Provincetown adds OPEN Town Meeting in Town Hall Auditorium.
+- Lexington adds REPRESENTATIVE Town Meeting with formal Town Meeting members and distinct public participation.
+Status: GOVERNANCE-FORM COVERAGE STRONG; visual packs pending.
+
+
+### Maine
+- Portland/Bangor/Lewiston provide city-council families.
+- Blue Hill adds split annual Town Meeting: moderator/secret-ballot election at Town Hall auditorium, then open floor legislative session in school gym.
+Status: GOVERNANCE-FORM COVERAGE STRONG; visual packs pending.
+
+
+## Matrix-design correction
+`major / medium / distinctive` is insufficient by itself in states with materially different local-government forms. Final selection should be multi-axis:
+1. population/urban scale;
+2. government-unit/legal form;
+3. legislative method (council/commission/board/open town meeting/representative town meeting/SB2/etc.);
+4. physical environment family;
+5. historical/visual distinctiveness;
+6. gameplay relevance.
+
+
+A state may therefore warrant more than three reusable reference families even when only three are needed for an initial art tranche.

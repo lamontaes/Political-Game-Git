@@ -1,0 +1,2006 @@
+{
+  "schema": "garment-fit-profiles-v1",
+  "garments": [
+    {
+      "component_family": "pv4-wave-a-male-top-brown-fur-hood-parka-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-burgundy-long-sleeve-polo-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.995805,
+            "translateX": 0,
+            "translateY": 0.0011384349999999724
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.019315,
+            "translateX": 0,
+            "translateY": -0.0016373949999999998
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-charcoal-blazer-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-charcoal-puffer-vest-layered-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 1.003254,
+            "translateX": 0,
+            "translateY": 0.00089261799999997
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.026018,
+            "translateX": 0,
+            "translateY": -0.001858594000000005
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-cream-cardigan-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.996788,
+            "translateX": 0,
+            "translateY": 0.0011059959999999702
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.021358,
+            "translateX": 0,
+            "translateY": -0.001704813999999999
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-gray-long-sleeve-tee-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.99325,
+            "translateX": 0,
+            "translateY": 0.0012227499999999739
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.014002,
+            "translateX": 0,
+            "translateY": -0.001462066000000005
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-green-cable-sweater-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.99596,
+            "translateX": 0,
+            "translateY": 0.0011333199999999724
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.019637,
+            "translateX": 0,
+            "translateY": -0.0016480209999999995
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-navy-zip-hoodie-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.99821,
+            "translateX": 0,
+            "translateY": 0.0010590699999999745
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.024315,
+            "translateX": 0,
+            "translateY": -0.0018023950000000052
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-olive-shell-jacket-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.998701,
+            "translateX": 0,
+            "translateY": 0.0010428669999999751
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.025335,
+            "translateX": 0,
+            "translateY": -0.001836055000000003
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-plaid-overshirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.995607,
+            "translateX": 0,
+            "translateY": 0.0011449689999999749
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.018903,
+            "translateX": 0,
+            "translateY": -0.0016237989999999952
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-tan-utility-shirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.995313,
+            "translateX": 0,
+            "translateY": 0.0011546709999999752
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.018291,
+            "translateX": 0,
+            "translateY": -0.001603603000000002
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-top-white-button-up-shirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100269,
+            "scaleY": 0.99536,
+            "translateX": 0,
+            "translateY": 0.0011531199999999728
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.948902,
+            "scaleY": 1.018389,
+            "translateX": 0,
+            "translateY": -0.0016068369999999998
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-brown-fur-hood-parka-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-burgundy-short-sleeve-polo-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-charcoal-blazer-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-cream-cardigan-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-gray-short-sleeve-tee-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-mustard-cable-sweater-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-navy-zip-hoodie-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-olive-button-up-shirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-olive-puffer-vest-layered-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-plaid-overshirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-tan-utility-shirt-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-female-top-teal-shell-jacket-v1",
+      "kind": "top",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.980899,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-black-joggers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-blue-straight-jeans-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-brown-corduroy-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-charcoal-dress-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-dark-blue-slim-jeans-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-khaki-chinos-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-khaki-shorts-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.151307,
+            "scaleY": 1.066017,
+            "translateX": 0,
+            "translateY": 0.004555172999999996
+          }
+        },
+        {
+          "target_body_family": "wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.100404,
+            "scaleY": 1.066017,
+            "translateX": 0,
+            "translateY": 0.004555172999999996
+          }
+        },
+        {
+          "target_body_family": "wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.087791,
+            "scaleY": 0.948393,
+            "translateX": 0,
+            "translateY": 0.009439116999999955
+          }
+        },
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.338756,
+            "scaleY": 1.003103,
+            "translateX": 0,
+            "translateY": 0.002214107000000007
+          }
+        },
+        {
+          "target_body_family": "wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1.143079,
+            "scaleY": 1.003103,
+            "translateX": 0,
+            "translateY": 0.002214107000000007
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.937846,
+            "scaleY": 0.993951,
+            "translateX": 0,
+            "translateY": -0.010417381000000003
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.98054,
+            "scaleY": 0.997371,
+            "translateX": 0,
+            "translateY": -0.0011814009999999986
+          }
+        },
+        {
+          "target_body_family": "wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 0.878617,
+            "scaleY": 0.997371,
+            "translateX": 0,
+            "translateY": -0.0011814009999999986
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-light-blue-dress-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-light-gray-dress-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-navy-work-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-olive-cargo-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-male-bottom-tan-cargo-trousers-v1",
+      "kind": "bottom",
+      "classification": "affine-reusable",
+      "authored_for_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "basis": "New source-based game-space authoring; exact-pair accepted-bound pixel measurement. Human acceptance pending.",
+      "profiles": [
+        {
+          "target_body_family": "wave-a-average-man-standing-neutral-front-a-v1-pv4",
+          "pose_family": "standing-neutral",
+          "transform": {
+            "kind": "affine",
+            "scaleX": 1,
+            "scaleY": 1,
+            "translateX": 0,
+            "translateY": 0
+          }
+        }
+      ]
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-athletic-sneaker-blue-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-canvas-sneaker-navy-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-chukka-taupe-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-combat-boot-olive-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-flat-green-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-loafer-brown-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-low-top-sneaker-gray-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-oxford-black-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-burgundy-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-pump-gray-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-sandal-brown-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-average-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-fat-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-older-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-older-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-man-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-woman-standing-neutral-front-a-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    },
+    {
+      "component_family": "pv4-wave-a-footwear-work-boot-tan-v1-wave-a-skinny-woman-standing-neutral-front-b-v1-pv4",
+      "kind": "footwear",
+      "classification": "safe-direct-reuse",
+      "authored_for_body_family": null,
+      "basis": "Fixed source-unit normalization; independent per-foot contact translation and coverage, unchanged3% bound.",
+      "profiles": []
+    }
+  ]
+}

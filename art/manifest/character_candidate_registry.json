@@ -1,0 +1,407 @@
+{
+  "schema": "character-candidate-registry-v1",
+  "generator": "wave-a-candidate-admission-v1",
+  "release_status": "CANDIDATE_REFERENCE_ONLY",
+  "production_pixels_released": false,
+  "note": "Append-only candidate registry. Nothing here is in any catalog generation, nothing here is runtime-released, and no player-facing selection can reach it. It exists so banked evidence can be composed and reviewed. Promotion is a separate authorized act; see promoteCandidateComponent.",
+  "assets": [
+    {
+      "asset_id": "wave_a_average_man_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_a_v1.png",
+      "hash": "8cfb695665f68bd1306dc40b0bfc77dd8c13a91193f4a2caab5f962b460e0571",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-man",
+        "layer": 20,
+        "canvas": { "width": 675, "height": 1740 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.499259,
+          "y": 0.375862
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.499259, "y": 0.037356 },
+          { "id": "head", "x": 0.499259, "y": 0.175862 },
+          { "id": "torso", "x": 0.499259, "y": 0.252874 },
+          { "id": "hips", "x": 0.499259, "y": 0.375862 },
+          { "id": "feet", "x": 0.499259, "y": 0.96092 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.287407, "y": 0.96092 },
+          "rightFoot": { "x": 0.711852, "y": 0.96092 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_man_standing_neutral_front_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-man/wave_a_average_man_standing_neutral_front_b_v1.png",
+      "hash": "71a99fb255bbbb0b2b063b11d9b206d5280c43e85902560e31e355bf1c154cff",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-man",
+        "layer": 20,
+        "canvas": { "width": 646, "height": 1742 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.521672,
+          "y": 0.494259
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.521672, "y": 0.037887 },
+          { "id": "head", "x": 0.521672, "y": 0.181975 },
+          { "id": "torso", "x": 0.521672, "y": 0.254879 },
+          { "id": "hips", "x": 0.521672, "y": 0.494259 },
+          { "id": "feet", "x": 0.521672, "y": 0.961538 }
+        ]
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_seated_front_neutral_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_seated_front_neutral_v1.png",
+      "hash": "a0516d7c211e1f173190f787fc5496b7f2be474f0b113492db1776143513ba12",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman",
+        "layer": 20,
+        "canvas": { "width": 663, "height": 1664 },
+        "pose_family": "seated-guest-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.499246,
+          "y": 0.400841
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.499246, "y": 0.040865 },
+          { "id": "head", "x": 0.499246, "y": 0.177885 },
+          { "id": "torso", "x": 0.499246, "y": 0.278245 },
+          { "id": "hips", "x": 0.499246, "y": 0.400841 },
+          { "id": "feet", "x": 0.499246, "y": 0.958534 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.322021, "y": 0.958534 },
+          "rightFoot": { "x": 0.674208, "y": 0.958534 },
+          "seatedPelvis": { "x": 0.499246, "y": 0.603365 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_a_v1.png",
+      "hash": "ecb41ed2a3a71b4b7650a5c5e801813674bd11683c519736d5c9ac61196011f6",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman",
+        "layer": 20,
+        "canvas": { "width": 786, "height": 1739 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.372053 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.039103 },
+          { "id": "head", "x": 0.5, "y": 0.163312 },
+          { "id": "torso", "x": 0.5, "y": 0.256469 },
+          { "id": "hips", "x": 0.5, "y": 0.372053 },
+          { "id": "feet", "x": 0.5, "y": 0.960322 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.351781, "y": 0.960322 },
+          "rightFoot": { "x": 0.648219, "y": 0.960322 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_average_woman_standing_neutral_front_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/average-woman/wave_a_average_woman_standing_neutral_front_b_v1.png",
+      "hash": "7728b31198fcc09a3c40d6f580c34176bc991e08a8108f22a21d92fb98a76d54",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-average-woman",
+        "layer": 20,
+        "canvas": { "width": 751, "height": 1738 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.499334,
+          "y": 0.36939
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.499334, "y": 0.037975 },
+          { "id": "head", "x": 0.499334, "y": 0.160529 },
+          { "id": "torso", "x": 0.499334, "y": 0.246835 },
+          { "id": "hips", "x": 0.499334, "y": 0.36939 },
+          { "id": "feet", "x": 0.499334, "y": 0.960299 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.343542, "y": 0.960299 },
+          "rightFoot": { "x": 0.654461, "y": 0.960299 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_fat_man_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/recent-drive-sweep/fat-man/wave_a_fat_man_standing_neutral_front_a_v1.png",
+      "hash": "465d9a7fa14d26cd3d2bdc3d7e22ba54b02fa7c7a031c56e2713fcb40ec661a3",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-fat-man",
+        "layer": 20,
+        "canvas": { "width": 725, "height": 1739 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.50069,
+          "y": 0.365152
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.50069, "y": 0.038528 },
+          { "id": "head", "x": 0.50069, "y": 0.162162 },
+          { "id": "torso", "x": 0.50069, "y": 0.257044 },
+          { "id": "hips", "x": 0.50069, "y": 0.365152 },
+          { "id": "feet", "x": 0.50069, "y": 0.960322 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.30069, "y": 0.960322 },
+          "rightFoot": { "x": 0.70069, "y": 0.960322 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_older_woman_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_a_v1.png",
+      "hash": "a40a709eced52fe5ecd717346eb54d5cefd026c2fb4b0d679df52af01ecb204d",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-older-woman",
+        "layer": 20,
+        "canvas": { "width": 880, "height": 1702 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.364865 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.039365 },
+          { "id": "head", "x": 0.5, "y": 0.16745 },
+          { "id": "torso", "x": 0.5, "y": 0.273796 },
+          { "id": "hips", "x": 0.5, "y": 0.364865 },
+          { "id": "feet", "x": 0.5, "y": 0.959459 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.35625, "y": 0.959459 },
+          "rightFoot": { "x": 0.643182, "y": 0.959459 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_older_woman_standing_neutral_front_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/older-woman/wave_a_older_woman_standing_neutral_front_b_v1.png",
+      "hash": "c09afb6f56efd5a8b869bd1c5a74e10573cd13f5431583b532145c48a4771bb1",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-older-woman",
+        "layer": 20,
+        "canvas": { "width": 754, "height": 1702 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.37074 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.039953 },
+          { "id": "head", "x": 0.5, "y": 0.166863 },
+          { "id": "torso", "x": 0.5, "y": 0.257932 },
+          { "id": "hips", "x": 0.5, "y": 0.37074 },
+          { "id": "feet", "x": 0.5, "y": 0.959459 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.330239, "y": 0.959459 },
+          "rightFoot": { "x": 0.657825, "y": 0.959459 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_man_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/recent-drive-sweep/skinny-man/wave_a_skinny_man_standing_neutral_front_a_v1.png",
+      "hash": "24ddae8f5a1f9e545fe0bd045e9b16b7ff8e25f04aa80517b19ebbbfefd5c189",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-man",
+        "layer": 20,
+        "canvas": { "width": 646, "height": 1752 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.406393 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.037671 },
+          { "id": "head", "x": 0.5, "y": 0.170662 },
+          { "id": "torso", "x": 0.5, "y": 0.247717 },
+          { "id": "hips", "x": 0.5, "y": 0.406393 },
+          { "id": "feet", "x": 0.5, "y": 0.960616 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.291022, "y": 0.960616 },
+          "rightFoot": { "x": 0.70743, "y": 0.960616 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_seated_front_neutral_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_seated_front_neutral_v1.png",
+      "hash": "4f7c049d78dea3c30a90c50dc0a09229ad36882a535109989b94fb9bd98dcfd2",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman",
+        "layer": 20,
+        "canvas": { "width": 635, "height": 1642 },
+        "pose_family": "seated-guest-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.499213,
+          "y": 0.417174
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.499213, "y": 0.040804 },
+          { "id": "head", "x": 0.499213, "y": 0.178441 },
+          { "id": "torso", "x": 0.499213, "y": 0.266139 },
+          { "id": "hips", "x": 0.499213, "y": 0.417174 },
+          { "id": "feet", "x": 0.499213, "y": 0.958587 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.326772, "y": 0.958587 },
+          "rightFoot": { "x": 0.672441, "y": 0.958587 },
+          "seatedPelvis": { "x": 0.499213, "y": 0.606577 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_standing_neutral_front_a_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_a_v1.png",
+      "hash": "793c1a757cf28e630ea3fec186a3cabf827108bc8b860b6a77909d0f83fb10d4",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman",
+        "layer": 20,
+        "canvas": { "width": 676, "height": 1703 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": {
+          "convention": "pelvis-hip-center",
+          "x": 0.498521,
+          "y": 0.37111
+        },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.498521, "y": 0.038755 },
+          { "id": "head", "x": 0.498521, "y": 0.157369 },
+          { "id": "torso", "x": 0.498521, "y": 0.225484 },
+          { "id": "hips", "x": 0.498521, "y": 0.37111 },
+          { "id": "feet", "x": 0.498521, "y": 0.96007 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.357249, "y": 0.96007 },
+          "rightFoot": { "x": 0.643491, "y": 0.96007 }
+        }
+      }
+    },
+    {
+      "asset_id": "wave_a_skinny_woman_standing_neutral_front_b_v1",
+      "asset_type": "character-component-candidate",
+      "fixed_or_modular": "modular",
+      "availability": "production-candidate",
+      "generation_status": "approved",
+      "qa_status": "pending",
+      "runtime_release_status": "unreleased",
+      "final_path": "art/generated/candidates/wave-a-morphology/skinny-woman/wave_a_skinny_woman_standing_neutral_front_b_v1.png",
+      "hash": "545107870cd018cc5ceaabc44af73e0395229878430e809ca40180e55974b603",
+      "candidate_component": {
+        "kind": "body",
+        "family": "wave-a-skinny-woman",
+        "layer": 20,
+        "canvas": { "width": 614, "height": 1706 },
+        "pose_family": "standing-neutral",
+        "head_orientation": "front",
+        "root": { "convention": "pelvis-hip-center", "x": 0.5, "y": 0.368699 },
+        "attachment_anchors": [
+          { "id": "crown", "x": 0.5, "y": 0.039859 },
+          { "id": "head", "x": 0.5, "y": 0.161196 },
+          { "id": "torso", "x": 0.5, "y": 0.224502 },
+          { "id": "hips", "x": 0.5, "y": 0.368699 },
+          { "id": "feet", "x": 0.5, "y": 0.960141 }
+        ],
+        "contacts": {
+          "leftFoot": { "x": 0.352606, "y": 0.960141 },
+          "rightFoot": { "x": 0.644951, "y": 0.960141 }
+        }
+      }
+    }
+  ]
+}
